@@ -1,0 +1,16 @@
+*{
+    margin: 0px;
+    
+}
+
+.App{
+    display: grid;
+    place-content: center;
+    height: 100vh;
+    
+}
+.App_center{
+    width: 90vw;
+    height: 95vh;
+  
+}

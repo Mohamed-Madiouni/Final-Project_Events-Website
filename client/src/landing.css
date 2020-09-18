@@ -1,0 +1,11 @@
+.landing_app{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%
+}
+.btn{
+    background-color: transparent !important;
+    color: black !important;
+}
