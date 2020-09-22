@@ -7,7 +7,7 @@
 .div2{
     display:flex;
     justify-content: space-around;
-    width: 90%;
+    width: 85%;
     /* margin: 20px 0px; */
    
     align-items: center;
@@ -41,7 +41,7 @@
         }
       
         .landing{
-            width: 10%;
+            width: 15%;
             height: 100%;
         }
         .inp{

@@ -1,8 +1,10 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-// import { connect } from "react-redux";
+import {useSelector} from "react-redux";
   
-const PrivateRoute = ({ component: Component,...rest }) => (
+const PrivateRoute = ({ component: Component,...rest }) => {
+// const isAuthenticate = useSelector(state=>state.auth.isAuthenticated)
+  return(
   <Route
     {...rest}
     render={props =>
@@ -14,10 +16,5 @@ const PrivateRoute = ({ component: Component,...rest }) => (
     }
   />
   
-);
-
-// const mapStateToProps = state => ({
-//   auth: state.auth
-// });
+  )};
 export default PrivateRoute
-// export default connect(mapStateToProps)(PrivateRoute);

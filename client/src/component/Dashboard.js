@@ -1,42 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../actions/authaction";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "../token/authtoken";
 
-function Dashboard({history}) {
-  const [refresh,setRefresh]=useState(false)
- 
-    
-    useEffect(()=>{
-      if(!localStorage.token)
-    history.push("/")
-     
-    })
-  
-    
-   
+function Dashboard({ history }) {
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!localStorage.token) history.push("/");
+  });
+
   const onLogoutClick = (e) => {
-     e.preventDefault();
-    // Remove token from local storage
-    localStorage.removeItem("token");
-  // Remove auth header for future requests
-  setAuthToken(false);
-  // history.push("/")
- setRefresh(!refresh)
-    
+    e.preventDefault();
+    dispatch(logoutUser());
   };
 
-
-
-  // props.logout();
-  // const { user } = props.auth;
   return (
     <div>
       <div>
         <div>
           <h4>
-            <b>Hey there,</b> {localStorage.token && jwt_decode(localStorage.getItem("token")).name}
+            <b>Hey there,</b> {localStorage.token && auth.user.fname}
           </h4>
           <button
             style={{
@@ -54,11 +39,4 @@ function Dashboard({history}) {
   );
 }
 
-// const mapStateToProps = (state) => ({
-//   auth: state.auth,
-// });
-// const mapDispatchToProps = (dispatch) => ({
-//   logout: () => dispatch(logoutUser()),
-// });
-// export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
-export default Dashboard
+export default Dashboard;

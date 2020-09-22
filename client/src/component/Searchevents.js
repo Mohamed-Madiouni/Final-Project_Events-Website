@@ -87,14 +87,14 @@ function Searchevents({ formsearch }) {
           <div>
             <button
               style={{
-                borderRadius: "3px",
+                borderRadius: "5px",
                     letterSpacing: "1.5px",
-                    marginTop: "1rem",
-                    color:"white"
+                    color:"white",
+                    
                 
               }}
               type="submit"
-              className="btn-small waves-effect waves-light hoverable blue accent-3"
+              className="btn waves-effect waves-light hoverable"
             >
               Search
             </button>

@@ -1,13 +1,16 @@
 const mongoose=require("mongoose")
 
 const userSchema = mongoose.Schema({
-    Role:{
+    role:{
         type:String,
-        default:"participant"
     },
-    name : {
+    fname : {
         type: String,
         required : true
+    },
+    lname : {
+        type:String,
+        required :true
     },
     email :{
         type : String,
@@ -28,7 +31,8 @@ const userSchema = mongoose.Schema({
     created_at:{
         type:Date,
         default :Date.now
-    }
+    },
+    avatar : String
 })
 
 module.exports=mongoose.model("user",userSchema)

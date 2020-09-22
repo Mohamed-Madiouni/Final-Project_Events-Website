@@ -1,35 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import React, { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { registerUser } from "../actions/authaction";
-import axios from "axios"
+import { GET_ERRORS } from "../actions/types";
 
+function Register({ history }) {
+  const errors = useSelector((state) => state.errors);
+  const dispatch = useDispatch();
 
-function Register({history}) {
   const [user, setUser] = useState({
-    name: "",
+    fname: "",
+    lname: "",
     email: "",
     password: "",
     password2: "",
-    tel:"",
-    address:"",
-    errors: {}
+    tel: "",
+    address: "",
+    role: "",
+    error: {},
   });
 
-  useEffect(()=>{
-    if(localStorage.token)
-    history.push("/dashboard")
-  })
+  const form = useRef();
 
- 
-  // useEffect(() => {
-  //   setUser({ ...user, errors: props.errors });
-  // }, [props.errors]);
-  // useEffect(() => {
-  //   if (props.auth.isAuthenticated) {
-  //     props.history.push("/dashboard");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (localStorage.token) history.push("/dashboard");
+  });
+
+  useEffect(() => {
+    if (errors) setUser({ ...user, error: errors });
+  }, [errors]);
 
   const onChange = (e) => {
     setUser({ ...user, [e.target.id]: e.target.value });
@@ -37,135 +36,193 @@ function Register({history}) {
   const onSubmit = (e) => {
     e.preventDefault();
     const newUser = {
-      name: user.name,
+      fname: user.fname,
+      lname: user.lname,
       email: user.email,
       password: user.password,
       password2: user.password2,
-      tel:user.tel,
-      address:user.address
+      tel: user.tel,
+      address: user.address,
+      role: form.current.elements.user.value,
     };
     console.log(newUser);
-    axios
-    .post("user/register", newUser)
-    .then(res => {
-      setUser({...user,...res.data})
-      console.log(user)
-      history.push("/login") // re-direct to login on successful register
-    }) 
-    .catch(err =>{
-        setUser({...user,errors:err.response.data})
-          console.log("err",err.response)
-        })
-      
-     
-    // props.register(newUser, props.history);
+    dispatch(registerUser(newUser, history));
   };
- 
+console.log(window.pageYOffset)
   return (
     <div className="container">
-      <div className="row" style={{display:"flex",justifyContent:"center", fontSize:30}}>
-      <span className="red-text">CoCo</span>{" "}
-            <span className=" purple-text">PaRtY</span>
+      <div
+        className="row"
+        style={{ display: "flex", justifyContent: "center", fontSize: 30 }}
+      >
+        <img src="coco2.png" alt="COCO PARTY" width="250px" />
+        {/* <span className="red-text">CoCo</span>{" "}
+        <span className=" purple-text">PaRtY</span> */}
       </div>
-    <div className="row">
-      <div className="col s8 offset-s2">
-          <Link to="/" className="btn-flat waves-effect">
-          <i className="material-icons left">keyboard_backspace</i> Back to
-              home
-              </Link>
-              <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+      <div className="row">
+        <div
+          style={{
+            width: "16%",
+            position: "relative",
+            top: "170px",
+          }}
+        >
+          <form ref={form}>
+            <p>
+              <label>
+                <input
+                  name="user"
+                  type="radio"
+                  value="participant"
+                  id="role"
+                  defaultChecked
+                />
+                <span>Participant</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input name="user" type="radio" value="organizer" id="role" />
+                <span>Organizer</span>
+              </label>
+            </p>
+          </form>
+        </div>
+        <div
+          className="col s10"
+          style={{
+            borderLeft: "1px solid grey",
+            padding:"0px 30px"
+          }}
+        >
+          <Link
+            to="/"
+            className="btn-flat waves-effect"
+            onClick={() =>
+              dispatch({
+                type: GET_ERRORS,
+                payload: {},
+              })
+            }
+          >
+            <i className="material-icons left">keyboard_backspace</i> Back to
+            home
+          </Link>
+          <div className="col s12" style={{ paddingLeft: "11.250px" }}>
             <h4>
               <b>Register</b> below
             </h4>
             <p className="grey-text text-darken-1">
-              Already have an account? <Link to="/login">Log in</Link>
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                onClick={() =>
+                  dispatch({
+                    type: GET_ERRORS,
+                    payload: {},
+                  })
+                }
+              >
+                Log in
+              </Link>
             </p>
           </div>
-          <form onSubmit={onSubmit}>
+          <form className="col s12" onSubmit={onSubmit}>
             <div className="input-field col s12">
               <input
                 onChange={onChange}
-                value={user.name}
-                error={user.errors.name}
-                id="name"
+                value={user.fname}
+                id="fname"
                 type="text"
               />
-              <label htmlFor="name">Name</label>
-              <span className={user.errors.name && "red-text"}>{user.errors.name}</span>
+              <label htmlFor="fname">First name</label>
+              <span className={user.error.fname && "red-text"}>
+                {user.error.fname}
+              </span>
             </div>
-            <div  className="input-field col s12">
+            <div className="input-field col s12">
+              <input
+                onChange={onChange}
+                value={user.lname}
+                id="lname"
+                type="text"
+              />
+              <label htmlFor="lname">Last name</label>
+              <span className={user.error.lname && "red-text"}>
+                {user.error.lname}
+              </span>
+            </div>
+            <div className="input-field col s12">
               <input
                 onChange={onChange}
                 value={user.email}
-                error={user.errors.email}
                 id="email"
                 type="email"
               />
               <label htmlFor="email">Email</label>
-              <span className={user.errors.email && "red-text"}>{user.errors.email}</span>
+              <span className={user.error.email && "red-text"}>
+                {user.error.email}
+              </span>
             </div>
-            <div  className="input-field col s12">
+            <div className="input-field col s12">
               <input
                 onChange={onChange}
                 value={user.password}
-                error={user.errors.password}
                 id="password"
                 type="password"
               />
               <label htmlFor="password">Password</label>
-              <span className={user.errors.password && "red-text"}>
-                {user.errors.password}
+              <span className={user.error.password && "red-text"}>
+                {user.error.password}
               </span>
             </div>
-            <div  className="input-field col s12">
+            <div className="input-field col s12">
               <input
                 onChange={onChange}
                 value={user.password2}
-                error={user.errors.password2}
                 id="password2"
                 type="password"
               />
               <label htmlFor="password2">Confirm Password</label>
-              <span className={user.errors.password2 && "red-text"}>
-                {user.errors.password2}
+              <span className={user.error.password2 && "red-text"}>
+                {user.error.password2}
               </span>
             </div>
-            <div  className="input-field col s12">
+            <div className="input-field col s12">
               <input
                 onChange={onChange}
                 value={user.tel}
-                error={user.errors.tel}
                 id="tel"
                 type="number"
               />
               <label htmlFor="tel">Enter yout phone number</label>
-              <span className={user.errors.tel && "red-text"}>
-                {user.errors.tel}
+              <span className={user.error.tel && "red-text"}>
+                {user.error.tel}
               </span>
             </div>
-            <div  className="input-field col s12">
+            <div className="input-field col s12">
               <input
                 onChange={onChange}
                 value={user.address}
-                error={user.errors.address}
                 id="address"
                 type="text"
               />
               <label htmlFor="address">Enter your address</label>
-              <span className={user.errors.address && "red-text"}>
-                {user.errors.address}
+              <span className={user.error.address && "red-text"}>
+                {user.error.address}
               </span>
             </div>
-            <div  className="col s12" style={{ paddingLeft: "11.250px" }}>
+            <div className="col s12" style={{ paddingLeft: "11.250px" }}>
               <button
                 style={{
                   width: "150px",
                   borderRadius: "3px",
                   letterSpacing: "1.5px",
-                    marginTop: "1rem"
+                  marginTop: "1rem",
+                  height: "45px",
                 }}
                 type="submit"
-                className="btn btn-large "
+                className="btn waves-effect waves-light hoverable "
               >
                 Sign up
               </button>
@@ -176,15 +233,5 @@ function Register({history}) {
     </div>
   );
 }
-// const mapStateToProps = (state) => ({
-//   auth: state.auth,
-//   errors: state.errors,
-// });
-// const mapDispatchToProps = (dispatch) => ({
-//   register: (a, b) => dispatch(registerUser(a, b)),
-// });
-export default Register
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(withRouter(Register));
+
+export default Register;

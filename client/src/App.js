@@ -25,7 +25,7 @@ function App() {
   setAuthToken(token);
     }
   })
-  console.log(localStorage.token)
+  
   return (
     <div className="App">
     <div className="App_center">

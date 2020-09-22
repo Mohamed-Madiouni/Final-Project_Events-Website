@@ -1,5 +1,6 @@
 *{
   box-sizing: border-box;
+  
 }
 
 
@@ -10,6 +11,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+}
+#root{
+  min-height: 100vh;
 }
 
 code {

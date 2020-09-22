@@ -18,8 +18,9 @@ function Navbar({navsearch}) {
               textDecoration: "none",
             }}
           >
-            <span className="red-text">CoCo</span>{" "}
-            <span className=" purple-text">PaRtY</span>
+            <img src="coco2.png" alt="COCO PARTY" width="250px" />
+            {/* <span className="red-text">CoCo</span>
+            <span className=" purple-text">PaRtY</span> */}
           </Link>
         </div>
         <div className="div4">
@@ -41,7 +42,7 @@ function Navbar({navsearch}) {
           ></i>
         </div>
         <div className="div3">
-          <button className="btn" onClick={()=>navsearch(true)}>Advanced Search</button>
+          <button className="btn waves-effect waves-light"  onClick={()=>navsearch(true)}>Advanced Search</button>
         </div>
       </div>
       <div className="landing">

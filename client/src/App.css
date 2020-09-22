@@ -6,11 +6,12 @@
 .App{
     display: grid;
     place-content: center;
-    height: 100vh;
+    height: 100%;
     
 }
 .App_center{
     width: 90vw;
-    height: 95vh;
+    height: 95%;
+    margin-top: 30px;
   
 }

@@ -22,11 +22,13 @@ router.post("/register", (req, res) => {
       let hash = bcrypt.hashSync(req.body.password, salt);
 
       const newUser = new User({
-        name: req.body.name,
+        fname: req.body.fname,
+        lname: req.body.lname,
         email: req.body.email,
         password: hash,
         tel:req.body.tel,
-        address:req.body.address
+        address:req.body.address,
+        role:req.body.role
       });
       newUser
         .save()
@@ -48,25 +50,25 @@ router.post("/login", (req, res) => {
 
   User.findOne({ email: email }).then((user) => {
     if (!user) {
-      return res.status(404).json({ OOPS: "Email not found" });
+      return res.status(404).json({ email: "Email not found" });
     }
 
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
         const payload = {
           id: user.id,
-          name: user.name,
+          fname: user.fname,
+          lname:user.lname,
           role:user.role
         };
 
         jwt.sign(payload, process.env.ACCES_TOKEN_SECRET, (err, token) => {
           res.json({
-            success: true,
             token: token,
           });
         });
       } else {
-        return res.status(400).json({ ERROR: "Password incorrect" });
+        return res.status(400).json({ password: "Password incorrect" });
       }
     });
   });
