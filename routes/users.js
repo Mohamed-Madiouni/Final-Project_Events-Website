@@ -38,6 +38,35 @@ router.post("/register", (req, res) => {
   });
 });
 
+//handle update account
+router.put("/update", (req, res) => {
+  const { errors, isValid } = validateRegisterInput(req.body);
+  if (!isValid) {
+    return res.status(400).json(errors);
+	} else {
+      let salt = bcrypt.genSaltSync(10);
+      let hash = bcrypt.hashSync(req.body.password, salt);
+	 
+    const newUser = new User({
+       fname: req.body.fname,
+       lname: req.body.lname,
+       email: req.body.email,
+       password: hash,
+       tel:req.body.tel,
+       address:req.body.address,
+       role:req.body.role
+	});
+	newUser.update({email: req.body.email}, {
+    username: newUser.username, 
+    password: newUser.password, 
+    rights: newUser.rights
+	})
+	.then((user) => res.json(user))
+    .catch((err) => console.log(err));
+}
+  
+});
+
 //handle login
 router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);

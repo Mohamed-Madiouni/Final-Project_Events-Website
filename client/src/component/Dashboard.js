@@ -3,8 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../actions/authaction";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "../token/authtoken";
+import Navbar from "./Navbar";
+import Searchevents from "./Searchevents";
 
 function Dashboard({ history }) {
+  const [search,setSearch] = useState(false)
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -18,6 +21,7 @@ function Dashboard({ history }) {
 
   return (
     <div>
+	<Navbar navsearch={setSearch}/>
       <div>
         <div>
           <h4>
@@ -35,6 +39,10 @@ function Dashboard({ history }) {
           </button>
         </div>
       </div>
+	  { search&&(
+      <div className="home_search">
+          <Searchevents formsearch={setSearch}/>
+      </div>)}
     </div>
   );
 }
