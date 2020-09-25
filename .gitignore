@@ -10,3 +10,7 @@
 # misc
 .env
 
+/client/package-lock.json
+/client/package.json
+/package.json
+/package-lock.json

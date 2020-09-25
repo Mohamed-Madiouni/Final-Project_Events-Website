@@ -1,6 +1,7 @@
 const express = require("express");
 const connectdb = require("./database");
-
+const multer  = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 connectdb();
 const app = express();

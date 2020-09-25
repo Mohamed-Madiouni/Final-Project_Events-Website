@@ -6,7 +6,7 @@ const User = require("../models/User");
 const router = express.Router();
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
-
+const validateUpdateInput = require("../validation/update");
 //handle registration
 router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -40,29 +40,31 @@ router.post("/register", (req, res) => {
 
 //handle update account
 router.put("/update", (req, res) => {
-  const { errors, isValid } = validateRegisterInput(req.body);
+  const { errors, isValid } = validateUpdateInput(req.body);
   if (!isValid) {
     return res.status(400).json(errors);
 	} else {
       let salt = bcrypt.genSaltSync(10);
       let hash = bcrypt.hashSync(req.body.password, salt);
 	 
-    const newUser = new User({
-       fname: req.body.fname,
-       lname: req.body.lname,
+    const modUser = new User({
        email: req.body.email,
        password: hash,
        tel:req.body.tel,
        address:req.body.address,
-       role:req.body.role
+       avatar: req.body.avatar
 	});
-	newUser.update({email: req.body.email}, {
-    username: newUser.username, 
-    password: newUser.password, 
-    rights: newUser.rights
-	})
+	modUser.update({email: req.body.email}, {
+    email: modUser.email,
+    username: modUser.username, 
+    password: modUser.password, 
+    address: modUser.address,
+    avatar: modUser.avatar
+  });
+  modUser
+  .save()
 	.then((user) => res.json(user))
-    .catch((err) => console.log(err));
+  .catch((err) => console.log(err));
 }
   
 });

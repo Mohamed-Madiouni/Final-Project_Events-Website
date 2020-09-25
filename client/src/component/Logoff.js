@@ -1,7 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Link,Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import { logoutUser } from "../actions/authaction";
+import { useEffect, useState } from "react";
 import setAuthToken from "../token/authtoken";
 import axios from "axios"
 

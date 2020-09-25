@@ -9,14 +9,12 @@ function Updateacc({ history }) {
   const dispatch = useDispatch();
 
   const [user, setUser] = useState({
-    fname: "",
-    lname: "",
     email: "",
     password: "",
     password2: "",
     tel: "",
     address: "",
-    role: "",
+    avatar: "",
     error: {},
   });
 
@@ -35,17 +33,16 @@ function Updateacc({ history }) {
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    const User = {
-
+    const updatedUser = {
       email: user.email,
       password: user.password,
       password2: user.password2,
       tel: user.tel,
       address: user.address,
-      
+      avatar: user.avatar,
     };
-    console.log(User);
-    dispatch(updateUser(User, history));
+    console.log(updatedUser);
+    dispatch(updateUser(updatedUser, history));
   };
 
   return (
@@ -59,15 +56,16 @@ function Updateacc({ history }) {
       </div>
       <div className="row">
         <div className="col s8 offset-s2">
-          <Link to="/" 
-          className="btn-flat waves-effect"
+          <Link
+            to="/"
+            className="btn-flat waves-effect"
             onClick={() =>
               dispatch({
                 type: GET_ERRORS,
                 payload: {},
               })
             }
-            >
+          >
             <i className="material-icons left">keyboard_backspace</i> Back to
             home
           </Link>
@@ -76,7 +74,18 @@ function Updateacc({ history }) {
               <b>My account</b>
             </h4>
           </div>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={onSubmit} encType="multipart/form-data">
+
+          <div className="input-field col s12">
+          <label htmlFor="avatar">New avatar</label><br></br>
+          </div>
+              <input
+                onChange={onChange}
+                value={user.avatar}
+                id="avatar"
+                type="file" 
+                name="avatar" 
+              />
             <div className="input-field col s12">
               <input
                 onChange={onChange}
