@@ -3,6 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../actions/authaction";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "../token/authtoken";
+import Organizer from "./Organizer";
+import M from "materialize-css"
+
+
 
 function Dashboard({ history }) {
   const auth = useSelector((state) => state.auth);
@@ -20,9 +24,10 @@ function Dashboard({ history }) {
     <div>
       <div>
         <div>
-          <h4>
-            <b>Hey there,</b> {localStorage.token && auth.user.fname}
-          </h4>
+       
+
+        
+
           <button
             style={{
               width: "150px",
@@ -33,7 +38,11 @@ function Dashboard({ history }) {
           >
             Logout
           </button>
+          
         </div>
+
+        <Organizer/>
+       
       </div>
     </div>
   );

@@ -4,21 +4,21 @@ import "../home.css";
 import Searchevents from "./Searchevents";
 
 function Home() {
-    const [search,setSearch] = useState(false)
+  const [search, setSearch] = useState(false);
 
   return (
     <>
-      <Navbar navsearch={setSearch}/>
+      <Navbar navsearch={setSearch} />
       <div
         style={{
           position: "relative",
           height: "600px",
           width: "100%",
           filter: search && "blur(8px)",
-          marginTop:10
+          marginTop: 10,
         }}
       >
-        <img src="festival_home.jpg" alt="Home" width="100%" height="100%" />
+        <img src="festival_home.jpg" alt="Home" width="100%" height="100%"/>
         <div className="home_app">
           <h2>COCO PARTY</h2>
           <p
@@ -30,10 +30,11 @@ function Home() {
           </p>
         </div>
       </div>
-      { search&&(
-      <div className="home_search">
-          <Searchevents formsearch={setSearch}/>
-      </div>)}
+      {search && (
+        <div className="home_search">
+          <Searchevents formsearch={setSearch} />
+        </div>
+      )}
     </>
   );
 }

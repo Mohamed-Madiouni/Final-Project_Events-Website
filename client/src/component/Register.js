@@ -48,7 +48,6 @@ function Register({ history }) {
     console.log(newUser);
     dispatch(registerUser(newUser, history));
   };
-console.log(window.pageYOffset)
   return (
     <div className="container">
       <div
@@ -60,9 +59,9 @@ console.log(window.pageYOffset)
         <span className=" purple-text">PaRtY</span> */}
       </div>
       <div className="row">
-        <div
+        <div className="col s4 m3 l2"
           style={{
-            width: "16%",
+           paddingLeft:0,
             position: "relative",
             top: "170px",
           }}
@@ -89,10 +88,10 @@ console.log(window.pageYOffset)
           </form>
         </div>
         <div
-          className="col s10"
+          className="col s8 m9 l10"
           style={{
             borderLeft: "1px solid grey",
-            padding:"0px 30px"
+            paddingLeft:0
           }}
         >
           <Link

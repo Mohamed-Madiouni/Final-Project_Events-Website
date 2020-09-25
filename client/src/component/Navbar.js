@@ -5,25 +5,32 @@ import { Link } from "react-router-dom";
 
 function Navbar({navsearch}) {
   return (
-    <div className="test">
-      <div className="div2">
+    <div className="test row">
+      <div className="div2 col s10 row" >
         <div
           style={{
-            fontSize: "30px",
+            padding:"0px",
+            
           }}
+          className="col s3"
         >
           <Link
             to="/"
             style={{
               textDecoration: "none",
+             
+                
+             
             }}
           >
-            <img src="coco2.png" alt="COCO PARTY" width="250px" />
+            <img src="coco2.png" alt="COCO PARTY" width="100%" height="100%" style={{
+              paddingTop:"7px"
+            }} />
             {/* <span className="red-text">CoCo</span>
             <span className=" purple-text">PaRtY</span> */}
           </Link>
         </div>
-        <div className="div4">
+        <div className="div4 col s6" >
           <input
             type="text"
             // onChange={(e) => setInp(e.target.value)}
@@ -41,11 +48,11 @@ function Navbar({navsearch}) {
             }}
           ></i>
         </div>
-        <div className="div3">
+        <div className="div3 col s3" >
           <button className="btn waves-effect waves-light"  onClick={()=>navsearch(true)}>Advanced Search</button>
         </div>
       </div>
-      <div className="landing">
+      <div className="landing col s2">
         <Landing />
       </div>
     </div>
