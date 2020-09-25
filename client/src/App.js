@@ -10,37 +10,37 @@ import setAuthToken from "./token/authtoken";
 import { setCurrentUser, logoutUser } from "./actions/authaction";
 import PrivateRoute from "./component/privateroute";
 import Dashboard from "./component/Dashboard";
-import store from "./store"
-import Test from './component/Navbar';
-import Home from './component/Home';
-
-// Check for token to keep user logged in
-
-  
-
+import store from "./store";
+import Test from "./component/Navbar";
+import Home from "./component/Home";
 
 function App() {
-  useEffect(()=>{
+  // Check for token to keep user logged in
+  useEffect(() => {
     if (localStorage.token) {
-  // Set auth token header auth
-  const token = localStorage.token;
-  setAuthToken(token);
+      // Set auth token header auth
+      const token = localStorage.token;
+      setAuthToken(token);
     }
-  })
-  
+  });
+
   return (
     <div className="App">
-    <div className="App_center">
+      <div className="App_center">
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
+
           <Route exact path="/myaccount" component={Account} />
           <Route exact path="/logoff" component={Logoff} />
           
               <PrivateRoute exact  path="/dashboard" component={Dashboard} />
             </Switch>
             </div>
+
+
+         
     </div>
   );
 }

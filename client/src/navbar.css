@@ -2,14 +2,15 @@
     display: flex;
     height: 80px;
     width: 100%;
+    align-items: center;
 }
 
 .div2{
     display:flex;
     justify-content: space-around;
     width: 85%;
-    /* margin: 20px 0px; */
-   
+    margin:0px !important;
+   padding: 0px !important;
     align-items: center;
    
     /* flex :1; */
@@ -22,12 +23,13 @@
         align-items: center;
         width: 30%;
         justify-content: flex-start;
-      font-size: 20px;
+      /* font-size: 20px; */
       border-radius: 10px;
       }
       .div4{
         width: 35%;
         position: relative;
+        
         
       }
       #btn{
@@ -43,6 +45,7 @@
         .landing{
             width: 15%;
             height: 100%;
+            padding-right: 0px !important;
         }
         .inp{
             width: 100%;
@@ -50,6 +53,32 @@
             outline: none;
             border: none;
             border-radius: 10px;
-            font-size: 20px;
+            /* font-size: 20px; */
             padding-left: 10px;
         }
+        .div2 button{
+          padding: 0px !important;
+          width: 70%;
+
+        } 
+        @media screen and (min-width: 900px) {
+          .div3 button{
+            font-size: 1.01vw !important;
+      }
+      .inp{
+        font-size: 1.5vw !important;
+      }
+    }
+      @media screen and (min-width: 550px) and (max-width: 900px) {
+        .div3 button{
+          font-size: 1.5vw !important;
+      }
+    }
+      @media screen and (max-width: 550px) {
+        .div3 button{
+          font-size: 1.8vw !important;
+      }
+      .inp{
+        font-size: 3vw !important;
+      }
+    }

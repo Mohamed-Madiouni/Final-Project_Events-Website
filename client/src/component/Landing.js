@@ -63,7 +63,7 @@ function Landing() {
           }}
           className="btn"
         >
-          Log In
+          LogIn
         </Link>
 
         <Link
