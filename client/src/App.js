@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
-import "./App.css";
-import Register from "./component/Register";
-import Login from "./component/Login";
-import { Route, Switch } from "react-router-dom";
+import React, { useEffect } from 'react';
+import './App.css';
+import Register from "./component/Register"
+import Login from "./component/Login"
+import Account from "./component/Account"
+import Logoff from "./component/Logoff"
+import {Route,Switch} from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./token/authtoken";
 import { setCurrentUser, logoutUser } from "./actions/authaction";
@@ -30,9 +32,15 @@ function App() {
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
 
-          <PrivateRoute exact path="/dashboard" component={Dashboard} />
-        </Switch>
-      </div>
+          <Route exact path="/myaccount" component={Account} />
+          <Route exact path="/logoff" component={Logoff} />
+          
+              <PrivateRoute exact  path="/dashboard" component={Dashboard} />
+            </Switch>
+            </div>
+
+
+         
     </div>
   );
 }
