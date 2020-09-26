@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { getCurrentUser } from "../actions/authaction";
+import {INI_UPDATE} from "../actions/types"
 import { useDispatch, useSelector } from "react-redux";
 import "../organizer.css";
+import M from "materialize-css"
 function Organizer() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -18,12 +20,19 @@ function Organizer() {
     image: "",
     error: {},
   });
+  
 
   useEffect(() => {
     if (localStorage.token) {
       dispatch(getCurrentUser());
     }
   }, [localStorage.token]);
+  useEffect(()=>{
+    if(auth.updated){
+    M.toast({html: 'SUCCESSFULLY UPDATED',classes:"green"})
+  setTimeout(dispatch({type:INI_UPDATE}),4000)  
+  }
+  })
 
   const onChange = (e) => {
     if (e.target.id == "image")
@@ -64,10 +73,7 @@ function Organizer() {
             <p>
               {" "}
               We are happy to see you among US. <br />
-              This is your <b>Dashboard</b>,
-              {auth.user.role == "organizer"
-                ? " you can create edit and delete an event."
-                : " you can see and participate to any event you want."}
+              This is your <b>Dashboard</b>, you can create edit and delete an event.
             </p>
           </div>
           <div className="col s1 m4 welcome">

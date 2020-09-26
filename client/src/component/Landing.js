@@ -1,6 +1,6 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Link} from "react-router-dom";
-import {useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../actions/authaction";
 import "../landing.css";
 import M from "materialize-css"
@@ -9,7 +9,13 @@ import M from "materialize-css"
 
 function Landing() {
   const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
 
+  useEffect(() => {
+   
+    M.Sidenav.init(document.querySelectorAll('.sidenav'))
+    
+  });
 
 
   const onLogoutClick = (e) => {
@@ -80,6 +86,21 @@ function Landing() {
         </Link>
         
       </div>
+      
+      <ul id="slide-out" className="sidenav">
+    <li><div className="user-view">
+      <div className="background">
+        <img src="background_profil.jpg" height="100%" width="100%"/>
+      </div>
+    <img className="circle" src={auth.user.avatar}/>
+  <span className="white-text name">{auth.user.fname+" "+auth.user.lname}</span>
+  <span className="white-text email">{auth.user.email}</span>
+    </div>
+    </li>
+   
+    <li><a href="/myaccount"><i className="material-icons">settings</i>Account Setting</a></li>
+    <li><div className="divider"></div></li>
+  </ul>
     </>
   );
 }

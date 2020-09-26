@@ -32,7 +32,10 @@ const userSchema = mongoose.Schema({
         type:Date,
         default :Date.now
     },
-    avatar : String
-})
+    avatar : {
+        type:String,
+        default:"User_icon.png"
+    }
+    })
 
 module.exports=mongoose.model("user",userSchema)

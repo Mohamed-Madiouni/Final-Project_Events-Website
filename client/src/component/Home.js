@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, {useEffect,useState } from "react";
 import Navbar from "./Navbar";
 import "../home.css";
 import Searchevents from "./Searchevents";
+import { getCurrentUser } from "../actions/authaction";
+import { useDispatch } from "react-redux";
 
 function Home() {
+  const dispatch=useDispatch()
   const [search, setSearch] = useState(false);
+  useEffect(() => {
+    if (localStorage.token) {
+      dispatch(getCurrentUser());
+    }
+  }, [localStorage.token]);
 
   return (
     <>

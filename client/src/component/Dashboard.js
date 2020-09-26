@@ -18,7 +18,8 @@ function Dashboard({ history }) {
   const dispatch = useDispatch();
   useEffect(() => {
     if (!localStorage.token) history.push("/");
-    M.Sidenav.init(document.querySelectorAll('.sidenav'))
+    
+ 
     
   });
 
@@ -31,23 +32,9 @@ function Dashboard({ history }) {
 	<Navbar/>
 
         <Organizer/>
-       
+        
 
 
-        <ul id="slide-out" className="sidenav">
-    <li><div className="user-view">
-      <div className="background">
-        <img src="background_profil.jpg" height="100%" width="100%"/>
-      </div>
-    <img className="circle" src={auth.user.avatar}/>
-  <span className="white-text name">{auth.user.fname+" "+auth.user.lname}</span>
-  <span className="white-text email">{auth.user.email}</span>
-    </div>
-    </li>
-   
-    <li><a href="/myaccount"><i className="material-icons">settings</i>Account Setting</a></li>
-    <li><div className="divider"></div></li>
-  </ul>
     </div>
   );
 }
