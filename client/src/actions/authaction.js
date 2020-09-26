@@ -25,7 +25,7 @@ export const registerUser = (userData, history) => (dispatch) => {
 // Update User
 export const updateUser = (userData, history) => (dispatch) => {
   axios
-    .post("user/update", userData)
+    .put("user/update", userData)
     .then((res) => {
       history.push("/Dashboard") // re-direct to Dashboard on successful update
       dispatch({
