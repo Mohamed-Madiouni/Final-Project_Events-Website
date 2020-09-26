@@ -25,7 +25,7 @@ export const registerUser = (userData, history) => (dispatch) => {
 // Update User
 export const updateUser = (userData, history) => (dispatch) => {
   axios
-    .post("user/update", userData)
+    .put("user/update", userData)
     .then((res) => {
       history.push("/Dashboard") // re-direct to Dashboard on successful update
       dispatch({
@@ -67,6 +67,25 @@ export const loginUser = (userData) => (dispatch) => {
         payload: err.response.data,
       })
     );
+};
+
+
+// get logged in user
+export const getCurrentUser = () =>(dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+    .get("user")
+    .then((res) => {
+      dispatch(setCurrentUser(res.data)) 
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+
+ 
 };
 
 // Set logged in user

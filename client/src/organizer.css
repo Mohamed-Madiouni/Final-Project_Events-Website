@@ -28,6 +28,8 @@
     border:  1px solid gray;
     height: fit-content;
     padding: 10px 0px;
+    display: flex;
+    align-items: center;
 }
 
 

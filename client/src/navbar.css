@@ -45,7 +45,7 @@
         .landing{
             width: 15%;
             height: 100%;
-            padding-right: 0px !important;
+            padding: 0px !important;
         }
         .inp{
             width: 100%;
@@ -61,8 +61,12 @@
           width: 70%;
 
         } 
+        .dash{
+          padding: 0px !important;
+          width: 90%
+        }
         @media screen and (min-width: 900px) {
-          .div3 button{
+          .div3 button,a{
             font-size: 1.01vw !important;
       }
       .inp{
@@ -70,12 +74,12 @@
       }
     }
       @media screen and (min-width: 550px) and (max-width: 900px) {
-        .div3 button{
+        .div3 button,a{
           font-size: 1.5vw !important;
       }
     }
       @media screen and (max-width: 550px) {
-        .div3 button{
+        .div3 button,a{
           font-size: 1.8vw !important;
       }
       .inp{

@@ -1,6 +1,7 @@
 .landing_app{
     display: flex;
     align-items: center;
+    flex-direction: column;
     justify-content: space-around;
     height: 100%;
     
@@ -8,6 +9,7 @@
 
 .landing_app .btn{
     padding: 0px !important;
+    
 }
 .btn{
     background-color: rgba(240, 238, 238, 0.466) !important;

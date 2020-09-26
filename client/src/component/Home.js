@@ -12,7 +12,7 @@ function Home() {
       <div
         style={{
           position: "relative",
-          height: "600px",
+          height: "500px",
           width: "100%",
           filter: search && "blur(8px)",
           marginTop: 10,

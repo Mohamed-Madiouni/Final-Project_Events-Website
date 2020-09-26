@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
-import { setCurrentUser } from "../actions/authaction";
+import { getCurrentUser } from "../actions/authaction";
 import { useDispatch, useSelector } from "react-redux";
 import "../organizer.css";
 function Organizer() {
@@ -21,8 +21,7 @@ function Organizer() {
 
   useEffect(() => {
     if (localStorage.token) {
-      const decoded = jwt_decode(localStorage.token);
-      dispatch(setCurrentUser(decoded));
+      dispatch(getCurrentUser());
     }
   }, [localStorage.token]);
 
@@ -55,6 +54,7 @@ function Organizer() {
             style={{
               paddingTop: "0.75rem",
               paddingBottom: "0.75rem",
+              margin:"0px"
             }}
           >
             {" "}

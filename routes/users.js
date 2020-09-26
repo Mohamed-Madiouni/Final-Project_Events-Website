@@ -7,6 +7,8 @@ const router = express.Router();
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 const validateUpdateInput = require("../validation/update");
+const authMiddleware = require("../middleware/authMiddleware");
+
 //handle registration
 router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -39,7 +41,7 @@ router.post("/register", (req, res) => {
 });
 
 //handle update account
-router.put("/update", (req, res) => {
+router.put("/update",authMiddleware, (req, res) => {
   const { errors, isValid } = validateUpdateInput(req.body);
   if (!isValid) {
     return res.status(400).json(errors);
@@ -47,26 +49,27 @@ router.put("/update", (req, res) => {
       let salt = bcrypt.genSaltSync(10);
       let hash = bcrypt.hashSync(req.body.password, salt);
 	 
-    const modUser = new User({
+    const modUser ={
        email: req.body.email,
        password: hash,
        tel:req.body.tel,
        address:req.body.address,
        avatar: req.body.avatar
-	});
-	modUser.update({email: req.body.email}, {
-    email: modUser.email,
-    username: modUser.username, 
-    password: modUser.password, 
-    address: modUser.address,
-    avatar: modUser.avatar
-  });
-  modUser
-  .save()
+	};
+	User.findByIdAndUpdate(req.userId,{$set: modUser })
 	.then((user) => res.json(user))
   .catch((err) => console.log(err));
 }
   
+});
+
+// GET USERS
+router.get("/",authMiddleware, (req, res) => {
+  User.findById(req.userId)
+    .then((users) => res.json(users))
+    .catch((err) => {
+      console.error(err.message);
+    });
 });
 
 //handle login

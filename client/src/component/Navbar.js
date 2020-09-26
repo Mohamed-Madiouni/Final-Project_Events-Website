@@ -49,7 +49,22 @@ function Navbar({navsearch}) {
           ></i>
         </div>
         <div className="div3 col s3" >
-          <button className="btn waves-effect waves-light"  onClick={()=>navsearch(true)}>Advanced Search</button>
+        <Link
+          to="/dashboard"
+          style={{
+            display: !localStorage.token ? "none" : "inline",
+            padding:0,
+            width: "90%",
+            borderRadius: "3px",
+            letterSpacing: "1.5px",
+          }}
+          className="btn "
+        >
+          Dashbord
+        </Link>
+          <button className="btn waves-effect waves-light"  style={{
+            display: localStorage.token ? "none" : "inline"
+          }} onClick={()=>navsearch(true)}>Advanced Search</button>
         </div>
       </div>
       <div className="landing col s2">

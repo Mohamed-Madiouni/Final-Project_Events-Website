@@ -3,10 +3,13 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from "../actions/authaction";
 import { GET_ERRORS } from "../actions/types";
+import { getCurrentUser} from "../actions/authaction";
+import setAuthToken from "../token/authtoken";
 
 function Updateacc({ history }) {
   const errors = useSelector((state) => state.errors);
   const dispatch = useDispatch();
+ const auth = useSelector(state => state.auth)
 
   const [user, setUser] = useState({
     email: "",
@@ -22,7 +25,15 @@ function Updateacc({ history }) {
 
   useEffect(() => {
     if (!localStorage.token) history.push("/");
+  
+    
   });
+  useEffect(()=>{
+    if (localStorage.token)
+    
+    dispatch(getCurrentUser())
+    
+  },[])
 
   useEffect(() => {
     if (errors) setUser({ ...user, error: errors });
@@ -57,7 +68,7 @@ function Updateacc({ history }) {
       <div className="row">
         <div className="col s8 offset-s2">
           <Link
-            to="/"
+            to="/dashboard"
             className="btn-flat waves-effect"
             onClick={() =>
               dispatch({
@@ -67,7 +78,7 @@ function Updateacc({ history }) {
             }
           >
             <i className="material-icons left">keyboard_backspace</i> Back to
-            home
+            dashboard
           </Link>
           <div className="col s12" style={{ paddingLeft: "11.250px" }}>
             <h4>
@@ -92,10 +103,11 @@ function Updateacc({ history }) {
                 value={user.email}
                 id="email"
                 type="email"
+               
               />
               <label htmlFor="email">New Email</label>
-              <span className={user.error.email && "red-text"}>
-                {user.error.email}
+              <span className={user.error.email ? "red-text":"green-text" }>
+              {user.error.email||auth.user.email&&("Your email is "+auth.user.email)}
               </span>
             </div>
             <div className="input-field col s12">
@@ -128,10 +140,12 @@ function Updateacc({ history }) {
                 value={user.tel}
                 id="tel"
                 type="number"
+                
+                
               />
               <label htmlFor="tel">Enter yout phone number</label>
-              <span className={user.error.tel && "red-text"}>
-                {user.error.tel}
+              <span className={user.error.tel? "red-text":"green-text"}>
+                {user.error.tel||auth.user.tel&&("Your Number is "+auth.user.tel)}
               </span>
             </div>
             <div className="input-field col s12">
@@ -140,10 +154,11 @@ function Updateacc({ history }) {
                 value={user.address}
                 id="address"
                 type="text"
+               
               />
               <label htmlFor="address">Enter your address</label>
-              <span className={user.error.address && "red-text"}>
-                {user.error.address}
+              <span className={user.error.address ? "red-text":"green-text"}>
+              {user.error.address||auth.user.address&&("Your address is "+auth.user.address)}
               </span>
             </div>
             <div className="col s12" style={{ paddingLeft: "11.250px" }}>

@@ -3,15 +3,10 @@ import './App.css';
 import Register from "./component/Register"
 import Login from "./component/Login"
 import Account from "./component/Account"
-import Logoff from "./component/Logoff"
 import {Route,Switch} from "react-router-dom";
-import jwt_decode from "jwt-decode";
 import setAuthToken from "./token/authtoken";
-import { setCurrentUser, logoutUser } from "./actions/authaction";
 import PrivateRoute from "./component/privateroute";
 import Dashboard from "./component/Dashboard";
-import store from "./store";
-import Test from "./component/Navbar";
 import Home from "./component/Home";
 
 function App() {
@@ -32,8 +27,8 @@ function App() {
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
 
-          <Route exact path="/myaccount" component={Account} />
-          <Route exact path="/logoff" component={Logoff} />
+          <PrivateRoute exact path="/myaccount" component={Account} />
+
           
               <PrivateRoute exact  path="/dashboard" component={Dashboard} />
             </Switch>
