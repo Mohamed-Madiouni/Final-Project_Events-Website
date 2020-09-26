@@ -48,16 +48,20 @@ router.put("/update", (req, res) => {
       let hash = bcrypt.hashSync(req.body.password, salt);
 	 
     const modUser = new User({
-       email: req.body.email,
+       fname: req.body.fname,
+       lname: req.body.lname,
+       email: req.body.email,       
        password: hash,
        tel:req.body.tel,
        address:req.body.address,
        avatar: req.body.avatar
 	});
 	modUser.update({email: req.body.email}, {
+    fname: modUser.fname,
+    lname: modUser.lname,
     email: modUser.email,
-    username: modUser.username, 
     password: modUser.password, 
+    tel:modUser.tel,
     address: modUser.address,
     avatar: modUser.avatar
   });

@@ -9,6 +9,8 @@ function Updateacc({ history }) {
   const dispatch = useDispatch();
 
   const [user, setUser] = useState({
+    fname: "",
+    lname: "",
     email: "",
     password: "",
     password2: "",
@@ -34,6 +36,8 @@ function Updateacc({ history }) {
   const onSubmit = (e) => {
     e.preventDefault();
     const updatedUser = {
+      fname: user.fname,
+      lname: user.lname,
       email: user.email,
       password: user.password,
       password2: user.password2,
@@ -75,17 +79,43 @@ function Updateacc({ history }) {
             </h4>
           </div>
           <form onSubmit={onSubmit} encType="multipart/form-data">
-
-          <div className="input-field col s12">
-          <label htmlFor="avatar">New avatar</label><br></br>
-          </div>
+            <div className="input-field col s12">
+              <label htmlFor="avatar">New avatar</label>
+              <br></br>
+            </div>
+            <input
+              onChange={onChange}
+              value={user.avatar}
+              id="avatar"
+              type="file"
+              name="avatar"
+            />
+            <div className="input-field col s12">
               <input
                 onChange={onChange}
-                value={user.avatar}
-                id="avatar"
-                type="file" 
-                name="avatar" 
+                value={user.fname}
+                id="fname"
+                type="text"
+                disabled
               />
+              <label htmlFor="fname">First name</label>
+              <span className={user.error.fname && "red-text"}>
+                {user.error.fname}
+              </span>
+            </div>
+            <div className="input-field col s12">
+              <input
+                onChange={onChange}
+                value={user.lname}
+                id="lname"
+                type="text"
+                disabled
+              />
+              <label htmlFor="lname">Lirst name</label>
+              <span className={user.error.lname && "red-text"}>
+                {user.error.lname}
+              </span>
+            </div>
             <div className="input-field col s12">
               <input
                 onChange={onChange}
