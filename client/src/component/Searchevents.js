@@ -29,7 +29,7 @@ function Searchevents({ formsearch }) {
                 // placeholder="Event title"
                 id="title"
                 type="text"
-                className="validate white-text"
+                className="white-text"
                 onChange={onChange}
                 value={eventsearch.title}
               />
@@ -48,7 +48,7 @@ function Searchevents({ formsearch }) {
                 // placeholder="Tap the event address"
                 id="address"
                 type="text"
-                className="validate white-text"
+                className=" white-text"
                 onChange={onChange}
                 value={eventsearch.address}
               />
@@ -65,14 +65,15 @@ function Searchevents({ formsearch }) {
           </div>
           <div className="row">
             <div className="input-field col s12">
-              <input
-                // placeholder="Tap the event description"
+              <textarea 
+              // placeholder="Tap the event description"
                 id="description"
                 type="text"
-                className="validate white-text"
+                className="materialize-textarea white-text"
                 onChange={onChange}
-                value={eventsearch.description}
-              />
+                value={eventsearch.description}>
+                
+              </textarea>
 
               <label
                 htmlFor="description"
