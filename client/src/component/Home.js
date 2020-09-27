@@ -3,10 +3,11 @@ import Navbar from "./Navbar";
 import "../home.css";
 import Searchevents from "./Searchevents";
 import { getCurrentUser } from "../actions/authaction";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import M from "materialize-css";
 function Home() {
   const dispatch = useDispatch();
+  const auth  = useSelector(state =>state.auth)
   const [search, setSearch] = useState(false);
   useEffect(() => {
     if (localStorage.token) {
