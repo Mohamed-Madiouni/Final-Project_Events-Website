@@ -59,6 +59,7 @@ function Updateacc({ history }) {
     data.append("file", updateduser.avatar);
     data.append("upload_preset", "events-website");
     data.append("cloud_name", "med");
+    
     const send = await fetch(
       "https://api.cloudinary.com/v1_1/med/image/upload",
       {
@@ -66,8 +67,11 @@ function Updateacc({ history }) {
         body: data,
       }
     );
-    const res = await send.json();
-
+   
+   
+ const res = await send.json();
+ updateduser.avatar&&res.error&&M.toast({html: res.error.message,classes:"red"})
+  console.log(res)
     !res.error&&(updateduser.avatar = res.url);
     console.log(updateduser);
     dispatch(updateUser(updateduser, history));
@@ -130,7 +134,7 @@ function Updateacc({ history }) {
                   id="first_name"
                   type="text"
                 />
-                <label htmlFor="first_name" className="active">
+                <label htmlFor="first_name" className="active green-text">
                   First Name
                 </label>
               </div>
@@ -143,8 +147,21 @@ function Updateacc({ history }) {
                   id="last_name"
                   type="text"
                 />
-                <label htmlFor="last_name" className="active">
+                <label htmlFor="last_name" className="active green-text">
                   Last Name
+                </label>
+              </div>
+            )}
+{auth.user.email && (
+              <div className="input-field col s12">
+                <input
+                  disabled
+                  value={auth.user.email}
+                  id="email"
+                  type="text"
+                />
+                <label htmlFor="email" className="active green-text">
+                  Email
                 </label>
               </div>
             )}
