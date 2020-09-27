@@ -29,7 +29,7 @@ function Searchevents({ formsearch }) {
                 // placeholder="Event title"
                 id="title"
                 type="text"
-                className="validate"
+                className="validate white-text"
                 onChange={onChange}
                 value={eventsearch.title}
               />
@@ -48,7 +48,7 @@ function Searchevents({ formsearch }) {
                 // placeholder="Tap the event address"
                 id="address"
                 type="text"
-                className="validate"
+                className="validate white-text"
                 onChange={onChange}
                 value={eventsearch.address}
               />
@@ -69,7 +69,7 @@ function Searchevents({ formsearch }) {
                 // placeholder="Tap the event description"
                 id="description"
                 type="text"
-                className="validate"
+                className="validate white-text"
                 onChange={onChange}
                 value={eventsearch.description}
               />
@@ -84,19 +84,37 @@ function Searchevents({ formsearch }) {
               </label>
             </div>
           </div>
-          <div>
+          <div className="col s12" style={{
+            display:"flex",
+            justifyContent:"center"
+          }}>
             <button
               style={{
                 borderRadius: "5px",
                     letterSpacing: "1.5px",
                     color:"white",
-                    
+                    margin:10
                 
               }}
               type="submit"
               className="btn waves-effect waves-light hoverable"
             >
               Search
+            </button>
+            <button
+              style={{
+                borderRadius: "5px",
+                    letterSpacing: "1.5px",
+                    color:"white",
+                    margin:10
+                    
+                
+              }}
+              type="button"
+              className="btn waves-effect waves-light hoverable"
+              onClick={()=>formsearch(false)}
+            >
+              Cancel
             </button>
           </div>
         </form>
