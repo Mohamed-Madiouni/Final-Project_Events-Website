@@ -4,6 +4,7 @@ import { Link} from "react-router-dom";
 import { logoutUser } from "../actions/authaction";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "../token/authtoken";
+import { getCurrentUser } from "../actions/authaction";
 
 import Navbar from "./Navbar";
 import Searchevents from "./Searchevents";
@@ -22,6 +23,11 @@ function Dashboard({ history }) {
  
     
   });
+  useEffect(() => {
+    if (localStorage.token) {
+      dispatch(getCurrentUser());
+    }
+  },[localStorage.token])
 
 
 

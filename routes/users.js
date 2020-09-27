@@ -16,6 +16,7 @@ router.post("/register", (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
+
   User.findOne({ email: req.body.email }).then((user) => {
     if (user) {
       return res.status(400).json({ email: "Email already exists" });
@@ -46,22 +47,31 @@ router.put("/update",authMiddleware, (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
 	} else {
+    User.findById(req.userId).then((user) => {
+  
+      bcrypt.compare(req.body.password,user.password).then((isMatch) => {
+        if (isMatch) 
+          return res.status(400).json({ password: "Must enter a new password" })
+const modUser ={}
+      if(req.body.password){
       let salt = bcrypt.genSaltSync(10);
       let hash = bcrypt.hashSync(req.body.password, salt);
-	 
-    const modUser ={
-       email: req.body.email,
-       password: hash,
-       tel:req.body.tel,
-       address:req.body.address,
-       avatar: req.body.avatar
-	};
+      modUser.password = hash
+      }
+    
+      
+      req.body.tel&&(modUser.tel=req.body.tel)
+      req.body.address&& (modUser.address=req.body.address)
+      req.body.avatar&&(modUser.avatar= req.body.avatar)
+	
 	User.findByIdAndUpdate(req.userId,{$set: modUser })
 	.then((user) => res.json(user))
   .catch((err) => console.log(err));
-}
+})
   
 });
+  }
+})
 
 // GET USERS
 router.get("/",authMiddleware, (req, res) => {
@@ -93,7 +103,8 @@ router.post("/login", (req, res) => {
           id: user.id,
           fname: user.fname,
           lname:user.lname,
-          role:user.role
+          role:user.role,
+        
         };
 
         jwt.sign(payload, process.env.ACCES_TOKEN_SECRET, (err, token) => {

@@ -3,6 +3,7 @@ const mongoose=require("mongoose")
 const userSchema = mongoose.Schema({
     role:{
         type:String,
+        required:true
     },
     fname : {
         type: String,
@@ -14,19 +15,23 @@ const userSchema = mongoose.Schema({
     },
     email :{
         type : String,
-        required : true
+        required : true,
+        
     },
     password : {
         type : String,
-        required : true
+        required : true,
+        
     },
     tel : {
         type : String,
-        required : true
+        required : true,
+        
     },
     address : {
         type : String,
-        required : true
+        required : true,
+       
     },
     created_at:{
         type:Date,
@@ -34,7 +39,8 @@ const userSchema = mongoose.Schema({
     },
     avatar : {
         type:String,
-        default:"User_icon.png"
+        default:"User_icon.png",
+       
     }
     })
 

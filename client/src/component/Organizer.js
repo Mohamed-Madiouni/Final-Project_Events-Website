@@ -22,11 +22,7 @@ function Organizer() {
   });
   
 
-  useEffect(() => {
-    if (localStorage.token) {
-      dispatch(getCurrentUser());
-    }
-  }, [localStorage.token]);
+  
   useEffect(()=>{
     if(auth.updated){
     M.toast({html: 'SUCCESSFULLY UPDATED',classes:"green"})

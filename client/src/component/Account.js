@@ -13,7 +13,6 @@ function Updateacc({ history }) {
   const auth = useSelector((state) => state.auth);
 
   const [user, setUser] = useState({
-    email: "",
     password: "",
     password2: "",
     tel: "",
@@ -27,7 +26,12 @@ function Updateacc({ history }) {
   useEffect(() => {
     if (!localStorage.token) history.push("/");
     M.Modal.init(document.querySelectorAll('.modal'))
+    
   });
+  useEffect(()=>{
+    if(errors.msg)
+    M.toast({html: errors.msg,classes:"red"})
+  },[errors.msg])
   useEffect(() => {
     if (localStorage.token) dispatch(getCurrentUser());
   }, []);
@@ -44,7 +48,6 @@ function Updateacc({ history }) {
   const onSubmit = async (e) => {
     e.preventDefault();
     const updateduser = {
-      email: user.email,
       password: user.password,
       password2: user.password2,
       tel: user.tel,
@@ -64,7 +67,8 @@ function Updateacc({ history }) {
       }
     );
     const res = await send.json();
-    updateduser.avatar = res.url;
+
+    !res.error&&(updateduser.avatar = res.url);
     console.log(updateduser);
     dispatch(updateUser(updateduser, history));
   };
@@ -145,19 +149,7 @@ function Updateacc({ history }) {
               </div>
             )}
 
-            <div className="input-field col s12">
-              <input
-                onChange={onChange}
-                value={user.email}
-                id="email"
-                type="email"
-              />
-              <label htmlFor="email">New Email</label>
-              <span className={user.error.email ? "red-text" : "green-text"}>
-                {user.error.email ||
-                  (auth.user.email && "Your email is " + auth.user.email)}
-              </span>
-            </div>
+           
             <div className="input-field col s12">
               <input
                 onChange={onChange}
