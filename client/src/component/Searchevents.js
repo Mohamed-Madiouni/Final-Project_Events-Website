@@ -1,6 +1,10 @@
 import React, { useState } from "react";
-
-function Searchevents({ formsearch }) {
+import { useDispatch, useSelector } from "react-redux";
+import { SET_SEARCH, INI_SEARCH } from "../actions/types";
+import "../searchevent.css";
+function Searchevents() {
+  const search = useSelector((state) => state.search);
+  const dispatch = useDispatch();
   const [eventsearch, setEventsearch] = useState({
     title: "",
     address: "",
@@ -9,116 +13,147 @@ function Searchevents({ formsearch }) {
   const onChange = (e) => {
     setEventsearch({ ...eventsearch, [e.target.id]: e.target.value });
   };
-  async function onSubmit(e) {
+  function onSubmit(e) {
     e.preventDefault();
-    await console.log(eventsearch);
-    setEventsearch({
-      title: "",
-      address: "",
-      description: "",
+    console.log(eventsearch);
+    dispatch({
+      type: INI_SEARCH,
+      payload: !search.etat,
     });
-    formsearch(false);
   }
   return (
     <>
-      <div className="row">
-        <form className="col s12" onSubmit={onSubmit}>
-          <div className="row">
-            <div className="input-field col s6">
+      <div
+        className="row container search_app"
+        style={{
+          height: "90vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: 10,
+          position: "relative",
+        }}
+      >
+        <i
+          className="material-icons"
+          style={{
+            cursor: "pointer",
+            position: "absolute",
+            top: 150,
+            right: 100,
+          }}
+          onClick={() =>
+            dispatch({
+              type: INI_SEARCH,
+              payload: !search.etat,
+            })
+          }
+        >
+          close
+        </i>
+        <div className="col s10 ">
+          {!search.search ? (
+            <div className="col s12">
               <input
-                // placeholder="Event title"
+                type="text"
+                onChange={onChange}
+                className="inp"
+                placeholder="Search events"
                 id="title"
-                type="text"
-                className="white-text"
-                onChange={onChange}
-                value={eventsearch.title}
               />
-
-              <label
-                htmlFor="title"
+              <i
+                className="fa fa-search"
                 style={{
-                  color: "white",
+                  fontSize: "25px",
+                  position: "absolute",
+                  transform: "translate(-30px,12.5px)",
+                }}
+              ></i>
+            </div>
+          ) : (
+            <form className="col s12" onSubmit={onSubmit}>
+              <div className="row">
+                <div className="input-field col s6">
+                  <input id="title" type="text" onChange={onChange} />
+
+                  <label htmlFor="title">Event Title</label>
+                </div>
+                <div className="input-field col s6">
+                  <input id="address" type="text" onChange={onChange} />
+
+                  <label htmlFor="address">Event Address</label>
+                </div>
+              </div>
+              <div className="row">
+                <div className="input-field col s12">
+                  <textarea
+                    id="description"
+                    type="text"
+                    className="materialize-textarea "
+                    onChange={onChange}
+                  ></textarea>
+
+                  <label htmlFor="description">Event Description</label>
+                </div>
+              </div>
+              <div
+                className="col s12"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
                 }}
               >
-                Event Title
-              </label>
-            </div>
-            <div className="input-field col s6">
+                <button
+                  style={{
+                    borderRadius: "5px",
+                    letterSpacing: "1.5px",
+
+                    margin: 10,
+                  }}
+                  type="submit"
+                  className="btn waves-effect waves-light hoverable"
+                >
+                  Search
+                </button>
+                <button
+                  style={{
+                    borderRadius: "5px",
+                    letterSpacing: "1.5px",
+
+                    margin: 10,
+                  }}
+                  type="button"
+                  className="btn waves-effect waves-light hoverable"
+                  onClick={() =>
+                    dispatch({
+                      type: SET_SEARCH,
+                      payload: !search.search,
+                    })
+                  }
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
+        <div className="col s2">
+          <p>
+            <label>
               <input
-                // placeholder="Tap the event address"
-                id="address"
-                type="text"
-                className=" white-text"
-                onChange={onChange}
-                value={eventsearch.address}
+                type="checkbox"
+                onChange={() =>
+                  dispatch({
+                    type: SET_SEARCH,
+                    payload: !search.search,
+                  })
+                }
+                checked={search.search}
               />
-
-              <label
-                htmlFor="address"
-                style={{
-                  color: "white",
-                }}
-              >
-                Event Address
-              </label>
-            </div>
-          </div>
-          <div className="row">
-            <div className="input-field col s12">
-              <textarea 
-              // placeholder="Tap the event description"
-                id="description"
-                type="text"
-                className="materialize-textarea white-text"
-                onChange={onChange}
-                value={eventsearch.description}>
-                
-              </textarea>
-
-              <label
-                htmlFor="description"
-                style={{
-                  color: "white",
-                }}
-              >
-                Event Description
-              </label>
-            </div>
-          </div>
-          <div className="col s12" style={{
-            display:"flex",
-            justifyContent:"center"
-          }}>
-            <button
-              style={{
-                borderRadius: "5px",
-                    letterSpacing: "1.5px",
-                    color:"white",
-                    margin:10
-                
-              }}
-              type="submit"
-              className="btn waves-effect waves-light hoverable"
-            >
-              Search
-            </button>
-            <button
-              style={{
-                borderRadius: "5px",
-                    letterSpacing: "1.5px",
-                    color:"white",
-                    margin:10
-                    
-                
-              }}
-              type="button"
-              className="btn waves-effect waves-light hoverable"
-              onClick={()=>formsearch(false)}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
+              <span></span>
+            </label>
+          </p>
+        </div>
       </div>
     </>
   );

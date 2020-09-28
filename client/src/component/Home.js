@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import "../home.css";
-import Searchevents from "./Searchevents";
 import { getCurrentUser } from "../actions/authaction";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import M from "materialize-css";
 function Home() {
   const dispatch = useDispatch();
-  const auth  = useSelector(state =>state.auth)
-  const [search, setSearch] = useState(false);
+  const auth = useSelector((state) => state.auth);
   useEffect(() => {
     if (localStorage.token) {
       dispatch(getCurrentUser());
@@ -21,7 +19,7 @@ function Home() {
 
   return (
     <>
-      <Navbar navsearch={setSearch} />
+      <Navbar />
       <div className="parallax-container">
         <div className="parallax">
           <img src="festival_home.jpg" alt="Home" className="responsive-img" />
@@ -31,7 +29,7 @@ function Home() {
         <div className="row container">
           <h2 className="header">COCO PARTY</h2>
           <p
-            className="grey-text text-darken-3 lighten-3"
+            className="grey-text text-darken-2 "
             style={{
               lineHeight: "38px",
             }}
@@ -40,7 +38,7 @@ function Home() {
             consider our self as a family, and as a family we welcome you to be
             part of our universe.
             <br />
-            <span className="black-text text-darken-3 lighten-3">
+            <span className=" black-text">
               You can check our last events here below.
             </span>
           </p>
@@ -93,36 +91,8 @@ function Home() {
               </h5>
             </div>
           </li>
-          
         </ul>
       </div>
-     
-      {/* <div
-        style={{
-          position: "relative",
-          height: "500px",
-          width: "100%",
-          filter: search && "blur(8px)",
-          marginTop: 10,
-        }}
-      >
-        <img src="festival_home.jpg" alt="Home" width="100%" height="100%"/>
-        <div className="home_app">
-          <h2>COCO PARTY</h2>
-          <p
-            style={{
-              fontSize: "20px",
-            }}
-          >
-            Welcome to the number 1 event website in the WORLD
-          </p>
-        </div>
-      </div> */}
-      {search && (
-        <div className="home_search">
-          <Searchevents formsearch={setSearch} />
-        </div>
-      )}
     </>
   );
 }

@@ -12,8 +12,8 @@
     
 }
 .btn{
-    background-color: rgba(240, 238, 238, 0.466) !important;
-    color: black !important;
+    background-color: rgba(240, 238, 238, 0.466) ;
+    color: black 
 }
 @media screen and (min-width: 900px) {
     .landing_app a{

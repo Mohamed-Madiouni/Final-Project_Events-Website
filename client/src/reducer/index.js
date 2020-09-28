@@ -1,7 +1,9 @@
 import { combineReducers } from "redux";
 import authReducer from "./auth";
 import errorReducer from "./error";
+import setSearch from './setSearch'
 export default combineReducers({
   auth: authReducer,
-  errors: errorReducer
+  errors: errorReducer,
+  search: setSearch
 });
