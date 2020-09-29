@@ -7,6 +7,7 @@ connectdb();
 const app = express();
 app.use(express.json())
 app.use("/user",require("./routes/users"))
+app.use("/event",require("./routes/events"))
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, (err) => {
