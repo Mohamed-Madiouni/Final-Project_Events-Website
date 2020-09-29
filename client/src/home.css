@@ -17,3 +17,8 @@
     transform: translate(-50%,-15%);
 
 } */
+.parallax-container{
+    width: 98vw;
+    transform: translateX(-2.2%);
+    height: 530px;
+}

@@ -26,12 +26,13 @@ function Searchevents() {
       <div
         className="row container search_app"
         style={{
-          height: "90vh",
+          height: "95vh",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           padding: 10,
           position: "relative",
+          
         }}
       >
         <i
@@ -40,7 +41,7 @@ function Searchevents() {
             cursor: "pointer",
             position: "absolute",
             top: 150,
-            right: 100,
+            right: 80,
           }}
           onClick={() =>
             dispatch({
@@ -64,7 +65,7 @@ function Searchevents() {
               <i
                 className="fa fa-search"
                 style={{
-                  fontSize: "25px",
+                  fontSize: "22px",
                   position: "absolute",
                   transform: "translate(-30px,12.5px)",
                 }}

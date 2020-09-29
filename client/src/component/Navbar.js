@@ -10,12 +10,13 @@ function Navbar() {
   const dispatch = useDispatch();
   return (
     <div className="test row">
-      <div className="div2 col s10 row">
+      <div className="div2 col s10 l11 row">
         <div
           style={{
             padding: "0px",
+            margin:0
           }}
-          className="col s3"
+          className="col s2"
         >
           <Link
             to="/"
@@ -34,12 +35,13 @@ function Navbar() {
             />
           </Link>
         </div>
-        <div className="div4 col s6">
+        <div className="div4 col s5 l7 ">
           <i
-            className="fa fa-search col s2 "
+            className="fa fa-search col s1 "
             style={{
-              fontSize: "25px",
+              fontSize: "22px",
               cursor: "pointer",
+
             }}
             onClick={() =>
               dispatch({
@@ -49,7 +51,7 @@ function Navbar() {
             }
           ></i>
         </div>
-        <div className="div3 col s3">
+        <div className="div3 col s3 l2 ">
           <Link
             to="/dashboard"
             style={{
@@ -58,6 +60,7 @@ function Navbar() {
               width: "90%",
               borderRadius: "3px",
               letterSpacing: "1.5px",
+              
             }}
             className="btn "
           >
@@ -65,7 +68,9 @@ function Navbar() {
           </Link>
         </div>
       </div>
-      <div className="landing col s2">
+      <div className="landing col s2 l1" style={{
+        margin:0
+      }}>
         <Landing />
       </div>
     </div>

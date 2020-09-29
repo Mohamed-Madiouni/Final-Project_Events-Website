@@ -27,8 +27,14 @@ function Updateacc({ history }) {
     M.Modal.init(document.querySelectorAll(".modal"));
   });
   useEffect(() => {
-    if (errors.msg) M.toast({ html: errors.msg, classes: "red" });
-  }, [errors.msg]);
+    if (errors.msg){ 
+      M.toast({ html: errors.msg, classes: "red" });
+      dispatch({
+        type: GET_ERRORS,
+        payload: {},
+      })
+    }
+  });
   useEffect(() => {
     if (localStorage.token) dispatch(getCurrentUser());
   }, []);

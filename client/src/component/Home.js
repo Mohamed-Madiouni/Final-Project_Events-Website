@@ -54,7 +54,8 @@ function Home() {
             <div
               className="caption left-align"
               style={{
-                width: "50%",
+                width: "55%",
+                left:"5%"
               }}
             >
               <h3>Tiesto concert in Djerba</h3>
@@ -76,7 +77,8 @@ function Home() {
             <div
               className="caption left-align"
               style={{
-                width: "50%",
+                width: "55%",
+                left:"5%"
               }}
             >
               <h3>The maestro Lotfi Bouchnak </h3>
