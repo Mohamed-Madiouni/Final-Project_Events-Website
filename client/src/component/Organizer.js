@@ -54,7 +54,7 @@ function Organizer() {
     setNb_participant(evt.Nb_participant)
     setId(evt._id)
     setedit(true)
-	setDate(evt.price)
+    setPrice(evt.price)
   }  
 
   return (
