@@ -73,7 +73,7 @@ const modUser ={}
   }
 })
 
-// GET USERS
+// GET USERS by id
 router.get("/",authMiddleware, (req, res) => {
   User.findById(req.userId)
     .then((users) => res.json(users))

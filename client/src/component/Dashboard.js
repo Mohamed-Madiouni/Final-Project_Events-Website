@@ -10,6 +10,8 @@ import Navbar from "./Navbar";
 import Searchevents from "./Searchevents";
 
 import Organizer from "./Organizer";
+import Administrator from "./Administrator";
+import Participant from "./Participant";
 import M from "materialize-css"
 
 
@@ -37,9 +39,9 @@ function Dashboard({ history }) {
 
 	<Navbar/>
 
-        <Organizer/>
-        
-
+  {auth.user.role == "participant" && <Organizer/> } 
+  {auth.user.role == "participant" && <Administrator/> } 
+  {auth.user.role == "participant" && <Participant/> }
 
     </div>
   );

@@ -17,6 +17,7 @@ function Organizer() {
   const [discription, setDiscription] = useState("")
   const [date, setDate] = useState("")
   const [adress, setAdress] = useState("")
+  const [price, setPrice] = useState("")
   const [Nb_participant, setNb_participant] = useState("")
   const [duration, setDuration] = useState("")
   const [id, setId] = useState(0)
@@ -53,6 +54,7 @@ function Organizer() {
     setNb_participant(evt.Nb_participant)
     setId(evt._id)
     setedit(true)
+	setDate(evt.price)
   }  
 
   return (
