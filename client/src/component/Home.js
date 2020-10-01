@@ -11,7 +11,7 @@ function Home() {
     if (localStorage.token) {
       dispatch(getCurrentUser());
     }
-  }, [localStorage.token]);
+  },[]);
   useEffect(() => {
     M.Parallax.init(document.querySelectorAll(".parallax"));
     M.Slider.init(document.querySelectorAll(".slider"), { height: 500 });

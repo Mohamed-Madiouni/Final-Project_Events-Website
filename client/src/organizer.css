@@ -36,6 +36,42 @@
     right:20px;
     left:auto
 }
+.card_event{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+    .date {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 1;
+      background: red;
+      width: 55px;
+      height: 55px;
+      padding: 12.5px 0;
+      border-radius: 100%;
+      color: white;
+      font-weight: 700;
+      text-align: center;
+      line-height: 17px;
+    }
+      .day {
+        font-size: 16px;
+        transform: translateY(-3px);
+      }
+      .month {
+        font-size: 12px;
+        text-transform: uppercase;
+        transform: translateY(-2px)
+      }
+    
+   .card-reveal .btn-floating{
+margin:5px;
+background-color: #ffab40;
+   }
  
 
 @media screen and (min-width: 550px) and (max-width: 900px) {

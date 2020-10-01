@@ -10,6 +10,7 @@ import Dashboard from "./component/Dashboard";
 import Home from "./component/Home";
 import Searchevents from "./component/Searchevents";
 import { useSelector } from "react-redux";
+import Organizer_events from "./component/Organizer_events";
 
 function App() {
   const search = useSelector((state) => state.search);
@@ -36,6 +37,7 @@ function App() {
             <PrivateRoute exact path="/myaccount" component={Account} />
 
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            <PrivateRoute exact path="/events/:organizer_id" component={Organizer_events} />
           </Switch>
         </div>
       )}

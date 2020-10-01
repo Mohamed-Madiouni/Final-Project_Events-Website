@@ -1,59 +1,32 @@
 import React, { useEffect, useState } from "react";
-import {INI_UPDATE} from "../actions/types"
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
-import { getEvent, addEvent ,editEvent} from '../actions/evntAction';
-import EventCard from './EventCard';
-import AddEvent from './AddEvent';
+import {closeEvent,getEventOrganizer, deleteEvent} from "../actions/evntAction";
+import get_month from "../outils/get_month"
+import history from "../outils/history"
+import AddEvent from "./AddEvent";
 import "../organizer.css";
-import M from "materialize-css"
+import M from "materialize-css";
+
 function Organizer() {
+  
+  
   const dispatch = useDispatch();
-  const Events = useSelector(state => state.events)
+  const events = useSelector((state) => state.events);
   const auth = useSelector((state) => state.auth);
   const [modal, setModal] = useState(false);
+  const [action, setAction] = useState({ type: "add", payload: {} });
+  const [deleteid,setDeleteid]= useState("")
+  const [closedid,setClosedid]= useState("")
   const toggle = () => setModal(!modal);
-  const [title, setTitle] = useState("")
-  const [discription, setDiscription] = useState("")
-  const [date, setDate] = useState("")
-  const [adress, setAdress] = useState("")
-  const [Nb_participant, setNb_participant] = useState("")
-  const [duration, setDuration] = useState("")
-  const [id, setId] = useState(0)
-  const [edit, setedit] = useState(false)
+  
+  
   useEffect(() => {
-    dispatch(getEvent())
-  }, [])
-  useEffect(()=>{
-    if(auth.updated){
-    M.toast({html: 'SUCCESSFULLY UPDATED',classes:"green"})
-  setTimeout(dispatch({type:INI_UPDATE}),4000)  
-  }
-  })
-  const addEvents = () => {
-    dispatch(addEvent({ title,Nb_participant,duration, discription, date, adress, price }))
-  }
-  const editEvents =()=>{
-    dispatch(editEvent(id,{id,Nb_participant,duration,title,discription, date, adress, price}))
-    setedit(false)
-    setAdress("")
-    setDate("")
-    setTitle("")
-    setNb_participant("")
-    setDuration("")
-    setDiscription("")
-    setId("")
-  }
-  const getEvt =(evt)=>{
-    setTitle(evt.title)
-    setAdress(evt.adress)
-    setDate(evt.date)
-    setDiscription(evt.discription)
-    setDuration(evt.duration)
-    setNb_participant(evt.Nb_participant)
-    setId(evt._id)
-    setedit(true)
-  }  
+    dispatch(getEventOrganizer());
+  }, []);
+  
+
+ 
 
   return (
     <div className="row">
@@ -64,7 +37,7 @@ function Organizer() {
             style={{
               paddingTop: "0.75rem",
               paddingBottom: "0.75rem",
-              margin:"0px"
+              margin: "0px",
             }}
           >
             {" "}
@@ -74,7 +47,8 @@ function Organizer() {
             <p>
               {" "}
               We are happy to see you among US. <br />
-              This is your <b>Dashboard</b>, you can create edit and delete an event.
+              This is your <b>Dashboard</b>, you can create edit and delete an
+              event.
             </p>
           </div>
           <div className="col s1 m4 welcome">
@@ -88,11 +62,7 @@ function Organizer() {
           }}
         >
           <div className="organizer_nav">
-          <Router>
-
             <div>
-            <Link to="/add-event">
-
               <a className="btn-floating waves-effect waves-light cadetblue">
                 <i
                   className="material-icons"
@@ -102,60 +72,203 @@ function Organizer() {
                   add
                 </i>
               </a>
-              </Link>
+
               <label>Add event</label>
             </div>
             <div>
-            <Link to="/event-list">
-
               <a className="btn-floating waves-effect waves-light cadetblue">
                 <i className="material-icons" title="Show my events">
                   assignment
                 </i>
               </a>
-              </Link>
+
               <label htmlFor="">Show my events</label>
             </div>
-            <Route exact path="/event-list" render={() => (
-          <div>
-              <div class="leftBox">
-                <div class="container">
-    <h1 className="name1">EVENTS AND SHOWS</h1>
-<p className="par1">discription</p>
-</div>
-    </div>
-            {
-               Events.isLoading ? <h1>Loading....</h1> : Events.events.map(event =>
-                <EventCard event={event} getEvt={getEvt}/>)
-            }
-          </div>
-        )} />
-        <Route path="/(add-event|edit-event)" render={() =>
-          (<AddEvent
-          setNb_participant={setNb_participant}
-            setTitle={setTitle}
-            setDuration={setDuration}
-            setDiscription={setDiscription}
-            setDate={setDate}
-            setAdress={setAdress}
-            Nb_participant={Nb_participant}
-            duration={duration}
-            title={title}
-            discription={discription}
-            date={date}
-            price={price}
-            adress={adress}
-            action={edit? editEvents :addEvents}
-            //addEvents={addEvents} 
-            edit={edit}/>)} />
-            </Router>
-
           </div>
         </div>
       </div>
 
-      
+
+      {modal && (
+        <AddEvent toggle={toggle} action={action} setAction={setAction} />
+      )}
+<div className="col s12">
+  <h5 className="teal-text text-darken-4"> <b>Your last events</b> </h5>
+</div>
+      <div className="col s12 card_event">
+        {events.events &&
+          events.events.slice(0, 4).map((el) => {
+            return (
+              <div
+                key={el._id}
+                className="card medium sticky-action"
+                style={{
+                  width: 400,
+                }}
+              >
+                <div className="card-image waves-effect waves-block waves-light">
+                  <img className="activator" src={el.image} />
+
+                  <div className="date right">
+                    <div className="day">{el.date.split("-")[2]}</div>
+                    <div className="month">
+                      {get_month(Number(el.date.split("-")[1]))}
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="card-content "
+                  style={{ padding: "0px 10px 0px 24px" }}
+                >
+                  <span className="card-title  grey-text text-darken-4">
+                    <b>{el.title}</b>
+                  </span>
+                  <p className="red-text">{el.address}</p>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span
+                      style={{
+                        margin: 10,
+                        marginLeft: 0,
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <i
+                        className=" tiny material-icons"
+                        style={{ margin: 10, transform: "translateY(1.4px)" }}
+                      >
+                        history
+                      </i>
+
+                      {history(el.created_at)}
+                    </span>
+                    <span
+                      style={{
+                        margin: 10,
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <i
+                        className=" tiny material-icons"
+                        style={{ margin: 10 }}
+                      >
+                        person
+                      </i>
+
+                      {el.nb_participant}
+                    </span>
+                  </div>
+                </div>
+                <div
+                  className="card-action"
+                  style={{
+                    padding: "10px 24px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Link
+                    to={`/events/${el._id}`}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    Plus de details
+                    <i className="material-icons ">arrow_forward</i>
+                  </Link>
+                  <span className={el.state=="Available"?"right green-text":"right gray-text text-darken-3"}> {el.state}</span>
+                </div>
+                <div className="card-reveal">
+                  <span className="card-title grey-text text-darken-4">
+                    <b>{el.title}</b>
+                    <i className="material-icons right">close</i>
+                  </span>
+                  <p>{el.description}</p>
+                  <div
+                    className="right"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    {" "}
+                    <a
+                      className="btn-floating waves-effect waves-light cadetblue"
+                      onClick={() => {
+                        setAction({ type: "edit", payload: el });
+                        toggle();
+                      }}
+                      title="edit"
+                    >
+                      <i className="material-icons ">edit</i>
+                    </a>
+                    <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="delete"   data-target="modal1" onClick={
+                      ()=>setDeleteid(el._id)
+                    }>
+                      <i className="material-icons ">delete</i>{" "}
+                    </button>
+                    <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="close"   data-target="modal2" onClick={
+                      ()=>setClosedid(el._id)
+                    }>
+                      <i className="material-icons ">block</i>{" "}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+          <div id="modal1" className="modal">
+          <div className="modal-content">
+            <h4>Event delete</h4>
+            <p>Are you sure you want to delete this event?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+              onClick={()=>dispatch(deleteEvent(deleteid))}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
+        <div id="modal2" className="modal">
+          <div className="modal-content">
+            <h4>Event Close</h4>
+            <p>Are you sure you want to close this event?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+              onClick={()=>dispatch(closeEvent(closedid))}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
       </div>
+      
+    </div>
   );
 }
 

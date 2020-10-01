@@ -6,7 +6,7 @@ import { GET_ERRORS, SET_CURRENT_USER,PROFIL_UPDATED } from "./types";
 // Register User
 export const registerUser = (userData, history) => (dispatch) => {
   axios
-    .post("user/register", userData)
+    .post("/user/register", userData)
     .then((res) => {
       history.push("/login") // re-direct to login on successful register
       dispatch({
@@ -25,7 +25,7 @@ export const registerUser = (userData, history) => (dispatch) => {
 // Update User
 export const updateUser = (userData, history) => (dispatch) => {
   axios
-    .put("user/update", userData)
+    .put("/user/update", userData)
     .then((res) => {
       history.push("/Dashboard") // re-direct to Dashboard on successful update
       dispatch({
@@ -77,7 +77,7 @@ export const loginUser = (userData) => (dispatch) => {
 export const getCurrentUser = () =>(dispatch) => {
   setAuthToken(localStorage.token)
   axios
-    .get("user")
+    .get("/user")
     .then((res) => {
       dispatch(setCurrentUser(res.data)) 
     })
