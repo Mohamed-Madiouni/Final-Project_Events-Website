@@ -61,7 +61,63 @@ router.get("/eventid/:id", (req, res) => {
 });
 
 
-//close event
+
+//open event
+
+router.put("/edit/open/:id",authMiddleware, (req, res) => {
+  const evt = req.body;
+  Event.findByIdAndUpdate(
+    req.params.id,
+    { $set: evt },
+    { new: true },
+    (err, event) => {
+      if (err) {
+        console.log(err.message);
+        // return res.status(500).send("Server Error");
+      }
+      res.send(event);
+    }
+  );
+});
+
+//close events that ended
+
+router.put("/edit/close/",authMiddleware, (req, res) => {
+  const evt = req.body;
+  Event.updateMany(
+    {state:"Available"},
+    { $set: evt },
+    { new: true },
+    (err, event) => {
+      if (err) {
+        console.log(err.message);
+        // return res.status(500).send("Server Error");
+      }
+      res.send(event);
+    }
+  );
+});
+
+
+//ended event by ID
+
+router.put("/edit/end/:id",authMiddleware, (req, res) => {
+  const evt = req.body;
+  Event.findByIdAndUpdate(
+    req.params.id,
+    { $set: evt },
+    { new: true },
+    (err, event) => {
+      if (err) {
+        console.log(err.message);
+        // return res.status(500).send("Server Error");
+      }
+      res.send(event);
+    }
+  );
+});
+
+//close event by ID
 
 router.put("/edit/close/:id",authMiddleware, (req, res) => {
   const evt = req.body;

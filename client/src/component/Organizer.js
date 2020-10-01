@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
-import {closeEvent,getEventOrganizer, deleteEvent} from "../actions/evntAction";
+import {Link} from "react-router-dom";
+import {closeEvent,getEventOrganizer, deleteEvent,openEvent} from "../actions/evntAction";
 import get_month from "../outils/get_month"
 import history from "../outils/history"
 import AddEvent from "./AddEvent";
@@ -76,11 +76,12 @@ function Organizer() {
               <label>Add event</label>
             </div>
             <div>
-              <a className="btn-floating waves-effect waves-light cadetblue">
+              <Link className="btn-floating waves-effect waves-light cadetblue" to={`/events/${auth.user._id}`}>
                 <i className="material-icons" title="Show my events">
                   assignment
                 </i>
-              </a>
+                
+              </Link>
 
               <label htmlFor="">Show my events</label>
             </div>
@@ -89,8 +90,8 @@ function Organizer() {
       </div>
 
 
-      {modal && (
-        <AddEvent toggle={toggle} action={action} setAction={setAction} />
+      {modal && (<div className="col s10 offset-s2">
+        <AddEvent toggle={toggle} action={action} setAction={setAction} /></div>
       )}
 <div className="col s12">
   <h5 className="teal-text text-darken-4"> <b>Your last events</b> </h5>
@@ -175,7 +176,7 @@ function Organizer() {
                   }}
                 >
                   <Link
-                    to={`/events/${el._id}`}
+                    to={`/events/${el.id_organizer}`}
                     style={{ display: "flex", alignItems: "center" }}
                   >
                     Plus de details
@@ -214,11 +215,18 @@ function Organizer() {
                     }>
                       <i className="material-icons ">delete</i>{" "}
                     </button>
+                    {el.state=="Available"&&(
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="close"   data-target="modal2" onClick={
                       ()=>setClosedid(el._id)
                     }>
                       <i className="material-icons ">block</i>{" "}
-                    </button>
+                    </button>)}
+                    {el.state=="Closed"&&(new Date(el.date)>new Date())&&(
+                    <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="open"   data-target="modal3" onClick={
+                      ()=>setClosedid(el._id)
+                    }>
+                      <i className="material-icons ">done</i>{" "}
+                    </button>)}
                   </div>
                 </div>
               </div>
@@ -255,6 +263,27 @@ function Organizer() {
               href="#!"
               className="modal-close waves-effect waves-green btn-flat"
               onClick={()=>dispatch(closeEvent(closedid))}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
+        <div id="modal3" className="modal">
+          <div className="modal-content">
+            <h4>Event Close</h4>
+            <p>Are you sure you want to open this event?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+              onClick={()=>dispatch(openEvent(closedid))}
             >
               Agree
             </a>

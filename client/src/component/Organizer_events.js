@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import get_month from "../outils/get_month"
 import historyevent from "../outils/history"
-import {closeEvent,getEventOrganizer, deleteEvent} from "../actions/evntAction";
+import {closeEvent,getEventOrganizer, deleteEvent,openEvent} from "../actions/evntAction";
 import { getCurrentUser } from "../actions/authaction";
 import AddEvent from "./AddEvent";
  import "../organizer.css";
@@ -17,9 +17,11 @@ function Organizer_events({ history }) {
   const [action, setAction] = useState({ type: "add", payload: {} });
   const [deleteid,setDeleteid]= useState("")
   const [closedid,setClosedid]= useState("")
+  const [participant,setParticipant]=useState(false)
   const toggle = () => setModal(!modal);
+  const participantToggle= () => setParticipant(!participant);
  
- 
+
   useEffect(() => {
     if (localStorage.token) {
       dispatch(getCurrentUser());
@@ -30,7 +32,10 @@ function Organizer_events({ history }) {
   }, []);
   useEffect(() => {
     if (!localStorage.token) history.push("/");
+    M.Modal.init(document.querySelectorAll(".modal"))
+   
   });
+  
   return (
       <>
     <div className="col s12">
@@ -48,11 +53,12 @@ function Organizer_events({ history }) {
               dashboard
             </Link>
             </div>
+            <div className="row">
       {events.events &&
         events.events.map((el) => {
           return (
-            <div className="col s12 row"key={el._id} style={{minHeight:"350px"}}>
-              <div className="col s12 m6" style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
+            <div className={modal||participant ? "col s12 row":"col s12 m6 l4"}key={el._id} style={{minHeight:"350px"}}>
+              <div className={modal||participant?"col s12 m6":"s12"} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
                 <div
                   className="card small sticky-action"
                   style={{
@@ -127,13 +133,14 @@ function Organizer_events({ history }) {
                       justifyContent: "space-between",
                     }}
                   >
-                    {/* <Link
-                      to="/events"
+                    <Link
+                    to="#"
+                      onClick={()=>{participantToggle();setModal(false)}}
                       style={{ display: "flex", alignItems: "center" }}
                     >
-                      Plus de details
+                      Show participants
                       <i className="material-icons ">arrow_forward</i>
-                    </Link> */}
+                    </Link>
                     <span
                       className={
                         el.state == "Available"
@@ -166,6 +173,7 @@ function Organizer_events({ history }) {
                         onClick={() => {
                           setAction({ type: "edit", payload: el });
                           toggle();
+                          setParticipant(false)
                         }}
                         title="edit"
                       >
@@ -179,19 +187,24 @@ function Organizer_events({ history }) {
                       >
                         <i className="material-icons ">delete</i>{" "}
                       </button>
-                      <button
-                        className="btn-floating waves-effect waves-light cadetblue modal-trigger"
-                        title="close"
-                        data-target="modal2"
-                        onClick={() => setClosedid(el._id)}
-                      >
-                        <i className="material-icons ">block</i>{" "}
-                      </button>
+                      {el.state=="Available"&&(
+                    <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="close"   data-target="modal2" onClick={
+                      ()=>setClosedid(el._id)
+                    }>
+                      <i className="material-icons ">block</i>{" "}
+                    </button>)}
+                    {el.state=="Closed"&&(new Date(el.date)>new Date())&&(
+                    <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="open"   data-target="modal3" onClick={
+                      ()=>setClosedid(el._id)
+                    }>
+                      <i className="material-icons ">done</i>{" "}
+                    </button>)}
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col s12 m6" style={{overflowY:"scroll",height:"350px"}}>
+              {modal && <div className="col s12 m6" style={{overflowY:"scroll",height:"350px"}}><AddEvent toggle={toggle} action={action} setAction={setAction} /></div>}
+              {participant&&<div className="col s12 m6" style={{overflowY:"scroll",height:"350px"}}>
               <ul class="collection">
     <li class="collection-item avatar">
       <img src="images/yuna.jpg" alt="" class="circle"/>
@@ -251,10 +264,74 @@ function Organizer_events({ history }) {
     </li>
   </ul>
             
-              </div>
+              </div>}
             </div>
           );
-        })}
+        })} <div id="modal1" className="modal">
+          <div className="modal-content">
+            <h4>Event delete</h4>
+            <p>Are you sure you want to delete this event?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+              onClick={()=>dispatch(deleteEvent(deleteid))}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
+        <div id="modal2" className="modal">
+          <div className="modal-content">
+            <h4>Event Close</h4>
+            <p>Are you sure you want to close this event?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+              onClick={()=>dispatch(closeEvent(closedid))}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
+        <div id="modal3" className="modal">
+          <div className="modal-content">
+            <h4>Event Close</h4>
+            <p>Are you sure you want to open this event?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+              onClick={()=>dispatch(openEvent(closedid))}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
+        </div>
+        
     </>
   );
 }

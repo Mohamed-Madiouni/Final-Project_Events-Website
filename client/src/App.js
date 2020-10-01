@@ -12,6 +12,7 @@ import Searchevents from "./component/Searchevents";
 import { useSelector } from "react-redux";
 import Organizer_events from "./component/Organizer_events";
 
+
 function App() {
   const search = useSelector((state) => state.search);
   // Check for token to keep user logged in
@@ -23,6 +24,7 @@ function App() {
     }
   });
 
+ 
   return (
     <div className="App">
       {search.etat ? (

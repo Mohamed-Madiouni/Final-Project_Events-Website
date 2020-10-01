@@ -82,10 +82,10 @@ const auth = useSelector((state)=>state.auth)
 
   return (
     <div className="col s12">
-      <div className="col s8 offset-s2">
+      <div className="col s10 ">
         <div className="row">
           <div
-            className="col s12"
+            className="col s12 row"
             style={{
               textAlign: "center",
             }}

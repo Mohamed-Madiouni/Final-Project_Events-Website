@@ -12,9 +12,12 @@ import Searchevents from "./Searchevents";
 
 import Organizer from "./Organizer";
 import M from "materialize-css";
+import eventClosing from "../outils/eventClosing";
+import { closeEvent, getEvent,endEvent } from "../actions/evntAction";
 
 function Dashboard({ history }) {
   const auth = useSelector((state) => state.auth);
+  const allevents= useSelector((state)=>state.events.allEvents)
   const dispatch = useDispatch();
   useEffect(() => {
     if (!localStorage.token) history.push("/");
@@ -32,6 +35,14 @@ function Dashboard({ history }) {
     M.Modal.init(document.querySelectorAll(".modal"))
   });
   
+  //check if events ended
+  useEffect(()=>{
+    dispatch(getEvent())
+    for(let i=0;i<allevents.length;i++){
+      if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
+      dispatch(endEvent(allevents[i]._id))
+    }
+  },[])
 
   return (
     <div>
