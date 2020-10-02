@@ -23,7 +23,7 @@ function Updateacc({ history }) {
   const form = useRef();
 
   useEffect(() => {
-    if (!localStorage.token) history.push("/");
+    if (!localStorage.token) history.push("/login");
     M.Modal.init(document.querySelectorAll(".modal"));
   });
   useEffect(() => {

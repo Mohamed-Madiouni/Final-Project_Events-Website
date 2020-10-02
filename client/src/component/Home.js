@@ -4,9 +4,12 @@ import "../home.css";
 import { getCurrentUser } from "../actions/authaction";
 import { useDispatch, useSelector } from "react-redux";
 import M from "materialize-css";
+import eventClosing from "../outils/eventClosing";
+import { closeEvent, getEvent,endEvent } from "../actions/evntAction";
 function Home() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
+  const allevents= useSelector((state)=>state.events.allEvents)
   useEffect(() => {
     if (localStorage.token) {
       dispatch(getCurrentUser());
@@ -17,6 +20,15 @@ function Home() {
     M.Slider.init(document.querySelectorAll(".slider"), { height: 500 });
   });
 
+  //check if events ended
+  useEffect(()=>{
+    dispatch(getEvent())
+    for(let i=0;i<allevents.length;i++){
+      if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
+      dispatch(endEvent(allevents[i]._id))
+    }
+  },[])
+
   return (
     <>
       <Navbar />
@@ -26,7 +38,7 @@ function Home() {
         </div>
       </div>
       <div className="section white">
-        <div className="row container">
+        <div className="row container" >
           <h2 className="header">COCO PARTY</h2>
           <p
             className="grey-text text-darken-2 "
@@ -47,54 +59,40 @@ function Home() {
           </h4>
         </div>
       </div>
-      <div className="slider">
+      {allevents&&(<div className="slider">
         <ul className="slides">
-          <li>
-            <img src="tiesto-concert.jpg" />
+        {allevents&&allevents.slice(-6).map(el=>{
+         return (
+        <li key={el._id}>
+            <img src={el.image} />
             <div
               className="caption left-align"
               style={{
                 width: "55%",
-                left:"5%"
+                left:"5%",
+              //  background:"rgba(214, 211, 211,0.5)",
+              //  opacity:0.03
+               textShadow: "0 2px black"
               }}
             >
-              <h3>Tiesto concert in Djerba</h3>
+              <h3>{el.title}</h3>
               <h5
                 className="light white-text text-lighten-3"
                 style={{
                   lineHeight: "38px",
                 }}
               >
-                What a night was yesterday in then most epic and exciting
-                concert in Djerba,
-                <br />
-                Plus de 30.000 people was there !
+               {el.description}
               </h5>
             </div>
-          </li>
-          <li>
-            <img src="bouchnak.jpg" />
-            <div
-              className="caption left-align"
-              style={{
-                width: "55%",
-                left:"5%"
-              }}
-            >
-              <h3>The maestro Lotfi Bouchnak </h3>
-              <h5
-                className="light gray-text text-lighten-3"
-                style={{
-                  lineHeight: "38px",
-                }}
-              >
-                A beautiful night with magicical music that will rest in our
-                mind generation after generation
-              </h5>
-            </div>
-          </li>
+              <span className={el.state=="Available"?" green-text":" gray-text text-darken-3"} style={{position:"absolute",right:"40px", top:"30px" ,fontSize:"30px",textShadow: "0 2px black"}}>{el.state}</span>
+          </li>)})
+}
+        
+          
+         
         </ul>
-      </div>
+      </div>)}
     </>
   );
 }

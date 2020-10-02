@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {Link} from "react-router-dom";
-import {closeEvent,getEventOrganizer, deleteEvent,openEvent} from "../actions/evntAction";
+import {closeEvent,getEventOrganizer, deleteEvent,openEvent,getEvent,endEvent} from "../actions/evntAction";
 import get_month from "../outils/get_month"
 import history from "../outils/history"
 import AddEvent from "./AddEvent";
 import "../organizer.css";
 import M from "materialize-css";
+import eventClosing from "../outils/eventClosing";
+
 
 function Organizer() {
   
@@ -14,6 +16,7 @@ function Organizer() {
   const dispatch = useDispatch();
   const events = useSelector((state) => state.events);
   const auth = useSelector((state) => state.auth);
+  const allevents= useSelector((state)=>state.events.allEvents)
   const [modal, setModal] = useState(false);
   const [action, setAction] = useState({ type: "add", payload: {} });
   const [deleteid,setDeleteid]= useState("")
@@ -25,7 +28,14 @@ function Organizer() {
     dispatch(getEventOrganizer());
   }, []);
   
-
+//check if events ended
+useEffect(()=>{
+  dispatch(getEvent())
+  for(let i=0;i<allevents.length;i++){
+    if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
+    dispatch(endEvent(allevents[i]._id))
+  }
+},[])
  
 
   return (

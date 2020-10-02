@@ -20,7 +20,7 @@ function Dashboard({ history }) {
   const allevents= useSelector((state)=>state.events.allEvents)
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!localStorage.token) history.push("/");
+    if (!localStorage.token) history.push("/login");
   });
   useEffect(() => {
     if (localStorage.token) {

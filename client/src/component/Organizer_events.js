@@ -2,25 +2,37 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import get_month from "../outils/get_month"
 import historyevent from "../outils/history"
-import {closeEvent,getEventOrganizer, deleteEvent,openEvent} from "../actions/evntAction";
+import {closeEvent,getEventOrganizer, deleteEvent,openEvent, getEvent,endEvent} from "../actions/evntAction";
 import { getCurrentUser } from "../actions/authaction";
 import AddEvent from "./AddEvent";
  import "../organizer.css";
 import M from "materialize-css";
 import { GET_ERRORS } from "../actions/types";
 import { Link } from "react-router-dom";
+import eventClosing from "../outils/eventClosing";
+import Navbar from "./Navbar";
+
+
 
 function Organizer_events({ history }) {
+  
   const dispatch = useDispatch();
   const events = useSelector((state) => state.events);
+  const allevents= useSelector((state)=>state.events.allEvents)
   const [modal, setModal] = useState(false);
+  const [modalId, setModalId] = useState("");
   const [action, setAction] = useState({ type: "add", payload: {} });
   const [deleteid,setDeleteid]= useState("")
   const [closedid,setClosedid]= useState("")
   const [participant,setParticipant]=useState(false)
-  const toggle = () => setModal(!modal);
-  const participantToggle= () => setParticipant(!participant);
- 
+  const [participantId,setParticipantId]=useState("")
+  const toggle = () =>{ 
+    setModal(!modal)
+  return modal};
+  const participantToggle= () => {
+    setParticipant(!participant);
+  return participant
+  } 
 
   useEffect(() => {
     if (localStorage.token) {
@@ -35,10 +47,20 @@ function Organizer_events({ history }) {
     M.Modal.init(document.querySelectorAll(".modal"))
    
   });
+
+  //check if events ended
+  useEffect(()=>{
+    dispatch(getEvent())
+    for(let i=0;i<allevents.length;i++){
+      if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
+      dispatch(endEvent(allevents[i]._id))
+    }
+  },[])
   
   return (
       <>
-    <div className="col s12">
+      <Navbar/>
+    {/* <div className="col s12">
         <Link
               to="/dashboard"
               className="btn-flat waves-effect"
@@ -52,7 +74,7 @@ function Organizer_events({ history }) {
               <i className="material-icons left">keyboard_backspace</i> Back to
               dashboard
             </Link>
-            </div>
+            </div> */}
             <div className="row">
       {events.events &&
         events.events.map((el) => {
@@ -62,10 +84,11 @@ function Organizer_events({ history }) {
                 <div
                   className="card small sticky-action"
                   style={{
-                    width: 300,
+                    width: 350,
+                    height:350
                   }}
                 >
-                  <div className="card-image waves-effect waves-block waves-light">
+                  <div className="card-image waves-effect waves-block waves-light" style={{height:"55%"}}>
                     <img className="activator" src={el.image} />
 
                     <div className="date right">
@@ -135,7 +158,17 @@ function Organizer_events({ history }) {
                   >
                     <Link
                     to="#"
-                      onClick={()=>{participantToggle();setModal(false)}}
+                      onClick={()=>{
+                        if(participant){
+                        
+                        setParticipant(participantToggle(participantToggle()));
+                        }
+                        if(!participant)
+                        participantToggle()
+                        setModal(false)
+                        setParticipantId(el._id)
+                      
+                      }}
                       style={{ display: "flex", alignItems: "center" }}
                     >
                       Show participants
@@ -172,8 +205,14 @@ function Organizer_events({ history }) {
                         className="btn-floating waves-effect waves-light cadetblue"
                         onClick={() => {
                           setAction({ type: "edit", payload: el });
-                          toggle();
+                          if(modal){
+                           
+                            setModal(toggle( toggle()))
+                          }
+                          if(!modal)
+                          toggle()
                           setParticipant(false)
+                          setModalId(el._id)
                         }}
                         title="edit"
                       >
@@ -203,65 +242,18 @@ function Organizer_events({ history }) {
                   </div>
                 </div>
               </div>
-              {modal && <div className="col s12 m6" style={{overflowY:"scroll",height:"350px"}}><AddEvent toggle={toggle} action={action} setAction={setAction} /></div>}
-              {participant&&<div className="col s12 m6" style={{overflowY:"scroll",height:"350px"}}>
-              <ul class="collection">
-    <li class="collection-item avatar">
-      <img src="images/yuna.jpg" alt="" class="circle"/>
+              {modal && modalId==el._id&&<div className="col s12 m6" style={{overflowY:"scroll",height:"350px"}}><AddEvent toggle={toggle} action={action} setAction={setAction} /></div>}
+              {participant&&participantId==el._id&&<div className="col s12 m6" style={{overflowY:"scroll",height:"350px"}}>
+              <ul className="collection">
+    <li className="collection-item avatar">
+      <img src="user_icon.png" alt="" class="circle"/>
       <span class="title">Title</span>
       <p>First Line <br/>
          Second Line
       </p>
       <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
     </li>
-    <li class="collection-item avatar">
-      <i class="material-icons circle">folder</i>
-      <span class="title">Title</span>
-      <p>First Line <br/>
-         Second Line
-      </p>
-      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-    </li>
-    <li class="collection-item avatar">
-      <i class="material-icons circle green">insert_chart</i>
-      <span class="title">Title</span>
-      <p>First Line <br/>
-         Second Line
-      </p>
-      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-    </li>
-    <li class="collection-item avatar">
-      <i class="material-icons circle red">play_arrow</i>
-      <span class="title">Title</span>
-      <p>First Line <br/>
-         Second Line
-      </p>
-      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-    </li>
-    <li class="collection-item avatar">
-      <i class="material-icons circle red">play_arrow</i>
-      <span class="title">Title</span>
-      <p>First Line <br/>
-         Second Line
-      </p>
-      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-    </li>
-    <li class="collection-item avatar">
-      <i class="material-icons circle red">play_arrow</i>
-      <span class="title">Title</span>
-      <p>First Line <br/>
-         Second Line
-      </p>
-      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-    </li>
-    <li class="collection-item avatar">
-      <i class="material-icons circle red">play_arrow</i>
-      <span class="title">Title</span>
-      <p>First Line <br/>
-         Second Line
-      </p>
-      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-    </li>
+    
   </ul>
             
               </div>}
