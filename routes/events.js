@@ -141,12 +141,13 @@ router.put("/edit/close/:id",authMiddleware, (req, res) => {
 router.put("/edit/:id",authMiddleware, (req, res) => {
   const evt = req.body;
   let evtUpdated={}
-  evt.title && (evtUpdated.title= evt.title),
+  evt.title && (evtUpdated.title= evt.title);
       evt.address&& (evtUpdated.address=evt.address),
       evt.description&&( evtUpdated.description=evt.description),
       evt.date&& ( evtUpdated.date=evt.date),
       evt.duration&& (evtUpdated.duration=evt.duration),
       evt.nb_participant&& (evtUpdated.nb_participant=evt.nb_participant),
+      evtUpdated.image=evt.image
      
   Event.findByIdAndUpdate(
     req.params.id,

@@ -21,10 +21,12 @@ function Updateacc({ history }) {
   });
 
   const form = useRef();
+  const[btn,setBtn]=useState(false)
 
   useEffect(() => {
     if (!localStorage.token) history.push("/login");
     M.Modal.init(document.querySelectorAll(".modal"));
+    setBtn(false)
   });
   useEffect(() => {
     if (errors.msg){ 
@@ -50,6 +52,7 @@ function Updateacc({ history }) {
   };
   const onSubmit = async (e) => {
     e.preventDefault();
+    await setBtn(true)
     const updateduser = {
       password: user.password,
       password2: user.password2,
@@ -233,6 +236,7 @@ function Updateacc({ history }) {
                     marginTop: "1rem",
                     height: "40px",
                   }}
+                  disabled={btn}
                   type="button"
                   className="btn modal-trigger"
                   data-target="modal1"

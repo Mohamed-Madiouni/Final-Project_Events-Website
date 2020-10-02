@@ -36,7 +36,7 @@ function App() {
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
             <Route path="/search" component={Searchresult} />
-            <Route path="/events" component={Events} />
+            <Route exact path="/events" component={Events} />
 
             <PrivateRoute path="/myaccount" component={Account} />
 

@@ -17,7 +17,7 @@ function Searchresult() {
     let params = querystring.parse(url.parse(window.location.href).query);
     const allevents=useSelector(state=>state.events.allEvents)
     let auth = useSelector(state=>state.auth)
-    const [initial,setInitial]=useState([])
+    const [initial,setInitial]=useState(["welcome"])
     useEffect(()=>{
         dispatch(getEvent())
        localStorage.token&&dispatch(getCurrentUser())
@@ -223,8 +223,8 @@ function Searchresult() {
 
  })}
             </div></div>:
-           initial.length!=0 && (<div className="container">
-              <h5> <b>No result found</b> </h5>
+           initial.length==0 && (<div className="container">
+              <h5> <b>No result(s) found</b> </h5>
             </div>)}
         </div>
     )

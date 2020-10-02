@@ -12,6 +12,7 @@ const dispatch = useDispatch()
 const errors = useSelector((state) => state.errors);
 const auth = useSelector((state)=>state.auth)
 
+
   const [events, setEvents] = useState({
     title: action.type=="add"?"":action.payload.title,
     address:action.type=="add"?"":action.payload.address ,
@@ -22,6 +23,7 @@ const auth = useSelector((state)=>state.auth)
     image: action.type=="add"?"":action.payload.image,
     error: {},
   });
+  const[btn,setBtn]=useState(false)
 
   useEffect(() => {
     
@@ -38,6 +40,8 @@ const auth = useSelector((state)=>state.auth)
       type: GET_ERRORS,
       payload: {},
     })}}
+
+   setBtn(false)
     
   });
 
@@ -48,6 +52,7 @@ const auth = useSelector((state)=>state.auth)
   };
   const onSubmit = async (e) => {
     e.preventDefault();
+    await setBtn(true)
     const newEvent = {
       title: events.title,
       address: events.address,
@@ -213,8 +218,10 @@ const auth = useSelector((state)=>state.auth)
                     // marginTop: "1rem",
                     height: "45px",
                   }}
+                  disabled={btn}
                   type="submit"
                   className="btn waves-effect waves-light hoverable "
+                  
                 >
                   {action.type=="add"?"ADD":"Edit"}
                 </button>

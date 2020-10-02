@@ -108,7 +108,7 @@ useEffect(()=>{
 </div>
       <div className="col s12 card_event">
         {events.events &&
-          events.events.slice(0, 4).map((el) => {
+          events.events.slice(0, 6).map((el) => {
             return (
               <div
                 key={el._id}
