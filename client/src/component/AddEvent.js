@@ -12,6 +12,7 @@ const dispatch = useDispatch()
 const errors = useSelector((state) => state.errors);
 const auth = useSelector((state)=>state.auth)
 
+
   const [events, setEvents] = useState({
     title: action.type=="add"?"":action.payload.title,
     address:action.type=="add"?"":action.payload.address ,
@@ -22,15 +23,26 @@ const auth = useSelector((state)=>state.auth)
     image: action.type=="add"?"":action.payload.image,
     error: {},
   });
+  const[btn,setBtn]=useState(false)
 
   useEffect(() => {
-    if (errors.msg){ 
+    
+     if (errors.msg){ 
       M.toast({ html: "Please insert all field", classes: "red" });
       dispatch({
         type: GET_ERRORS,
         payload: {},
       })
     }
+    if(errors.success){
+    toggle()
+    return ()=>{ dispatch({
+      type: GET_ERRORS,
+      payload: {},
+    })}}
+
+   setBtn(false)
+    
   });
 
   const onChange = (e) => {
@@ -40,6 +52,7 @@ const auth = useSelector((state)=>state.auth)
   };
   const onSubmit = async (e) => {
     e.preventDefault();
+    await setBtn(true)
     const newEvent = {
       title: events.title,
       address: events.address,
@@ -65,18 +78,20 @@ const auth = useSelector((state)=>state.auth)
     );
     const res = await send.json();
     console.log(res)
-    newEvent.image &&
+    // newEvent.image &&
       res.error &&
-      M.toast({ html: res.error.message, classes: "red" });
+      M.toast({ html: "Please insert a valid image", classes: "red" });
       !res.error && (newEvent.image = res.url);
       console.log(newEvent);
    if(action.type=="add")
-      dispatch(addEvent({...newEvent,id_organizer:auth.user._id}));
+   
+   !res.error&&dispatch(addEvent({...newEvent,id_organizer:auth.user._id}));
       else{
-      dispatch(editEvent(action.payload._id,newEvent))
+        !res.error &&dispatch(editEvent(action.payload._id,newEvent))
       setAction({type:"add",payload:{}})
       }
-      !res.error&&!errors.msg&&toggle()
+      console.log(events);
+      
    
   };
 
@@ -203,8 +218,10 @@ const auth = useSelector((state)=>state.auth)
                     // marginTop: "1rem",
                     height: "45px",
                   }}
+                  disabled={btn}
                   type="submit"
                   className="btn waves-effect waves-light hoverable "
+                  
                 >
                   {action.type=="add"?"ADD":"Edit"}
                 </button>
@@ -220,7 +237,10 @@ const auth = useSelector((state)=>state.auth)
                   }}
                   type="button"
                   className="btn waves-effect waves-light hoverable "
-                  onClick={() => toggle()}
+                  onClick={() => {
+                    toggle()
+                    setAction({type:"add",payload:{}})
+                  }}
                 >
                   Close
                 </button>

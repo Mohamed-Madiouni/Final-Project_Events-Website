@@ -1,26 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SET_SEARCH, INI_SEARCH } from "../actions/types";
 import "../searchevent.css";
+import {useHistory} from "react-router-dom"
+
 function Searchevents() {
   const search = useSelector((state) => state.search);
+  const allevents=useSelector(state=>state.events.allEvents)
+  const history=useHistory()
   const dispatch = useDispatch();
   const [eventsearch, setEventsearch] = useState({
     title: "",
     address: "",
     description: "",
   });
+  const [errorsearch,setErrorsearch]=useState(false)
+
+  useEffect(()=>{
+    if(errorsearch){
+    return ()=>{setErrorsearch(false)}
+    }
+  })
   const onChange = (e) => {
     setEventsearch({ ...eventsearch, [e.target.id]: e.target.value });
+    // let search= allevents.filter(el=>{
+    //   return(
+    //    el.title.toLowerCase().includes(eventsearch.title.toLowerCase())
+    //    &&el.address.toLowerCase().includes(eventsearch.address.toLowerCase())
+    //    &&el.description.toLowerCase().includes(eventsearch.description.toLowerCase()))
+    //  })
+    //  setResultsearch(search.length)
   };
   function onSubmit(e) {
     e.preventDefault();
     console.log(eventsearch);
-    dispatch({
+  //  let search= allevents.filter(el=>{
+  //    return(
+  //     el.title.toLowerCase().includes(eventsearch.title.toLowerCase())
+  //     &&el.address.toLowerCase().includes(eventsearch.address.toLowerCase())
+  //     &&el.description.toLowerCase().includes(eventsearch.description.toLowerCase()))
+  //   })
+// console.log(search,search.length)
+// if(eventsearch.title||eventsearch.address||eventsearch.description){
+dispatch({
       type: INI_SEARCH,
       payload: !search.etat,
     });
+history.push(`/search?title=${eventsearch.title}&address=${eventsearch.address}&description=${eventsearch.description}`)
   }
+  // else
+  // setErrorsearch(true)
+  // }
   return (
     <>
       <div
@@ -58,9 +88,21 @@ function Searchevents() {
               <input
                 type="text"
                 onChange={onChange}
+                onKeyDown={(e)=> { 
+                  if (e.key === "Enter") 
+                 {
+                  dispatch({
+                    type: INI_SEARCH,
+                    payload: !search.etat,
+                  });
+              history.push(`/search?title=${eventsearch.title}&address=${eventsearch.address}&description=${eventsearch.description}`)
+                }
+                 }
+                }
                 className="inp"
                 placeholder="Search events"
                 id="title"
+                value={eventsearch.title}
               />
               <i
                 className="fa fa-search"
@@ -75,14 +117,14 @@ function Searchevents() {
             <form className="col s12" onSubmit={onSubmit}>
               <div className="row">
                 <div className="input-field col s6">
-                  <input id="title" type="text" onChange={onChange} />
+                  <input id="title" type="text" value={eventsearch.title} onChange={onChange} />
 
-                  <label htmlFor="title">Event Title</label>
+                  <label htmlFor="title" className="active">Event Title</label>
                 </div>
                 <div className="input-field col s6">
-                  <input id="address" type="text" onChange={onChange} />
+                  <input id="address" type="text" value={eventsearch.address} onChange={onChange} />
 
-                  <label htmlFor="address">Event Address</label>
+                  <label htmlFor="address" className="active">Event Address</label>
                 </div>
               </div>
               <div className="row">
@@ -92,11 +134,13 @@ function Searchevents() {
                     type="text"
                     className="materialize-textarea "
                     onChange={onChange}
+                    value={eventsearch.description}
                   ></textarea>
 
-                  <label htmlFor="description">Event Description</label>
+                  <label htmlFor="description" className="active">Event Description</label>
                 </div>
               </div>
+          <span className="col s12 red-text">{errorsearch&& "At least one field required" }</span>
               <div
                 className="col s12"
                 style={{

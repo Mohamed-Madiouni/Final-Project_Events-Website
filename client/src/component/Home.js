@@ -4,18 +4,35 @@ import "../home.css";
 import { getCurrentUser } from "../actions/authaction";
 import { useDispatch, useSelector } from "react-redux";
 import M from "materialize-css";
+import eventClosing from "../outils/eventClosing";
+import { closeEvent, getEvent, endEvent } from "../actions/evntAction";
+import { useHistory } from "react-router-dom";
 function Home() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
+  const allevents = useSelector((state) => state.events.allEvents);
+  const history = useHistory();
   useEffect(() => {
     if (localStorage.token) {
       dispatch(getCurrentUser());
     }
-  },[]);
+  }, []);
   useEffect(() => {
     M.Parallax.init(document.querySelectorAll(".parallax"));
     M.Slider.init(document.querySelectorAll(".slider"), { height: 500 });
   });
+
+  //check if events ended
+  useEffect(() => {
+    dispatch(getEvent());
+    for (let i = 0; i < allevents.length; i++) {
+      if (
+        new Date(eventClosing(allevents[i].date, allevents[i].duration)) <
+        new Date()
+      )
+        dispatch(endEvent(allevents[i]._id));
+    }
+  }, []);
 
   return (
     <>
@@ -39,7 +56,7 @@ function Home() {
             part of our universe.
             <br />
             <span className=" black-text">
-              You can check our last events here below.
+              You can check our last available events here below.
             </span>
           </p>
           <h4>
@@ -47,54 +64,76 @@ function Home() {
           </h4>
         </div>
       </div>
-      <div className="slider">
-        <ul className="slides">
-          <li>
-            <img src="tiesto-concert.jpg" />
-            <div
-              className="caption left-align"
-              style={{
-                width: "55%",
-                left:"5%"
-              }}
-            >
-              <h3>Tiesto concert in Djerba</h3>
-              <h5
-                className="light white-text text-lighten-3"
-                style={{
-                  lineHeight: "38px",
-                }}
-              >
-                What a night was yesterday in then most epic and exciting
-                concert in Djerba,
-                <br />
-                Plus de 30.000 people was there !
-              </h5>
-            </div>
-          </li>
-          <li>
-            <img src="bouchnak.jpg" />
-            <div
-              className="caption left-align"
-              style={{
-                width: "55%",
-                left:"5%"
-              }}
-            >
-              <h3>The maestro Lotfi Bouchnak </h3>
-              <h5
-                className="light gray-text text-lighten-3"
-                style={{
-                  lineHeight: "38px",
-                }}
-              >
-                A beautiful night with magicical music that will rest in our
-                mind generation after generation
-              </h5>
-            </div>
-          </li>
-        </ul>
-      </div>
+      {allevents && (
+        <div className="slider">
+          <ul className="slides">
+            {allevents &&
+              allevents
+              .filter(el=>el.state=="Available")
+                .slice(-6)
+                .reverse()
+                .map((el) => {
+                  return (
+                    <li key={el._id}>
+                      <img src={el.image} style={{filter:"blur(1.5px)"}} />
+                      <div
+                        className="caption left-align"
+                        style={{
+                          width: "55%",
+                          left: "5%",
+                          //  background:"rgba(214, 211, 211,0.5)",
+                          //  opacity:0.03
+                          textShadow: "0 2px black",
+                        }}
+                      >
+                        <h3>{el.title}</h3>
+                        <h5
+                          className="light white-text text-lighten-3"
+                          style={{
+                            lineHeight: "38px",
+                          }}
+                        >
+                          {el.description}
+                        </h5>
+                        <button
+                          className="btn-small grey lighten-5 black-text"
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            opacity: 0.7,
+                            borderRadius: 5,
+                          }}
+                          onClick={() => history.push("/events")}
+                        >
+                          Show all{" "}
+                          <i className="material-icons" style={{ paddingLeft: 4 }}>
+                            forward
+                          </i>
+                        </button>
+                      </div>
+
+                      {/* <span
+                        className={
+                          el.state == "Available"
+                            ? " green-text"
+                            : " gray-text text-darken-3"
+                        }
+                        style={{
+                          position: "absolute",
+                          right: "40px",
+                          top: "30px",
+                          fontSize: "30px",
+                          textShadow: "0 2px black",
+                        }}
+                      >
+                        {el.state}
+                      </span> */}
+                    </li>
+                  );
+                })}
+          </ul>
+        </div>
+      )}
     </>
   );
 }

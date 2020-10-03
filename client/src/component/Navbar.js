@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import "../navbar.css";
 import Landing from "./Landing";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { INI_SEARCH } from "../actions/types";
 
 function Navbar() {
   const search = useSelector((state) => state.search);
   const dispatch = useDispatch();
+  const location = useLocation()
   return (
     <div className="test row">
       <div className="div2 col s10 l11 row">
@@ -25,7 +26,7 @@ function Navbar() {
             }}
           >
             <img
-              src="coco2.png"
+              src="/coco2.png"
               alt="COCO PARTY"
               width="100%"
               height="100%"
@@ -35,7 +36,7 @@ function Navbar() {
             />
           </Link>
         </div>
-        <div className="div4 col s5 l7 ">
+        <div className="div4 col s8 l9 ">
           <i
             className="fa fa-search col s1 "
             style={{
@@ -50,8 +51,13 @@ function Navbar() {
               })
             }
           ></i>
+          <div className="col s11 offset-s2 nav_list" style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+            <Link to="/" style={{color:location.pathname=="/"&&"rgb(14, 161, 152)"}}>Home</Link>
+            <Link to="/dashboard" style={{color:location.pathname=="/dashboard"&&"rgb(14, 161, 152)"}}>Dashboard</Link>
+            <Link to="/events" style={{color:location.pathname=="/events"&&"rgb(14, 161, 152)"}}>Events</Link>
+          </div>
         </div>
-        <div className="div3 col s3 l2 ">
+        {/* <div className="div3 col s3 l2 ">
           <Link
             to="/dashboard"
             style={{
@@ -66,7 +72,7 @@ function Navbar() {
           >
             Dashbord
           </Link>
-        </div>
+        </div> */}
       </div>
       <div className="landing col s2 l1" style={{
         margin:0

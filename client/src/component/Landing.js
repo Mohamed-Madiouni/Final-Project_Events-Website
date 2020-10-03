@@ -81,7 +81,7 @@ function Landing() {
         <li>
           <div className="user-view">
             <div className="background">
-              <img src="background_profil.jpg" height="100%" width="100%" />
+              <img src="/background_profil.jpg" height="100%" width="100%" />
             </div>
             <img className="circle" src={auth.user.avatar} />
             <span className="white-text name">

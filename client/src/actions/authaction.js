@@ -24,6 +24,7 @@ export const registerUser = (userData, history) => (dispatch) => {
 
 // Update User
 export const updateUser = (userData, history) => (dispatch) => {
+  // setAuthToken(localStorage.token)
   axios
     .put("/user/update", userData)
     .then((res) => {

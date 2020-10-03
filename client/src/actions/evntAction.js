@@ -36,13 +36,14 @@ export const getEventOrganizer = () => (dispatch) => {
 
 // add event
 export const addEvent = (newEvent) => (dispatch) => {
+  setAuthToken(localStorage.token)
   axios
     .post("/event/add", newEvent)
     .then((res) =>{
        dispatch(getEventOrganizer())
        dispatch({
         type: GET_ERRORS,
-        payload: {},
+        payload: {success:"done"},
       })
        
     }
@@ -118,7 +119,7 @@ export const endEvent = (idEvent) => (dispatch) => {
   axios
     .put(`/event/edit/end/${idEvent}`,{state:"Ended"})
     .then((res) => {
-      // dispatch(getEventOrganizer())
+      dispatch(getEventOrganizer())
       dispatch({
        type: GET_ERRORS,
        payload: {},
@@ -139,7 +140,7 @@ export const closeEvent = (idEvent) => (dispatch) => {
   axios
     .put(`/event/edit/close/${idEvent}`,{state:"Closed"})
     .then((res) => {
-      // dispatch(getEventOrganizer())
+      dispatch(getEventOrganizer())
       dispatch({
        type: GET_ERRORS,
        payload: {},
@@ -162,7 +163,7 @@ export const editEvent = (idEvent, updatedEvent) => (dispatch) => {
       dispatch(getEventOrganizer())
       dispatch({
        type: GET_ERRORS,
-       payload: {},
+       payload: {success:"done"},
      })
       
    })

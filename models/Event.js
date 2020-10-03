@@ -37,6 +37,7 @@ const EventSchema = new schema({
     type: String,
     require: true,
   },
+  reservation:[String],
   created_at: {
     type: Date,
     default: Date.now,
