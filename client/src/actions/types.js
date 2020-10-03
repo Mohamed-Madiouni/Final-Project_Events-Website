@@ -5,4 +5,6 @@ export const INI_UPDATE="INI_UPDATE";
 export const SET_SEARCH="SET_SEARCH"
 export const INI_SEARCH="INI_SEARCH"
 export const GET_EVENTS ="GET_EVENTS"
-export const GET_ALL_EVENTS = "GET_ALL_EVENTS" 
+export const GET_ALL_EVENTS = "GET_ALL_EVENTS"
+export const GET_EVENTS_ADMIN ="GET_EVENTS_ADMIN"
+export const GET_USERS_ADMIN="GET_USERS_ADMIN" 

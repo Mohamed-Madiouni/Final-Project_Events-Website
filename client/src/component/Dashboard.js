@@ -11,6 +11,8 @@ import Navbar from "./Navbar";
 import Searchevents from "./Searchevents";
 
 import Organizer from "./Organizer";
+import Administrator from "./Administrator";
+import Participant from "./Participant";
 import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
 import { closeEvent, getEvent,endEvent } from "../actions/evntAction";
@@ -49,6 +51,9 @@ function Dashboard({ history }) {
       <Navbar />
 
       <Organizer />
+  {auth.user.role == "organizer" && <Organizer/> } 
+  {auth.user.role == "administrator" && <Administrator/> } 
+  {auth.user.role == "participant" && <Participant/> }
     </div>
   );
 }

@@ -8,6 +8,7 @@ const app = express();
 app.use(express.json())
 app.use("/user",require("./routes/users"))
 app.use("/event",require("./routes/events"))
+app.use("/admin",require("./routes/admin"));
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, (err) => {
