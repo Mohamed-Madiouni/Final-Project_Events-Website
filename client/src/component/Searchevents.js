@@ -75,7 +75,7 @@ history.push(`/search?title=${eventsearch.title}&address=${eventsearch.address}&
           style={{
             cursor: "pointer",
             position: "absolute",
-            top: 150,
+            top: 100,
             right: 80,
           }}
           onClick={() =>

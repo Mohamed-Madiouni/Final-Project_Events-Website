@@ -125,7 +125,7 @@ useEffect(()=>{
       </li> */}
       <li className="no-padding">
         <ul className="collapsible collapsible-accordion">
-          <li >
+          <li className="active" >
             <a className="collapsible-header">Pages<i className="material-icons right chevron">chevron_right </i></a>
             <div className="collapsible-body">
               <ul>

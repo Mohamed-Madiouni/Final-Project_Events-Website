@@ -71,7 +71,7 @@ function Organizer_events({ history }) {
     
      el.title.toLowerCase().includes(quickSearch.title.toLowerCase())
      &&el.state.toLowerCase().includes(quickSearch.state.toLowerCase())
-     &&quickSearch.tags!=""?el.tags.find(e=>e.toLowerCase().includes(quickSearch.tags.toLowerCase())):true
+     &&(quickSearch.tags!=""?el.tags.find(e=>e.toLowerCase().includes(quickSearch.tags.toLowerCase())):true)
      
      )
    })
@@ -136,7 +136,7 @@ function Organizer_events({ history }) {
                     margin:5
                   }}
                 >
-                  <div className="card-image waves-effect waves-block waves-light" style={{height:"57%"}}>
+                  <div className="card-image" style={{height:"57%",cursor:"pointer"}}>
                     <img className="activator" src={el.image} height="100%"/>
 
                     <div className="date right">

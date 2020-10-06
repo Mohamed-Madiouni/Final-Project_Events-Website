@@ -33,7 +33,7 @@ function Events() {
       
        el.title.toLowerCase().includes(quickSearch.title.toLowerCase())
        &&el.state.toLowerCase().includes(quickSearch.state.toLowerCase())
-       &&quickSearch.tags!=""?el.tags.find(e=>e.toLowerCase().includes(quickSearch.tags.toLowerCase())):true
+       &&(quickSearch.tags!=""?el.tags.find(e=>e.toLowerCase().includes(quickSearch.tags.toLowerCase())):true)
        
        )
      })
@@ -70,7 +70,7 @@ function Events() {
              <div className="row">
            
  {events&&events.slice(0).reverse().map(el=>{
-     return (<div className="col s12 m6 l4" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
+     return (<div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
        <div
                   className="card small sticky-action"
                   style={{
@@ -81,7 +81,7 @@ function Events() {
                   }}
                   // key={el._id}
                 >
-                  <div className="card-image waves-effect waves-block waves-light" style={{height:"55%"}}>
+                  <div className="card-image " style={{height:"55%",cursor:"pointer"}}>
                     <img className="activator" src={el.image} height="100%" />
 
                     <div className="date right">

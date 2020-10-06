@@ -56,7 +56,7 @@ function Searchresult() {
        &&el.description.toLowerCase().includes(params.description?params.description.toLowerCase():"")
        && el.title.toLowerCase().includes(quickSearch.title.toLowerCase())
        &&el.state.toLowerCase().includes(quickSearch.state.toLowerCase())
-       &&quickSearch.tags!=""?el.tags.find(e=>e.toLowerCase().includes(quickSearch.tags.toLowerCase())):true
+       &&(quickSearch.tags!=""?el.tags.find(e=>e.toLowerCase().includes(quickSearch.tags.toLowerCase())):true)
        
        )
      })
@@ -115,7 +115,7 @@ function Searchresult() {
 
  {search&&search.slice(0).reverse().map(el=>{
      return (
-      <div className="col s12 m6 l4" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
+      <div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
      <div
                   className="card small sticky-action"
                   style={{
@@ -126,7 +126,7 @@ function Searchresult() {
                   }}
                   key={el._id}
                 >
-                  <div className="card-image waves-effect waves-block waves-light" style={{height:"55%"}}>
+                  <div className="card-image " style={{height:"55%",cursor:"pointer"}}>
                     <img className="activator" src={el.image} height='100%'/>
 
                     <div className="date right">

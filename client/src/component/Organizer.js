@@ -126,7 +126,7 @@ useEffect(()=>{
 
       <div className="row card_event">
         {events.events &&
-          events.events.slice(0, 6).reverse().map((el) => {
+          events.events.slice(-6).reverse().map((el) => {
             return (
               <div className="col s12 m6 l4" style={{display:"flex",justifyContent:"center",alignItems:"center"}} key={el._id}>
               <div
@@ -137,7 +137,7 @@ useEffect(()=>{
                   height:370
                 }}
               >
-                <div className="card-image waves-effect waves-block waves-light" style={{height:"65%"}}>
+                <div className="card-image" style={{height:"65%",cursor:"pointer"}}>
                   <img className="activator" src={el.image} height="100%" width="100%" />
 
                   <div className="date right">
@@ -220,7 +220,8 @@ useEffect(()=>{
                   </Link>
                   <span className={el.state=="Available"?"right green-text":"right gray-text text-darken-3"}> {el.state}</span>
                 </div>
-                <div className="card-reveal">
+                <div className="card-reveal"  >
+                
                   <span className="card-title grey-text text-darken-4">
                     <b>{el.title}</b>
                     <i className="material-icons right">close</i>
