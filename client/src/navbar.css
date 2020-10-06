@@ -1,9 +1,18 @@
 .test{
     display: flex;
-    height: 80px;
+    height: 60px;
     width: 100%;
     align-items: center;
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
+background-color: white;
+position: fixed;
+margin: 0px;
     
+}
+.sidenav-trigger:hover{
+  color: rgb(14, 161, 152)
 }
 
 .div2{
@@ -29,14 +38,17 @@
       margin:0 !important
       }
       .div4{
-        width: 35%;
-        position: relative;
+        /* width: 35%; */
+        /* position: relative; */
         margin-left: 0px !important;
         display: flex;
         align-items: center;
         
         
       }
+      .nav_list{
+        transform: translateX(-2px) !important;
+      } 
 
       .nav_list > a {
         margin: 10px;
@@ -44,6 +56,12 @@
         text-decoration: none;
         color: black;
       }
+      .nav_list > a:hover{
+        color: rgb(14, 161, 152)
+      }
+     .fa-search:hover{
+      color: rgb(14, 161, 152)
+     }
       #btn{
         background-color: transparent;
         outline: none;
@@ -55,7 +73,7 @@
         }
       
         .landing{
-            width: 15%;
+            /* width: 15%; */
             height: 100%;
             padding: 0px !important;
         }
@@ -76,15 +94,15 @@
           padding: 0px !important;
           width: 90%
         }
-        @media screen and (min-width: 900px) {
+        /* @media screen and (min-width: 900px) {
           .div3 button{
             font-size: 1.01vw !important;
-      }
+      } */
       /* .inp{
         font-size: 1.5vw !important;
       } */
-    }
-      @media screen and (min-width: 550px) and (max-width: 900px) {
+    
+      /* @media screen and (min-width: 550px) and (max-width: 900px) {
         .div3 button{
           font-size: 1.5vw !important;
       }
@@ -92,8 +110,8 @@
       @media screen and (max-width: 550px) {
         .div3 button{
           font-size: 1.8vw !important;
-      }
+      } */
       /* .inp{
         font-size: 3vw !important;
       } */
-    }
+    

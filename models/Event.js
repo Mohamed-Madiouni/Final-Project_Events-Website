@@ -37,7 +37,10 @@ const EventSchema = new schema({
     type: String,
     require: true,
   },
-  reservation:[String],
+  participant: [{ type: mongoose.Types.ObjectId, ref: "user" }],
+  tags:{
+  type:  [String],
+  },
   created_at: {
     type: Date,
     default: Date.now,

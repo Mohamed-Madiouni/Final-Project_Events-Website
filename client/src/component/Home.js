@@ -20,6 +20,10 @@ function Home() {
   useEffect(() => {
     M.Parallax.init(document.querySelectorAll(".parallax"));
     M.Slider.init(document.querySelectorAll(".slider"), { height: 500 });
+//     window.addEventListener("resize",()=>{
+//       let w=document.querySelector(".App_center").style.width-document.querySelector(".parallax-container").style.width
+// console.log(w)
+//     })
   });
 
   //check if events ended
@@ -65,7 +69,7 @@ function Home() {
         </div>
       </div>
       {allevents && (
-        <div className="slider">
+        <div className="slider" >
           <ul className="slides">
             {allevents &&
               allevents
@@ -74,8 +78,8 @@ function Home() {
                 .reverse()
                 .map((el) => {
                   return (
-                    <li key={el._id}>
-                      <img src={el.image} style={{filter:"blur(1.5px)"}} />
+                    <li key={el._id} >
+                      <img src={el.image} style={{filter:"blur(0.5px)"}} />
                       <div
                         className="caption left-align"
                         style={{
@@ -109,7 +113,7 @@ function Home() {
                           <i className="material-icons" style={{ paddingLeft: 4 }}>
                             forward
                           </i>
-                        </button>
+                         </button>
                       </div>
 
                       {/* <span

@@ -1,12 +1,26 @@
 .landing_app{
     display: flex;
     align-items: center;
-    flex-direction: column;
-    justify-content: space-around;
+    /* flex-direction: column; */
+    justify-content:center;
     height: 100%;
+    /* padding-right: 10px; */
     
 }
-
+.dropdown-content{
+    width: 200px !important;
+    height: 200px !important;
+    border-radius: 10px;
+    transform: translateY(-40px);
+    
+}
+.dropdown-content>li:hover{
+    background-color: white !important;
+    
+}
+.fa-sign-out-alt:hover{
+    color: rgb(14, 161, 152)
+}
 .landing_app .btn{
     padding: 0px !important;
     
@@ -15,7 +29,24 @@
     background-color: rgba(240, 238, 238, 0.466) ;
     color: black 
 }
-@media screen and (min-width: 900px) {
+.account{
+    border-radius: 10px;
+        font-size: 15px;
+        padding: 5px 10px;
+       display: flex;
+       align-items: center;
+        /* margin: 10px; */
+        background-color: white;
+        /* font-family: Arial, Helvetica, sans-serif; */
+        outline: none;
+        border: 0.5px solid  #e5e2e2;
+        cursor: pointer;
+}
+.account:hover{
+    background-color:rgb(14, 161, 152); 
+    color: white;
+}
+/* @media screen and (min-width: 900px) {
     .landing_app a{
     font-size: 1.01vw;
 }}
@@ -26,5 +57,5 @@
 @media screen and (max-width: 550px) {
     .landing_app a{
     font-size: 1.8vw;
-}}
+}} */
 

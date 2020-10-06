@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const Event = require('../models/Event')
+const User = require('../models/User')
 const authMiddleware = require("../middleware/authMiddleware");
 const validateEventsInput = require("../validation/events");
 
@@ -148,6 +149,7 @@ router.put("/edit/:id",authMiddleware, (req, res) => {
       evt.duration&& (evtUpdated.duration=evt.duration),
       evt.nb_participant&& (evtUpdated.nb_participant=evt.nb_participant),
       evtUpdated.image=evt.image
+      evtUpdated.tags=evt.tags
      
   Event.findByIdAndUpdate(
     req.params.id,
@@ -172,5 +174,76 @@ router.delete("/delete/:id",authMiddleware, (req, res) => {
       // res.status(500).send("Server Error");
     });
 });
+
+//Particiaption
+
+router.put('/follow',authMiddleware, (req, res) => {
+  Event.findByIdAndUpdate(req.body.followId ,{
+  $push:{participant:req.userId}},
+  {
+  new:true
+  }).exec((err,result)=>{
+    if(err){
+      return res.status(422).json({error:err.message})
+    }else{
+      
+      User.findById(req.userId)
+       .then(user => {
+         if(!user){
+           return res.status(404).send({msg: "User not found!"})
+         }
+        
+         user.events.push(req.body.followId)
+         user.save()
+         res.json(result)
+       })
+    }
+   })
+   // Event.findByIdAndUpdate(req.body.followId ,{
+   //   $push:{reservation:req.userId._id}},
+   //   {
+   //   new:true
+   //   }).exec((err,result)=>{
+   //     if(err){
+   //       return res.status(422).json({error:err})
+   //     }else{
+   //       res.json(result)
+   //     }
+   //    })
+  })
+ router.put('/unfollow',authMiddleware, (req, res) => {
+   Event.findByIdAndUpdate(req.body.unfollowId ,{
+   $pull:{participant:req.userId._id}},
+   {
+   new:true
+   }).exec((err,result)=>{
+     if(err){
+       return res.status(422).json({error:err})
+     }else{
+       User.findById(req.userId._id)
+        .then(user => {
+          if(!user){
+            return res.status(404).send({msg: "User not found!"})
+          }
+          user.events.push(req.body.unfollowId)
+          user.save()
+          res.json(result)
+        })
+     }
+    })
+    // Event.findByIdAndUpdate(req.body.unfollowId ,{
+    //   $push:{reservation:req.userId._id}},
+    //   {
+    //   new:true
+    //   }).exec((err,result)=>{
+    //     if(err){
+    //       return res.status(422).json({error:err})
+    //     }else{
+    //       res.json(result)
+    //     }
+    //    })
+   })
+
+
 
 module.exports= router

@@ -3,36 +3,86 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch,useSelector } from 'react-redux';
 import { useHistory,Link } from 'react-router-dom';
 import { getCurrentUser } from '../actions/authaction';
-import {getEvent} from "../actions/evntAction";
+import {followEvent, getEvent} from "../actions/evntAction";
 import get_month from "../outils/get_month"
 import historyevent from "../outils/history"
 import Navbar from './Navbar';
-
+import "../events.css";
+import M from "materialize-css";
 function Events() {
     const dispatch = useDispatch()
     const history =useHistory()
     const allevents=useSelector(state=>state.events.allEvents)
     let auth = useSelector(state=>state.auth)
+    const [quickSearch, setQuickSearch] = useState({
+      title: "",
+      state: "",
+      tags: "",
+    });
     useEffect(()=>{
         dispatch(getEvent())
        localStorage.token&&dispatch(getCurrentUser())
     },[])
+    useEffect(()=>{
+      M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false})
+      M.updateTextFields()
+    })
+
+    let events=allevents.filter(el=>{
+      return(
+      
+       el.title.toLowerCase().includes(quickSearch.title.toLowerCase())
+       &&el.state.toLowerCase().includes(quickSearch.state.toLowerCase())
+       &&quickSearch.tags!=""?el.tags.find(e=>e.toLowerCase().includes(quickSearch.tags.toLowerCase())):true
+       
+       )
+     })
+
+
+    const onChange = (e) => {
+      setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value })};
     return (
         <div>
              <Navbar/>
-            <div className="container " style={{display:"flex",justifyContent: "space-between", alignItems:"center", flexWrap:"wrap"}}>
- {allevents&&allevents.reverse().map(el=>{
-     return (<div
+             <div className='row container' ><h5><b>Quick search</b></h5></div>
+
+            <div className="row container" style={{marginTop:"20px",fontSize:15,fontWeight:800}} >
+              <form >
+              <div className="input-field col s4 m5">
+          <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
+          <label forhtml="title">Event title</label>
+        </div>
+        <div className="input-field col s4 m3">
+    <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none"}}>
+      <option value="">State</option>
+      <option value="Available" className="green-text">Available</option>
+      <option value="Closed" className="gray-text">Closed</option>
+      <option value="Ended" className="gray-text">Ended</option>
+    </select>
+    <label className="active">Event state</label>
+  </div>
+  <div className="input-field col s4 m4">
+          <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
+          <label forhtml="title">Event tags</label>
+        </div>
+              </form>
+            </div>
+             <div className="row">
+           
+ {events&&events.slice(0).reverse().map(el=>{
+     return (<div className="col s12 m6 l4" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
+       <div
                   className="card small sticky-action"
                   style={{
-                    width: 350,
-                    height:350
+                    width: 335,
+                    height:350,
+                    margin:5
                     
                   }}
-                  key={el._id}
+                  // key={el._id}
                 >
                   <div className="card-image waves-effect waves-block waves-light" style={{height:"55%"}}>
-                    <img className="activator" src={el.image} />
+                    <img className="activator" src={el.image} height="100%" />
 
                     <div className="date right">
                       <div className="day">{el.date.split("-")[2]}</div>
@@ -53,19 +103,22 @@ function Events() {
                       style={{
                         display: "flex",
                         alignItems: "center",
+                        fontSize:13,
+                        width:"100%"
                       }}
                     >
                       <span
                         style={{
                           margin: 10,
                           marginLeft: 0,
+                          marginRight: 0,
                           display: "flex",
                           alignItems: "center",
                         }}
                       >
                         <i
                           className=" tiny material-icons"
-                          style={{ margin: 10, transform: "translateY(1.4px)" }}
+                          style={{ margin: 10, marginTop:8}}
                         >
                           history
                         </i>
@@ -74,14 +127,14 @@ function Events() {
                       </span>
                       <span
                         style={{
-                          margin: 10,
+                          margin: 10, 
                           display: "flex",
                           alignItems: "center",
                         }}
                       >
                         <i
                           className=" tiny material-icons"
-                          style={{ margin: 10 }}
+                          style={{ margin: 10, marginTop:8 }}
                         >
                           person
                         </i>
@@ -89,6 +142,11 @@ function Events() {
                         {el.nb_participant}
                       </span>
                     </div>
+                    {el.tags.length!=0&&<div className="slider right tag_slide_event">
+    <ul className="slides">
+              {el.tags.map((el,i)=><li key={i}> <p>{el}</p> </li>)}
+    </ul>
+  </div>}
                   </div>
                   <div
                     className="card-action"
@@ -113,9 +171,9 @@ function Events() {
                     </button>:auth.user.role=="participant"&&
                     <button
                     
-                      // onClick={()=>{
-                      //   history.push("/login")
-                      // }}
+                      onClick={()=>{
+                        dispatch(followEvent(el._id))
+                      }}
                       style={{ display: "flex", alignItems: "center",borderRadius:"5px" }}
                       className="btn-small green white-text"
                     >
@@ -188,9 +246,11 @@ function Events() {
                     </button>)}
                     </div> */}
                   </div>
+                </div>
                 </div>)
 
  })}
+            {/* </div> */}
             </div>
         </div>
     )

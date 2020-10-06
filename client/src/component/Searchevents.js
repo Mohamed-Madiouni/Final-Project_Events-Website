@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SET_SEARCH, INI_SEARCH } from "../actions/types";
 import "../searchevent.css";
 import {useHistory} from "react-router-dom"
+
 
 function Searchevents() {
   const search = useSelector((state) => state.search);
   const allevents=useSelector(state=>state.events.allEvents)
   const history=useHistory()
   const dispatch = useDispatch();
+  const inp =useRef()
   const [eventsearch, setEventsearch] = useState({
     title: "",
     address: "",
@@ -21,6 +23,9 @@ function Searchevents() {
     return ()=>{setErrorsearch(false)}
     }
   })
+  useEffect(()=>{
+inp.current.focus()
+  },[])
   const onChange = (e) => {
     setEventsearch({ ...eventsearch, [e.target.id]: e.target.value });
     // let search= allevents.filter(el=>{
@@ -86,6 +91,7 @@ history.push(`/search?title=${eventsearch.title}&address=${eventsearch.address}&
           {!search.search ? (
             <div className="col s12">
               <input
+              ref={inp}
                 type="text"
                 onChange={onChange}
                 onKeyDown={(e)=> { 
@@ -107,7 +113,7 @@ history.push(`/search?title=${eventsearch.title}&address=${eventsearch.address}&
               <i
                 className="fa fa-search"
                 style={{
-                  fontSize: "22px",
+                  fontSize: "21px",
                   position: "absolute",
                   transform: "translate(-30px,12.5px)",
                 }}

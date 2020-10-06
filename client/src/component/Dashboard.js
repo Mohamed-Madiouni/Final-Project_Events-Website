@@ -6,6 +6,7 @@ import jwt_decode from "jwt-decode";
 import setAuthToken from "../token/authtoken";
 import { getCurrentUser } from "../actions/authaction";
 import { INI_UPDATE } from "../actions/types";
+import "../dashboard.css"
 
 import Navbar from "./Navbar";
 import Searchevents from "./Searchevents";
@@ -19,6 +20,9 @@ function Dashboard({ history }) {
   const auth = useSelector((state) => state.auth);
   const allevents= useSelector((state)=>state.events.allEvents)
   const dispatch = useDispatch();
+  const resize =useSelector(state=>state.resize)
+// const [dashOrganizer,setDashOrganizer]= useState({state:"welcome"})
+  
   useEffect(() => {
     if (!localStorage.token) history.push("/login");
   });
@@ -29,10 +33,15 @@ function Dashboard({ history }) {
   },[]);
   useEffect(() => {
     if (auth.updated) {
-      M.toast({ html: "SUCCESSFULLY UPDATED", classes: "green" });
+      M.toast({ html: "Account successfully updated", classes: "green" });
       setTimeout(dispatch({ type: INI_UPDATE }), 4000);
     }
     M.Modal.init(document.querySelectorAll(".modal"))
+    M.Sidenav.init(document.querySelectorAll('.sidenav'))
+    M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
+    M.Materialbox.init(document.querySelectorAll('.materialboxed'))
+   
+   
   });
   
   //check if events ended
@@ -43,13 +52,62 @@ function Dashboard({ history }) {
       dispatch(endEvent(allevents[i]._id))
     }
   },[])
+  // useEffect(()=>{
+  //   window.addEventListener("resize",()=>{
+  //     if(window.innerWidth<=992)
+  //     setDashNav(false)
+  //     else
+  //     setDashNav(true)
+  //   })
+  // })
 
   return (
-    <div>
-      <Navbar />
+    <> <Navbar />
+    {/* <div style={{paddingLeft:!resize.state?"300px":"0px"}}> */}
+      
+     
+      
+      <Organizer  />
+    {/* </div> */}
+    {/* {!resize.state&&<ul id="slide-out" class="sidenav sidenav-fixed" style={{marginTop:"60px",borderTop:"1px solid #e5e2e2"}}> */}
+    {/* <li>
+        <div className="user-view">
+          <div className="background">
+            <img src="/background_profil.jpg" height="100%" width="100%" />
+          </div>
+          <img className="circle" src={auth.user.avatar} />
+          <span className="white-text name">
+            {auth.user.fname + " " + auth.user.lname}
+          </span>
+          <span className="white-text email">{auth.user.email}</span>
+        </div>
+      </li>
 
-      <Organizer />
-    </div>
+      <li>
+        <a href="/myaccount">
+          <i className="material-icons">settings</i>Account Setting
+        </a>
+      </li>
+      <li>
+        <div className="divider"></div>
+      </li> */}
+      {/* <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+          <li >
+            <a class="collapsible-header" style={{paddingRight:0}}><b>Dashboard</b> <i class="material-icons right chevron">chevron_right </i></a>
+            <div class="collapsible-body">
+              <ul>
+                <li style={{display:"flex",alignItems:"center"}}><i class="material-icons left">add </i><Link to='/dashboard/add' style={{width:"100%"}}>Add event </Link></li>
+                <li style={{display:"flex",alignItems:"center"}}><i class="material-icons left">assignment </i><Link to="#" style={{width:"100%"}}>My events</Link></li>
+                <li style={{display:"flex",alignItems:"center"}}> <i class="material-icons left">people </i><Link to="#" style={{width:"100%"}}>List of participant</Link></li>
+                
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </li>
+  </ul>} */}
+  </>
   );
 }
 

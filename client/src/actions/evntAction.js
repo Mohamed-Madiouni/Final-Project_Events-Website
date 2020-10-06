@@ -1,4 +1,4 @@
-import { GET_EVENTS,GET_ERRORS,GET_ALL_EVENTS } from "./types";
+import { GET_EVENTS,GET_ERRORS,GET_ALL_EVENTS,UPDATE} from "./types";
 import setAuthToken from "../token/authtoken";
 import axios from "axios";
 
@@ -172,3 +172,44 @@ export const editEvent = (idEvent, updatedEvent) => (dispatch) => {
       payload: err.response.data,
     }));
 };
+
+// participation
+
+export const followEvent=(eventId)=>(dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+  .put('/event/follow',{followId:eventId})
+  .then((res) => {
+    dispatch({type:UPDATE,
+      payload:res.data.participant})
+    dispatch({
+     type: GET_ERRORS,
+     payload: {},
+   })
+ })
+  .catch((err) => dispatch({
+    type: GET_ERRORS,
+    payload: err.response.data,
+  }));
+}
+export const unfollowEvent=(userId)=>(dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+  .put('/event/unfollow',{
+   body:JSON.stringify({
+     unfollowId:userId
+   })
+  })
+  .then((res) => {
+    dispatch({type:UPDATE,
+      payload:{participant:res.participant}})
+    dispatch({
+     type: GET_ERRORS,
+     payload: {},
+   })
+ })
+  .catch((err) => dispatch({
+    type: GET_ERRORS,
+    payload: err.response.data,
+  }));
+}

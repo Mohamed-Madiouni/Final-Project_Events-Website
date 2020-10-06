@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../actions/authaction";
 import "../landing.css";
@@ -7,10 +7,13 @@ import M from "materialize-css";
 
 function Landing() {
   const dispatch = useDispatch();
+  const history = useHistory()
   const auth = useSelector((state) => state.auth);
+  const resize=useSelector(state=>state.resize)
 
   useEffect(() => {
     M.Sidenav.init(document.querySelectorAll(".sidenav"));
+    M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
   });
 
   const onLogoutClick = (e) => {
@@ -47,7 +50,8 @@ function Landing() {
           LogIn
         </Link>
 
-        <a
+        
+        {/* <a
           href="#"
           data-target="slide-out"
           className="sidenav-trigger btn"
@@ -59,9 +63,9 @@ function Landing() {
           }}
         >
           Account
-        </a>
+        </a> */}
 
-        <Link
+        {/* <a
           to="/"
           style={{
             width: "90%",
@@ -70,36 +74,32 @@ function Landing() {
             display: !localStorage.token ? "none" : "inline",
             color: "white",
           }}
-          className="btn  red darken-1"
+          
           onClick={onLogoutClick}
-        >
-          LogOut
-        </Link>
+        > </a> */}
+        <div style={{width:"100%",display:"flex",alignItems:"center",justifyContent:resize.state?"flex-end":"space-around"}}>
+          {localStorage.token &&<i className="fas fa-sign-out-alt " style={{cursor:"pointer",fontSize:17}} onClick={onLogoutClick} title="sign out"></i>}
+          
+       
+        {localStorage.token&&<a href='#' data-target='dropdown1' className='dropdown-trigger' style={{margin:resize.state&&"11px"}}><img className="circle" src={auth.user.avatar} width="30px" height="30px"/></a>}
+        </div>
       </div>
 
-      <ul id="slide-out" className="sidenav">
-        <li>
-          <div className="user-view">
-            <div className="background">
-              <img src="/background_profil.jpg" height="100%" width="100%" />
-            </div>
-            <img className="circle" src={auth.user.avatar} />
-            <span className="white-text name">
-              {auth.user.fname + " " + auth.user.lname}
-            </span>
-            <span className="white-text email">{auth.user.email}</span>
-          </div>
-        </li>
-
-        <li>
-          <a href="/myaccount">
-            <i className="material-icons">settings</i>Account Setting
-          </a>
-        </li>
-        <li>
-          <div className="divider"></div>
-        </li>
-      </ul>
+      <ul id='dropdown1' className='dropdown-content' >
+        <li style={{height:"100%"}}>
+      <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-around",height:"100%"}}>
+          
+            
+          
+          <img className="circle" src={auth.user.avatar} width="55px" width="55px" />
+         <div style={{width:"100%",display:"flex",flexDirection:"column",alignItems:"center"}}> <span className="black-text name">
+            <b>{auth.user.fname + " " + auth.user.lname}</b>
+          </span>
+          <span className="black-text email">{auth.user.email}</span></div>
+          <button className="account" onClick={()=>history.push("/myaccount")} style={{marginBottom:"5px"}}>Account setting</button>
+        </div>
+       </li>
+  </ul>
     </>
   );
 }

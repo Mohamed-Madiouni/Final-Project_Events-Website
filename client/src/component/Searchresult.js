@@ -6,8 +6,11 @@ import {getEvent} from "../actions/evntAction";
 import get_month from "../outils/get_month"
 import historyevent from "../outils/history"
 import Navbar from './Navbar';
+import M from "materialize-css";
+import "../events.css";
 let url = require('url');
 let querystring = require('querystring');
+
 
 
 
@@ -18,52 +21,113 @@ function Searchresult() {
     const allevents=useSelector(state=>state.events.allEvents)
     let auth = useSelector(state=>state.auth)
     const [initial,setInitial]=useState(["welcome"])
+    const [quickSearch, setQuickSearch] = useState({
+      title: "",
+      state: "",
+      tags: "",
+    });
+
     useEffect(()=>{
         dispatch(getEvent())
        localStorage.token&&dispatch(getCurrentUser())
     },[])
+    
+// useEffect(()=>{
+
+//   return setInitial(["welcome"])
+  
+// })
+   
 
 
-    let search=allevents.filter(el=>{
+    useEffect(()=>{setInitial(search)},[])
+   
+   useEffect(()=>{
+     M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false})
+     M.updateTextFields()
+    })
+ 
+ 
+ 
+     let search=allevents.filter(el=>{
       return(
        el.title.toLowerCase().includes(params.title?params.title.toLowerCase():"")
        &&el.address.toLowerCase().includes(params.address?params.address.toLowerCase():"")
-       &&el.description.toLowerCase().includes(params.description?params.description.toLowerCase():""))
+       &&el.description.toLowerCase().includes(params.description?params.description.toLowerCase():"")
+       && el.title.toLowerCase().includes(quickSearch.title.toLowerCase())
+       &&el.state.toLowerCase().includes(quickSearch.state.toLowerCase())
+       &&quickSearch.tags!=""?el.tags.find(e=>e.toLowerCase().includes(quickSearch.tags.toLowerCase())):true
+       
+       )
      })
+    //  search.filter(el=>{
+    //    return( el.title.toLowerCase().includes(quickSearch.title.toLowerCase())
+    //    &&el.state.toLowerCase().includes(quickSearch.state.toLowerCase())
+    //    &&el.tags.some(e=>e.toLowerCase()==quickSearch.tags.toLowerCase())
+    //   //  filter(e=>e.toLowerCase()).toLowerCase().includes(quickSearch.tags.toLowerCase()))
+    //    ) 
+    // })
 
-    useEffect(()=>{setInitial(allevents.filter(el=>{
-    return(
-     el.title.toLowerCase().includes(params.title?params.title.toLowerCase():"")
-     &&el.address.toLowerCase().includes(params.address?params.address.toLowerCase():"")
-     &&el.description.toLowerCase().includes(params.description?params.description.toLowerCase():""))
-   }))},[])
-   
-   
-
-
-    
+     const onChange = (e) => {
+      //  if(e.target.id=="tags"){
+      //   setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value });
+      //   search.filter(el=>{
+      //     return el.tags.find(elm=>elm.toLowerCase().includes(quickSearch.tags.toLowerCase()))
+      //   })
+      //   console.log(search)
+      //   setInitial(search)
+      //  }
+      //  else
+      setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value })};
  
  
     return (
         <div>
             <Navbar/>
+
+<div className='row container'><h5><b>Quick search</b></h5></div>
+
+            <div className="row container" style={{marginTop:"20px",fontSize:15,fontWeight:800}} >
+              <form >
+              <div className="input-field col s4 m5">
+          <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
+          <label forhtml="title">Event title</label>
+        </div>
+        <div className="input-field col s4 m3">
+    <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none"}}>
+      <option value="">State</option>
+      <option value="Available" className="green-text">Available</option>
+      <option value="Closed" className="gray-text">Closed</option>
+      <option value="Ended" className="gray-text">Ended</option>
+    </select>
+    <label className="active">Event state</label>
+  </div>
+  <div className="input-field col s4 m4">
+          <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
+          <label forhtml="title">Event tags</label>
+        </div>
+              </form>
+            </div>
             {('title' in params || 'address' in params || "description" in params)&&search.length!=0? 
             <div>
-            <div className="row"> <h5> <b>{search.length+" result(s) found"}</b> </h5></div>
-            <div className="container " style={{display:"flex",justifyContent: "space-between", alignItems:"center", flexWrap:"wrap"}}>
+            <div className="row" style={{marginLeft:10}} > <h5> <b>{search.length+" result(s) found"}</b> </h5></div>
+            <div  className="row">
 
- {search&&search.map(el=>{
-     return (<div
+ {search&&search.slice(0).reverse().map(el=>{
+     return (
+      <div className="col s12 m6 l4" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
+     <div
                   className="card small sticky-action"
                   style={{
                     width: 350,
-                    height:350
+                    height:350,
+                    margin:5
                     
                   }}
                   key={el._id}
                 >
                   <div className="card-image waves-effect waves-block waves-light" style={{height:"55%"}}>
-                    <img className="activator" src={el.image} />
+                    <img className="activator" src={el.image} height='100%'/>
 
                     <div className="date right">
                       <div className="day">{el.date.split("-")[2]}</div>
@@ -120,6 +184,11 @@ function Searchresult() {
                         {el.nb_participant}
                       </span>
                     </div>
+                    {el.tags.length!=0&&<div className="slider right tag_slide_event">
+    <ul className="slides">
+              {el.tags.map((el,index)=><li key={index}> <p>{el}</p> </li>)}
+    </ul>
+  </div>}
                   </div>
                   <div
                     className="card-action"
@@ -219,11 +288,12 @@ function Searchresult() {
                     </button>)}
                     </div> */}
                   </div>
+                </div>
                 </div>)
 
  })}
             </div></div>:
-           initial.length==0 && (<div className="container">
+           initial.length==0 && (<div  style={{marginLeft:10}}>
               <h5> <b>No result(s) found</b> </h5>
             </div>)}
         </div>

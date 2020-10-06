@@ -10,7 +10,7 @@ import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
 
 
-function Organizer() {
+function Organizer({state}) {
   
   
   const dispatch = useDispatch();
@@ -21,7 +21,10 @@ function Organizer() {
   const [action, setAction] = useState({ type: "add", payload: {} });
   const [deleteid,setDeleteid]= useState("")
   const [closedid,setClosedid]= useState("")
-  const toggle = () => setModal(!modal);
+  const toggle = () => {
+    setModal(!modal)
+  return modal
+  };
   
   
   useEffect(() => {
@@ -36,11 +39,19 @@ useEffect(()=>{
     dispatch(endEvent(allevents[i]._id))
   }
 },[])
- 
+ useEffect(()=>{
+    M.Materialbox.init(document.querySelectorAll('.materialboxed'))
+    M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false });
+  })
 
   return (
-    <div className="row">
+   <>
+      
+     
+    
+     
       <div className="col s12 row">
+        
         <div className="col s10 l6 organizer_hi">
           <div
             className="col s11 m8"
@@ -60,6 +71,7 @@ useEffect(()=>{
               This is your <b>Dashboard</b>, you can create edit and delete an
               event.
             </p>
+           
           </div>
           <div className="col s1 m4 welcome">
             <img src="welcome.jpg" alt="welcome" width="100%" height="100%" />{" "}
@@ -100,25 +112,33 @@ useEffect(()=>{
       </div>
 
 
-      {modal && (<div className="col s10 offset-s2">
+      {modal && (<div className="container organizer_add row">
         <AddEvent toggle={toggle} action={action} setAction={setAction} /></div>
       )}
+
+{/* <div className="container organizer_add row" >
+        <AddEvent toggle={toggle} action={action} setAction={setAction} /></div> */}
+
+
 <div className="col s12">
   <h5 className="teal-text text-darken-4"> <b>Your last events</b> </h5>
 </div>
-      <div className="col s12 card_event">
+
+      <div className="row card_event">
         {events.events &&
-          events.events.slice(0, 6).map((el) => {
+          events.events.slice(0, 6).reverse().map((el) => {
             return (
+              <div className="col s12 m6 l4" style={{display:"flex",justifyContent:"center",alignItems:"center"}} key={el._id}>
               <div
-                key={el._id}
-                className="card medium sticky-action"
+               
+                className="card medium sticky-action "
                 style={{
-                  width: 400,
+                  width: 370,
+                  height:370
                 }}
               >
-                <div className="card-image waves-effect waves-block waves-light">
-                  <img className="activator" src={el.image} />
+                <div className="card-image waves-effect waves-block waves-light" style={{height:"65%"}}>
+                  <img className="activator" src={el.image} height="100%" width="100%" />
 
                   <div className="date right">
                     <div className="day">{el.date.split("-")[2]}</div>
@@ -126,9 +146,10 @@ useEffect(()=>{
                       {get_month(Number(el.date.split("-")[1]))}
                     </div>
                   </div>
+                 
                 </div>
                 <div
-                  className="card-content "
+                  className="card-content  "
                   style={{ padding: "0px 10px 0px 24px" }}
                 >
                   <span className="card-title  grey-text text-darken-4">
@@ -151,7 +172,7 @@ useEffect(()=>{
                     >
                       <i
                         className=" tiny material-icons"
-                        style={{ margin: 10, transform: "translateY(1.4px)" }}
+                        style={{ margin: 10,marginTop:8 }}
                       >
                         history
                       </i>
@@ -167,7 +188,7 @@ useEffect(()=>{
                     >
                       <i
                         className=" tiny material-icons"
-                        style={{ margin: 10 }}
+                        style={{ margin: 10,marginTop:8 }}
                       >
                         person
                       </i>
@@ -175,6 +196,11 @@ useEffect(()=>{
                       {el.nb_participant}
                     </span>
                   </div>
+                  {el.tags.length!=0&&<div className="slider right tag_slide_home">
+    <ul className="slides">
+              {el.tags.map((el,index)=><li key={index}> <p>{el}</p> </li>)}
+    </ul>
+  </div>}
                 </div>
                 <div
                   className="card-action"
@@ -187,10 +213,10 @@ useEffect(()=>{
                 >
                   <Link
                     to={`/events/${el.id_organizer}`}
-                    style={{ display: "flex", alignItems: "center" }}
+                    style={{ display: "flex", alignItems: "center" ,fontSize:13}}
                   >
                     Plus de details
-                    <i className="material-icons ">arrow_forward</i>
+                    <i className="material-icons " style={{fontSize:15,marginLeft:3}}>arrow_forward</i>
                   </Link>
                   <span className={el.state=="Available"?"right green-text":"right gray-text text-darken-3"}> {el.state}</span>
                 </div>
@@ -213,8 +239,13 @@ useEffect(()=>{
                     <a
                       className="btn-floating waves-effect waves-light cadetblue"
                       onClick={() => {
+                        
+                       
                         setAction({ type: "edit", payload: el });
+                        
+                       
                         toggle();
+                      
                       }}
                       title="edit"
                     >
@@ -225,7 +256,7 @@ useEffect(()=>{
                     }>
                       <i className="material-icons ">delete</i>{" "}
                     </button>
-                    {el.state=="Available"&&(
+                    {el.state=="Available"&&(new Date(el.date)>new Date())&&(
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="close"   data-target="modal2" onClick={
                       ()=>setClosedid(el._id)
                     }>
@@ -239,6 +270,7 @@ useEffect(()=>{
                     </button>)}
                   </div>
                 </div>
+              </div>
               </div>
             );
           })}
@@ -306,8 +338,7 @@ useEffect(()=>{
           </div>
         </div>
       </div>
-      
-    </div>
+     </>
   );
 }
 

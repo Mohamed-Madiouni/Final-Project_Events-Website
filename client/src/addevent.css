@@ -1,0 +1,7 @@
+.chips .input{
+    width: 100% !important;
+}
+div.chip{
+    background-color: rgb(14, 161, 152);
+    color: white;
+}

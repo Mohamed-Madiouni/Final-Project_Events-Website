@@ -79,6 +79,7 @@ router.get("/",authMiddleware, (req, res) => {
     .then((users) => res.json(users))
     .catch((err) => {
       console.error(err.message);
+      return res.status(403).json({"not_allowed":err.message})
     });
 });
 

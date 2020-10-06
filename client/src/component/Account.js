@@ -5,6 +5,8 @@ import { updateUser } from "../actions/authaction";
 import { GET_ERRORS } from "../actions/types";
 import { getCurrentUser } from "../actions/authaction";
 import M from "materialize-css";
+import Navbar from "./Navbar";
+import "../account.css"
 
 function Updateacc({ history }) {
   const errors = useSelector((state) => state.errors);
@@ -26,7 +28,9 @@ function Updateacc({ history }) {
   useEffect(() => {
     if (!localStorage.token) history.push("/login");
     M.Modal.init(document.querySelectorAll(".modal"));
-    setBtn(false)
+    
+    M.Materialbox.init(document.querySelectorAll('.materialboxed'))
+    M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
   });
   useEffect(() => {
     if (errors.msg){ 
@@ -35,7 +39,10 @@ function Updateacc({ history }) {
         type: GET_ERRORS,
         payload: {},
       })
+      setBtn(false)
     }
+   
+
   });
   useEffect(() => {
     if (localStorage.token) dispatch(getCurrentUser());
@@ -77,7 +84,7 @@ function Updateacc({ history }) {
     const res = await send.json();
     updateduser.avatar &&
       res.error &&
-      M.toast({ html: res.error.message, classes: "red" });
+      M.toast({ html: res.error.message, classes: "red" })&&setBtn(false)
     console.log(res);
     !res.error && (updateduser.avatar = res.url);
     console.log(updateduser);
@@ -86,18 +93,19 @@ function Updateacc({ history }) {
 
   return (
     <>
-      <div className="container">
-        <div
+    <Navbar/>
+      <div className="container" style={{marginTop:"20px"}}>
+        {/* <div
           className="row"
           style={{ display: "flex", justifyContent: "center", fontSize: 30 }}
         >
           <img src="coco2.png" alt="COCO PARTY" width="250px" />
           
-        </div>
+        </div> */}
 
-        <div className="row">
+        <div className="row" style={{backgroundColor:"white"}}>
           <div className="col s8 offset-s2">
-            <Link
+            {/* <Link
               to="/dashboard"
               className="btn-flat waves-effect"
               onClick={() =>
@@ -109,7 +117,7 @@ function Updateacc({ history }) {
             >
               <i className="material-icons left">keyboard_backspace</i> Back to
               dashboard
-            </Link>
+            </Link> */}
             <div className="col s12" style={{ paddingLeft: "11.250px" }}>
               <h4>
                 <b>My account</b>
@@ -117,7 +125,7 @@ function Updateacc({ history }) {
             </div>
             <form encType="multipart/form-data">
               <div className="input-field file-field col s12 ">
-                <div className="btn">
+                <div className="btn-small" >
                   <span>File</span>
                   <input
                     type="file"
@@ -227,13 +235,13 @@ function Updateacc({ history }) {
                       "Your address is " + auth.user.address)}
                 </span>
               </div>
-              <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+              <div className="col s12" style={{ display:"flex",justifyContent:"center",alignItems:"center" }}>
                 <button
                   style={{
-                    width: "150px",
-                    borderRadius: "3px",
+                    width: "120px",
+                    borderRadius: "5px",
                     letterSpacing: "1.5px",
-                    marginTop: "1rem",
+                    margin: "1rem",
                     height: "40px",
                   }}
                   disabled={btn}
@@ -247,13 +255,15 @@ function Updateacc({ history }) {
             </form>
           </div>
           {auth.user.avatar && (
-            <div className="col s2">
+            <div className="col s2" style={{transform: "translateY(10px)"}}>
               <img
                 src={auth.user.avatar}
                 alt="avatar"
-                height="140%"
-                width="140%"
-                className="circle"
+                height="100%"
+                width="100%"
+                className="circle materialboxed"
+                
+                
               />
             </div>
           )}
