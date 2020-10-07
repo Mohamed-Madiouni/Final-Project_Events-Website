@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {deleteEvent, getEvent} from "../actions/evntAction";
+import {deleteEvent} from "../actions/evntAction";
+import {getEvents} from "../actions/adminaction";
 import { getCurrentUser } from '../actions/authaction';
 import {useHistory} from "react-router-dom"
 import get_month from "../outils/get_month"
@@ -11,7 +12,7 @@ import M from "materialize-css";
 
 const EventList = () => {
   const dispatch = useDispatch()
-  const allevents=useSelector(state=>state.events.allEvents)
+  const allevents=useSelector(state=>state.admin.events)
   let auth = useSelector(state=>state.auth)
   const history=useHistory()
   const [deleteid,setDeleteid]= useState("")
@@ -22,7 +23,7 @@ const EventList = () => {
   });
 
   useEffect(()=>{
-    dispatch(getEvent())
+    dispatch(getEvents())
    localStorage.token&&dispatch(getCurrentUser())
 },[])
 useEffect(()=>{

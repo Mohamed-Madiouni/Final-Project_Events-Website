@@ -1,7 +1,6 @@
 import { GET_ERRORS, GET_USERS_ADMIN, GET_EVENTS_ADMIN } from "./types";
 import axios from "axios"
 import setAuthToken from "../token/authtoken";
-
 //get all users
 export const getUsers = () =>(dispatch) => {
   setAuthToken(localStorage.token)
@@ -22,26 +21,21 @@ export const getEvents = () =>(dispatch) => {
   setAuthToken(localStorage.token)
   axios
     .get("/admin/events")
-    .then((res) => {
-      dispatch({
+    .then((res) => dispatch({
           type:GET_EVENTS_ADMIN,
           payload:res.data
-      }) 
-    })
-    .catch((err) =>
-      dispatch({
+      }))
+    .catch((err) => dispatch({
         type:  GET_ERRORS,
         payload: err.response.data
-      })
-    );
-
+      }));
 };
 
 //Delete event
 export const deleteEvent=(idEvent)=>(dispatch)=>{
   setAuthToken(localStorage.token)
   axios.delete(`admin/events/delete/${idEvent}`)
-  .then(res=>dispatch(getEvents()))
+  .then(res=>{dispatch(getEvents())})
   .catch(err=>console.log(err))
  }
 
@@ -49,6 +43,9 @@ export const deleteEvent=(idEvent)=>(dispatch)=>{
 export const deleteUser=(idUser)=>(dispatch)=>{
   setAuthToken(localStorage.token)
   axios.delete(`admin/users/delete/${idUser}`)
-  .then(res=>dispatch(getUsers()))
+  .then(res=>{
+    dispatch(getUsers())
+    
+  })
   .catch(err=>console.log(err))
  } 

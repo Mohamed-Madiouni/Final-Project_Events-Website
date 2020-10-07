@@ -10,17 +10,21 @@ router.get("/users",authMiddleware, (req, res) => {
       .then((users) => res.json(users))
       .catch((err) => {
         console.error(err.message);
+        return res.status(500).send("Server Error");
       });
   });
 
 // GET EVENTS
   router.get("/events",authMiddleware, (req, res) => {
-    Event.find()
-      .then((events) => res.json(events))
-      .catch((err) => {
-        console.error(err.message);
-      });
+    Event.find((err, events) => {
+      if (err) {
+      console.log(err.message);
+      return res.status(500).send("Server Error");
+     }
+     res.status(200).json(events);
   });
+  
+})
 
 //Delete Event by Id
 router.delete("/events/delete/:_id",authMiddleware, (req, res) => {
