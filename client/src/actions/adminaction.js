@@ -49,7 +49,6 @@ export const deleteEvent=(idEvent)=>(dispatch)=>{
 export const deleteUser=(idUser)=>(dispatch)=>{
   setAuthToken(localStorage.token)
   axios.delete(`admin/users/delete/${idUser}`)
-  axios.delete(`admin/events/delete/${idUser}`)
   .then(res=>dispatch(getUsers()))
   .catch(err=>console.log(err))
  } 

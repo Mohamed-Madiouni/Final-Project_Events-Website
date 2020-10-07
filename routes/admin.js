@@ -35,13 +35,14 @@ router.delete("/events/delete/:_id",authMiddleware, (req, res) => {
 
 //Delete User by Id
 router.delete("/users/delete/:_id",authMiddleware, (req, res) => {
-  const _id= req.params._id
+  var _id= req.params._id
   User.findByIdAndRemove(_id)
-    .then(() => res.send({ msg: "User Deleted!" }))
+  .then(() => res.send({ msg: "User Deleted!" }))  
+  Event.deleteMany({id_organizer : _id})
+  .then(() => res.send({ msg: "Events Deleted!" }))
     .catch((err) => {
       console.log(err.message);
       res.status(500).send("Server Error");
     });
 });
-
-module.exports = router; 
+module.exports = router;

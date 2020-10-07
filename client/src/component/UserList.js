@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteUser, getUsers } from "../actions/adminaction";
 import { getCurrentUser } from '../actions/authaction';
 import {useHistory} from "react-router-dom"
-import get_month from "../outils/get_month"
 import historyuser from "../outils/history"
 import "../events.css";
 import M from "materialize-css";
@@ -75,7 +74,7 @@ const UserList = () => {
            className="card small sticky-action"
            style={{
              width: 335,
-             height:450,
+             height:550,
              margin:5
              
            }}
