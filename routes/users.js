@@ -41,6 +41,23 @@ router.post("/register", (req, res) => {
   });
 });
 
+//handle confirm password
+
+router.post("/confirmation",authMiddleware,(req,res)=>{
+
+  User.findById(req.userId).then((user)=>{
+
+    bcrypt.compare(req.body.confirm,user.password,(err,match)=>{
+if (!match)
+res.status(400).json({ msg: "Password incorrect !" })
+else
+res.send({success:"ok"})
+})
+    
+})
+})
+
+
 //handle update account
 router.put("/update",authMiddleware, (req, res) => {
   const { errors, isValid } = validateUpdateInput(req.body);

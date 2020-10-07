@@ -22,9 +22,31 @@ export const registerUser = (userData, history) => (dispatch) => {
     );
 };
 
+
+// confirm password
+export const confirmPassword = (pass) => (dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+    .post("/user/confirmation", pass)
+    .then((res) => {
+     
+      dispatch({
+        type: GET_ERRORS,
+        payload: res.data,
+      });
+     
+    }) 
+.catch(err=>{
+  dispatch({
+    type: GET_ERRORS,
+    payload: err.response.data,
+  })
+})
+}
+
 // Update User
 export const updateUser = (userData, history) => (dispatch) => {
-  // setAuthToken(localStorage.token)
+  setAuthToken(localStorage.token)
   axios
     .put("/user/update", userData)
     .then((res) => {

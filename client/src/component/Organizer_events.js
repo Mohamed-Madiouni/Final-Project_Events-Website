@@ -28,6 +28,8 @@ function Organizer_events({ history }) {
   const [participant,setParticipant]=useState(false)
   const [participantId,setParticipantId]=useState("")
  const [btnedit,setBtnedit]=useState("")
+ const [btnpart,setBtnPart]=useState("")
+
  const [quickSearch, setQuickSearch] = useState({
   title: "",
   state: "",
@@ -126,7 +128,7 @@ function Organizer_events({ history }) {
       {eventsorganizer&&
         eventsorganizer.slice(0).reverse().map((el) => {
           return (
-            <div className={modal||participant ? "col s12 row":"col s12 m6 l4"}key={el._id} style={{minHeight:"350px"}}>
+            <div className={modal||participant ? "col s12 row":"col s12 m6 l4"}key={el._id} style={{minHeight:"360px"}}>
               <div className={modal||participant?"col s12 m6":"s12"} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
                 <div
                   className="card small sticky-action"
@@ -212,12 +214,15 @@ function Organizer_events({ history }) {
                     <Link
                     to="#"
                       onClick={()=>{
-                        if(participant){
+                        if(participant&&!btnpart!=el._id){
                         
                         setParticipant(participantToggle(participantToggle()));
                         }
+                        else
+                        participantToggle()
                         if(!participant)
                         participantToggle()
+                        setBtnPart(el._id)
                         setModal(false)
                         setParticipantId(el._id)
                       
@@ -260,7 +265,7 @@ function Organizer_events({ history }) {
                         onClick={() => {
                           setAction({ type: "edit", payload: el });
 
-                          if(modal&&!btnedit==el._id ){
+                          if(modal&&btnedit!=el._id ){
                            
                             setModal(toggle( toggle()))
                           }
@@ -301,16 +306,16 @@ function Organizer_events({ history }) {
                   </div>
                 </div>
               </div>
-              {modal && modalId==el._id&&<div className="col s12 m6" style={{overflowY:"scroll",height:"350px"}}><AddEvent toggle={toggle} action={action} setAction={setAction} /></div>}
-              {participant&&participantId==el._id&&<div className="col s12 m6" style={{overflowY:"scroll",height:"350px"}}>
+              {modal && modalId==el._id&&<div className="col s12 m6" style={{overflowY:"scroll",height:"360px",backgroundColor:"white"}}><AddEvent toggle={toggle} action={action} setAction={setAction} /></div>}
+              {participant&&participantId==el._id&&<div className="col s12 m6" style={{overflowY:"scroll",height:"360px"}}>
               <ul className="collection">
     <li className="collection-item avatar">
-      <img src="user_icon.png" alt="" class="circle"/>
-      <span class="title">Title</span>
+      <img src="/User_icon.png" alt="" className="circle"/>
+      <span className="title">Title</span>
       <p>First Line <br/>
          Second Line
       </p>
-      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+      <a href="#!" className="secondary-content"><i className="material-icons">grade</i></a>
     </li>
     
   </ul>

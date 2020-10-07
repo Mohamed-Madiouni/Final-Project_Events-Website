@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUser } from "../actions/authaction";
+import { confirmPassword, updateUser } from "../actions/authaction";
 import { GET_ERRORS } from "../actions/types";
 import { getCurrentUser } from "../actions/authaction";
 import M from "materialize-css";
@@ -21,13 +21,15 @@ function Updateacc({ history }) {
     avatar: "",
     error: {},
   });
+const [confirmationInput,setConfirmationInput] = useState({confirm:""})
 
-  const form = useRef();
+const[mod,setMod]=useState(false)
+  
   const[btn,setBtn]=useState(false)
 
   useEffect(() => {
     if (!localStorage.token) history.push("/login");
-    M.Modal.init(document.querySelectorAll(".modal"));
+    M.Modal.init(document.querySelectorAll(".modal"),{dismissible:false});
     
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
     M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
@@ -41,15 +43,24 @@ function Updateacc({ history }) {
       })
       setBtn(false)
     }
+    
+
+    
    
 
   });
+  useEffect(()=>{if(errors.success){
+      onSubmit()
+    }},[errors.success])
   useEffect(() => {
     if (localStorage.token) dispatch(getCurrentUser());
   }, []);
 
   useEffect(() => {
-    if (errors) setUser({ ...user, error: errors });
+    if (errors) {
+      setUser({ ...user, error: errors })
+     setBtn(false) 
+    };
   }, [errors]);
 
   const onChange = (e) => {
@@ -57,8 +68,15 @@ function Updateacc({ history }) {
       setUser({ ...user, [e.target.id]: e.target.files[0] });
     else setUser({ ...user, [e.target.id]: e.target.value });
   };
-  const onSubmit = async (e) => {
-    e.preventDefault();
+const onChangeConfirm=(e)=>{
+  setConfirmationInput({...confirmationInput,[e.target.id]:e.target.value})
+}
+  const confirmation=()=>{
+    setBtn(true)
+dispatch(confirmPassword(confirmationInput))
+  }
+  const onSubmit = async () => {
+    // e.preventDefault();
     await setBtn(true)
     const updateduser = {
       password: user.password,
@@ -103,7 +121,7 @@ function Updateacc({ history }) {
           
         </div> */}
 
-        <div className="row" style={{backgroundColor:"white"}}>
+        <div className="row" style={{backgroundColor:"white",filter:mod&&"blur(2px)"}}>
           <div className="col s8 offset-s2">
             {/* <Link
               to="/dashboard"
@@ -246,8 +264,9 @@ function Updateacc({ history }) {
                   }}
                   disabled={btn}
                   type="button"
-                  className="btn modal-trigger"
-                  data-target="modal1"
+                  className="btn "
+                  // data-target="modal1"
+                  onClick={()=>setMod(!mod)}
                 >
                   Update
                 </button>
@@ -268,22 +287,40 @@ function Updateacc({ history }) {
             </div>
           )}
         </div>
-        <div id="modal1" className="modal">
+        <div  className="custom_mod" style={{display:mod?"initial":"none"}}>
           <div className="modal-content">
-            <h4>Account Update</h4>
-            <p>Are you sure you want to update your profile?</p>
+            {/* <h4>Account Update</h4>
+            <p>Are you sure you want to update your profile?</p> */}
+            <h5>Please enter your password</h5>
+           
+              <div className="input-field col s12" style={{marginTop:"20px"}}>
+                <input
+                  onChange={onChangeConfirm}
+                  value={confirmationInput.confirm}
+                  id="confirm"
+                  type="password"
+                />
+                <label htmlFor="confirm">Confirm password</label>
+                
+              </div>
+              
           </div>
-          <div className="modal-footer">
+          <div style={{display:"flex",justifyContent:"space-around",alignItems:"center",margin:20}}>
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
-              onClick={onSubmit}
+              className=" btn"
+              onClick={()=>{
+                confirmation()
+              setMod(!mod)
+              }
+            }
             >
               Agree
             </a>
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="  btn"
+              onClick={()=>setMod(!mod)}
             >
               Cancel
             </a>

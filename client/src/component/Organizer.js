@@ -215,7 +215,7 @@ useEffect(()=>{
                     to={`/events/${el.id_organizer}`}
                     style={{ display: "flex", alignItems: "center" ,fontSize:13}}
                   >
-                    Plus de details
+                    Show more
                     <i className="material-icons " style={{fontSize:15,marginLeft:3}}>arrow_forward</i>
                   </Link>
                   <span className={el.state=="Available"?"right green-text":"right gray-text text-darken-3"}> {el.state}</span>
