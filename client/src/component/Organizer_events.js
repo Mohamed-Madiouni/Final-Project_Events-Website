@@ -323,7 +323,9 @@ function Organizer_events({ history }) {
               </div>}
             </div>
           );
-        })} <div id="modal1" className="modal">
+        })} 
+        
+        <div id="modal1" className="modal">
           <div className="modal-content">
             <h4>Event delete</h4>
             <p>Are you sure you want to delete this event?</p>

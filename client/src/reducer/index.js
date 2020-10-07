@@ -3,11 +3,13 @@ import authReducer from "./auth";
 import errorReducer from "./error";
 import setSearch from './setSearch';
 import {reducer} from './evnt'
+import admin from "./admin"
 import resize from "./resize"
 export default combineReducers({
   auth: authReducer,
   errors: errorReducer,
   search: setSearch,
   events:reducer,
-  resize:resize
+  resize:resize,
+  admin: admin
 });
