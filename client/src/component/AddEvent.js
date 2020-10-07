@@ -182,7 +182,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
             <div className="input-field file-field col s12 l6 ">
               <div className="btn-small">
                 <span>File</span>
-                <input type="file" id="image" onChange={onChange} name="image" />
+                <input type="file" accept=".JPEG, .JPG, .GIF, .PNJ " id="image" onChange={onChange} name="image" />
               </div>
               <div className="file-path-wrapper">
                 <input

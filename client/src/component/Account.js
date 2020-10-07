@@ -146,7 +146,7 @@ dispatch(confirmPassword(confirmationInput))
                 <div className="btn-small" >
                   <span>File</span>
                   <input
-                    type="file"
+                    type="file" accept=".JPEG, .JPG, .GIF, .PNJ"
                     id="avatar"
                     name="avatar"
                     onChange={onChange}
