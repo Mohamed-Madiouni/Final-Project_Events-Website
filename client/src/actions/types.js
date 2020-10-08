@@ -10,6 +10,11 @@ export const UPDATE = "UPDATE"
 export const SET_RESIZE="SET_RESIZE"
 
 
+export const GET_EVENTS_ADMIN ="GET_EVENTS_ADMIN"
+export const GET_USERS_ADMIN="GET_USERS_ADMIN"
+
+
+
 export const GET_COMMENT="GET_COMMENT"
 
 export const INI_RESIZE ="INI_RESIZE"

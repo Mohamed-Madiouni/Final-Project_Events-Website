@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import {useHistory,Link} from "react-router-dom";
 import {unfollowEvent,followEvent,getEvent,endEvent,closeEvent} from "../actions/evntAction";
@@ -122,6 +123,7 @@ function Participant() {
               paddingTop: "0.75rem",
               paddingBottom: "0.75rem",
               margin: "0px",
+
             }}
           >
             {" "}
@@ -131,6 +133,7 @@ function Participant() {
             <p>
               {" "}
               We are happy to see you among US. <br />
+
               This is your <b>Dashboard</b>, you can see all your events that
               you have been participated.
             </p>
@@ -140,10 +143,12 @@ function Participant() {
         </div>
         <div
           className="col s2 l4"
+
           style={{
             paddingRight: "0px",
           }}
         >
+
           <div className="organizer_nav_part">
             <div>
               <a className="btn-floating waves-effect waves-light cadetblue">
@@ -157,10 +162,12 @@ function Participant() {
               </a>
 
               <label>Add comment</label>
+
             </div>
           </div>
         </div>
       </div>
+
       {modal && (<div className="container organizer_add row">
         <AddComment toggle={toggle} /></div>
       )}
@@ -359,3 +366,4 @@ function Participant() {
 }
 
 export default Participant
+

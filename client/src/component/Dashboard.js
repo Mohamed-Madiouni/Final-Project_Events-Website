@@ -7,7 +7,8 @@ import setAuthToken from "../token/authtoken";
 import { getCurrentUser } from "../actions/authaction";
 import { INI_UPDATE } from "../actions/types";
 import "../dashboard.css"
-
+import Administrator from "./Administrator";
+import Participant from "./Participant";
 import Navbar from "./Navbar";
 import Searchevents from "./Searchevents";
 
@@ -69,8 +70,11 @@ function Dashboard({ history }) {
       
      
       
-     { auth.user.role=="organizer"&&<Organizer  />}
-     {auth.user.role=="participant"&&<Participant/>}
+  {auth.user.role == "organizer" && <Organizer/> } 
+  {auth.user.role == "administrator" && <Administrator/> } 
+  {auth.user.role == "participant" && <Participant/> }
+
+
     {/* </div> */}
     {/* {!resize.state&&<ul id="slide-out" class="sidenav sidenav-fixed" style={{marginTop:"60px",borderTop:"1px solid #e5e2e2"}}> */}
     {/* <li>
