@@ -13,6 +13,7 @@ import Navbar from "./Navbar";
 import Searchevents from "./Searchevents";
 
 import Organizer from "./Organizer";
+import Participant from "./Participant";
 import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
 import { closeEvent, getEvent,endEvent } from "../actions/evntAction";
@@ -48,6 +49,7 @@ function Dashboard({ history }) {
   //check if events ended
   useEffect(()=>{
     dispatch(getEvent())
+    
     for(let i=0;i<allevents.length;i++){
       if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
       dispatch(endEvent(allevents[i]._id))
@@ -71,6 +73,8 @@ function Dashboard({ history }) {
   {auth.user.role == "organizer" && <Organizer/> } 
   {auth.user.role == "administrator" && <Administrator/> } 
   {auth.user.role == "participant" && <Participant/> }
+
+
     {/* </div> */}
     {/* {!resize.state&&<ul id="slide-out" class="sidenav sidenav-fixed" style={{marginTop:"60px",borderTop:"1px solid #e5e2e2"}}> */}
     {/* <li>

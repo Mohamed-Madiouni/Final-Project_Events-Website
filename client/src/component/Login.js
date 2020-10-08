@@ -45,7 +45,7 @@ function Login({ history }) {
       </div>
       <div style={{ marginTop: "4rem" }} className="row">
         <div
-          className="col s8 offset-s1"
+          className="col s8 offset-s2"
           style={{
             padding: "0px 30px",
           }}

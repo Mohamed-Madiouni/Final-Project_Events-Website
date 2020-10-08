@@ -137,4 +137,19 @@ router.post("/login", (req, res) => {
   });
 });
 
+// get myevents
+router.get('/all/events',authMiddleware,(req,res)=>{
+  User.findById(req.userId) 
+  .populate("events")
+  .exec((err,users)=>{
+if(err) 
+
+return res.status(422).json({error:err.message})
+
+res.status(200).send(users)
+
+  })
+})
+        
+
 module.exports = router;

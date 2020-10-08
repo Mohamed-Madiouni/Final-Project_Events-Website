@@ -35,9 +35,15 @@ const userSchema = mongoose.Schema({
   },
   avatar: {
     type: String,
-    default: "User_icon.png",
+    default: "/User_icon.png",
   },
   events: [{ type: mongoose.Types.ObjectId, ref: "event" }],
+  cancelation :[{
+    type:mongoose.Types.ObjectId
+  }],
+  banned_date:{
+    type:Date
+  }
 });
 
 module.exports = mongoose.model("user", userSchema);

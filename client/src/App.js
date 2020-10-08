@@ -37,6 +37,7 @@ function App() {
    
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
+   
   });
   useEffect(()=>{ 
     if (localStorage.token) {

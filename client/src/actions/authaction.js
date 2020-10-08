@@ -1,7 +1,7 @@
 import axios from "axios";
 import setAuthToken from "../token/authtoken";
 import jwt_decode from "jwt-decode";
-import { GET_ERRORS, SET_CURRENT_USER,PROFIL_UPDATED } from "./types";
+import { GET_ERRORS, SET_CURRENT_USER,PROFIL_UPDATED,GET_ALL_MY_EVENTS } from "./types";
 
 // Register User
 export const registerUser = (userData, history) => (dispatch) => {
@@ -130,4 +130,22 @@ export const logoutUser = () => (dispatch) => {
   setAuthToken(false);
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
+};
+
+//show my event participation
+export const getMyEvents = () => (dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+    .get("/user/all/events")
+    .then((res) =>{
+       dispatch({ 
+        type: GET_ALL_MY_EVENTS, 
+        payload: res.data 
+    })
+  
+  })
+    .catch((err) => dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      }));
 };

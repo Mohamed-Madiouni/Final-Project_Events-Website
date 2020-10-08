@@ -2,7 +2,7 @@ import React, { useEffect, useState,useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import get_month from "../outils/get_month"
 import historyevent from "../outils/history"
-import {closeEvent,getEventOrganizer, deleteEvent,openEvent, getEvent,endEvent} from "../actions/evntAction";
+import {closeEvent,getEventOrganizer, deleteEvent,openEvent, getEvent,endEvent, getParticipant} from "../actions/evntAction";
 import { getCurrentUser } from "../actions/authaction";
 import AddEvent from "./AddEvent";
  import "../organizer.css";
@@ -20,6 +20,8 @@ function Organizer_events({ history }) {
   const dispatch = useDispatch();
   const events = useSelector((state) => state.events);
   const allevents= useSelector((state)=>state.events.allEvents)
+  const errors=useSelector(state=>state.errors)
+  const allparticipant=useSelector(state=>state.participant)
   const [modal, setModal] = useState(false);
   const [modalId, setModalId] = useState("");
   const [action, setAction] = useState({ type: "add", payload: {} });
@@ -50,13 +52,23 @@ function Organizer_events({ history }) {
   },[]);
   useEffect(() => {
     dispatch(getEventOrganizer());
+    M.Modal.init(document.querySelectorAll(".modal"))
+    dispatch(getParticipant())
   }, []);
   useEffect(() => {
     if (!localStorage.token) history.push("/");
-    M.Modal.init(document.querySelectorAll(".modal"))
+    
     M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false});
     M.updateTextFields()
     // return ()=>{setModal(false)}
+    if(errors.deleted){
+      M.toast({ html: "Event deleted successfully", classes: "green" });
+      dispatch({
+        type: GET_ERRORS,
+        payload: {},
+      })
+    }
+
   });
 
   //check if events ended
@@ -67,8 +79,14 @@ function Organizer_events({ history }) {
       dispatch(endEvent(allevents[i]._id))
     }
   },[])
-
-  let eventsorganizer=events.events.filter(el=>{
+//check if events full
+useEffect(()=>{
+  for(let i=0;i<allevents.length;i++){
+    if( allevents[i].participant.length==allevents[i].nb_participant)
+    dispatch(closeEvent(allevents[i]._id))
+  }
+},[])
+  let eventsorganizer=allparticipant.participant.filter(el=>{
     return(
     
      el.title.toLowerCase().includes(quickSearch.title.toLowerCase())
@@ -124,6 +142,7 @@ function Organizer_events({ history }) {
               dashboard
             </Link>
             </div> */}
+            {eventsorganizer.length!=0?
             <div className="row">
       {eventsorganizer&&
         eventsorganizer.slice(0).reverse().map((el) => {
@@ -193,7 +212,7 @@ function Organizer_events({ history }) {
                           person
                         </i>
 
-                        {el.nb_participant}
+                        {el.participant.length+"/"+el.nb_participant}
                       </span>
                     </div>
                     {el.tags.length!=0&&<div className="slider right tag_slide_orgevnt">
@@ -214,7 +233,7 @@ function Organizer_events({ history }) {
                     <Link
                     to="#"
                       onClick={()=>{
-                        if(participant&&!btnpart!=el._id){
+                        if(participant&&btnpart!=el._id){
                         
                         setParticipant(participantToggle(participantToggle()));
                         }
@@ -259,7 +278,7 @@ function Organizer_events({ history }) {
                       }}
                     >
                       {" "}
-                      <a
+                      {((new Date(el.date)-new Date())/(1000*86400))>3&&<a
                       
                         className="btn-floating waves-effect waves-light cadetblue"
                         onClick={() => {
@@ -281,7 +300,7 @@ function Organizer_events({ history }) {
                         id={el._id}
                       >
                         <i className="material-icons ">edit</i>
-                      </a>
+                      </a>}
                       <button
                         className="btn-floating waves-effect waves-light cadetblue modal-trigger"
                         title="delete"
@@ -290,13 +309,13 @@ function Organizer_events({ history }) {
                       >
                         <i className="material-icons ">delete</i>{" "}
                       </button>
-                      {el.state=="Available"&&(
+                      {el.state=="Available"&&(new Date(el.date)>new Date())&&(
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="close"   data-target="modal2" onClick={
                       ()=>setClosedid(el._id)
                     }>
                       <i className="material-icons ">block</i>{" "}
                     </button>)}
-                    {el.state=="Closed"&&(new Date(el.date)>new Date())&&(
+                    {el.state=="Closed"&&(new Date(el.date)>new Date())&&(el.participant.length!=el.nb_participant)&&(
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="open"   data-target="modal3" onClick={
                       ()=>setClosedid(el._id)
                     }>
@@ -308,17 +327,21 @@ function Organizer_events({ history }) {
               </div>
               {modal && modalId==el._id&&<div className="col s12 m6" style={{overflowY:"scroll",height:"360px",backgroundColor:"white"}}><AddEvent toggle={toggle} action={action} setAction={setAction} /></div>}
               {participant&&participantId==el._id&&<div className="col s12 m6" style={{overflowY:"scroll",height:"360px"}}>
-              <ul className="collection">
-    <li className="collection-item avatar">
-      <img src="/User_icon.png" alt="" className="circle"/>
-      <span className="title">Title</span>
-      <p>First Line <br/>
-         Second Line
-      </p>
-      <a href="#!" className="secondary-content"><i className="material-icons">grade</i></a>
-    </li>
+              {el.participant.length!=0?<ul className="collection">
     
-  </ul>
+    {el.participant.map((el,i)=>
+    {return(<li key={i} className="collection-item avatar">
+      <img src={el.avatar} alt="" className="circle"/>
+      <span className="title"><b>{el.fname+" "+el.lname}</b></span>
+      <p className="red-text">{el.address}</p>
+        <p>{el.email}</p> 
+      
+      
+    </li>)
+    })
+     }
+    
+  </ul>:<p> <b>0 participant</b> </p>}
             
               </div>}
             </div>
@@ -388,7 +411,12 @@ function Organizer_events({ history }) {
             </a>
           </div>
         </div>
+        </div>:
+        <div  style={{marginLeft:10}}>
+          <h4> <b>Your dashboard is empty, get started and create events</b> </h4>
         </div>
+        
+        }
         
     </>
   );
