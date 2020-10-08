@@ -25,12 +25,40 @@
 .organizer_nav i:active{
     color: cadetblue;
 }
+.organizer_nav_part{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 20px;
+}
+.organizer_nav_part > div{
+    font-size:15px;
+    /* color : black; */
+    padding: 10px 0px 10px 10px;
+    display: flex;
+    align-items: center;
+    /* width: 100%; */
+}
+.organizer_nav_part label{
+    font-size: 14px;
+    color: black;
+    padding-left: 8px;
+}
+.organizer_nav_part i{
+    cursor: pointer;
+  
+}
+.organizer_nav_part i:active{
+    color: cadetblue;
+}
 .organizer_hi{
-    border:  1px solid gray;
+    /* border:  1px solid gray; */
     height: fit-content;
     padding: 10px 0px;
     display: flex;
     align-items: center;
+    /* margin: 10px; */
 }
 
 #toast-container{
@@ -153,3 +181,14 @@ align-items: flex-end;
     display:none
 }
 } 
+@media screen and (max-width: 1000px) {
+    .organizer_nav_part{
+        display: flex;
+    flex-direction: column;
+    align-items: flex-end; 
+    
+    }
+    .organizer_nav_part label{
+        display:none
+    }
+    } 

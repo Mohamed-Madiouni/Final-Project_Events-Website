@@ -3,30 +3,64 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch,useSelector } from 'react-redux';
 import { useHistory,Link } from 'react-router-dom';
 import { getCurrentUser } from '../actions/authaction';
-import {followEvent, getEvent,makeComment,getComment,deleteComment,editComment} from "../actions/evntAction";
+
+import {makeComment,getComment,deleteComment,editComment} from "../actions/evntAction";
+
+import {followEvent, getEvent, unfollowEvent,endEvent, closeEvent} from "../actions/evntAction";
+
 import get_month from "../outils/get_month"
 import historyevent from "../outils/history"
 import Navbar from './Navbar';
 import "../events.css";
 import M from "materialize-css";
+import { GET_ERRORS } from "../actions/types";
+import eventClosing from "../outils/eventClosing";
 function Events() {
     const dispatch = useDispatch()
     const history =useHistory()
     const allevents=useSelector(state=>state.events.allEvents)
     const comment=useSelector(state=>state.comments.comment)
     let auth = useSelector(state=>state.auth)
+    let errors=useSelector(state=>state.errors)
     const [quickSearch, setQuickSearch] = useState({
       title: "",
       state: "",
       tags: "",
     });
+    const [participate,setParticipate]=useState("")
+    const [eventDate,setEventDate]=useState("")
+
+    //check if events ended
+useEffect(()=>{
+  dispatch(getEvent())
+  for(let i=0;i<allevents.length;i++){
+    if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
+    dispatch(endEvent(allevents[i]._id))
+  }
+},[])
+//check if events full
+useEffect(()=>{
+  for(let i=0;i<allevents.length;i++){
+    if( allevents[i].participant.length==allevents[i].nb_participant)
+    dispatch(closeEvent(allevents[i]._id))
+  }
+},[])
     useEffect(()=>{
         dispatch(getEvent())
        localStorage.token&&dispatch(getCurrentUser())
+       M.Modal.init(document.querySelectorAll(".modal"),{dismissible:false})
     },[])
     useEffect(()=>{
       M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false})
       M.updateTextFields()
+      if(errors.banned)
+      {
+      M.toast({ html:`Your account has been banned from subscribtion to any event !! \n your restriction will end in ${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+7)}  `, classes: "red darken-4" });
+      dispatch({
+        type: GET_ERRORS,
+        payload: {},
+      })
+    }
     })
   useEffect(()=>{
     dispatch(makeComment(),getComment())
@@ -157,7 +191,7 @@ const deleteComment = (comment) => {
                           person
                         </i>
 
-                        {el.nb_participant}
+                        {el.participant.length+"/"+el.nb_participant}
                       </span>
                     </div>
                     {el.tags.length!=0&&<div className="slider right tag_slide_event">
@@ -175,7 +209,7 @@ const deleteComment = (comment) => {
                       justifyContent: "space-between",
                     }}
                   >
-                    {!auth.isAuthenticated?
+                    {el.state=="Available"&&(!auth.isAuthenticated?
                     <button
                     
                       onClick={()=>{
@@ -186,18 +220,39 @@ const deleteComment = (comment) => {
                     >
                       Participate
                       
-                    </button>:auth.user.role=="participant"&&
+                    </button>:(auth.user.role=="participant"&&
+                    !auth.user.cancelation.includes(el._id)&&
+                    (auth.user.banned_date?new Date()>auth.user.banned_date:true)&&
+                    (
+                      !auth.user.events.includes(el._id)?
                     <button
-                    
+                    data-target="modalevnt"
                       onClick={()=>{
-                        dispatch(followEvent(el._id))
+                        // !auth.user.events.includes(el._id)&&
+                         setParticipate(el._id)
+                        // :dispatch(unfollowEvent(el._id))
                       }}
                       style={{ display: "flex", alignItems: "center",borderRadius:"5px" }}
-                      className="btn-small green white-text"
+                      className="btn-small green white-text modal-trigger"
                     >
-                      Participate
+                     Participate
                       
-                    </button>}
+                    </button>
+                    :
+                    <button
+                    data-target="modalevnt"
+                      onClick={()=>{
+                        // !auth.user.events.includes(el._id)&&
+                         setParticipate(el._id)
+                         setEventDate(el.date)
+                        // :dispatch(unfollowEvent(el._id))
+                      }}
+                      style={{ display: "flex", alignItems: "center",borderRadius:"5px" }}
+                      className="btn-small red white-text modal-trigger"
+                    >
+                     Cancel
+                      
+                    </button>)))}
                     <span
                       className={
                         el.state == "Available"
@@ -307,6 +362,33 @@ const deleteComment = (comment) => {
  })}
             {/* </div> */}
             </div>
+            <div id="modalevnt" className="modal">
+          <div className="modal-content">
+               {participate&& !auth.user.events.includes(participate)?<><h4>Hi, {auth.user.fname}</h4>
+<p>You are about to subscribe to {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )} event, Please
+note that: </p><br/>  
+<ol><li>You can't subscribe to the same event after <b>annulation</b>. </li>
+<li>You must valid your cancelation at least <b>two days</b> before the event's day, or you will be banned for participation to any event for one week.</li>
+</ol></>:<><h4>Event annulation</h4>
+            <p>Are you sure you want to cancel the {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )}  event? you will not be able to <b>subscribe</b>  again.</p></>}
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close btn-flat"
+              onClick={()=>{
+                participate&&(!auth.user.events.includes(participate)?dispatch(followEvent(participate)):dispatch(unfollowEvent(participate,eventDate)))}}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
         </div>
     )
 }

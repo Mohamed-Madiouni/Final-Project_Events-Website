@@ -278,6 +278,8 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
               </div>
             </div>
           </form>
+          <div className='col s12 container '>
+            <h6>* Please note that you can't (modify,close and re-open) your event before <b>three days</b>  from it's schudeled day.</h6> </div>
         </div>
       </div>
     

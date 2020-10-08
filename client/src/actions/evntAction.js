@@ -1,6 +1,7 @@
-import { GET_EVENTS,GET_ERRORS,GET_ALL_EVENTS,UPDATE} from "./types";
+import { GET_EVENTS,GET_ERRORS,GET_ALL_EVENTS,UPDATE,GET_ALL_PARTICIPANT} from "./types";
 import setAuthToken from "../token/authtoken";
 import axios from "axios";
+import { getCurrentUser } from "./authaction";
 
 
 // get all events
@@ -8,10 +9,13 @@ export const getEvent = () => (dispatch) => {
   
   axios
     .get("/event/all")
-    .then((res) => dispatch({ 
+    .then((res) =>{
+       dispatch({ 
         type: GET_ALL_EVENTS, 
         payload: res.data 
-    }))
+    })
+  
+  })
     .catch((err) => dispatch({
         type: GET_ERRORS,
         payload: err.response.data,
@@ -62,7 +66,7 @@ export const deleteEvent = (idEvent) => (dispatch) => {
       dispatch(getEventOrganizer())
       dispatch({
         type: GET_ERRORS,
-        payload: {},
+        payload: {deleted:"ok"},
       })
     })
     .catch((err) => dispatch({
@@ -175,13 +179,14 @@ export const editEvent = (idEvent, updatedEvent) => (dispatch) => {
 
 // participation
 
+//follow
 export const followEvent=(eventId)=>(dispatch) => {
   setAuthToken(localStorage.token)
   axios
   .put('/event/follow',{followId:eventId})
   .then((res) => {
-    dispatch({type:UPDATE,
-      payload:res.data.participant})
+    dispatch(getEvent())
+    dispatch(getCurrentUser())
     dispatch({
      type: GET_ERRORS,
      payload: {},
@@ -192,20 +197,18 @@ export const followEvent=(eventId)=>(dispatch) => {
     payload: err.response.data,
   }));
 }
-export const unfollowEvent=(userId)=>(dispatch) => {
+
+//unfollow
+export const unfollowEvent=(eventId,eventDate)=>(dispatch) => {
   setAuthToken(localStorage.token)
   axios
-  .put('/event/unfollow',{
-   body:JSON.stringify({
-     unfollowId:userId
-   })
-  })
+  .put('/event/unfollow',{unfollowId:eventId,date:eventDate})
   .then((res) => {
-    dispatch({type:UPDATE,
-      payload:{participant:res.participant}})
+    dispatch(getEvent())
+    dispatch(getCurrentUser())
     dispatch({
      type: GET_ERRORS,
-     payload: {},
+     payload: res.data
    })
  })
   .catch((err) => dispatch({
@@ -213,6 +216,26 @@ export const unfollowEvent=(userId)=>(dispatch) => {
     payload: err.response.data,
   }));
 }
+
+//show Participant
+export const getParticipant = () => (dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+    .get("/event/all/participant")
+    .then((res) =>{
+       dispatch({ 
+        type: GET_ALL_PARTICIPANT, 
+        payload: res.data 
+    })
+  
+  })
+
+    .catch((err) => dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      }));
+};
+
 //comments
 export const makeComment =(content,eventId)=> (dispatch)=>{
   setAuthToken(localStorage.token)
@@ -245,11 +268,10 @@ export const getComment = () => (dispatch) => {
         type: GET_COMMENT, 
         payload: res.data 
     }))
-    .catch((err) => dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data,
-      }));
-};
+
+
+
+
 // edit comment
 export const editComment = (idComment, updatedComment) => (dispatch) => {
   setAuthToken(localStorage.token)
@@ -268,7 +290,7 @@ export const editComment = (idComment, updatedComment) => (dispatch) => {
       payload: err.response.data,
     }));
 };
-//delete event
+//delete comment
 export const deleteComment = (idComment) => (dispatch) => {
   axios
     .delete(`/event/delete/${idComment}`)
@@ -284,3 +306,7 @@ export const deleteComment = (idComment) => (dispatch) => {
       payload: err.response.data,
     }));
 };
+
+
+
+

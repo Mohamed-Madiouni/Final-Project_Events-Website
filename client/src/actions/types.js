@@ -8,5 +8,11 @@ export const GET_EVENTS ="GET_EVENTS"
 export const GET_ALL_EVENTS = "GET_ALL_EVENTS"
 export const UPDATE = "UPDATE"
 export const SET_RESIZE="SET_RESIZE"
-export const INI_RESIZE ="INI_RESIZE,"
+
+
 export const GET_COMMENT="GET_COMMENT"
+
+export const INI_RESIZE ="INI_RESIZE"
+export const GET_ALL_PARTICIPANT="GET_ALL_PARTICIPANT"
+export const GET_ALL_MY_EVENTS="GET_ALL_MY_EVENTS"
+

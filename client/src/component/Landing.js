@@ -77,12 +77,12 @@ function Landing() {
           
           onClick={onLogoutClick}
         > </a> */}
-        <div style={{width:"100%",display:"flex",alignItems:"center",justifyContent:resize.state?"flex-end":"space-around"}}>
+        {localStorage.token&&<div style={{width:"100%",display:"flex",alignItems:"center",justifyContent:resize.state?"flex-end":"space-around"}}>
           {localStorage.token &&<i className="fas fa-sign-out-alt " style={{cursor:"pointer",fontSize:17}} onClick={onLogoutClick} title="sign out"></i>}
           
        
-        {localStorage.token&&<a href='#' data-target='dropdown1' className='dropdown-trigger' style={{margin:resize.state&&"11px"}}><img className="circle" src={auth.user.avatar} width="30px" height="30px"/></a>}
-        </div>
+        {localStorage.token&&<a href='#' data-target='dropdown1' className='dropdown-trigger' style={{margin:resize.state&&"11px",transform:"translateY(3px)"}}><img className="circle" src={auth.user.avatar} width="30px" height="30px"/></a>}
+        </div>}
       </div>
 
       <ul id='dropdown1' className='dropdown-content' >
