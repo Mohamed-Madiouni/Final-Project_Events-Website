@@ -13,7 +13,7 @@ import Navbar from "./Navbar";
 import Searchevents from "./Searchevents";
 
 import Organizer from "./Organizer";
-import Participant from "./Participant";
+
 import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
 import { closeEvent, getEvent,endEvent } from "../actions/evntAction";
