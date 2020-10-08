@@ -19,7 +19,7 @@ function Events() {
     const dispatch = useDispatch()
     const history =useHistory()
     const allevents=useSelector(state=>state.events.allEvents)
-    const comment=useSelector(state=>state.comments.comment)
+    // const comment=useSelector(state=>state.comments.comment)
     let auth = useSelector(state=>state.auth)
     let errors=useSelector(state=>state.errors)
     const [quickSearch, setQuickSearch] = useState({
@@ -62,24 +62,24 @@ useEffect(()=>{
       })
     }
     })
-  useEffect(()=>{
-    dispatch(makeComment(),getComment())
-},[])
-const [edit, setedit] = useState(false)
-const [content, setContent] = useState("")
-const editComment =(id)=>{
-  dispatch(editComment(id,content))
-  setedit(false)
-  setContent("")
-}
-const EDITCOM =(e)=>{
-  setContent(e.content)
-  setedit(true)
+//   useEffect(()=>{
+//     dispatch(makeComment(),getComment())
+// },[])
+// const [edit, setedit] = useState(false)
+// const [content, setContent] = useState("")
+// const editComment =(id)=>{
+//   dispatch(editComment(id,content))
+//   setedit(false)
+//   setContent("")
+// }
+// const EDITCOM =(e)=>{
+//   setContent(e.content)
+//   setedit(true)
 
-}
-const deleteComment = (comment) => {
-  dispatch(deleteComment(comment._id))
-}
+// }
+// const deleteComment = (comment) => {
+//   dispatch(deleteComment(comment._id))
+// }
     let events=allevents.filter(el=>{
       return(
       
@@ -320,7 +320,7 @@ const deleteComment = (comment) => {
                     </div> */}
                   </div>
                 </div>
-                {
+                {/* {
                     el.comment.map(elt=>{
                       return(
                       <h6>
@@ -328,8 +328,8 @@ const deleteComment = (comment) => {
                       {elt.content}
                       </h6>
                       )
-                    })}
-                  <form on onSubmit={(e)=>{
+                    })} */}
+                  {/* <form on onSubmit={(e)=>{
                     e.preventDefault()
                     makeComment(e.target.value,el._id)
                   }}>
@@ -356,7 +356,7 @@ const deleteComment = (comment) => {
                      type="edit"
                       className="btn waves-effect waves-light hoverable "
                       onClick={() => EDITCOM(comment)}>Edit</button>
-                  </form>
+                  </form> */}
                 </div>)
 
  })}

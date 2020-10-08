@@ -1,4 +1,4 @@
-import { GET_EVENTS,GET_ERRORS,GET_ALL_EVENTS,UPDATE,GET_ALL_PARTICIPANT} from "./types";
+import { GET_EVENTS,GET_ERRORS,GET_ALL_EVENTS,UPDATE,GET_ALL_PARTICIPANT,GET_COMMENT} from "./types";
 import setAuthToken from "../token/authtoken";
 import axios from "axios";
 import { getCurrentUser } from "./authaction";
@@ -267,7 +267,9 @@ export const getComment = () => (dispatch) => {
     .then((res) => dispatch({ 
         type: GET_COMMENT, 
         payload: res.data 
-    }))
+    })
+    )
+  }
 
 
 

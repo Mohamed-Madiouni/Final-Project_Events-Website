@@ -1,4 +1,4 @@
-import {GET_EVENTS,GET_ALL_EVENTS, UPDATE } from "../actions/types"
+import {GET_EVENTS,GET_ALL_EVENTS, UPDATE ,GET_COMMENT} from "../actions/types"
 
 const initState ={
     events:[],
@@ -17,7 +17,7 @@ export const reducer=(state=initState,action)=>{
                  
                         case GET_COMMENT:
                             return{...state,comment:action.payload, isLoading: false}
-                        default:return state
+                      
 
                     // case UPDATE:
                     //     return{...state,participation:action.payload, isLoading: false}

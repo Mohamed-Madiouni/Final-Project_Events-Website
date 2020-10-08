@@ -164,7 +164,7 @@ function Participant() {
       {modal && (<div className="container organizer_add row">
         <AddComment toggle={toggle} /></div>
       )}
- 
+ {events&&events.length!=0?
 <div className="row">
            
            {events&&events.slice(0).reverse().map(el=>{
@@ -323,7 +323,9 @@ function Participant() {
           
            })}
                      
-                      </div>
+                      </div>: <div  style={{marginLeft:10}}>
+          <h4> <b>Your dashboard is empty, get started and join events</b> </h4>
+        </div>}
                       <div id="modalevnt" className="modal">
                     <div className="modal-content">
                          {participate&& !auth.user.events.includes(participate)?<><h4>Hi, {auth.user.fname}</h4>
