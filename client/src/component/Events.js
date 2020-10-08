@@ -3,7 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch,useSelector } from 'react-redux';
 import { useHistory,Link } from 'react-router-dom';
 import { getCurrentUser } from '../actions/authaction';
+
+import {makeComment,getComment,deleteComment,editComment} from "../actions/evntAction";
+
 import {followEvent, getEvent, unfollowEvent,endEvent, closeEvent} from "../actions/evntAction";
+
 import get_month from "../outils/get_month"
 import historyevent from "../outils/history"
 import Navbar from './Navbar';
@@ -15,6 +19,7 @@ function Events() {
     const dispatch = useDispatch()
     const history =useHistory()
     const allevents=useSelector(state=>state.events.allEvents)
+    const comment=useSelector(state=>state.comments.comment)
     let auth = useSelector(state=>state.auth)
     let errors=useSelector(state=>state.errors)
     const [quickSearch, setQuickSearch] = useState({
@@ -57,7 +62,24 @@ useEffect(()=>{
       })
     }
     })
+  useEffect(()=>{
+    dispatch(makeComment(),getComment())
+},[])
+const [edit, setedit] = useState(false)
+const [content, setContent] = useState("")
+const editComment =(id)=>{
+  dispatch(editComment(id,content))
+  setedit(false)
+  setContent("")
+}
+const EDITCOM =(e)=>{
+  setContent(e.content)
+  setedit(true)
 
+}
+const deleteComment = (comment) => {
+  dispatch(deleteComment(comment._id))
+}
     let events=allevents.filter(el=>{
       return(
       
@@ -298,6 +320,43 @@ useEffect(()=>{
                     </div> */}
                   </div>
                 </div>
+                {
+                    el.comment.map(elt=>{
+                      return(
+                      <h6>
+                      <span>{elt.postedBy.name}</span>
+                      {elt.content}
+                      </h6>
+                      )
+                    })}
+                  <form on onSubmit={(e)=>{
+                    e.preventDefault()
+                    makeComment(e.target.value,el._id)
+                  }}>
+                    <input type="text"
+                     placeholder="add comment"
+                     value={content} 
+                    onChange={(e)=>setContent(e.target.value)}/>
+                    <button 
+                 style={{
+                    width: "100%",
+                    borderRadius: "3px",
+                    height: "45px",
+                  }} 
+                  type="delete"
+                  className="btn waves-effect waves-light hoverable " 
+                  onClick={()=>deleteComment()}>Delete</button>
+                
+                    <button 
+                     style={{
+                        width: "100%",
+                        borderRadius: "3px",
+                        height: "45px",
+                      }}
+                     type="edit"
+                      className="btn waves-effect waves-light hoverable "
+                      onClick={() => EDITCOM(comment)}>Edit</button>
+                  </form>
                 </div>)
 
  })}

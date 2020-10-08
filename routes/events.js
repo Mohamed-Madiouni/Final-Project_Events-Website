@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const Event = require('../models/Event')
 const User = require('../models/User')
+const Comment = require('../models/Comment')
 const authMiddleware = require("../middleware/authMiddleware");
 const validateEventsInput = require("../validation/events");
 
@@ -250,6 +251,58 @@ let diff=(d-nowdate)/(1000*86400)
     //    })
    })
 
+
+//-----comments-------//
+// router.put('comment',authMiddleware,(req,res)=>{
+//   const comment={
+//     content:req.body.text,
+//     postedBy:req.userId._id
+//   }
+//   Event.findByIdAndUpdate(req.body.eventId,{
+//     $push:{comments:comment}},{
+//       new:true
+//     })
+//     .populate("comments.postedBy","_id name")
+//     .exec((err,result)=>{if(err){
+//     return res.status(422).json({error:err})
+//   }})
+// })
+//create comments
+router.post(":eventId/comments",authMiddleware,async(req,res)=>{
+  const event=await Event.findOne({_id:req.params.eventId})
+  const comment =new Comment();
+  comment.content = req.body.content
+  comment.postedBy=req.body.userId
+  comment.event = event._id
+   await comment.save()
+   event.comments.push(comment._id)
+   await event.save()
+   res.send(comment)
+})
+//read comment
+router.get("/:eventId/comment",async(req,res)=>{
+  const event=await Event.findOne({_id:req.params.eventId})
+  .populate("comments.postedBy","_id name")
+res.send(event)
+})
+//Edit comment
+router.put("/comment/:commentId",async(req,res)=>{
+  const comment = await Comment.findOneAndUpdate({
+    _id:req.params.commentId
+  },req.body,
+  {
+    new:true,
+    runValidators:true
+  })
+  res.send(comment)
+})
+//delete comment 
+router.delete("/comment/:commentId",async(req,res)=>{
+  const comment = await Comment.findOneAndRemove(req.params.commentId)
+  res.send({ msg: "comment Deleted!" })
+
+})
+
 // get participant
 router.get('/all/participant',authMiddleware,(req,res)=>{
   Event.find({id_organizer:req.userId}) 
@@ -264,6 +317,7 @@ res.status(200).send(events)
   })
 })
         
+
 
 
 module.exports= router

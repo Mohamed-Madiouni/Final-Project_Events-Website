@@ -229,10 +229,84 @@ export const getParticipant = () => (dispatch) => {
     })
   
   })
+
     .catch((err) => dispatch({
         type: GET_ERRORS,
         payload: err.response.data,
       }));
 };
+
+//comments
+export const makeComment =(content,eventId)=> (dispatch)=>{
+  setAuthToken(localStorage.token)
+  axios
+  .post('/event/comment',
+  {
+  body:JSON.stringify({
+    eventId,content})
+  })
+  .then((res) => {
+    dispatch(getEvent())
+    dispatch({
+     type: GET_ERRORS,
+     payload: {},
+   })
+    
+ })
+  .catch((err) => dispatch({
+    type: GET_ERRORS,
+    payload: err.response.data,
+  }));
+};
+// get comment
+export const getComment = () => (dispatch) => {
+  setAuthToken(localStorage.token)
+
+  axios
+    .get("/event/comments")
+    .then((res) => dispatch({ 
+        type: GET_COMMENT, 
+        payload: res.data 
+    }))
+
+
+
+
+// edit comment
+export const editComment = (idComment, updatedComment) => (dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+    .put(`/event/edit/${idComment}`, updatedComment)
+    .then((res) => {
+      dispatch(getComment ())
+      dispatch({
+       type: GET_ERRORS,
+       payload: {success:"done"},
+     })
+      
+   })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+};
+//delete comment
+export const deleteComment = (idComment) => (dispatch) => {
+  axios
+    .delete(`/event/delete/${idComment}`)
+    .then((res) => {
+      dispatch(getComment ())
+      dispatch({
+        type: GET_ERRORS,
+        payload: {},
+      })
+    })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+};
+
+
 
 
