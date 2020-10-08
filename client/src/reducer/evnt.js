@@ -3,7 +3,7 @@ import {GET_EVENTS,GET_ALL_EVENTS, UPDATE } from "../actions/types"
 const initState ={
     events:[],
     allEvents:[],
-    participation:[],
+    // participation:[],
     isLoading: true
 }
 export const reducer=(state=initState,action)=>{
@@ -13,8 +13,8 @@ export const reducer=(state=initState,action)=>{
             
                 case GET_ALL_EVENTS:
                     return{...state,allEvents:action.payload, isLoading: false}
-                    case UPDATE:
-                        return{...state,participation:action.payload, isLoading: false}
+                    // case UPDATE:
+                    //     return{...state,participation:action.payload, isLoading: false}
     default:return state
         }
 }

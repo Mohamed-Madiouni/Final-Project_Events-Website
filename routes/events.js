@@ -213,22 +213,28 @@ router.put('/follow',authMiddleware, (req, res) => {
   })
  router.put('/unfollow',authMiddleware, (req, res) => {
    Event.findByIdAndUpdate(req.body.unfollowId ,{
-   $pull:{participant:req.userId._id}},
+   $pull:{participant:req.userId}},
    {
    new:true
    }).exec((err,result)=>{
      if(err){
-       return res.status(422).json({error:err})
+       return res.status(422).json({error:err.message})
      }else{
-       User.findById(req.userId._id)
+
+       User.findByIdAndUpdate(req.userId,{$pull:{events:req.body.unfollowId},$push:{cancelation:req.body.unfollowId}})
         .then(user => {
-          if(!user){
-            return res.status(404).send({msg: "User not found!"})
-          }
-          user.events.push(req.body.unfollowId)
-          user.save()
-          res.json(result)
+          let dat =req.body.date
+let d=new Date(dat)
+let nowdate = new Date()
+console.log(nowdate)
+let diff=(d-nowdate)/(1000*86400)
+          
+          if(diff<=2)
+          User.findByIdAndUpdate(req.userId,{$set:{banned_date:new Date(nowdate.getFullYear(),nowdate.getMonth(),nowdate.getDate()+7)}},{new:true})
+          .then(userbanned=>res.send({banned:"ok"}))
+         else res.send(result)
         })
+        .catch(err=>console.log(err.message))
      }
     })
     // Event.findByIdAndUpdate(req.body.unfollowId ,{
@@ -244,6 +250,20 @@ router.put('/follow',authMiddleware, (req, res) => {
     //    })
    })
 
+// get participant
+router.get('/all/participant',authMiddleware,(req,res)=>{
+  Event.find({id_organizer:req.userId}) 
+  .populate("participant")
+  .exec((err,events)=>{
+if(err) 
+
+return res.status(422).json({error:err.message})
+
+res.status(200).send(events)
+
+  })
+})
+        
 
 
 module.exports= router

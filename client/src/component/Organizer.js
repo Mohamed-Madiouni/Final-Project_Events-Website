@@ -8,15 +8,18 @@ import AddEvent from "./AddEvent";
 import "../organizer.css";
 import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
+import { GET_ERRORS } from "../actions/types";
 
 
-function Organizer({state}) {
+function Organizer() {
   
   
   const dispatch = useDispatch();
   const events = useSelector((state) => state.events);
   const auth = useSelector((state) => state.auth);
   const allevents= useSelector((state)=>state.events.allEvents)
+  const errors=useSelector(state=>state.errors)
+
   const [modal, setModal] = useState(false);
   const [action, setAction] = useState({ type: "add", payload: {} });
   const [deleteid,setDeleteid]= useState("")
@@ -39,9 +42,23 @@ useEffect(()=>{
     dispatch(endEvent(allevents[i]._id))
   }
 },[])
+//check if events full
+useEffect(()=>{
+  for(let i=0;i<allevents.length;i++){
+    if( allevents[i].participant.length==allevents[i].nb_participant)
+    dispatch(closeEvent(allevents[i]._id))
+  }
+},[])
  useEffect(()=>{
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
     M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false });
+    if(errors.deleted){
+      M.toast({ html: "Event deleted successfully", classes: "green" });
+      dispatch({
+        type: GET_ERRORS,
+        payload: {},
+      })
+    }
   })
 
   return (
@@ -54,7 +71,7 @@ useEffect(()=>{
         
         <div className="col s10 l6 organizer_hi">
           <div
-            className="col s11 m8"
+            className="col s12"
             style={{
               paddingTop: "0.75rem",
               paddingBottom: "0.75rem",
@@ -73,9 +90,7 @@ useEffect(()=>{
             </p>
            
           </div>
-          <div className="col s1 m4 welcome">
-            <img src="welcome.jpg" alt="welcome" width="100%" height="100%" />{" "}
-          </div>
+         
         </div>
         <div
           className="col s2 l6"
@@ -121,9 +136,14 @@ useEffect(()=>{
 
 
 <div className="col s12">
-  <h5 className="teal-text text-darken-4"> <b>Your last events</b> </h5>
+  <h5 className="teal-text text-darken-4" style={{marginLeft:10}}> <b>Your last events</b> </h5>
 </div>
-
+        {events.events==0&&
+        <div  style={{marginLeft:10}}>
+          <h4> <b>Your dashboard is empty, get started and create events</b> </h4>
+        </div>
+        
+        }
       <div className="row card_event">
         {events.events &&
           events.events.slice(-6).reverse().map((el) => {
@@ -193,7 +213,7 @@ useEffect(()=>{
                         person
                       </i>
 
-                      {el.nb_participant}
+                      {el.participant.length+"/"+el.nb_participant} 
                     </span>
                   </div>
                   {el.tags.length!=0&&<div className="slider right tag_slide_home">
@@ -237,7 +257,7 @@ useEffect(()=>{
                     }}
                   >
                     {" "}
-                    <a
+                   {((new Date(el.date)-new Date())/(1000*86400))>3&& <a
                       className="btn-floating waves-effect waves-light cadetblue"
                       onClick={() => {
                         
@@ -251,19 +271,19 @@ useEffect(()=>{
                       title="edit"
                     >
                       <i className="material-icons ">edit</i>
-                    </a>
+                    </a>}
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="delete"   data-target="modal1" onClick={
                       ()=>setDeleteid(el._id)
                     }>
                       <i className="material-icons ">delete</i>{" "}
                     </button>
-                    {el.state=="Available"&&(new Date(el.date)>new Date())&&(
+                    {el.state=="Available"&&(((new Date(el.date)-new Date())/(1000*86400))>3)&&(
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="close"   data-target="modal2" onClick={
                       ()=>setClosedid(el._id)
                     }>
                       <i className="material-icons ">block</i>{" "}
                     </button>)}
-                    {el.state=="Closed"&&(new Date(el.date)>new Date())&&(
+                    {el.state=="Closed"&&(((new Date(el.date)-new Date())/(1000*86400))>3)&&(el.participant.length!=el.nb_participant)&&(
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="open"   data-target="modal3" onClick={
                       ()=>setClosedid(el._id)
                     }>
