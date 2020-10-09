@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { registerUser } from "../actions/authaction";
 import { GET_ERRORS } from "../actions/types";
+import Navbar from "./Navbar";
 
 function Register({ history }) {
   const errors = useSelector((state) => state.errors);
@@ -25,7 +26,12 @@ function Register({ history }) {
   useEffect(() => {
     if (localStorage.token) history.push("/dashboard");
   });
-
+  useEffect(()=>{
+    dispatch({
+      type: GET_ERRORS,
+      payload: {},
+    });
+  },[])
   useEffect(() => {
     if (errors) setUser({ ...user, error: errors });
   }, [errors]);
@@ -38,7 +44,7 @@ function Register({ history }) {
     const newUser = {
       fname: user.fname,
       lname: user.lname,
-      email: user.email,
+      email: user.email.toLowerCase(),
       password: user.password,
       password2: user.password2,
       tel: user.tel,
@@ -49,15 +55,10 @@ function Register({ history }) {
     dispatch(registerUser(newUser, history));
   };
   return (
+<>
+<Navbar/>
     <div className="container">
-      <div
-        className="row"
-        style={{ display: "flex", justifyContent: "center", fontSize: 30 }}
-      >
-        <img src="coco2.png" alt="COCO PARTY" width="250px" />
-        {/* <span className="red-text">CoCo</span>{" "}
-        <span className=" purple-text">PaRtY</span> */}
-      </div>
+      
       <div className="row">
         <div className="col s4 m3 l2"
           style={{
@@ -66,7 +67,7 @@ function Register({ history }) {
             top: "170px",
           }}
         >
-          <form ref={form}>
+          <form ref={form} value={user.role}>
             <p>
               <label>
                 <input
@@ -94,7 +95,7 @@ function Register({ history }) {
             paddingLeft:0
           }}
         >
-          <Link
+          {/* <Link
             to="/"
             className="btn-flat waves-effect"
             onClick={() =>
@@ -106,7 +107,7 @@ function Register({ history }) {
           >
             <i className="material-icons left">keyboard_backspace</i> Back to
             home
-          </Link>
+          </Link> */}
           <div className="col s12" style={{ paddingLeft: "11.250px" }}>
             <h4>
               <b>Register</b> below
@@ -230,6 +231,7 @@ function Register({ history }) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

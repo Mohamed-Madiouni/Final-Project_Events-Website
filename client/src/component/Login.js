@@ -3,6 +3,7 @@ import { Link} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { loginUser } from "../actions/authaction";
 import { GET_ERRORS } from "../actions/types";
+import Navbar from "./Navbar";
 
 function Login({ history }) {
   const errors = useSelector((state) => state.errors);
@@ -17,6 +18,13 @@ function Login({ history }) {
     if (localStorage.token) history.push("/dashboard");
   });
 
+useEffect(()=>{
+  dispatch({
+    type: GET_ERRORS,
+    payload: {},
+  });
+},[])
+
   useEffect(() => {
     if (errors) setUserlog({ ...userlog, error: errors });
   }, [errors]);
@@ -27,22 +35,18 @@ function Login({ history }) {
   const onSubmit = (e) => {
     e.preventDefault();
     const userData = {
-      email: userlog.email,
+      email: userlog.email.toLowerCase(),
       password: userlog.password,
     };
     dispatch(loginUser(userData));
   };
 
   return (
+    
+    <>
+    <Navbar/>
     <div className="container">
-      <div
-        className="row"
-        style={{ display: "flex", justifyContent: "center", fontSize: 30 }}
-      >
-        <img src="coco2.png" alt="COCO PARTY" width="250px" />
-        {/* <span className="red-text">CoCo</span>{" "}
-        <span className=" purple-text">PaRtY</span> */}
-      </div>
+      
       <div style={{ marginTop: "4rem" }} className="row">
         <div
           className="col s8 offset-s2"
@@ -50,7 +54,7 @@ function Login({ history }) {
             padding: "0px 30px",
           }}
         >
-          <Link
+          {/* <Link
             to="/"
             className="btn-flat waves-effect"
             onClick={() =>
@@ -62,7 +66,7 @@ function Login({ history }) {
           >
             <i className="material-icons left">keyboard_backspace</i> Back to
             home
-          </Link>
+          </Link> */}
           <div className="col s12" style={{ paddingLeft: "11.250px" }}>
             <h4>
               <b>Login</b> below
@@ -127,6 +131,7 @@ function Login({ history }) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 export default Login;

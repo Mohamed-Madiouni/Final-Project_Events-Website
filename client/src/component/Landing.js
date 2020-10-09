@@ -14,10 +14,11 @@ function Landing() {
   useEffect(() => {
     M.Sidenav.init(document.querySelectorAll(".sidenav"));
     M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
+    
   });
 
-  const onLogoutClick = (e) => {
-    e.preventDefault();
+  const onLogoutClick = () => {
+  
     dispatch(logoutUser());
   };
 
@@ -78,10 +79,10 @@ function Landing() {
           onClick={onLogoutClick}
         > </a> */}
         {localStorage.token&&<div style={{width:"100%",display:"flex",alignItems:"center",justifyContent:resize.state?"flex-end":"space-around"}}>
-          {localStorage.token &&<i className="fas fa-sign-out-alt " style={{cursor:"pointer",fontSize:17}} onClick={onLogoutClick} title="sign out"></i>}
+          {localStorage.token &&<a href="#signoutmodal" className="modal-trigger" style={{color:"black",height:17}}><i className="fas fa-sign-out-alt" style={{cursor:"pointer",fontSize:17}}   title="sign out"></i></a>}
           
        
-        {localStorage.token&&<a href='#' data-target='dropdown1' className='dropdown-trigger' style={{margin:resize.state&&"11px",transform:"translateY(3px)"}}><img className="circle" src={auth.user.avatar} width="30px" height="30px"/></a>}
+        {localStorage.token&&<a href='#' data-target='dropdown1' className='dropdown-trigger' style={{margin:resize.state&&"11px",transform:"translateY(3.2px)"}}><img className="circle" src={auth.user.avatar} width="30px" height="30px"/></a>}
         </div>}
       </div>
 
@@ -100,6 +101,27 @@ function Landing() {
         </div>
        </li>
   </ul>
+  <div id="signoutmodal" className="modal">
+          <div className="modal-content">
+            <h4> <b>Sign out</b> </h4>
+            <p>Are you sure you want to log out?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+              onClick={()=>onLogoutClick()}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
     </>
   );
 }

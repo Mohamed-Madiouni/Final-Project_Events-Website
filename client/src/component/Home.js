@@ -7,6 +7,7 @@ import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
 import { closeEvent, getEvent, endEvent } from "../actions/evntAction";
 import { useHistory } from "react-router-dom";
+import { GET_ERRORS } from "../actions/types";
 function Home() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -17,6 +18,12 @@ function Home() {
       dispatch(getCurrentUser());
     }
   }, []);
+  useEffect(()=>{
+    dispatch({
+      type: GET_ERRORS,
+      payload: {},
+    });
+  },[])
   useEffect(() => {
     M.Parallax.init(document.querySelectorAll(".parallax"));
     M.Slider.init(document.querySelectorAll(".slider"), { height: 500 });
@@ -79,7 +86,7 @@ function Home() {
                 .map((el) => {
                   return (
                     <li key={el._id} >
-                      <img src={el.image} style={{filter:"blur(0.5px)"}} />
+                      <img src={el.image} style={{filter:"blur(1.5px)"}} />
                       <div
                         className="caption left-align"
                         style={{

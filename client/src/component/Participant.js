@@ -50,6 +50,12 @@ function Participant() {
       if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
       dispatch(endEvent(allevents[i]._id))
     }
+    dispatch(getMyEvents())
+    if(myevents) 
+    for(let i=0;i<myevents.length;i++){
+      if( new Date(eventClosing(myevents[i].date,myevents[i].duration))<new Date())
+      dispatch(endEvent(myevents[i]._id))
+    }
   },[])
   //check if events full
   useEffect(()=>{
@@ -57,10 +63,15 @@ function Participant() {
       if( allevents[i].participant.length==allevents[i].nb_participant)
       dispatch(closeEvent(allevents[i]._id))
     }
+    if(myevents)
+    for(let i=0;i<myevents.length;i++){
+      if( myevents[i].participant.length==myevents[i].nb_participant)
+      dispatch(closeEvent(myevents[i]._id))
+    }
   },[])
 
   useEffect(()=>{
-    dispatch(getMyEvents())
+    
    localStorage.token&&dispatch(getCurrentUser())
    M.Modal.init(document.querySelectorAll(".modal"),{dismissible:false})
 },[])
@@ -71,7 +82,7 @@ function Participant() {
       M.updateTextFields()
       if(errors.banned)
       {
-      M.toast({ html:`Your account has been banned from subscribtion to any event !! \n your restriction will end in ${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+7)}  `, classes: "red darken-4" });
+      M.toast({ html:`Your account has been banned from subscribtion to any event !! \n your restriction will end in ${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+7)}  `, classes: "red darken-4",displayLength:10000 });
       dispatch({
         type: GET_ERRORS,
         payload: {},
@@ -151,7 +162,7 @@ function Participant() {
 
           <div className="organizer_nav_part">
             <div>
-              <a className="btn-floating waves-effect waves-light cadetblue">
+              <a className="btn-floating  cadetblue">
                 <i
                   className="material-icons"
                   onClick={toggle}
@@ -171,6 +182,10 @@ function Participant() {
       {modal && (<div className="container organizer_add row">
         <AddComment toggle={toggle} /></div>
       )}
+ { (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&events.length!=0&&
+            
+            <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>}
+
  {events&&events.length!=0?
 <div className="row">
            
@@ -330,7 +345,9 @@ function Participant() {
           
            })}
                      
-                      </div>: <div  style={{marginLeft:10}}>
+                      </div>: (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")?
+            
+            <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>:<div  style={{marginLeft:10}}>
           <h4> <b>Your dashboard is empty, get started and join events</b> </h4>
         </div>}
                       <div id="modalevnt" className="modal">
@@ -341,7 +358,7 @@ function Participant() {
           <ol><li>You can't subscribe to the same event after <b>annulation</b>. </li>
           <li>You must valid your cancelation at least <b>two days</b> before the event's day, or you will be banned for participation to any event for one week.</li>
           </ol></>:<><h4>Event annulation</h4>
-                      <p>Are you sure you want to cancel the {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )}  event? you will not be able to <b>subscribe</b>  again.</p></>}
+                      <p>Are you sure you want to cancel the {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )}  event? {participate&&((new Date(allevents.find(el=>el._id==participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"}</p></>}
                     </div>
                     <div className="modal-footer">
                       <a

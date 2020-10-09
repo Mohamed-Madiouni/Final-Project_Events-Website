@@ -1,7 +1,8 @@
 import { GET_EVENTS,GET_ERRORS,GET_ALL_EVENTS,UPDATE,GET_ALL_PARTICIPANT,GET_COMMENT} from "./types";
 import setAuthToken from "../token/authtoken";
 import axios from "axios";
-import { getCurrentUser } from "./authaction";
+import { getCurrentUser, getMyEvents } from "./authaction";
+
 
 
 // get all events
@@ -45,6 +46,7 @@ export const addEvent = (newEvent) => (dispatch) => {
     .post("/event/add", newEvent)
     .then((res) =>{
        dispatch(getEventOrganizer())
+       dispatch(getParticipant())
        dispatch({
         type: GET_ERRORS,
         payload: {success:"done"},
@@ -64,6 +66,7 @@ export const deleteEvent = (idEvent) => (dispatch) => {
     .delete(`/event/delete/${idEvent}`)
     .then((res) => {
       dispatch(getEventOrganizer())
+      dispatch(getParticipant())
       dispatch({
         type: GET_ERRORS,
         payload: {deleted:"ok"},
@@ -84,6 +87,7 @@ export const openEvent = (idEvent) => (dispatch) => {
     .put(`/event/edit/open/${idEvent}`,{state:"Available"})
     .then((res) => {
       dispatch(getEventOrganizer())
+      dispatch(getParticipant())
       dispatch({
        type: GET_ERRORS,
        payload: {},
@@ -124,6 +128,8 @@ export const endEvent = (idEvent) => (dispatch) => {
     .put(`/event/edit/end/${idEvent}`,{state:"Ended"})
     .then((res) => {
       dispatch(getEventOrganizer())
+      dispatch(getParticipant())
+      dispatch(getMyEvents())
       dispatch({
        type: GET_ERRORS,
        payload: {},
@@ -145,6 +151,8 @@ export const closeEvent = (idEvent) => (dispatch) => {
     .put(`/event/edit/close/${idEvent}`,{state:"Closed"})
     .then((res) => {
       dispatch(getEventOrganizer())
+      dispatch(getParticipant())
+      dispatch(getMyEvents())
       dispatch({
        type: GET_ERRORS,
        payload: {},
@@ -165,6 +173,7 @@ export const editEvent = (idEvent, updatedEvent) => (dispatch) => {
     .put(`/event/edit/${idEvent}`, updatedEvent)
     .then((res) => {
       dispatch(getEventOrganizer())
+      dispatch(getParticipant())
       dispatch({
        type: GET_ERRORS,
        payload: {success:"done"},
@@ -187,6 +196,8 @@ export const followEvent=(eventId)=>(dispatch) => {
   .then((res) => {
     dispatch(getEvent())
     dispatch(getCurrentUser())
+    dispatch(getParticipant())
+    dispatch(getMyEvents())
     dispatch({
      type: GET_ERRORS,
      payload: {},
@@ -206,6 +217,8 @@ export const unfollowEvent=(eventId,eventDate)=>(dispatch) => {
   .then((res) => {
     dispatch(getEvent())
     dispatch(getCurrentUser())
+    dispatch(getParticipant())
+    dispatch(getMyEvents())
     dispatch({
      type: GET_ERRORS,
      payload: res.data

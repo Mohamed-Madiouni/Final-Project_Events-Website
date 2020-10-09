@@ -131,7 +131,7 @@ useEffect(()=>{
             <div className="collapsible-body">
               <ul>
                 <li><Link to="/" style={{color:location.pathname=="/"&&"white",backgroundColor:location.pathname=="/"&&"rgb(14, 161, 152)"}}>Home</Link></li>
-                <li><Link to="/dashboard" style={{color:location.pathname=="/dashboard"&&"white",backgroundColor:location.pathname=="/dashboard"&&"rgb(14, 161, 152)"}}>Dashboard</Link></li>
+                <li><Link to="/dashboard" style={{color:(location.pathname=="/dashboard"||location.pathname==`/events/${auth.user._id}`)&&"white",backgroundColor:(location.pathname=="/dashboard"||location.pathname==`/events/${auth.user._id}`)&&"rgb(14, 161, 152)"}}>Dashboard</Link></li>
                 <li> <Link to="/events" style={{color:location.pathname=="/events"&&"white",backgroundColor:location.pathname=="/events"&&"rgb(14, 161, 152)"}}>Events</Link></li>
                 
               </ul>

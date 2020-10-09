@@ -54,12 +54,13 @@ useEffect(()=>{
       M.updateTextFields()
       if(errors.banned)
       {
-      M.toast({ html:`Your account has been banned from subscribtion to any event !! \n your restriction will end in ${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+7)}  `, classes: "red darken-4" });
+      M.toast({ html:`Your account has been banned from subscribtion to any event !! \n your restriction will end in ${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+7)}  `, classes: "red darken-4",displayLength:10000 });
       dispatch({
         type: GET_ERRORS,
         payload: {},
       })
     }
+    
     })
 //   useEffect(()=>{
 //     dispatch(makeComment(),getComment())
@@ -118,6 +119,10 @@ useEffect(()=>{
         </div>
               </form>
             </div>
+
+            {(quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&
+            
+            <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>}
              <div className="row">
            
  {events&&events.slice(0).reverse().map(el=>{
@@ -369,7 +374,7 @@ note that: </p><br/>
 <ol><li>You can't subscribe to the same event after <b>annulation</b>. </li>
 <li>You must valid your cancelation at least <b>two days</b> before the event's day, or you will be banned for participation to any event for one week.</li>
 </ol></>:<><h4>Event annulation</h4>
-            <p>Are you sure you want to cancel the {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )}  event? you will not be able to <b>subscribe</b>  again.</p></>}
+            <p>Are you sure you want to cancel the {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )}  event? {participate&&((new Date(allevents.find(el=>el._id==participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"}</p></>}
           </div>
           <div className="modal-footer">
             <a

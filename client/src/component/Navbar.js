@@ -8,6 +8,7 @@ import { INI_SEARCH } from "../actions/types";
 function Navbar() {
   const search = useSelector((state) => state.search);
   const dispatch = useDispatch();
+  const auth =useSelector(state=>state.auth)
   const location = useLocation()
   const [nav,setNav]=useState(true)
   const resize =useSelector(state=>state.resize)
@@ -53,7 +54,7 @@ function Navbar() {
         {!resize.state?(<>
           <div className="col s11  nav_list" style={{display:"flex",justifyContent:"center",alignItems:"center",transform:"translateX(12px)"}}>
             <Link to="/" style={{color:location.pathname=="/"&&"rgb(14, 161, 152)"}}>Home</Link>
-            <Link to="/dashboard" style={{color:location.pathname=="/dashboard"&&"rgb(14, 161, 152)"}}>Dashboard</Link>
+            <Link to="/dashboard" style={{color:(location.pathname=="/dashboard"||location.pathname==`/events/${auth.user._id}`)&&"rgb(14, 161, 152)"}}>Dashboard</Link>
             <Link to="/events" style={{color:location.pathname=="/events"&&"rgb(14, 161, 152)"}}>Events</Link>
           </div>
           <i

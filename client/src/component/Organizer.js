@@ -100,7 +100,7 @@ useEffect(()=>{
         >
           <div className="organizer_nav">
             <div>
-              <a className="btn-floating waves-effect waves-light cadetblue">
+              <a className="btn-floating  cadetblue">
                 <i
                   className="material-icons"
                   onClick={toggle}
@@ -113,7 +113,7 @@ useEffect(()=>{
               <label>Add event</label>
             </div>
             <div>
-              <Link className="btn-floating waves-effect waves-light cadetblue" to={`/events/${auth.user._id}`}>
+              <Link className="btn-floating  cadetblue" to={`/events/${auth.user._id}`}>
                 <i className="material-icons" title="Show my events">
                   assignment
                 </i>
@@ -295,7 +295,9 @@ useEffect(()=>{
               </div>
             );
           })}
-          <div id="modal1" className="modal">
+         
+      </div>
+      <div id="modal1" className="modal">
           <div className="modal-content">
             <h4>Event delete</h4>
             <p>Are you sure you want to delete this event?</p>
@@ -358,7 +360,6 @@ useEffect(()=>{
             </a>
           </div>
         </div>
-      </div>
      </>
   );
 }

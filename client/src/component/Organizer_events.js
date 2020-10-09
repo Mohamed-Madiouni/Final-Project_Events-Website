@@ -31,6 +31,7 @@ function Organizer_events({ history }) {
   const [participantId,setParticipantId]=useState("")
  const [btnedit,setBtnedit]=useState("")
  const [btnpart,setBtnPart]=useState("")
+ 
 
  const [quickSearch, setQuickSearch] = useState({
   title: "",
@@ -49,17 +50,23 @@ function Organizer_events({ history }) {
     if (localStorage.token) {
       dispatch(getCurrentUser());
     }
+    M.Modal.init(document.querySelectorAll(".modal"))
   },[]);
+
+  // useEffect(()=>{
+  //   return ()=>M.Modal.init(document.querySelectorAll(".modal"))
+  // })
   useEffect(() => {
     dispatch(getEventOrganizer());
-    M.Modal.init(document.querySelectorAll(".modal"))
+    
     dispatch(getParticipant())
   }, []);
   useEffect(() => {
     if (!localStorage.token) history.push("/");
-    
+     
     M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false});
     M.updateTextFields()
+    
     // return ()=>{setModal(false)}
     if(errors.deleted){
       M.toast({ html: "Event deleted successfully", classes: "green" });
@@ -68,7 +75,7 @@ function Organizer_events({ history }) {
         payload: {},
       })
     }
-
+    // M.Modal.init(document.querySelectorAll(".modal"))
   });
 
   //check if events ended
@@ -78,12 +85,20 @@ function Organizer_events({ history }) {
       if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
       dispatch(endEvent(allevents[i]._id))
     }
+    for(let i=0;i<allparticipant.participant.length;i++){
+      if( new Date(eventClosing(allparticipant.participant[i].date,allparticipant.participant[i].duration))<new Date())
+      dispatch(endEvent(allparticipant.participant[i]._id))
+    }
   },[])
 //check if events full
 useEffect(()=>{
   for(let i=0;i<allevents.length;i++){
     if( allevents[i].participant.length==allevents[i].nb_participant)
     dispatch(closeEvent(allevents[i]._id))
+  }
+  for(let i=0;i<allparticipant.length;i++){
+    if( allparticipant.participant[i].participant.length==allparticipant.participant[i].nb_participant)
+    dispatch(closeEvent(allparticipant.participant[i]._id))
   }
 },[])
   let eventsorganizer=allparticipant.participant.filter(el=>{
@@ -142,6 +157,9 @@ useEffect(()=>{
               dashboard
             </Link>
             </div> */}
+           { (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&eventsorganizer.length!=0&&
+            
+            <div className="row" style={{marginLeft:10}} > <h5> <b>{eventsorganizer.length+" result(s) found"}</b> </h5></div>}
             {eventsorganizer.length!=0?
             <div className="row">
       {eventsorganizer&&
@@ -309,13 +327,13 @@ useEffect(()=>{
                       >
                         <i className="material-icons ">delete</i>{" "}
                       </button>
-                      {el.state=="Available"&&(new Date(el.date)>new Date())&&(
+                      {el.state=="Available"&&(((new Date(el.date)-new Date())/(1000*86400))>3)&&(
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="close"   data-target="modal2" onClick={
-                      ()=>setClosedid(el._id)
+                      ()=>{setClosedid(el._id);}
                     }>
                       <i className="material-icons ">block</i>{" "}
                     </button>)}
-                    {el.state=="Closed"&&(new Date(el.date)>new Date())&&(el.participant.length!=el.nb_participant)&&(
+                    {el.state=="Closed"&&(((new Date(el.date)-new Date())/(1000*86400))>3)&&(el.participant.length!=el.nb_participant)&&(
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="open"   data-target="modal3" onClick={
                       ()=>setClosedid(el._id)
                     }>
@@ -348,6 +366,15 @@ useEffect(()=>{
           );
         })} 
         
+        
+        </div>:(quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")?
+            
+            <div className="row" style={{marginLeft:10}} > <h5> <b>{eventsorganizer.length+" result(s) found"}</b> </h5></div>:
+        <div  style={{marginLeft:10}}>
+          <h4> <b>Your dashboard is empty, get started and create events</b> </h4>
+        </div>
+        
+        }
         <div id="modal1" className="modal">
           <div className="modal-content">
             <h4>Event delete</h4>
@@ -411,13 +438,6 @@ useEffect(()=>{
             </a>
           </div>
         </div>
-        </div>:
-        <div  style={{marginLeft:10}}>
-          <h4> <b>Your dashboard is empty, get started and create events</b> </h4>
-        </div>
-        
-        }
-        
     </>
   );
 }
