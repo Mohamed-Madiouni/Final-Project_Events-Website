@@ -69,4 +69,22 @@ router.put("/users/ban/:_id", authMiddleware, (req, res) => {
     .catch((err) => console.log(err.message));
 });
 
+
+//Unban User by Id
+router.put("/users/unban/:_id", authMiddleware, (req, res) => {
+  var _id = req.params._id;
+  let nowdate = new Date();
+  User.findByIdAndUpdate(
+    _id,
+    {
+      $set: {
+        banned_date: new Date( 0,0,0)
+      },
+    },
+    { new: true }
+  )
+    .then((userunbanned) => res.send({ unbanned: "ok" }))
+    .catch((err) => console.log(err.message));
+});
+
 module.exports = router;

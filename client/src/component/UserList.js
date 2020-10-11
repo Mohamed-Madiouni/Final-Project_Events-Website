@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteUser, getUsers, banUser } from "../actions/adminaction";
+import { deleteUser, getUsers, banUser, unbanUser } from "../actions/adminaction";
 import { getCurrentUser } from '../actions/authaction';
 import {useHistory} from "react-router-dom"
 import historyuser from "../outils/history"
@@ -180,7 +180,7 @@ const UserList = () => {
 
 
 
-
+        { ((!el.banned_date)||((el.banned_date-new Date())/(1000*86400))>2)?
         <button
               style={{
                 width: "100px",
@@ -196,7 +196,27 @@ const UserList = () => {
               disabled={el.role=="administrator"&&true}
             >
               Ban
-            </button>    
+            </button>:
+            <button
+            style={{
+              width: "100px",
+              height: "40px",
+              borderRadius: "3px",
+              letterSpacing: "1.5px",
+              marginTop: "1rem",
+                            }}
+            type="button"
+            className="btn btn-medium modal-trigger"
+            data-target="modal3"
+            onClick={()=>setBanid(el._id)}
+            disabled={el.role=="administrator"&&true}
+          >
+            Unban
+          </button>
+  }
+
+
+
 
            <div id="modal2" className="modal">
           <div className="modal-content">
@@ -221,7 +241,27 @@ const UserList = () => {
         </div>
 
 
-
+        <div id="modal3" className="modal">
+          <div className="modal-content">
+            <h4>User Unban</h4>
+            <p>Are you sure you want to Unban this User?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+              onClick={()=> dispatch(unbanUser(banid))}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
 
 
 
