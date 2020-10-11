@@ -48,4 +48,14 @@ export const deleteUser=(idUser)=>(dispatch)=>{
     
   })
   .catch(err=>console.log(err))
+ }
+
+  //Ban user
+export const banUser=(idUser)=>(dispatch)=>{
+  setAuthToken(localStorage.token)
+  axios  .put(`admin/users/ban/${idUser}`)
+  .then(res=>{
+    dispatch(getUsers())
+    })
+  .catch(err=>console.log(err))
  } 

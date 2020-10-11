@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {deleteEvent} from "../actions/evntAction";
+import {deleteEvent} from "../actions/adminaction";
 import {getEvents} from "../actions/adminaction";
 import { getCurrentUser } from '../actions/authaction';
 import {useHistory} from "react-router-dom"
@@ -48,7 +48,7 @@ useEffect(()=>{
    
     <div ><h5><b>Manage Events</b></h5></div>
 
-   <div style={{marginTop:"20px",fontSize:15,fontWeight:800}} >
+   <div className="col s8 offset-s2" style={{marginTop:"20px",fontSize:15,fontWeight:800}} >
      <form >
      <div className="input-field col s4 m5">
  <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
@@ -69,6 +69,9 @@ useEffect(()=>{
 </div>
      </form>
    </div>
+   {(quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&
+            
+  <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>}
     <div className="row">
   
 {events&&events.slice(0).reverse().map(el=>{
@@ -141,7 +144,7 @@ return (<div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",j
                  person
                </i>
 
-               {el.nb_participant}
+               {el.participant.length+"/"+el.nb_participant}
              </span>
            </div>
            {el.tags.length!=0&&<div className="slider right tag_slide_event">
@@ -157,13 +160,14 @@ return (<div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",j
 
          <button
               style={{
-                width: "150px",
+                width: "100px",
+                height: "40px",
                 borderRadius: "3px",
                 letterSpacing: "1.5px",
                 marginTop: "1rem",
               }}
               type="button"
-              className="btn btn-large modal-trigger"
+              className="btn btn-medium modal-trigger"
               data-target="modal1"
               onClick={() => setDeleteid(el._id)}
             >

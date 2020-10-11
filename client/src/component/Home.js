@@ -27,6 +27,8 @@ function Home() {
   useEffect(() => {
     M.Parallax.init(document.querySelectorAll(".parallax"));
     M.Slider.init(document.querySelectorAll(".slider"), { height: 500 });
+    M.Modal.init(document.querySelectorAll(".modal"),{dismissible:false});
+    
 //     window.addEventListener("resize",()=>{
 //       let w=document.querySelector(".App_center").style.width-document.querySelector(".parallax-container").style.width
 // console.log(w)
