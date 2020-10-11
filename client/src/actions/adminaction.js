@@ -51,11 +51,18 @@ export const deleteUser=(idUser)=>(dispatch)=>{
  }
 
   //Ban user
-export const banUser=(idUser)=>(dispatch)=>{
+export const banUser=(idUser, banDate)=>(dispatch)=>{
   setAuthToken(localStorage.token)
-  axios  .put(`admin/users/ban/${idUser}`)
-  .then(res=>{
+  axios.put(`admin/users/ban/${idUser}`, banDate)
+  .then((res)=>{
     dispatch(getUsers())
+    dispatch({
+      type: GET_ERRORS,
+      payload: {success:"done"},
     })
-  .catch(err=>console.log(err))
- } 
+  })
+  .catch((err) => dispatch({
+    type: GET_ERRORS,
+    payload: err.response.data,
+  }));
+};
