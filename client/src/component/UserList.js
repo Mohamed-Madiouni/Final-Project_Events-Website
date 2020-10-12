@@ -180,7 +180,7 @@ const UserList = () => {
 
 
 
-        { ((!el.banned_date)||((el.banned_date-new Date())/(1000*86400))>2)?
+        { (  (!el.banned_date)   || 0<(new Date()-(el.banned_date)<8)   )?
         <button
               style={{
                 width: "100px",
