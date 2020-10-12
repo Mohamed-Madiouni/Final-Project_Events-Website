@@ -51,12 +51,12 @@ const location = useLocation()
     M.updateTextFields()
     if(action.type=="add")
     M.Chips.init(document.querySelectorAll('.chips'),{
-      placeholder:"Optional: Enter tags for your event (3 Max)",
+      placeholder:"Optional: Press enter to add tags (3 Max)",
       limit:3,
     })
     if(action.type=="edit")
     M.Chips.init(document.querySelectorAll('.chips'),{
-      placeholder:"Optional: Enter tags for your event (3 Max)",
+      placeholder:"Optional: Press enter to add tags (3 Max)",
       limit:3,
       data:action.payload.tags.map(el=>{return {tag:el}})
     })

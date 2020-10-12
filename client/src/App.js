@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Organizer_events from "./component/Organizer_events";
 import Searchresult from "./component/Searchresult";
 import Events from "./component/Events";
+import Calendar from "./component/Calendar"
 import { getCurrentUser } from "./actions/authaction";
 import { INI_RESIZE, SET_RESIZE } from "./actions/types";
 import M from "materialize-css";
@@ -27,6 +28,7 @@ function App() {
   const resize =useSelector(state=>state.resize)
   const location = useLocation()
   const [homeNav,setHomeNav]=useState(false)
+ 
   // Check for token to keep user logged in
   useEffect(() => {
     if (localStorage.token) {
@@ -72,6 +74,7 @@ useEffect(()=>{
 
   return (
     <div className="App">
+      
       {search.etat ? (
         <Searchevents />
       ) : (
@@ -82,6 +85,7 @@ useEffect(()=>{
             <Route path="/login" component={Login} />
             <Route path="/search" component={Searchresult} />
             <Route exact path="/events" component={Events} />
+            <Route path="/calendar" component={Calendar} />
 
             <PrivateRoute path="/myaccount" component={Account} />
 
@@ -133,7 +137,7 @@ useEffect(()=>{
                 <li><Link to="/" style={{color:location.pathname=="/"&&"white",backgroundColor:location.pathname=="/"&&"rgb(14, 161, 152)"}}>Home</Link></li>
                 <li><Link to="/dashboard" style={{color:(location.pathname=="/dashboard"||location.pathname==`/events/${auth.user._id}`)&&"white",backgroundColor:(location.pathname=="/dashboard"||location.pathname==`/events/${auth.user._id}`)&&"rgb(14, 161, 152)"}}>Dashboard</Link></li>
                 <li> <Link to="/events" style={{color:location.pathname=="/events"&&"white",backgroundColor:location.pathname=="/events"&&"rgb(14, 161, 152)"}}>Events</Link></li>
-                
+                <li> <Link to="/calendar" style={{color:location.pathname=="/calendar"&&"white",backgroundColor:location.pathname=="/calendar"&&"rgb(14, 161, 152)"}}>Calendar</Link></li>
               </ul>
             </div>
           </li>

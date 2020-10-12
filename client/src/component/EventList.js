@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {deleteEvent} from "../actions/evntAction";
+import {deleteEvent} from "../actions/adminaction";
 import {getEvents} from "../actions/adminaction";
 import { getCurrentUser } from '../actions/authaction';
 import {useHistory} from "react-router-dom"

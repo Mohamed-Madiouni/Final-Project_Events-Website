@@ -34,6 +34,10 @@ useEffect(()=>{
   };
   const onSubmit = (e) => {
     e.preventDefault();
+    dispatch({
+      type: GET_ERRORS,
+      payload: {},
+    });
     const userData = {
       email: userlog.email.toLowerCase(),
       password: userlog.password,
@@ -122,7 +126,7 @@ useEffect(()=>{
                   height: "45px",
                 }}
                 type="submit"
-                className="btn waves-effect waves-light hoverable"
+                className="btn  hoverable"
               >
                 Login
               </button>

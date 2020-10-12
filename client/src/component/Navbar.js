@@ -52,10 +52,11 @@ function Navbar() {
        
         <div className={!resize.state?"div4 col s10":" div4 col s11"}>
         {!resize.state?(<>
-          <div className="col s11  nav_list" style={{display:"flex",justifyContent:"center",alignItems:"center",transform:"translateX(12px)"}}>
+          <div className="col s11  nav_list" style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
             <Link to="/" style={{color:location.pathname=="/"&&"rgb(14, 161, 152)"}}>Home</Link>
             <Link to="/dashboard" style={{color:(location.pathname=="/dashboard"||location.pathname==`/events/${auth.user._id}`)&&"rgb(14, 161, 152)"}}>Dashboard</Link>
             <Link to="/events" style={{color:location.pathname=="/events"&&"rgb(14, 161, 152)"}}>Events</Link>
+            <Link to="/calendar" style={{color:location.pathname=="/calendar"&&"rgb(14, 161, 152)"}}>Calendar</Link>
           </div>
           <i
             className="fa fa-search col s1 "

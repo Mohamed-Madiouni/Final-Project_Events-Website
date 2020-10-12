@@ -1,0 +1,106 @@
+.fc{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background-color: white;
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
+width: 100%;
+border: 0px;
+outline: none;
+
+}
+.fc td{
+    border-bottom: 0px;
+    border-right: 0px;
+}
+/* .fc-header-toolbar{
+    margin: 0px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+} */
+/* .fc-toolbar-chunk > .fc-button-group .fc-prev-button{
+    margin: 5px;
+    background-color: white;
+} */
+
+.fc-toolbar-chunk > .fc-button-group button{
+    margin: 5px;
+    border-radius: 5px;
+  
+}
+
+.custom_mod_cal{
+    z-index: 1003;
+    display: block;
+    opacity: 1;
+    top: 25%;
+    transform: scaleX(1) scaleY(1);
+    /* display: none; */
+    position: absolute;
+    left: 0;
+    right: 0;
+    /* background-color: white; */
+    /* padding: 0; */
+    /* max-height: 70%;
+    width: 55%; */
+    margin: auto;
+    /* overflow-y: auto; */
+    border-radius: 2px;
+    will-change: top, opacity;
+    /* margin-top: 20px;
+    margin-bottom: 20px; */
+    
+}
+
+.tag_slide_cal{
+    position: absolute;
+    overflow-wrap: break-word;
+    top: 230px;
+    right: 10px;
+    z-index: 1;
+    /* background: #ffab40; */
+    max-width: 110px;
+    /* height: 30px !important; */
+    /* padding: 12.5px 0; */
+    border-radius: 10%;
+    color: black;
+    /* font-weight: 700; */
+    text-align: center;
+    line-height: 25px;
+    margin: 0 !important;
+    font-size: 12px;
+    
+    
+  }
+  .tag_slide_cal p{
+   margin: 0px;
+   padding: 0px;
+    
+  }
+  .tag_slide_cal > .slides li{
+   display: flex !important;
+   align-items: center !important;
+   justify-content: center !important;
+   background: white !important;
+     
+   }
+   .tag_slide_cal > .slides li.active{
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: white !important;
+      
+    }
+
+
+@media screen and (max-width : 420px){
+.fc .fc-toolbar.fc-header-toolbar{
+ margin-bottom: 5px;   
+}
+.fc .fc-toolbar.fc-header-toolbar{
+    display: flex;
+    flex-wrap: wrap;
+}
+}

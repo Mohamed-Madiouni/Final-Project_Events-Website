@@ -29,7 +29,7 @@ const[mod,setMod]=useState(false)
 
   useEffect(() => {
     if (!localStorage.token) history.push("/login");
-    M.Modal.init(document.querySelectorAll(".modal"),{dismissible:false});
+    M.Modal.init(document.querySelectorAll(".modal"));
     
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
     M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
@@ -121,7 +121,7 @@ dispatch(confirmPassword(confirmationInput))
           
         </div> */}
 
-        <div className="row" style={{backgroundColor:"white",filter:mod&&"blur(2px)"}}>
+        <div className="row" style={{backgroundColor:"white",filter:mod&&"brightness(30%)"}}>
           <div className="col s8 offset-s2">
             {/* <Link
               to="/dashboard"
@@ -287,7 +287,7 @@ dispatch(confirmPassword(confirmationInput))
             </div>
           )}
         </div>
-        <div  className="custom_mod" style={{display:mod?"initial":"none"}}>
+        <div  className="custom_mod" style={{display:mod?"initial":"none",padding:"5px"}}>
           <div className="modal-content">
             {/* <h4>Account Update</h4>
             <p>Are you sure you want to update your profile?</p> */}

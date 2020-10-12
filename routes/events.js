@@ -230,10 +230,11 @@ let nowdate = new Date()
 console.log(nowdate)
 let diff=(d-nowdate)/(1000*86400)
           
-          if(diff<=2)
-          User.findByIdAndUpdate(req.userId,{$set:{banned_date:new Date(nowdate.getFullYear(),nowdate.getMonth(),nowdate.getDate()+7)}},{new:true})
-          .then(userbanned=>res.send({banned:"ok"}))
-         else res.send(result)
+        //   if(diff<=2)
+        //   User.findByIdAndUpdate(req.userId,{$set:{banned_date:new Date(nowdate.getFullYear(),nowdate.getMonth(),nowdate.getDate()+7)}},{new:true})
+        //   .then(userbanned=>res.send({banned:"ok"}))
+        //  else 
+         res.send(result)
         })
         .catch(err=>console.log(err.message))
      }

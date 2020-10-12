@@ -41,6 +41,10 @@ function Register({ history }) {
   };
   const onSubmit = (e) => {
     e.preventDefault();
+    dispatch({
+      type: GET_ERRORS,
+      payload: {},
+    });
     const newUser = {
       fname: user.fname,
       lname: user.lname,
@@ -222,7 +226,7 @@ function Register({ history }) {
                   height: "45px",
                 }}
                 type="submit"
-                className="btn waves-effect waves-light hoverable "
+                className="btn  hoverable "
               >
                 Sign up
               </button>

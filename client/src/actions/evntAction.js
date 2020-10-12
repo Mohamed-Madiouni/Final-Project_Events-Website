@@ -221,7 +221,7 @@ export const unfollowEvent=(eventId,eventDate)=>(dispatch) => {
     dispatch(getMyEvents())
     dispatch({
      type: GET_ERRORS,
-     payload: res.data
+     payload: {}
    })
  })
   .catch((err) => dispatch({

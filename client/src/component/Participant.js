@@ -73,7 +73,7 @@ function Participant() {
   useEffect(()=>{
     
    localStorage.token&&dispatch(getCurrentUser())
-   M.Modal.init(document.querySelectorAll(".modal"),{dismissible:false})
+   M.Modal.init(document.querySelectorAll(".modal"))
 },[])
 
    useEffect(()=>{
@@ -356,9 +356,12 @@ function Participant() {
           <p>You are about to subscribe to {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )} event, Please
           note that: </p><br/>  
           <ol><li>You can't subscribe to the same event after <b>annulation</b>. </li>
-          <li>You must valid your cancelation at least <b>two days</b> before the event's day, or you will be banned for participation to any event for one week.</li>
+          <li>You are responsible for all comments you send, in case of non respect your account will be <b>banned</b> for one <b>week</b>.</li>
           </ol></>:<><h4>Event annulation</h4>
-                      <p>Are you sure you want to cancel the {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )}  event? {participate&&((new Date(allevents.find(el=>el._id==participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"}</p></>}
+                      <p>Are you sure you want to cancel the {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )}  event? 
+                      {/* {participate&&((new Date(allevents.find(el=>el._id==participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"} */}
+                    {" "} you will not be able to <b>subscribe</b> again.
+                      </p></>}
                     </div>
                     <div className="modal-footer">
                       <a

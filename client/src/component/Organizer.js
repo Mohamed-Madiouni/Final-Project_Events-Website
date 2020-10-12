@@ -32,22 +32,35 @@ function Organizer() {
   
   useEffect(() => {
     dispatch(getEventOrganizer());
+    dispatch(getEvent())
   }, []);
   
 //check if events ended
 useEffect(()=>{
-  dispatch(getEvent())
+  
   for(let i=0;i<allevents.length;i++){
     if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
     dispatch(endEvent(allevents[i]._id))
   }
+
+  for(let i=0;i<events.events.length;i++){
+    if( new Date(eventClosing(events.events[i].date,events.events[i].duration))<new Date())
+    dispatch(endEvent(events.events[i]._id))
+  }
 },[])
 //check if events full
 useEffect(()=>{
+  
   for(let i=0;i<allevents.length;i++){
     if( allevents[i].participant.length==allevents[i].nb_participant)
     dispatch(closeEvent(allevents[i]._id))
   }
+
+  for(let i=0;i<events.events.length;i++){
+    if( events.events[i].participant.length==events.events[i].nb_participant)
+    dispatch(closeEvent(events.events[i]._id))
+  }
+
 },[])
  useEffect(()=>{
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
@@ -325,14 +338,14 @@ useEffect(()=>{
           </div>
           <div className="modal-footer">
             <a
-              href="#!"
+              href="#"
               className="modal-close waves-effect waves-green btn-flat"
               onClick={()=>dispatch(closeEvent(closedid))}
             >
               Agree
             </a>
             <a
-              href="#!"
+              href="#"
               className="modal-close waves-effect waves-green btn-flat"
             >
               Cancel

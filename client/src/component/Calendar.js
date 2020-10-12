@@ -1,35 +1,42 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch,useSelector } from 'react-redux';
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from "@fullcalendar/interaction";
 import { useHistory,Link } from 'react-router-dom';
-import { getCurrentUser } from '../actions/authaction';
-import {makeComment,getComment,deleteComment,editComment} from "../actions/evntAction";
-
 import {followEvent, getEvent, unfollowEvent,endEvent, closeEvent} from "../actions/evntAction";
-
+import { useDispatch,useSelector } from 'react-redux';
+import "../calendar.css"
+import calendarEndEvent from '../outils/calendarEndEvent';
 import get_month from "../outils/get_month"
 import historyevent from "../outils/history"
-import Navbar from './Navbar';
-import "../events.css";
-import M from "materialize-css";
-import { GET_ERRORS } from "../actions/types";
 import eventClosing from "../outils/eventClosing";
-function Events() {
-    const dispatch = useDispatch()
-    const history =useHistory()
+import M from "materialize-css";
+import Navbar from './Navbar';
+import { getCurrentUser } from '../actions/authaction';
+
+
+function Calendar() {
     const allevents=useSelector(state=>state.events.allEvents)
-    // const comment=useSelector(state=>state.comments.comment)
+    const dispatch = useDispatch()
     let auth = useSelector(state=>state.auth)
-    let errors=useSelector(state=>state.errors)
-    const [quickSearch, setQuickSearch] = useState({
-      title: "",
-      state: "",
-      tags: "",
-    });
+    const history =useHistory()
+    const[mod,setMod]=useState(false)
+    const [eventId,setEventId]=useState("")
     const [participate,setParticipate]=useState("")
     const [eventDate,setEventDate]=useState("")
-   
-    
-    //check if events ended
+
+      useEffect(()=>{
+        dispatch(getEvent())
+        localStorage.token&&dispatch(getCurrentUser())
+        M.Modal.init(document.querySelectorAll(".modal"))
+      },[])
+
+      useEffect(()=>{
+        M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false})
+      })
+
+//check if events ended
 useEffect(()=>{
   dispatch(getEvent())
   for(let i=0;i<allevents.length;i++){
@@ -44,121 +51,103 @@ useEffect(()=>{
     dispatch(closeEvent(allevents[i]._id))
   }
 },[])
-    useEffect(()=>{
-        dispatch(getEvent())
-       localStorage.token&&dispatch(getCurrentUser())
-       M.Modal.init(document.querySelectorAll(".modal"))
-    },[])
-    useEffect(()=>{
-      M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false})
-      M.updateTextFields()
-      if(errors.banned)
-      {
-      M.toast({ html:`Your account has been banned from subscribtion to any event !! \n your restriction will end in ${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+7)}  `, classes: "red darken-4",displayLength:10000 });
-      dispatch({
-        type: GET_ERRORS,
-        payload: {},
-      })
-    }
-    
-    })
-//   useEffect(()=>{
-//     dispatch(makeComment(),getComment())
-// },[])
-// const [edit, setedit] = useState(false)
-// const [content, setContent] = useState("")
-// const editComment =(id)=>{
-//   dispatch(editComment(id,content))
-//   setedit(false)
-//   setContent("")
-// }
-// const EDITCOM =(e)=>{
-//   setContent(e.content)
-//   setedit(true)
 
-// }
-// const deleteComment = (comment) => {
-//   dispatch(deleteComment(comment._id))
-// }
-    let events=allevents.filter(el=>{
-      return(
-      
-       el.title.toLowerCase().includes(quickSearch.title.toLowerCase())
-       &&el.state.toLowerCase().includes(quickSearch.state.toLowerCase())
-       &&(quickSearch.tags!=""?el.tags.find(e=>e.toLowerCase().includes(quickSearch.tags.toLowerCase())):true)
-       
-       )
-     })
+let calendarEvents=allevents.map(el=>{
+  return (
+  {
+  ["title"]:el.title,
+  ['start']:new Date(el.date),
+  ['end']: calendarEndEvent(el.date,el.duration) ,
+  ['id']:el._id,
+  allDay:true
+  }
+  )
+  })
 
 
-    const onChange = (e) => {
-      setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value })};
 
     return (
-        <div>
-             <Navbar/>
-            
-             <div className='row container' ><h5><b>Quick search</b></h5></div>
+      <>
+      <Navbar/>
+        <div className="container" >
+          <div style={{filter:mod&&"brightness(30%)"}}>
+            <FullCalendar
+        plugins={[ dayGridPlugin,interactionPlugin,timeGridPlugin ]}
+        headerToolbar={{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          }}
+        initialView="dayGridMonth"
+        selectable = {true}
+        editable={true}
+        //  eventLimit={true}
+        // events={[{title:"med",start:"2020-10-05",end:"2020-10-7",allDay:true} ]}
+// [title:el.title]
 
-
-            <div className="row container" style={{marginTop:"20px",fontSize:15,fontWeight:800}} >
-            
-     <form >
-              <div className="input-field col s4 m5">
-          <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
-          <label forhtml="title">Event title</label>
-        </div>
-        <div className="input-field col s4 m3">
-    <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none"}}>
-      <option value="">State</option>
-      <option value="Available" className="green-text">Available</option>
-      <option value="Closed" className="gray-text">Closed</option>
-      <option value="Ended" className="gray-text">Ended</option>
-    </select>
-    <label className="active">Event state</label>
-  </div>
-  <div className="input-field col s4 m4">
-          <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
-          <label forhtml="title">Event tags</label>
-        </div>
-              </form>
-            </div>
-
-            {(quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&
-            
-            <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>}
-             <div className="row">
-           
- {events&&events.slice(0).reverse().map(el=>{
-     return (<div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
-       <div
-                  className="card small sticky-action"
+//         })}
+        //   dateClick={handleDateClick}
+          // eventContent='some text'
+           eventClick={(e)=>{
+             setMod(!mod)
+            setEventId(e.event.id)
+            }}
+        //    selectMirror={true}
+        // themeSystem="Sketchy"
+        height={605}
+        events={calendarEvents}
+        dayMaxEvents={2}
+      />
+      </div>
+      {/* <div  className="custom_mod" style={{display:mod?"initial":"none",padding:10}}>
+          <div className="modal-content">
+        
+     <div   style={{display:"flex",justifyContent:"center",alignItems:"center"}} > */}
+      {eventId&& <div
+                  className="card sticky-action custom_mod_cal"
                   style={{
-                    width: 335,
-                    height:350,
-                    margin:5
+                    width: 350,
+                    height:380,
+                    display:mod?"initial":"none"
                     
                   }}
                   // key={el._id}
                 >
-                  <div className="card-image " style={{height:"55%",cursor:"pointer"}}>
-                    <img className="activator" src={el.image} height="100%"  />
+                  <div className="card-image " style={{height:"59%",cursor:"pointer"}}>
+                    <img className="activator" src={allevents.find(e=>e._id==eventId).image} height="100%"  />
 
                     <div className="date right">
-                      <div className="day">{el.date.split("-")[2]}</div>
+                      <div className="day">{allevents.find(e=>e._id==eventId).date.split("-")[2]}</div>
                       <div className="month">
-                        {get_month(Number(el.date.split("-")[1]))}
+                        {get_month(Number(allevents.find(e=>e._id==eventId).date.split("-")[1]))}
                       </div>
                     </div>
+                    <i
+          className="material-icons"
+          style={{
+            cursor: "pointer",
+            position: "absolute",
+            top: 10,
+            left: 10,
+            color:"white",
+            fontSize:24,
+            textShadow: "0 2px black"
+          }}
+          onClick={() =>
+            setMod(!mod)
+          }
+        >
+          close
+        </i>
                   </div>
                   <div
                     className="card-content "
                     style={{ padding: "0px 10px 0px 24px" }}
                   >
                     <span className="card-title  grey-text text-darken-4">
-                      <b>{el.title}</b>
+                      <b>{allevents.find(e=>e._id==eventId).title}</b>
                     </span>
-                    <p className="red-text">{el.address}</p>
+                    <p className="red-text">{allevents.find(e=>e._id==eventId).address}</p>
                     <div
                       style={{
                         display: "flex",
@@ -178,12 +167,12 @@ useEffect(()=>{
                       >
                         <i
                           className=" tiny material-icons"
-                          style={{ margin: 10, marginTop:8}}
+                          style={{ margin: 10, marginTop:10}}
                         >
                           history
                         </i>
 
-                        {historyevent(el.created_at)}
+                        {historyevent(allevents.find(e=>e._id==eventId).created_at)}
                       </span>
                       <span
                         style={{
@@ -194,17 +183,17 @@ useEffect(()=>{
                       >
                         <i
                           className=" tiny material-icons"
-                          style={{ margin: 10, marginTop:8 }}
+                          style={{ margin: 10, marginTop:10 }}
                         >
                           person
                         </i>
 
-                        {el.participant.length+"/"+el.nb_participant}
+                        {allevents.find(e=>e._id==eventId).participant.length+"/"+allevents.find(e=>e._id==eventId).nb_participant}
                       </span>
                     </div>
-                    {el.tags.length!=0&&<div className="slider right tag_slide_event">
+                    {allevents.find(e=>e._id==eventId).tags.length!=0&&<div className="slider right tag_slide_cal">
     <ul className="slides">
-              {el.tags.map((el,i)=><li key={i}> <p>{el}</p> </li>)}
+              {allevents.find(e=>e._id==eventId).tags.map((el,i)=><li key={i}> <p>{el}</p> </li>)}
     </ul>
   </div>}
                   </div>
@@ -217,7 +206,7 @@ useEffect(()=>{
                       justifyContent: "space-between",
                     }}
                   >
-                    {el.state=="Available"&&(!auth.isAuthenticated?
+                    {allevents.find(e=>e._id==eventId).state=="Available"&&(!auth.isAuthenticated?
                     <button
                     
                       onClick={()=>{
@@ -229,15 +218,15 @@ useEffect(()=>{
                       Participate
                       
                     </button>:(auth.user.role=="participant"&&
-                    !auth.user.cancelation.includes(el._id)&&
+                    !auth.user.cancelation.includes(allevents.find(e=>e._id==eventId)._id)&&
                     (auth.user.banned_date?new Date()>auth.user.banned_date:true)&&
                     (
-                      !auth.user.events.includes(el._id)?
+                      !auth.user.events.includes(allevents.find(e=>e._id==eventId)._id)?
                     <button
                     data-target="modalevnt"
                       onClick={()=>{
                         // !auth.user.events.includes(el._id)&&
-                         setParticipate(el._id)
+                         setParticipate(allevents.find(e=>e._id==eventId)._id)
                         // :dispatch(unfollowEvent(el._id))
                       }}
                       style={{ display: "flex", alignItems: "center",borderRadius:"5px" }}
@@ -251,8 +240,8 @@ useEffect(()=>{
                     data-target="modalevnt"
                       onClick={()=>{
                         // !auth.user.events.includes(el._id)&&
-                         setParticipate(el._id)
-                         setEventDate(el.date)
+                         setParticipate(allevents.find(e=>e._id==eventId)._id)
+                         setEventDate(allevents.find(e=>e._id==eventId).date)
                         // :dispatch(unfollowEvent(el._id))
                       }}
                       style={{ display: "flex", alignItems: "center",borderRadius:"5px" }}
@@ -263,21 +252,21 @@ useEffect(()=>{
                     </button>)))}
                     <span
                       className={
-                        el.state == "Available"
+                        allevents.find(e=>e._id==eventId).state == "Available"
                           ? "right green-text"
                           : "right gray-text text-darken-3"
                       }
                     >
                       {" "}
-                      {el.state}
+                      {allevents.find(e=>e._id==eventId).state}
                     </span>
                   </div>
                   <div className="card-reveal">
                     <span className="card-title grey-text text-darken-4">
-                      <b>{el.title}</b>
+                      <b>{allevents.find(e=>e._id==eventId).title}</b>
                       <i className="material-icons right">close</i>
                     </span>
-                    <p>{el.description}</p>
+                    <p>{allevents.find(e=>e._id==eventId).description}</p>
                     {/* <div
                       className="right"
                       style={{
@@ -327,7 +316,7 @@ useEffect(()=>{
                     </button>)}
                     </div> */}
                   </div>
-                </div>
+                </div>}
                 {/* {
                     el.comment.map(elt=>{
                       return(
@@ -365,12 +354,14 @@ useEffect(()=>{
                       className="btn waves-effect waves-light hoverable "
                       onClick={() => EDITCOM(comment)}>Edit</button>
                   </form> */}
-                </div>)
+                {/* </div>
 
- })}
-            {/* </div> */}
-            </div>
-            <div id="modalevnt" className="modal">
+ 
+              
+          </div>
+         
+        </div> */}
+         <div id="modalevnt" className="modal">
           <div className="modal-content">
                {participate&& !auth.user.events.includes(participate)?<><h4>Hi, {auth.user.fname}</h4>
 <p>You are about to subscribe to {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )} event, Please
@@ -385,7 +376,7 @@ note that: </p><br/>
           </div>
           <div className="modal-footer">
             <a
-              href="#!"
+              href="#"
               className="modal-close btn-flat"
               onClick={()=>{
                 participate&&(!auth.user.events.includes(participate)?dispatch(followEvent(participate)):dispatch(unfollowEvent(participate,eventDate)))}}
@@ -393,7 +384,7 @@ note that: </p><br/>
               Agree
             </a>
             <a
-              href="#!"
+              href="#"
               className="modal-close  btn-flat"
             >
               Cancel
@@ -402,7 +393,8 @@ note that: </p><br/>
           </div>
         </div>
         </div>
+        </>
     )
 }
 
-export default Events
+export default Calendar

@@ -23,6 +23,7 @@ function Home() {
       type: GET_ERRORS,
       payload: {},
     });
+    M.Modal.init(document.querySelectorAll(".modal"))
   },[])
   useEffect(() => {
     M.Parallax.init(document.querySelectorAll(".parallax"));
@@ -32,6 +33,7 @@ function Home() {
 // console.log(w)
 //     })
   });
+  
 
   //check if events ended
   useEffect(() => {
@@ -86,7 +88,7 @@ function Home() {
                 .map((el) => {
                   return (
                     <li key={el._id} >
-                      <img src={el.image} style={{filter:"blur(1.5px)"}} />
+                      <img src={el.image} style={{filter:"blur(1.5px)"}} width="100%" height="100%" />
                       <div
                         className="caption left-align"
                         style={{
