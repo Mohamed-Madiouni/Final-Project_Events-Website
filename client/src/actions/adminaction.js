@@ -48,4 +48,38 @@ export const deleteUser=(idUser)=>(dispatch)=>{
     
   })
   .catch(err=>console.log(err))
- } 
+ }
+
+  //Ban user
+export const banUser=(idUser, banDate)=>(dispatch)=>{
+  setAuthToken(localStorage.token)
+  axios.put(`admin/users/ban/${idUser}`, banDate)
+  .then((res)=>{
+    dispatch(getUsers())
+    dispatch({
+      type: GET_ERRORS,
+      payload: {success:"done"},
+    })
+  })
+  .catch((err) => dispatch({
+    type: GET_ERRORS,
+    payload: err.response.data,
+  }));
+};
+
+  //Unban user
+  export const unbanUser=(idUser, unbanDate)=>(dispatch)=>{
+    setAuthToken(localStorage.token)
+    axios.put(`admin/users/unban/${idUser}`, unbanDate)
+    .then((res)=>{
+      dispatch(getUsers())
+      dispatch({
+        type: GET_ERRORS,
+        payload: {success:"done"},
+      })
+    })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+  };

@@ -44,9 +44,7 @@ function Administrator() {
               This is your <b>Dashboard</b>, you can manage accounts an events.
             </p>
           </div>
-          <div className="col s1 m4 welcome">
-            <img src="welcome.jpg" alt="welcome" width="100%" height="100%" />{" "}
-          </div>
+
         </div>
         <div
           className="col s2 l6"
@@ -55,17 +53,15 @@ function Administrator() {
           }}
         >
           <div className="organizer_nav">
-            <div>
-              <label>Manage account</label>
-            </div>
-          <div class="switch">
-            <label>
+              <div class="switch">
+              <label>Manage account
+            
+        
+            
               <input type="checkbox" onClick={toggle}/>
               <span class="lever"></span>
-            </label>
-          </div>
-            <div>
-              <label>Manage events</label>
+          
+              Manage events</label>
             </div>
           </div>
         </div>
@@ -73,7 +69,7 @@ function Administrator() {
 
       <div className="col s12">
         {modal ? (
-          <div className="col s8 offset-s2">
+          <div>
             <div className="row">
               <div
                 className="col s12"
@@ -89,7 +85,7 @@ function Administrator() {
      :
 
        (
-          <div className="col s8 offset-s2">
+          <div>
             <div className="row">
               <div
                 className="col s12"
