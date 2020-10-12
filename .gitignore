@@ -10,3 +10,6 @@
 # misc
 .env
 
+/client/package.json
+/client/package-lock.json
+/.gitignore

@@ -83,3 +83,38 @@ export const banUser=(idUser, banDate)=>(dispatch)=>{
       payload: err.response.data,
     }));
   };
+
+
+  //Alert user
+  export const alertUser=(idUser, alertDate)=>(dispatch)=>{
+    setAuthToken(localStorage.token)
+    axios.put(`admin/users/alert/${idUser}`, alertDate)
+    .then((res)=>{
+      dispatch(getUsers())
+      dispatch({
+        type: GET_ERRORS,
+        payload: {success:"done"},
+      })
+    })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+  };
+  
+    //Remove alert user
+    export const unalertUser=(idUser, unalertDate)=>(dispatch)=>{
+      setAuthToken(localStorage.token)
+      axios.put(`admin/users/unban/${idUser}`, unalertDate)
+      .then((res)=>{
+        dispatch(getUsers())
+        dispatch({
+          type: GET_ERRORS,
+          payload: {success:"done"},
+        })
+      })
+      .catch((err) => dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      }));
+    };
