@@ -13,10 +13,6 @@ const EventSchema = new schema({
     type: String,
     required: true,
   },
-  time: {
-    type: String,
-    required: true,
-  },
   address: {
     type: String,
     required: true,

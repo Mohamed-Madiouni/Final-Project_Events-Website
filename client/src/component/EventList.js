@@ -94,10 +94,6 @@ return (<div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",j
              <div className="month">
                {get_month(Number(el.date.split("-")[1]))}
              </div>
-
-             <div className="month">
-                 {el.time}
-            </div>
            </div>
          </div>
          <div

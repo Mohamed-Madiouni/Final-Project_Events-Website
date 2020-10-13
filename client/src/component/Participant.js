@@ -209,9 +209,6 @@ function Participant() {
                                 <div className="month">
                                   {get_month(Number(el.date.split("-")[1]))}
                                 </div>
-                                <div className="month">
-                                 {el.time}
-                                </div>
                               </div>
                             </div>
                             <div
