@@ -89,14 +89,14 @@ router.put("/users/unban/:_id", authMiddleware, (req, res) => {
 
 
 //Alert
-router.put("/users/setalert/:_id", authMiddleware, (req, res) => {
+router.put("/users/alert/:_id", authMiddleware, (req, res) => {
   var _id = req.params._id;
   let nowdate = new Date();
   User.findByIdAndUpdate(
     _id,
     {
       $set: {
-        alert_date: new Date(
+        alerted_date: new Date(
           nowdate.getFullYear(),
           nowdate.getMonth(),
           nowdate.getDate() + 7
@@ -111,14 +111,14 @@ router.put("/users/setalert/:_id", authMiddleware, (req, res) => {
 
 
 //Remove Alert
-router.put("/users/removealert/:_id", authMiddleware, (req, res) => {
+router.put("/users/unalert/:_id", authMiddleware, (req, res) => {
   var _id = req.params._id;
   let nowdate = new Date();
   User.findByIdAndUpdate(
     _id,
     {
       $set: {
-        alert_date: ""
+        alerted_date: ""
       },
     },
     { new: true }
