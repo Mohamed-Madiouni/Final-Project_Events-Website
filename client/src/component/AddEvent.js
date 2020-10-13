@@ -19,6 +19,7 @@ const location = useLocation()
     address:action.type=="add"?"":action.payload.address ,
     description:action.type=="add"?"":action.payload.description ,
     date: action.type=="add"?"":action.payload.date,
+    time: action.type=="add"?"":action.payload.time,
     duration: action.type=="add"?"":action.payload.duration,
     nb_participant:action.type=="add"?"":action.payload.nb_participant ,
     image: action.type=="add"?"":action.payload.image,
@@ -80,6 +81,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
       address: events.address,
       description: events.description,
       date: events.date,
+      time: events.time,
       duration: events.duration,
       nb_participant: events.nb_participant,
       image: events.image,
@@ -177,6 +179,16 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
                 type="date"
               />
               <label htmlFor="date" className="active">Event date</label>
+
+             </div>
+             <div className="input-field col s12 l6">
+              <input
+                onChange={onChange}
+                value={events.time}
+                id="time"
+                type="time"
+              />
+              <label htmlFor="time" className="active">Event time</label>
             </div>
 
             <div className="input-field file-field col s12 l6 ">

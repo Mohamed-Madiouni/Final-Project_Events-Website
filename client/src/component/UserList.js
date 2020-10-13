@@ -82,26 +82,25 @@ const UserList = () => {
            }}
            // key={el._id}
          >
-         <i class="small material-icons" style={{color:"Red",  display: "flex"}}>flag</i>
+         
 
 
 
 
-         { (  (el.alerted_date?new Date()>el.alerted_date:true)   )?
-        <a class="small material-icons" style={{color:"Red",  display: "flex"}}
+         { ((el.alerted_date?new Date()>el.alerted_date:true)   )?
+        <i className="small material-icons btn-flat modal-trigger" style={{color:"green",   position:"right"}}
               type="button"
               data-target="modal4"
               onClick={()=>setAlertid(el._id)}
               disabled={el.role=="administrator"&&true}
-            >
-           
-            </a>:
-            <a class="small material-icons" style={{color:"Green",  display: "flex"}}
-            type="button"
-            data-target="modal5"
-            onClick={()=>setAlertid(el._id)}
-            disabled={el.role=="administrator"&&true}
-          ></a>
+            >flag
+        </i>:
+        <i className="small material-icons btn-flat modal-trigger" style={{color:"Red",   position:"right"}}
+          type="button"
+          data-target="modal5"
+          onClick={()=>setAlertid(el._id)}
+          disabled={el.role=="administrator"&&true}
+        >flag</i>
          
   }
 

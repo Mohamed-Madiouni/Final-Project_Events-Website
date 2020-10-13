@@ -147,6 +147,7 @@ router.put("/edit/:id",authMiddleware, (req, res) => {
       evt.address&& (evtUpdated.address=evt.address),
       evt.description&&( evtUpdated.description=evt.description),
       evt.date&& ( evtUpdated.date=evt.date),
+      evt.time&& ( evtUpdated.time=evt.time),
       evt.duration&& (evtUpdated.duration=evt.duration),
       evt.nb_participant&& (evtUpdated.nb_participant=evt.nb_participant),
       evtUpdated.image=evt.image

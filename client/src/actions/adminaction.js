@@ -105,7 +105,7 @@ export const banUser=(idUser, banDate)=>(dispatch)=>{
     //Remove alert user
     export const unalertUser=(idUser, unalertDate)=>(dispatch)=>{
       setAuthToken(localStorage.token)
-      axios.put(`admin/users/unban/${idUser}`, unalertDate)
+      axios.put(`admin/users/unalert/${idUser}`, unalertDate)
       .then((res)=>{
         dispatch(getUsers())
         dispatch({
