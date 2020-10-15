@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {Link} from "react-router-dom";
-import {closeEvent,getEventOrganizer, deleteEvent,openEvent,getEvent,endEvent} from "../actions/evntAction";
+import {closeEvent,getEventOrganizer, deleteEvent,openEvent,getEvent,endEvent, fullEvent} from "../actions/evntAction";
 import get_month from "../outils/get_month"
 import history from "../outils/history"
 import AddEvent from "./AddEvent";
@@ -53,14 +53,25 @@ useEffect(()=>{
   
   for(let i=0;i<allevents.length;i++){
     if( allevents[i].participant.length==allevents[i].nb_participant)
-    dispatch(closeEvent(allevents[i]._id))
+    dispatch(fullEvent(allevents[i]._id))
   }
 
   for(let i=0;i<events.events.length;i++){
     if( events.events[i].participant.length==events.events[i].nb_participant)
-    dispatch(closeEvent(events.events[i]._id))
+    dispatch(fullEvent(events.events[i]._id))
   }
 
+},[])
+//open full events
+useEffect(()=>{
+  for(let i=0;i<allevents.length;i++){
+    if( allevents[i].participant.length!=allevents[i].nb_participant&&allevents[i].state=="Full")
+    dispatch(openEvent(allevents[i]._id))
+  }
+  for(let i=0;i<events.events.length;i++){
+    if( events.events[i].participant.length!=events.events[i].nb_participant&&events.events[i].state=="Full")
+    dispatch(openEvent(events.events[i]._id))
+  }
 },[])
  useEffect(()=>{
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
@@ -245,7 +256,7 @@ useEffect(()=>{
                   }}
                 >
                   <Link
-                    to={`/events/${el.id_organizer}`}
+                    to={`/dashboard/${el.id_organizer}`}
                     style={{ display: "flex", alignItems: "center" ,fontSize:13}}
                   >
                     Show more
@@ -270,7 +281,8 @@ useEffect(()=>{
                     }}
                   >
                     {" "}
-                   {((new Date(el.date)-new Date())/(1000*86400))>3&& <a
+                   {/* ((new Date(el.date)-new Date())/(1000*86400))>3&& */}
+                    <a
                       className="btn-floating waves-effect waves-light cadetblue"
                       onClick={() => {
                         
@@ -284,19 +296,19 @@ useEffect(()=>{
                       title="edit"
                     >
                       <i className="material-icons ">edit</i>
-                    </a>}
+                    </a>
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="delete"   data-target="modal1" onClick={
                       ()=>setDeleteid(el._id)
                     }>
                       <i className="material-icons ">delete</i>{" "}
                     </button>
-                    {el.state=="Available"&&(((new Date(el.date)-new Date())/(1000*86400))>3)&&(
+                    {el.state=="Available"&&(
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="close"   data-target="modal2" onClick={
                       ()=>setClosedid(el._id)
                     }>
                       <i className="material-icons ">block</i>{" "}
                     </button>)}
-                    {el.state=="Closed"&&(((new Date(el.date)-new Date())/(1000*86400))>3)&&(el.participant.length!=el.nb_participant)&&(
+                    {el.state=="Closed"&&(
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="open"   data-target="modal3" onClick={
                       ()=>setClosedid(el._id)
                     }>

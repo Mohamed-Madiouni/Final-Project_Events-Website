@@ -1,0 +1,57 @@
+.comment_sec{
+    width: 100%;
+   padding: 0px 20px;
+
+}
+.drop_emoji{
+    width: 367px !important;
+    height: 364px !important;
+    border-radius: 0;
+    /* transform: translateY(-100px); */
+    border: none;
+    outline: none;
+    
+}
+.drop_emoji li{
+    width: fit-content !important;
+    min-height: min-content !important;
+}
+.emoj_display{
+    display: block;
+}
+
+.emoj_display_hide{
+    display: none;
+}
+nav{
+    height: 45px !important;
+    background-color: white !important;
+    box-shadow:none !important
+}
+.emoji-mart {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif !important;
+    font-size: 16px !important;
+    display: inline-block !important;
+    color: #222427 !important;
+    border: 1px solid #d9d9d9 !important; 
+    border-radius: 5px !important;
+    background: #fff !important;
+}
+
+.emoji-mart button{
+    background-color: transparent !important;
+}
+.emoji-mart-search input {
+    font-size: 16px !important;
+    display: block !important;
+    width: 100% !important;
+    padding: 5px 25px 6px 10px !important;
+    border-radius: 5px !important;
+    border: 1px solid #d9d9d9 !important;
+    outline: 0 !important;
+    height: 32px !important;
+    box-sizing: border-box !important;
+}
+.emoji-mart-search input:focus{
+    box-shadow: none !important;
+}

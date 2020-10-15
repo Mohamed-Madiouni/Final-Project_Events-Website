@@ -4,19 +4,21 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../actions/authaction";
 import "../landing.css";
 import M from "materialize-css";
+import {useLocation} from "react-router-dom"
 
 function Landing() {
   const dispatch = useDispatch();
   const history = useHistory()
   const auth = useSelector((state) => state.auth);
   const resize=useSelector(state=>state.resize)
+  const location=useLocation()
 
   useEffect(() => {
     M.Sidenav.init(document.querySelectorAll(".sidenav"));
-    M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
+    
     
   });
-
+useEffect(()=>{M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))},[])
   const onLogoutClick = () => {
   
     dispatch(logoutUser());
@@ -86,7 +88,7 @@ function Landing() {
         </div>}
       </div>
 
-      <ul id='dropdown1' className='dropdown-content' >
+      <ul id='dropdown1' className='dropdown-content lan' >
         <li style={{height:"100%"}}>
       <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-around",height:"100%"}}>
           

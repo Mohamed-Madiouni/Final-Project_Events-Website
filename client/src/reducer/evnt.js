@@ -15,8 +15,7 @@ export const reducer=(state=initState,action)=>{
                     return{...state,allEvents:action.payload, isLoading: false}
 
                  
-                        case GET_COMMENT:
-                            return{...state,comment:action.payload, isLoading: false}
+                      
                       
 
                     // case UPDATE:

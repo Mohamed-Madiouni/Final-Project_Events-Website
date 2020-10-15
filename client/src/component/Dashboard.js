@@ -32,15 +32,16 @@ function Dashboard({ history }) {
     if (localStorage.token) {
       dispatch(getCurrentUser());
     }
+     M.Modal.init(document.querySelectorAll(".modal"))
   },[]);
   useEffect(() => {
     if (auth.updated) {
       M.toast({ html: "Account successfully updated", classes: "green" });
       setTimeout(dispatch({ type: INI_UPDATE }), 4000);
     }
-    M.Modal.init(document.querySelectorAll(".modal"))
+   
     M.Sidenav.init(document.querySelectorAll('.sidenav'))
-    M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
+    // M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
    
    

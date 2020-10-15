@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import {useHistory,Link} from "react-router-dom";
-import {unfollowEvent,followEvent,getEvent,endEvent,closeEvent} from "../actions/evntAction";
+import {unfollowEvent,followEvent,getEvent,endEvent,closeEvent, fullEvent, openEvent} from "../actions/evntAction";
 import get_month from "../outils/get_month"
-import AddComment from "./AddComment";
 import "../organizer.css";
 import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
@@ -61,14 +60,26 @@ function Participant() {
   useEffect(()=>{
     for(let i=0;i<allevents.length;i++){
       if( allevents[i].participant.length==allevents[i].nb_participant)
-      dispatch(closeEvent(allevents[i]._id))
+      dispatch(fullEvent(allevents[i]._id))
     }
     if(myevents)
     for(let i=0;i<myevents.length;i++){
       if( myevents[i].participant.length==myevents[i].nb_participant)
-      dispatch(closeEvent(myevents[i]._id))
+      dispatch(fullEvent(myevents[i]._id))
     }
   },[])
+  //open full events
+useEffect(()=>{
+  for(let i=0;i<allevents.length;i++){
+    if( allevents[i].participant.length!=allevents[i].nb_participant&&allevents[i].state=="Full")
+    dispatch(openEvent(allevents[i]._id))
+  }
+  if(myevents)
+  for(let i=0;i<myevents.length;i++){
+    if( myevents[i].participant.length!=myevents[i].nb_participant&& myevents[i].state=="Full")
+    dispatch(openEvent(myevents[i]._id))
+  }
+},[])
 
   useEffect(()=>{
     
@@ -152,7 +163,7 @@ function Participant() {
           </div>
          
         </div>
-        <div
+        {/* <div
           className="col s2 l4"
 
           style={{
@@ -176,12 +187,10 @@ function Participant() {
 
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
-      {modal && (<div className="container organizer_add row">
-        <AddComment toggle={toggle} /></div>
-      )}
+      
  { (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&events.length!=0&&
             
             <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>}
@@ -277,8 +286,8 @@ function Participant() {
                                 justifyContent: "space-between",
                               }}
                             >
-                              {el.state=="Available"&&(!auth.isAuthenticated?
-                              <button
+                              {(!auth.isAuthenticated?
+                             el.state=="Available"&& <button
                               
                                 onClick={()=>{
                                   history.push("/login")
@@ -293,7 +302,7 @@ function Participant() {
                               (auth.user.banned_date?new Date()>auth.user.banned_date:true)&&
                               (
                                 !auth.user.events.includes(el._id)?
-                              <button
+                                el.state=="Available"&& <button
                               data-target="modalevnt"
                                 onClick={()=>{
                                   

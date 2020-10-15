@@ -5,6 +5,7 @@ import { addEvent, editEvent } from "../actions/evntAction";
 import M from "materialize-css";
 import { GET_ERRORS } from "../actions/types";
 import "../addevent.css"
+import resize from "../outils/resize";
 
 
 const AddEvent = ({ toggle,action,setAction }) => {
@@ -47,7 +48,7 @@ const location = useLocation()
       type: GET_ERRORS,
       payload: {},
     })}}
-    M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
+    // M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
     M.updateTextFields()
     if(action.type=="add")
     M.Chips.init(document.querySelectorAll('.chips'),{
@@ -92,7 +93,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
     data.append("cloud_name", "med");
 
     const send = await fetch(
-      "https://api.cloudinary.com/v1_1/med/image/upload",
+      "https://api.cloudinary.com/v1_1/med/image/upload/",
       {
         method: "post",
         body: data,
@@ -103,7 +104,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
     // newEvent.image &&
       res.error && M.toast({ html: "Please insert a valid image", classes: "red" })&& setBtn(false)
      
-      !res.error && (newEvent.image = res.url);
+      !res.error && (newEvent.image = resize(res.url));
       console.log(newEvent);
    if(action.type=="add")
    
@@ -278,8 +279,9 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
               </div>
             </div>
           </form>
-          <div className='col s12 container '>
-            <h6>* Please note that you can't (modify,close and re-open) your event before <b>three days</b>  from it's schudeled day.</h6> </div>
+          {/* <div className='col s12 container '>
+            <h6>* Please note that you can't (modify,close and re-open) your event before <b>three days</b>  from it's schudeled day.</h6> 
+            </div> */}
         </div>
       </div>
     

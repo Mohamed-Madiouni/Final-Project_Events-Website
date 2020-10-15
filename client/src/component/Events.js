@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch,useSelector } from 'react-redux';
 import { useHistory,Link } from 'react-router-dom';
 import { getCurrentUser } from '../actions/authaction';
-import {makeComment,getComment,deleteComment,editComment} from "../actions/evntAction";
+import {makeComment,getComment,deleteComment,editComment, fullEvent, openEvent} from "../actions/evntAction";
 
 import {followEvent, getEvent, unfollowEvent,endEvent, closeEvent} from "../actions/evntAction";
 
@@ -27,7 +27,7 @@ function Events() {
     });
     const [participate,setParticipate]=useState("")
     const [eventDate,setEventDate]=useState("")
-   
+ 
     
     //check if events ended
 useEffect(()=>{
@@ -41,17 +41,25 @@ useEffect(()=>{
 useEffect(()=>{
   for(let i=0;i<allevents.length;i++){
     if( allevents[i].participant.length==allevents[i].nb_participant)
-    dispatch(closeEvent(allevents[i]._id))
+    dispatch(fullEvent(allevents[i]._id))
+  }
+},[])
+//open full events
+useEffect(()=>{
+  for(let i=0;i<allevents.length;i++){
+    if( allevents[i].participant.length!=allevents[i].nb_participant&&allevents[i].state=="Full")
+    dispatch(openEvent(allevents[i]._id))
   }
 },[])
     useEffect(()=>{
         dispatch(getEvent())
        localStorage.token&&dispatch(getCurrentUser())
-       M.Modal.init(document.querySelectorAll(".modal"))
+        M.Modal.init(document.querySelectorAll(".modal"))
     },[])
     useEffect(()=>{
       M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false})
       M.updateTextFields()
+     
       if(errors.banned)
       {
       M.toast({ html:`Your account has been banned from subscribtion to any event !! \n your restriction will end in ${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+7)}  `, classes: "red darken-4",displayLength:10000 });
@@ -95,6 +103,7 @@ useEffect(()=>{
       setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value })};
 
     return (
+      
         <div>
              <Navbar/>
             
@@ -217,14 +226,14 @@ useEffect(()=>{
                       justifyContent: "space-between",
                     }}
                   >
-                    {el.state=="Available"&&(!auth.isAuthenticated?
-                    <button
+                    {(!auth.isAuthenticated?
+                    el.state=="Available"&&<button
                     
                       onClick={()=>{
                         history.push("/login")
                       }}
                       style={{ display: "flex", alignItems: "center",borderRadius:"5px" }}
-                      className="btn-small green white-text"
+                      className="btn-small green white-text  pulse"
                     >
                       Participate
                       
@@ -233,7 +242,7 @@ useEffect(()=>{
                     (auth.user.banned_date?new Date()>auth.user.banned_date:true)&&
                     (
                       !auth.user.events.includes(el._id)?
-                    <button
+                     el.state=="Available"&&<button
                     data-target="modalevnt"
                       onClick={()=>{
                         // !auth.user.events.includes(el._id)&&
@@ -241,7 +250,7 @@ useEffect(()=>{
                         // :dispatch(unfollowEvent(el._id))
                       }}
                       style={{ display: "flex", alignItems: "center",borderRadius:"5px" }}
-                      className="btn-small green white-text modal-trigger"
+                      className="btn-small green white-text modal-trigger  pulse"
                     >
                      Participate
                       
@@ -278,7 +287,7 @@ useEffect(()=>{
                       <i className="material-icons right">close</i>
                     </span>
                     <p>{el.description}</p>
-                    {/* <div
+                     <div
                       className="right"
                       style={{
                         display: "flex",
@@ -289,23 +298,25 @@ useEffect(()=>{
                     >
                       {" "}
                       <a
-                        className="btn-floating waves-effect waves-light cadetblue"
+                        className="btn-floating  cadetblue"
                         onClick={() => {
-                          setAction({ type: "edit", payload: el });
-                          if(modal){
+                          history.push(`/events/${el._id}`)
+                          // setAction({ type: "edit", payload: el });
+                          // if(modal){
                            
-                            setModal(toggle( toggle()))
-                          }
-                          if(!modal)
-                          toggle()
-                          setParticipant(false)
-                          setModalId(el._id)
+                          //   setModal(toggle( toggle()))
+                          // }
+                          // if(!modal)
+                          // toggle()
+                          // setParticipant(false)
+                          // setModalId(el._id)
                         }}
-                        title="edit"
+                        title="Show comments"
                       >
-                        <i className="material-icons ">edit</i>
-                      </a>
-                      <button
+                        <i className="material-icons ">comment</i>
+                      </a> </div>
+                      </div> 
+                      {/* <button
                         className="btn-floating waves-effect waves-light cadetblue modal-trigger"
                         title="delete"
                         data-target="modal1"
@@ -324,9 +335,9 @@ useEffect(()=>{
                       ()=>setClosedid(el._id)
                     }>
                       <i className="material-icons ">done</i>{" "}
-                    </button>)}
-                    </div> */}
-                  </div>
+                    </button>)} */}
+                    
+                 
                 </div>
                 {/* {
                     el.comment.map(elt=>{
@@ -401,7 +412,9 @@ note that: </p><br/>
             
           </div>
         </div>
+        
         </div>
+        
     )
 }
 

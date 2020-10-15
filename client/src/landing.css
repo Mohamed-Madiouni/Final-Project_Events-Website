@@ -7,14 +7,14 @@
     /* padding-right: 10px; */
     
 }
-.dropdown-content{
+.lan{
     width: 200px !important;
     height: 200px !important;
     border-radius: 10px;
     transform: translateY(-40px);
     
 }
-.dropdown-content>li:hover{
+.lan>li:hover{
     background-color: white !important;
     
 }

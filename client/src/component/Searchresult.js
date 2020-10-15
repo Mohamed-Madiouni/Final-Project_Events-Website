@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch,useSelector } from 'react-redux';
 import { useHistory,Link } from 'react-router-dom';
 import { getCurrentUser } from '../actions/authaction';
-import {getEvent,endEvent,closeEvent,followEvent,unfollowEvent} from "../actions/evntAction";
+import {getEvent,endEvent,closeEvent,followEvent,unfollowEvent, fullEvent, openEvent} from "../actions/evntAction";
 import get_month from "../outils/get_month"
 import historyevent from "../outils/history"
 import Navbar from './Navbar';
@@ -44,10 +44,16 @@ useEffect(()=>{
 useEffect(()=>{
   for(let i=0;i<allevents.length;i++){
     if( allevents[i].participant.length==allevents[i].nb_participant)
-    dispatch(closeEvent(allevents[i]._id))
+    dispatch(fullEvent(allevents[i]._id))
   }
 },[])
-
+//open full events
+useEffect(()=>{
+  for(let i=0;i<allevents.length;i++){
+    if( allevents[i].participant.length!=allevents[i].nb_participant&&allevents[i].state=="Full")
+    dispatch(openEvent(allevents[i]._id))
+  }
+},[])
     useEffect(()=>{
         dispatch(getEvent())
        localStorage.token&&dispatch(getCurrentUser())
@@ -66,7 +72,8 @@ useEffect(()=>{
    
    useEffect(()=>{
      M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false})
-     M.updateTextFields()
+     M.updateTextFields() 
+    
      if(errors.banned)
      {
      M.toast({ html:`Your account has been banned from subscribtion to any event !! \n your restriction will end in ${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+7)}  `, classes: "red darken-4",displayLength:10000  });
@@ -229,14 +236,14 @@ useEffect(()=>{
                       justifyContent: "space-between",
                     }}
                   >
-                    {el.state=="Available"&&(!auth.isAuthenticated?
-                    <button
+                    {(!auth.isAuthenticated?
+                   el.state=="Available"&& <button
                     
                       onClick={()=>{
                         history.push("/login")
                       }}
                       style={{ display: "flex", alignItems: "center",borderRadius:"5px" }}
-                      className="btn-small green white-text"
+                      className="btn-small green white-text  pulse"
                     >
                       Participate
                       
@@ -245,7 +252,7 @@ useEffect(()=>{
                     (auth.user.banned_date?new Date()>auth.user.banned_date:true)&&
                     (
                       !auth.user.events.includes(el._id)?
-                    <button
+                      el.state=="Available"&& <button
                     data-target="modalevnt"
                       onClick={()=>{
                         // !auth.user.events.includes(el._id)&&
@@ -253,7 +260,7 @@ useEffect(()=>{
                         // :dispatch(unfollowEvent(el._id))
                       }}
                       style={{ display: "flex", alignItems: "center",borderRadius:"5px" }}
-                      className="btn-small green white-text modal-trigger"
+                      className="btn-small green white-text modal-trigger  pulse"
                     >
                      Participate
                       

@@ -2,7 +2,7 @@ import React, { useEffect, useState,useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import get_month from "../outils/get_month"
 import historyevent from "../outils/history"
-import {closeEvent,getEventOrganizer, deleteEvent,openEvent, getEvent,endEvent, getParticipant} from "../actions/evntAction";
+import {closeEvent,getEventOrganizer, deleteEvent,openEvent, getEvent,endEvent, getParticipant, fullEvent} from "../actions/evntAction";
 import { getCurrentUser } from "../actions/authaction";
 import AddEvent from "./AddEvent";
  import "../organizer.css";
@@ -94,11 +94,22 @@ function Organizer_events({ history }) {
 useEffect(()=>{
   for(let i=0;i<allevents.length;i++){
     if( allevents[i].participant.length==allevents[i].nb_participant)
-    dispatch(closeEvent(allevents[i]._id))
+    dispatch(fullEvent(allevents[i]._id))
   }
   for(let i=0;i<allparticipant.length;i++){
     if( allparticipant.participant[i].participant.length==allparticipant.participant[i].nb_participant)
-    dispatch(closeEvent(allparticipant.participant[i]._id))
+    dispatch(fullEvent(allparticipant.participant[i]._id))
+  }
+},[])
+//open full events
+useEffect(()=>{
+  for(let i=0;i<allevents.length;i++){
+    if( allevents[i].participant.length!=allevents[i].nb_participant&&allevents[i].state=="Full")
+    dispatch(openEvent(allevents[i]._id))
+  }
+  for(let i=0;i<allparticipant.length;i++){
+    if( allparticipant.participant[i].participant.length!=allparticipant.participant[i].nb_participant&&allparticipant.participant[i].state=="Full")
+    dispatch(openEvent(allparticipant.participant[i]._id))
   }
 },[])
   let eventsorganizer=allparticipant.participant.filter(el=>{
@@ -296,7 +307,8 @@ useEffect(()=>{
                       }}
                     >
                       {" "}
-                      {((new Date(el.date)-new Date())/(1000*86400))>3&&<a
+                      {/* ((new Date(el.date)-new Date())/(1000*86400))>3&& */}
+                      <a
                       
                         className="btn-floating waves-effect waves-light cadetblue"
                         onClick={() => {
@@ -318,7 +330,7 @@ useEffect(()=>{
                         id={el._id}
                       >
                         <i className="material-icons ">edit</i>
-                      </a>}
+                      </a>
                       <button
                         className="btn-floating waves-effect waves-light cadetblue modal-trigger"
                         title="delete"
@@ -327,13 +339,13 @@ useEffect(()=>{
                       >
                         <i className="material-icons ">delete</i>{" "}
                       </button>
-                      {el.state=="Available"&&(((new Date(el.date)-new Date())/(1000*86400))>3)&&(
+                      {el.state=="Available"&&(
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="close"   data-target="modal2" onClick={
                       ()=>{setClosedid(el._id);}
                     }>
                       <i className="material-icons ">block</i>{" "}
                     </button>)}
-                    {el.state=="Closed"&&(((new Date(el.date)-new Date())/(1000*86400))>3)&&(el.participant.length!=el.nb_participant)&&(
+                    {el.state=="Closed"&&(
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="open"   data-target="modal3" onClick={
                       ()=>setClosedid(el._id)
                     }>

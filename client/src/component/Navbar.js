@@ -54,7 +54,7 @@ function Navbar() {
         {!resize.state?(<>
           <div className="col s11  nav_list" style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
             <Link to="/" style={{color:location.pathname=="/"&&"rgb(14, 161, 152)"}}>Home</Link>
-            <Link to="/dashboard" style={{color:(location.pathname=="/dashboard"||location.pathname==`/events/${auth.user._id}`)&&"rgb(14, 161, 152)"}}>Dashboard</Link>
+            <Link to="/dashboard" style={{color:(location.pathname=="/dashboard"||location.pathname==`/dashboard/${auth.user._id}`)&&"rgb(14, 161, 152)"}}>Dashboard</Link>
             <Link to="/events" style={{color:location.pathname=="/events"&&"rgb(14, 161, 152)"}}>Events</Link>
             <Link to="/calendar" style={{color:location.pathname=="/calendar"&&"rgb(14, 161, 152)"}}>Calendar</Link>
           </div>

@@ -7,6 +7,7 @@ import { getCurrentUser } from "../actions/authaction";
 import M from "materialize-css";
 import Navbar from "./Navbar";
 import "../account.css"
+import resize from "../outils/resize";
 
 function Updateacc({ history }) {
   const errors = useSelector((state) => state.errors);
@@ -29,10 +30,10 @@ const[mod,setMod]=useState(false)
 
   useEffect(() => {
     if (!localStorage.token) history.push("/login");
-    M.Modal.init(document.querySelectorAll(".modal"));
+    
     
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
-    M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
+    // M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
   });
   useEffect(() => {
     if (errors.msg){ 
@@ -54,6 +55,7 @@ const[mod,setMod]=useState(false)
     }},[errors.success])
   useEffect(() => {
     if (localStorage.token) dispatch(getCurrentUser());
+    M.Modal.init(document.querySelectorAll(".modal"));
   }, []);
 
   useEffect(() => {
@@ -74,6 +76,7 @@ const onChangeConfirm=(e)=>{
   const confirmation=()=>{
     setBtn(true)
 dispatch(confirmPassword(confirmationInput))
+setConfirmationInput({confirm:""})
   }
   const onSubmit = async () => {
     // e.preventDefault();
@@ -104,7 +107,7 @@ dispatch(confirmPassword(confirmationInput))
       res.error &&
       M.toast({ html: res.error.message, classes: "red" })&&setBtn(false)
     console.log(res);
-    !res.error && (updateduser.avatar = res.url);
+    !res.error && (updateduser.avatar = resize(res.url));
     console.log(updateduser);
     dispatch(updateUser(updateduser, history));
   };
@@ -112,7 +115,13 @@ dispatch(confirmPassword(confirmationInput))
   return (
     <>
     <Navbar/>
-      <div className="container" style={{marginTop:"20px"}}>
+      <div className="container" style={{marginTop:"20px"}} onClick={(e)=>{
+          if(e.target!=document.querySelectorAll(".custom_mod")&&mod)
+        {
+          setMod(!mod)
+        btn&&setBtn(false)
+        }
+        }}>
         {/* <div
           className="row"
           style={{ display: "flex", justifyContent: "center", fontSize: 30 }}
@@ -266,7 +275,10 @@ dispatch(confirmPassword(confirmationInput))
                   type="button"
                   className="btn "
                   // data-target="modal1"
-                  onClick={()=>setMod(!mod)}
+                  onClick={()=>{
+                    setMod(!mod)
+                  setBtn(true)
+                  }}
                 >
                   Update
                 </button>
@@ -287,7 +299,9 @@ dispatch(confirmPassword(confirmationInput))
             </div>
           )}
         </div>
-        <div  className="custom_mod" style={{display:mod?"initial":"none",padding:"5px"}}>
+        
+      </div>
+      <div  className="custom_mod" style={{display:mod?"initial":"none",padding:"10px"}}>
           <div className="modal-content">
             {/* <h4>Account Update</h4>
             <p>Are you sure you want to update your profile?</p> */}
@@ -320,13 +334,15 @@ dispatch(confirmPassword(confirmationInput))
             <a
               href="#!"
               className="  btn"
-              onClick={()=>setMod(!mod)}
+              onClick={()=>{
+                setMod(!mod)
+              setBtn(false)
+              }}
             >
               Cancel
             </a>
           </div>
         </div>
-      </div>
     </>
   );
 }
