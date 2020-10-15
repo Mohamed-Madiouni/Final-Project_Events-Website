@@ -92,6 +92,7 @@ router.put("/users/unban/:_id", authMiddleware, (req, res) => {
 router.put("/users/alert/:_id", authMiddleware, (req, res) => {
   var _id = req.params._id;
   let nowdate = new Date();
+  console.log(_id)
   User.findByIdAndUpdate(
     _id,
     {
@@ -105,7 +106,11 @@ router.put("/users/alert/:_id", authMiddleware, (req, res) => {
     },
     { new: true }
   )
-    .then((useralerted) => res.send({ alerted: "ok" }))
+    .then((useralerted) => { 
+       console.log(useralerted)
+      res.send({ alerted: "ok" })
+  
+    })
     .catch((err) => console.log(err.message));
 });
 

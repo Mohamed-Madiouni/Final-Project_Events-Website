@@ -86,9 +86,9 @@ export const banUser=(idUser, banDate)=>(dispatch)=>{
 
 
   //Alert user
-  export const alertUser=(idUser, alertDate)=>(dispatch)=>{
+  export const alertUser=(idUser)=>(dispatch)=>{
     setAuthToken(localStorage.token)
-    axios.put(`admin/users/alert/${idUser}`, alertDate)
+    axios.put(`admin/users/alert/${idUser}`)
     .then((res)=>{
       dispatch(getUsers())
       dispatch({

@@ -141,13 +141,20 @@ function Participant() {
             <h5>
               <b>Hi there,</b> {auth.user.fname}
             </h5>
-            <p>
-              {" "}
-              We are happy to see you among US. <br />
+            
+     
+         { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
+        <i class="fas fa-exclamation-circle" style={{color:"red",fontSize:15}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban you account 
+        </i>
+        }
 
-              This is your <b>Dashboard</b>, you can see all your events that
-              you have been participated.
-            </p>
+        <p>
+          {" "}
+          We are happy to see you among US. <br />
+
+          This is your <b>Dashboard</b>, you can see all your events that
+          you have been participated.
+        </p>
            
           </div>
          
