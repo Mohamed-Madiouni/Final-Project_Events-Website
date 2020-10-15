@@ -100,7 +100,11 @@ function Participant() {
        })
   
     return (
-        <>
+        <>        
+        { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
+        <i class="fas fa-exclamation-circle" style={{color:"red",fontSize:15}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban your account 
+        </i>
+        }
         <div className='row container' ><h5><b>Quick search</b></h5></div>
 
 <div className="row container" style={{marginTop:"20px",fontSize:15,fontWeight:800}} >
@@ -141,13 +145,6 @@ function Participant() {
             <h5>
               <b>Hi there,</b> {auth.user.fname}
             </h5>
-            
-     
-         { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
-        <i class="fas fa-exclamation-circle" style={{color:"red",fontSize:15}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban you account 
-        </i>
-        }
-
         <p>
           {" "}
           We are happy to see you among US. <br />

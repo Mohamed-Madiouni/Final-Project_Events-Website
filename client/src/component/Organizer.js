@@ -76,7 +76,10 @@ useEffect(()=>{
 
   return (
    <>
-      
+       { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
+        <i class="fas fa-exclamation-circle" style={{color:"red",fontSize:15}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban your account 
+        </i>
+        }  
      
     
      
@@ -95,11 +98,6 @@ useEffect(()=>{
             <h5>
               <b>Hi there,</b> {auth.user.fname}
             </h5>
-
-            { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
-        <i class="fas fa-exclamation-circle" style={{color:"red",fontSize:15}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban you account 
-        </i>
-        }
             <p>
               {" "}
               We are happy to see you among US. <br />
