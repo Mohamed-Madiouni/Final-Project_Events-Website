@@ -43,6 +43,9 @@ const userSchema = mongoose.Schema({
   }],
   banned_date:{
     type:Date
+  },
+  alerted_date:{
+    type:Date
   }
 });
 

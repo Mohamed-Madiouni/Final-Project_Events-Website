@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteUser, getUsers, banUser, unbanUser } from "../actions/adminaction";
+import { deleteUser, getUsers, banUser, unbanUser, alertUser, unalertUser } from "../actions/adminaction";
 import { getCurrentUser } from '../actions/authaction';
 import {useHistory} from "react-router-dom"
 import historyuser from "../outils/history"
@@ -14,6 +14,7 @@ const UserList = () => {
     const history=useHistory()
     const [deleteid,setDeleteid]= useState("")
     const [banid,setBanid]= useState("")
+    const [alertid,setAlertid]= useState("")
     const [quickSearch, setQuickSearch] = useState({
       fname: "",
       lname: "",
@@ -75,46 +76,56 @@ const UserList = () => {
            className="card small sticky-action"
            style={{
              width: 335,
-             height:550,
-             margin:5
-             
+             height:500,
+             margin:5,
+             backgroundColor: !el.banned_date?new Date()<el.banned_date:true&&"red",
+             border:el.alerted_date && new Date()<new Date(el.alerted_date) && "5px",
+             borderColor:el.alerted_date && new Date()<new Date(el.alerted_date) && "red",
+             borderStyle:el.alerted_date && new Date()<new Date(el.alerted_date) && "solid"
            }}
            // key={el._id}
          >
+         
 
-         <div className="card-image circle" style={{height:"50%", width:"100%", alignItems:"center", display:"flex"}}>
-           <img className="activator" src={el.avatar} height="70%" width="60%"  style={{borderRadius:"100%" }} />
-         </div>
+
+         <div className="card-image " style={{height:"50%", width:"100%",display:"grid",placeItems:"center"}}>
+           <img className="activator circle" src={el.avatar}  style={{borderRadius:"100%",height:"70%" ,width:"70%"  }} />
+          { (!el.alerted_date || new Date()>new Date(el.alerted_date ))&&
+        <i class="fas fa-exclamation-circle btn-flat modal-trigger" style={{color:"gray", position:"absolute",right:"5%",top:"5%", fontSize:30}}
+
+
+              type="button"
+              data-target="modal4"
+              onClick={()=>setAlertid(el._id)}
+              disabled={el.role=="administrator"&&true}
+            >
+        </i>}
+       { el.alerted_date && new Date()<new Date(el.alerted_date) &&
+        <i class="fas fa-exclamation-circle btn-flat modal-trigger" style={{color:"red", position:"absolute",right:"5%",top:"5%",fontSize:30}}
+        type="button"
+          data-target="modal5"
+          onClick={()=>setAlertid(el._id)}
+          disabled={el.role=="administrator"&&true}
+        ></i>    
+        }
+        </div>
            
            <div
              className="card-content "
-             style={{ padding: "0px 10px 0px 24px" }}
+            
            >
-             <span className="card-title  grey-text text-darken-4">
-               <b>{el.fname}</b>
+             <span className="black-text">
+               <b>{el.fname+ " "}{el.lname}</b>
              </span>
-             <p className="black-text">{el.lname}</p>
-             <div
-               style={{
-                 display: "flex",
-                 alignItems: "center",
-                 fontSize:13,
-                 width:"100%"
-               }}
-             >
-
-               
-             </div>
-
            </div>
 
           
-
+            <p className="black-text">{el.email}</p>
             <span className="black-text">
                <br/>{el.role}
              </span>
 
-             <p className="black-text"><br/>{el.email}</p>
+             
                <span
                  style={{
                    margin: 10,
@@ -178,9 +189,9 @@ const UserList = () => {
 
 
 
+        
 
-
-        { (  (!el.banned_date)   || 0<(new Date()-(el.banned_date)<8)   )?
+        { (  (el.banned_date?new Date()>el.banned_date:true)   )?
         <button
               style={{
                 width: "100px",
@@ -266,17 +277,50 @@ const UserList = () => {
 
 
 
+    <div id="modal4" className="modal">
+          <div className="modal-content">
+            <h4>User Alert</h4>
+            <p>Are you sure you want to alert this User?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+              onClick={()=> dispatch(alertUser(alertid))}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
 
 
-
-
-
-
-
-
-
-
-
+        <div id="modal5" className="modal">
+          <div className="modal-content">
+            <h4>User Alert</h4>
+            <p>Are you sure you want to remove the alert from this User?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+              onClick={()=> dispatch(unalertUser(alertid))}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
 
          </div>
          </div>)

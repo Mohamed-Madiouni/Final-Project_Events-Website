@@ -78,7 +78,7 @@ router.put("/users/unban/:_id", authMiddleware, (req, res) => {
     _id,
     {
       $set: {
-        banned_date: new Date( 0,0,0)
+        banned_date: ""
       },
     },
     { new: true }
@@ -86,5 +86,51 @@ router.put("/users/unban/:_id", authMiddleware, (req, res) => {
     .then((userunbanned) => res.send({ unbanned: "ok" }))
     .catch((err) => console.log(err.message));
 });
+
+
+//Alert
+router.put("/users/alert/:_id", authMiddleware, (req, res) => {
+  var _id = req.params._id;
+  let nowdate = new Date();
+  console.log(_id)
+  User.findByIdAndUpdate(
+    _id,
+    {
+      $set: {
+        alerted_date: new Date(
+          nowdate.getFullYear(),
+          nowdate.getMonth(),
+          nowdate.getDate() + 7
+        ),
+      },
+    },
+    { new: true }
+  )
+    .then((useralerted) => { 
+       console.log(useralerted)
+      res.send({ alerted: "ok" })
+  
+    })
+    .catch((err) => console.log(err.message));
+});
+
+
+//Remove Alert
+router.put("/users/unalert/:_id", authMiddleware, (req, res) => {
+  var _id = req.params._id;
+  let nowdate = new Date();
+  User.findByIdAndUpdate(
+    _id,
+    {
+      $set: {
+        alerted_date: ""
+      },
+    },
+    { new: true }
+  )
+    .then((userunalert) => res.send({ unalert: "ok" }))
+    .catch((err) => console.log(err.message));
+});
+
 
 module.exports = router;

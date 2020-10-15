@@ -87,7 +87,10 @@ useEffect(()=>{
 
   return (
    <>
-      
+       { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
+        <i class="fas fa-exclamation-circle" style={{color:"red",fontSize:15}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban your account 
+        </i>
+        }  
      
     
      
