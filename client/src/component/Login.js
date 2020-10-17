@@ -4,9 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { loginUser } from "../actions/authaction";
 import { GET_ERRORS } from "../actions/types";
 import Navbar from "./Navbar";
+import { logoutUser } from "../actions/authaction";
 
 function Login({ history }) {
   const errors = useSelector((state) => state.errors);
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [userlog, setUserlog] = useState({
     email: "",
@@ -16,6 +18,8 @@ function Login({ history }) {
 
   useEffect(() => {
     if (localStorage.token) history.push("/dashboard");
+    if(errors.banned_banned)
+    history.push("/banned")
   });
 
 useEffect(()=>{
@@ -28,6 +32,13 @@ useEffect(()=>{
   useEffect(() => {
     if (errors) setUserlog({ ...userlog, error: errors });
   }, [errors]);
+
+    useEffect(() => {
+      if (auth.user.banned===true) {
+          dispatch(logoutUser());
+          history.push("/banned")
+         }
+    });
 
   const onChange = (e) => {
     setUserlog({ ...userlog, [e.target.id]: e.target.value });

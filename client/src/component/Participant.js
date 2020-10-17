@@ -10,6 +10,7 @@ import eventClosing from "../outils/eventClosing";
 import { GET_ERRORS } from "../actions/types";
 import { getMyEvents,getCurrentUser } from "../actions/authaction";
 import historyevent from "../outils/history"
+import { logoutUser } from "../actions/authaction";
 
 
 function Participant() {
@@ -56,6 +57,14 @@ function Participant() {
       dispatch(endEvent(myevents[i]._id))
     }
   },[])
+
+  useEffect(() => {
+    if (auth.user.banned===true) {
+        dispatch(logoutUser());
+        history.push("/banned")
+       }
+  });
+
   //check if events full
   useEffect(()=>{
     for(let i=0;i<allevents.length;i++){
@@ -84,7 +93,7 @@ useEffect(()=>{
   useEffect(()=>{
     
    localStorage.token&&dispatch(getCurrentUser())
-   M.Modal.init(document.querySelectorAll(".modal"))
+
 },[])
 
    useEffect(()=>{
@@ -98,7 +107,8 @@ useEffect(()=>{
         type: GET_ERRORS,
         payload: {},
       })
-    }
+    }   
+  
     })
     let events=myevents&&myevents.filter(el=>{
         return(
@@ -303,7 +313,7 @@ useEffect(()=>{
                                 
                               </button>:(auth.user.role=="participant"&&
                               !auth.user.cancelation.includes(el._id)&&
-                              (auth.user.banned_date?new Date()>auth.user.banned_date:true)&&
+                              (auth.user.banned===true)&&
                               (
                                 !auth.user.events.includes(el._id)?
                                 el.state=="Available"&& <button

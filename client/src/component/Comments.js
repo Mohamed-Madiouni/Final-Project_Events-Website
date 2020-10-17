@@ -18,8 +18,9 @@ import M from "materialize-css";
 import { GET_ERRORS } from "../actions/types";
 import eventClosing from "../outils/eventClosing";
 import { getUsers } from '../actions/adminaction';
+import { logoutUser } from "../actions/authaction";
 
-function Comments({match}) {
+function Comments({match, history}) {
     const allevents=useSelector(state=>state.events.allEvents)
     const users=useSelector(state=>state.admin.users)
     const comments=useSelector(state=>state.comments)
@@ -36,6 +37,13 @@ function Comments({match}) {
         M.Materialbox.init(document.querySelectorAll('.materialboxed'))
         // M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'),{closeOnClick:false})
     },[])
+
+    useEffect(() => {
+      if (auth.user.banned===true) {
+          dispatch(logoutUser());
+          history.push("/banned")
+         }
+    });
 
     const onEmojiClick = ( emoji) => {
       console.log(emoji)

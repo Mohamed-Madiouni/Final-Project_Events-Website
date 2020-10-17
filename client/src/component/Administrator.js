@@ -21,7 +21,7 @@ function Administrator() {
   useEffect(() => {
     dispatch(getUsers(), getEvents())
   }, []);
-
+useEffect(()=> { M.Modal.init(document.querySelectorAll(".modal"))})
   return (
     <div className="row">
       <div className="col s12 row">
@@ -59,7 +59,7 @@ function Administrator() {
         
             
               <input type="checkbox" onClick={toggle}/>
-              <span class="lever"></span>
+              <span className="lever"></span>
           
               Manage events</label>
             </div>

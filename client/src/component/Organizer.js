@@ -9,6 +9,7 @@ import "../organizer.css";
 import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
 import { GET_ERRORS } from "../actions/types";
+import { logoutUser } from "../actions/authaction";
 
 
 function Organizer() {
@@ -29,7 +30,14 @@ function Organizer() {
   return modal
   };
   
-  
+  useEffect(() => {
+    if (auth.user.banned===true) {
+        dispatch(logoutUser());
+        history.push("/banned")
+       }
+  });
+
+
   useEffect(() => {
     dispatch(getEventOrganizer());
     dispatch(getEvent())

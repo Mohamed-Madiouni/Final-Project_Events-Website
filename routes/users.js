@@ -9,6 +9,7 @@ const validateLoginInput = require("../validation/login");
 const validateUpdateInput = require("../validation/update");
 const authMiddleware = require("../middleware/authMiddleware");
 
+
 //handle registration
 router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -109,11 +110,17 @@ router.post("/login", (req, res) => {
   }
   const email = req.body.email;
   const password = req.body.password;
+  const banned = req.body.banned;
 
-  User.findOne({ email: email }).then((user) => {
-    if (!user) {
-      return res.status(404).json({ email: "Email not found" });
-    }
+    User.findOne({ email: email }).then((user) => {
+      if (!user) {
+        return res.status(404).json({ email: "Email not found" });
+      }
+
+   
+     if (user.banned===true) {
+       return res.status(403).json({ banned_banned: "account banned" });
+     }      
 
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
@@ -134,7 +141,10 @@ router.post("/login", (req, res) => {
         return res.status(400).json({ password: "Password incorrect" });
       }
     });
+    
+
   });
+
 });
 
 // get myevents

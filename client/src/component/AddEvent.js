@@ -6,9 +6,10 @@ import M from "materialize-css";
 import { GET_ERRORS } from "../actions/types";
 import "../addevent.css"
 import resize from "../outils/resize";
+import { logoutUser } from "../actions/authaction";
 
 
-const AddEvent = ({ toggle,action,setAction }) => {
+const AddEvent = ({ toggle,action,setAction,history }) => {
 
 const dispatch = useDispatch()
 const errors = useSelector((state) => state.errors);
@@ -64,6 +65,14 @@ const location = useLocation()
     
     
   });
+
+  useEffect(() => {
+    if (auth.user.banned===true) {
+        dispatch(logoutUser());
+        history.push("/banned")
+       }
+  });
+
 const onChange_tags=(e)=>{
 setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
 }

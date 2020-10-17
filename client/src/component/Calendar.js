@@ -14,6 +14,7 @@ import eventClosing from "../outils/eventClosing";
 import M from "materialize-css";
 import Navbar from './Navbar';
 import { getCurrentUser } from '../actions/authaction';
+import { logoutUser } from "../actions/authaction";
 
 
 function Calendar() {
@@ -58,6 +59,13 @@ useEffect(()=>{
     dispatch(openEvent(allevents[i]._id))
   }
 },[])
+
+useEffect(() => {
+  if (auth.user.banned===true) {
+      dispatch(logoutUser());
+      history.push("/banned")
+     }
+});
 
 let calendarEvents=allevents.map(el=>{
   return (
@@ -257,7 +265,7 @@ let calendarEvents=allevents.map(el=>{
                       
                     </button>:(auth.user.role=="participant"&&
                     !auth.user.cancelation.includes(allevents.find(e=>e._id==eventId)._id)&&
-                    (auth.user.banned_date?new Date()>auth.user.banned_date:true)&&
+                    (auth.user.banned==true)&&
                     (
                       !auth.user.events.includes(allevents.find(e=>e._id==eventId)._id)?
                       allevents.find(e=>e._id==eventId).state=="Available"&& <button

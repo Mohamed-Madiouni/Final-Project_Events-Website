@@ -249,7 +249,7 @@ useEffect(()=>{
                       
                     </button>:(auth.user.role=="participant"&&
                     !auth.user.cancelation.includes(el._id)&&
-                    (auth.user.banned_date?new Date()>auth.user.banned_date:true)&&
+                    (auth.user.banned===true)&&
                     (
                       !auth.user.events.includes(el._id)?
                       el.state=="Available"&& <button
