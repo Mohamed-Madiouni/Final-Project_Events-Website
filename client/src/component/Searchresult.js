@@ -203,7 +203,7 @@ useEffect(() => {
                       >
                         <i
                           className=" tiny material-icons"
-                          style={{ margin: 10, transform: "translateY(1.4px)" }}
+                          style={{ margin: 10, marginTop:9 }}
                         >
                           history
                         </i>
@@ -219,7 +219,7 @@ useEffect(() => {
                       >
                         <i
                           className=" tiny material-icons"
-                          style={{ margin: 10 }}
+                          style={{ margin: 10,marginTop:8 }}
                         >
                           person
                         </i>

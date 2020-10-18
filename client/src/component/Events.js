@@ -210,6 +210,7 @@ useEffect(()=>{
                           margin: 10, 
                           display: "flex",
                           alignItems: "center",
+                          
                         }}
                       >
                         <i

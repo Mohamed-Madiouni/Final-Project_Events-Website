@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteEvent } from "../actions/adminaction";
-import { getEvents } from "../actions/adminaction";
+import { getEvents} from "../actions/adminaction";
 import { getCurrentUser } from "../actions/authaction";
 import { useHistory } from "react-router-dom";
 import get_month from "../outils/get_month";
@@ -13,6 +13,7 @@ const EventList = () => {
   const dispatch = useDispatch();
   const allevents = useSelector((state) => state.admin.events);
   let auth = useSelector((state) => state.auth);
+  let allusers=useSelector(state=>state.admin.users)
   const history = useHistory();
   const [deleteid, setDeleteid] = useState("");
   const [quickSearch, setQuickSearch] = useState({
@@ -26,6 +27,7 @@ const EventList = () => {
 
   useEffect(() => {
     dispatch(getEvents());
+    
     localStorage.token && dispatch(getCurrentUser());
   }, []);
   useEffect(() => {
@@ -42,7 +44,11 @@ const EventList = () => {
       el.state.toLowerCase().includes(quickSearch.state.toLowerCase()) &&
       el.address.toLowerCase().includes(quickSearch.address.toLowerCase()) &&
       el.description.toLowerCase().includes(quickSearch.description.toLowerCase()) &&
-      el.id_organizer.toLowerCase().includes(quickSearch.id_organizer.toLowerCase()) &&
+      // el.id_organizer.toLowerCase().includes(quickSearch.id_organizer.toLowerCase()) 
+     (allusers.find(elm=>elm._id==el.id_organizer).fname.toLowerCase().includes(quickSearch.id_organizer.toLowerCase())||
+      allusers.find(elm=>elm._id==el.id_organizer).lname.toLowerCase().includes(quickSearch.id_organizer.toLowerCase()))
+      
+      &&
       (quickSearch.tags != ""
         ? el.tags.find((e) =>
             e.toLowerCase().includes(quickSearch.tags.toLowerCase())
@@ -185,7 +191,7 @@ const EventList = () => {
                     style={{
                       width: 335,
                       height: 490,
-                      margin: 5,
+                      
                     }}
                     // key={el._id}
                   >

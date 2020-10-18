@@ -229,7 +229,7 @@ useEffect(()=>{
                       >
                         <i
                           className=" tiny material-icons"
-                          style={{ margin: 10, marginTop:8 }}
+                          style={{ margin: 10, marginTop:10 }}
                         >
                           history
                         </i>

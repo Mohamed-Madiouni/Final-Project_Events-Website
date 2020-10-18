@@ -149,7 +149,7 @@ useEffect(()=>{
               <label>Add event</label>
             </div>
             <div>
-              <Link className="btn-floating  cadetblue" to={`/events/${auth.user._id}`}>
+              <Link className="btn-floating  cadetblue" to={`/dashboard/${auth.user._id}`}>
                 <i className="material-icons" title="Show my events">
                   assignment
                 </i>
@@ -228,7 +228,7 @@ useEffect(()=>{
                     >
                       <i
                         className=" tiny material-icons"
-                        style={{ margin: 10,marginTop:8 }}
+                        style={{ margin: 10,marginTop:10 }}
                       >
                         history
                       </i>

@@ -230,7 +230,7 @@ let calendarEvents=allevents.map(el=>{
                       >
                         <i
                           className=" tiny material-icons"
-                          style={{ margin: 10, marginTop:10 }}
+                          style={{ margin: 10, marginTop:8 }}
                         >
                           person
                         </i>
