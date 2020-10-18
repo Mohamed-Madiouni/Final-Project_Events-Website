@@ -99,10 +99,8 @@ const UserList = () => {
              width: 300,
              height:440,
              margin:5,
-             backgroundColor: el.banned===true&&"red",
-             border:el.alerted_date && new Date()<new Date(el.alerted_date) && "5px",
-             borderColor:el.alerted_date && new Date()<new Date(el.alerted_date) && "red",
-             borderStyle:el.alerted_date && new Date()<new Date(el.alerted_date) && "solid"
+             boxShadow: el.alerted_date && new Date()<new Date(el.alerted_date) && el.banned===false ? "inset 0px 0px 131px 14px #fff300" : el.banned===true && "inset 0px 0px 131px 14px #ed1717",
+             
            }}
            // key={el._id}
          >
@@ -112,7 +110,7 @@ const UserList = () => {
          <div className="card-image " style={{height:"55%", width:"100%",display:"grid",placeItems:"center"}}>
            <img className=" materialboxed" src={el.avatar}  height="100%" width="100%"  />
           { (!el.alerted_date || new Date()>new Date(el.alerted_date ))&&
-        <i class="fas fa-exclamation-circle btn-flat modal-trigger" style={{color:"gray", position:"absolute",right:"2%",top:"5%", fontSize:30}}
+        <i className="fas fa-exclamation-circle btn-flat modal-trigger" style={{color:"gray", position:"absolute",right:"2%",top:"5%", fontSize:30}}
 
 
               type="button"
@@ -122,7 +120,7 @@ const UserList = () => {
             >
         </i>}
        { el.alerted_date && new Date()<new Date(el.alerted_date) &&
-        <i class="fas fa-exclamation-circle btn-flat modal-trigger" style={{color:"red", position:"absolute",right:"2%",top:"5%",fontSize:30}}
+        <i className="fas fa-exclamation-circle btn-flat modal-trigger" style={{color:"red", position:"absolute",right:"2%",top:"5%",fontSize:30}}
         type="button"
           data-target="modal5"
           onClick={()=>setAlertid(el._id)}
@@ -158,7 +156,7 @@ const UserList = () => {
                 height: "40px",
                 borderRadius: "3px",
                 letterSpacing: "1.5px",
-                marginTop: "1rem",
+                margin: "1rem",
                               }}
               type="button"
               className="btn btn-medium modal-trigger"
@@ -205,7 +203,7 @@ const UserList = () => {
                 height: "40px",
                 borderRadius: "3px",
                 letterSpacing: "1.5px",
-                marginTop: "1rem",
+                margin: "1rem",
                               }}
               type="button"
               className="btn btn-medium modal-trigger"
@@ -221,7 +219,8 @@ const UserList = () => {
               height: "40px",
               borderRadius: "3px",
               letterSpacing: "1.5px",
-              marginTop: "1rem",
+              margin: "1rem",
+              backgroundColor: "#ec4c4c",
                             }}
             type="button"
             className="btn btn-medium modal-trigger"
