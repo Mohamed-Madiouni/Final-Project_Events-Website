@@ -23,7 +23,9 @@ useEffect(()=>{M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))},
   
     dispatch(logoutUser());
   };
-
+useEffect(()=>{
+  M.Modal.init(document.querySelectorAll(".modal"))
+},[])
   return (
     <>
       <div className="landing_app">

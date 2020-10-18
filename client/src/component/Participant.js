@@ -43,7 +43,20 @@ function Participant() {
     
    
     
-  //check if events ended
+ 
+  //check if events full
+  useEffect(()=>{
+    for(let i=0;i<allevents.length;i++){
+      if( allevents[i].participant.length==allevents[i].nb_participant)
+      dispatch(fullEvent(allevents[i]._id))
+    }
+    if(myevents)
+    for(let i=0;i<myevents.length;i++){
+      if( myevents[i].participant.length==myevents[i].nb_participant)
+      dispatch(fullEvent(myevents[i]._id))
+    }
+  },[])
+   //check if events ended
   useEffect(()=>{
     dispatch(getEvent())
     for(let i=0;i<allevents.length;i++){
@@ -58,6 +71,7 @@ function Participant() {
     }
   },[])
 
+
   useEffect(() => {
     if (auth.user.banned===true) {
         dispatch(logoutUser());
@@ -65,18 +79,7 @@ function Participant() {
        }
   });
 
-  //check if events full
-  useEffect(()=>{
-    for(let i=0;i<allevents.length;i++){
-      if( allevents[i].participant.length==allevents[i].nb_participant)
-      dispatch(fullEvent(allevents[i]._id))
-    }
-    if(myevents)
-    for(let i=0;i<myevents.length;i++){
-      if( myevents[i].participant.length==myevents[i].nb_participant)
-      dispatch(fullEvent(myevents[i]._id))
-    }
-  },[])
+ 
   //open full events
 useEffect(()=>{
   for(let i=0;i<allevents.length;i++){
@@ -261,7 +264,7 @@ useEffect(()=>{
                                 >
                                   <i
                                     className=" tiny material-icons"
-                                    style={{ margin: 10, marginTop:8}}
+                                    style={{ margin: 10, marginTop:10}}
                                   >
                                     history
                                   </i>

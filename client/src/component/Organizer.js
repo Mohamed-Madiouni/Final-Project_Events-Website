@@ -43,19 +43,7 @@ function Organizer() {
     dispatch(getEvent())
   }, []);
   
-//check if events ended
-useEffect(()=>{
-  
-  for(let i=0;i<allevents.length;i++){
-    if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
-    dispatch(endEvent(allevents[i]._id))
-  }
 
-  for(let i=0;i<events.events.length;i++){
-    if( new Date(eventClosing(events.events[i].date,events.events[i].duration))<new Date())
-    dispatch(endEvent(events.events[i]._id))
-  }
-},[])
 //check if events full
 useEffect(()=>{
   
@@ -69,6 +57,19 @@ useEffect(()=>{
     dispatch(fullEvent(events.events[i]._id))
   }
 
+},[])
+//check if events ended
+useEffect(()=>{
+  
+  for(let i=0;i<allevents.length;i++){
+    if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
+    dispatch(endEvent(allevents[i]._id))
+  }
+
+  for(let i=0;i<events.events.length;i++){
+    if( new Date(eventClosing(events.events[i].date,events.events[i].duration))<new Date())
+    dispatch(endEvent(events.events[i]._id))
+  }
 },[])
 //open full events
 useEffect(()=>{

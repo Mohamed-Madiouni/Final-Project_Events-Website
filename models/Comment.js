@@ -14,6 +14,7 @@ const CommentSchema = new schema({
          type: mongoose.Types.ObjectId, 
          ref: "user" 
         },
+        reply:[],
     created_at: {
         type: Date,
         default: Date.now,
