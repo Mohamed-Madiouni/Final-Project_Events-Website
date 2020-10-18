@@ -3,6 +3,10 @@
    padding: 0px 0px 0px 15px;
 
 }
+
+.com_picture>.material-placeholder{
+    height: fit-content !important;
+}
 .drop_emoji{
     width: 367px !important;
     height: 364px !important;

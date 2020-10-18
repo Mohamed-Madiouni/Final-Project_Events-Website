@@ -41,7 +41,8 @@ function App() {
    
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
-    M.Slider.init(document.querySelectorAll(".slider"), { height: 500 });
+    if (location.pathname=="/")
+     M.Slider.init(document.querySelectorAll(".slider"), { height: 500 });
    
   });
   useEffect(()=>{ 

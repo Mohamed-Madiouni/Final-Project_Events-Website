@@ -5,11 +5,12 @@ const User = require('../models/User')
 const Comment = require('../models/Comment')
 const authMiddleware = require("../middleware/authMiddleware");
 var Pusher = require('pusher');
+require("dotenv").config();
 
 var pusher = new Pusher({
-  appId: '1092374',
-  key: '16ca3006a08827062073',
-  secret: 'd68755f8ef8b5528389a',
+  appId: process.env.appId,
+  key: process.env.key,
+  secret: process.env.secret,
   cluster: 'eu',
   useTLS: true,
 });

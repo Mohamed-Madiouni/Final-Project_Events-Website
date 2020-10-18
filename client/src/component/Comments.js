@@ -49,9 +49,11 @@ const [deletereplyid,setDeletereplyid]=useState("")
         dispatch(getEvent())
         dispatch(getUsers())
         dispatch(getComment())
+        setLoad(true)
         M.Materialbox.init(document.querySelectorAll('.materialboxed'))
         // M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'),{closeOnClick:false})
         M.Modal.init(document.querySelectorAll(".modal"))
+        
     },[])
 useEffect(()=>{
    M.updateTextFields()
@@ -78,9 +80,7 @@ useEffect(()=>{
     });
   },[])
 
-  useEffect(()=>{
-setLoad(true)
-  },[])
+  
 
   
    useEffect(() => {
