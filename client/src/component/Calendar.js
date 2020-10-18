@@ -266,7 +266,7 @@ let calendarEvents=allevents.map(el=>{
                       
                     </button>:(auth.user.role=="participant"&&
                     !auth.user.cancelation.includes(allevents.find(e=>e._id==eventId)._id)&&
-                    (auth.user.banned==true)&&
+                    (auth.user.banned_date?new Date()>auth.user.banned_date:true)&&
                     (
                       !auth.user.events.includes(allevents.find(e=>e._id==eventId)._id)?
                       allevents.find(e=>e._id==eventId).state=="Available"&& <button
