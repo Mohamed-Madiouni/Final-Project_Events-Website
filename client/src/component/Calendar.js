@@ -14,6 +14,7 @@ import eventClosing from "../outils/eventClosing";
 import M from "materialize-css";
 import Navbar from './Navbar';
 import { getCurrentUser } from '../actions/authaction';
+import { logoutUser } from "../actions/authaction";
 
 
 function Calendar() {
@@ -59,6 +60,13 @@ useEffect(()=>{
     dispatch(openEvent(allevents[i]._id))
   }
 },[])
+
+useEffect(() => {
+  if (auth.user.banned===true) {
+      dispatch(logoutUser());
+      history.push("/banned")
+     }
+});
 
 let calendarEvents=allevents.map(el=>{
   return (

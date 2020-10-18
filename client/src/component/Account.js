@@ -8,6 +8,7 @@ import M from "materialize-css";
 import Navbar from "./Navbar";
 import "../account.css"
 import resize from "../outils/resize";
+import { logoutUser } from "../actions/authaction";
 
 function Updateacc({ history }) {
   const errors = useSelector((state) => state.errors);
@@ -44,12 +45,15 @@ const[mod,setMod]=useState(false)
       })
       setBtn(false)
     }
-    
+    });
 
-    
-   
+    useEffect(() => {
+      if (auth.user.banned===true) {
+          dispatch(logoutUser());
+          history.push("/banned")
+         }
+    });
 
-  });
   useEffect(()=>{if(errors.success){
       onSubmit()
     }},[errors.success])

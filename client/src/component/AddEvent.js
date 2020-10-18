@@ -6,6 +6,7 @@ import M from "materialize-css";
 import { GET_ERRORS } from "../actions/types";
 import "../addevent.css"
 import resize from "../outils/resize";
+import { logoutUser } from "../actions/authaction";
 
 
 const AddEvent = ({ toggle,action,setAction }) => {
@@ -64,6 +65,9 @@ const location = useLocation()
     
     
   });
+
+ 
+
 const onChange_tags=(e)=>{
 setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
 }

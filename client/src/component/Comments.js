@@ -18,10 +18,14 @@ import M from "materialize-css";
 import { GET_ERRORS } from "../actions/types";
 import eventClosing from "../outils/eventClosing";
 import { getUsers } from '../actions/adminaction';
+
+import { logoutUser } from "../actions/authaction";
+
 import {v4 as uuidv4} from "uuid"
 import Pusher from 'pusher-js'
 
-function Comments({match}) {
+
+function Comments({match, history}) {
     const allevents=useSelector(state=>state.events.allEvents)
     const users=useSelector(state=>state.admin.users)
     const comments=useSelector(state=>state.comments)
@@ -68,7 +72,6 @@ useEffect(()=>{
     var pusher = new Pusher('16ca3006a08827062073', {
       cluster: 'eu'
     });
-
     var channel = pusher.subscribe('my-channel');
     channel.bind('my-event', function(data) {
      dispatch(getComment())
@@ -78,6 +81,14 @@ useEffect(()=>{
   useEffect(()=>{
 setLoad(true)
   },[])
+
+  
+   useEffect(() => {
+      if (auth.user.banned===true) {
+          dispatch(logoutUser());
+          history.push("/banned")
+         }
+    });
     const onEmojiClick = ( emoji) => {
     
         setComnt(comnt.concat(emoji.native));

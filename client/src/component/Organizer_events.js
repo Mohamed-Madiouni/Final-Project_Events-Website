@@ -12,11 +12,11 @@ import { Link } from "react-router-dom";
 import eventClosing from "../outils/eventClosing";
 import Navbar from "./Navbar";
 import "../organizer_event.css";
-
+import { logoutUser } from "../actions/authaction";
 
 
 function Organizer_events({ history }) {
-  
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const events = useSelector((state) => state.events);
   const allevents= useSelector((state)=>state.events.allEvents)
@@ -102,6 +102,14 @@ useEffect(()=>{
       dispatch(endEvent(allparticipant.participant[i]._id))
     }
   },[])
+
+useEffect(() => {
+  if (auth.user.banned===true) {
+      dispatch(logoutUser());
+      history.push("/banned")
+     }
+});
+
 //open full events
 useEffect(()=>{
   for(let i=0;i<allevents.length;i++){

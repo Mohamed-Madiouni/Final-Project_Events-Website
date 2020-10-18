@@ -19,6 +19,7 @@ import { INI_RESIZE, SET_RESIZE } from "./actions/types";
 import M from "materialize-css";
 import AddEvent from "./component/AddEvent";
 import Comments from "./component/Comments";
+import Bannned_home from "./component/Bannned_home";
 
 
 function App() {
@@ -90,7 +91,7 @@ useEffect(()=>{
             <Route path="/calendar" component={Calendar} />
             <Route path="/events/:event_id" component={Comments} />
             <PrivateRoute path="/myaccount" component={Account} />
-
+            <Route path="/banned" component={Bannned_home} />
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <PrivateRoute
               path="/dashboard/:organizer_id"

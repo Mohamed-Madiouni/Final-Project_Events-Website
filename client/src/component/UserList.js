@@ -6,7 +6,7 @@ import {useHistory} from "react-router-dom"
 import historyuser from "../outils/history"
 import "../events.css";
 import M from "materialize-css";
-
+import "../userlist.css"
 const UserList = () => {
     const dispatch = useDispatch()
     const allusers=useSelector(state=>state.admin.users)
@@ -19,15 +19,20 @@ const UserList = () => {
       fname: "",
       lname: "",
       role: "",
+      email: "",
+      address: "",
+      tel: "",
     });
   
     useEffect(()=>{
       dispatch(getUsers())
      localStorage.token&&dispatch(getCurrentUser())
+   
   },[])
   useEffect(()=>{
     M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false})
     M.updateTextFields()
+    M.Materialbox.init(document.querySelectorAll('.materialboxed'))
   })
   
     
@@ -36,7 +41,10 @@ const UserList = () => {
           
            el.fname.toLowerCase().includes(quickSearch.fname.toLowerCase())
            &&el.role.toLowerCase().includes(quickSearch.role.toLowerCase())
-           &&el.lname.toLowerCase().includes(quickSearch.lname.toLowerCase())         
+           &&el.lname.toLowerCase().includes(quickSearch.lname.toLowerCase())
+           &&el.email.toLowerCase().includes(quickSearch.email.toLowerCase())
+           &&el.address.toLowerCase().includes(quickSearch.address.toLowerCase())
+           &&el.tel.toLowerCase().includes(quickSearch.tel.toLowerCase())
            )
          })    
   
@@ -66,6 +74,19 @@ const UserList = () => {
    <input placeholder="Last name" id="lname" type="text" value={quickSearch.lname} onChange={onChange}/>
    <label forhtml="title">Last name</label>
   </div>
+
+  <div className="input-field col s4 m4">
+   <input placeholder="Email" id="email" type="text" value={quickSearch.email} onChange={onChange}/>
+   <label forhtml="title">Email</label>
+  </div>
+  <div className="input-field col s4 m4">
+   <input placeholder="address" id="address" type="text" value={quickSearch.address} onChange={onChange}/>
+   <label forhtml="title">Address</label>
+  </div>
+  <div className="input-field col s4 m4">
+   <input placeholder="tel" id="tel" type="text" value={quickSearch.tel} onChange={onChange}/>
+   <label forhtml="title">Telephone</label>
+  </div>
        </form>
      </div>
       <div className="row">
@@ -75,10 +96,10 @@ const UserList = () => {
   <div
            className="card small sticky-action"
            style={{
-             width: 335,
-             height:500,
+             width: 300,
+             height:440,
              margin:5,
-             backgroundColor: !el.banned_date?new Date()<el.banned_date:true&&"red",
+             backgroundColor: el.banned===true&&"red",
              border:el.alerted_date && new Date()<new Date(el.alerted_date) && "5px",
              borderColor:el.alerted_date && new Date()<new Date(el.alerted_date) && "red",
              borderStyle:el.alerted_date && new Date()<new Date(el.alerted_date) && "solid"
@@ -88,10 +109,10 @@ const UserList = () => {
          
 
 
-         <div className="card-image " style={{height:"50%", width:"100%",display:"grid",placeItems:"center"}}>
-           <img className="activator circle" src={el.avatar}  style={{borderRadius:"100%",height:"70%" ,width:"70%"  }} />
+         <div className="card-image " style={{height:"55%", width:"100%",display:"grid",placeItems:"center"}}>
+           <img className=" materialboxed" src={el.avatar}  height="100%" width="100%"  />
           { (!el.alerted_date || new Date()>new Date(el.alerted_date ))&&
-        <i class="fas fa-exclamation-circle btn-flat modal-trigger" style={{color:"gray", position:"absolute",right:"5%",top:"5%", fontSize:30}}
+        <i class="fas fa-exclamation-circle btn-flat modal-trigger" style={{color:"gray", position:"absolute",right:"2%",top:"5%", fontSize:30}}
 
 
               type="button"
@@ -101,7 +122,7 @@ const UserList = () => {
             >
         </i>}
        { el.alerted_date && new Date()<new Date(el.alerted_date) &&
-        <i class="fas fa-exclamation-circle btn-flat modal-trigger" style={{color:"red", position:"absolute",right:"5%",top:"5%",fontSize:30}}
+        <i class="fas fa-exclamation-circle btn-flat modal-trigger" style={{color:"red", position:"absolute",right:"2%",top:"5%",fontSize:30}}
         type="button"
           data-target="modal5"
           onClick={()=>setAlertid(el._id)}
@@ -110,10 +131,7 @@ const UserList = () => {
         }
         </div>
            
-           <div
-             className="card-content "
-            
-           >
+           <div>
              <span className="black-text">
                <b>{el.fname+ " "}{el.lname}</b>
              </span>
@@ -126,24 +144,13 @@ const UserList = () => {
              </span>
 
              
-               <span
-                 style={{
-                   margin: 10,
-                   marginLeft: 0,
-                   marginRight: 0,
-                   display: "flex",
-                   alignItems: "left",
-                 }}
-               >
-                 <i
-                   className=" tiny material-icons"
-                   style={{ margin: 10, marginTop:8}}
-                 >
+             <p className="black-text">
+             <br/><i className=" tiny material-icons">
                    history
                  </i>
   
-                 {historyuser(el.created_at)}
-               </span>
+                 {historyuser(el.created_at)}</p>
+           
 
             <button
               style={{
@@ -191,7 +198,7 @@ const UserList = () => {
 
         
 
-        { (  (el.banned_date?new Date()>el.banned_date:true)   )?
+        { (el.banned===false)?
         <button
               style={{
                 width: "100px",
@@ -273,9 +280,6 @@ const UserList = () => {
             </a>
           </div>
         </div>
-
-
-
 
     <div id="modal4" className="modal">
           <div className="modal-content">

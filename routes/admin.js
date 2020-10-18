@@ -51,16 +51,11 @@ router.delete("/users/delete/:_id", authMiddleware, (req, res) => {
 //Ban User by Id
 router.put("/users/ban/:_id", authMiddleware, (req, res) => {
   var _id = req.params._id;
-  let nowdate = new Date();
   User.findByIdAndUpdate(
     _id,
     {
       $set: {
-        banned_date: new Date(
-          nowdate.getFullYear(),
-          nowdate.getMonth(),
-          nowdate.getDate() + 7
-        ),
+        banned: true
       },
     },
     { new: true }
@@ -73,12 +68,12 @@ router.put("/users/ban/:_id", authMiddleware, (req, res) => {
 //Unban User by Id
 router.put("/users/unban/:_id", authMiddleware, (req, res) => {
   var _id = req.params._id;
-  let nowdate = new Date();
+
   User.findByIdAndUpdate(
     _id,
     {
       $set: {
-        banned_date: ""
+        banned: false
       },
     },
     { new: true }

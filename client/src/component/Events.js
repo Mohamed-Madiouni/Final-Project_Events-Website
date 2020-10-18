@@ -13,6 +13,8 @@ import "../events.css";
 import M from "materialize-css";
 import { GET_ERRORS } from "../actions/types";
 import eventClosing from "../outils/eventClosing";
+import { logoutUser } from "../actions/authaction";
+
 function Events() {
     const dispatch = useDispatch()
     const history =useHistory()
@@ -71,6 +73,14 @@ useEffect(()=>{
     }
     
     })
+
+    useEffect(() => {
+      if (auth.user.banned===true) {
+          dispatch(logoutUser());
+          history.push("/banned")
+         }
+    });
+
 //   useEffect(()=>{
 //     dispatch(makeComment(),getComment())
 // },[])

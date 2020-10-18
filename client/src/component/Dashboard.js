@@ -25,6 +25,7 @@ function Dashboard({ history }) {
   const resize =useSelector(state=>state.resize)
 // const [dashOrganizer,setDashOrganizer]= useState({state:"welcome"})
   
+
   useEffect(() => {
     if (!localStorage.token) history.push("/login");
   });
@@ -47,6 +48,13 @@ function Dashboard({ history }) {
    
   });
   
+  useEffect(() => {
+    if (auth.user.banned===true) {
+        dispatch(logoutUser());
+        history.push("/banned")
+       }
+  });
+
   //check if events ended
   // useEffect(()=>{
   //   dispatch(getEvent())

@@ -51,9 +51,9 @@ export const deleteUser=(idUser)=>(dispatch)=>{
  }
 
   //Ban user
-export const banUser=(idUser, banDate)=>(dispatch)=>{
+export const banUser=(idUser, ban)=>(dispatch)=>{
   setAuthToken(localStorage.token)
-  axios.put(`admin/users/ban/${idUser}`, banDate)
+  axios.put(`admin/users/ban/${idUser}`, ban)
   .then((res)=>{
     dispatch(getUsers())
     dispatch({
@@ -68,9 +68,9 @@ export const banUser=(idUser, banDate)=>(dispatch)=>{
 };
 
   //Unban user
-  export const unbanUser=(idUser, unbanDate)=>(dispatch)=>{
+  export const unbanUser=(idUser, unban)=>(dispatch)=>{
     setAuthToken(localStorage.token)
-    axios.put(`admin/users/unban/${idUser}`, unbanDate)
+    axios.put(`admin/users/unban/${idUser}`, unban)
     .then((res)=>{
       dispatch(getUsers())
       dispatch({

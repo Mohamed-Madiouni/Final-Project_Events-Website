@@ -8,6 +8,9 @@ import eventClosing from "../outils/eventClosing";
 import { closeEvent, getEvent, endEvent } from "../actions/evntAction";
 import { useHistory } from "react-router-dom";
 import { GET_ERRORS } from "../actions/types";
+import { logoutUser } from "../actions/authaction";
+
+
 function Home() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -24,11 +27,13 @@ function Home() {
       type: GET_ERRORS,
       payload: {},
     });
-    M.Modal.init(document.querySelectorAll(".modal"))
+    M.Modal.init(document.querySelectorAll(".modal")) 
   },[])
   useEffect(() => {
     M.Parallax.init(document.querySelectorAll(".parallax"));
+
     // M.Slider.init(document.querySelectorAll(".slider"), { height: 500 });
+
 
     
 //     window.addEventListener("resize",()=>{
@@ -52,6 +57,13 @@ function Home() {
         dispatch(endEvent(allevents[i]._id));
     }
   }, []);
+
+  useEffect(() => {
+    if (auth.user.banned===true) {
+        dispatch(logoutUser());
+        history.push("/banned")
+       }
+  });
 
   return (
     <>

@@ -41,11 +41,14 @@ const userSchema = mongoose.Schema({
   cancelation :[{
     type:mongoose.Types.ObjectId
   }],
-  banned_date:{
-    type:Date
+  banned:{
+    type: Boolean,
+    required: true,
+    default: false,
   },
   alerted_date:{
     type:Date
+    
   }
 });
 
