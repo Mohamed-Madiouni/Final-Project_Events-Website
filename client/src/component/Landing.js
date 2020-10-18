@@ -96,7 +96,7 @@ useEffect(()=>{
           
             
           
-          <img className="circle" src={auth.user.avatar} width="55px" width="55px" />
+          <img className="circle" src={auth.user.avatar} width="55px" height="55px" />
          <div style={{width:"100%",display:"flex",flexDirection:"column",alignItems:"center"}}> <span className="black-text name">
             <b>{auth.user.fname + " " + auth.user.lname}</b>
           </span>

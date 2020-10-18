@@ -135,7 +135,7 @@ setConfirmationInput({confirm:""})
         </div> */}
 
         <div className="row" style={{backgroundColor:"white",filter:mod&&"brightness(30%)"}}>
-          <div className="col s8 offset-s2">
+          <div className="col s7 offset-s2">
             {/* <Link
               to="/dashboard"
               className="btn-flat waves-effect"
@@ -290,11 +290,11 @@ setConfirmationInput({confirm:""})
             </form>
           </div>
           {auth.user.avatar && (
-            <div className="col s2" style={{transform: "translateY(10px)"}}>
+            <div className="col s3" style={{transform: "translateY(10px)",disply:"grid",placeItems:"center"}}>
               <img
                 src={auth.user.avatar}
                 alt="avatar"
-                height="100%"
+                height="76%"
                 width="100%"
                 className="circle materialboxed"
                 

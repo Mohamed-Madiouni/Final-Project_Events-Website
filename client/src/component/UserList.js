@@ -168,15 +168,15 @@ const UserList = () => {
                   <div
                     className="card small sticky-action"
                     style={{
-                      width: 300,
+                      width: 330,
                       height: 440,
-                      margin: 5,
+                      
                       boxShadow:
                         el.alerted_date &&
                         new Date() < new Date(el.alerted_date) &&
-                        el.banned === false
+                        el.banned == false
                           ? "inset 0px 0px 131px 14px #fff300"
-                          : el.banned === true &&
+                          : el.banned == true &&
                             "inset 0px 0px 131px 14px #ed1717",
                     }}
                     // key={el._id}
@@ -220,7 +220,7 @@ const UserList = () => {
                             style={{
                               color: "red",
                               position: "absolute",
-                              right: "2%",
+                              right: "1%",
                               top: "5%",
                               fontSize: 30,
                             }}

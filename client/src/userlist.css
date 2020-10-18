@@ -1,3 +1,5 @@
 .material-placeholder{
-    height: 245px !important;
+    height: 242px !important;
+    display: grid;
+    place-items: center;
 }
