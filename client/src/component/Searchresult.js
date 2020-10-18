@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch,useSelector } from 'react-redux';
 import { useHistory,Link } from 'react-router-dom';
-import { getCurrentUser } from '../actions/authaction';
+import { getCurrentUser,logoutUser } from '../actions/authaction';
 import {getEvent,endEvent,closeEvent,followEvent,unfollowEvent, fullEvent, openEvent} from "../actions/evntAction";
 import get_month from "../outils/get_month"
 import historyevent from "../outils/history"
@@ -67,7 +67,12 @@ useEffect(()=>{
   
 // })
    
-
+useEffect(() => {
+  if (auth.user.banned===true) {
+      dispatch(logoutUser());
+      history.push("/banned")
+     }
+});
 
     useEffect(()=>{setInitial(search)},[])
    

@@ -110,7 +110,6 @@ router.post("/login", (req, res) => {
   }
   const email = req.body.email;
   const password = req.body.password;
-  const banned = req.body.banned;
 
     User.findOne({ email: email }).then((user) => {
       if (!user) {
