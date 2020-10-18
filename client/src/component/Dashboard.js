@@ -48,14 +48,14 @@ function Dashboard({ history }) {
   });
   
   //check if events ended
-  useEffect(()=>{
-    dispatch(getEvent())
+  // useEffect(()=>{
+  //   dispatch(getEvent())
     
-    for(let i=0;i<allevents.length;i++){
-      if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
-      dispatch(endEvent(allevents[i]._id))
-    }
-  },[])
+  //   for(let i=0;i<allevents.length;i++){
+  //     if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
+  //     dispatch(endEvent(allevents[i]._id))
+  //   }
+  // },[])
   // useEffect(()=>{
   //   window.addEventListener("resize",()=>{
   //     if(window.innerWidth<=992)

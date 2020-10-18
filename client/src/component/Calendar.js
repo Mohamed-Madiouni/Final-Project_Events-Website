@@ -36,19 +36,20 @@ function Calendar() {
         M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false})
       })
 
+
+//check if events full
+useEffect(()=>{
+  for(let i=0;i<allevents.length;i++){
+    if( allevents[i].participant.length==allevents[i].nb_participant)
+    dispatch(fullEvent(allevents[i]._id))
+  }
+},[])
 //check if events ended
 useEffect(()=>{
   dispatch(getEvent())
   for(let i=0;i<allevents.length;i++){
     if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
     dispatch(endEvent(allevents[i]._id))
-  }
-},[])
-//check if events full
-useEffect(()=>{
-  for(let i=0;i<allevents.length;i++){
-    if( allevents[i].participant.length==allevents[i].nb_participant)
-    dispatch(fullEvent(allevents[i]._id))
   }
 },[])
 //open full events

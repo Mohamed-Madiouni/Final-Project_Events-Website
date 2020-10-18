@@ -78,7 +78,19 @@ function Organizer_events({ history }) {
     // M.Modal.init(document.querySelectorAll(".modal"))
   });
 
-  //check if events ended
+ 
+//check if events full
+useEffect(()=>{
+  for(let i=0;i<allevents.length;i++){
+    if( allevents[i].participant.length==allevents[i].nb_participant)
+    dispatch(fullEvent(allevents[i]._id))
+  }
+  for(let i=0;i<allparticipant.length;i++){
+    if( allparticipant.participant[i].participant.length==allparticipant.participant[i].nb_participant)
+    dispatch(fullEvent(allparticipant.participant[i]._id))
+  }
+},[]) 
+//check if events ended
   useEffect(()=>{
     dispatch(getEvent())
     for(let i=0;i<allevents.length;i++){
@@ -90,17 +102,6 @@ function Organizer_events({ history }) {
       dispatch(endEvent(allparticipant.participant[i]._id))
     }
   },[])
-//check if events full
-useEffect(()=>{
-  for(let i=0;i<allevents.length;i++){
-    if( allevents[i].participant.length==allevents[i].nb_participant)
-    dispatch(fullEvent(allevents[i]._id))
-  }
-  for(let i=0;i<allparticipant.length;i++){
-    if( allparticipant.participant[i].participant.length==allparticipant.participant[i].nb_participant)
-    dispatch(fullEvent(allparticipant.participant[i]._id))
-  }
-},[])
 //open full events
 useEffect(()=>{
   for(let i=0;i<allevents.length;i++){

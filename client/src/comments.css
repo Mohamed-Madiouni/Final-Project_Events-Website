@@ -1,6 +1,6 @@
 .comment_sec{
     width: 100%;
-   padding: 0px 20px;
+   padding: 0px 0px 0px 15px;
 
 }
 .drop_emoji{
@@ -10,6 +10,7 @@
     /* transform: translateY(-100px); */
     border: none;
     outline: none;
+   
     
 }
 .drop_emoji li{
