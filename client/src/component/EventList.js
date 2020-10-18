@@ -19,6 +19,9 @@ const EventList = () => {
     title: "",
     state: "",
     tags: "",
+    address: "",
+    description: "",
+    id_organizer: "",
   });
 
   useEffect(() => {
@@ -37,6 +40,9 @@ const EventList = () => {
     return (
       el.title.toLowerCase().includes(quickSearch.title.toLowerCase()) &&
       el.state.toLowerCase().includes(quickSearch.state.toLowerCase()) &&
+      el.address.toLowerCase().includes(quickSearch.address.toLowerCase()) &&
+      el.description.toLowerCase().includes(quickSearch.description.toLowerCase()) &&
+      el.id_organizer.toLowerCase().includes(quickSearch.id_organizer.toLowerCase()) &&
       (quickSearch.tags != ""
         ? el.tags.find((e) =>
             e.toLowerCase().includes(quickSearch.tags.toLowerCase())
@@ -106,11 +112,50 @@ const EventList = () => {
             />
             <label forhtml="title">Event tags</label>
           </div>
+
+          <div className="input-field col s4 m4">
+            <input
+              placeholder="address"
+              id="address"
+              type="text"
+              value={quickSearch.address}
+              onChange={onChange}
+            />
+            <label forhtml="address">Event Address</label>
+          </div>
+
+          <div className="input-field col s4 m4">
+            <input
+              placeholder="description"
+              id="description"
+              type="text"
+              value={quickSearch.description}
+              onChange={onChange}
+            />
+            <label forhtml="description">Event Description</label>
+          </div>
+
+          <div className="input-field col s4 m4">
+            <input
+              placeholder="id_organizer"
+              id="id_organizer"
+              type="text"
+              value={quickSearch.id_organizer}
+              onChange={onChange}
+            />
+            <label forhtml="id_organizer">Event organizer</label>
+          </div>
+
+
+
         </form>
       </div>
       {(quickSearch.title != "" ||
         quickSearch.state != "" ||
-        quickSearch.tags != "") && (
+        quickSearch.tags != "" ||
+        quickSearch.address != "" ||
+        quickSearch.description != "" ||
+        quickSearch.id_organizer != "") && (
         <div className="row" style={{ marginLeft: 10 }}>
           {" "}
           <h5>
@@ -193,7 +238,7 @@ const EventList = () => {
                         </span>
                         <span
                           style={{
-                            marginLeft: 120,
+                            marginLeft: 110,
                             display: "flex",
                             alignItems: "center",
                           }}
