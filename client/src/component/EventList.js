@@ -46,7 +46,9 @@ const EventList = () => {
       el.description.toLowerCase().includes(quickSearch.description.toLowerCase()) &&
       // el.id_organizer.toLowerCase().includes(quickSearch.id_organizer.toLowerCase()) 
      (allusers.find(elm=>elm._id==el.id_organizer).fname.toLowerCase().includes(quickSearch.id_organizer.toLowerCase())||
-      allusers.find(elm=>elm._id==el.id_organizer).lname.toLowerCase().includes(quickSearch.id_organizer.toLowerCase()))
+      allusers.find(elm=>elm._id==el.id_organizer).lname.toLowerCase().includes(quickSearch.id_organizer.toLowerCase())||
+      (allusers.find(elm=>elm._id==el.id_organizer).fname.toLowerCase() +' '+allusers.find(elm=>elm._id==el.id_organizer).lname.toLowerCase()).includes(quickSearch.id_organizer.toLowerCase())
+      )
       
       &&
       (quickSearch.tags != ""
