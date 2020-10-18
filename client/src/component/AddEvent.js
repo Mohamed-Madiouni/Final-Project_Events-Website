@@ -9,7 +9,7 @@ import resize from "../outils/resize";
 import { logoutUser } from "../actions/authaction";
 
 
-const AddEvent = ({ toggle,action,setAction,history }) => {
+const AddEvent = ({ toggle,action,setAction }) => {
 
 const dispatch = useDispatch()
 const errors = useSelector((state) => state.errors);
@@ -66,12 +66,7 @@ const location = useLocation()
     
   });
 
-  useEffect(() => {
-    if (auth.user.banned===true) {
-        dispatch(logoutUser());
-        history.push("/banned")
-       }
-  });
+ 
 
 const onChange_tags=(e)=>{
 setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
