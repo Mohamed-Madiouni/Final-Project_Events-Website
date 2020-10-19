@@ -7,7 +7,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import { useHistory,Link } from 'react-router-dom';
 import { getCurrentUser } from '../actions/authaction';
 import {makeComment, fullEvent, openEvent, } from "../actions/evntAction";
-import {getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply} from "../actions/comntaction"
+import {getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply, likecomment} from "../actions/comntaction"
 import {followEvent, getEvent, unfollowEvent,endEvent, closeEvent} from "../actions/evntAction";
 
 import get_month from "../outils/get_month"
@@ -47,14 +47,22 @@ const [deletecomid,setDeletecomid]=useState("")
 const [deletereplyid,setDeletereplyid]=useState("")
     useEffect(()=>{
         dispatch(getEvent())
-        dispatch(getUsers())
         dispatch(getComment())
+        dispatch(getUsers())
+       
+       
         setLoad(true)
-        M.Materialbox.init(document.querySelectorAll('.materialboxed'))
+     
         // M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'),{closeOnClick:false})
         M.Modal.init(document.querySelectorAll(".modal"))
+    
         
     },[])
+   
+useEffect(()=>{
+  M.Materialbox.init(document.querySelectorAll('.materialboxed'))
+},[comments])
+
 useEffect(()=>{
    M.updateTextFields()
    if(edit&&reply)
@@ -65,7 +73,7 @@ useEffect(()=>{
    setComnt("")
    if(errors.reply)
    setReply("")
-  
+    
   })
 
   useEffect(()=>{
@@ -251,7 +259,12 @@ setTextedit(el.content)
             
         
          </form>}
-        
+         <i className="far fa-thumbs-up" style={{cursor:"pointer"}} onClick={()=>
+          {
+            if(!auth.user.likes.includes(el._id)&&auth.isAuthenticated)
+            dispatch(likecomment(el._id,Number(el.likes)+1,auth.user._id))}}></i>
+        {el.likes}
+         <i className="far fa-thumbs-down"></i>
       {(el.postedBy!=auth.user._id)&&auth.isAuthenticated&&<button style={{display:"block"}} onClick={()=>{ if(!replycount) setReplayCount(!replycount); setReply(""); setReplyId(el._id)}}>reply</button>}
       {el.reply.length?<div style={{display:"flex",cursor:"pointer",color:"blue"}} onClick={()=>{
              

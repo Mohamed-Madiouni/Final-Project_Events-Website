@@ -1,8 +1,8 @@
 import setAuthToken from "../token/authtoken";
 import axios from "axios";
 import {GET_ERRORS,GET_COMMENT} from "./types";
-
-
+import { getUsers } from '../actions/adminaction';
+import { getCurrentUser } from '../actions/authaction';
 
 
 //comments
@@ -86,6 +86,23 @@ export const addComment =(content,eventId,userId)=> (dispatch)=>{
         payload: err.response.data,
       }));
   };
+
+  //like
+  export const likecomment =(coment_id,nb_likes,userid)=> (dispatch)=>{
+    setAuthToken(localStorage.token)
+    axios
+    .put(`/comment/add/like/${coment_id}`,{likes:nb_likes,user:userid})
+    .then((res) => {
+      dispatch(getComment())
+      dispatch(getCurrentUser())
+   })
+   .catch((err) => dispatch({
+    type: GET_ERRORS,
+    payload: err.response.data,
+  }));
+    
+  };
+
   
   //reply
 

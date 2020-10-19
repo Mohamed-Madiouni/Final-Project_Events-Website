@@ -35,14 +35,15 @@ function Searchresult() {
 
 //check if events full
 useEffect(()=>{
+  dispatch(getEvent())
   for(let i=0;i<allevents.length;i++){
-    if( allevents[i].participant.length==allevents[i].nb_participant)
+    if( allevents[i].participant.length==allevents[i].nb_participant&&allevents[i].state!="Ended")
     dispatch(fullEvent(allevents[i]._id))
   }
 },[])
 //check if events ended
 useEffect(()=>{
-  dispatch(getEvent())
+  
   for(let i=0;i<allevents.length;i++){
     if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
     dispatch(endEvent(allevents[i]._id))
@@ -56,7 +57,7 @@ useEffect(()=>{
   }
 },[])
     useEffect(()=>{
-        dispatch(getEvent())
+        
        localStorage.token&&dispatch(getCurrentUser())
        M.Modal.init(document.querySelectorAll(".modal"))
     },[])

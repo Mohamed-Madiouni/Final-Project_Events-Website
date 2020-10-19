@@ -47,7 +47,8 @@ const userSchema = mongoose.Schema({
   alerted_date:{
     type:Date
     
-  }
+  },
+  likes:[{ type: mongoose.Types.ObjectId, ref: "comment" }]
 });
 
 module.exports = mongoose.model("user", userSchema);

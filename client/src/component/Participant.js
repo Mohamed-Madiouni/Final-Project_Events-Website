@@ -46,19 +46,20 @@ function Participant() {
  
   //check if events full
   useEffect(()=>{
+    dispatch(getEvent())
     for(let i=0;i<allevents.length;i++){
-      if( allevents[i].participant.length==allevents[i].nb_participant)
+      if( allevents[i].participant.length==allevents[i].nb_participant&&allevents[i].state!="Ended")
       dispatch(fullEvent(allevents[i]._id))
     }
     if(myevents)
     for(let i=0;i<myevents.length;i++){
-      if( myevents[i].participant.length==myevents[i].nb_participant)
+      if( myevents[i].participant.length==myevents[i].nb_participant&&myevents[i].state!="Ended")
       dispatch(fullEvent(myevents[i]._id))
     }
   },[])
    //check if events ended
   useEffect(()=>{
-    dispatch(getEvent())
+    
     for(let i=0;i<allevents.length;i++){
       if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
       dispatch(endEvent(allevents[i]._id))

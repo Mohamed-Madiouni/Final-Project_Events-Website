@@ -15,6 +15,14 @@ const CommentSchema = new schema({
          ref: "user" 
         },
         reply:[],
+        likes:{
+            type:Number,
+            default:0
+        },
+        dislike:{
+            type:Number,
+            default:0
+        },
     created_at: {
         type: Date,
         default: Date.now,

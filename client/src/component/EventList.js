@@ -8,6 +8,8 @@ import get_month from "../outils/get_month";
 import historyevent from "../outils/history";
 import "../events.css";
 import M from "materialize-css";
+import eventClosing from "../outils/eventClosing";
+import {endEvent, fullEvent, openEvent} from "../actions/evntAction";
 
 const EventList = () => {
   const dispatch = useDispatch();
@@ -37,6 +39,29 @@ const EventList = () => {
     });
     M.updateTextFields();
   });
+
+//check if events full
+useEffect(()=>{
+  for(let i=0;i<allevents.length;i++){
+    if( allevents[i].participant.length==allevents[i].nb_participant&&allevents[i].state!="Ended")
+    dispatch(fullEvent(allevents[i]._id))
+  }
+},[]) 
+//check if events ended
+useEffect(()=>{
+  for(let i=0;i<allevents.length;i++){
+    if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
+    dispatch(endEvent(allevents[i]._id))
+  }
+},[])
+//open full events
+useEffect(()=>{
+  for(let i=0;i<allevents.length;i++){
+    if( allevents[i].participant.length!=allevents[i].nb_participant&&allevents[i].state=="Full")
+    dispatch(openEvent(allevents[i]._id))
+  }
+},[])
+
 
   let events = allevents.filter((el) => {
     return (

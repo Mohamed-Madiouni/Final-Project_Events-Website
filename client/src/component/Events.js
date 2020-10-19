@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch,useSelector } from 'react-redux';
 import { useHistory,Link } from 'react-router-dom';
 import { getCurrentUser } from '../actions/authaction';
-import {makeComment,getComment,deleteComment,editComment, fullEvent, openEvent} from "../actions/evntAction";
+import {fullEvent, openEvent} from "../actions/evntAction";
 
 import {followEvent, getEvent, unfollowEvent,endEvent, closeEvent} from "../actions/evntAction";
 
@@ -34,14 +34,15 @@ function Events() {
    
 //check if events full
 useEffect(()=>{
+  dispatch(getEvent())
   for(let i=0;i<allevents.length;i++){
-    if( allevents[i].participant.length==allevents[i].nb_participant)
+    if( allevents[i].participant.length==allevents[i].nb_participant&&allevents[i].state!="Ended")
     dispatch(fullEvent(allevents[i]._id))
   }
 },[]) 
 //check if events ended
 useEffect(()=>{
-  dispatch(getEvent())
+  
   for(let i=0;i<allevents.length;i++){
     if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
     dispatch(endEvent(allevents[i]._id))
@@ -55,7 +56,7 @@ useEffect(()=>{
   }
 },[])
     useEffect(()=>{
-        dispatch(getEvent())
+       
        localStorage.token&&dispatch(getCurrentUser())
         M.Modal.init(document.querySelectorAll(".modal"))
     },[])
