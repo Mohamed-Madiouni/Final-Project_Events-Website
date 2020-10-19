@@ -118,3 +118,38 @@ export const banUser=(idUser, ban)=>(dispatch)=>{
         payload: err.response.data,
       }));
     };
+
+
+//Validate Event
+export const validateEvent=(idEvent, valid)=>(dispatch)=>{
+  setAuthToken(localStorage.token)
+  axios.put(`admin/events/valid/${idEvent}`, valid)
+  .then((res)=>{
+    dispatch(getEvents())
+    dispatch({
+      type: GET_ERRORS,
+      payload: {success:"done"},
+    })
+  })
+  .catch((err) => dispatch({
+    type: GET_ERRORS,
+    payload: err.response.data,
+  }));
+};
+
+  //Invalidate Event
+  export const invalidateEvent=(idEvent, unvalid)=>(dispatch)=>{
+    setAuthToken(localStorage.token)
+    axios.put(`admin/events/invalid/${idEvent}`, unvalid)
+    .then((res)=>{
+      dispatch(getEvents())
+      dispatch({
+        type: GET_ERRORS,
+        payload: {success:"done"},
+      })
+    })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+  };

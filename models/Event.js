@@ -45,5 +45,9 @@ const EventSchema = new schema({
     type: Date,
     default: Date.now,
   },
+  valid: {
+    type: Boolean,
+    required: true,
+  },
 });
 module.exports = mongoose.model("event", EventSchema);

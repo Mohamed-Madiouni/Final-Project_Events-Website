@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteEvent } from "../actions/adminaction";
-import { getEvents} from "../actions/adminaction";
+import { deleteEvent, getEvents, validateEvent, invalidateEvent} from "../actions/adminaction";
 import { getCurrentUser } from "../actions/authaction";
 import { useHistory } from "react-router-dom";
 import get_month from "../outils/get_month";
@@ -18,6 +17,7 @@ const EventList = () => {
   let allusers=useSelector(state=>state.admin.users)
   const history = useHistory();
   const [deleteid, setDeleteid] = useState("");
+  const [validateid, setValidateid] = useState("");
   const [quickSearch, setQuickSearch] = useState({
     title: "",
     state: "",
@@ -321,6 +321,42 @@ useEffect(()=>{
                       >
                         Delete
                       </button>
+
+
+                      {el.valid === false ? (
+                      <button
+                        style={{
+                          width: "100px",
+                          height: "40px",
+                          borderRadius: "3px",
+                          letterSpacing: "1.5px",
+                        }}
+                        type="button"
+                        className="btn btn-medium modal-trigger"
+                        data-target="modal2"
+                        onClick={() => setValidateid(el._id)}
+                      >
+                        Validate
+                      </button>
+                      ) : (
+                        <button
+                        style={{
+                          width: "100px",
+                          height: "40px",
+                          borderRadius: "3px",
+                          letterSpacing: "1.5px",
+                        }}
+                        type="button"
+                        className="btn btn-medium modal-trigger"
+                        data-target="modal3"
+                        onClick={() => setValidateid(el._id)}
+                      >
+                        Invalidate
+                      </button>
+                       )}
+
+
+
                       <span
                         className={
                           el.state == "Available"
@@ -367,6 +403,53 @@ useEffect(()=>{
                         </a>
                       </div>
                     </div>
+
+
+                    <div id="modal2" className="modal">
+                      <div className="modal-content">
+                        <h4>Event Validate</h4>
+                        <p>Are you sure you want to validate this event?</p>
+                      </div>
+                      <div className="modal-footer">
+                        <a
+                          href="#!"
+                          className="modal-close waves-effect waves-green btn-flat"
+                          onClick={() => dispatch(validateEvent(validateid))}
+                        >
+                          Agree
+                        </a>
+                        <a
+                          href="#!"
+                          className="modal-close waves-effect waves-green btn-flat"
+                        >
+                          Cancel
+                        </a>
+                      </div>
+                    </div>
+
+                    <div id="modal3" className="modal">
+                      <div className="modal-content">
+                        <h4>Event invalidate</h4>
+                        <p>Are you sure you want to invalidate this event?</p>
+                      </div>
+                      <div className="modal-footer">
+                        <a
+                          href="#!"
+                          className="modal-close waves-effect waves-green btn-flat"
+                          onClick={() => dispatch(invalidateEvent(validateid))}
+                        >
+                          Agree
+                        </a>
+                        <a
+                          href="#!"
+                          className="modal-close waves-effect waves-green btn-flat"
+                        >
+                          Cancel
+                        </a>
+                      </div>
+                    </div>
+
+
                   </div>
                 </div>
               );

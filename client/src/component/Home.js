@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 import "../home.css";
 import { getCurrentUser } from "../actions/authaction";
 import { useDispatch, useSelector } from "react-redux";
@@ -164,7 +165,9 @@ function Home() {
                 })}
           </ul>
         </div>
+        
       )}
+      
     </>
   );
 }

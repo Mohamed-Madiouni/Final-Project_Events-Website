@@ -128,4 +128,41 @@ router.put("/users/unalert/:_id", authMiddleware, (req, res) => {
 });
 
 
+
+//valid event by Id
+router.put("/events/valid/:_id", authMiddleware, (req, res) => {
+  var _id = req.params._id;
+  Event.findByIdAndUpdate(
+    _id,
+    {
+      $set: {
+        valid: true
+      },
+    },
+    { new: true }
+  )
+    .then((eventvalid) => res.send({ valid: "ok" }))
+    .catch((err) => console.log(err.message));
+});
+
+
+//Unvalid event by Id
+router.put("/events/invalid/:_id", authMiddleware, (req, res) => {
+  var _id = req.params._id;
+
+  Event.findByIdAndUpdate(
+    _id,
+    {
+      $set: {
+        valid: false
+      },
+    },
+    { new: true }
+  )
+    .then((eventvalid) => res.send({ unvalid: "ok" }))
+    .catch((err) => console.log(err.message));
+});
+
 module.exports = router;
+
+

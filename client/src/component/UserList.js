@@ -93,7 +93,7 @@ const UserList = () => {
                 outline: "none",
               }}
             >
-              <option value="">Role</option>
+              <option value="">All</option>
               <option value="Participant" className="green-text">
                 Participant
               </option>
@@ -102,6 +102,9 @@ const UserList = () => {
               </option>
               <option value="Admin" className="red-text">
                 Admin
+              </option>
+              <option value="Moderator" className="pink-text">
+              Moderator
               </option>
             </select>
             <label className="active">Role</label>
@@ -157,19 +160,19 @@ const UserList = () => {
             .map((el) => {
               return (
                 <div
-                  className="col s12 m6 l4 xl3"
+                  className="col s12"
                   key={el._id}
                   style={{
                     display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
+                    justifyContent: "left",
+                    alignItems: "left",
                   }}
                 >
                   <div
                     className="card small sticky-action"
                     style={{
-                      width: 330,
-                      height: 440,
+                      width: 1900,
+                      height: 70,
                       
                       boxShadow:
                         el.alerted_date &&
@@ -181,22 +184,65 @@ const UserList = () => {
                     }}
                     // key={el._id}
                   >
-                    <div
-                      className="card-image "
+                    <span
+                      className="card-image col s1 "
                       style={{
-                        height: "55%",
-                        width: "100%",
+                        height: "100%",
+                        width: "5%",
                         display: "grid",
-                        placeItems: "center",
+                        placeItems: "left",
                       }}
                     >
-                      <img
-                        className="materialboxed"
-                        src={el.avatar}
+                      <img 
                         height="100%"
                         width="100%"
+                       
+                        src={el.avatar}            
                       />
-                      {(!el.alerted_date ||
+                      
+                    </span>
+
+                  
+                      <span className="black-text">
+                      
+                          {el.fname + " "}
+                          {el.lname}
+                      
+                      </span>
+                 
+
+                    <span className="black-text">{el.email}</span>
+                    <span className="black-text">
+                      
+                      {el.role}
+                    </span>
+
+                    <span className="black-text">
+                     
+                      <i className=" tiny material-icons">history</i>
+
+                      {historyuser(el.created_at)}
+                    </span>
+
+                    <button
+                      style={{
+                        width: "100px",
+                        height: "40px",
+                        borderRadius: "3px",
+                        letterSpacing: "1.5px",
+                        margin: "1rem",
+                      }}
+                      type="button"
+                      className="btn btn-medium modal-trigger"
+                      data-target="modal1"
+                      onClick={() => setDeleteid(el._id)}
+                      disabled={el.role == "administrator" && true ||auth.user.role == "moderator" && true}
+                      
+                    >
+                      Delete
+                    </button>
+
+                    {(!el.alerted_date ||
                         new Date() > new Date(el.alerted_date)) && (
                         <i
                           className="fas fa-exclamation-circle btn-flat modal-trigger"
@@ -230,46 +276,6 @@ const UserList = () => {
                             disabled={el.role == "administrator" && true}
                           ></i>
                         )}
-                    </div>
-
-                    <div>
-                      <span className="black-text">
-                        <b>
-                          {el.fname + " "}
-                          {el.lname}
-                        </b>
-                      </span>
-                    </div>
-
-                    <p className="black-text">{el.email}</p>
-                    <span className="black-text">
-                      <br />
-                      {el.role}
-                    </span>
-
-                    <p className="black-text">
-                      <br />
-                      <i className=" tiny material-icons">history</i>
-
-                      {historyuser(el.created_at)}
-                    </p>
-
-                    <button
-                      style={{
-                        width: "100px",
-                        height: "40px",
-                        borderRadius: "3px",
-                        letterSpacing: "1.5px",
-                        margin: "1rem",
-                      }}
-                      type="button"
-                      className="btn btn-medium modal-trigger"
-                      data-target="modal1"
-                      onClick={() => setDeleteid(el._id)}
-                      disabled={el.role == "administrator" && true}
-                    >
-                      Delete
-                    </button>
 
                     <div id="modal1" className="modal">
                       <div className="modal-content">
@@ -329,7 +335,7 @@ const UserList = () => {
                         Unban
                       </button>
                     )}
-
+                    
                     <div id="modal2" className="modal">
                       <div className="modal-content">
                         <h4>User Ban</h4>
