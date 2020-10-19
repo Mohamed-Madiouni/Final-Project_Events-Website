@@ -341,7 +341,7 @@ useEffect(()=>{
                       ) : (
                         <button
                         style={{
-                          width: "100px",
+                          width: "120px",
                           height: "40px",
                           borderRadius: "3px",
                           letterSpacing: "1.5px",

@@ -14,8 +14,8 @@ import historyuser from "../outils/history";
 import "../events.css";
 import M from "materialize-css";
 import "../userlist.css";
-import UserListcard from "./UserListcard";
-const UserList = () => {
+import UserList from "./UserList";
+const UserListcard = () => {
   const dispatch = useDispatch();
   const allusers = useSelector((state) => state.admin.users);
   let auth = useSelector((state) => state.auth);
@@ -108,7 +108,7 @@ const UserList = () => {
                 outline: "none",
               }}
             >
-              <option value="">All</option>
+              <option value="">Role</option>
               <option value="Participant" className="green-text">
                 Participant
               </option>
@@ -117,9 +117,6 @@ const UserList = () => {
               </option>
               <option value="Admin" className="red-text">
                 Admin
-              </option>
-              <option value="Moderator" className="pink-text">
-                Moderator
               </option>
             </select>
             <label className="active">Role</label>
@@ -174,12 +171,20 @@ const UserList = () => {
             .reverse()
             .map((el) => {
               return (
-                <div className="col s12 center-align" key={el._id}>
+                <div
+                  className="col s12 m6 l4 xl3"
+                  key={el._id}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <div
-                    className="card small sticky-action center-align"
+                    className="card small sticky-action"
                     style={{
-                      width: "100%",
-                      height: 70,
+                      width: 330,
+                      height: 440,
 
                       boxShadow:
                         el.alerted_date &&
@@ -191,47 +196,78 @@ const UserList = () => {
                     }}
                     // key={el._id}
                   >
-                    <span
-                      className="card-image col s2"
+                    <div
+                      className="card-image "
                       style={{
-                        height: "100%",
-                        width: "5%",
+                        height: "55%",
+                        width: "100%",
                         display: "grid",
-                        placeItems: "left",
+                        placeItems: "center",
                       }}
                     >
-                      <img height="100%" width="100%" src={el.avatar} />
-                    </span>
+                      <img
+                        className="materialboxed"
+                        src={el.avatar}
+                        height="100%"
+                        width="100%"
+                      />
+                      {(!el.alerted_date ||
+                        new Date() > new Date(el.alerted_date)) && (
+                        <i
+                          className="fas fa-exclamation-circle btn-flat modal-trigger"
+                          style={{
+                            color: "gray",
+                            position: "absolute",
+                            right: "2%",
+                            top: "5%",
+                            fontSize: 30,
+                          }}
+                          type="button"
+                          data-target="modal4"
+                          onClick={() => setAlertid(el._id)}
+                          disabled={el.role == "administrator" && true}
+                        ></i>
+                      )}
+                      {el.alerted_date &&
+                        new Date() < new Date(el.alerted_date) && (
+                          <i
+                            className="fas fa-exclamation-circle btn-flat modal-trigger"
+                            style={{
+                              color: "red",
+                              position: "absolute",
+                              right: "1%",
+                              top: "5%",
+                              fontSize: 30,
+                            }}
+                            type="button"
+                            data-target="modal5"
+                            onClick={() => setAlertid(el._id)}
+                            disabled={el.role == "administrator" && true}
+                          ></i>
+                        )}
+                    </div>
 
-                    <span
-                      className="col s2 center-align"
-                      style={{ height: 70, paddingTop: 20 }}
-                    >
-                      {el.fname + " "}
-                      {el.lname}
-                    </span>
+                    <div>
+                      <span className="black-text">
+                        <b>
+                          {el.fname + " "}
+                          {el.lname}
+                        </b>
+                      </span>
+                    </div>
 
-                    <span
-                      className="col s2"
-                      style={{ height: 70, paddingTop: 20 }}
-                    >
-                      {el.email}
-                    </span>
-                    <span
-                      className="col s2"
-                      style={{ height: 70, paddingTop: 20 }}
-                    >
+                    <p className="black-text">{el.email}</p>
+                    <span className="black-text">
+                      <br />
                       {el.role}
                     </span>
 
-                    <span
-                      className="col s2"
-                      style={{ height: 70, paddingTop: 20 }}
-                    >
+                    <p className="black-text">
+                      <br />
                       <i className=" tiny material-icons">history</i>
 
                       {historyuser(el.created_at)}
-                    </span>
+                    </p>
 
                     <button
                       style={{
@@ -242,89 +278,13 @@ const UserList = () => {
                         margin: "1rem",
                       }}
                       type="button"
-                      className="btn btn-medium modal-trigger col s2"
+                      className="btn btn-medium modal-trigger"
                       data-target="modal1"
                       onClick={() => setDeleteid(el._id)}
-                      disabled={
-                        (el.role == "administrator" && true) ||
-                        (auth.user.role == "moderator" && true)
-                      }
+                      disabled={el.role == "administrator" && true}
                     >
                       Delete
                     </button>
-
-                    {el.banned === false ? (
-                      <button
-                        style={{
-                          width: "100px",
-                          height: "40px",
-                          borderRadius: "3px",
-                          letterSpacing: "1.5px",
-                          margin: "1rem",
-                        }}
-                        type="button"
-                        className="btn btn-medium modal-trigger col s2"
-                        data-target="modal2"
-                        onClick={() => setBanid(el._id)}
-                        disabled={el.role == "administrator" && true}
-                      >
-                        Ban
-                      </button>
-                    ) : (
-                      <button
-                        style={{
-                          width: "100px",
-                          height: "40px",
-                          borderRadius: "3px",
-                          letterSpacing: "1.5px",
-                          margin: "1rem",
-                          backgroundColor: "#ec4c4c",
-                        }}
-                        type="button"
-                        className="btn btn-medium modal-trigger  col s2"
-                        data-target="modal3"
-                        onClick={() => setBanid(el._id)}
-                        disabled={el.role == "administrator" && true}
-                      >
-                        Unban
-                      </button>
-                    )}
-
-                    {(!el.alerted_date ||
-                      new Date() > new Date(el.alerted_date)) && (
-                      <i
-                        className="fas fa-exclamation-circle btn-flat modal-trigger col s1"
-                        style={{
-                          color: "gray",
-                          position: "absolute",
-                          right: "2%",
-                          fontSize: 30,
-                          height: 70,
-                          paddingTop: 20,
-                        }}
-                        type="button"
-                        data-target="modal4"
-                        onClick={() => setAlertid(el._id)}
-                        disabled={el.role == "administrator" && true}
-                      ></i>
-                    )}
-                    {el.alerted_date && new Date() < new Date(el.alerted_date) && (
-                      <i
-                        className="fas fa-exclamation-circle btn-flat modal-trigger col s1"
-                        style={{
-                          color: "red",
-                          position: "absolute",
-                          right: "2%",
-                          fontSize: 30,
-                          height: 70,
-                          paddingTop: 20,
-                        }}
-                        type="button"
-                        data-target="modal5"
-                        onClick={() => setAlertid(el._id)}
-                        disabled={el.role == "administrator" && true}
-                      ></i>
-                    )}
 
                     <div id="modal1" className="modal">
                       <div className="modal-content">
@@ -347,6 +307,43 @@ const UserList = () => {
                         </a>
                       </div>
                     </div>
+
+                    {el.banned === false ? (
+                      <button
+                        style={{
+                          width: "100px",
+                          height: "40px",
+                          borderRadius: "3px",
+                          letterSpacing: "1.5px",
+                          margin: "1rem",
+                        }}
+                        type="button"
+                        className="btn btn-medium modal-trigger"
+                        data-target="modal2"
+                        onClick={() => setBanid(el._id)}
+                        disabled={el.role == "administrator" && true}
+                      >
+                        Ban
+                      </button>
+                    ) : (
+                      <button
+                        style={{
+                          width: "100px",
+                          height: "40px",
+                          borderRadius: "3px",
+                          letterSpacing: "1.5px",
+                          margin: "1rem",
+                          backgroundColor: "#ec4c4c",
+                        }}
+                        type="button"
+                        className="btn btn-medium modal-trigger"
+                        data-target="modal3"
+                        onClick={() => setBanid(el._id)}
+                        disabled={el.role == "administrator" && true}
+                      >
+                        Unban
+                      </button>
+                    )}
 
                     <div id="modal2" className="modal">
                       <div className="modal-content">
@@ -438,6 +435,7 @@ const UserList = () => {
                         </a>
                       </div>
                     </div>
+
                     {modal ? (
                       <div>
                         <div className="row">
@@ -447,7 +445,7 @@ const UserList = () => {
                               textAlign: "center",
                             }}
                           >
-                            <UserListcard users={users.users} />
+                            <UserList />
                           </div>
                         </div>
                       </div>
@@ -460,7 +458,7 @@ const UserList = () => {
                               textAlign: "center",
                             }}
                           >
-                            <UserListcard users={users.users} />
+                            <UserList />
                           </div>
                         </div>
                       </div>
@@ -473,4 +471,4 @@ const UserList = () => {
     </div>
   );
 };
-export default UserList;
+export default UserListcard;

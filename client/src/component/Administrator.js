@@ -56,8 +56,6 @@ useEffect(()=> { M.Modal.init(document.querySelectorAll(".modal"))})
               <div class="switch">
               <label>Manage account
             
-        
-            
               <input type="checkbox" onClick={toggle}/>
               <span className="lever"></span>
           
