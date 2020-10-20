@@ -102,7 +102,7 @@ useEffect(()=>{
         <form>
           <div className="input-field col s4 m5">
             <input
-              placeholder="event title"
+              placeholder="Event title search"
               id="title"
               type="text"
               value={quickSearch.title}
@@ -148,29 +148,29 @@ useEffect(()=>{
 
           <div className="input-field col s4 m4">
             <input
-              placeholder="address"
+              placeholder="Address search"
               id="address"
               type="text"
               value={quickSearch.address}
               onChange={onChange}
             />
-            <label forhtml="address">Event Address</label>
+            <label forhtml="address">Event address</label>
           </div>
 
           <div className="input-field col s4 m4">
             <input
-              placeholder="description"
+              placeholder="Description search"
               id="description"
               type="text"
               value={quickSearch.description}
               onChange={onChange}
             />
-            <label forhtml="description">Event Description</label>
+            <label forhtml="description">Event description</label>
           </div>
 
           <div className="input-field col s4 m4">
             <input
-              placeholder="id_organizer"
+              placeholder="Organizer search"
               id="id_organizer"
               type="text"
               value={quickSearch.id_organizer}

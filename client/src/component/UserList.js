@@ -73,7 +73,7 @@ const UserList = () => {
         <form>
           <div className="input-field col s4 m5">
             <input
-              placeholder="first name"
+              placeholder="First name search"
               id="fname"
               type="text"
               value={quickSearch.fname}
@@ -108,7 +108,7 @@ const UserList = () => {
           </div>
           <div className="input-field col s4 m4">
             <input
-              placeholder="Last name"
+              placeholder="Last name search"
               id="lname"
               type="text"
               value={quickSearch.lname}
@@ -119,7 +119,7 @@ const UserList = () => {
 
           <div className="input-field col s4 m4">
             <input
-              placeholder="Email"
+              placeholder="Email search"
               id="email"
               type="text"
               value={quickSearch.email}
@@ -129,7 +129,7 @@ const UserList = () => {
           </div>
           <div className="input-field col s4 m4">
             <input
-              placeholder="address"
+              placeholder="Address search"
               id="address"
               type="text"
               value={quickSearch.address}
@@ -139,7 +139,7 @@ const UserList = () => {
           </div>
           <div className="input-field col s4 m4">
             <input
-              placeholder="tel"
+              placeholder="Telephone search"
               id="tel"
               type="text"
               value={quickSearch.tel}
