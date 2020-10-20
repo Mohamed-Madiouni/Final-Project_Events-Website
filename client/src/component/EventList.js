@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteEvent } from "../actions/adminaction";
-import { getEvents} from "../actions/adminaction";
+import { deleteEvent, getEvents, validateEvent, invalidateEvent} from "../actions/adminaction";
 import { getCurrentUser } from "../actions/authaction";
 import { useHistory } from "react-router-dom";
 import get_month from "../outils/get_month";
@@ -18,6 +17,7 @@ const EventList = () => {
   let allusers=useSelector(state=>state.admin.users)
   const history = useHistory();
   const [deleteid, setDeleteid] = useState("");
+  const [validateid, setValidateid] = useState("");
   const [quickSearch, setQuickSearch] = useState({
     title: "",
     state: "",
@@ -126,11 +126,14 @@ useEffect(()=>{
               <option value="Available" className="green-text">
                 Available
               </option>
-              <option value="Closed" className="gray-text">
+              <option value="Closed" className="red-text">
                 Closed
               </option>
-              <option value="Ended" className="gray-text">
+              <option value="Ended" className="blue-text">
                 Ended
+              </option>
+              <option value="Invalid" className="gray-text">
+                Invalid
               </option>
             </select>
             <label className="active">Event state</label>
@@ -217,7 +220,7 @@ useEffect(()=>{
                     className="card small sticky-action"
                     style={{
                       width: 335,
-                      height: 490,
+                      height: 480,
                       
                     }}
                     // key={el._id}
@@ -234,10 +237,11 @@ useEffect(()=>{
                           {get_month(Number(el.date.split("-")[1]))}
                         </div>
                       </div>
+                     
                     </div>
                     <div
                       className="card-content "
-                      style={{ padding: "0px 10px 0px 24px" }}
+                      style={{ paddingBottom:0,paddingTop:0,height:175 }}
                     >
                       <span className="card-title  grey-text text-darken-4">
                         <b>{el.title}</b>
@@ -249,6 +253,7 @@ useEffect(()=>{
                           alignItems: "center",
                           fontSize: 13,
                           width: "100%",
+                          justifyContent:"space-around"
                         }}
                       >
                         <span
@@ -262,7 +267,7 @@ useEffect(()=>{
                         >
                           <i
                             className=" tiny material-icons"
-                            style={{ margin: 10, marginTop: 8 }}
+                            style={{ margin: 5 }}
                           >
                             history
                           </i>
@@ -271,14 +276,13 @@ useEffect(()=>{
                         </span>
                         <span
                           style={{
-                            marginLeft: 110,
                             display: "flex",
                             alignItems: "center",
                           }}
                         >
                           <i
                             className=" tiny material-icons"
-                            style={{ margin: 10, marginTop: 8 }}
+                            style={{ margin: 5 }}
                           >
                             person
                           </i>
@@ -286,33 +290,45 @@ useEffect(()=>{
                           {el.participant.length + "/" + el.nb_participant}
                         </span>
                       </div>
+                      
+                    {el.tags.length != 0 && (
+                      <div className="slider  chip" style={{ width: 100, height: 10 }}>
+                            <ul className="slides chip" style={{ width: 0, height: 0 }}>
+              {el.tags.map((el,i)=><li key={i}> <p>{el}</p> </li>)}
+                   </ul>
+                      </div>
+                    )}
+                    <div style={{display:"flex",justifyContent:"space-around"}}>
+                      <span
+                        className={
+                          el.state == "Available"
+                            ? " green-text"
+                            : " gray-text text-darken-3"
+                        }
+                        
+                      >
+                        {" "}
+                        {el.state}
+                      </span>
+                     </div>
                     </div>
 
-                    {el.tags.length != 0 && (
-                      <span>
-                        {el.tags.map((el, i) => (
-                          <span key={i}>
-                            {" "}
-                            <span class="chip">{el}</span>{" "}
-                          </span>
-                        ))}
-                      </span>
-                    )}
                     <div
                       className="card-action"
                       style={{
-                        padding: "10px 24px",
+                        padding: "5px 24px",
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "space-between",
+                        justifyContent: "center",
                       }}
                     >
                       <button
                         style={{
-                          width: "100px",
-                          height: "40px",
+                          width: "90px",
+                          height: "38px",
                           borderRadius: "3px",
                           letterSpacing: "1.5px",
+                          marginRight:10
                         }}
                         type="button"
                         className="btn btn-medium modal-trigger"
@@ -321,16 +337,46 @@ useEffect(()=>{
                       >
                         Delete
                       </button>
-                      <span
-                        className={
-                          el.state == "Available"
-                            ? "right green-text"
-                            : "right gray-text text-darken-3"
-                        }
+
+
+                      {el.state === "Invalid" ? (
+                      <button
+                        style={{
+                          width: "90px",
+                          height: "38px",
+                          borderRadius: "3px",
+                          letterSpacing: "1px",
+                          marginLeft:10
+                        }}
+                        type="button"
+                        className="btn btn-medium modal-trigger"
+                        data-target="modal2"
+                        onClick={() => setValidateid(el._id)}
                       >
-                        {" "}
-                        {el.state}
-                      </span>
+                        Valid
+                      </button>
+                      ) : (
+                        <button
+                        style={{
+                          width: "100px",
+                          height: "38px",
+                          borderRadius: "3px",
+                          letterSpacing: "1px",
+                          marginLeft:10,
+                          
+                        }}
+                        type="button"
+                        className="btn btn-medium modal-trigger"
+                        data-target="modal3"
+                        onClick={() => setValidateid(el._id)}
+                      >
+                        Invalid
+                      </button>
+                       )}
+
+
+
+                     
                     </div>
                     <div className="card-reveal">
                       <span className="card-title grey-text text-darken-4">
@@ -367,6 +413,53 @@ useEffect(()=>{
                         </a>
                       </div>
                     </div>
+
+
+                    <div id="modal2" className="modal">
+                      <div className="modal-content">
+                        <h4>Event Validate</h4>
+                        <p>Are you sure you want to validate this event?</p>
+                      </div>
+                      <div className="modal-footer">
+                        <a
+                          href="#!"
+                          className="modal-close waves-effect waves-green btn-flat"
+                          onClick={() => dispatch(validateEvent(validateid))}
+                        >
+                          Agree
+                        </a>
+                        <a
+                          href="#!"
+                          className="modal-close waves-effect waves-green btn-flat"
+                        >
+                          Cancel
+                        </a>
+                      </div>
+                    </div>
+
+                    <div id="modal3" className="modal">
+                      <div className="modal-content">
+                        <h4>Event invalidate</h4>
+                        <p>Are you sure you want to invalidate this event?</p>
+                      </div>
+                      <div className="modal-footer">
+                        <a
+                          href="#!"
+                          className="modal-close waves-effect waves-green btn-flat"
+                          onClick={() => dispatch(invalidateEvent(validateid))}
+                        >
+                          Agree
+                        </a>
+                        <a
+                          href="#!"
+                          className="modal-close waves-effect waves-green btn-flat"
+                        >
+                          Cancel
+                        </a>
+                      </div>
+                    </div>
+
+
                   </div>
                 </div>
               );

@@ -8,7 +8,7 @@ import EventList from "./EventList";
 import "../organizer.css";
 import M from "materialize-css";
 import { getUsers, getEvents } from "../actions/adminaction";
-function Administrator() {
+function Moderator() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const users = useSelector((state) => state.admin);
@@ -53,7 +53,7 @@ useEffect(()=> { M.Modal.init(document.querySelectorAll(".modal"))})
           }}
         >
           <div>
-          <div class="switch right" style={{marginTop:10,color:"black",fontSize:20}}>
+              <div class="switch right" style={{marginTop:10,color:"black",fontSize:20}}>
               <label>Manage account
             
               <input type="checkbox" onClick={toggle}/>
@@ -102,4 +102,4 @@ useEffect(()=> { M.Modal.init(document.querySelectorAll(".modal"))})
   );
 }
 
-export default Administrator; 
+export default Moderator; 
