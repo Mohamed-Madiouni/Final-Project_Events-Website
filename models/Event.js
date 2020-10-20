@@ -32,11 +32,11 @@ const EventSchema = new schema({
   state: {
     type: String,
     default: "Invalid",
-    require: true,
+    required: true,
   },
   id_organizer: {
     type: String,
-    require: true,
+    required: true,
   },
   participant: [{ type: mongoose.Types.ObjectId, ref: "user" }],
   tags:{
