@@ -49,6 +49,7 @@ const UserListcard = () => {
     M.Materialbox.init(document.querySelectorAll(".materialboxed"));
   });
 
+ 
   let users = allusers.filter((el) => {
     return (
       el.fname.toLowerCase().includes(quickSearch.fname.toLowerCase()) &&
@@ -65,105 +66,9 @@ const UserListcard = () => {
   };
   return (
     <div>
-      <div>
-        <h5>
-          <b>Manage Users</b>
-          <div className="organizer_nav">
-            <div class="switch">
-              <label>
-                List
-                <input type="checkbox" onClick={toggle} />
-                <span className="lever"></span>
-                Card
-              </label>
-            </div>
-          </div>
-        </h5>
-      </div>
-
-      <div
-        className="col s8 offset-s2"
-        style={{ marginTop: "20px", fontSize: 15, fontWeight: 800 }}
-      >
-        <form>
-          <div className="input-field col s4 m5">
-            <input
-              placeholder="First name search"
-              id="fname"
-              type="text"
-              value={quickSearch.fname}
-              onChange={onChange}
-            />
-            <label forhtml="fname">First name</label>
-          </div>
-          <div className="input-field col s4 m3">
-            <select
-              id="role"
-              value={quickSearch.role}
-              onChange={onChange}
-              style={{
-                display: "initial",
-                marginTop: 4,
-                borderRadius: 5,
-                outline: "none",
-              }}
-            >
-              <option value="">Role</option>
-              <option value="Participant" className="green-text">
-                Participant
-              </option>
-              <option value="Organizer" className="blue-text">
-                Organizer
-              </option>
-              <option value="Admin" className="red-text">
-                Admin
-              </option>
-            </select>
-            <label className="active">Role</label>
-          </div>
-          <div className="input-field col s4 m4">
-            <input
-              placeholder="Last name search"
-              id="lname"
-              type="text"
-              value={quickSearch.lname}
-              onChange={onChange}
-            />
-            <label forhtml="title">Last name</label>
-          </div>
-
-          <div className="input-field col s4 m4">
-            <input
-              placeholder="Email search"
-              id="email"
-              type="text"
-              value={quickSearch.email}
-              onChange={onChange}
-            />
-            <label forhtml="title">Email</label>
-          </div>
-          <div className="input-field col s4 m4">
-            <input
-              placeholder="Address search"
-              id="address"
-              type="text"
-              value={quickSearch.address}
-              onChange={onChange}
-            />
-            <label forhtml="title">Address</label>
-          </div>
-          <div className="input-field col s4 m4">
-            <input
-              placeholder="Telephone search"
-              id="tel"
-              type="text"
-              value={quickSearch.tel}
-              onChange={onChange}
-            />
-            <label forhtml="title">Telephone</label>
-          </div>
-        </form>
-      </div>
+ 
+     
+      
       <div className="row">
         {users &&
           users
@@ -262,12 +167,34 @@ const UserListcard = () => {
                       {el.role}
                     </span>
 
-                    <p className="black-text">
-                      <br />
-                      <i className=" tiny material-icons">history</i>
+                   
+                      
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          fontSize: 13,
+                          width: "100%",
+                          justifyContent:"space-around"
+                        }}
+                      >
+                      <span
+                          style={{
+                            margin: 10,
+                            marginLeft: 0,
+                            marginRight: 0,
+                            display: "flex",
+                            alignItems: "center"
+                          }}
+                        > 
+                      <i className=" tiny material-icons"
+                       style={{ margin: 5 }}
+                       >
+                         history</i>
 
                       {historyuser(el.created_at)}
-                    </p>
+                      
+                    </span></div>
 
                     <button
                       style={{
@@ -286,27 +213,7 @@ const UserListcard = () => {
                       Delete
                     </button>
 
-                    <div id="modal1" className="modal">
-                      <div className="modal-content">
-                        <h4>User delete</h4>
-                        <p>Are you sure you want to delete this User?</p>
-                      </div>
-                      <div className="modal-footer">
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                          onClick={() => dispatch(deleteUser(deleteid))}
-                        >
-                          Agree
-                        </a>
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                        >
-                          Cancel
-                        </a>
-                      </div>
-                    </div>
+
 
                     {el.banned === false ? (
                       <button
@@ -344,6 +251,37 @@ const UserListcard = () => {
                         Unban
                       </button>
                     )}
+
+
+
+ 
+                  </div>
+                </div>
+              );
+            })}
+      </div>
+
+      <div id="modal1" className="modal">
+                      <div className="modal-content">
+                        <h4>User delete</h4>
+                        <p>Are you sure you want to delete this User?</p>
+                      </div>
+                      <div className="modal-footer">
+                        <a
+                          href="#!"
+                          className="modal-close waves-effect waves-green btn-flat"
+                          onClick={() => dispatch(deleteUser(deleteid))}
+                        >
+                          Agree
+                        </a>
+                        <a
+                          href="#!"
+                          className="modal-close waves-effect waves-green btn-flat"
+                        >
+                          Cancel
+                        </a>
+                      </div>
+                    </div>
 
                     <div id="modal2" className="modal">
                       <div className="modal-content">
@@ -435,39 +373,6 @@ const UserListcard = () => {
                         </a>
                       </div>
                     </div>
-
-                    {modal ? (
-                      <div>
-                        <div className="row">
-                          <div
-                            className="col s12"
-                            style={{
-                              textAlign: "center",
-                            }}
-                          >
-                            <UserList />
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div>
-                        <div className="row">
-                          <div
-                            className="col s12"
-                            style={{
-                              textAlign: "center",
-                            }}
-                          >
-                            <UserList />
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-      </div>
     </div>
   );
 };

@@ -24,10 +24,10 @@ function Administrator() {
 useEffect(()=> { M.Modal.init(document.querySelectorAll(".modal"))})
   return (
     <div className="row">
-      <div className="col s12 row">
+      <div className="col s12 ">
         <div className="col s10 l6 organizer_hi">
           <div
-            className="col s11 m8"
+            className="col s12"
             style={{
               paddingTop: "0.75rem",
               paddingBottom: "0.75rem",
@@ -47,13 +47,13 @@ useEffect(()=> { M.Modal.init(document.querySelectorAll(".modal"))})
 
         </div>
         <div
-          className="col s2 l6"
+          className="col s6 m5"
           style={{
             paddingRight: "0px",
           }}
         >
-          <div className="organizer_nav">
-              <div class="switch">
+          <div>
+          <div class="switch right" style={{marginTop:10,color:"black",fontSize:20}}>
               <label>Manage account
             
               <input type="checkbox" onClick={toggle}/>

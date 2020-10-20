@@ -15,6 +15,7 @@ import "../events.css";
 import M from "materialize-css";
 import "../userlist.css";
 import UserListcard from "./UserListcard";
+import { SET_RESIZE } from "../actions/types";
 const UserList = () => {
   const dispatch = useDispatch();
   const allusers = useSelector((state) => state.admin.users);
@@ -24,6 +25,7 @@ const UserList = () => {
   const [banid, setBanid] = useState("");
   const [alertid, setAlertid] = useState("");
   const [modal, setModal] = useState(false);
+  const[resiz,setresiz]=useState(true)
   const toggle = () => {
     setModal(!modal);
   };
@@ -48,7 +50,21 @@ const UserList = () => {
     M.updateTextFields();
     M.Materialbox.init(document.querySelectorAll(".materialboxed"));
   });
+useEffect(()=>{
+  window.addEventListener('resize',()=>{
+if( window.innerWidth<=1000)
+{setModal(false)
+setresiz(false)
+}
+else
+setresiz(true)
+  })
+})
 
+useEffect(()=>{
+if(window.innerWidth<=1000)
+setresiz(false)
+},[])
   let users = allusers.filter((el) => {
     return (
       el.fname.toLowerCase().includes(quickSearch.fname.toLowerCase()) &&
@@ -65,24 +81,11 @@ const UserList = () => {
   };
   return (
     <div>
-      <div>
-        <h5>
-          <b>Manage Users</b>
-          <div className="organizer_nav">
-            <div class="switch">
-              <label>
-                List
-                <input type="checkbox" onClick={toggle} />
-                <span className="lever"></span>
-                Card
-              </label>
-            </div>
-          </div>
-        </h5>
-      </div>
+      {/* <div className="row"> */}
+      
 
       <div
-        className="col s8 offset-s2"
+        className="col l9 offset-l1 s12"
         style={{ marginTop: "20px", fontSize: 15, fontWeight: 800 }}
       >
         <form>
@@ -167,7 +170,23 @@ const UserList = () => {
           </div>
         </form>
       </div>
-      <div className="row">
+      {resiz&&<div className="col l2 s12">
+        
+         
+          <div>
+            <div class="switch">
+              <label>
+                Card
+                <input type="checkbox" onClick={toggle} />
+                <span className="lever"></span>
+                List
+              </label>
+            </div>
+          </div>
+        
+      </div>}
+      {/* </div> */}
+    { modal? <div className="row">
         {users &&
           users
             .slice(0)
@@ -179,15 +198,20 @@ const UserList = () => {
                     className="card small sticky-action center-align"
                     style={{
                       width: "100%",
-                      height: 70,
+                      height: 50,
+display:"flex",
+justifyContent:"space-between",
+alignItems:"center",
+
+
 
                       boxShadow:
                         el.alerted_date &&
                         new Date() < new Date(el.alerted_date) &&
                         el.banned == false
-                          ? "inset 0px 0px 131px 14px #fff300"
+                          ? "inset 0px 0px 13px 10px #fff300"
                           : el.banned == true &&
-                            "inset 0px 0px 131px 14px #ed1717",
+                            "inset 0px 0px 13px 10px #ed1717",
                     }}
                     // key={el._id}
                   >
@@ -197,15 +221,16 @@ const UserList = () => {
                         height: "100%",
                         width: "5%",
                         display: "grid",
-                        placeItems: "left",
+                        placeItems: "center",
+                        padding:0
                       }}
                     >
-                      <img height="100%" width="100%" src={el.avatar} />
+                      <img height="30px" className="circle"  src={el.avatar} style={{borderRadius:"50%",width:"30px"}}/>
                     </span>
 
                     <span
                       className="col s2 center-align"
-                      style={{ height: 70, paddingTop: 20 }}
+                      // style={{ height: 70, paddingTop: 20 }}
                     >
                       {el.fname + " "}
                       {el.lname}
@@ -213,22 +238,23 @@ const UserList = () => {
 
                     <span
                       className="col s2"
-                      style={{ height: 70, paddingTop: 20 }}
+                      // style={{ height: 70, paddingTop: 20 }}
                     >
                       {el.email}
                     </span>
                     <span
                       className="col s2"
-                      style={{ height: 70, paddingTop: 20 }}
+                      // style={{ height: 70, paddingTop: 20 }}
                     >
                       {el.role}
                     </span>
 
                     <span
                       className="col s2"
-                      style={{ height: 70, paddingTop: 20 }}
+                      // style={{ height: 70, paddingTop: 20 }}
                     >
-                      <i className=" tiny material-icons">history</i>
+                      <i className=" tiny material-icons" style={{transform: "translateY(2px)",marginRight:5}}>
+                      history</i>
 
                       {historyuser(el.created_at)}
                     </span>
@@ -259,7 +285,7 @@ const UserList = () => {
                           width: "100px",
                           height: "40px",
                           borderRadius: "3px",
-                          letterSpacing: "1.5px",
+                          letterSpacing: "1px",
                           margin: "1rem",
                         }}
                         type="button"
@@ -276,7 +302,7 @@ const UserList = () => {
                           width: "100px",
                           height: "40px",
                           borderRadius: "3px",
-                          letterSpacing: "1.5px",
+                          letterSpacing: "1px",
                           margin: "1rem",
                           backgroundColor: "#ec4c4c",
                         }}
@@ -296,11 +322,9 @@ const UserList = () => {
                         className="fas fa-exclamation-circle btn-flat modal-trigger col s1"
                         style={{
                           color: "gray",
-                          position: "absolute",
+                          
                           right: "2%",
                           fontSize: 30,
-                          height: 70,
-                          paddingTop: 20,
                         }}
                         type="button"
                         data-target="modal4"
@@ -313,11 +337,11 @@ const UserList = () => {
                         className="fas fa-exclamation-circle btn-flat modal-trigger col s1"
                         style={{
                           color: "red",
-                          position: "absolute",
+                         
                           right: "2%",
                           fontSize: 30,
-                          height: 70,
-                          paddingTop: 20,
+                          // height: 70,
+                          // paddingTop: 20,
                         }}
                         type="button"
                         data-target="modal5"
@@ -326,7 +350,29 @@ const UserList = () => {
                       ></i>
                     )}
 
-                    <div id="modal1" className="modal">
+    
+                    
+                  </div>
+                </div>
+              );
+            })}
+      </div>:
+      (
+                      <div>
+                        <div className="row">
+                          <div
+                            className="col s12"
+                            style={{
+                              textAlign: "center",
+                            }}
+                          >
+                            <UserListcard users={users.users} />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+<div id="modal1" className="modal">
                       <div className="modal-content">
                         <h4>User delete</h4>
                         <p>Are you sure you want to delete this User?</p>
@@ -438,38 +484,7 @@ const UserList = () => {
                         </a>
                       </div>
                     </div>
-                    {modal ? (
-                      <div>
-                        <div className="row">
-                          <div
-                            className="col s12"
-                            style={{
-                              textAlign: "center",
-                            }}
-                          >
-                            <UserListcard users={users.users} />
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div>
-                        <div className="row">
-                          <div
-                            className="col s12"
-                            style={{
-                              textAlign: "center",
-                            }}
-                          >
-                            <UserListcard users={users.users} />
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-      </div>
+                                   
     </div>
   );
 };

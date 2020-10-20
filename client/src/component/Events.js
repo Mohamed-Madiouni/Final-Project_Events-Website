@@ -150,7 +150,7 @@ useEffect(()=>{
             <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>}
              <div className="row">
            
- {events&&events.slice(0).reverse().filter(el=>el.valid==true).map(el=>{
+ {events&&events.slice(0).reverse().filter(el=>el.state!="Invalid").map(el=>{
      return (<div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
        <div
                   className="card small sticky-action"

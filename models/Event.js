@@ -31,7 +31,8 @@ const EventSchema = new schema({
   },
   state: {
     type: String,
-    default: "Available",
+    default: "Invalid",
+    require: true,
   },
   id_organizer: {
     type: String,
@@ -45,9 +46,6 @@ const EventSchema = new schema({
     type: Date,
     default: Date.now,
   },
-  valid: {
-    type: Boolean,
-    required: true,
-  },
+
 });
 module.exports = mongoose.model("event", EventSchema);

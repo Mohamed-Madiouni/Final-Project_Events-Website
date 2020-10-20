@@ -136,7 +136,7 @@ router.put("/events/valid/:_id", authMiddleware, (req, res) => {
     _id,
     {
       $set: {
-        valid: true
+        state: "Available"
       },
     },
     { new: true }
@@ -149,12 +149,11 @@ router.put("/events/valid/:_id", authMiddleware, (req, res) => {
 //Unvalid event by Id
 router.put("/events/invalid/:_id", authMiddleware, (req, res) => {
   var _id = req.params._id;
-
   Event.findByIdAndUpdate(
     _id,
     {
       $set: {
-        valid: false
+        state: "Invalid"
       },
     },
     { new: true }
