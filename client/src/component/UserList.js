@@ -365,7 +365,7 @@ setresiz(false)
                               textAlign: "center",
                             }}
                           >
-                            <UserListcard users={users.users} />
+                            <UserListcard users={users} />
                           </div>
                         </div>
                       </div>

@@ -15,7 +15,7 @@ import "../events.css";
 import M from "materialize-css";
 import "../userlist.css";
 import UserList from "./UserList";
-const UserListcard = () => {
+const UserListcard = ({users}) => {
   const dispatch = useDispatch();
   const allusers = useSelector((state) => state.admin.users);
   let auth = useSelector((state) => state.auth);
@@ -50,16 +50,16 @@ const UserListcard = () => {
   });
 
  
-  let users = allusers.filter((el) => {
-    return (
-      el.fname.toLowerCase().includes(quickSearch.fname.toLowerCase()) &&
-      el.role.toLowerCase().includes(quickSearch.role.toLowerCase()) &&
-      el.lname.toLowerCase().includes(quickSearch.lname.toLowerCase()) &&
-      el.email.toLowerCase().includes(quickSearch.email.toLowerCase()) &&
-      el.address.toLowerCase().includes(quickSearch.address.toLowerCase()) &&
-      el.tel.toLowerCase().includes(quickSearch.tel.toLowerCase())
-    );
-  });
+  // let users = allusers.filter((el) => {
+  //   return (
+  //     el.fname.toLowerCase().includes(quickSearch.fname.toLowerCase()) &&
+  //     el.role.toLowerCase().includes(quickSearch.role.toLowerCase()) &&
+  //     el.lname.toLowerCase().includes(quickSearch.lname.toLowerCase()) &&
+  //     el.email.toLowerCase().includes(quickSearch.email.toLowerCase()) &&
+  //     el.address.toLowerCase().includes(quickSearch.address.toLowerCase()) &&
+  //     el.tel.toLowerCase().includes(quickSearch.tel.toLowerCase())
+  //   );
+  // });
 
   const onChange = (e) => {
     setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value });
