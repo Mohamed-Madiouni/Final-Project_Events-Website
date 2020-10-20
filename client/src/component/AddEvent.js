@@ -124,7 +124,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
 
   return (
    
-      <div className="col s10 offset-s1">
+      <div className={location.pathname=="/dashboard"?"col s10 offset-s1":"col s12"}>
         <div className="row">
           <div
             className="col s12 row"

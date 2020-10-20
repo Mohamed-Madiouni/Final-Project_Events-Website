@@ -11,6 +11,7 @@ import { GET_ERRORS } from "../actions/types";
 import { logoutUser } from "../actions/authaction";
 
 
+
 function Home() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);

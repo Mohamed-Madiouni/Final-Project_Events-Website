@@ -25,3 +25,6 @@ img.circle.materialboxed.active{
     margin-bottom: 20px;
     
 }
+.photo>.material-placeholder{
+    height: 180px !important;
+}

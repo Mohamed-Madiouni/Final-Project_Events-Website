@@ -89,7 +89,7 @@ let calendarEvents=allevents.map(el=>{
         <div className="container" >
           <div style={{filter:mod&&"brightness(30%)"}}>
             <FullCalendar
-        plugins={[ dayGridPlugin,interactionPlugin,timeGridPlugin ]}
+        plugins={[ dayGridPlugin,timeGridPlugin ]}
         headerToolbar={{
             left: 'prev,next today',
             center: 'title',

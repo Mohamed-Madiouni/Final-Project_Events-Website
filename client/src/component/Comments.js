@@ -7,7 +7,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import { useHistory,Link } from 'react-router-dom';
 import { getCurrentUser } from '../actions/authaction';
 import {makeComment, fullEvent, openEvent, } from "../actions/evntAction";
-import {getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply, likecomment} from "../actions/comntaction"
+import {getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply, likecomment,dislikecomment} from "../actions/comntaction"
 import {followEvent, getEvent, unfollowEvent,endEvent, closeEvent} from "../actions/evntAction";
 
 import get_month from "../outils/get_month"
@@ -23,6 +23,7 @@ import { logoutUser } from "../actions/authaction";
 
 import {v4 as uuidv4} from "uuid"
 import Pusher from 'pusher-js'
+import date_youtube from '../outils/dateyoutube';
 
 
 function Comments({match, history}) {
@@ -61,12 +62,12 @@ const [deletereplyid,setDeletereplyid]=useState("")
    
 useEffect(()=>{
   M.Materialbox.init(document.querySelectorAll('.materialboxed'))
-},[comments])
+},[load])
 
 useEffect(()=>{
    M.updateTextFields()
    if(edit&&reply)
-   M.textareaAutoResize(document.querySelector('#textarea_edit'));
+   M.textareaAutoResize(document.getElementsByName("textarea"));
    if(errors.success)
    setEdit("")
    if(errors.added)
@@ -77,9 +78,9 @@ useEffect(()=>{
   })
 
   useEffect(()=>{
-    Pusher.logToConsole = true;
+    // Pusher.logToConsole = true;
 
-    var pusher = new Pusher('16ca3006a08827062073', {
+    var pusher = new Pusher(process.env.REACT_APP_KEY, {
       cluster: 'eu'
     });
     var channel = pusher.subscribe('my-channel');
@@ -128,7 +129,7 @@ useEffect(()=>{
 
     return (
       <>
-        {load&&<>
+        {load&&allevents.length!=0&&users.length!=0&&<>
         <Navbar/>
         <div className="row" style={{marginTop:20}} onClick={(e)=>{
          emoj&&!document.querySelector(".emoji-mart").contains(e.target)&&setEmoj(!emoj)
@@ -137,42 +138,48 @@ useEffect(()=>{
         }}>
             <div className='col l8 s12 '>
      <div className="comment_sec">
-         <div className="com_picture" style={{borderBottom:"1px solid gray"}}>
-           <img className="materialboxed" src={allevents.length!=0?allevents.find(el=>el._id==match.params.event_id).image:""} width="100%" height="430px" />
-           <span className="title"><b>{allevents.length!=0&&allevents.find(el=>el._id==match.params.event_id).title}</b></span>
-           <p>rating</p>
-    <p>{historyevent(allevents.length!=0&&allevents.find(el=>el._id==match.params.event_id).created_at)}</p> 
+         <div className="com_picture" >
+           <img className="materialboxed" src={allevents.find(el=>el._id==match.params.event_id).image} width="100%" height="430px" />
+           <span className="title"><b>{allevents.find(el=>el._id==match.params.event_id).title}</b></span>
+           <div style={{display:"flex"}}>
+             <p>rating</p>
+    <p>{date_youtube(allevents.find(el=>el._id==match.params.event_id).created_at)}</p> 
+    </div>
            </div> 
-    <div style={{borderBottom:"1px solid gray"}}>
-    <ul className="collection">
+    <div>
+    <ul className="collection org">
     <li className="collection-item avatar">
       <div style={{display:"flex",justifyContent:"space-between"}}>
-        <div><img src={users.length!=0?users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).avatar:""} alt="" className="circle"/>
-       <p><b>{users.length!=0&&(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).fname+" "+users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).lname)}</b></p> 
+        <div><img src={users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).avatar} alt="" className="circle" style={{width:43,height:43}}/>
+       <p><b>{users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).fname+" "+users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).lname}</b></p> 
       </div> 
       <button>S'abonner</button>
       </div>
      
-      <p>{allevents.length!=0&&allevents.find(el=>el._id==match.params.event_id).description}</p>
+      <p>{allevents.find(el=>el._id==match.params.event_id).description}</p>
   
     </li>
     
   </ul>
     </div>
-    <p>{comments.comments&&comments.comments.filter(elm=>elm.event==match.params.event_id).length+" "}
-    comment{comments.comments&&comments.comments.filter(elm=>elm.event==match.params.event_id).length==0?"":"s"}</p> 
-    {auth.isAuthenticated&&<form>
+    <p className="comment" >
+      {comments.comments&&comments.comments.filter(elm=>elm.event==match.params.event_id).length+" "}
+    comment{comments.comments&&comments.comments.filter(elm=>elm.event==match.params.event_id).length==0?"":"s"}
+    </p> 
+    {auth.isAuthenticated&&<form className="input_add" >
         <div style={{position:"relative",display:"flex"}}>
-          <img src={auth.user.avatar} alt="profil" className="circle" width="45px" height="45px"/>
-        <div style={{width:"100%"}}>
+          <img src={auth.user.avatar} alt="profil" className="circle" style={{marginTop:5}} width="45px" height="45px"/>
+        <div style={{width:"100%",marginTop:6,marginLeft:5}}>
           <textarea value={comnt} 
          onChange={(e)=>setComnt(e.target.value)}
           onKeyDown={(e)=> { if (e.key === "Enter") onsubmit(e)}}
                   className="materialize-textarea"
-                   style={{paddingRight:"30px"}}> 
+                   style={{paddingRight:"30px"}}
+                   placeholder="Add a public comment"
+                   > 
                    </textarea> 
-        <i className="far fa-smile"  style={{position:"absolute",bottom:20,right:5,cursor:"pointer"}} onClick={()=>setEmoj(!emoj)}></i>
-         {emoj&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-360px",right:5,zIndex: 1000}} id="emoj_cont">
+        <i className="far fa-smile"  style={{position:"absolute",bottom:12,right:10,cursor:"pointer"}} onClick={()=>setEmoj(!emoj)}></i>
+         {emoj&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-366px",right:5,zIndex:9999999999}} id="emoj_cont">
             
             <Picker
          set='apple'
@@ -185,6 +192,7 @@ useEffect(()=>{
           showSkinTones={false}
           showPreview={false}
           perLine={8}
+          // style={{zIndex:2000}}
    
           />
       </div>}
@@ -210,12 +218,16 @@ return(
 <p>{historyevent(el.created_at)}</p>
 </div>
       </div>
-     {el.postedBy==auth.user._id&&<div>
-       <button onClick={()=>{
+     {el.postedBy==auth.user._id&&<div id="editdelete">
+       {!edit||el._id!=edit?<i className="material-icons" title="Edit" onClick={()=>{
 setEdit(el._id)
 setTextedit(el.content)
-       }}>edit</button>
-<button onClick={()=>setDeletecomid(el._id)} className="modal-trigger" data-target="modaldeletcom">delete</button>
+       }}>edit</i>:
+       el._id==edit&&<i className="material-icons" title="Cancel" onClick={()=>{
+setEdit("")
+setTextedit("")
+       }}>close</i>}
+<i onClick={()=>setDeletecomid(el._id)} className="modal-trigger material-icons" data-target="modaldeletcom" title="Delete">delete</i>
      </div>}
       </div>
      
@@ -237,8 +249,8 @@ setTextedit(el.content)
                   > 
                   </textarea> 
                   
-       <i className="far fa-smile"  style={{position:"absolute",bottom:30,right:25,cursor:"pointer"}} onClick={()=>setEmojedt(!emojedt)}></i>
-         {emojedt&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-352px",right:5,zIndex: 1000}} id="emoj_cont">
+       <i className="far fa-smile"  style={{position:"absolute",bottom:50,right:25,cursor:"pointer",color :"gray"}} onClick={()=>setEmojedt(!emojedt)}></i>
+         {emojedt&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-330px",right:5,zIndex:9999999999}} id="emoj_cont">
            
            <Picker
         set='apple'
@@ -264,7 +276,11 @@ setTextedit(el.content)
             if(!auth.user.likes.includes(el._id)&&auth.isAuthenticated)
             dispatch(likecomment(el._id,Number(el.likes)+1,auth.user._id))}}></i>
         {el.likes}
-         <i className="far fa-thumbs-down"></i>
+         <i className="far fa-thumbs-down fa-flip-horizontal" onClick={()=>
+          {
+            if(!auth.user.dislikes.includes(el._id)&&auth.isAuthenticated)
+            dispatch(dislikecomment(el._id,Number(el.dislikes)+1,auth.user._id))}}></i>
+            {el.dislikes}
       {(el.postedBy!=auth.user._id)&&auth.isAuthenticated&&<button style={{display:"block"}} onClick={()=>{ if(!replycount) setReplayCount(!replycount); setReply(""); setReplyId(el._id)}}>reply</button>}
       {el.reply.length?<div style={{display:"flex",cursor:"pointer",color:"blue"}} onClick={()=>{
              
@@ -285,7 +301,7 @@ setTextedit(el.content)
     <>
     {el.reply.slice(0).reverse().map((el,i)=>{
     return (
-    <ul className="collection" key={i} style={{overflow:"initial",marginLeft:20}}>
+    <ul className="collection" key={i} style={{overflow:"initial",marginLeft:15}}>
     <li className="collection-item avatar">
       <div style={{display:"flex",justifyContent:"space-between"}}>
        <div>
@@ -295,12 +311,16 @@ setTextedit(el.content)
 <p>{historyevent(el.created_at)}</p>
 </div>
       </div>
-     {el.postedBy==auth.user._id&&<div>
-       <button onClick={()=>{
+     {el.postedBy==auth.user._id&&<div id="editdelete">
+     {!edit||el.id!=edit?<i className="material-icons" title="Edit" onClick={()=>{
 setEdit(el.id)
 setTextedit(el.content)
-       }}>edit</button>
-<button onClick={()=>setDeletereplyid(el.id)} className='modal-trigger' data-target='modaldeletreply'>delete</button>
+       }}>edit</i>:
+       el.id==edit&&<i className="material-icons" title="Cancel" onClick={()=>{
+setEdit("")
+setTextedit("")
+       }}>close</i>}
+<i onClick={()=>setDeletereplyid(el.id)} className='modal-trigger material-icons' data-target='modaldeletreply' title="delete">delete</i>
      </div>}
       </div>
      
@@ -323,7 +343,7 @@ setTextedit(el.content)
                   </textarea> 
                   
        <i className="far fa-smile"  style={{position:"absolute",bottom:30,right:25,cursor:"pointer"}} onClick={()=>setEmojedt(!emojedt)}></i>
-         {emojedt&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-352px",right:5,zIndex: 1000}} id="emoj_cont">
+         {emojedt&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-352px",right:5,zIndex:9999999999}} id="emoj_cont">
            
            <Picker
         set='apple'
@@ -360,21 +380,22 @@ setTextedit(el.content)
 
     )
   })}
- { auth.isAuthenticated&&<form>
-  <div style={{position:"relative",display:"flex",marginLeft:20}}>
+ { auth.isAuthenticated&&<form className="input_add" style={{marginLeft:20}}>
+  <div style={{position:"relative",display:"flex"}}>
     {auth.isAuthenticated&&<img src={auth.user.avatar} alt="profil" className="circle" width="45px" height="45px"/>}
-  <div style={{width:"100%"}}>
+  <div style={{width:"100%",marginLeft:55}}>
     <textarea value={reply} 
    onChange={(e)=>setReply(e.target.value)}
     onKeyDown={(e)=> { if (e.key === "Enter") reply&&onreply(e)}}
             className="materialize-textarea inpReply"
              style={{paddingRight:"30px"}}
              autoFocus
+             placeholder="Add a public comment"
              > 
              
              </textarea> 
-  <i className="far fa-smile"  style={{position:"absolute",bottom:20,right:5,cursor:"pointer"}} onClick={()=>setEmojReply(!emojreply)}></i>
-   {emojreply&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-360px",right:5,zIndex: 1000}} id="emoj_cont">
+  <i className="far fa-smile"  style={{position:"absolute",bottom:12,right:10,cursor:"pointer"}} onClick={()=>setEmojReply(!emojreply)}></i>
+   {emojreply&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-368px",right:5,zIndex:9999999999}} id="emoj_cont">
       
       <Picker
    set='apple'

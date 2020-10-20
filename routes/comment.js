@@ -101,6 +101,33 @@ User.findByIdAndUpdate(req.body.user,{$push:{likes:req.params.commentId}},(err,u
   .catch(err=>res.status(404).send(err.message))
 })
 
+
+//like
+
+router.put("/add/dislike/:commentId",authMiddleware,(req,res)=>{
+ 
+  Comment.findOneAndUpdate({
+    _id:req.params.commentId
+  },{$set:{dislikes: req.body.dislikes}},
+  {
+    new:true,
+    runValidators:true
+  })
+  .then(com=>{
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });  
+User.findByIdAndUpdate(req.body.user,{$push:{dislikes:req.params.commentId}},(err,user)=>{
+  if (err) throw err
+  console.log(user)
+})
+    res.status(202).send(com)
+  })
+  .catch(err=>res.status(404).send(err.message))
+})
+
+
+
 //reply
 
 router.put("/add/reply/:commentId",authMiddleware,(req,res)=>{

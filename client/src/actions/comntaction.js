@@ -102,6 +102,21 @@ export const addComment =(content,eventId,userId)=> (dispatch)=>{
   }));
     
   };
+  //dislike
+  export const dislikecomment =(coment_id,nb_likes,userid)=> (dispatch)=>{
+    setAuthToken(localStorage.token)
+    axios
+    .put(`/comment/add/dislike/${coment_id}`,{dislikes:nb_likes,user:userid})
+    .then((res) => {
+      dispatch(getComment())
+      dispatch(getCurrentUser())
+   })
+   .catch((err) => dispatch({
+    type: GET_ERRORS,
+    payload: err.response.data,
+  }));
+    
+  };
 
   
   //reply

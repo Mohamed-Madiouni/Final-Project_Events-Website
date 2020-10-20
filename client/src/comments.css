@@ -3,7 +3,82 @@
    padding: 0px 0px 0px 15px;
 
 }
+/* .com_picture{
+    border-radius: 10px;
+    
+} */
+.com_picture div{
+    margin:10px 0px 10px 0px;
+    
+}
+.collection-item{
+background: white;
+border-radius: 15px;
+}
+.collection{
+    border:none
+}
+.collection-item img{
+    width: 40px !important;
+    height: 40px !important;
+}
+#editdelete>i{
+    font-size: 19px;
+    color: gray;
+    margin: 3px;
+    cursor: pointer;
+}
+#editdelete>i:hover{
+    color: #2e8fa5
+}
+#editdelete>i[title=Cancel]{
+   
+    color: #2e8fa5;
+  
+}
+.org img{
+    width: 43px !important;
+    height: 43px !important;   
+}
+.org li{
+    border: 1px solid #2e8fa5 !important
+}
+.comment{
+font-weight: 560;
+margin-top:10px;
+margin-bottom: 10px;
+}
 
+.input_add{
+background: white;
+border-radius: 10px;
+margin-top: 10px;
+margin-bottom: 10px;
+
+}
+.input_add img{
+    width: 40px !important;
+    height: 40px !important;
+}
+.input_add textarea{
+    border: 1px solid #e6e4e4;
+    border-radius: 10px ;
+    margin: 0px;
+    background: rgb(238, 237, 237);
+   line-height: 16px !important;
+   padding-left: 4px;
+}
+.input_add i{
+    color :gray
+}
+.input_add textarea:focus{
+    border: 1px solid #2e8fa5 !important;
+    box-shadow: none !important;
+}
+#textarea_edit:focus{
+    border-bottom: 1px solid #2e8fa5 !important;
+    box-shadow: none !important;
+}
 .com_picture>.material-placeholder{
     height: fit-content !important;
 }

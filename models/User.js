@@ -48,7 +48,8 @@ const userSchema = mongoose.Schema({
     type:Date
     
   },
-  likes:[{ type: mongoose.Types.ObjectId, ref: "comment" }]
+  likes:[{ type: mongoose.Types.ObjectId, ref: "comment" }],
+  dislikes:[{ type: mongoose.Types.ObjectId, ref: "comment" }]
 });
 
 module.exports = mongoose.model("user", userSchema);
