@@ -199,13 +199,12 @@ setresiz(false)
                     style={{
                       width: "100%",
                       height: 50,
-display:"flex",
-justifyContent:"space-between",
-alignItems:"center",
-
-
-
-                      boxShadow:
+                     display:"flex",
+                     justifyContent:"space-between",
+                     alignItems:"center",
+                     marginTop: 1,
+                     marginBottom: 1,
+                     boxShadow:
                         el.alerted_date &&
                         new Date() < new Date(el.alerted_date) &&
                         el.banned == false

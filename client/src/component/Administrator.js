@@ -25,7 +25,7 @@ useEffect(()=> { M.Modal.init(document.querySelectorAll(".modal"))})
   return (
     <div className="row">
       <div className="col s12 ">
-        <div className="col s10 l6 organizer_hi">
+        <div className="col s6 m7 organizer_hi">
           <div
             className="col s12"
             style={{
