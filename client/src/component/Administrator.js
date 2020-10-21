@@ -42,7 +42,7 @@ useEffect(()=> { M.Modal.init(document.querySelectorAll(".modal"))})
               {" "}
               We are happy to see you among US. <br />
               This is your <b>Admin Dashboard</b><br />
-              You can manage accounts an events.
+              You can manage accounts and events.
             </p>
           </div>
 
