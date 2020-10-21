@@ -7,7 +7,7 @@
    position: relative;
     
 }
-.com_picture div{
+.com_picture >div{
     margin:10px 0px 10px 0px;
     
 }
@@ -171,4 +171,15 @@ nav{
     }
     .colapse>.active .collapsible-header .chevron{
         transform: rotate(180deg);
+    }
+    .rating{
+        margin-left: 10px;
+        display: flex;
+        /* align-items: center; */
+        height: 25px;
+    line-height: 22px;
+       
+    }
+    .rating label{
+         font-size: 21px !important;
     }

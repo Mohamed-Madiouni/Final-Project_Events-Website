@@ -50,7 +50,7 @@ const [deletereplyid,setDeletereplyid]=useState("")
 const[actvlike,setactvlike]=useState(true)
 const [countevent,setCountevent] = useState(0)
 const[resiz,setresiz]=useState(false)
-const [rating,setRating]=useState("")
+const [rating,setRating]=useState(0)
     useEffect(()=>{
         dispatch(getEvent())
         dispatch(getComment())
@@ -61,7 +61,7 @@ const [rating,setRating]=useState("")
      
         // M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'),{closeOnClick:false})
         M.Modal.init(document.querySelectorAll(".modal"))
-        M.Collapsible.init(document.querySelectorAll('.collapsible'))
+       
         
     },[])
 
@@ -78,7 +78,7 @@ useEffect(()=>{
     if(window.innerWidth<=992)
     setresiz(true)
   
-},[])
+})
 
 
    useEffect(()=>{
@@ -87,7 +87,8 @@ useEffect(()=>{
 
 useEffect(()=>{
   M.Materialbox.init(document.querySelectorAll('.materialboxed'))
-},[load])
+   M.Collapsible.init(document.querySelectorAll('.collapsible'))
+},[allevents])
 
 useEffect(()=>{
    M.updateTextFields()
@@ -177,18 +178,19 @@ useEffect(()=>{
                       </div>
                     </div>
            <span className="title"><b>{allevents.find(el=>el._id==match.params.event_id).title}</b></span>
-           <div style={{display:"flex"}}>
-             <p style={{fontSize:30}}>
+           <div style={{display:"flex",alignItems:"center"}}>
+             <p>{date_youtube(allevents.find(el=>el._id==match.params.event_id).created_at)}</p>
+             <div className="rating">
              <StarRatingComponent 
-          name="rate1" 
+          name="event_rating" 
           starCount={10}
           value={rating}
           onStarHover={onStarClick}
           onStarClick={onStarClick}
           emptyStarColor="white"
         />
-             </p>
-    <p>{date_youtube(allevents.find(el=>el._id==match.params.event_id).created_at)}</p> 
+             </div>
+     
     </div>
            </div> 
     <div>
