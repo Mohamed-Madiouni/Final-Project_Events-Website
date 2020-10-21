@@ -25,7 +25,7 @@ const UserList = () => {
   const [banid, setBanid] = useState("");
   const [alertid, setAlertid] = useState("");
   const [modal, setModal] = useState(false);
-  const[resiz,setresiz]=useState(true)
+  const [resiz, setresiz] = useState(true);
   const toggle = () => {
     setModal(!modal);
   };
@@ -50,21 +50,18 @@ const UserList = () => {
     M.updateTextFields();
     M.Materialbox.init(document.querySelectorAll(".materialboxed"));
   });
-useEffect(()=>{
-  window.addEventListener('resize',()=>{
-if( window.innerWidth<=1000)
-{setModal(false)
-setresiz(false)
-}
-else
-setresiz(true)
-  })
-})
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      if (window.innerWidth <= 1000) {
+        setModal(false);
+        setresiz(false);
+      } else setresiz(true);
+    });
+  });
 
-useEffect(()=>{
-if(window.innerWidth<=1000)
-setresiz(false)
-},[])
+  useEffect(() => {
+    if (window.innerWidth <= 1000) setresiz(false);
+  }, []);
   let users = allusers.filter((el) => {
     return (
       el.fname.toLowerCase().includes(quickSearch.fname.toLowerCase()) &&
@@ -82,7 +79,6 @@ setresiz(false)
   return (
     <div>
       {/* <div className="row"> */}
-      
 
       <div
         className="col l9 offset-l1 s12"
@@ -170,9 +166,8 @@ setresiz(false)
           </div>
         </form>
       </div>
-      {resiz&&<div className="col l2 s12">
-        
-         
+      {resiz && (
+        <div className="col l2 s12">
           <div>
             <div class="switch">
               <label>
@@ -183,307 +178,315 @@ setresiz(false)
               </label>
             </div>
           </div>
-        
-      </div>}
-      {/* </div> */}
-    { modal? <div className="row">
-        {users &&
-          users
-            .slice(0)
-            .reverse()
-            .map((el) => {
-              return (
-                <div className="col s12 center-align" key={el._id}>
-                  <div
-                    className="card small sticky-action center-align"
-                    style={{
-                      width: "100%",
-                      height: 50,
-                     display:"flex",
-                     justifyContent:"space-between",
-                     alignItems:"center",
-                     marginTop: 1,
-                     marginBottom: 1,
-                     boxShadow:
-                        el.alerted_date &&
-                        new Date() < new Date(el.alerted_date) &&
-                        el.banned == false
-                          ? "inset 0px 0px 13px 10px #fff300"
-                          : el.banned == true &&
-                            "inset 0px 0px 13px 10px #ed1717",
-                    }}
-                    // key={el._id}
-                  >
-                    <span
-                      className="card-image col s2"
+        </div>
+      )}
+
+      {modal ? (
+        <table>
+          <thead>
+            <tr>
+              <th className="center-align">Avatar</th>
+              <th className="center-align">Name</th>
+              <th className="center-align">Mail</th>
+              <th className="center-align">Role</th>
+              <th className="center-align">Created</th>
+              <th className="center-align">Delete</th>
+              <th className="center-align">Ban</th>
+              <th className="center-align">Alert</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {users &&
+              users
+                .slice(0)
+                .reverse()
+                .map((el) => {
+                  return (
+                    <tr
+                      key={el._id}
+                      className="center-align"
                       style={{
-                        height: "100%",
-                        width: "5%",
-                        display: "grid",
-                        placeItems: "center",
-                        padding:0
+                        boxShadow:
+                          el.alerted_date &&
+                          new Date() < new Date(el.alerted_date) &&
+                          el.banned == false
+                            ? "inset 0px 0px 13px 10px #fff300"
+                            : el.banned == true &&
+                              "inset 0px 0px 13px 10px #ed1717",
                       }}
+                      // key={el._id}
                     >
-                      <img height="30px" className="circle"  src={el.avatar} style={{borderRadius:"50%",width:"30px"}}/>
-                    </span>
-
-                    <span
-                      className="col s2 center-align"
-                      // style={{ height: 70, paddingTop: 20 }}
-                    >
-                      {el.fname + " "}
-                      {el.lname}
-                    </span>
-
-                    <span
-                      className="col s2"
-                      // style={{ height: 70, paddingTop: 20 }}
-                    >
-                      {el.email}
-                    </span>
-                    <span
-                      className="col s2"
-                      // style={{ height: 70, paddingTop: 20 }}
-                    >
-                      {el.role}
-                    </span>
-
-                    <span
-                      className="col s2"
-                      // style={{ height: 70, paddingTop: 20 }}
-                    >
-                      <i className=" tiny material-icons" style={{transform: "translateY(2px)",marginRight:5}}>
-                      history</i>
-
-                      {historyuser(el.created_at)}
-                    </span>
-
-                    <button
-                      style={{
-                        width: "100px",
-                        height: "40px",
-                        borderRadius: "3px",
-                        letterSpacing: "1.5px",
-                        margin: "1rem",
-                      }}
-                      type="button"
-                      className="btn btn-medium modal-trigger col s2"
-                      data-target="modal1"
-                      onClick={() => setDeleteid(el._id)}
-                      disabled={
-                        (el.role == "administrator" && true) ||
-                        (auth.user.role == "moderator" && true)
-                      }
-                    >
-                      Delete
-                    </button>
-
-                    {el.banned === false ? (
-                      <button
-                        style={{
-                          width: "100px",
-                          height: "40px",
-                          borderRadius: "3px",
-                          letterSpacing: "1px",
-                          margin: "1rem",
-                        }}
-                        type="button"
-                        className="btn btn-medium modal-trigger col s2"
-                        data-target="modal2"
-                        onClick={() => setBanid(el._id)}
-                        disabled={el.role == "administrator" && true}
-                      >
-                        Ban
-                      </button>
-                    ) : (
-                      <button
-                        style={{
-                          width: "100px",
-                          height: "40px",
-                          borderRadius: "3px",
-                          letterSpacing: "1px",
-                          margin: "1rem",
-                          backgroundColor: "#ec4c4c",
-                        }}
-                        type="button"
-                        className="btn btn-medium modal-trigger  col s2"
-                        data-target="modal3"
-                        onClick={() => setBanid(el._id)}
-                        disabled={el.role == "administrator" && true}
-                      >
-                        Unban
-                      </button>
-                    )}
-
-                    {(!el.alerted_date ||
-                      new Date() > new Date(el.alerted_date)) && (
-                      <i
-                        className="fas fa-exclamation-circle btn-flat modal-trigger col s1"
-                        style={{
-                          color: "gray",
-                          
-                          right: "2%",
-                          fontSize: 30,
-                        }}
-                        type="button"
-                        data-target="modal4"
-                        onClick={() => setAlertid(el._id)}
-                        disabled={el.role == "administrator" && true}
-                      ></i>
-                    )}
-                    {el.alerted_date && new Date() < new Date(el.alerted_date) && (
-                      <i
-                        className="fas fa-exclamation-circle btn-flat modal-trigger col s1"
-                        style={{
-                          color: "red",
-                         
-                          right: "2%",
-                          fontSize: 30,
-                          // height: 70,
-                          // paddingTop: 20,
-                        }}
-                        type="button"
-                        data-target="modal5"
-                        onClick={() => setAlertid(el._id)}
-                        disabled={el.role == "administrator" && true}
-                      ></i>
-                    )}
-
-    
-                    
-                  </div>
-                </div>
-              );
-            })}
-      </div>:
-      (
-                      <div>
-                        <div className="row">
-                          <div
-                            className="col s12"
+                      <td className="center-align">
+                        <span
+                          className="card-image center-align"
+                          style={{
+                            height: "100%",
+                            width: "5%",
+                            placeItems: "center",
+                          }}
+                        >
+                          <img
+                            height="50px"
+                            className="circle center-align"
+                            src={el.avatar}
+                            style={{ borderRadius: "50%", width: "50px" }}
+                          />
+                        </span>
+                      </td>
+                      <td className="center-align">
+                        <span className="center-align">
+                          {el.fname + " "}
+                          {el.lname}
+                        </span>
+                      </td>
+                      <td className="center-align">
+                        <span>{el.email}</span>
+                      </td>
+                      <td className="center-align">
+                        <span>{el.role}</span>
+                      </td>
+                      <td className="center-align">
+                        <span>
+                          <i
+                            className=" tiny material-icons"
                             style={{
-                              textAlign: "center",
+                              transform: "translateY(2px)",
+                              marginRight: 5,
                             }}
                           >
-                            <UserListcard users={users} />
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                            history
+                          </i>
 
-<div id="modal1" className="modal">
-                      <div className="modal-content">
-                        <h4>User delete</h4>
-                        <p>Are you sure you want to delete this User?</p>
-                      </div>
-                      <div className="modal-footer">
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                          onClick={() => dispatch(deleteUser(deleteid))}
-                        >
-                          Agree
-                        </a>
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                        >
-                          Cancel
-                        </a>
-                      </div>
-                    </div>
+                          {historyuser(el.created_at)}
+                        </span>
+                      </td>
 
-                    <div id="modal2" className="modal">
-                      <div className="modal-content">
-                        <h4>User Ban</h4>
-                        <p>Are you sure you want to Ban this User?</p>
-                      </div>
-                      <div className="modal-footer">
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                          onClick={() => dispatch(banUser(banid))}
+                      <td className="center-align">
+                        <button
+                          style={{
+                            width: "100px",
+                            height: "40px",
+                            borderRadius: "3px",
+                            letterSpacing: "1.5px",
+                            margin: "1rem",
+                          }}
+                          type="button"
+                          className="btn btn-medium modal-trigger"
+                          data-target="modal1"
+                          onClick={() => setDeleteid(el._id)}
+                          disabled={
+                            (el.role == "administrator" && true) ||
+                            (auth.user.role == "moderator" && true)
+                          }
                         >
-                          Agree
-                        </a>
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                        >
-                          Cancel
-                        </a>
-                      </div>
-                    </div>
+                          Delete
+                        </button>
+                      </td>
+                      <td className="center-align">
+                        {el.banned === false ? (
+                          <button
+                            style={{
+                              width: "100px",
+                              height: "40px",
+                              borderRadius: "3px",
+                              letterSpacing: "1px",
+                              margin: "1rem",
+                            }}
+                            type="button"
+                            className="btn btn-medium modal-trigger"
+                            data-target="modal2"
+                            onClick={() => setBanid(el._id)}
+                            disabled={el.role == "administrator" && true}
+                          >
+                            Ban
+                          </button>
+                        ) : (
+                          <button
+                            style={{
+                              width: "100px",
+                              height: "40px",
+                              borderRadius: "3px",
+                              letterSpacing: "1px",
+                              margin: "1rem",
+                              backgroundColor: "#ec4c4c",
+                            }}
+                            type="button"
+                            className="btn btn-medium modal-trigger"
+                            data-target="modal3"
+                            onClick={() => setBanid(el._id)}
+                            disabled={el.role == "administrator" && true}
+                          >
+                            Unban
+                          </button>
+                        )}
+                      </td>
 
-                    <div id="modal3" className="modal">
-                      <div className="modal-content">
-                        <h4>User Unban</h4>
-                        <p>Are you sure you want to Unban this User?</p>
-                      </div>
-                      <div className="modal-footer">
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                          onClick={() => dispatch(unbanUser(banid))}
-                        >
-                          Agree
-                        </a>
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                        >
-                          Cancel
-                        </a>
-                      </div>
-                    </div>
+                      <td className="center-align">
+                        {(!el.alerted_date ||
+                          new Date() > new Date(el.alerted_date)) && (
+                          <i
+                            className="fas fa-exclamation-circle btn-flat modal-trigger"
+                            style={{
+                              color: "gray",
 
-                    <div id="modal4" className="modal">
-                      <div className="modal-content">
-                        <h4>User Alert</h4>
-                        <p>Are you sure you want to alert this User?</p>
-                      </div>
-                      <div className="modal-footer">
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                          onClick={() => dispatch(alertUser(alertid))}
-                        >
-                          Agree
-                        </a>
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                        >
-                          Cancel
-                        </a>
-                      </div>
-                    </div>
+                              right: "2%",
+                              fontSize: 30,
+                            }}
+                            type="button"
+                            data-target="modal4"
+                            onClick={() => setAlertid(el._id)}
+                            disabled={el.role == "administrator" && true}
+                          ></i>
+                        )}
+                        {el.alerted_date &&
+                          new Date() < new Date(el.alerted_date) && (
+                            <i
+                              className="fas fa-exclamation-circle btn-flat modal-trigger"
+                              style={{
+                                color: "red",
 
-                    <div id="modal5" className="modal">
-                      <div className="modal-content">
-                        <h4>User Alert</h4>
-                        <p>
-                          Are you sure you want to remove the alert from this
-                          User?
-                        </p>
-                      </div>
-                      <div className="modal-footer">
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                          onClick={() => dispatch(unalertUser(alertid))}
-                        >
-                          Agree
-                        </a>
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                        >
-                          Cancel
-                        </a>
-                      </div>
-                    </div>
-                                   
+                                right: "2%",
+                                fontSize: 30,
+                                // height: 70,
+                                // paddingTop: 20,
+                              }}
+                              type="button"
+                              data-target="modal5"
+                              onClick={() => setAlertid(el._id)}
+                              disabled={el.role == "administrator" && true}
+                            ></i>
+                          )}
+                      </td>
+                    </tr>
+                  );
+                })}
+          </tbody>
+        </table>
+      ) : (
+        <div>
+          <div className="row">
+            <div
+              className="col s12"
+              style={{
+                textAlign: "center",
+              }}
+            >
+              <UserListcard users={users} />
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div id="modal1" className="modal">
+        <div className="modal-content">
+          <h4>User delete</h4>
+          <p>Are you sure you want to delete this User?</p>
+        </div>
+        <div className="modal-footer">
+          <a
+            href="#!"
+            className="modal-close waves-effect waves-green btn-flat"
+            onClick={() => dispatch(deleteUser(deleteid))}
+          >
+            Agree
+          </a>
+          <a
+            href="#!"
+            className="modal-close waves-effect waves-green btn-flat"
+          >
+            Cancel
+          </a>
+        </div>
+      </div>
+
+      <div id="modal2" className="modal">
+        <div className="modal-content">
+          <h4>User Ban</h4>
+          <p>Are you sure you want to Ban this User?</p>
+        </div>
+        <div className="modal-footer">
+          <a
+            href="#!"
+            className="modal-close waves-effect waves-green btn-flat"
+            onClick={() => dispatch(banUser(banid))}
+          >
+            Agree
+          </a>
+          <a
+            href="#!"
+            className="modal-close waves-effect waves-green btn-flat"
+          >
+            Cancel
+          </a>
+        </div>
+      </div>
+
+      <div id="modal3" className="modal">
+        <div className="modal-content">
+          <h4>User Unban</h4>
+          <p>Are you sure you want to Unban this User?</p>
+        </div>
+        <div className="modal-footer">
+          <a
+            href="#!"
+            className="modal-close waves-effect waves-green btn-flat"
+            onClick={() => dispatch(unbanUser(banid))}
+          >
+            Agree
+          </a>
+          <a
+            href="#!"
+            className="modal-close waves-effect waves-green btn-flat"
+          >
+            Cancel
+          </a>
+        </div>
+      </div>
+
+      <div id="modal4" className="modal">
+        <div className="modal-content">
+          <h4>User Alert</h4>
+          <p>Are you sure you want to alert this User?</p>
+        </div>
+        <div className="modal-footer">
+          <a
+            href="#!"
+            className="modal-close waves-effect waves-green btn-flat"
+            onClick={() => dispatch(alertUser(alertid))}
+          >
+            Agree
+          </a>
+          <a
+            href="#!"
+            className="modal-close waves-effect waves-green btn-flat"
+          >
+            Cancel
+          </a>
+        </div>
+      </div>
+
+      <div id="modal5" className="modal">
+        <div className="modal-content">
+          <h4>User Alert</h4>
+          <p>Are you sure you want to remove the alert from this User?</p>
+        </div>
+        <div className="modal-footer">
+          <a
+            href="#!"
+            className="modal-close waves-effect waves-green btn-flat"
+            onClick={() => dispatch(unalertUser(alertid))}
+          >
+            Agree
+          </a>
+          <a
+            href="#!"
+            className="modal-close waves-effect waves-green btn-flat"
+          >
+            Cancel
+          </a>
+        </div>
+      </div>
     </div>
   );
 };
