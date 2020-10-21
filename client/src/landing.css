@@ -41,6 +41,8 @@
         outline: none;
         border: 0.5px solid  #e5e2e2;
         cursor: pointer;
+        height: 30px;
+        padding-bottom: 6px;
 }
 .account:hover{
     background-color:rgb(14, 161, 152); 

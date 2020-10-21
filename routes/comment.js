@@ -102,7 +102,31 @@ User.findByIdAndUpdate(req.body.user,{$push:{likes:req.params.commentId}},(err,u
 })
 
 
-//like
+//removelike
+
+router.put("/add/like/remove/:commentId",authMiddleware,(req,res)=>{
+ 
+  Comment.findOneAndUpdate({
+    _id:req.params.commentId
+  },{$set:{likes: req.body.likes}},
+  {
+    new:true,
+    runValidators:true
+  })
+  .then(com=>{
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });  
+User.findByIdAndUpdate(req.body.user,{$pull:{likes:req.params.commentId}},(err,user)=>{
+  if (err) throw err
+  console.log(user)
+})
+    res.status(202).send(com)
+  })
+  .catch(err=>res.status(404).send(err.message))
+})
+
+//dislike
 
 router.put("/add/dislike/:commentId",authMiddleware,(req,res)=>{
  
@@ -126,8 +150,29 @@ User.findByIdAndUpdate(req.body.user,{$push:{dislikes:req.params.commentId}},(er
   .catch(err=>res.status(404).send(err.message))
 })
 
+//removedisllike
 
-
+router.put("/add/dislike/remove/:commentId",authMiddleware,(req,res)=>{
+ 
+  Comment.findOneAndUpdate({
+    _id:req.params.commentId
+  },{$set:{dislikes: req.body.dislikes}},
+  {
+    new:true,
+    runValidators:true
+  })
+  .then(com=>{
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });  
+User.findByIdAndUpdate(req.body.user,{$pull:{dislikes:req.params.commentId}},(err,user)=>{
+  if (err) throw err
+  console.log(user)
+})
+    res.status(202).send(com)
+  })
+  .catch(err=>res.status(404).send(err.message))
+})
 //reply
 
 router.put("/add/reply/:commentId",authMiddleware,(req,res)=>{
@@ -147,6 +192,104 @@ router.put("/add/reply/:commentId",authMiddleware,(req,res)=>{
   .catch(err=>res.status(404).send(err.message))
 })
 
+//like reply
+router.put("/add/like/reply/:replyId",authMiddleware,(req,res)=>{
+  
+  Comment.findOneAndUpdate(
+    {_id:req.body.comment,"reply.id":req.params.replyId}
+  ,{$set:{"reply.$.likes":req.body.likes}},
+  {
+    new:true,
+    runValidators:true
+  })
+  .then(com=>{
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
+    User.findByIdAndUpdate(req.body.user,{$push:{likes:req.params.replyId}},(err,user)=>{
+      if (err) throw err
+      console.log(user)
+    })
+
+    res.status(202).send(com)
+  })
+  .catch(err=>res.status(404).send(err.message))
+})
+
+//removelike reply
+router.put("/add/like/reply/remove/:replyId",authMiddleware,(req,res)=>{
+  
+  Comment.findOneAndUpdate(
+    {_id:req.body.comment,"reply.id":req.params.replyId}
+  ,{$set:{"reply.$.likes":req.body.likes}},
+  {
+    new:true,
+    runValidators:true
+  })
+  .then(com=>{
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
+    User.findByIdAndUpdate(req.body.user,{$pull:{likes:req.params.replyId}},(err,user)=>{
+      if (err) throw err
+      console.log(user)
+    })
+
+    res.status(202).send(com)
+  })
+  .catch(err=>res.status(404).send(err.message))
+})
+
+
+//dislike reply
+router.put("/add/dislike/reply/:replyId",authMiddleware,(req,res)=>{
+  
+  Comment.findOneAndUpdate(
+    {_id:req.body.comment,"reply.id":req.params.replyId}
+  ,{$set:{"reply.$.dislikes":req.body.dislikes}},
+  {
+    new:true,
+    runValidators:true
+  })
+  .then(com=>{
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
+    User.findByIdAndUpdate(req.body.user,{$push:{dislikes:req.params.replyId}},(err,user)=>{
+      if (err) throw err
+      console.log(user)
+    })
+
+    res.status(202).send(com)
+  })
+  .catch(err=>res.status(404).send(err.message))
+})
+
+//removedislike reply
+router.put("/add/dislike/reply/remove/:replyId",authMiddleware,(req,res)=>{
+  
+  Comment.findOneAndUpdate(
+    {_id:req.body.comment,"reply.id":req.params.replyId}
+  ,{$set:{"reply.$.dislikes":req.body.dislikes}},
+  {
+    new:true,
+    runValidators:true
+  })
+  .then(com=>{
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
+    User.findByIdAndUpdate(req.body.user,{$pull:{dislikes:req.params.replyId}},(err,user)=>{
+      if (err) throw err
+      console.log(user)
+    })
+
+    res.status(202).send(com)
+  })
+  .catch(err=>res.status(404).send(err.message))
+})
+
+
  //Edit reply
 //  router.put("/edit/reply/:commentId",authMiddleware,(req,res)=>{
 //   Comment.findOne({
@@ -164,6 +307,7 @@ router.put("/add/reply/:commentId",authMiddleware,(req,res)=>{
 //   })
 //   .catch(err=>res.status(404).send(err.message))
 // })
+
 router.put("/edit/reply/:commentId",authMiddleware,(req,res)=>{
   Comment.findOneAndUpdate(
     {_id:req.params.commentId,"reply.id":req.body.id_reply}

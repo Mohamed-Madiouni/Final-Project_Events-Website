@@ -102,6 +102,21 @@ export const addComment =(content,eventId,userId)=> (dispatch)=>{
   }));
     
   };
+  //remove like
+  export const removelikecomment =(coment_id,nb_likes,userid)=> (dispatch)=>{
+    setAuthToken(localStorage.token)
+    axios
+    .put(`/comment/add/like/remove/${coment_id}`,{likes:nb_likes,user:userid})
+    .then((res) => {
+      dispatch(getComment())
+      dispatch(getCurrentUser())
+   })
+   .catch((err) => dispatch({
+    type: GET_ERRORS,
+    payload: err.response.data,
+  }));
+    
+  };
   //dislike
   export const dislikecomment =(coment_id,nb_likes,userid)=> (dispatch)=>{
     setAuthToken(localStorage.token)
@@ -118,6 +133,21 @@ export const addComment =(content,eventId,userId)=> (dispatch)=>{
     
   };
 
+  //remove dislike
+  export const removedislikecomment =(coment_id,nb_likes,userid)=> (dispatch)=>{
+    setAuthToken(localStorage.token)
+    axios
+    .put(`/comment/add/dislike/remove/${coment_id}`,{dislikes:nb_likes,user:userid})
+    .then((res) => {
+      dispatch(getComment())
+      dispatch(getCurrentUser())
+   })
+   .catch((err) => dispatch({
+    type: GET_ERRORS,
+    payload: err.response.data,
+  }));
+    
+  };
   
   //reply
 
@@ -125,7 +155,7 @@ export const addComment =(content,eventId,userId)=> (dispatch)=>{
   export const addreply =(content,coment_id,userId,idreply)=> (dispatch)=>{
     setAuthToken(localStorage.token)
     axios
-    .put(`/comment/add/reply/${coment_id}`,{content:content,postedBy:userId,created_at:new Date(),id:idreply})
+    .put(`/comment/add/reply/${coment_id}`,{content:content,postedBy:userId,created_at:new Date(),id:idreply,likes:0,dislikes:0})
     .then((res) => {
       
       dispatch({
@@ -140,6 +170,7 @@ export const addComment =(content,eventId,userId)=> (dispatch)=>{
   }));
     
   };
+  
 
   // // get reply
   // export const getReply = () => (dispatch) => {
@@ -164,7 +195,69 @@ export const addComment =(content,eventId,userId)=> (dispatch)=>{
   //   }));
   //   }
   
+  //likereply
+  export const likereply =(reply_id,nb_likes,userid,comment_id)=> (dispatch)=>{
+    setAuthToken(localStorage.token)
+    axios
+    .put(`/comment/add/like/reply/${reply_id}`,{likes:nb_likes,user:userid,comment:comment_id})
+    .then((res) => {
+      dispatch(getComment())
+      dispatch(getCurrentUser())
+   })
+   .catch((err) => dispatch({
+    type: GET_ERRORS,
+    payload: err.response.data,
+  }));
+    
+  };
+//remove likereply
+export const removelikereply =(reply_id,nb_likes,userid,comment_id)=> (dispatch)=>{
+  setAuthToken(localStorage.token)
+  axios
+  .put(`/comment/add/like/reply/remove/${reply_id}`,{likes:nb_likes,user:userid,comment:comment_id})
+  .then((res) => {
+    dispatch(getComment())
+    dispatch(getCurrentUser())
+ })
+ .catch((err) => dispatch({
+  type: GET_ERRORS,
+  payload: err.response.data,
+}));
   
+};
+
+//dislikereply
+export const dislikereply =(reply_id,nb_likes,userid,comment_id)=> (dispatch)=>{
+  setAuthToken(localStorage.token)
+  axios
+  .put(`/comment/add/dislike/reply/${reply_id}`,{dislikes:nb_likes,user:userid,comment:comment_id})
+  .then((res) => {
+    dispatch(getComment())
+    dispatch(getCurrentUser())
+ })
+ .catch((err) => dispatch({
+  type: GET_ERRORS,
+  payload: err.response.data,
+}));
+  
+};
+
+//remove dislikereply
+export const removedislikereply =(reply_id,nb_likes,userid,comment_id)=> (dispatch)=>{
+  setAuthToken(localStorage.token)
+  axios
+  .put(`/comment/add/dislike/reply/remove/${reply_id}`,{dislikes:nb_likes,user:userid,comment:comment_id})
+  .then((res) => {
+    dispatch(getComment())
+    dispatch(getCurrentUser())
+ })
+ .catch((err) => dispatch({
+  type: GET_ERRORS,
+  payload: err.response.data,
+}));
+  
+};
+
   //edit reply
   export const editReply = (idReply, updatedComment,idComment) => (dispatch) => {
     setAuthToken(localStorage.token)

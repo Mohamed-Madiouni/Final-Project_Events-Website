@@ -7,7 +7,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import { useHistory,Link } from 'react-router-dom';
 import { getCurrentUser } from '../actions/authaction';
 import {makeComment, fullEvent, openEvent, } from "../actions/evntAction";
-import {getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply, likecomment,dislikecomment} from "../actions/comntaction"
+import {getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply, likecomment,dislikecomment, removelikecomment, removedislikecomment, likereply, removelikereply,dislikereply, removedislikereply} from "../actions/comntaction"
 import {followEvent, getEvent, unfollowEvent,endEvent, closeEvent} from "../actions/evntAction";
 
 import get_month from "../outils/get_month"
@@ -67,7 +67,7 @@ useEffect(()=>{
 useEffect(()=>{
    M.updateTextFields()
    if(edit&&reply)
-   M.textareaAutoResize(document.getElementsByName("textarea"));
+   M.textareaAutoResize(document.querySelector(".materialize-textarea"));
    if(errors.success)
    setEdit("")
    if(errors.added)
@@ -215,7 +215,7 @@ return(
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
        <div style={{display:"flex"}}>
        <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
-<p>{historyevent(el.created_at)}</p>
+<p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
       </div>
      {el.postedBy==auth.user._id&&<div id="editdelete">
@@ -271,18 +271,32 @@ setTextedit("")
             
         
          </form>}
-         <i className="far fa-thumbs-up" style={{cursor:"pointer"}} onClick={()=>
+         <div style={{marginTop:5,display:"flex",alignItems:"center"}} id="editdelete">
+         <i className="far fa-thumbs-up" title="like" style={{cursor:"pointer",color:auth.isAuthenticated&&auth.user.likes.includes(el._id)&&"#2e8fa5"}} onClick={()=>
           {
             if(!auth.user.likes.includes(el._id)&&auth.isAuthenticated)
-            dispatch(likecomment(el._id,Number(el.likes)+1,auth.user._id))}}></i>
-        {el.likes}
-         <i className="far fa-thumbs-down fa-flip-horizontal" onClick={()=>
+            dispatch(likecomment(el._id,Number(el.likes)+1,auth.user._id))
+            else
+            dispatch(removelikecomment(el._id,Number(el.likes)-1,auth.user._id))
+            if(!auth.isAuthenticated)
+            history.push("/login")
+            }}></i>
+        <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.likes==0?"":el.likes}</p>
+         <i className="far fa-thumbs-down fa-flip-horizontal" title="dislike" style={{color:auth.isAuthenticated&&auth.user.dislikes.includes(el._id)&&"#2e8fa5"}} onClick={()=>
           {
             if(!auth.user.dislikes.includes(el._id)&&auth.isAuthenticated)
-            dispatch(dislikecomment(el._id,Number(el.dislikes)+1,auth.user._id))}}></i>
-            {el.dislikes}
-      {(el.postedBy!=auth.user._id)&&auth.isAuthenticated&&<button style={{display:"block"}} onClick={()=>{ if(!replycount) setReplayCount(!replycount); setReply(""); setReplyId(el._id)}}>reply</button>}
-      {el.reply.length?<div style={{display:"flex",cursor:"pointer",color:"blue"}} onClick={()=>{
+            dispatch(dislikecomment(el._id,Number(el.dislikes)+1,auth.user._id))
+            else
+            dispatch(removedislikecomment(el._id,Number(el.dislikes)-1,auth.user._id))
+            if(!auth.isAuthenticated)
+            history.push("/login")
+            }}></i>
+           <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.dislikes==0?"":el.dislikes}</p> 
+           {(el.postedBy!=auth.user._id)&&auth.isAuthenticated&&<i title="reply" className="material-icons" onClick={()=>{ if(!replycount) setReplayCount(!replycount); setReply(""); setReplyId(el._id)}}>reply</i>}
+            
+            </div>
+      
+      {el.reply.length?<div style={{display:"flex",cursor:"pointer",marginTop:3,color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
              
               setReplayCount(!replycount)
               setReply("")
@@ -293,13 +307,13 @@ setTextedit("")
                 >
                  {!(replycount&&el._id==replyid)?'expand_more':'expand_less'}
                 </i>
-            <p  >{!(replycount&&el._id==replyid)? `Show ${el.reply.length} reaction`:`hide ${el.reply.length} reaction`}</p>
+            <p  >{!(replycount&&el._id==replyid)? `Show the ${el.reply.length} reaction`:`hide ${el.reply.length} reaction`}</p>
           </div>:""}
   {replycount&&el._id==replyid&&
   
   (
     <>
-    {el.reply.slice(0).reverse().map((el,i)=>{
+    {el.reply.map((el,i)=>{
     return (
     <ul className="collection" key={i} style={{overflow:"initial",marginLeft:15}}>
     <li className="collection-item avatar">
@@ -308,7 +322,7 @@ setTextedit("")
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
        <div style={{display:"flex"}}>
        <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
-<p>{historyevent(el.created_at)}</p>
+<p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
       </div>
      {el.postedBy==auth.user._id&&<div id="editdelete">
@@ -364,10 +378,35 @@ setTextedit("")
             
         
          </form>}
+         <div style={{marginTop:5,display:"flex",alignItems:"center"}} id="editdelete">
+         <i className="far fa-thumbs-up" title="like" style={{cursor:"pointer",color:auth.isAuthenticated&&auth.user.likes.includes(el.id)&&"#2e8fa5"}} onClick={()=>
+          {
+            if(!auth.user.likes.includes(el.id)&&auth.isAuthenticated)
+            dispatch(likereply(el.id,Number(el.likes)+1,auth.user._id,replyid))
+            else
+            dispatch(removelikereply(el.id,Number(el.likes)-1,auth.user._id,replyid))
+            if(!auth.isAuthenticated)
+            history.push("/login")
+            }}></i>
+        <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.likes==0?"":el.likes}</p>
+         <i className="far fa-thumbs-down fa-flip-horizontal" title="dislike" style={{color:auth.isAuthenticated&&auth.user.dislikes.includes(el.id)&&"#2e8fa5"}} onClick={()=>
+          {
+            if(!auth.user.dislikes.includes(el.id)&&auth.isAuthenticated)
+            dispatch(dislikereply(el.id,Number(el.dislikes)+1,auth.user._id,replyid))
+            else
+            dispatch(removedislikereply(el.id,Number(el.dislikes)-1,auth.user._id,replyid))
+            if(!auth.isAuthenticated)
+            history.push("/login")
+            }}></i>
+           <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.dislikes==0?"":el.dislikes}</p> 
+           {(el.postedBy!=auth.user._id)&&auth.isAuthenticated&&<i title="reply" className="material-icons" onClick={()=>{ 
+             setReply("@"+users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname+" ")
+             document.getElementById('replyinp').focus()
+             }}>reply</i>}
+            
+            </div>
         
-      {(el.postedBy!=auth.user._id)&&auth.isAuthenticated&&<button onClick={()=>
-        setReply(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname+" ")
-        }>reply</button>}
+      
     
     </li>
    
@@ -391,6 +430,7 @@ setTextedit("")
              style={{paddingRight:"30px"}}
              autoFocus
              placeholder="Add a public comment"
+             id="replyinp"
              > 
              
              </textarea> 
@@ -431,7 +471,7 @@ setTextedit("")
 )
 
           })}
-          {((count+1)*10)<comments.comments.filter(elm=>elm.event==match.params.event_id).length&&<div style={{display:"flex",cursor:"pointer",color:"blue"}} onClick={()=>{
+          {((count+1)*10)<comments.comments.filter(elm=>elm.event==match.params.event_id).length&&<div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
               setCount(count+1)
               dispatch(getComment())
               }}>

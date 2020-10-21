@@ -127,7 +127,7 @@ useEffect(()=>{
     return (
         <>        
         { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
-        <i class="fas fa-exclamation-circle" style={{color:"red",fontSize:15}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban your account 
+        <i className="fas fa-exclamation-circle" style={{color:"red",fontSize:15,marginTop:5}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban your account 
         </i>
         }
         <div className='row container' ><h5><b>Quick search</b></h5></div>
