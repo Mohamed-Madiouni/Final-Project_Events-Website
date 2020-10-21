@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
 // import data from 'emoji-mart/data/google.json'
@@ -24,6 +24,7 @@ import { logoutUser } from "../actions/authaction";
 import {v4 as uuidv4} from "uuid"
 import Pusher from 'pusher-js'
 import date_youtube from '../outils/dateyoutube';
+import StarRatingComponent from 'react-star-rating-component';
 
 
 function Comments({match, history}) {
@@ -46,6 +47,10 @@ const [emojreply,setEmojReply]=useState(false)
 const[replyid,setReplyId]=useState("")
 const [deletecomid,setDeletecomid]=useState("")
 const [deletereplyid,setDeletereplyid]=useState("")
+const[actvlike,setactvlike]=useState(true)
+const [countevent,setCountevent] = useState(0)
+const[resiz,setresiz]=useState(false)
+const [rating,setRating]=useState("")
     useEffect(()=>{
         dispatch(getEvent())
         dispatch(getComment())
@@ -56,10 +61,30 @@ const [deletereplyid,setDeletereplyid]=useState("")
      
         // M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'),{closeOnClick:false})
         M.Modal.init(document.querySelectorAll(".modal"))
-    
+        M.Collapsible.init(document.querySelectorAll('.collapsible'))
         
     },[])
-   
+
+useEffect(()=>{
+  window.addEventListener("resize",()=>{
+    if(window.innerWidth<992)
+    setresiz(true)
+    else
+    setresiz(false)
+  })
+})
+useEffect(()=>{
+ 
+    if(window.innerWidth<=992)
+    setresiz(true)
+  
+},[])
+
+
+   useEffect(()=>{
+     setactvlike(true)
+   },[auth])
+
 useEffect(()=>{
   M.Materialbox.init(document.querySelectorAll('.materialboxed'))
 },[load])
@@ -67,7 +92,7 @@ useEffect(()=>{
 useEffect(()=>{
    M.updateTextFields()
    if(edit&&reply)
-   M.textareaAutoResize(document.querySelector(".materialize-textarea"));
+  //  M.textareaAutoResize(document.querySelector(".materialize-textarea"));
    if(errors.success)
    setEdit("")
    if(errors.added)
@@ -126,12 +151,16 @@ useEffect(()=>{
     dispatch(editReply(edit,textedit,replyid))
   }
 
+  function onStarClick(nextValue, prevValue, name) {
+    setRating(nextValue);
+  }
+ 
 
     return (
       <>
         {load&&allevents.length!=0&&users.length!=0&&<>
         <Navbar/>
-        <div className="row" style={{marginTop:20}} onClick={(e)=>{
+        <div className="row" style={{marginTop:10}} onClick={(e)=>{
          emoj&&!document.querySelector(".emoji-mart").contains(e.target)&&setEmoj(!emoj)
          emojedt&&!document.querySelector(".emoji-mart").contains(e.target)&&setEmojedt(!emojedt)
          emojreply&&!document.querySelector(".emoji-mart").contains(e.target)&&setEmojReply(!emojreply)
@@ -139,10 +168,26 @@ useEffect(()=>{
             <div className='col l8 s12 '>
      <div className="comment_sec">
          <div className="com_picture" >
-           <img className="materialboxed" src={allevents.find(el=>el._id==match.params.event_id).image} width="100%" height="430px" />
+           
+           <img className="materialboxed" src={allevents.find(el=>el._id==match.params.event_id).image} width="100%" height="440px" />
+           <div className="date_com right">
+                      <div className="day_com">{allevents.find(el=>el._id==match.params.event_id).date.split("-")[2]}</div>
+                      <div className="month_com">
+                        {get_month(Number(allevents.find(el=>el._id==match.params.event_id).date.split("-")[1]))}
+                      </div>
+                    </div>
            <span className="title"><b>{allevents.find(el=>el._id==match.params.event_id).title}</b></span>
            <div style={{display:"flex"}}>
-             <p>rating</p>
+             <p style={{fontSize:30}}>
+             <StarRatingComponent 
+          name="rate1" 
+          starCount={10}
+          value={rating}
+          onStarHover={onStarClick}
+          onStarClick={onStarClick}
+          emptyStarColor="white"
+        />
+             </p>
     <p>{date_youtube(allevents.find(el=>el._id==match.params.event_id).created_at)}</p> 
     </div>
            </div> 
@@ -162,6 +207,52 @@ useEffect(()=>{
     
   </ul>
     </div>
+{resiz&&<ul className="collapsible colapse">
+    <li >
+    <div className="collapsible-header" style={{fontWeight:600}}> Show events<i className="material-icons right chevron">expand_more </i></div>
+    <div className="collapsible-body" >
+      <div style={{display:"flex",flexWrap:"wrap",alignItems:"center",justifyContent:"space-around"}}>
+    {allevents.filter(el=>el._id!=match.params.event_id).slice(0).sort(function(a, b) {
+  return new Date(a.date) - new Date(b.date);
+}).reverse().slice(0,6+countevent*6).map((el,i)=>{
+return(
+<div key={i} style={{position:"relative"}}>
+<img  src={el.image} width="250px" height="250px" alt="event image" style={{cursor:"pointer"}} onClick={()=>{
+  history.push(`/events/${el._id}`)
+  setCountevent(0)
+}}/>
+ <div className="date_com right">
+ <div className="day_com">{el.date.split("-")[2]}</div>
+ <div className="month_com">
+   {get_month(Number(el.date.split("-")[1]))}
+ </div>
+</div>
+</div>
+
+)
+
+
+      })}</div>
+       {((countevent+1)*6)<allevents.filter(el=>el._id!=match.params.event_id).length&&<div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
+              setCountevent(countevent+1)
+              
+              }}>
+          <i
+                  className="material-icons"
+                >
+                 expand_more
+                </i>
+            <p  >Show more events</p>
+          </div>}
+          
+          </div>
+    </li>
+    </ul>
+
+
+}
+
+
     <p className="comment" >
       {comments.comments&&comments.comments.filter(elm=>elm.event==match.params.event_id).length+" "}
     comment{comments.comments&&comments.comments.filter(elm=>elm.event==match.params.event_id).length==0?"":"s"}
@@ -179,7 +270,7 @@ useEffect(()=>{
                    > 
                    </textarea> 
         <i className="far fa-smile"  style={{position:"absolute",bottom:12,right:10,cursor:"pointer"}} onClick={()=>setEmoj(!emoj)}></i>
-         {emoj&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-366px",right:5,zIndex:9999999999}} id="emoj_cont">
+         {emoj&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-368px",right:5,zIndex:9999999999}} id="emoj_cont">
             
             <Picker
          set='apple'
@@ -237,7 +328,7 @@ setTextedit("")
        <form>
       
          
-       <div style={{width:"100%"}}>
+       <div style={{width:"100%",position:"relative"}}>
        
          <textarea value={textedit} 
         onChange={(e)=>setTextedit(e.target.value)}
@@ -249,8 +340,8 @@ setTextedit("")
                   > 
                   </textarea> 
                   
-       <i className="far fa-smile"  style={{position:"absolute",bottom:50,right:25,cursor:"pointer",color :"gray"}} onClick={()=>setEmojedt(!emojedt)}></i>
-         {emojedt&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-330px",right:5,zIndex:9999999999}} id="emoj_cont">
+       <i className="far fa-smile"  style={{position:"absolute",bottom:20,right:5,cursor:"pointer",color :"gray"}} onClick={()=>setEmojedt(!emojedt)}></i>
+         {emojedt&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-360px",right:0,zIndex:9999999999}} id="emoj_cont">
            
            <Picker
         set='apple'
@@ -273,23 +364,30 @@ setTextedit("")
          </form>}
          <div style={{marginTop:5,display:"flex",alignItems:"center"}} id="editdelete">
          <i className="far fa-thumbs-up" title="like" style={{cursor:"pointer",color:auth.isAuthenticated&&auth.user.likes.includes(el._id)&&"#2e8fa5"}} onClick={()=>
-          {
-            if(!auth.user.likes.includes(el._id)&&auth.isAuthenticated)
-            dispatch(likecomment(el._id,Number(el.likes)+1,auth.user._id))
+          {if(actvlike)
+            {if(auth.isAuthenticated&&!auth.user.likes.includes(el._id))
+              
+            {setactvlike(false)
+              dispatch(likecomment(el._id,Number(el.likes)+1,auth.user._id))
+            auth.user.dislikes.includes(el._id)&& dispatch(removedislikecomment(el._id,Number(el.dislikes)-1,auth.user._id))}
             else
-            dispatch(removelikecomment(el._id,Number(el.likes)-1,auth.user._id))
+            {setactvlike(false)
+            dispatch(removelikecomment(el._id,Number(el.likes)-1,auth.user._id))}
             if(!auth.isAuthenticated)
-            history.push("/login")
+            history.push("/login")}
             }}></i>
         <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.likes==0?"":el.likes}</p>
          <i className="far fa-thumbs-down fa-flip-horizontal" title="dislike" style={{color:auth.isAuthenticated&&auth.user.dislikes.includes(el._id)&&"#2e8fa5"}} onClick={()=>
-          {
-            if(!auth.user.dislikes.includes(el._id)&&auth.isAuthenticated)
-            dispatch(dislikecomment(el._id,Number(el.dislikes)+1,auth.user._id))
+          {if(actvlike)
+            {if(auth.isAuthenticated&&!auth.user.dislikes.includes(el._id))
+            {setactvlike(false)
+              dispatch(dislikecomment(el._id,Number(el.dislikes)+1,auth.user._id))
+            auth.user.likes.includes(el._id)&& dispatch(removelikecomment(el._id,Number(el.likes)-1,auth.user._id))}
             else
-            dispatch(removedislikecomment(el._id,Number(el.dislikes)-1,auth.user._id))
+           { setactvlike(false)
+            dispatch(removedislikecomment(el._id,Number(el.dislikes)-1,auth.user._id))}
             if(!auth.isAuthenticated)
-            history.push("/login")
+            history.push("/login")}
             }}></i>
            <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.dislikes==0?"":el.dislikes}</p> 
            {(el.postedBy!=auth.user._id)&&auth.isAuthenticated&&<i title="reply" className="material-icons" onClick={()=>{ if(!replycount) setReplayCount(!replycount); setReply(""); setReplyId(el._id)}}>reply</i>}
@@ -297,10 +395,15 @@ setTextedit("")
             </div>
       
       {el.reply.length?<div style={{display:"flex",cursor:"pointer",marginTop:3,color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
-             
-              setReplayCount(!replycount)
+             if(replycount)
+            { setReplayCount(replycount)
+             setReply("")
+             setReplyId(el._id)}
+
+else
+              {setReplayCount(!replycount)
               setReply("")
-              setReplyId(el._id)
+              setReplyId(el._id)}
               }}>
           <i
                   className="material-icons"
@@ -344,7 +447,7 @@ setTextedit("")
        <form>
       
          
-       <div style={{width:"100%"}}>
+       <div style={{width:"100%",position:"relative"}}>
        
          <textarea value={textedit} 
         onChange={(e)=>setTextedit(e.target.value)}
@@ -356,8 +459,8 @@ setTextedit("")
                   > 
                   </textarea> 
                   
-       <i className="far fa-smile"  style={{position:"absolute",bottom:30,right:25,cursor:"pointer"}} onClick={()=>setEmojedt(!emojedt)}></i>
-         {emojedt&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-352px",right:5,zIndex:9999999999}} id="emoj_cont">
+       <i className="far fa-smile"  style={{position:"absolute",bottom:20,right:5,cursor:"pointer"}} onClick={()=>setEmojedt(!emojedt)}></i>
+         {emojedt&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-360px",right:0,zIndex:9999999999}} id="emoj_cont">
            
            <Picker
         set='apple'
@@ -380,23 +483,29 @@ setTextedit("")
          </form>}
          <div style={{marginTop:5,display:"flex",alignItems:"center"}} id="editdelete">
          <i className="far fa-thumbs-up" title="like" style={{cursor:"pointer",color:auth.isAuthenticated&&auth.user.likes.includes(el.id)&&"#2e8fa5"}} onClick={()=>
-          {
-            if(!auth.user.likes.includes(el.id)&&auth.isAuthenticated)
-            dispatch(likereply(el.id,Number(el.likes)+1,auth.user._id,replyid))
+          {if(actvlike)
+            {if(auth.isAuthenticated&&!auth.user.likes.includes(el.id))
+            {setactvlike(false)
+              dispatch(likereply(el.id,Number(el.likes)+1,auth.user._id,replyid))
+            auth.user.dislikes.includes(el.id)&&dispatch(removedislikereply(el.id,Number(el.dislikes)-1,auth.user._id,replyid))}
             else
-            dispatch(removelikereply(el.id,Number(el.likes)-1,auth.user._id,replyid))
+            {setactvlike(false)
+            dispatch(removelikereply(el.id,Number(el.likes)-1,auth.user._id,replyid))}
             if(!auth.isAuthenticated)
-            history.push("/login")
+            history.push("/login")}
             }}></i>
         <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.likes==0?"":el.likes}</p>
          <i className="far fa-thumbs-down fa-flip-horizontal" title="dislike" style={{color:auth.isAuthenticated&&auth.user.dislikes.includes(el.id)&&"#2e8fa5"}} onClick={()=>
-          {
-            if(!auth.user.dislikes.includes(el.id)&&auth.isAuthenticated)
-            dispatch(dislikereply(el.id,Number(el.dislikes)+1,auth.user._id,replyid))
+          {if(actvlike)
+           { if(auth.isAuthenticated&&!auth.user.dislikes.includes(el.id))
+            {setactvlike(false)
+              dispatch(dislikereply(el.id,Number(el.dislikes)+1,auth.user._id,replyid))
+            auth.user.likes.includes(el.id)&& dispatch(removelikereply(el.id,Number(el.likes)-1,auth.user._id,replyid))}
             else
-            dispatch(removedislikereply(el.id,Number(el.dislikes)-1,auth.user._id,replyid))
+            {setactvlike(false)
+            dispatch(removedislikereply(el.id,Number(el.dislikes)-1,auth.user._id,replyid))}
             if(!auth.isAuthenticated)
-            history.push("/login")
+            history.push("/login")}
             }}></i>
            <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.dislikes==0?"":el.dislikes}</p> 
            {(el.postedBy!=auth.user._id)&&auth.isAuthenticated&&<i title="reply" className="material-icons" onClick={()=>{ 
@@ -473,7 +582,7 @@ setTextedit("")
           })}
           {((count+1)*10)<comments.comments.filter(elm=>elm.event==match.params.event_id).length&&<div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
               setCount(count+1)
-              dispatch(getComment())
+              
               }}>
           <i
                   className="material-icons"
@@ -487,7 +596,41 @@ setTextedit("")
    
      
     </div>
-    <div className="col l4 S12">hello</div>
+   {!resiz&& <div className="col l4  scroll_event">
+
+      {allevents.filter(el=>el._id!=match.params.event_id).slice(0).sort(function(a, b) {
+  return new Date(a.date) - new Date(b.date);
+}).reverse().slice(0,10+countevent*10).map((el,i)=>{
+return(
+<div key={i} style={{position:"relative"}}>
+<img  src={el.image} width="100%" height="220px" alt="event image" style={{cursor:"pointer"}} onClick={()=>{
+  history.push(`/events/${el._id}`)
+  setCountevent(0)
+}}/>
+ <div className="date_com right">
+ <div className="day_com">{el.date.split("-")[2]}</div>
+ <div className="month_com">
+   {get_month(Number(el.date.split("-")[1]))}
+ </div>
+</div>
+</div>
+
+)
+
+
+      })}
+       {((countevent+1)*10)<allevents.filter(el=>el._id!=match.params.event_id).length&&<div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
+              setCountevent(countevent+1)
+              
+              }}>
+          <i
+                  className="material-icons"
+                >
+                 expand_more
+                </i>
+            <p  >Show more events</p>
+          </div>}
+    </div>}
         </div> 
        
        

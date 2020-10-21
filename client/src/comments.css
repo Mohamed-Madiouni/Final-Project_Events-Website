@@ -3,10 +3,10 @@
    padding: 0px 0px 0px 15px;
 
 }
-/* .com_picture{
-    border-radius: 10px;
+.com_picture{
+   position: relative;
     
-} */
+}
 .com_picture div{
     margin:10px 0px 10px 0px;
     
@@ -135,3 +135,40 @@ nav{
 .emoji-mart-search input:focus{
     box-shadow: none !important;
 }
+.scroll_event{
+    margin-top:10px
+}
+.date_com {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 1;
+    background: #2e8fa5;
+    width: 45px;
+    height: 45px;
+    padding: 12.5px 0;
+    border-radius: 100%;
+    color: white;
+    font-weight: 700;
+    text-align: center;
+    line-height: 15px;
+    margin: 0px !important;
+  }
+    .day_com {
+      font-size: 13px;
+      transform: translateY(-6px);
+      margin: 0px !important;
+    }
+    .month_com {
+      font-size: 11px;
+      text-transform: uppercase;
+      transform: translateY(-6px);
+      margin: 0px !important;
+    }
+
+    .colapse{
+        background:white
+    }
+    .colapse>.active .collapsible-header .chevron{
+        transform: rotate(180deg);
+    }
