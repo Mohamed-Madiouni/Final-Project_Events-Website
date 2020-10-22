@@ -74,10 +74,10 @@
 
     .date {
       position: absolute;
-      top: 18px;
-      right: 18px;
+      top: 12px;
+      right: 12px;
       z-index: 1;
-      background: red;
+      background:#2e8fa5;
       width: 55px;
       height: 55px;
       padding: 12.5px 0;

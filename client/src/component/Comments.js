@@ -117,7 +117,8 @@ else{
 useEffect(()=>{
   M.Materialbox.init(document.querySelectorAll('.materialboxed'))
    M.Collapsible.init(document.querySelectorAll('.collapsible'))
-},[allevents,match.params.event_id,resiz])
+},[match.params.event_id,resiz,allevents])
+
 
 useEffect(()=>{
    M.updateTextFields()

@@ -171,7 +171,7 @@ const UserList = () => {
       {resiz && (
         <div className="col l2 s12">
           <div>
-            <div class="switch">
+            <div className="switch">
               <label>
                 Card
                 <input type="checkbox" onClick={toggle} />
@@ -202,8 +202,9 @@ const UserList = () => {
             <tbody>
               {users &&
                 users
-                  .slice(0, 10 + countuser * 10)
+                  .slice(0)
                   .reverse()
+                  .slice(0, 10 + countuser * 10)
                   .map((el) => {
                     return (
                       <tr
@@ -218,8 +219,7 @@ const UserList = () => {
                           //       : el.banned == true &&
                           //         "inset 0px 0px 13px 10px #ed1717",
                           filter:
-                            el.alerted_date &&
-                            new Date() < new Date(el.alerted_date) &&
+                           
                             el.banned == false
                               ? "initial"
                               : el.banned == true && "grayscale(150%)",
@@ -285,8 +285,8 @@ const UserList = () => {
                             data-target="modal1"
                             onClick={() => setDeleteid(el._id)}
                             disabled={
-                              (el.role == "administrator" && true) ||
-                              (auth.user.role == "moderator" && true)
+                              (el.role == "administrator" && true)
+                              
                             }
                           >
                             Delete
@@ -306,7 +306,7 @@ const UserList = () => {
                               className="btn btn-medium modal-trigger"
                               data-target="modal2"
                               onClick={() => setBanid(el._id)}
-                              disabled={el.role == "administrator" && true}
+                              disabled={el.role == "administrator" ||!el.alerted_date}
                             >
                               Ban
                             </button>
@@ -333,13 +333,12 @@ const UserList = () => {
                         </td>
 
                         <td className="center-align" style={{ padding: 0 }}>
-                          {(!el.alerted_date ||
+                          {!el.banned&&(!el.alerted_date ||
                             new Date() > new Date(el.alerted_date)) && (
                             <i
                               className="fas fa-exclamation-circle btn-flat modal-trigger"
                               style={{
-                                color: "gray",
-
+                                color: el.banned?"white":"gray",
                                 right: "2%",
                                 fontSize: 30,
                               }}
@@ -349,7 +348,7 @@ const UserList = () => {
                               disabled={el.role == "administrator" && true}
                             ></i>
                           )}
-                          {el.alerted_date &&
+                          {!el.banned&&el.alerted_date &&
                             new Date() < new Date(el.alerted_date) && (
                               <i
                                 className="fas fa-exclamation-circle btn-flat modal-trigger"
@@ -373,7 +372,7 @@ const UserList = () => {
             </tbody>
           </table>
           <p>
-            {(countuser + 1) * 10 < allusers.filter((el) => el._id).length && (
+            {(countuser + 1) * 10 < users.length && (
               <div
                 style={{
                   display: "flex",

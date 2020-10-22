@@ -152,7 +152,7 @@ useEffect(()=>{
             <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>}
              <div className="row">
            
- {events&&events.slice(0, 12 + countevent * 12).reverse().filter(el=>el.state!="Invalid").map(el=>{
+ {events&&events.slice(0).reverse().slice(0, 12 + countevent * 12).filter(el=>el.state!="Invalid").map(el=>{
      return (<div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
        <div
                   className="card small sticky-action"
@@ -228,7 +228,7 @@ useEffect(()=>{
                     </div>
                     {el.tags.length!=0&&<div className="slider right tag_slide_event">
     <ul className="slides">
-              {el.tags.map((el,i)=><li key={i}> <p>{el}</p> </li>)}
+              {el.tags.map((el,i)=><li key={i}> <p className='chip' style={{padding:4,display:"flex",alignItems:"center"}}>{el}</p> </li>)}
     </ul>
   </div>}
                   </div>
@@ -402,7 +402,7 @@ useEffect(()=>{
  
  )}
             </div>
-{(countevent + 1) * 12 < allevents.filter((el) => el._id).length && (
+{(countevent + 1) * 12 < events.length && (
         <div
           style={{
             display: "flex",
@@ -426,7 +426,7 @@ useEffect(()=>{
 <p>You are about to subscribe to {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )} event, Please
 note that: </p><br/>  
 <ol><li>You can't subscribe to the same event after <b>annulation</b>. </li>
-<li>You are responsible for all comments you send, in case of non respect your account will be <b>banned</b> for one <b>week</b>.</li>
+<li>You are responsible for all comments you send, in case of non respect your account will be <b>alerted</b> for one <b>week</b> and you risk to get banned from the admin.</li>
 </ol></>:<><h4>Event annulation</h4>
             <p>Are you sure you want to cancel the {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )}  event? 
             {/* {participate&&auth.user.banned_date&&((new Date(allevents.find(el=>el._id==participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"} */}

@@ -228,8 +228,9 @@ const EventList = () => {
       <div className="row">
         {events &&
           events
+           .slice(0)
+            .reverse() 
             .slice(0, 10 + countevent * 10)
-            .reverse()
             .map((el) => {
               return (
                 <div
@@ -458,7 +459,7 @@ const EventList = () => {
               );
             })}
       </div>
-      {(countevent + 1) * 10 < allevents.filter((el) => el._id).length && (
+      {(countevent + 1) * 10 < events.length && (
         <div
           style={{
             display: "flex",

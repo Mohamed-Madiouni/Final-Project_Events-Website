@@ -40,6 +40,7 @@ const UserListcard = ({ users }) => {
   useEffect(() => {
     dispatch(getUsers());
     localStorage.token && dispatch(getCurrentUser());
+    M.Modal.init(document.querySelectorAll(".modal"));
   }, []);
   useEffect(() => {
     M.Slider.init(document.querySelectorAll(".slider"), {
@@ -69,8 +70,9 @@ const UserListcard = ({ users }) => {
       <div className="row">
         {users &&
           users
-            .slice(0, 12 + countuser * 12)
+            .slice(0)
             .reverse()
+            .slice(0, 12 + countuser * 12)
             .map((el) => {
               return (
                 <div
@@ -88,8 +90,7 @@ const UserListcard = ({ users }) => {
                       width: 330,
                       height: 440,
                       filter:
-                        el.alerted_date &&
-                        new Date() < new Date(el.alerted_date) &&
+                       
                         el.banned == false
                           ? "initial"
                           : el.banned == true && "grayscale(150%)",
@@ -118,12 +119,12 @@ const UserListcard = ({ users }) => {
                         height="100%"
                         width="100%"
                       />
-                      {(!el.alerted_date ||
+                      {!el.banned&&(!el.alerted_date ||
                         new Date() > new Date(el.alerted_date)) && (
                         <i
                           className="fas fa-exclamation-circle btn-flat modal-trigger"
                           style={{
-                            color: "gray",
+                            color: el.banned?"white":"gray",
                             position: "absolute",
                             right: "1%",
                             top: "5%",
@@ -135,7 +136,7 @@ const UserListcard = ({ users }) => {
                           disabled={el.role == "administrator" && true}
                         ></i>
                       )}
-                      {el.alerted_date &&
+                      {!el.banned&&el.alerted_date &&
                         new Date() < new Date(el.alerted_date) && (
                           <i
                             className="fas fa-exclamation-circle btn-flat modal-trigger"
@@ -228,7 +229,7 @@ const UserListcard = ({ users }) => {
                         className="btn btn-medium modal-trigger"
                         data-target="modal2"
                         onClick={() => setBanid(el._id)}
-                        disabled={el.role == "administrator" && true}
+                        disabled={el.role == "administrator" ||!el.alerted_date}
                       >
                         Ban
                       </button>
@@ -258,7 +259,7 @@ const UserListcard = ({ users }) => {
             })}
       </div>
 
-      {(countuser + 1) * 10 < allusers.filter((el) => el._id).length && (
+      {(countuser + 1) * 10 < users.length && (
         <div
           style={{
             display: "flex",
