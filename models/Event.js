@@ -42,6 +42,7 @@ const EventSchema = new schema({
   tags:{
   type:  [String],
   },
+  rating:[],
   created_at: {
     type: Date,
     default: Date.now,

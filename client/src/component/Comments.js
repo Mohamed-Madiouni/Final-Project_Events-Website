@@ -6,7 +6,7 @@ import { Picker } from 'emoji-mart'
 import { useDispatch,useSelector } from 'react-redux';
 import { useHistory,Link } from 'react-router-dom';
 import { getCurrentUser } from '../actions/authaction';
-import {makeComment, fullEvent, openEvent, } from "../actions/evntAction";
+import {makeComment, fullEvent, openEvent, addrating, } from "../actions/evntAction";
 import {getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply, likecomment,dislikecomment, removelikecomment, removedislikecomment, likereply, removelikereply,dislikereply, removedislikereply} from "../actions/comntaction"
 import {followEvent, getEvent, unfollowEvent,endEvent, closeEvent} from "../actions/evntAction";
 
@@ -16,7 +16,6 @@ import Navbar from './Navbar';
 import "../comments.css";
 import M from "materialize-css";
 import { GET_ERRORS } from "../actions/types";
-import eventClosing from "../outils/eventClosing";
 import { getUsers } from '../actions/adminaction';
 
 import { logoutUser } from "../actions/authaction";
@@ -25,6 +24,7 @@ import {v4 as uuidv4} from "uuid"
 import Pusher from 'pusher-js'
 import date_youtube from '../outils/dateyoutube';
 import StarRatingComponent from 'react-star-rating-component';
+
 
 
 function Comments({match, history}) {
@@ -51,6 +51,9 @@ const[actvlike,setactvlike]=useState(true)
 const [countevent,setCountevent] = useState(0)
 const[resiz,setresiz]=useState(false)
 const [rating,setRating]=useState(0)
+const [star,setstar]=useState(false)
+const [msg,setmsg]=useState(false)
+const [done,setdone]=useState(true)
     useEffect(()=>{
         dispatch(getEvent())
         dispatch(getComment())
@@ -85,10 +88,36 @@ useEffect(()=>{
      setactvlike(true)
    },[auth])
 
+  useEffect(()=>{
+setTimeout(() => {
+  dispatch(getEvent())
+}, 10);
+  },[])
+useEffect(()=>{
+  
+if(allevents.length!=0&&auth.isAuthenticated&& document.querySelector(".fa-star"))
+  {
+  if(allevents.find(el=>el._id==match.params.event_id).rating.filter(el=>el.userId==auth.user._id).length!=0)
+{
+    setdone(false)
+    setstar(true)
+    document.querySelector(".fa-star").style.color="rgb(255, 180, 0)" 
+    setRating(allevents.find(el=>el._id==match.params.event_id).rating.find(el=>el.userId==auth.user._id).rate)
+}
+else{
+  setdone(true)
+  setstar(false)
+  setRating(0)
+  document.querySelector(".fa-star").style.color="black"
+}
+ }
+},[allevents,match.params.event_id])
+
+
 useEffect(()=>{
   M.Materialbox.init(document.querySelectorAll('.materialboxed'))
    M.Collapsible.init(document.querySelectorAll('.collapsible'))
-},[allevents])
+},[load])
 
 useEffect(()=>{
    M.updateTextFields()
@@ -152,7 +181,7 @@ useEffect(()=>{
     dispatch(editReply(edit,textedit,replyid))
   }
 
-  function onStarClick(nextValue, prevValue, name) {
+  function onStarHover(nextValue, prevValue, name) {
     setRating(nextValue);
   }
  
@@ -178,17 +207,50 @@ useEffect(()=>{
                       </div>
                     </div>
            <span className="title"><b>{allevents.find(el=>el._id==match.params.event_id).title}</b></span>
-           <div style={{display:"flex",alignItems:"center"}}>
+           <div style={{display:"flex",alignItems:"center",marginTop:0}}>
              <p>{date_youtube(allevents.find(el=>el._id==match.params.event_id).created_at)}</p>
-             <div className="rating">
-             <StarRatingComponent 
+             <div style={{display:"flex",alignItems:"center"}} className='rate' onClick={()=>{
+            if(done)
+             document.querySelector(".rating").style.display="initial"
+               
+               }} 
+              //  onMouseLeave={()=>
+             
+              //  document.querySelector(".rating").style.display="none"
+              //  }
+               >
+             <i className={star?"fas fa-star":"far fa-star"} style={{fontSize:30}}></i>
+            <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}><p>{rating? <b>{rating}</b> :'Rate'} </p><p> {rating?'You':'This'}</p></div> 
+             </div>
+             <div className="rating" onMouseLeave={()=>{
+               if(!msg)
+               {setRating(0);
+                 setstar(false)
+               document.querySelector(".fa-star").style.color="black"
+               document.querySelector(".rating").style.display="none"}
+               }}>
+                 
+             {msg?<p style={{color:"#2e8fa5",fontSize:16}}>Thanks for your vote...</p>:<StarRatingComponent 
           name="event_rating" 
           starCount={10}
           value={rating}
-          onStarHover={onStarClick}
-          onStarClick={onStarClick}
-          emptyStarColor="white"
-        />
+          onStarHover={(nextValue, prevValue, name)=>{
+            onStarHover(nextValue, prevValue, name)
+             setstar(true)
+               document.querySelector(".fa-star").style.color="rgb(255, 180, 0)"
+          
+          }}
+          onStarClick={()=>{
+dispatch(addrating(match.params.event_id,rating,auth.user._id))
+setmsg(true)
+setdone(false)
+setTimeout(function(){
+  document.querySelector(".rating").style.display="none"
+},2900)
+setTimeout(function(){setmsg(false)},3000)
+          }}
+          emptyStarColor="gray"
+        />}
              </div>
      
     </div>
@@ -222,6 +284,7 @@ return(
 <img  src={el.image} width="250px" height="250px" alt="event image" style={{cursor:"pointer"}} onClick={()=>{
   history.push(`/events/${el._id}`)
   setCountevent(0)
+  document.querySelector(".rating").style.display="none"
 }}/>
  <div className="date_com right">
  <div className="day_com">{el.date.split("-")[2]}</div>
@@ -511,7 +574,7 @@ setTextedit("")
             }}></i>
            <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.dislikes==0?"":el.dislikes}</p> 
            {(el.postedBy!=auth.user._id)&&auth.isAuthenticated&&<i title="reply" className="material-icons" onClick={()=>{ 
-             setReply("@"+users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname+" ")
+             setReply("@"+users.find(e=>e._id==el.postedBy).fname+"-"+users.find(e=>e._id==el.postedBy).lname+" ")
              document.getElementById('replyinp').focus()
              }}>reply</i>}
             
@@ -608,6 +671,7 @@ return(
 <img  src={el.image} width="100%" height="220px" alt="event image" style={{cursor:"pointer"}} onClick={()=>{
   history.push(`/events/${el._id}`)
   setCountevent(0)
+  document.querySelector(".rating").style.display="none"
 }}/>
  <div className="date_com right">
  <div className="day_com">{el.date.split("-")[2]}</div>

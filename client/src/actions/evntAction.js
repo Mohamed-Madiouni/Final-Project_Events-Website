@@ -276,6 +276,20 @@ export const getParticipant = () => (dispatch) => {
       }));
 };
 
-
+export const addrating = (idEvent, rating,user_id) => (dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+    .put(`/event/edit/rating/${idEvent}`, {rate:rating,userId:user_id})
+    .then((res) => {
+      
+      dispatch(getEvent())
+      
+      
+   })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+};
 
 

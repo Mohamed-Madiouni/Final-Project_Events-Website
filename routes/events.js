@@ -303,6 +303,21 @@ res.status(200).send(events)
 })
         
 
-
+// add rating
+router.put("/edit/rating/:id",authMiddleware, (req, res) => {
+  
+  Event.findByIdAndUpdate(
+    req.params.id,
+    { $push: {rating: req.body}},
+    { new: true },
+    (err, event) => {
+      if (err) {
+        console.log(err.message);
+        // return res.status(500).send("Server Error");
+      }
+      res.send(event);
+    }
+  );
+});
 
 module.exports= router

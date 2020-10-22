@@ -1,6 +1,6 @@
 .comment_sec{
     width: 100%;
-   padding: 0px 0px 0px 15px;
+   padding: 0px 10px 0px 10px;
 
 }
 .com_picture{
@@ -174,12 +174,31 @@ nav{
     }
     .rating{
         margin-left: 10px;
-        display: flex;
-        /* align-items: center; */
-        height: 25px;
-    line-height: 22px;
-       
+        /* display: flex;
+        align-items: center; */
+        height: 40px;
+    line-height: 23px;
+    border: 1px solid #2e8fa5;
+    border-radius: 6px;
+    padding: 6px;
+      display: none;
+      transition: linear 0.4s;
     }
     .rating label{
-         font-size: 21px !important;
+         font-size: 24px !important;
     }
+    .rate{
+        margin-left: 5px;
+        padding: 7px;
+        border-radius: 6px;
+        cursor: pointer;
+        
+    }
+    .rate:hover{
+        background-color:  #2e8fa5;
+        color: white;
+    }
+    .rate>div{
+        margin-left: 2px;
+    }
+  
