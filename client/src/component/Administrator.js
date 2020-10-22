@@ -21,7 +21,7 @@ function Administrator() {
   useEffect(() => {
     dispatch(getUsers(), getEvents())
   }, []);
-useEffect(()=> { M.Modal.init(document.querySelectorAll(".modal"))})
+// useEffect(()=> { M.Modal.init(document.querySelectorAll(".modal"))})
   return (
     <div className="row">
       <div className="col s12 ">
@@ -54,7 +54,7 @@ useEffect(()=> { M.Modal.init(document.querySelectorAll(".modal"))})
           }}
         >
           <div>
-          <div class="switch right" style={{marginTop:10,color:"black",fontSize:20}}>
+          <div className="switch right" style={{marginTop:10,color:"black",fontSize:20}}>
               <label>Manage account
             
               <input type="checkbox" onClick={toggle}/>

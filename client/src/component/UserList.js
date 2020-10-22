@@ -26,6 +26,7 @@ const UserList = () => {
   const [alertid, setAlertid] = useState("");
   const [modal, setModal] = useState(false);
   const [resiz, setresiz] = useState(true);
+  const [countuser,setCountuser] = useState(0)
   const toggle = () => {
     setModal(!modal);
   };
@@ -41,6 +42,7 @@ const UserList = () => {
   useEffect(() => {
     dispatch(getUsers());
     localStorage.token && dispatch(getCurrentUser());
+    M.Modal.init(document.querySelectorAll(".modal"))
   }, []);
   useEffect(() => {
     M.Slider.init(document.querySelectorAll(".slider"), {
@@ -52,7 +54,7 @@ const UserList = () => {
   });
   useEffect(() => {
     window.addEventListener("resize", () => {
-      if (window.innerWidth <= 1000) {
+      if (window.innerWidth <= 1002) {
         setModal(false);
         setresiz(false);
       } else setresiz(true);
@@ -60,7 +62,7 @@ const UserList = () => {
   });
 
   useEffect(() => {
-    if (window.innerWidth <= 1000) setresiz(false);
+    if (window.innerWidth <= 1002) setresiz(false);
   }, []);
   let users = allusers.filter((el) => {
     return (
@@ -108,16 +110,16 @@ const UserList = () => {
               }}
             >
               <option value="">All</option>
-              <option value="Participant" className="green-text">
+              <option value="Participant" className="gray-text">
                 Participant
               </option>
-              <option value="Organizer" className="blue-text">
+              <option value="Organizer" className="gray-text">
                 Organizer
               </option>
-              <option value="Admin" className="red-text">
+              <option value="Admin" className="gray-text">
                 Admin
               </option>
-              <option value="Moderator" className="pink-text">
+              <option value="Moderator" className="gray-text">
                 Moderator
               </option>
             </select>
@@ -199,25 +201,32 @@ const UserList = () => {
           <tbody>
             {users &&
               users
-                .slice(0)
+                .slice(0,10+countuser*10)
                 .reverse()
                 .map((el) => {
                   return (
                     <tr
                       key={el._id}
                       className="center-align"
-                      style={{
-                        boxShadow:
-                          el.alerted_date &&
-                          new Date() < new Date(el.alerted_date) &&
-                          el.banned == false
-                            ? "inset 0px 0px 13px 10px #fff300"
-                            : el.banned == true &&
-                              "inset 0px 0px 13px 10px #ed1717",
-                      }}
+                       style={{
+                      //   boxShadow:
+                      //     el.alerted_date &&
+                      //     new Date() < new Date(el.alerted_date) &&
+                      //     el.banned == false
+                      //       ? "inset 0px 0px 13px 10px #fff300"
+                      //       : el.banned == true &&
+                      //         "inset 0px 0px 13px 10px #ed1717",
+                      filter:
+                      el.alerted_date &&
+                      new Date() < new Date(el.alerted_date) &&
+                      el.banned == false
+                        ? "initial"
+                        : el.banned == true &&
+                        "grayscale(150%)"
+                    }}
                       // key={el._id}
                     >
-                      <td className="center-align">
+                      <td className="center-align" style={{padding:0}}>
                         <span
                           className="card-image center-align"
                           style={{
@@ -234,19 +243,19 @@ const UserList = () => {
                           />
                         </span>
                       </td>
-                      <td className="center-align">
+                      <td className="center-align" style={{padding:0}}>
                         <span className="center-align">
                           {el.fname + " "}
                           {el.lname}
                         </span>
                       </td>
-                      <td className="center-align">
+                      <td className="center-align" style={{padding:0}}>
                         <span>{el.email}</span>
                       </td>
-                      <td className="center-align">
+                      <td className="center-align" style={{padding:0}}>
                         <span>{el.role}</span>
                       </td>
-                      <td className="center-align">
+                      <td className="center-align" style={{padding:0}}>
                         <span>
                           <i
                             className=" tiny material-icons"
@@ -262,7 +271,7 @@ const UserList = () => {
                         </span>
                       </td>
 
-                      <td className="center-align">
+                      <td className="center-align" style={{padding:0}}>
                         <button
                           style={{
                             width: "100px",
@@ -283,7 +292,7 @@ const UserList = () => {
                           Delete
                         </button>
                       </td>
-                      <td className="center-align">
+                      <td className="center-align" style={{padding:0}}>
                         {el.banned === false ? (
                           <button
                             style={{
@@ -309,7 +318,8 @@ const UserList = () => {
                               borderRadius: "3px",
                               letterSpacing: "1px",
                               margin: "1rem",
-                              backgroundColor: "#ec4c4c",
+                              backgroundColor: "gray",
+                              color:"white"
                             }}
                             type="button"
                             className="btn btn-medium modal-trigger"
@@ -322,7 +332,7 @@ const UserList = () => {
                         )}
                       </td>
 
-                      <td className="center-align">
+                      <td className="center-align" style={{padding:0}}>
                         {(!el.alerted_date ||
                           new Date() > new Date(el.alerted_date)) && (
                           <i
@@ -362,7 +372,20 @@ const UserList = () => {
                   );
                 })}
           </tbody>
+{((countuser+1)*10)<allusers.filter(el=>el._id).length&&<div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
+              setCountuser(countuser+1)
+              
+              }}>
+          <i
+                  className="material-icons"
+                >
+                 expand_more
+                </i>
+            <p  >Show more users</p>
+          </div>}        
+
         </table>
+        
       ) : (
         <div>
           <div className="row">
@@ -372,11 +395,22 @@ const UserList = () => {
                 textAlign: "center",
               }}
             >
-              <UserListcard users={users} />
+
+<UserListcard users={users} />
+         
             </div>
           </div>
+          
         </div>
+     
       )}
+
+
+
+
+
+
+
 
       <div id="modal1" className="modal">
         <div className="modal-content">
@@ -386,14 +420,14 @@ const UserList = () => {
         <div className="modal-footer">
           <a
             href="#!"
-            className="modal-close waves-effect waves-green btn-flat"
+            className="modal-close  btn-flat"
             onClick={() => dispatch(deleteUser(deleteid))}
           >
             Agree
           </a>
           <a
             href="#!"
-            className="modal-close waves-effect waves-green btn-flat"
+            className="modal-close  btn-flat"
           >
             Cancel
           </a>
@@ -408,14 +442,14 @@ const UserList = () => {
         <div className="modal-footer">
           <a
             href="#!"
-            className="modal-close waves-effect waves-green btn-flat"
+            className="modal-close  btn-flat"
             onClick={() => dispatch(banUser(banid))}
           >
             Agree
           </a>
           <a
             href="#!"
-            className="modal-close waves-effect waves-green btn-flat"
+            className="modal-close  btn-flat"
           >
             Cancel
           </a>
@@ -430,14 +464,14 @@ const UserList = () => {
         <div className="modal-footer">
           <a
             href="#!"
-            className="modal-close waves-effect waves-green btn-flat"
+            className="modal-close  btn-flat"
             onClick={() => dispatch(unbanUser(banid))}
           >
             Agree
           </a>
           <a
             href="#!"
-            className="modal-close waves-effect waves-green btn-flat"
+            className="modal-close  btn-flat"
           >
             Cancel
           </a>
@@ -452,14 +486,14 @@ const UserList = () => {
         <div className="modal-footer">
           <a
             href="#!"
-            className="modal-close waves-effect waves-green btn-flat"
+            className="modal-close  btn-flat"
             onClick={() => dispatch(alertUser(alertid))}
           >
             Agree
           </a>
           <a
             href="#!"
-            className="modal-close waves-effect waves-green btn-flat"
+            className="modal-close  btn-flat"
           >
             Cancel
           </a>
@@ -474,14 +508,14 @@ const UserList = () => {
         <div className="modal-footer">
           <a
             href="#!"
-            className="modal-close waves-effect waves-green btn-flat"
+            className="modal-close  btn-flat"
             onClick={() => dispatch(unalertUser(alertid))}
           >
             Agree
           </a>
           <a
             href="#!"
-            className="modal-close waves-effect waves-green btn-flat"
+            className="modal-close  btn-flat"
           >
             Cancel
           </a>
