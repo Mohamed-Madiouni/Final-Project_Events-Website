@@ -19,6 +19,8 @@ function Events() {
     const dispatch = useDispatch()
     const history =useHistory()
     const allevents=useSelector(state=>state.events.allEvents)
+    const [countevent, setCountevent] = useState(0);
+
     // const comment=useSelector(state=>state.comments.comment)
     let auth = useSelector(state=>state.auth)
     let errors=useSelector(state=>state.errors)
@@ -132,7 +134,7 @@ useEffect(()=>{
         <div className="input-field col s4 m3">
     <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none"}}>
       <option value="">State</option>
-      <option value="Available" className="green-text">Available</option>
+      <option value="Available"  className="green-text">Available</option>
       <option value="Closed" className="gray-text">Closed</option>
       <option value="Ended" className="gray-text">Ended</option>
     </select>
@@ -150,7 +152,7 @@ useEffect(()=>{
             <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>}
              <div className="row">
            
- {events&&events.slice(0).reverse().filter(el=>el.state!="Invalid").map(el=>{
+ {events&&events.slice(0, 12 + countevent * 12).reverse().filter(el=>el.state!="Invalid").map(el=>{
      return (<div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
        <div
                   className="card small sticky-action"
@@ -329,6 +331,11 @@ useEffect(()=>{
                         <i className="material-icons ">comment</i>
                       </a> </div>
                       </div> 
+
+
+
+
+
                       {/* <button
                         className="btn-floating waves-effect waves-light cadetblue modal-trigger"
                         title="delete"
@@ -391,9 +398,28 @@ useEffect(()=>{
                   </form> */}
                 </div>)
 
- })}
-            {/* </div> */}
+ }
+ 
+ )}
             </div>
+{(countevent + 1) * 12 < allevents.filter((el) => el._id).length && (
+        <div
+          style={{
+            display: "flex",
+            cursor: "pointer",
+            color: "rgb(46, 143, 165)",
+            fontWeight: 550,
+          }}
+          onClick={() => {
+            setCountevent(countevent + 1);
+          }}
+        >
+          <i className="material-icons">expand_more</i>
+          <p>Show more events</p>
+        </div>
+      )}
+     
+
             <div id="modalevnt" className="modal">
           <div className="modal-content">
                {participate&& !auth.user.events.includes(participate)?<><h4>Hi, {auth.user.fname}</h4>

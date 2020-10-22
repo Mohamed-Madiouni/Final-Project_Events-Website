@@ -15,7 +15,7 @@ import "../events.css";
 import M from "materialize-css";
 import "../userlist.css";
 import UserList from "./UserList";
-const UserListcard = ({users}) => {
+const UserListcard = ({ users }) => {
   const dispatch = useDispatch();
   const allusers = useSelector((state) => state.admin.users);
   let auth = useSelector((state) => state.auth);
@@ -24,6 +24,7 @@ const UserListcard = ({users}) => {
   const [banid, setBanid] = useState("");
   const [alertid, setAlertid] = useState("");
   const [modal, setModal] = useState(false);
+  const [countuser, setCountuser] = useState(0);
   const toggle = () => {
     setModal(!modal);
   };
@@ -49,7 +50,6 @@ const UserListcard = ({users}) => {
     M.Materialbox.init(document.querySelectorAll(".materialboxed"));
   });
 
- 
   // let users = allusers.filter((el) => {
   //   return (
   //     el.fname.toLowerCase().includes(quickSearch.fname.toLowerCase()) &&
@@ -66,13 +66,10 @@ const UserListcard = ({users}) => {
   };
   return (
     <div>
- 
-     
-      
       <div className="row">
         {users &&
           users
-            .slice(0)
+            .slice(0, 12 + countuser * 12)
             .reverse()
             .map((el) => {
               return (
@@ -90,14 +87,19 @@ const UserListcard = ({users}) => {
                     style={{
                       width: 330,
                       height: 440,
-
-                      boxShadow:
+                      filter:
                         el.alerted_date &&
                         new Date() < new Date(el.alerted_date) &&
                         el.banned == false
-                          ? "inset 0px 0px 131px 14px #fff300"
-                          : el.banned == true &&
-                            "inset 0px 0px 131px 14px #ed1717",
+                          ? "initial"
+                          : el.banned == true && "grayscale(150%)",
+                      // boxShadow:
+                      //   el.alerted_date &&
+                      //   new Date() < new Date(el.alerted_date) &&
+                      //   el.banned == false
+                      //     ? "inset 0px 0px 131px 14px #fff300"
+                      //     : el.banned == true &&
+                      //       "inset 0px 0px 131px 14px #ed1717",
                     }}
                     // key={el._id}
                   >
@@ -123,7 +125,7 @@ const UserListcard = ({users}) => {
                           style={{
                             color: "gray",
                             position: "absolute",
-                            right: "2%",
+                            right: "1%",
                             top: "5%",
                             fontSize: 30,
                           }}
@@ -167,34 +169,34 @@ const UserListcard = ({users}) => {
                       {el.role}
                     </span>
 
-                   
-                      
-                      <div
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        fontSize: 13,
+                        width: "100%",
+                        justifyContent: "space-around",
+                      }}
+                    >
+                      <span
                         style={{
+                          margin: 10,
+                          marginLeft: 0,
+                          marginRight: 0,
                           display: "flex",
                           alignItems: "center",
-                          fontSize: 13,
-                          width: "100%",
-                          justifyContent:"space-around"
                         }}
                       >
-                      <span
-                          style={{
-                            margin: 10,
-                            marginLeft: 0,
-                            marginRight: 0,
-                            display: "flex",
-                            alignItems: "center"
-                          }}
-                        > 
-                      <i className=" tiny material-icons"
-                       style={{ margin: 5 }}
-                       >
-                         history</i>
+                        <i
+                          className=" tiny material-icons"
+                          style={{ margin: 5 }}
+                        >
+                          history
+                        </i>
 
-                      {historyuser(el.created_at)}
-                      
-                    </span></div>
+                        {historyuser(el.created_at)}
+                      </span>
+                    </div>
 
                     <button
                       style={{
@@ -212,8 +214,6 @@ const UserListcard = ({users}) => {
                     >
                       Delete
                     </button>
-
-
 
                     {el.banned === false ? (
                       <button
@@ -240,7 +240,8 @@ const UserListcard = ({users}) => {
                           borderRadius: "3px",
                           letterSpacing: "1.5px",
                           margin: "1rem",
-                          backgroundColor: "#ec4c4c",
+                          backgroundColor: "gray",
+                          color: "white",
                         }}
                         type="button"
                         className="btn btn-medium modal-trigger"
@@ -251,128 +252,123 @@ const UserListcard = ({users}) => {
                         Unban
                       </button>
                     )}
-
-
-
- 
                   </div>
                 </div>
               );
             })}
       </div>
 
+      {(countuser + 1) * 10 < allusers.filter((el) => el._id).length && (
+        <div
+          style={{
+            display: "flex",
+            cursor: "pointer",
+            color: "rgb(46, 143, 165)",
+            fontWeight: 550,
+          }}
+          onClick={() => {
+            setCountuser(countuser + 1);
+          }}
+        >
+          <i className="material-icons">expand_more</i>
+          <p>Show more users</p>
+        </div>
+      )}
+
       <div id="modal1" className="modal">
-                      <div className="modal-content">
-                        <h4>User delete</h4>
-                        <p>Are you sure you want to delete this User?</p>
-                      </div>
-                      <div className="modal-footer">
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                          onClick={() => dispatch(deleteUser(deleteid))}
-                        >
-                          Agree
-                        </a>
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                        >
-                          Cancel
-                        </a>
-                      </div>
-                    </div>
+        <div className="modal-content">
+          <h4>User delete</h4>
+          <p>Are you sure you want to delete this User?</p>
+        </div>
+        <div className="modal-footer">
+          <a
+            href="#!"
+            className="modal-close btn-flat"
+            onClick={() => dispatch(deleteUser(deleteid))}
+          >
+            Agree
+          </a>
+          <a href="#!" className="modal-close btn-flat">
+            Cancel
+          </a>
+        </div>
+      </div>
 
-                    <div id="modal2" className="modal">
-                      <div className="modal-content">
-                        <h4>User Ban</h4>
-                        <p>Are you sure you want to Ban this User?</p>
-                      </div>
-                      <div className="modal-footer">
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                          onClick={() => dispatch(banUser(banid))}
-                        >
-                          Agree
-                        </a>
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                        >
-                          Cancel
-                        </a>
-                      </div>
-                    </div>
+      <div id="modal2" className="modal">
+        <div className="modal-content">
+          <h4>User Ban</h4>
+          <p>Are you sure you want to Ban this User?</p>
+        </div>
+        <div className="modal-footer">
+          <a
+            href="#!"
+            className="modal-close btn-flat"
+            onClick={() => dispatch(banUser(banid))}
+          >
+            Agree
+          </a>
+          <a href="#!" className="modal-close btn-flat">
+            Cancel
+          </a>
+        </div>
+      </div>
 
-                    <div id="modal3" className="modal">
-                      <div className="modal-content">
-                        <h4>User Unban</h4>
-                        <p>Are you sure you want to Unban this User?</p>
-                      </div>
-                      <div className="modal-footer">
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                          onClick={() => dispatch(unbanUser(banid))}
-                        >
-                          Agree
-                        </a>
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                        >
-                          Cancel
-                        </a>
-                      </div>
-                    </div>
+      <div id="modal3" className="modal">
+        <div className="modal-content">
+          <h4>User Unban</h4>
+          <p>Are you sure you want to Unban this User?</p>
+        </div>
+        <div className="modal-footer">
+          <a
+            href="#!"
+            className="modal-close btn-flat"
+            onClick={() => dispatch(unbanUser(banid))}
+          >
+            Agree
+          </a>
+          <a href="#!" className="modal-close btn-flat">
+            Cancel
+          </a>
+        </div>
+      </div>
 
-                    <div id="modal4" className="modal">
-                      <div className="modal-content">
-                        <h4>User Alert</h4>
-                        <p>Are you sure you want to alert this User?</p>
-                      </div>
-                      <div className="modal-footer">
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                          onClick={() => dispatch(alertUser(alertid))}
-                        >
-                          Agree
-                        </a>
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                        >
-                          Cancel
-                        </a>
-                      </div>
-                    </div>
+      <div id="modal4" className="modal">
+        <div className="modal-content">
+          <h4>User Alert</h4>
+          <p>Are you sure you want to alert this User?</p>
+        </div>
+        <div className="modal-footer">
+          <a
+            href="#!"
+            className="modal-close btn-flat"
+            onClick={() => dispatch(alertUser(alertid))}
+          >
+            Agree
+          </a>
+          <a href="#!" className="modal-close btn-flat">
+            Cancel
+          </a>
+        </div>
+      </div>
 
-                    <div id="modal5" className="modal">
-                      <div className="modal-content">
-                        <h4>User Alert</h4>
-                        <p>
-                          Are you sure you want to remove the alert from this
-                          User?
-                        </p>
-                      </div>
-                      <div className="modal-footer">
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                          onClick={() => dispatch(unalertUser(alertid))}
-                        >
-                          Agree
-                        </a>
-                        <a
-                          href="#!"
-                          className="modal-close waves-effect waves-green btn-flat"
-                        >
-                          Cancel
-                        </a>
-                      </div>
-                    </div>
+      <div id="modal5" className="modal">
+        <div className="modal-content">
+          <h4>User Alert</h4>
+          <p>Are you sure you want to remove the alert from this User?</p>
+        </div>
+        <div className="modal-footer">
+          <a
+            href="#!"
+            className="modal-close btn-flat"
+            onClick={() => dispatch(unalertUser(alertid))}
+          >
+            Agree
+          </a>
+          <a href="#!" className="modal-close btn-flat">
+            Cancel
+          </a>
+        </div>
+      </div>
     </div>
   );
 };
