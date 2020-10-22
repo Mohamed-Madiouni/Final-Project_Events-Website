@@ -10,8 +10,17 @@
       let day = Math.floor(hist / 86400);
       return `${day} days ago`;
     }
-    else{
-      let week=Math.floor(hist / 604800)
-      return `${week} week ago`;
-    }
+    else if(hist<2419200)
+      {let week=Math.floor(hist / 604800)
+      return `${week} week ago`}
+      else if (hist<29030400)
+      {
+        let month=Math.floor(hist / 2419200)
+      return `${month} month ago`;
+      }
+      else
+     { 
+       let year=Math.floor(hist / 29030400)
+      return `${year} year ago`;}
+    
   }

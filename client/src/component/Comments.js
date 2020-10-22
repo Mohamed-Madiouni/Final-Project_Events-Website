@@ -24,7 +24,7 @@ import {v4 as uuidv4} from "uuid"
 import Pusher from 'pusher-js'
 import date_youtube from '../outils/dateyoutube';
 import StarRatingComponent from 'react-star-rating-component';
-
+import nbr_comments from "../outils/nbr_comments"
 
 
 function Comments({match, history}) {
@@ -117,7 +117,7 @@ else{
 useEffect(()=>{
   M.Materialbox.init(document.querySelectorAll('.materialboxed'))
    M.Collapsible.init(document.querySelectorAll('.collapsible'))
-},[load])
+},[allevents,match.params.event_id,resiz])
 
 useEffect(()=>{
    M.updateTextFields()
@@ -319,7 +319,7 @@ return(
 
 
     <p className="comment" >
-      {comments.comments&&comments.comments.filter(elm=>elm.event==match.params.event_id).length+" "}
+      {comments.comments&& nbr_comments(comments.comments.filter(elm=>elm.event==match.params.event_id).length)+" "}
     comment{comments.comments&&comments.comments.filter(elm=>elm.event==match.params.event_id).length==0?"":"s"}
     </p> 
     {auth.isAuthenticated&&<form className="input_add" >
