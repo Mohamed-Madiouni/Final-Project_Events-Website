@@ -424,6 +424,34 @@ const EventList = () => {
                       >
                         {el.description}
                       </p>
+                      <div
+                      className="right"
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      {" "}
+                      <a
+                        className="btn-floating  cadetblue"
+                        onClick={() => {
+                          history.push(`/events/${el._id}`)
+                          // setAction({ type: "edit", payload: el });
+                          // if(modal){
+                           
+                          //   setModal(toggle( toggle()))
+                          // }
+                          // if(!modal)
+                          // toggle()
+                          // setParticipant(false)
+                          // setModalId(el._id)
+                        }}
+                        title="Show comments"
+                      >
+                        <i className="material-icons ">comment</i>
+                      </a> </div>
                     </div>
                   </div>
                 </div>
