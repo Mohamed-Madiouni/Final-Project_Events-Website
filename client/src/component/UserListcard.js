@@ -211,7 +211,7 @@ const UserListcard = ({ users }) => {
                       className="btn btn-medium modal-trigger"
                       data-target="modal1"
                       onClick={() => setDeleteid(el._id)}
-                      disabled={el.role == "administrator" && true}
+                      disabled={el.role == "administrator" && true||auth.user.role!="administrator"}
                     >
                       Delete
                     </button>

@@ -1,6 +1,7 @@
 const express = require("express");
 const User = require("../models/User");
 const Event = require("../models/Event");
+const Comment = require("../models/Comment");
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 
@@ -33,20 +34,40 @@ router.delete("/events/delete/:_id", authMiddleware, (req, res) => {
     .catch((err) => {
       console.log(err.message);
       res.status(500).send("Server Error");
-    });
+  });
+  Comment.deleteMany({ event: _id })
+    .then(() => res.send({ msg: "Comments Deleted!" }))
+    .catch((err) => {
+      console.log(err.message);
+      res.status(500).send("Server Error");
+  });
 });
 
 //Delete User by Id
 router.delete("/users/delete/:_id", authMiddleware, (req, res) => {
   var _id = req.params._id;
   User.findByIdAndRemove(_id).then(() => res.send({ msg: "User Deleted!" }));
+  
   Event.deleteMany({ id_organizer: _id })
     .then(() => res.send({ msg: "Events Deleted!" }))
     .catch((err) => {
       console.log(err.message);
       res.status(500).send("Server Error");
     });
+
+    const { _events } = Event.find({ id_organizer: _id })
+    Comment.deleteMany({ event: _events })
+    .then(() => res.send({ msg: "Comments Deleted!" }))
+    .catch((err) => {
+      console.log(err.message);
+      res.status(500).send("Server Error");
+    });
 });
+
+
+
+
+
 
 //Ban User by Id
 router.put("/users/ban/:_id", authMiddleware, (req, res) => {
