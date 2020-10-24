@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from "react";
 import "../navbar.css";
+import "../notification.css";
 import Landing from "./Landing";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -55,8 +56,20 @@ function Navbar() {
           <div className="col s11  nav_list" style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
             <Link to="/" style={{color:location.pathname=="/"&&"rgb(14, 161, 152)"}}>Home</Link>
             <Link to="/dashboard" style={{color:(location.pathname=="/dashboard"||location.pathname==`/dashboard/${auth.user._id}`)&&"rgb(14, 161, 152)"}}>Dashboard</Link>
+            
+            
+            
+            
+            
             <Link to="/events" style={{color:location.pathname=="/events"&&"rgb(14, 161, 152)"}}>Events</Link>
             <Link to="/calendar" style={{color:location.pathname=="/calendar"&&"rgb(14, 161, 152)"}}>Calendar</Link>
+
+
+
+
+
+
+
           </div>
           <i
             className="fa fa-search col s1 "
@@ -89,7 +102,9 @@ function Navbar() {
                 payload: !search.etat,
               })
             }
-          ></i><Link
+          ></i>
+          
+          <Link
             to="/"
             style={{
               textDecoration: "none",
@@ -99,6 +114,7 @@ function Navbar() {
               width:"100%"
             }}
           >
+
             <img
               src="/coco2.png"
               alt="COCO PARTY"
@@ -111,6 +127,18 @@ function Navbar() {
             />
           </Link></>)}
         </div>
+
+
+    <ul class="dots">
+    <li>
+      <a href="#">
+        <span class="glyphicon glyphicon-bell"><mark>23</mark></span>
+      </a>  
+    </li>
+    </ul>
+
+
+
         {/* <div className="div3 col s3 l2 ">
           <Link
             to="/dashboard"
