@@ -52,7 +52,7 @@ User.findByIdAndRemove(_id).then(() => res.send({ msg: "User Deleted!" }))
   res.status(500).send("Server Error");
 });
 //console.log(_id);
-Comment.deleteMany({ postedby: _id })
+Comment.deleteMany({ postedBy: _id })
 .then(() => res.send({ msg: "Comments Deleted!" }))
 .catch((err) => {
   console.log(err.message);
