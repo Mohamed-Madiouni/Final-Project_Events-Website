@@ -3,7 +3,7 @@ import axios from "axios"
 import setAuthToken from "../token/authtoken";
 //get all users
 export const getUsers = () =>(dispatch) => {
-   setAuthToken(localStorage.token)
+   // setAuthToken(localStorage.token)
     axios
       .get("/admin/users")
       .then((res) => dispatch({
