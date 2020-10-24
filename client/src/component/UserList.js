@@ -285,7 +285,7 @@ const UserList = () => {
                             data-target="modal1"
                             onClick={() => setDeleteid(el._id)}
                             disabled={
-                              (el.role == "administrator" && true)
+                              (el.role == "administrator" && true||auth.user.role!="administrator")
                               
                             }
                           >

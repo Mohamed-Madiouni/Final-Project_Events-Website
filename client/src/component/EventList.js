@@ -374,6 +374,7 @@ const EventList = () => {
                         className="btn btn-medium modal-trigger"
                         data-target="modal1"
                         onClick={() => setDeleteid(el._id)}
+                        disabled={auth.user.role!="administrator"}
                       >
                         Delete
                       </button>
