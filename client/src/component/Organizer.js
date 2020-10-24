@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {closeEvent,getEventOrganizer, deleteEvent,openEvent,getEvent,endEvent, fullEvent} from "../actions/evntAction";
 import get_month from "../outils/get_month"
 import history from "../outils/history"
@@ -20,7 +20,7 @@ function Organizer() {
   const auth = useSelector((state) => state.auth);
   const allevents= useSelector((state)=>state.events.allEvents)
   const errors=useSelector(state=>state.errors)
-
+  const hisstory = useHistory();
   const [modal, setModal] = useState(false);
   const [action, setAction] = useState({ type: "add", payload: {} });
   const [deleteid,setDeleteid]= useState("")
@@ -326,6 +326,20 @@ useEffect(()=>{
                     }>
                       <i className="material-icons ">done</i>{" "}
                     </button>)}
+
+                    {el.state=="Available"&&(
+                    <div>
+                      {" "}
+                      <a
+                        className="btn-floating  cadetblue"
+                        onClick={() => {
+                          hisstory.push(`/events/${el._id}`)
+                         }}
+                        title="Show comments"
+                      >
+                        <i className="material-icons ">comment</i>
+                      </a> </div>
+                       )}
                   </div>
                 </div>
               </div>
