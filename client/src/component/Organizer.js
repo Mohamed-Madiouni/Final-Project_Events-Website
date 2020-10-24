@@ -327,7 +327,7 @@ useEffect(()=>{
                       <i className="material-icons ">done</i>{" "}
                     </button>)}
 
-                    {el.state=="Available"&&(
+                    {el.state!="Invalid"&&(
                     <div>
                       {" "}
                       <a
