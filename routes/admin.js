@@ -47,6 +47,14 @@ router.delete("/events/delete/:_id", authMiddleware, (req, res) => {
 router.delete("/users/delete/:_id", authMiddleware, (req, res) => {
   var _id = req.params._id;
 User.findByIdAndRemove(_id).then(() => res.send({ msg: "User Deleted!" }));
+//console.log(_id);
+Comment.deleteMany({ postedby: _id })
+.then(() => res.send({ msg: "Comments Deleted!" }))
+.catch((err) => {
+  console.log(err.message);
+  res.status(500).send("Server Error");
+});
+
 Event.find({ id_organizer: _id }).then(events=>{for (let i = 0; i < events.length; i++){
   //console.log(events[i]._id);
   Comment.deleteMany({event:events[i]._id})
