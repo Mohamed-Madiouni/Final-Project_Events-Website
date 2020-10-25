@@ -22,7 +22,8 @@ function Participant() {
     const allevents= useSelector((state)=>state.events.allEvents)
     const errors=useSelector(state=>state.errors)
     const myevents=useSelector(state=>state.myevents.myevents.events)
-  
+    const hisstory = useHistory();
+
     const [modal, setModal] = useState(false);
     const [action, setAction] = useState({ type: "add", payload: {} });
     const [deleteid,setDeleteid]= useState("")
@@ -365,7 +366,25 @@ useEffect(()=>{
                                 <i className="material-icons right">close</i>
                               </span>
                               <p>{el.description}</p>
-                            
+                              <div
+                              className="right"
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                              }}
+                              >
+                               {" "}
+                               <a
+                                 className="btn-floating  cadetblue"
+                                 onClick={() => {
+                                   hisstory.push(`/events/${el._id}`)
+                                  }}
+                                 title="Show comments"
+                               >
+                                 <i className="material-icons ">comment</i>
+                               </a> </div>
                             </div>
                           </div>
                           </div>)
