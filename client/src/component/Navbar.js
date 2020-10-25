@@ -129,10 +129,18 @@ function Navbar() {
         </div>
 
 
-    <ul class="dots">
+    <ul>
     <li>
       <a href="#">
-        <span class="glyphicon glyphicon-bell"><mark>23</mark></span>
+        
+    <span class="notification-box">
+    <span class="notification-count">16</span>
+    <span class="notification-bell">
+      <span class="bell-top"></span>
+      <span class="bell-middle"></span>
+      <span class="bell-bottom"></span>
+      <span class="bell-rad"></span>
+    </span></span>
       </a>  
     </li>
     </ul>
