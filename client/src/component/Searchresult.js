@@ -230,7 +230,7 @@ useEffect(() => {
                     </div>
                     {el.tags.length!=0&&<div className="slider right tag_slide_event">
     <ul className="slides">
-              {el.tags.map((el,index)=><li key={index}> <p>{el}</p> </li>)}
+              {el.tags.map((el,index)=><li key={index}> <p className='chip' style={{padding:8,display:"flex",alignItems:"center",fontSize:12}}>{el}</p> </li>)}
     </ul>
   </div>}
                   </div>
@@ -256,7 +256,7 @@ useEffect(() => {
                       
                     </button>:(auth.user.role=="participant"&&
                     !auth.user.cancelation.includes(el._id)&&
-                    (auth.user.banned_date?new Date()>auth.user.banned_date:true)&&
+                    
                     (
                       !auth.user.events.includes(el._id)?
                       el.state=="Available"&& <button

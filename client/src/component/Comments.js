@@ -375,7 +375,7 @@ return(
 <p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
       </div>
-     {el.postedBy==auth.user._id&&<div id="editdelete">
+     {(el.postedBy==auth.user._id||auth.user.role=="administrator")&&<div id="editdelete">
        {!edit||el._id!=edit?<i className="material-icons" title="Edit" onClick={()=>{
 setEdit(el._id)
 setTextedit(el.content)
@@ -476,7 +476,7 @@ else
                 >
                  {!(replycount&&el._id==replyid)?'expand_more':'expand_less'}
                 </i>
-            <p  >{!(replycount&&el._id==replyid)? `Show the ${el.reply.length} reaction`:`hide ${el.reply.length} reaction`}</p>
+            <p  >{!(replycount&&el._id==replyid)? `Show the ${el.reply.length} replies`:`hide ${el.reply.length} replies`}</p>
           </div>:""}
   {replycount&&el._id==replyid&&
   
@@ -494,7 +494,7 @@ else
 <p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
       </div>
-     {el.postedBy==auth.user._id&&<div id="editdelete">
+     {(el.postedBy==auth.user._id||auth.user.role=="administrator")&&<div id="editdelete">
      {!edit||el.id!=edit?<i className="material-icons" title="Edit" onClick={()=>{
 setEdit(el.id)
 setTextedit(el.content)

@@ -240,7 +240,7 @@ let calendarEvents=allevents.map(el=>{
                     </div>
                     {allevents.find(e=>e._id==eventId).tags.length!=0&&<div className="slider right tag_slide_cal">
     <ul className="slides">
-              {allevents.find(e=>e._id==eventId).tags.map((el,i)=><li key={i}> <p>{el}</p> </li>)}
+              {allevents.find(e=>e._id==eventId).tags.map((el,i)=><li key={i}> <p className='chip' style={{padding:8,display:"flex",alignItems:"center",fontSize:12}}>{el}</p> </li>)}
     </ul>
   </div>}
                   </div>
@@ -266,7 +266,7 @@ let calendarEvents=allevents.map(el=>{
                       
                     </button>:(auth.user.role=="participant"&&
                     !auth.user.cancelation.includes(allevents.find(e=>e._id==eventId)._id)&&
-                    (auth.user.banned_date?new Date()>auth.user.banned_date:true)&&
+                    
                     (
                       !auth.user.events.includes(allevents.find(e=>e._id==eventId)._id)?
                       allevents.find(e=>e._id==eventId).state=="Available"&& <button

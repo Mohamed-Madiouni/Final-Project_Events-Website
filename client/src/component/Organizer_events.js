@@ -254,7 +254,7 @@ useEffect(()=>{
                     </div>
                     {el.tags.length!=0&&<div className="slider right tag_slide_orgevnt">
     <ul className="slides">
-              {el.tags.map((el,i)=><li key={i}> <p>{el}</p> </li>)}
+              {el.tags.map((el,i)=><li key={i}> <p className='chip' style={{padding:8,display:"flex",alignItems:"center",fontSize:12}}>{el}</p> </li>)}
     </ul>
   </div>}
                   </div>
