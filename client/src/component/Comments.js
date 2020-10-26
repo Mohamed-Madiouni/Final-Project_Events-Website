@@ -5,7 +5,7 @@ import { Picker } from 'emoji-mart'
 // import { NimblePicker } from 'emoji-mart'
 import { useDispatch,useSelector } from 'react-redux';
 import { useHistory,Link } from 'react-router-dom';
-import { getCurrentUser } from '../actions/authaction';
+import { addfollow, getCurrentUser, removefollow } from '../actions/authaction';
 import {makeComment, fullEvent, openEvent, addrating, } from "../actions/evntAction";
 import {getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply, likecomment,dislikecomment, removelikecomment, removedislikecomment, likereply, removelikereply,dislikereply, removedislikereply} from "../actions/comntaction"
 import {followEvent, getEvent, unfollowEvent,endEvent, closeEvent} from "../actions/evntAction";
@@ -58,6 +58,7 @@ const [done,setdone]=useState(true)
 const [sort,setsort]=useState(false)
 const [sorttype,setsorttype]=useState({type:"relevent"})
 const [follow,setfollow]=useState(false)
+const  [unfollow,setunfollow]=useState("")
     useEffect(()=>{
         dispatch(getEvent())
         dispatch(getComment())
@@ -71,6 +72,27 @@ const [follow,setfollow]=useState(false)
        
         
     },[])
+
+
+useEffect(()=>{
+  if(errors.follow)
+ { M.toast({ html: "subscription added", classes: "green" });
+dispatch({
+  type:GET_ERRORS,
+  payload:{}
+})
+
+}
+
+if(errors.unfollow)
+ { M.toast({ html: "subscription removed", classes: "red" });
+dispatch({
+  type:GET_ERRORS,
+  payload:{}
+})
+
+}
+})
 
 useEffect(()=>{
   window.addEventListener("resize",()=>{
@@ -130,8 +152,13 @@ if(!auth.isAuthenticated&&document.querySelector(".fa-star")&&allevents.length!=
 useEffect(()=>{
   M.Materialbox.init(document.querySelectorAll('.materialboxed'))
    M.Collapsible.init(document.querySelectorAll('.collapsible'))
-},[match.params.event_id,resiz,allevents])
+},[match.params.event_id,resiz])
 
+useEffect(()=>{
+if(load)
+ { M.Materialbox.init(document.querySelectorAll('.materialboxed'))
+   M.Collapsible.init(document.querySelectorAll('.collapsible'))}
+},[allevents])
 
 useEffect(()=>{
    M.updateTextFields()
@@ -204,11 +231,12 @@ useEffect(()=>{
       <>
         {load&&allevents.length!=0&&users.length!=0&&<>
         <Navbar/>
-        <div className="row" style={{marginTop:10}} onClick={(e)=>{
+        <div className="row" style={{marginTop:10,filter:unfollow&&"blur(3px)"}} onClick={(e)=>{
          emoj&&!document.querySelector(".emoji-mart").contains(e.target)&&setEmoj(!emoj)
          emojedt&&!document.querySelector(".emoji-mart").contains(e.target)&&setEmojedt(!emojedt)
          emojreply&&!document.querySelector(".emoji-mart").contains(e.target)&&setEmojReply(!emojreply)
          sort&&!document.querySelector(".sort").contains(e.target)&&setsort(!sort)
+         unfollow&&!document.querySelector(".custom_mod").contains(e.target)&&setunfollow("")
         }}>
             <div className='col l8 s12 '>
      <div className="comment_sec">
@@ -223,8 +251,8 @@ useEffect(()=>{
                     </div>
            <span className="title"><b>{allevents.find(el=>el._id==match.params.event_id).title}</b></span>
            <div style={{display:"flex",alignItems:"center",marginTop:0}}>
-             <p>{date_youtube(allevents.find(el=>el._id==match.params.event_id).created_at)}</p>
-             <div style={{display:"flex",alignItems:"center"}} className='rate' onClick={()=>{
+             <p style={{ marginRigth: 7}}>{date_youtube(allevents.find(el=>el._id==match.params.event_id).created_at)}</p>
+             <div style={{display:allevents.find(el=>el._id==match.params.event_id).state!="Ended"?"none":"flex",alignItems:"center"}} className='rate' onClick={()=>{
             if(done)
              document.querySelector(".rating").style.display="initial"
                
@@ -291,17 +319,22 @@ history.push("/login")
       </div> 
       <button className='follow' onClick={()=>{
         if(auth.isAuthenticated)
-        dispatch()
+        auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)?
+       setunfollow(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer))
+       :
+       dispatch(addfollow(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id))
         else
         history.push("/login")
       }}
-      style={{position:"relative",cursor:"pointer"}}
+      style={{position:"relative",cursor:"pointer",background:auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)&&"rgb(73, 82, 92)"}}
 onMouseOver={()=>{setfollow(!follow)}}
 onMouseLeave={()=>{setfollow(!follow)}}
-      >FOLLOW</button>
+      disabled={console.log(auth.user._id==users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id) &&true}
+      >
+        {auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)?"UNFOLLOW":"FOLLOW"}</button>
       
       </div>
-    {follow&&  <p style={{width:300,background:"white",position:"absolute",right: 17,
+    {follow&&auth.user.follow&&!auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)&&  <p style={{width:300,background:"white",position:"absolute",right: 17,
     top: 41,
     border: "1px solid black",
     borderRadius: 4,
@@ -521,7 +554,7 @@ setTextedit("")
             </div>
       
       {el.reply.length?<div style={{display:"flex",cursor:"pointer",marginTop:3,color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
-             if(replycount)
+             if(replycount&&el._id!=replyid)
             { setReplayCount(replycount)
              setReply("")
              setReplyId(el._id)}
@@ -758,6 +791,7 @@ return(
             <p  >Show more events</p>
           </div>}
     </div>}
+   
         </div> 
        
        
@@ -802,6 +836,40 @@ return(
             <a
               href="#!"
               className="modal-close waves-effect waves-green btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
+        <div  className="custom_mod" style={{display:unfollow?"initial":"none",padding:"10px",background:"white",zIndex:10,border:"2px solid #2e8fa5"}}>
+          <div className="modal-content">
+            {/* <h4>Account Update</h4>
+            <p>Are you sure you want to update your profile?</p> */}
+            <h5>Unfollow {unfollow.fname+" "+unfollow.lname} ?</h5>
+           
+              <div className="divider">
+              </div>
+              
+          </div>
+          <div style={{display:"flex",justifyContent:"space-around",alignItems:"center",margin:10}}>
+            <a
+              href="#!"
+              className=" btn #2e8fa5-text"
+              onClick={()=>{
+                dispatch(removefollow(unfollow._id))
+              setunfollow("")
+              }
+            }
+            >
+              UNFOLLOW
+            </a>
+            <a
+              href="#!"
+              className="  btn"
+              onClick={()=>{
+                setunfollow("")
+             
+              }}
             >
               Cancel
             </a>

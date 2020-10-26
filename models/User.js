@@ -50,7 +50,8 @@ const userSchema = mongoose.Schema({
     type:Date
   },
   likes:[String],
-  dislikes:[String]
+  dislikes:[String],
+  follow:[{type: mongoose.Types.ObjectId, ref: "user" }]
 });
 
 module.exports = mongoose.model("user", userSchema);

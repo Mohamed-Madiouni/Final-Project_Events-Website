@@ -268,7 +268,7 @@ useEffect(()=>{
                     }}
                   >
                     <Link
-                    to="#"
+                    to={"#"+participantId}
                       onClick={()=>{
                         if(participant&&btnpart!=el._id){
                         
@@ -336,6 +336,7 @@ useEffect(()=>{
                         }}
                         title={el._id}
                         id={el._id}
+                        href="#!"
                       >
                         <i className="material-icons ">edit</i>
                       </a>
@@ -365,7 +366,7 @@ useEffect(()=>{
               </div>
               {modal && modalId==el._id&&<div className="col s12 m6" style={{overflowY:"scroll",height:"360px",backgroundColor:"white"}}><AddEvent toggle={toggle} action={action} setAction={setAction} /></div>}
               {participant&&participantId==el._id&&<div className="col s12 m6" style={{overflowY:"scroll",height:"360px"}}>
-              {el.participant.length!=0?<ul className="collection org">
+              {el.participant.length!=0?<ul className="collection org" id={participantId}>
     
     {el.participant.map((el,i)=>
     {return(<li key={i} className="collection-item avatar">

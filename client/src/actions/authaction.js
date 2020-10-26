@@ -149,3 +149,43 @@ export const getMyEvents = () => (dispatch) => {
         payload: err.response.data,
       }));
 };
+//add follower
+export const addfollow = (idorganizer) => (dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+    .put(`/user/add/follow/`, {follow:idorganizer})
+    .then((res) => {
+      dispatch({
+        type:GET_ERRORS,
+        payload:res.data
+      })
+      dispatch(getCurrentUser())
+
+      
+      
+   })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+};
+//unfollow
+export const removefollow = (idorganizer) => (dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+    .put(`/user/remove/follow/`, {follow:idorganizer})
+    .then((res) => {
+      dispatch({
+        type:GET_ERRORS,
+        payload:res.data
+      })
+      dispatch(getCurrentUser())
+
+      
+      
+   })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+};

@@ -220,7 +220,7 @@ nav{
          font-size: 24px !important;
     }
     .rate{
-        margin-left: 5px;
+       
         padding: 1px 7px 1px 7px;
        
         cursor: pointer;
@@ -243,11 +243,11 @@ nav{
         margin-left: 2px;
     }
   .follow{
-      border-radius: 2px;
-      border: 1px solid #2e8fa5;
+      border-radius: 3px;
       color : white;
       background: #2e8fa5;
-      padding: 4px;
+      padding: 5px;
       font-size: 14px;
-  
+      outline: none;
+  border: none;
   }
