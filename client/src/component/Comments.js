@@ -152,13 +152,8 @@ if(!auth.isAuthenticated&&document.querySelector(".fa-star")&&allevents.length!=
 useEffect(()=>{
   M.Materialbox.init(document.querySelectorAll('.materialboxed'))
    M.Collapsible.init(document.querySelectorAll('.collapsible'))
-},[match.params.event_id,resiz])
+},[match.params.event_id,resiz,allevents])
 
-useEffect(()=>{
-if(load)
- { M.Materialbox.init(document.querySelectorAll('.materialboxed'))
-   M.Collapsible.init(document.querySelectorAll('.collapsible'))}
-},[allevents])
 
 useEffect(()=>{
    M.updateTextFields()
@@ -252,7 +247,7 @@ useEffect(()=>{
            <span className="title"><b>{allevents.find(el=>el._id==match.params.event_id).title}</b></span>
            <div style={{display:"flex",alignItems:"center",marginTop:0}}>
              <p style={{ marginRigth: 7}}>{date_youtube(allevents.find(el=>el._id==match.params.event_id).created_at)}</p>
-             <div style={{display:allevents.find(el=>el._id==match.params.event_id).state!="Ended"?"none":"flex",alignItems:"center"}} className='rate' onClick={()=>{
+             <div style={{ display:auth.isAuthenticated &&auth.user.events.includes(allevents.find(el=>el._id==match.params.event_id)._id)&&allevents.find(el=>el._id==match.params.event_id).state=="Ended"?"flex":"none",alignItems:"center"}} className='rate' onClick={()=>{
             if(done)
              document.querySelector(".rating").style.display="initial"
                
@@ -329,9 +324,11 @@ history.push("/login")
       style={{position:"relative",cursor:"pointer",background:auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)&&"rgb(73, 82, 92)"}}
 onMouseOver={()=>{setfollow(!follow)}}
 onMouseLeave={()=>{setfollow(!follow)}}
-      disabled={console.log(auth.user._id==users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id) &&true}
-      >
-        {auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)?"UNFOLLOW":"FOLLOW"}</button>
+      disabled={auth.isAuthenticated&&auth.user._id==users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id}
+     
+     >
+        {auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)?"UNFOLLOW":"FOLLOW"}
+        </button>
       
       </div>
     {follow&&auth.user.follow&&!auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)&&  <p style={{width:300,background:"white",position:"absolute",right: 17,

@@ -66,7 +66,9 @@ const location = useLocation()
     
   });
 
- 
+ useEffect(()=>{
+  M.Timepicker.init(document.querySelectorAll('.timepicker'),{twelveHour:false,showClearBtn:true});
+ },[])
 
 const onChange_tags=(e)=>{
 setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
@@ -124,7 +126,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
 
   return (
    
-      <div className={location.pathname=="/dashboard"?"col s10 offset-s1":"col s12"}>
+      <div className="col s12">
         <div className="row">
           <div
             className="col s12 row"
@@ -137,7 +139,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
               <span
                 style={{
                   width: "100%",
-                  color: "cadetblue",
+                  color: "#006064",
                 }}
               >
                 {" "}
@@ -174,16 +176,20 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
 
               <label htmlFor="description" className="active">Event description</label>
             </div>
-            <div className="input-field col s12 l6">
+            <div className=" col s12 l6">
+              <div className="input-field col s8">
               <input
                 onChange={onChange}
                 value={events.date}
                 id="date"
                 type="date"
               />
-              <label htmlFor="date" className="active">Event date</label>
+              <label htmlFor="date" className="active">Event start date</label>
             </div>
-
+            <div className="input-field col s4">
+            <input type="text" className="timepicker" placeholder="Time"/>
+              </div>
+              </div>
             <div className="input-field file-field col s12 l6 ">
               <div className="btn-small">
                 <span>File</span>
@@ -256,7 +262,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
                   }}
                   // disabled={btn}
                   type="submit"
-                  className={!btn?"btn waves-effect waves-light hoverable":"btn waves-effect waves-light hoverable disabled"} 
+                  className={!btn?"btn  hoverable":"btn  hoverable disabled"} 
                   
                 >
                   {action.type=="add"?"ADD":"Edit"}
@@ -272,7 +278,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
                     height: "40px",
                   }}
                   type="button"
-                  className="btn waves-effect waves-light hoverable "
+                  className="btn  hoverable "
                   onClick={() => {
                     toggle()
                     setAction({type:"add",payload:{}})

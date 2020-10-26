@@ -68,7 +68,7 @@ useEffect(() => {
      }
 });
 
-let calendarEvents=allevents.map(el=>{
+let calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
   return (
   {
   ["title"]:el.title,
@@ -314,6 +314,26 @@ let calendarEvents=allevents.map(el=>{
                       <i className="material-icons right">close</i>
                     </span>
                     <p>{allevents.find(e=>e._id==eventId).description}</p>
+                    <div
+                      className="right"
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      {" "}
+                      <a
+                        className="btn-floating  cyan darken-3"
+                        onClick={() => {
+                          history.push(`/events/${allevents.find(e=>e._id==eventId)._id}`)
+                         
+                        }}
+                        title="Show comments"
+                      >
+                        <i className="material-icons ">comment</i>
+                      </a> </div>
                     {/* <div
                       className="right"
                       style={{

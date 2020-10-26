@@ -76,3 +76,10 @@
     line-height: 15px !important;
     margin: 0px !important;
   } */
+
+  .star_rate{
+    position: absolute;
+    top:7px;
+    left:7px
+
+  }

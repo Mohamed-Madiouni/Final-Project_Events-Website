@@ -10,6 +10,7 @@ import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
 import { GET_ERRORS } from "../actions/types";
 import { logoutUser } from "../actions/authaction";
+import calcul_rating from "../outils/calucle_rating";
 
 
 function Organizer() {
@@ -137,7 +138,7 @@ useEffect(()=>{
         >
           <div className="organizer_nav">
             <div>
-              <a className="btn-floating  cadetblue">
+              <a className="btn-floating cyan darken-3">
                 <i
                   className="material-icons"
                   onClick={toggle}
@@ -150,7 +151,7 @@ useEffect(()=>{
               <label>Add event</label>
             </div>
             <div>
-              <Link className="btn-floating  cadetblue" to={`/dashboard/${auth.user._id}`}>
+              <Link className="btn-floating  cyan darken-3" to={`/dashboard/${auth.user._id}`}>
                 <i className="material-icons" title="Show my events">
                   assignment
                 </i>
@@ -203,7 +204,10 @@ useEffect(()=>{
                       {get_month(Number(el.date.split("-")[1]))}
                     </div>
                   </div>
-                 
+                  <div className="star_rate left">
+                    <i className="material-icons" style={{color:"rgb(255, 180, 0)",fontSize:65,position:"relative"}}>star</i>
+                    <p style={{position:"absolute",top:22,lineHeight:"normal",left:21.5,width:22,height:22, display:"flex",alignItems:"center",justifyContent:"center"}}>{el.rating.length==0?"--":calcul_rating(el.rating)}</p>
+                    </div>
                 </div>
                 <div
                   className="card-content  "
@@ -270,10 +274,11 @@ useEffect(()=>{
                 >
                   <Link
                     to={`/dashboard/${el.id_organizer}`}
-                    style={{ display: "flex", alignItems: "center" ,fontSize:13}}
+                    style={{ display: "flex", alignItems: "center" ,fontSize:13,color:"#006064"}}
+                  
                   >
                     Show more
-                    <i className="material-icons " style={{fontSize:15,marginLeft:3}}>arrow_forward</i>
+                    <i className="material-icons  " style={{fontSize:15,marginLeft:3,color:"#006064"}}>arrow_forward</i>
                   </Link>
                   <span className={el.state=="Available"?"right green-text":"right gray-text text-darken-3"}> {el.state}</span>
                 </div>
@@ -295,8 +300,8 @@ useEffect(()=>{
                   >
                     {" "}
                    {/* ((new Date(el.date)-new Date())/(1000*86400))>3&& */}
-                    <a
-                      className="btn-floating waves-effect waves-light cadetblue"
+                   {el.state!="Ended"&& <a
+                      className="btn-floating   cyan darken-3"
                       onClick={() => {
                         
                        
@@ -307,32 +312,33 @@ useEffect(()=>{
                       
                       }}
                       title="edit"
+                      
                     >
                       <i className="material-icons ">edit</i>
-                    </a>
-                    <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="delete"   data-target="modal1" onClick={
+                    </a>}
+                    <button className="btn-floating cyan darken-3 modal-trigger" title="delete"   data-target="modal1" onClick={
                       ()=>setDeleteid(el._id)
                     }>
                       <i className="material-icons ">delete</i>{" "}
                     </button>
-                    {el.state=="Available"&&(
-                    <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="close"   data-target="modal2" onClick={
+                    {el.state=="Available"||el.state=="Full"&&(
+                    <button className="btn-floating cyan darken-3 modal-trigger" title="close"   data-target="modal2" onClick={
                       ()=>setClosedid(el._id)
                     }>
                       <i className="material-icons ">block</i>{" "}
                     </button>)}
                     {el.state=="Closed"&&(
-                    <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="open"   data-target="modal3" onClick={
+                    <button className="btn-floating cyan darken-3 modal-trigger" title="open"   data-target="modal3" onClick={
                       ()=>setClosedid(el._id)
                     }>
                       <i className="material-icons ">done</i>{" "}
                     </button>)}
 
-                    {el.state=="Available"&&(
+                    {el.state!="Invalid"&&(
                     <div>
                       {" "}
                       <a
-                        className="btn-floating  cadetblue"
+                        className="btn-floating  cyan darken-3"
                         onClick={() => {
                           history.push(`/events/${el._id}`)
                          }}
@@ -357,14 +363,14 @@ useEffect(()=>{
           <div className="modal-footer">
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
               onClick={()=>dispatch(deleteEvent(deleteid))}
             >
               Agree
             </a>
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
             >
               Cancel
             </a>
@@ -377,15 +383,15 @@ useEffect(()=>{
           </div>
           <div className="modal-footer">
             <a
-              href="#"
-              className="modal-close waves-effect waves-green btn-flat"
+              href="#!"
+              className="modal-close  btn-flat"
               onClick={()=>dispatch(closeEvent(closedid))}
             >
               Agree
             </a>
             <a
-              href="#"
-              className="modal-close waves-effect waves-green btn-flat"
+              href="#!"
+              className="modal-close  btn-flat"
             >
               Cancel
             </a>
@@ -399,14 +405,14 @@ useEffect(()=>{
           <div className="modal-footer">
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
               onClick={()=>dispatch(openEvent(closedid))}
             >
               Agree
             </a>
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
             >
               Cancel
             </a>

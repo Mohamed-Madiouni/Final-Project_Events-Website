@@ -10,6 +10,7 @@ import M from "materialize-css";
 import "../events.css";
 import eventClosing from "../outils/eventClosing";
 import { GET_ERRORS } from "../actions/types";
+import calcul_rating from '../outils/calucle_rating';
 let url = require('url');
 let querystring = require('querystring');
 
@@ -157,7 +158,7 @@ useEffect(() => {
             <div className="row" style={{marginLeft:10}} > <h5> <b>{search.length+" result(s) found"}</b> </h5></div>}
             <div  className="row">
 
- {search&&search.slice(0).reverse().map(el=>{
+ {search&&search.slice(0).reverse().filter(el=>el.state!="Invalid").map(el=>{
      return (
       <div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
      <div
@@ -178,6 +179,10 @@ useEffect(() => {
                       <div className="month">
                         {get_month(Number(el.date.split("-")[1]))}
                       </div>
+                    </div>
+                    <div className="star_rate left">
+                    <i className="material-icons" style={{color:"rgb(255, 180, 0)",fontSize:65,position:"relative"}}>star</i>
+                    <p style={{position:"absolute",top:22,lineHeight:"normal",left:21.5,width:22,height:22, display:"flex",alignItems:"center",justifyContent:"center"}}>{el.rating.length==0?"--":calcul_rating(el.rating)}</p>
                     </div>
                   </div>
                   <div
@@ -304,6 +309,26 @@ useEffect(() => {
                       <i className="material-icons right">close</i>
                     </span>
                     <p>{el.description}</p>
+                    <div
+                      className="right"
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      {" "}
+                      <a
+                        className="btn-floating  cyan darken-3"
+                        onClick={() => {
+                          history.push(`/events/${el._id}`)
+                         
+                        }}
+                        title="Show comments"
+                      >
+                        <i className="material-icons ">comment</i>
+                      </a> </div>
                     {/* <div
                       className="right"
                       style={{

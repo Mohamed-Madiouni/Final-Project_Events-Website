@@ -11,6 +11,7 @@ import { GET_ERRORS } from "../actions/types";
 import { getMyEvents,getCurrentUser } from "../actions/authaction";
 import historyevent from "../outils/history"
 import { logoutUser } from "../actions/authaction";
+import calcul_rating from "../outils/calucle_rating";
 
 
 function Participant() {
@@ -237,6 +238,10 @@ useEffect(()=>{
                                   {get_month(Number(el.date.split("-")[1]))}
                                 </div>
                               </div>
+                              <div className="star_rate left">
+                    <i className="material-icons" style={{color:"rgb(255, 180, 0)",fontSize:65,position:"relative"}}>star</i>
+                    <p style={{position:"absolute",top:22,lineHeight:"normal",left:21.5,width:22,height:22, display:"flex",alignItems:"center",justifyContent:"center"}}>{el.rating.length==0?"--":calcul_rating(el.rating)}</p>
+                    </div>
                             </div>
                             <div
                               className="card-content "
@@ -376,7 +381,7 @@ useEffect(()=>{
                               >
                                {" "}
                                <a
-                                 className="btn-floating  cadetblue"
+                                 className="btn-floating  cyan darken-3"
                                  onClick={() => {
                                    history.push(`/events/${el._id}`)
                                   }}
