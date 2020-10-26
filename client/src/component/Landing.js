@@ -113,14 +113,14 @@ useEffect(()=>{
           <div className="modal-footer">
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
               onClick={()=>onLogoutClick()}
             >
               Agree
             </a>
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
             >
               Cancel
             </a>

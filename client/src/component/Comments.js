@@ -25,6 +25,7 @@ import Pusher from 'pusher-js'
 import date_youtube from '../outils/dateyoutube';
 import StarRatingComponent from 'react-star-rating-component';
 import nbr_comments from "../outils/nbr_comments"
+import calcul_rating from '../outils/calucle_rating';
 
 
 function Comments({match, history}) {
@@ -54,6 +55,9 @@ const [rating,setRating]=useState(0)
 const [star,setstar]=useState(false)
 const [msg,setmsg]=useState(false)
 const [done,setdone]=useState(true)
+const [sort,setsort]=useState(false)
+const [sorttype,setsorttype]=useState({type:"relevent"})
+const [follow,setfollow]=useState(false)
     useEffect(()=>{
         dispatch(getEvent())
         dispatch(getComment())
@@ -101,7 +105,7 @@ if(allevents.length!=0&&auth.isAuthenticated&& document.querySelector(".fa-star"
 {
     setdone(false)
     setstar(true)
-    document.querySelector(".fa-star").style.color="rgb(255, 180, 0)" 
+    document.querySelector(".fa-star").style.color="#2e8fa5" 
     setRating(allevents.find(el=>el._id==match.params.event_id).rating.find(el=>el.userId==auth.user._id).rate)
 }
 else{
@@ -112,7 +116,16 @@ else{
 }
  }
 },[allevents,match.params.event_id])
+useEffect(()=>{
+if(!auth.isAuthenticated&&document.querySelector(".fa-star")&&allevents.length!=0)
+{
+  setdone(true)
+  setstar(false)
+  setRating(0)
+  document.querySelector(".fa-star").style.color="black"
 
+}
+},[auth.isAuthenticated])
 
 useEffect(()=>{
   M.Materialbox.init(document.querySelectorAll('.materialboxed'))
@@ -195,6 +208,7 @@ useEffect(()=>{
          emoj&&!document.querySelector(".emoji-mart").contains(e.target)&&setEmoj(!emoj)
          emojedt&&!document.querySelector(".emoji-mart").contains(e.target)&&setEmojedt(!emojedt)
          emojreply&&!document.querySelector(".emoji-mart").contains(e.target)&&setEmojReply(!emojreply)
+         sort&&!document.querySelector(".sort").contains(e.target)&&setsort(!sort)
         }}>
             <div className='col l8 s12 '>
      <div className="comment_sec">
@@ -215,13 +229,14 @@ useEffect(()=>{
              document.querySelector(".rating").style.display="initial"
                
                }} 
-              //  onMouseLeave={()=>
-             
-              //  document.querySelector(".rating").style.display="none"
-              //  }
+            //    onMouseOver={()=>
+            // { 
+            //   if(!done)
+            //   document.querySelector(".fa-star").style.color="white"
+            //    }}
                >
-             <i className={star?"fas fa-star":"far fa-star"} style={{fontSize:30}}></i>
-            <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}><p>{rating? <b>{rating}</b> :'Rate'} </p><p> {rating?'You':'This'}</p></div> 
+             <i className={star?"fas fa-star":"fas fa-star"} style={{fontSize:25}}></i>
+            <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}><p>{rating? <span style={{fontSize:18}}><b>{rating}</b></span>   :'Rate'} </p><p> {rating?'You':'This'}</p></div> 
              </div>
              <div className="rating" onMouseLeave={()=>{
                if(!msg)
@@ -231,29 +246,40 @@ useEffect(()=>{
                document.querySelector(".rating").style.display="none"}
                }}>
                  
-             {msg?<p style={{color:"#2e8fa5",fontSize:16}}>Thanks for your vote...</p>:<StarRatingComponent 
+             {msg?<p style={{color:"#2e8fa5",fontSize:16}}>Thanks for your vote...</p>:
+             <StarRatingComponent 
           name="event_rating" 
           starCount={10}
           value={rating}
           onStarHover={(nextValue, prevValue, name)=>{
             onStarHover(nextValue, prevValue, name)
              setstar(true)
-               document.querySelector(".fa-star").style.color="rgb(255, 180, 0)"
+               document.querySelector(".fa-star").style.color="#2e8fa5"
           
           }}
           onStarClick={()=>{
-dispatch(addrating(match.params.event_id,rating,auth.user._id))
+            if(auth.isAuthenticated)
+{dispatch(addrating(match.params.event_id,rating,auth.user._id))
 setmsg(true)
 setdone(false)
 setTimeout(function(){
   document.querySelector(".rating").style.display="none"
 },2900)
-setTimeout(function(){setmsg(false)},3000)
+setTimeout(function(){setmsg(false)},3000)}
+else
+history.push("/login")
           }}
           emptyStarColor="gray"
+          starColor="#2e8fa5"
         />}
              </div>
-     
+             <div style={{display:"flex",alignItems:"center",style:15}}>
+     <i className="material-icons" style={{color:"rgb(255, 180, 0)",fontSize:35}}>star</i>
+     <div style={{display:"flex",flexDirection:"column",}}>
+     <p><span style={{fontWeight:"bold",fontSize:20}}>{calcul_rating(allevents.find(el=>el._id==match.params.event_id).rating)}</span>/10</p>
+       <p>{nbr_comments(allevents.find(el=>el._id==match.params.event_id).rating.length)}</p> 
+    </div> 
+    </div>
     </div>
            </div> 
     <div>
@@ -263,9 +289,28 @@ setTimeout(function(){setmsg(false)},3000)
         <div><img src={users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).avatar} alt="" className="circle" style={{width:43,height:43}}/>
        <p><b>{users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).fname+" "+users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).lname}</b></p> 
       </div> 
-      <button>S'abonner</button>
+      <button className='follow' onClick={()=>{
+        if(auth.isAuthenticated)
+        dispatch()
+        else
+        history.push("/login")
+      }}
+      style={{position:"relative",cursor:"pointer"}}
+onMouseOver={()=>{setfollow(!follow)}}
+onMouseLeave={()=>{setfollow(!follow)}}
+      >FOLLOW</button>
+      
       </div>
-     
+    {follow&&  <p style={{width:300,background:"white",position:"absolute",right: 17,
+    top: 41,
+    border: "1px solid black",
+    borderRadius: 4,
+    padding: 10,
+    zIndex: 10,
+outline: "none"}}>Follow {<b>{users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).fname+" "+users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).lname+" "}</b>} 
+       to recieve a notification when he add a new event.
+      
+      </p>}
       <p>{allevents.find(el=>el._id==match.params.event_id).description}</p>
   
     </li>
@@ -318,11 +363,24 @@ return(
 
 }
 
-
+<div style={{position:"relative"}}>
     <p className="comment" >
       {comments.comments&& nbr_comments(comments.comments.filter(elm=>elm.event==match.params.event_id).length)+" "}
     comment{comments.comments&&comments.comments.filter(elm=>elm.event==match.params.event_id).length==0?"":"s"}
+    <i className="fas fa-list" onClick={()=>setsort(!sort)} title="Sort by"></i>
     </p> 
+    {sort&&<div className="sort">
+      <p style={{ color:sorttype.type=="relevent"&& "white",background:sorttype.type=="relevent"&& "#2e8fa5"}} onClick={()=>{
+        setsorttype({type:"relevent"})
+        setsort(!sort)
+        }}>Most Relevent</p>
+      <div className="divider"></div>
+      <p style={{ color:sorttype.type=="newest"&& "white",background:sorttype.type=="newest"&& "#2e8fa5"}} onClick={()=>{
+        setsorttype({type:"newest"})
+        setsort(!sort)
+        }}>Newest</p>
+    </div>}
+    </div>
     {auth.isAuthenticated&&<form className="input_add" >
         <div style={{position:"relative",display:"flex"}}>
           <img src={auth.user.avatar} alt="profil" className="circle" style={{marginTop:5}} width="45px" height="45px"/>
@@ -362,7 +420,9 @@ return(
              
          
           </form>}
-          {comments.comments&&comments.comments.filter(elm=>elm.event==match.params.event_id).reverse().slice(0,10+count*10).map(el=>{
+          {comments.comments&&comments.comments.filter(elm=>elm.event==match.params.event_id).slice(0).sort(function(a, b) {
+  return sorttype.type=="relevent"? (a.likes - b.likes):(a.created_at - b.created_at);
+}).reverse().slice(0,10+count*10).map(el=>{
 return(
 
 <ul className="collection" key={el._id} style={{overflow:"initial"}}>

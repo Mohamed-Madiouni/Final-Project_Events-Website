@@ -22,7 +22,6 @@ function Participant() {
     const allevents= useSelector((state)=>state.events.allEvents)
     const errors=useSelector(state=>state.errors)
     const myevents=useSelector(state=>state.myevents.myevents.events)
-    const hisstory = useHistory();
 
     const [modal, setModal] = useState(false);
     const [action, setAction] = useState({ type: "add", payload: {} });
@@ -379,7 +378,7 @@ useEffect(()=>{
                                <a
                                  className="btn-floating  cadetblue"
                                  onClick={() => {
-                                   hisstory.push(`/events/${el._id}`)
+                                   history.push(`/events/${el._id}`)
                                   }}
                                  title="Show comments"
                                >

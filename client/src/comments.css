@@ -36,6 +36,9 @@ border-radius: 15px;
     color: #2e8fa5;
   
 }
+.org{
+    overflow: initial;
+}
 .org img{
     width: 43px !important;
     height: 43px !important;   
@@ -47,6 +50,35 @@ border-radius: 15px;
 font-weight: 560;
 margin-top:10px;
 margin-bottom: 10px;
+display: flex;
+align-items: center;
+}
+.comment>i{
+    margin-left: 10px;
+    cursor: pointer;
+
+}
+.comment>i:hover{
+    color: #2e8fa5 ;
+}
+.comment+div{
+    position: absolute;
+    z-index: 1;
+    left: 90px;
+    top:25px;
+    border: 1px solid  #2e8fa5 ;
+    background-color: white;
+    /* padding: 4px; */
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 12px;
+}
+.comment+div>p{
+    padding: 5px;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+   
 }
 
 .input_add{
@@ -189,16 +221,33 @@ nav{
     }
     .rate{
         margin-left: 5px;
-        padding: 7px;
-        border-radius: 6px;
+        padding: 1px 7px 1px 7px;
+       
         cursor: pointer;
-        
+        /* border: 1px solid transparent; */
+        border-right: 1px solid  rgb(73, 82, 92);
     }
     .rate:hover{
-        background-color:  #2e8fa5;
+        /* background-color:  #2e8fa5; */
         color: white;
+        /* border: 1px solid  #2e8fa5; */
+        background-color: rgb(73, 82, 92);
+        border-radius: 6px;
+    }
+    .rate:hover i{
+       
+        color: white;
+       
     }
     .rate>div{
         margin-left: 2px;
     }
+  .follow{
+      border-radius: 2px;
+      border: 1px solid #2e8fa5;
+      color : white;
+      background: #2e8fa5;
+      padding: 4px;
+      font-size: 14px;
   
+  }

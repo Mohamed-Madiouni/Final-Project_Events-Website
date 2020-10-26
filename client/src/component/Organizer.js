@@ -41,6 +41,7 @@ function Organizer() {
   useEffect(() => {
     dispatch(getEventOrganizer());
     dispatch(getEvent())
+    M.Modal.init(document.querySelectorAll(".modal"))
   }, []);
   
 

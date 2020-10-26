@@ -276,6 +276,8 @@ export const getParticipant = () => (dispatch) => {
       }));
 };
 
+
+//add rating
 export const addrating = (idEvent, rating,user_id) => (dispatch) => {
   setAuthToken(localStorage.token)
   axios
