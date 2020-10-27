@@ -23,7 +23,7 @@ function Navbar() {
   return (
     <div className="navbar-fixed" style={{height:"60px"}}>
     <div className="test row">
-      <div className="div2 col s12 l11 row">
+      <div className="div2 col s10 l11 row">
        <div
           style={{
             padding: "0px",
@@ -148,7 +148,7 @@ function Navbar() {
           </Link>
         </div> */}
       </div>
-      <div className="landing col s2 l2" style={{
+      <div className="landing col s2 l1" style={{
         margin:0
       }}> 
         <Landing />
