@@ -460,22 +460,20 @@ const EventList = () => {
               );
             })}
       </div>
-      {(countevent + 1) * 10 < events.length && (
-        <div
-          style={{
-            display: "flex",
-            cursor: "pointer",
-            color: "rgb(46, 143, 165)",
-            fontWeight: 550,
-          }}
-          onClick={() => {
-            setCountevent(countevent + 1);
-          }}
-        >
-          <i className="material-icons">expand_more</i>
-          <p>Show more events</p>
-        </div>
-      )}
+
+      {(countevent + 1) * 12 < events.length && (
+        <div style={{
+           marginBottom:"50px",
+           cursor: "pointer",
+           display: "flex",
+           justifyContent:"center",
+           alignItems:"center"}}
+           id="loadMore" className="thb-gp-load-more"
+           data-thb-gp-lm-type="event"
+           data-org-text="MORE"
+           onClick={() => {
+           setCountevent(countevent + 1);
+        }}>SHOW MORE</div>)}
 
       <div id="modal1" className="modal">
         <div className="modal-content">

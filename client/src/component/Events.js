@@ -447,22 +447,7 @@ useEffect(()=>{
  
  )}
             </div>
-{(countevent + 1) * 12 < events.length && (
-        <div
-          style={{
-            display: "flex",
-            cursor: "pointer",
-            color: "rgb(46, 143, 165)",
-            fontWeight: 550,
-          }}
-          onClick={() => {
-            setCountevent(countevent + 1);
-          }}
-        >
-          <i className="material-icons">expand_more</i>
-          <p>Show more events</p>
-        </div>
-      )}
+
      
 
             <div id="modalevnt" className="modal">
@@ -497,10 +482,21 @@ note that: </p><br/>
           </div>
         </div>
 
-        // <a style={{marginBottom:"50px"}} href="#" id="loadMore" class="thb-gp-load-more" data-thb-gp-lm-type="event" data-org-text="MORE">MORE</a>
+        {(countevent + 1) * 12 < events.length && (
+        <div style={{
+           marginBottom:"50px",
+           cursor: "pointer",
+           display: "flex",
+           justifyContent:"center",
+           alignItems:"center"}}
+           id="loadMore" className="thb-gp-load-more"
+           data-thb-gp-lm-type="event"
+           data-org-text="MORE"
+           onClick={() => {
+           setCountevent(countevent + 1);
+        }}>SHOW MORE</div>)}
         <Footer/>
         </div>
-
     )
 }
 
