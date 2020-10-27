@@ -89,7 +89,7 @@ useEffect(()=>{
 useEffect(()=>{
   let title="newevent";
   let content= "new event"
-  dispatch(sendNotifications(auth.user._id,title,content,title,auth.user.role))
+  dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, Date.now, false, 1))
 },[])
 
 
