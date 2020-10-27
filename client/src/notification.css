@@ -7,8 +7,8 @@
   }
   .notification-bell {
     position: absolute;
-    top:-12px;
-    right: 3px;
+    top:-48px;
+    right: 15px;
     animation: bell 1s 1s both infinite;
   }
   .notification-bell * {
@@ -62,7 +62,7 @@
   .notification-count {
     position: absolute;
     z-index: 1;
-    top: -20px;
+    top: -55px;
     width: 15px;
     height: 15px;
     line-height: 15px;
@@ -71,7 +71,7 @@
     background-color:rgb(223, 117, 117);
     color: #fff;
     animation: zoom 3s 3s both infinite;
-    left: -35px;
+    left: -46px;
   }
   @keyframes bell {
     0% { transform: rotate(0); }

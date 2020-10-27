@@ -108,6 +108,21 @@ useEffect(()=>{
         </div>}
       </div>
 
+    <ul>
+    <li >
+      <a href="#">
+    <span class="notification-box">
+    <span class="notification-count">16</span>
+    <span class="notification-bell">
+      <span class="bell-top"></span>
+      <span class="bell-middle"></span>
+      <span class="bell-bottom"></span>
+      <span class="bell-rad"></span>
+    </span></span>
+      </a>  
+    </li>
+    </ul>
+
       <ul id='dropdown1' className='dropdown-content lan' >
         <li style={{height:"100%"}}>
       <div style={{display:"flex",

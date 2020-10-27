@@ -91,20 +91,7 @@ function Navbar() {
               })
             }
           ></i>
-          <ul className="col s1">
-    <li >
-      <a href="#">
-    <span class="notification-box">
-    <span class="notification-count">16</span>
-    <span class="notification-bell">
-      <span class="bell-top"></span>
-      <span class="bell-middle"></span>
-      <span class="bell-bottom"></span>
-      <span class="bell-rad"></span>
-    </span></span>
-      </a>  
-    </li>
-    </ul>
+
           
           </>):( <><i
             className="fa fa-search col s1 "
