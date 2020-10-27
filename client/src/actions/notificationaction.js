@@ -1,7 +1,6 @@
 import { GET_ERRORS, GET_NOTIFICATIONS } from "./types";
 import axios from "axios";
 import setAuthToken from "../token/authtoken";
-import { count } from "../../../models/Event";
 
 // Get Notifications
 export const getNotifications = () => (dispatch) => {
