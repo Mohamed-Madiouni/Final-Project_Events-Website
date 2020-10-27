@@ -35,7 +35,7 @@ const userSchema = mongoose.Schema({
   },
   avatar: {
     type: String,
-    default: "/user-icon2.jpg",
+    default: "/user_icon.png",
   },
   events: [{ type: mongoose.Types.ObjectId, ref: "event" }],
   cancelation :[{
