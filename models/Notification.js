@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema;
-const EventSchema = new schema({
+const NotifSchema = new schema({
   userId: {
     type: String,
     required: true,
@@ -32,4 +32,4 @@ const EventSchema = new schema({
     default: 0,
   },
 });
-module.exports = mongoose.model("notification", EventSchema);
+module.exports = mongoose.model("notification", NotifSchema);

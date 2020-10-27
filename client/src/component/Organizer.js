@@ -83,11 +83,16 @@ useEffect(()=>{
   for(let i=0;i<events.events.length;i++){
     if( events.events[i].participant.length!=events.events[i].nb_participant&&events.events[i].state=="Full")
     dispatch(openEvent(events.events[i]._id))
-    let title="newevent";
-    let content= "new event"
-    dispatch(sendNotifications(content,title,auth.user._id,auth.user._id,auth.user.role))
     }
 },[])
+
+useEffect(()=>{
+  let title="newevent";
+  let content= "new event"
+  dispatch(sendNotifications(auth.user._id,title,content,title,auth.user.role))
+},[])
+
+
  useEffect(()=>{
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
     M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false });

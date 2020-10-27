@@ -1,11 +1,11 @@
 const express = require("express");
-const Notification = require("../models/Notifications");
+const Notification = require("../models/Notification");
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 
 // GET NOTIF
-router.get("/notifications", (req, res) => {
-    Notifications.find()
+router.get("/",authMiddleware, (req, res) => {
+    Notification.find()
     .then((notifications) => res.json(notifications))
     .catch((err) => {
       console.error(err.message);
@@ -14,11 +14,14 @@ router.get("/notifications", (req, res) => {
 });
 
 // ADD NOTIF
-router.post("/addnotif",authMiddleware, (req, res) => {
-  
+router.post("/add",authMiddleware, (req, res) => {
+  console.log(req.body)
     Notification.create(req.body)
       .then((notifications) => res.status(201).send(notifications))
       .catch((err) => {
         console.log(err.message);
       });
   });
+
+  module.exports=router
+

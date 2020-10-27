@@ -26,8 +26,9 @@ export const sendNotifications = (userId, title, content, role, state, counter) 
   dispatch
 ) => {
   setAuthToken(localStorage.token);
+  console.log(userId, title, content, role, state, counter)
   axios
-    .post("/notification/add", {
+    .post("/notifications/add", {
       content: content,
       title: title,
       createdBy: userId,
