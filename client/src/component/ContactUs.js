@@ -5,7 +5,7 @@ import axios from "axios";
 import { GET_ERRORS } from "../actions/types";
 import { useSelector, useDispatch } from "react-redux";
 import { contactUs } from "../actions/authaction";
-import { GoogleComponent } from 'react-google-location'
+// import { GoogleComponent } from 'react-google-location'
 
 import "../ContactUs.css"
 

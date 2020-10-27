@@ -149,7 +149,7 @@ useEffect(()=>{
       
 
 
-//       <div className='row container' ><h5><b>Quick search</b></h5></div>
+{/* //       <div className='row container' ><h5><b>Quick search</b></h5></div>
 
 // <div className="row container" style={{marginTop:"20px",fontSize:15,fontWeight:800}} >
 //   <form >
@@ -172,7 +172,7 @@ useEffect(()=>{
 // <label forhtml="title">Event tags</label>
 // </div>
 //   </form>
-// </div>
+// </div> */}
 
     {/* <div className="col s12">
         <Link

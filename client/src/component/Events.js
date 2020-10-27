@@ -130,8 +130,8 @@ useEffect(()=>{
   setQuickSearch={setQuickSearch}/>
 
       
-//         <div>
-//              <Navbar/>
+{/* //         <div>
+//              <Navbar/> */}
 
             
              {/* <div className='row container' ><h5><b>Quick search</b></h5></div> */}
@@ -143,7 +143,7 @@ useEffect(()=>{
             >
           
 
-//      <form >
+{/* //      <form >
 //               <div className="input-field col s4 m5">
 //           <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
 //           <label forhtml="title">Event title</label>
@@ -161,7 +161,7 @@ useEffect(()=>{
 //           <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
 //           <label forhtml="title">Event tags</label>
 //         </div>
-//               </form>
+//               </form> */}
 
             </div>
 
@@ -191,10 +191,9 @@ useEffect(()=>{
                         <h2>Upcoming Events</h2>
                         <p className="pra-2">Keep up with the latest digital events</p>
                         </div></div></div></div></div></div>
-//  {events&&events.slice(0).reverse().map(el=>{
-//      return (
-
-//      <div className="col s12 m3 l2 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
+  {/* {events&&events.slice(0).reverse().map(el=>{ */}
+     {/* return (
+      <div className="col s12 m3 l2 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} > */}
        
 
 
@@ -498,7 +497,7 @@ note that: </p><br/>
           </div>
         </div>
 
-//         <a style={{marginBottom:"50px"}} href="#" id="loadMore" class="thb-gp-load-more" data-thb-gp-lm-type="event" data-org-text="MORE">MORE</a>
+        // <a style={{marginBottom:"50px"}} href="#" id="loadMore" class="thb-gp-load-more" data-thb-gp-lm-type="event" data-org-text="MORE">MORE</a>
         <Footer/>
         </div>
 

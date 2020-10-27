@@ -4,7 +4,7 @@ import Landing from "./Landing";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { INI_SEARCH } from "../actions/types";
-
+import "../notification.css"
 function Navbar() {
   const search = useSelector((state) => state.search);
   const dispatch = useDispatch();
@@ -68,11 +68,11 @@ function Navbar() {
             <Link to="/events" style={{borderRadius:"10px", backgroundColor:location.pathname=="/events"&&"cadetblue"}}>Events</Link>
             <Link to="/calendar" style={{borderRadius:"10px", backgroundColor:location.pathname=="/calendar"&&"cadetblue"}}>Calendar</Link>
 
-//           <div className="col s11  nav_list" style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+{/* //           <div className="col s11  nav_list" style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
 //             <Link to="/" style={{color:location.pathname=="/"&&"rgb(14, 161, 152)"}}>Home</Link>
 //             <Link to="/dashboard" style={{color:(location.pathname=="/dashboard"||location.pathname==`/dashboard/${auth.user._id}`)&&"rgb(14, 161, 152)"}}>Dashboard</Link>
 //             <Link to="/events" style={{color:location.pathname=="/events"&&"rgb(14, 161, 152)"}}>Events</Link>
-//             <Link to="/calendar" style={{color:location.pathname=="/calendar"&&"rgb(14, 161, 152)"}}>Calendar</Link>
+//             <Link to="/calendar" style={{color:location.pathname=="/calendar"&&"rgb(14, 161, 152)"}}>Calendar</Link> */}
 
           </div>
           <i
@@ -90,7 +90,23 @@ function Navbar() {
                 payload: !search.etat,
               })
             }
-          ></i></>):( <><i
+          ></i>
+          <ul className="col s1">
+    <li >
+      <a href="#">
+    <span class="notification-box">
+    <span class="notification-count">16</span>
+    <span class="notification-bell">
+      <span class="bell-top"></span>
+      <span class="bell-middle"></span>
+      <span class="bell-bottom"></span>
+      <span class="bell-rad"></span>
+    </span></span>
+      </a>  
+    </li>
+    </ul>
+          
+          </>):( <><i
             className="fa fa-search col s1 "
             style={{
               fontSize: "21px",
