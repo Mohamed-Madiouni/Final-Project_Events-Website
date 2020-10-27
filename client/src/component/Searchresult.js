@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch,useSelector } from 'react-redux';
 import { useHistory,Link } from 'react-router-dom';
-import { getCurrentUser } from '../actions/authaction';
-import {getEvent,endEvent,closeEvent,followEvent,unfollowEvent} from "../actions/evntAction";
+import { getCurrentUser,logoutUser } from '../actions/authaction';
+import {getEvent,endEvent,closeEvent,followEvent,unfollowEvent, fullEvent, openEvent} from "../actions/evntAction";
 import get_month from "../outils/get_month"
 import historyevent from "../outils/history"
 import Navbar from './Navbar';
@@ -10,6 +10,7 @@ import M from "materialize-css";
 import "../events.css";
 import eventClosing from "../outils/eventClosing";
 import { GET_ERRORS } from "../actions/types";
+import calcul_rating from '../outils/calucle_rating';
 let url = require('url');
 let querystring = require('querystring');
 
@@ -32,24 +33,32 @@ function Searchresult() {
     });
     const [participate,setParticipate]=useState("")
     const [eventDate,setEventDate]=useState("")
-//check if events ended
+
+//check if events full
 useEffect(()=>{
   dispatch(getEvent())
+  for(let i=0;i<allevents.length;i++){
+    if( allevents[i].participant.length==allevents[i].nb_participant&&allevents[i].state!="Ended")
+    dispatch(fullEvent(allevents[i]._id))
+  }
+},[])
+//check if events ended
+useEffect(()=>{
+  
   for(let i=0;i<allevents.length;i++){
     if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
     dispatch(endEvent(allevents[i]._id))
   }
 },[])
-//check if events full
+//open full events
 useEffect(()=>{
   for(let i=0;i<allevents.length;i++){
-    if( allevents[i].participant.length==allevents[i].nb_participant)
-    dispatch(closeEvent(allevents[i]._id))
+    if( allevents[i].participant.length!=allevents[i].nb_participant&&allevents[i].state=="Full")
+    dispatch(openEvent(allevents[i]._id))
   }
 },[])
-
     useEffect(()=>{
-        dispatch(getEvent())
+        
        localStorage.token&&dispatch(getCurrentUser())
        M.Modal.init(document.querySelectorAll(".modal"))
     },[])
@@ -60,13 +69,19 @@ useEffect(()=>{
   
 // })
    
-
+useEffect(() => {
+  if (auth.user.banned===true) {
+      dispatch(logoutUser());
+      history.push("/banned")
+     }
+});
 
     useEffect(()=>{setInitial(search)},[])
    
    useEffect(()=>{
      M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false})
-     M.updateTextFields()
+     M.updateTextFields() 
+    
      if(errors.banned)
      {
      M.toast({ html:`Your account has been banned from subscribtion to any event !! \n your restriction will end in ${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+7)}  `, classes: "red darken-4",displayLength:10000  });
@@ -143,7 +158,7 @@ useEffect(()=>{
             <div className="row" style={{marginLeft:10}} > <h5> <b>{search.length+" result(s) found"}</b> </h5></div>}
             <div  className="row">
 
- {search&&search.slice(0).reverse().map(el=>{
+ {search&&search.slice(0).reverse().filter(el=>el.state!="Invalid").map(el=>{
      return (
       <div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
      <div
@@ -164,6 +179,10 @@ useEffect(()=>{
                       <div className="month">
                         {get_month(Number(el.date.split("-")[1]))}
                       </div>
+                    </div>
+                    <div className="star_rate left">
+                    <i className="material-icons" style={{color:"rgb(255, 180, 0)",fontSize:65,position:"relative"}}>star</i>
+                    <p style={{position:"absolute",top:22,lineHeight:"normal",left:21.5,width:22,height:22, display:"flex",alignItems:"center",justifyContent:"center"}}>{el.rating.length==0?"--":calcul_rating(el.rating)}</p>
                     </div>
                   </div>
                   <div
@@ -190,7 +209,7 @@ useEffect(()=>{
                       >
                         <i
                           className=" tiny material-icons"
-                          style={{ margin: 10, transform: "translateY(1.4px)" }}
+                          style={{ margin: 10, marginTop:9 }}
                         >
                           history
                         </i>
@@ -206,7 +225,7 @@ useEffect(()=>{
                       >
                         <i
                           className=" tiny material-icons"
-                          style={{ margin: 10 }}
+                          style={{ margin: 10,marginTop:8 }}
                         >
                           person
                         </i>
@@ -216,7 +235,7 @@ useEffect(()=>{
                     </div>
                     {el.tags.length!=0&&<div className="slider right tag_slide_event">
     <ul className="slides">
-              {el.tags.map((el,index)=><li key={index}> <p>{el}</p> </li>)}
+              {el.tags.map((el,index)=><li key={index}> <p className='chip' style={{padding:8,display:"flex",alignItems:"center",fontSize:12}}>{el}</p> </li>)}
     </ul>
   </div>}
                   </div>
@@ -229,23 +248,23 @@ useEffect(()=>{
                       justifyContent: "space-between",
                     }}
                   >
-                    {el.state=="Available"&&(!auth.isAuthenticated?
-                    <button
+                    {(!auth.isAuthenticated?
+                   el.state=="Available"&& <button
                     
                       onClick={()=>{
                         history.push("/login")
                       }}
                       style={{ display: "flex", alignItems: "center",borderRadius:"5px" }}
-                      className="btn-small green white-text"
+                      className="btn-small green white-text  pulse"
                     >
                       Participate
                       
                     </button>:(auth.user.role=="participant"&&
                     !auth.user.cancelation.includes(el._id)&&
-                    (auth.user.banned_date?new Date()>auth.user.banned_date:true)&&
+                    
                     (
                       !auth.user.events.includes(el._id)?
-                    <button
+                      el.state=="Available"&& <button
                     data-target="modalevnt"
                       onClick={()=>{
                         // !auth.user.events.includes(el._id)&&
@@ -253,7 +272,7 @@ useEffect(()=>{
                         // :dispatch(unfollowEvent(el._id))
                       }}
                       style={{ display: "flex", alignItems: "center",borderRadius:"5px" }}
-                      className="btn-small green white-text modal-trigger"
+                      className="btn-small green white-text modal-trigger  pulse"
                     >
                      Participate
                       
@@ -290,6 +309,26 @@ useEffect(()=>{
                       <i className="material-icons right">close</i>
                     </span>
                     <p>{el.description}</p>
+                    <div
+                      className="right"
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      {" "}
+                      <a
+                        className="btn-floating  cyan darken-3"
+                        onClick={() => {
+                          history.push(`/events/${el._id}`)
+                         
+                        }}
+                        title="Show comments"
+                      >
+                        <i className="material-icons ">comment</i>
+                      </a> </div>
                     {/* <div
                       className="right"
                       style={{
@@ -350,7 +389,7 @@ useEffect(()=>{
 <p>You are about to subscribe to {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )} event, Please
 note that: </p><br/>  
 <ol><li>You can't subscribe to the same event after <b>annulation</b>. </li>
-<li>You are responsible for all comments you send, in case of non respect your account will be <b>banned</b> for one <b>week</b>.</li>
+<li>You are responsible for all comments you send, in case of non respect your account will be <b>alerted</b> for one <b>week</b> and you risk to get banned from the admin.</li>
 </ol></>:<><h4>Event annulation</h4>
             <p>Are you sure you want to cancel the {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )}  event? 
             {participate&&((new Date(allevents.find(el=>el._id==participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"}

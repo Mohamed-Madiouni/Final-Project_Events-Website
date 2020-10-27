@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch,useSelector } from 'react-redux';
 import { useHistory,Link } from 'react-router-dom';
 import { getCurrentUser } from '../actions/authaction';
-import {makeComment,getComment,deleteComment,editComment} from "../actions/evntAction";
+import {fullEvent, openEvent} from "../actions/evntAction";
 
 import {followEvent, getEvent, unfollowEvent,endEvent, closeEvent} from "../actions/evntAction";
 
@@ -13,12 +13,20 @@ import "../events.css";
 import M from "materialize-css";
 import { GET_ERRORS } from "../actions/types";
 import eventClosing from "../outils/eventClosing";
+
 import Footer from './Footer';
 import Search from './Search';
+
+import { logoutUser } from "../actions/authaction";
+import calcul_rating from '../outils/calucle_rating';
+
+
 function Events() {
     const dispatch = useDispatch()
     const history =useHistory()
     const allevents=useSelector(state=>state.events.allEvents)
+    const [countevent, setCountevent] = useState(0);
+
     // const comment=useSelector(state=>state.comments.comment)
     let auth = useSelector(state=>state.auth)
     let errors=useSelector(state=>state.errors)
@@ -29,31 +37,41 @@ function Events() {
     });
     const [participate,setParticipate]=useState("")
     const [eventDate,setEventDate]=useState("")
-   
+ 
     
-    //check if events ended
+   
+//check if events full
 useEffect(()=>{
   dispatch(getEvent())
+  for(let i=0;i<allevents.length;i++){
+    if( allevents[i].participant.length==allevents[i].nb_participant&&allevents[i].state!="Ended")
+    dispatch(fullEvent(allevents[i]._id))
+  }
+},[]) 
+//check if events ended
+useEffect(()=>{
+  
   for(let i=0;i<allevents.length;i++){
     if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
     dispatch(endEvent(allevents[i]._id))
   }
 },[])
-//check if events full
+//open full events
 useEffect(()=>{
   for(let i=0;i<allevents.length;i++){
-    if( allevents[i].participant.length==allevents[i].nb_participant)
-    dispatch(closeEvent(allevents[i]._id))
+    if( allevents[i].participant.length!=allevents[i].nb_participant&&allevents[i].state=="Full")
+    dispatch(openEvent(allevents[i]._id))
   }
 },[])
     useEffect(()=>{
-        dispatch(getEvent())
+       
        localStorage.token&&dispatch(getCurrentUser())
-       M.Modal.init(document.querySelectorAll(".modal"))
+        M.Modal.init(document.querySelectorAll(".modal"))
     },[])
     useEffect(()=>{
       M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false})
       M.updateTextFields()
+     
       if(errors.banned)
       {
       M.toast({ html:`Your account has been banned from subscribtion to any event !! \n your restriction will end in ${new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()+7)}  `, classes: "red darken-4",displayLength:10000 });
@@ -64,6 +82,14 @@ useEffect(()=>{
     }
     
     })
+
+    useEffect(() => {
+      if (auth.user.banned===true) {
+          dispatch(logoutUser());
+          history.push("/banned")
+         }
+    });
+
 //   useEffect(()=>{
 //     dispatch(makeComment(),getComment())
 // },[])
@@ -96,19 +122,47 @@ useEffect(()=>{
     
 
     return (
+
 <div>
   <Navbar/>
   <Search
   quickSearch={quickSearch}
   setQuickSearch={setQuickSearch}/>
+
+      
+//         <div>
+//              <Navbar/>
+
             
              {/* <div className='row container' ><h5><b>Quick search</b></h5></div> */}
 
             
+
             <div className="row container" 
             style={{marginLeft:"30px",marginTop:"20px",fontSize:15,fontWeight:800}} 
             >
           
+
+//      <form >
+//               <div className="input-field col s4 m5">
+//           <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
+//           <label forhtml="title">Event title</label>
+//         </div>
+//         <div className="input-field col s4 m3">
+//     <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none"}}>
+//       <option value="">State</option>
+//       <option value="Available"  className="green-text">Available</option>
+//       <option value="Closed" className="gray-text">Closed</option>
+//       <option value="Ended" className="gray-text">Ended</option>
+//     </select>
+//     <label className="active">Event state</label>
+//   </div>
+//   <div className="input-field col s4 m4">
+//           <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
+//           <label forhtml="title">Event tags</label>
+//         </div>
+//               </form>
+
             </div>
 
             {(quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&
@@ -124,6 +178,7 @@ useEffect(()=>{
                         <p className="pra-2"> result(s) found </p>
                         </div></div></div></div></div></div> 
            
+
             </div>}
             
              <div className="row" style={{marginLeft:"50px",marginTop:"20px"}}>
@@ -136,15 +191,19 @@ useEffect(()=>{
                         <h2>Upcoming Events</h2>
                         <p className="pra-2">Keep up with the latest digital events</p>
                         </div></div></div></div></div></div>
- {events&&events.slice(0).reverse().map(el=>{
-     return (
+//  {events&&events.slice(0).reverse().map(el=>{
+//      return (
 
-     <div className="col s12 m3 l2 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
+//      <div className="col s12 m3 l2 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
        
 
 
 
        
+
+ {events&&events.slice(0).reverse().slice(0, 12 + countevent * 12).filter(el=>el.state!="Invalid").map(el=>{
+     return (<div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
+
        <div
                   className="card small sticky-action"
                   style={{
@@ -164,7 +223,11 @@ useEffect(()=>{
                         {get_month(Number(el.date.split("-")[1]))}
                       </div>
                     </div>
-                  </div>
+                    <div className="star_rate left">
+                    <i className="material-icons" style={{color:"rgb(255, 180, 0)",fontSize:65,position:"relative"}}>star</i>
+                    <p style={{position:"absolute",top:22,lineHeight:"normal",left:21.5,width:22,height:22, display:"flex",alignItems:"center",justifyContent:"center"}}>{el.rating.length==0?"--":calcul_rating(el.rating)}</p>
+                    </div>
+                  </div> 
                   <div
                     className="card-content "
                     style={{ padding: "0px 10px 0px 24px" }}
@@ -192,7 +255,7 @@ useEffect(()=>{
                       >
                         <i
                           className=" tiny material-icons"
-                          style={{ margin: 10, marginTop:8}}
+                          style={{ margin: 10, marginTop:10}}
                         >
                           history
                         </i>
@@ -204,11 +267,12 @@ useEffect(()=>{
                           margin: 10, 
                           display: "flex",
                           alignItems: "center",
+                          
                         }}
                       >
                         <i
                           className=" tiny material-icons"
-                          style={{ margin: 10, marginTop:8 }}
+                          style={{ margin: 10, marginTop:8}}
                         >
                           person
                         </i>
@@ -218,7 +282,7 @@ useEffect(()=>{
                     </div>
                     {el.tags.length!=0&&<div className="slider right tag_slide_event">
     <ul className="slides">
-              {el.tags.map((el,i)=><li key={i}> <p>{el}</p> </li>)}
+              {el.tags.map((el,i)=><li key={i}> <p className='chip' style={{padding:8,display:"flex",alignItems:"center",fontSize:12}}>{el}</p> </li>)}
     </ul>
   </div>}
                   </div>
@@ -231,23 +295,23 @@ useEffect(()=>{
                       justifyContent: "space-between",
                     }}
                   >
-                    {el.state=="Available"&&(!auth.isAuthenticated?
-                    <button
+                    {(!auth.isAuthenticated?
+                    el.state=="Available"&&<button
                     
                       onClick={()=>{
                         history.push("/login")
                       }}
                       style={{ display: "flex", alignItems: "center",borderRadius:"5px" }}
-                      className="btn-small green white-text"
+                      className="btn-small green white-text  pulse"
                     >
                       Participate
                       
                     </button>:(auth.user.role=="participant"&&
                     !auth.user.cancelation.includes(el._id)&&
-                    (auth.user.banned_date?new Date()>auth.user.banned_date:true)&&
+                    
                     (
                       !auth.user.events.includes(el._id)?
-                    <button
+                     el.state=="Available"&&<button
                     data-target="modalevnt"
                       onClick={()=>{
                         // !auth.user.events.includes(el._id)&&
@@ -255,7 +319,7 @@ useEffect(()=>{
                         // :dispatch(unfollowEvent(el._id))
                       }}
                       style={{ display: "flex", alignItems: "center",borderRadius:"5px" }}
-                      className="btn-small green white-text modal-trigger"
+                      className="btn-small green white-text modal-trigger  pulse"
                     >
                      Participate
                       
@@ -292,7 +356,7 @@ useEffect(()=>{
                       <i className="material-icons right">close</i>
                     </span>
                     <p>{el.description}</p>
-                    {/* <div
+                     <div
                       className="right"
                       style={{
                         display: "flex",
@@ -303,23 +367,22 @@ useEffect(()=>{
                     >
                       {" "}
                       <a
-                        className="btn-floating waves-effect waves-light cadetblue"
+                        className="btn-floating  cyan darken-3"
                         onClick={() => {
-                          setAction({ type: "edit", payload: el });
-                          if(modal){
-                           
-                            setModal(toggle( toggle()))
-                          }
-                          if(!modal)
-                          toggle()
-                          setParticipant(false)
-                          setModalId(el._id)
+                          history.push(`/events/${el._id}`)
+                         
                         }}
-                        title="edit"
+                        title="Show comments"
                       >
-                        <i className="material-icons ">edit</i>
-                      </a>
-                      <button
+                        <i className="material-icons ">comment</i>
+                      </a> </div>
+                      </div> 
+
+
+
+
+
+                      {/* <button
                         className="btn-floating waves-effect waves-light cadetblue modal-trigger"
                         title="delete"
                         data-target="modal1"
@@ -338,9 +401,9 @@ useEffect(()=>{
                       ()=>setClosedid(el._id)
                     }>
                       <i className="material-icons ">done</i>{" "}
-                    </button>)}
-                    </div> */}
-                  </div>
+                    </button>)} */}
+                    
+                 
                 </div>
                 {/* {
                     el.comment.map(elt=>{
@@ -381,16 +444,35 @@ useEffect(()=>{
                   </form> */}
                 </div>)
 
- })}
-            {/* </div> */}
+ }
+ 
+ )}
             </div>
+{(countevent + 1) * 12 < events.length && (
+        <div
+          style={{
+            display: "flex",
+            cursor: "pointer",
+            color: "rgb(46, 143, 165)",
+            fontWeight: 550,
+          }}
+          onClick={() => {
+            setCountevent(countevent + 1);
+          }}
+        >
+          <i className="material-icons">expand_more</i>
+          <p>Show more events</p>
+        </div>
+      )}
+     
+
             <div id="modalevnt" className="modal">
           <div className="modal-content">
                {participate&& !auth.user.events.includes(participate)?<><h4>Hi, {auth.user.fname}</h4>
 <p>You are about to subscribe to {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )} event, Please
 note that: </p><br/>  
 <ol><li>You can't subscribe to the same event after <b>annulation</b>. </li>
-<li>You are responsible for all comments you send, in case of non respect your account will be <b>banned</b> for one <b>week</b>.</li>
+<li>You are responsible for all comments you send, in case of non respect your account will be <b>alerted</b> for one <b>week</b> and you risk to get banned from the admin.</li>
 </ol></>:<><h4>Event annulation</h4>
             <p>Are you sure you want to cancel the {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )}  event? 
             {/* {participate&&auth.user.banned_date&&((new Date(allevents.find(el=>el._id==participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"} */}
@@ -415,10 +497,11 @@ note that: </p><br/>
             
           </div>
         </div>
-        <a style={{marginBottom:"50px"}} href="#" id="loadMore" class="thb-gp-load-more" data-thb-gp-lm-type="event" data-org-text="MORE">MORE</a>
+
+//         <a style={{marginBottom:"50px"}} href="#" id="loadMore" class="thb-gp-load-more" data-thb-gp-lm-type="event" data-org-text="MORE">MORE</a>
         <Footer/>
         </div>
-       
+
     )
 }
 

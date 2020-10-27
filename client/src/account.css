@@ -16,7 +16,7 @@ img.circle.materialboxed.active{
     background-color: white;
     padding: 0;
     max-height: 70%;
-    width: 55%;
+    width: 40%;
     margin: auto;
     overflow-y: auto;
     border-radius: 2px;
@@ -24,4 +24,7 @@ img.circle.materialboxed.active{
     margin-top: 20px;
     margin-bottom: 20px;
     
+}
+.photo>.material-placeholder{
+    height: 180px !important;
 }

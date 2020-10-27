@@ -2,7 +2,7 @@ import React, { useEffect, useState,useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import get_month from "../outils/get_month"
 import historyevent from "../outils/history"
-import {closeEvent,getEventOrganizer, deleteEvent,openEvent, getEvent,endEvent, getParticipant} from "../actions/evntAction";
+import {closeEvent,getEventOrganizer, deleteEvent,openEvent, getEvent,endEvent, getParticipant, fullEvent} from "../actions/evntAction";
 import { getCurrentUser } from "../actions/authaction";
 import AddEvent from "./AddEvent";
  import "../organizer.css";
@@ -12,11 +12,16 @@ import { Link } from "react-router-dom";
 import eventClosing from "../outils/eventClosing";
 import Navbar from "./Navbar";
 import "../organizer_event.css";
+
 import Search from './Search'
+
+import { logoutUser } from "../actions/authaction";
+import calcul_rating from "../outils/calucle_rating";
+
 
 
 function Organizer_events({ history }) {
-  
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const events = useSelector((state) => state.events);
   const allevents= useSelector((state)=>state.events.allEvents)
@@ -58,7 +63,7 @@ function Organizer_events({ history }) {
   // })
   useEffect(() => {
     dispatch(getEventOrganizer());
-    
+    dispatch(getEvent())
     dispatch(getParticipant())
   }, []);
   useEffect(() => {
@@ -78,9 +83,20 @@ function Organizer_events({ history }) {
     // M.Modal.init(document.querySelectorAll(".modal"))
   });
 
-  //check if events ended
+ 
+//check if events full
+useEffect(()=>{
+  for(let i=0;i<allevents.length;i++){
+    if( allevents[i].participant.length==allevents[i].nb_participant&&allevents[i].state!="Ended")
+    dispatch(fullEvent(allevents[i]._id))
+  }
+  for(let i=0;i<allparticipant.length;i++){
+    if( allparticipant.participant[i].participant.length==allparticipant.participant[i].nb_participant&&allparticipant.participant[i].state!="Ended")
+    dispatch(fullEvent(allparticipant.participant[i]._id))
+  }
+},[]) 
+//check if events ended
   useEffect(()=>{
-    dispatch(getEvent())
     for(let i=0;i<allevents.length;i++){
       if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
       dispatch(endEvent(allevents[i]._id))
@@ -90,15 +106,23 @@ function Organizer_events({ history }) {
       dispatch(endEvent(allparticipant.participant[i]._id))
     }
   },[])
-//check if events full
+
+useEffect(() => {
+  if (auth.user.banned===true) {
+      dispatch(logoutUser());
+      history.push("/banned")
+     }
+});
+
+//open full events
 useEffect(()=>{
   for(let i=0;i<allevents.length;i++){
-    if( allevents[i].participant.length==allevents[i].nb_participant)
-    dispatch(closeEvent(allevents[i]._id))
+    if( allevents[i].participant.length!=allevents[i].nb_participant&&allevents[i].state=="Full")
+    dispatch(openEvent(allevents[i]._id))
   }
   for(let i=0;i<allparticipant.length;i++){
-    if( allparticipant.participant[i].participant.length==allparticipant.participant[i].nb_participant)
-    dispatch(closeEvent(allparticipant.participant[i]._id))
+    if( allparticipant.participant[i].participant.length!=allparticipant.participant[i].nb_participant&&allparticipant.participant[i].state=="Full")
+    dispatch(openEvent(allparticipant.participant[i]._id))
   }
 },[])
   let eventsorganizer=allparticipant.participant.filter(el=>{
@@ -117,11 +141,39 @@ useEffect(()=>{
   return (
       <>
       <Navbar/>
+
       <Search
         quickSearch={quickSearch}
         setQuickSearch={setQuickSearch}
         />
       
+
+
+//       <div className='row container' ><h5><b>Quick search</b></h5></div>
+
+// <div className="row container" style={{marginTop:"20px",fontSize:15,fontWeight:800}} >
+//   <form >
+//   <div className="input-field col s4 m5">
+// <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
+// <label forhtml="title">Event title</label>
+// </div>
+// <div className="input-field col s4 m3">
+// <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none"}}>
+// <option value="">State</option>
+// <option value="Available" className="green-text">Available</option>
+// <option value="Closed" className="gray-text">Closed</option>
+// <option value="Ended" className="gray-text">Ended</option>
+// <option value="Invalid" className="gray-text">Invalid</option>
+// </select>
+// <label className="active">Event state</label>
+// </div>
+// <div className="input-field col s4 m4">
+// <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
+// <label forhtml="title">Event tags</label>
+// </div>
+//   </form>
+// </div>
+
     {/* <div className="col s12">
         <Link
               to="/dashboard"
@@ -164,6 +216,10 @@ useEffect(()=>{
                         {get_month(Number(el.date.split("-")[1]))}
                       </div>
                     </div>
+                    <div className="star_rate left">
+                    <i className="material-icons" style={{color:"rgb(255, 180, 0)",fontSize:65,position:"relative"}}>star</i>
+                    <p style={{position:"absolute",top:22,lineHeight:"normal",left:21.5,width:22,height:22, display:"flex",alignItems:"center",justifyContent:"center"}}>{el.rating.length==0?"--":calcul_rating(el.rating)}</p>
+                    </div>
                   </div>
                   <div
                     className="card-content"
@@ -189,7 +245,7 @@ useEffect(()=>{
                       >
                         <i
                           className=" tiny material-icons"
-                          style={{ margin: 10, marginTop:8 }}
+                          style={{ margin: 10, marginTop:10 }}
                         >
                           history
                         </i>
@@ -215,7 +271,7 @@ useEffect(()=>{
                     </div>
                     {el.tags.length!=0&&<div className="slider right tag_slide_orgevnt">
     <ul className="slides">
-              {el.tags.map((el,i)=><li key={i}> <p>{el}</p> </li>)}
+              {el.tags.map((el,i)=><li key={i}> <p className='chip' style={{padding:8,display:"flex",alignItems:"center",fontSize:12}}>{el}</p> </li>)}
     </ul>
   </div>}
                   </div>
@@ -229,7 +285,7 @@ useEffect(()=>{
                     }}
                   >
                     <Link
-                    to="#"
+                    to='#!'
                       onClick={()=>{
                         if(participant&&btnpart!=el._id){
                         
@@ -244,10 +300,10 @@ useEffect(()=>{
                         setParticipantId(el._id)
                       
                       }}
-                      style={{ display: "flex", alignItems: "center",fontSize:12 }}
+                      style={{ display: "flex", alignItems: "center",fontSize:12 ,color:"#006064"}}
                     >
                       Show participants
-                      <i className="tiny material-icons ">arrow_forward</i>
+                      <i className="tiny material-icons " style={{color:"#006064"}}>arrow_forward</i>
                     </Link>
                     <span
                       className={
@@ -276,9 +332,10 @@ useEffect(()=>{
                       }}
                     >
                       {" "}
-                      {((new Date(el.date)-new Date())/(1000*86400))>3&&<a
+                      {/* ((new Date(el.date)-new Date())/(1000*86400))>3&& */}
+                      {el.state!="Ended"&&<a
                       
-                        className="btn-floating waves-effect waves-light cadetblue"
+                        className="btn-floating  cyan darken-3"
                         onClick={() => {
                           setAction({ type: "edit", payload: el });
 
@@ -296,36 +353,50 @@ useEffect(()=>{
                         }}
                         title={el._id}
                         id={el._id}
+                        href="#!"
                       >
                         <i className="material-icons ">edit</i>
                       </a>}
                       <button
-                        className="btn-floating waves-effect waves-light cadetblue modal-trigger"
+                        className="btn-floating  cyan darken-3 modal-trigger"
                         title="delete"
                         data-target="modal1"
                         onClick={() => setDeleteid(el._id)}
                       >
                         <i className="material-icons ">delete</i>{" "}
                       </button>
-                      {el.state=="Available"&&(((new Date(el.date)-new Date())/(1000*86400))>3)&&(
-                    <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="close"   data-target="modal2" onClick={
+                      {el.state=="Available"||el.state=="Full"&&(
+                    <button className="btn-floating  cyan darken-3 modal-trigger" title="close"   data-target="modal2" onClick={
                       ()=>{setClosedid(el._id);}
                     }>
                       <i className="material-icons ">block</i>{" "}
                     </button>)}
-                    {el.state=="Closed"&&(((new Date(el.date)-new Date())/(1000*86400))>3)&&(el.participant.length!=el.nb_participant)&&(
-                    <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="open"   data-target="modal3" onClick={
+                    {el.state=="Closed"&&(
+                    <button className="btn-floating  cyan darken-3 modal-trigger" title="open"   data-target="modal3" onClick={
                       ()=>setClosedid(el._id)
                     }>
                       <i className="material-icons ">done</i>{" "}
                     </button>)}
+                    {el.state!="Invalid"&&(
+                    <div>
+                      {" "}
+                      <a
+                        className="btn-floating  cyan darken-3"
+                        onClick={() => {
+                          history.push(`/events/${el._id}`)
+                         }}
+                        title="Show comments"
+                      >
+                        <i className="material-icons ">comment</i>
+                      </a> </div>
+                       )}
                     </div>
                   </div>
                 </div>
               </div>
               {modal && modalId==el._id&&<div className="col s12 m6" style={{overflowY:"scroll",height:"360px",backgroundColor:"white"}}><AddEvent toggle={toggle} action={action} setAction={setAction} /></div>}
-              {participant&&participantId==el._id&&<div className="col s12 m6" style={{overflowY:"scroll",height:"360px"}}>
-              {el.participant.length!=0?<ul className="collection">
+              {participant&&participantId==el._id&&<div className="col s12 m6" style={{overflowY:"auto",height:"360px"}}>
+              {el.participant.length!=0?<ul className="collection org">
     
     {el.participant.map((el,i)=>
     {return(<li key={i} className="collection-item avatar">
@@ -363,14 +434,14 @@ useEffect(()=>{
           <div className="modal-footer">
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close btn-flat"
               onClick={()=>dispatch(deleteEvent(deleteid))}
             >
               Agree
             </a>
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close btn-flat"
             >
               Cancel
             </a>
@@ -384,14 +455,14 @@ useEffect(()=>{
           <div className="modal-footer">
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close btn-flat"
               onClick={()=>dispatch(closeEvent(closedid))}
             >
               Agree
             </a>
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close btn-flat"
             >
               Cancel
             </a>
@@ -405,14 +476,14 @@ useEffect(()=>{
           <div className="modal-footer">
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close btn-flat"
               onClick={()=>dispatch(openEvent(closedid))}
             >
               Agree
             </a>
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close btn-flat"
             >
               Cancel
             </a>

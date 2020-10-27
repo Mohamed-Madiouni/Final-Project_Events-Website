@@ -38,6 +38,7 @@
     background: white !important;
       
     }
+
     
 /*----------------------title---------------------------*/
 .section-header.featured {
@@ -161,3 +162,51 @@ a:-webkit-any-link:focus {
   outline-offset: 1px;
   outline: none;
 }
+
+    .custom_mod_com{
+      z-index: 1003;
+      display: block;
+      opacity: 1;
+      top: 20%;
+      transform: scaleX(1) scaleY(1);
+      /* display: none; */
+      position: fixed;
+      left: 0;
+      right: 0;
+      background-color: white;
+      padding: 0;
+      max-height: 70%;
+      width: 55%;
+      margin: auto;
+      overflow-y: auto;
+      border-radius: 2px;
+      will-change: top, opacity;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      
+  }
+  
+  /* .date {
+    position: absolute !important;
+    top: 12px !important;
+    right: 12px !important;
+    z-index: 1 !important;
+    background: #2e8fa5 !important;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 12.5px 0 !important;
+    border-radius: 100% !important;
+    color: white !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    line-height: 15px !important;
+    margin: 0px !important;
+  } */
+
+  .star_rate{
+    position: absolute;
+    top:7px;
+    left:7px
+
+  }
+

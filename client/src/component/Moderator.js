@@ -8,7 +8,7 @@ import EventList from "./EventList";
 import "../organizer.css";
 import M from "materialize-css";
 import { getUsers, getEvents } from "../actions/adminaction";
-function Administrator() {
+function Moderator() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const users = useSelector((state) => state.admin);
@@ -21,7 +21,7 @@ function Administrator() {
   useEffect(() => {
     dispatch(getUsers(), getEvents())
   }, []);
-// useEffect(()=> { M.Modal.init(document.querySelectorAll(".modal"))})
+useEffect(()=> { M.Modal.init(document.querySelectorAll(".modal"))})
   return (
     <div className="row">
       <div className="col s12 ">
@@ -41,7 +41,7 @@ function Administrator() {
             <p>
               {" "}
               We are happy to see you among US. <br />
-              This is your <b>Admin Dashboard</b><br />
+              This is your <b>Moderator Dashboard</b><br />
               You can manage accounts and events.
             </p>
           </div>
@@ -54,7 +54,7 @@ function Administrator() {
           }}
         >
           <div>
-          <div className="switch right" style={{marginTop:10,color:"black",fontSize:20}}>
+              <div class="switch right" style={{marginTop:10,color:"black",fontSize:20}}>
               <label>Manage account
             
               <input type="checkbox" onClick={toggle}/>
@@ -103,4 +103,4 @@ function Administrator() {
   );
 }
 
-export default Administrator; 
+export default Moderator; 

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {Link} from "react-router-dom";
-import {closeEvent,getEventOrganizer, deleteEvent,openEvent,getEvent,endEvent} from "../actions/evntAction";
+import {Link, useHistory} from "react-router-dom";
+import {closeEvent,getEventOrganizer, deleteEvent,openEvent,getEvent,endEvent, fullEvent} from "../actions/evntAction";
 import get_month from "../outils/get_month"
-import history from "../outils/history"
+import historyevent from "../outils/history"
 import AddEvent from "./AddEvent";
 import "../organizer.css";
 import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
 import { GET_ERRORS } from "../actions/types";
+import { logoutUser } from "../actions/authaction";
+import calcul_rating from "../outils/calucle_rating";
 
 
 function Organizer() {
@@ -19,7 +21,7 @@ function Organizer() {
   const auth = useSelector((state) => state.auth);
   const allevents= useSelector((state)=>state.events.allEvents)
   const errors=useSelector(state=>state.errors)
-
+  const history = useHistory();
   const [modal, setModal] = useState(false);
   const [action, setAction] = useState({ type: "add", payload: {} });
   const [deleteid,setDeleteid]= useState("")
@@ -29,12 +31,35 @@ function Organizer() {
   return modal
   };
   
-  
+  useEffect(() => {
+    if (auth.user.banned===true) {
+        dispatch(logoutUser());
+        history.push("/banned")
+       }
+  });
+
+
   useEffect(() => {
     dispatch(getEventOrganizer());
     dispatch(getEvent())
+    M.Modal.init(document.querySelectorAll(".modal"))
   }, []);
   
+
+//check if events full
+useEffect(()=>{
+  
+  for(let i=0;i<allevents.length;i++){
+    if( allevents[i].participant.length==allevents[i].nb_participant&&allevents[i].state!="Ended")
+    dispatch(fullEvent(allevents[i]._id))
+  }
+
+  for(let i=0;i<events.events.length;i++){
+    if( events.events[i].participant.length==events.events[i].nb_participant&& events.events[i].state!="Ended")
+    dispatch(fullEvent(events.events[i]._id))
+  }
+
+},[])
 //check if events ended
 useEffect(()=>{
   
@@ -48,19 +73,16 @@ useEffect(()=>{
     dispatch(endEvent(events.events[i]._id))
   }
 },[])
-//check if events full
+//open full events
 useEffect(()=>{
-  
   for(let i=0;i<allevents.length;i++){
-    if( allevents[i].participant.length==allevents[i].nb_participant)
-    dispatch(closeEvent(allevents[i]._id))
+    if( allevents[i].participant.length!=allevents[i].nb_participant&&allevents[i].state=="Full")
+    dispatch(openEvent(allevents[i]._id))
   }
-
   for(let i=0;i<events.events.length;i++){
-    if( events.events[i].participant.length==events.events[i].nb_participant)
-    dispatch(closeEvent(events.events[i]._id))
+    if( events.events[i].participant.length!=events.events[i].nb_participant&&events.events[i].state=="Full")
+    dispatch(openEvent(events.events[i]._id))
   }
-
 },[])
  useEffect(()=>{
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
@@ -76,7 +98,13 @@ useEffect(()=>{
 
   return (
    <>
-    
+
+      { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
+        <i className="fas fa-exclamation-circle" style={{color:"red",fontSize:15,marginTop:5}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban your account 
+        </i>
+        }
+     
+
 
       <div className="col s12 row">
 
@@ -113,7 +141,7 @@ useEffect(()=>{
         >
           <div className="organizer_nav">
             <div>
-              <a className="btn-floating  cadetblue">
+              <a className="btn-floating cyan darken-3">
                 <i
                   className="material-icons"
                   onClick={toggle}
@@ -126,7 +154,7 @@ useEffect(()=>{
               <label>Add event</label>
             </div>
             <div>
-              <Link className="btn-floating  cadetblue" to={`/events/${auth.user._id}`}>
+              <Link className="btn-floating  cyan darken-3" to={`/dashboard/${auth.user._id}`}>
                 <i className="material-icons" title="Show my events">
                   assignment
                 </i>
@@ -179,7 +207,10 @@ useEffect(()=>{
                       {get_month(Number(el.date.split("-")[1]))}
                     </div>
                   </div>
-                 
+                  <div className="star_rate left">
+                    <i className="material-icons" style={{color:"rgb(255, 180, 0)",fontSize:65,position:"relative"}}>star</i>
+                    <p style={{position:"absolute",top:22,lineHeight:"normal",left:21.5,width:22,height:22, display:"flex",alignItems:"center",justifyContent:"center"}}>{el.rating.length==0?"--":calcul_rating(el.rating)}</p>
+                    </div>
                 </div>
                 <div
                   className="card-content  "
@@ -205,12 +236,12 @@ useEffect(()=>{
                     >
                       <i
                         className=" tiny material-icons"
-                        style={{ margin: 10,marginTop:8 }}
+                        style={{ margin: 10,marginTop:10 }}
                       >
                         history
                       </i>
 
-                      {history(el.created_at)}
+                      {historyevent(el.created_at)}
                     </span>
                     <span
                       style={{
@@ -231,7 +262,7 @@ useEffect(()=>{
                   </div>
                   {el.tags.length!=0&&<div className="slider right tag_slide_home">
     <ul className="slides">
-              {el.tags.map((el,index)=><li key={index}> <p>{el}</p> </li>)}
+              {el.tags.map((el,index)=><li key={index}> <p className='chip' style={{padding:8,display:"flex",alignItems:"center",fontSize:12}}>{el}</p> </li>)}
     </ul>
   </div>}
                 </div>
@@ -245,11 +276,12 @@ useEffect(()=>{
                   }}
                 >
                   <Link
-                    to={`/events/${el.id_organizer}`}
-                    style={{ display: "flex", alignItems: "center" ,fontSize:13}}
+                    to={`/dashboard/${el.id_organizer}`}
+                    style={{ display: "flex", alignItems: "center" ,fontSize:13,color:"#006064"}}
+                  
                   >
                     Show more
-                    <i className="material-icons " style={{fontSize:15,marginLeft:3}}>arrow_forward</i>
+                    <i className="material-icons  " style={{fontSize:15,marginLeft:3,color:"#006064"}}>arrow_forward</i>
                   </Link>
                   <span className={el.state=="Available"?"right green-text":"right gray-text text-darken-3"}> {el.state}</span>
                 </div>
@@ -270,8 +302,9 @@ useEffect(()=>{
                     }}
                   >
                     {" "}
-                   {((new Date(el.date)-new Date())/(1000*86400))>3&& <a
-                      className="btn-floating waves-effect waves-light cadetblue"
+                   {/* ((new Date(el.date)-new Date())/(1000*86400))>3&& */}
+                   {el.state!="Ended"&& <a
+                      className="btn-floating   cyan darken-3"
                       onClick={() => {
                         
                        
@@ -282,26 +315,41 @@ useEffect(()=>{
                       
                       }}
                       title="edit"
+                      
                     >
                       <i className="material-icons ">edit</i>
                     </a>}
-                    <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="delete"   data-target="modal1" onClick={
+                    <button className="btn-floating cyan darken-3 modal-trigger" title="delete"   data-target="modal1" onClick={
                       ()=>setDeleteid(el._id)
                     }>
                       <i className="material-icons ">delete</i>{" "}
                     </button>
-                    {el.state=="Available"&&(((new Date(el.date)-new Date())/(1000*86400))>3)&&(
-                    <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="close"   data-target="modal2" onClick={
+                    {el.state=="Available"||el.state=="Full"&&(
+                    <button className="btn-floating cyan darken-3 modal-trigger" title="close"   data-target="modal2" onClick={
                       ()=>setClosedid(el._id)
                     }>
                       <i className="material-icons ">block</i>{" "}
                     </button>)}
-                    {el.state=="Closed"&&(((new Date(el.date)-new Date())/(1000*86400))>3)&&(el.participant.length!=el.nb_participant)&&(
-                    <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="open"   data-target="modal3" onClick={
+                    {el.state=="Closed"&&(
+                    <button className="btn-floating cyan darken-3 modal-trigger" title="open"   data-target="modal3" onClick={
                       ()=>setClosedid(el._id)
                     }>
                       <i className="material-icons ">done</i>{" "}
                     </button>)}
+
+                    {el.state!="Invalid"&&(
+                    <div>
+                      {" "}
+                      <a
+                        className="btn-floating  cyan darken-3"
+                        onClick={() => {
+                          history.push(`/events/${el._id}`)
+                         }}
+                        title="Show comments"
+                      >
+                        <i className="material-icons ">comment</i>
+                      </a> </div>
+                       )}
                   </div>
                 </div>
               </div>
@@ -318,14 +366,14 @@ useEffect(()=>{
           <div className="modal-footer">
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
               onClick={()=>dispatch(deleteEvent(deleteid))}
             >
               Agree
             </a>
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
             >
               Cancel
             </a>
@@ -338,15 +386,15 @@ useEffect(()=>{
           </div>
           <div className="modal-footer">
             <a
-              href="#"
-              className="modal-close waves-effect waves-green btn-flat"
+              href="#!"
+              className="modal-close  btn-flat"
               onClick={()=>dispatch(closeEvent(closedid))}
             >
               Agree
             </a>
             <a
-              href="#"
-              className="modal-close waves-effect waves-green btn-flat"
+              href="#!"
+              className="modal-close  btn-flat"
             >
               Cancel
             </a>
@@ -360,14 +408,14 @@ useEffect(()=>{
           <div className="modal-footer">
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
               onClick={()=>dispatch(openEvent(closedid))}
             >
               Agree
             </a>
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
             >
               Cancel
             </a>

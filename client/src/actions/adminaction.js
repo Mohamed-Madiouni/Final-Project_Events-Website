@@ -3,7 +3,7 @@ import axios from "axios"
 import setAuthToken from "../token/authtoken";
 //get all users
 export const getUsers = () =>(dispatch) => {
-  setAuthToken(localStorage.token)
+   // setAuthToken(localStorage.token)
     axios
       .get("/admin/users")
       .then((res) => dispatch({
@@ -45,15 +45,18 @@ export const deleteUser=(idUser)=>(dispatch)=>{
   axios.delete(`admin/users/delete/${idUser}`)
   .then(res=>{
     dispatch(getUsers())
-    
+    dispatch({
+      type: GET_ERRORS,
+      payload: {success:"done"},
+    })   
   })
   .catch(err=>console.log(err))
  }
 
   //Ban user
-export const banUser=(idUser, banDate)=>(dispatch)=>{
+export const banUser=(idUser, ban)=>(dispatch)=>{
   setAuthToken(localStorage.token)
-  axios.put(`admin/users/ban/${idUser}`, banDate)
+  axios.put(`admin/users/ban/${idUser}`, ban)
   .then((res)=>{
     dispatch(getUsers())
     dispatch({
@@ -68,11 +71,81 @@ export const banUser=(idUser, banDate)=>(dispatch)=>{
 };
 
   //Unban user
-  export const unbanUser=(idUser, unbanDate)=>(dispatch)=>{
+  export const unbanUser=(idUser, unban)=>(dispatch)=>{
     setAuthToken(localStorage.token)
-    axios.put(`admin/users/unban/${idUser}`, unbanDate)
+    axios.put(`admin/users/unban/${idUser}`, unban)
     .then((res)=>{
       dispatch(getUsers())
+      dispatch({
+        type: GET_ERRORS,
+        payload: {success:"done"},
+      })
+    })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+  };
+
+
+  //Alert user
+  export const alertUser=(idUser)=>(dispatch)=>{
+    setAuthToken(localStorage.token)
+    axios.put(`admin/users/alert/${idUser}`)
+    .then((res)=>{
+      dispatch(getUsers())
+      dispatch({
+        type: GET_ERRORS,
+        payload: {success:"done"},
+      })
+    })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+  };
+  
+    //Remove alert user
+    export const unalertUser=(idUser, unalertDate)=>(dispatch)=>{
+      setAuthToken(localStorage.token)
+      axios.put(`admin/users/unalert/${idUser}`, unalertDate)
+      .then((res)=>{
+        dispatch(getUsers())
+        dispatch({
+          type: GET_ERRORS,
+          payload: {success:"done"},
+        })
+      })
+      .catch((err) => dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      }));
+    };
+
+
+//Validate Event
+export const validateEvent=(idEvent, valid)=>(dispatch)=>{
+  setAuthToken(localStorage.token)
+  axios.put(`admin/events/valid/${idEvent}`, valid)
+  .then((res)=>{
+    dispatch(getEvents())
+    dispatch({
+      type: GET_ERRORS,
+      payload: {success:"done"},
+    })
+  })
+  .catch((err) => dispatch({
+    type: GET_ERRORS,
+    payload: err.response.data,
+  }));
+};
+
+  //Invalidate Event
+  export const invalidateEvent=(idEvent, unvalid)=>(dispatch)=>{
+    setAuthToken(localStorage.token)
+    axios.put(`admin/events/invalid/${idEvent}`, unvalid)
+    .then((res)=>{
+      dispatch(getEvents())
       dispatch({
         type: GET_ERRORS,
         payload: {success:"done"},

@@ -9,6 +9,7 @@ const validateLoginInput = require("../validation/login");
 const validateUpdateInput = require("../validation/update");
 const authMiddleware = require("../middleware/authMiddleware");
 
+
 //handle registration
 router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -110,10 +111,15 @@ router.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  User.findOne({ email: email }).then((user) => {
-    if (!user) {
-      return res.status(404).json({ email: "Email not found" });
-    }
+    User.findOne({ email: email }).then((user) => {
+      if (!user) {
+        return res.status(404).json({ email: "Email not found" });
+      }
+
+   
+     if (user.banned===true) {
+       return res.status(403).json({ banned_banned: "account banned" });
+     }      
 
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
@@ -134,7 +140,10 @@ router.post("/login", (req, res) => {
         return res.status(400).json({ password: "Password incorrect" });
       }
     });
+    
+
   });
+
 });
 
 // get myevents
@@ -151,5 +160,25 @@ res.status(200).send(users)
   })
 })
         
+//add follower
+router.put('/add/follow',authMiddleware,(req,res)=>{
+User.findByIdAndUpdate(req.userId,{$push:{follow:req.body.follow}})
+.then(user=>{
+  console.log(user)
+  res.status(202).send({follow:"succefully"})})
+.catch(err=>res.status(500).send(err.message))
+
+
+})
+//remove follower
+router.put('/remove/follow',authMiddleware,(req,res)=>{
+  User.findByIdAndUpdate(req.userId,{$pull:{follow:req.body.follow}})
+  .then(user=>{
+    console.log(user)
+    res.status(202).send({unfollow:"succefully"})})
+  .catch(err=>res.status(500).send(err.message))
+  
+  
+  })
 
 module.exports = router;

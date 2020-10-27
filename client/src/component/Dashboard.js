@@ -8,6 +8,7 @@ import { getCurrentUser } from "../actions/authaction";
 import { INI_UPDATE } from "../actions/types";
 import "../dashboard.css"
 import Administrator from "./Administrator";
+import Moderator from "./Moderator";
 import Participant from "./Participant";
 import Navbar from "./Navbar";
 import Searchevents from "./Searchevents";
@@ -25,6 +26,7 @@ function Dashboard({ history }) {
   const resize =useSelector(state=>state.resize)
 // const [dashOrganizer,setDashOrganizer]= useState({state:"welcome"})
   
+
   useEffect(() => {
     if (!localStorage.token) history.push("/login");
   });
@@ -32,29 +34,37 @@ function Dashboard({ history }) {
     if (localStorage.token) {
       dispatch(getCurrentUser());
     }
+     M.Modal.init(document.querySelectorAll(".modal"))
   },[]);
   useEffect(() => {
     if (auth.updated) {
       M.toast({ html: "Account successfully updated", classes: "green" });
       setTimeout(dispatch({ type: INI_UPDATE }), 4000);
     }
-    M.Modal.init(document.querySelectorAll(".modal"))
+   
     M.Sidenav.init(document.querySelectorAll('.sidenav'))
-    M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
+    // M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
    
    
   });
   
+  useEffect(() => {
+    if (auth.user.banned===true) {
+        dispatch(logoutUser());
+        history.push("/banned")
+       }
+  });
+
   //check if events ended
-  useEffect(()=>{
-    dispatch(getEvent())
+  // useEffect(()=>{
+  //   dispatch(getEvent())
     
-    for(let i=0;i<allevents.length;i++){
-      if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
-      dispatch(endEvent(allevents[i]._id))
-    }
-  },[])
+  //   for(let i=0;i<allevents.length;i++){
+  //     if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
+  //     dispatch(endEvent(allevents[i]._id))
+  //   }
+  // },[])
   // useEffect(()=>{
   //   window.addEventListener("resize",()=>{
   //     if(window.innerWidth<=992)
@@ -73,7 +83,7 @@ function Dashboard({ history }) {
   {auth.user.role == "organizer" && <Organizer/> } 
   {auth.user.role == "administrator" && <Administrator/> } 
   {auth.user.role == "participant" && <Participant/> }
-
+  {auth.user.role == "moderator" && <Moderator/> }
 
     {/* </div> */}
     {/* {!resize.state&&<ul id="slide-out" class="sidenav sidenav-fixed" style={{marginTop:"60px",borderTop:"1px solid #e5e2e2"}}> */}

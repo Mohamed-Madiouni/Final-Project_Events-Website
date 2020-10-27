@@ -22,7 +22,7 @@ export default function get_month(a) {
         return "oct";
       case 11:
         return "nov";
-      case 1:
+      case 12:
         return "dec";
 
       default:

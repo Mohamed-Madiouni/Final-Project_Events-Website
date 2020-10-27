@@ -21,9 +21,13 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.9",
     "multer": "^1.4.2",
+
     "nodemailer": "^6.4.13",
     "nodemon": "^2.0.4",
     "react-google-location": "^1.2.2",
     "validator": "^13.1.17"
+    "pusher": "^3.0.1",
+    
+
   }
 }

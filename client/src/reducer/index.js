@@ -3,7 +3,7 @@ import authReducer from "./auth";
 import errorReducer from "./error";
 import setSearch from './setSearch';
 import {reducer} from './evnt'
-
+import {comment} from './comment'
 import admin from "./admin"
 
 import {part} from "./participant"
@@ -16,10 +16,8 @@ export default combineReducers({
   search: setSearch,
   events:reducer,
   resize:resize,
-
   admin: admin,
-
   participant:part,
-  myevents:myevents
-
+  myevents:myevents,
+  comments:comment
 });

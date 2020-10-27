@@ -17,9 +17,14 @@ import Calendar from "./component/Calendar"
 import { getCurrentUser } from "./actions/authaction";
 import { INI_RESIZE, SET_RESIZE } from "./actions/types";
 import M from "materialize-css";
+
 // import AddEvent from "./component/AddEvent";
 import ContactUs from "./component/ContactUs"
 import AboutUs from "./component/AboutUs";
+
+import Comments from "./component/Comments";
+import Bannned_home from "./component/Bannned_home";
+
 
 function App() {
 
@@ -40,6 +45,8 @@ function App() {
    
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
+    if (location.pathname=="/")
+     M.Slider.init(document.querySelectorAll(".slider"), { height: 500 });
    
   });
   useEffect(()=>{ 
@@ -87,14 +94,18 @@ useEffect(()=>{
             <Route path="/search" component={Searchresult} />
             <Route exact path="/events" component={Events} />
             <Route path="/calendar" component={Calendar} />
+
             <Route exact path="/contact" component={ContactUs} />
             <Route exact path="/about" component={AboutUs} />
 
-            <PrivateRoute path="/myaccount" component={Account} />
 
+            <Route path="/events/:event_id" component={Comments} />
+
+            <PrivateRoute path="/myaccount" component={Account} />
+            <Route path="/banned" component={Bannned_home} />
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <PrivateRoute
-              path="/events/:organizer_id"
+              path="/dashboard/:organizer_id"
               component={Organizer_events}
             />
            
@@ -139,7 +150,7 @@ useEffect(()=>{
             <div className="collapsible-body" >
               <ul>
                 <li><Link to="/" style={{color:location.pathname=="/"&&"white",backgroundColor:location.pathname=="/"&&"rgb(14, 161, 152)"}}>Home</Link></li>
-                <li><Link to="/dashboard" style={{color:(location.pathname=="/dashboard"||location.pathname==`/events/${auth.user._id}`)&&"white",backgroundColor:(location.pathname=="/dashboard"||location.pathname==`/events/${auth.user._id}`)&&"rgb(14, 161, 152)"}}>Dashboard</Link></li>
+                <li><Link to="/dashboard" style={{color:(location.pathname=="/dashboard"||location.pathname==`/dashboard/${auth.user._id}`)&&"white",backgroundColor:(location.pathname=="/dashboard"||location.pathname==`/dashboard/${auth.user._id}`)&&"rgb(14, 161, 152)"}}>Dashboard</Link></li>
                 <li> <Link to="/events" style={{color:location.pathname=="/events"&&"white",backgroundColor:location.pathname=="/events"&&"rgb(14, 161, 152)"}}>Events</Link></li>
                 <li> <Link to="/calendar" style={{color:location.pathname=="/calendar"&&"white",backgroundColor:location.pathname=="/calendar"&&"rgb(14, 161, 152)"}}>Calendar</Link></li>
               </ul>

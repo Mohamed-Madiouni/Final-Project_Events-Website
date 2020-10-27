@@ -30,15 +30,22 @@ outline: none;
     border-radius: 5px;
   
 }
-
+/* .fc-today-button{
+    margin: 5px !important;
+   
+  
+} */
+.fc-day-today{
+    background: rgb(255, 255, 163) !important;
+}
 .custom_mod_cal{
     z-index: 1003;
     display: block;
     opacity: 1;
-    top: 25%;
+    top: 20%;
     transform: scaleX(1) scaleY(1);
     /* display: none; */
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
     /* background-color: white; */
@@ -103,4 +110,24 @@ outline: none;
     display: flex;
     flex-wrap: wrap;
 }
+}
+.cal_hov{
+
+    background: white;
+    opacity: 0.4;
+}
+.cal_hov:hover{
+
+    background: black;
+    opacity: 0.6;
+}
+.cal_hov>i{
+
+    color:black;
+    opacity:1
+}
+.cal_hov:hover>i{
+
+    color:white;
+    opacity:1
 }

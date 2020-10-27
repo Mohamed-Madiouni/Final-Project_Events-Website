@@ -1,23 +1,16 @@
 export const GET_ERRORS = "GET_ERRORS";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
-export const PROFIL_UPDATED="PROFIL_UPDATED";
-export const INI_UPDATE="INI_UPDATE";
-export const SET_SEARCH="SET_SEARCH"
-export const INI_SEARCH="INI_SEARCH"
-export const GET_EVENTS ="GET_EVENTS"
-export const GET_ALL_EVENTS = "GET_ALL_EVENTS"
-export const UPDATE = "UPDATE"
-export const SET_RESIZE="SET_RESIZE"
-
-
-export const GET_EVENTS_ADMIN ="GET_EVENTS_ADMIN"
-export const GET_USERS_ADMIN="GET_USERS_ADMIN"
-
-
-
-export const GET_COMMENT="GET_COMMENT"
-
-export const INI_RESIZE ="INI_RESIZE"
-export const GET_ALL_PARTICIPANT="GET_ALL_PARTICIPANT"
-export const GET_ALL_MY_EVENTS="GET_ALL_MY_EVENTS"
-
+export const PROFIL_UPDATED = "PROFIL_UPDATED";
+export const INI_UPDATE = "INI_UPDATE";
+export const SET_SEARCH = "SET_SEARCH";
+export const INI_SEARCH = "INI_SEARCH";
+export const GET_EVENTS = "GET_EVENTS";
+export const GET_ALL_EVENTS = "GET_ALL_EVENTS";
+export const UPDATE = "UPDATE";
+export const SET_RESIZE = "SET_RESIZE";
+export const GET_EVENTS_ADMIN = "GET_EVENTS_ADMIN";
+export const GET_USERS_ADMIN = "GET_USERS_ADMIN";
+export const GET_COMMENT = "GET_COMMENT";
+export const INI_RESIZE = "INI_RESIZE";
+export const GET_ALL_PARTICIPANT = "GET_ALL_PARTICIPANT";
+export const GET_ALL_MY_EVENTS = "GET_ALL_MY_EVENTS";

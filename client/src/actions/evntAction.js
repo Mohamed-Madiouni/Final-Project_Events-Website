@@ -1,4 +1,4 @@
-import { GET_EVENTS,GET_ERRORS,GET_ALL_EVENTS,UPDATE,GET_ALL_PARTICIPANT,GET_COMMENT} from "./types";
+import { GET_EVENTS,GET_ERRORS,GET_ALL_EVENTS,GET_ALL_PARTICIPANT} from "./types";
 import setAuthToken from "../token/authtoken";
 import axios from "axios";
 import { getCurrentUser, getMyEvents } from "./authaction";
@@ -88,6 +88,8 @@ export const openEvent = (idEvent) => (dispatch) => {
     .then((res) => {
       dispatch(getEventOrganizer())
       dispatch(getParticipant())
+      dispatch(getEvent())
+      dispatch(getMyEvents())
       dispatch({
        type: GET_ERRORS,
        payload: {},
@@ -130,6 +132,7 @@ export const endEvent = (idEvent) => (dispatch) => {
       dispatch(getEventOrganizer())
       dispatch(getParticipant())
       dispatch(getMyEvents())
+      dispatch(getEvent())
       dispatch({
        type: GET_ERRORS,
        payload: {},
@@ -141,6 +144,8 @@ export const endEvent = (idEvent) => (dispatch) => {
       payload: err.response.data,
     }));
 };
+
+
 
 
 
@@ -153,6 +158,7 @@ export const closeEvent = (idEvent) => (dispatch) => {
       dispatch(getEventOrganizer())
       dispatch(getParticipant())
       dispatch(getMyEvents())
+      dispatch(getEvent())
       dispatch({
        type: GET_ERRORS,
        payload: {},
@@ -165,6 +171,27 @@ export const closeEvent = (idEvent) => (dispatch) => {
     }));
 };
 
+//make event full
+export const fullEvent = (idEvent) => (dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+    .put(`/event/edit/full/${idEvent}`,{state:"Full"})
+    .then((res) => {
+      dispatch(getEventOrganizer())
+      dispatch(getParticipant())
+      dispatch(getMyEvents())
+      dispatch(getEvent())
+      dispatch({
+       type: GET_ERRORS,
+       payload: {},
+     })
+      
+   })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+};
 
 // edit event
 export const editEvent = (idEvent, updatedEvent) => (dispatch) => {
@@ -249,55 +276,16 @@ export const getParticipant = () => (dispatch) => {
       }));
 };
 
-//comments
-export const makeComment =(content,eventId)=> (dispatch)=>{
+
+//add rating
+export const addrating = (idEvent, rating,user_id) => (dispatch) => {
   setAuthToken(localStorage.token)
   axios
-  .post('/event/comment',
-  {
-  body:JSON.stringify({
-    eventId,content})
-  })
-  .then((res) => {
-    dispatch(getEvent())
-    dispatch({
-     type: GET_ERRORS,
-     payload: {},
-   })
-    
- })
-  .catch((err) => dispatch({
-    type: GET_ERRORS,
-    payload: err.response.data,
-  }));
-};
-// get comment
-export const getComment = () => (dispatch) => {
-  setAuthToken(localStorage.token)
-
-  axios
-    .get("/event/comments")
-    .then((res) => dispatch({ 
-        type: GET_COMMENT, 
-        payload: res.data 
-    })
-    )
-  }
-
-
-
-
-// edit comment
-export const editComment = (idComment, updatedComment) => (dispatch) => {
-  setAuthToken(localStorage.token)
-  axios
-    .put(`/event/edit/${idComment}`, updatedComment)
+    .put(`/event/edit/rating/${idEvent}`, {rate:rating,userId:user_id})
     .then((res) => {
-      dispatch(getComment ())
-      dispatch({
-       type: GET_ERRORS,
-       payload: {success:"done"},
-     })
+      
+      dispatch(getEvent())
+      
       
    })
     .catch((err) => dispatch({
@@ -305,23 +293,5 @@ export const editComment = (idComment, updatedComment) => (dispatch) => {
       payload: err.response.data,
     }));
 };
-//delete comment
-export const deleteComment = (idComment) => (dispatch) => {
-  axios
-    .delete(`/event/delete/${idComment}`)
-    .then((res) => {
-      dispatch(getComment ())
-      dispatch({
-        type: GET_ERRORS,
-        payload: {},
-      })
-    })
-    .catch((err) => dispatch({
-      type: GET_ERRORS,
-      payload: err.response.data,
-    }));
-};
-
-
 
 

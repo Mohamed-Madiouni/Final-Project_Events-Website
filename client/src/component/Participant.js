@@ -2,17 +2,21 @@ import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import {useHistory,Link} from "react-router-dom";
-import {unfollowEvent,followEvent,getEvent,endEvent,closeEvent} from "../actions/evntAction";
+import {unfollowEvent,followEvent,getEvent,endEvent,closeEvent, fullEvent, openEvent} from "../actions/evntAction";
 import get_month from "../outils/get_month"
-import AddComment from "./AddComment";
 import "../organizer.css";
 import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
 import { GET_ERRORS } from "../actions/types";
 import { getMyEvents,getCurrentUser } from "../actions/authaction";
 import historyevent from "../outils/history"
+
 import Search from "./Search";
 import "../participant.css"
+
+import { logoutUser } from "../actions/authaction";
+import calcul_rating from "../outils/calucle_rating";
+
 
 function Participant() {
 
@@ -23,7 +27,7 @@ function Participant() {
     const allevents= useSelector((state)=>state.events.allEvents)
     const errors=useSelector(state=>state.errors)
     const myevents=useSelector(state=>state.myevents.myevents.events)
-  
+
     const [modal, setModal] = useState(false);
     const [action, setAction] = useState({ type: "add", payload: {} });
     const [deleteid,setDeleteid]= useState("")
@@ -43,9 +47,23 @@ function Participant() {
     
    
     
-  //check if events ended
+ 
+  //check if events full
   useEffect(()=>{
     dispatch(getEvent())
+    for(let i=0;i<allevents.length;i++){
+      if( allevents[i].participant.length==allevents[i].nb_participant&&allevents[i].state!="Ended")
+      dispatch(fullEvent(allevents[i]._id))
+    }
+    if(myevents)
+    for(let i=0;i<myevents.length;i++){
+      if( myevents[i].participant.length==myevents[i].nb_participant&&myevents[i].state!="Ended")
+      dispatch(fullEvent(myevents[i]._id))
+    }
+  },[])
+   //check if events ended
+  useEffect(()=>{
+    
     for(let i=0;i<allevents.length;i++){
       if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
       dispatch(endEvent(allevents[i]._id))
@@ -57,23 +75,33 @@ function Participant() {
       dispatch(endEvent(myevents[i]._id))
     }
   },[])
-  //check if events full
-  useEffect(()=>{
-    for(let i=0;i<allevents.length;i++){
-      if( allevents[i].participant.length==allevents[i].nb_participant)
-      dispatch(closeEvent(allevents[i]._id))
-    }
-    if(myevents)
-    for(let i=0;i<myevents.length;i++){
-      if( myevents[i].participant.length==myevents[i].nb_participant)
-      dispatch(closeEvent(myevents[i]._id))
-    }
-  },[])
+
+
+  useEffect(() => {
+    if (auth.user.banned===true) {
+        dispatch(logoutUser());
+        history.push("/banned")
+       }
+  });
+
+ 
+  //open full events
+useEffect(()=>{
+  for(let i=0;i<allevents.length;i++){
+    if( allevents[i].participant.length!=allevents[i].nb_participant&&allevents[i].state=="Full")
+    dispatch(openEvent(allevents[i]._id))
+  }
+  if(myevents)
+  for(let i=0;i<myevents.length;i++){
+    if( myevents[i].participant.length!=myevents[i].nb_participant&& myevents[i].state=="Full")
+    dispatch(openEvent(myevents[i]._id))
+  }
+},[])
 
   useEffect(()=>{
     
    localStorage.token&&dispatch(getCurrentUser())
-   M.Modal.init(document.querySelectorAll(".modal"))
+ M.Modal.init(document.querySelectorAll(".modal"))
 },[])
 
    useEffect(()=>{
@@ -87,7 +115,8 @@ function Participant() {
         type: GET_ERRORS,
         payload: {},
       })
-    }
+    }   
+  
     })
     let events=myevents&&myevents.filter(el=>{
         return(
@@ -100,10 +129,41 @@ function Participant() {
        })
   
     return (
+
         <>
         <Search
         quickSearch={quickSearch}
         setQuickSearch={setQuickSearch}/>
+
+        <>        
+        { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
+        <i className="fas fa-exclamation-circle" style={{color:"red",fontSize:15,marginTop:5}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban your account 
+        </i>
+        }
+//         <div className='row container' ><h5><b>Quick search</b></h5></div>
+
+// <div className="row container" style={{marginTop:"20px",fontSize:15,fontWeight:800}} >
+//   <form >
+//   <div className="input-field col s4 m5">
+// <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
+// <label forhtml="title">Event title</label>
+// </div>
+// <div className="input-field col s4 m3">
+// <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none"}}>
+// <option value="">State</option>
+// <option value="Available" className="green-text">Available</option>
+// <option value="Closed" className="gray-text">Closed</option>
+// <option value="Ended" className="gray-text">Ended</option>
+// </select>
+// <label className="active">Event state</label>
+// </div>
+// <div className="input-field col s4 m4">
+// <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
+// <label forhtml="title">Event tags</label>
+// </div>
+//   </form>
+// </div>
+
             
       <div className="col s12 row">
         
@@ -130,9 +190,10 @@ function Participant() {
             <h5>
               <b>Hi there,</b> {auth.user.fname}
             </h5>
-            <p>
-              {" "}
-              We are happy to see you among US. <br />
+        <p>
+          {" "}
+          We are happy to see you among US. <br />
+
 
               This is your <b>Dashboard</b>, you can see all your events that
               you have been participated.
@@ -141,8 +202,18 @@ function Participant() {
           </div>
          
         </div>
-        <div
-          className="col s12 l1"
+        
+
+//           This is your <b>Dashboard</b>, you can see all your events that
+//           you have been participated.
+//         </p>
+           
+//           </div>
+         
+//         </div>
+        {/* <div
+          className="col s2 l4"
+
 
           style={{
             paddingRight: "0px",  
@@ -168,12 +239,10 @@ function Participant() {
 
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
-      {modal && (<div className="container organizer_add row">
-        <AddComment toggle={toggle} /></div>
-      )}
+      
  { (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&events.length!=0&&
             
             <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>}
@@ -202,6 +271,10 @@ function Participant() {
                                   {get_month(Number(el.date.split("-")[1]))}
                                 </div>
                               </div>
+                              <div className="star_rate left">
+                    <i className="material-icons" style={{color:"rgb(255, 180, 0)",fontSize:65,position:"relative"}}>star</i>
+                    <p style={{position:"absolute",top:22,lineHeight:"normal",left:21.5,width:22,height:22, display:"flex",alignItems:"center",justifyContent:"center"}}>{el.rating.length==0?"--":calcul_rating(el.rating)}</p>
+                    </div>
                             </div>
                             <div
                               className="card-content "
@@ -230,7 +303,7 @@ function Participant() {
                                 >
                                   <i
                                     className=" tiny material-icons"
-                                    style={{ margin: 10, marginTop:8}}
+                                    style={{ margin: 10, marginTop:10}}
                                   >
                                     history
                                   </i>
@@ -256,7 +329,7 @@ function Participant() {
                               </div>
                               {el.tags.length!=0&&<div className="slider right tag_slide_event">
               <ul className="slides">
-                        {el.tags.map((el,i)=><li key={i}> <p>{el}</p> </li>)}
+                        {el.tags.map((el,i)=><li key={i}> <p className='chip' style={{padding:8,display:"flex",alignItems:"center",fontSize:12}}>{el}</p> </li>)}
               </ul>
             </div>}
                             </div>
@@ -269,8 +342,8 @@ function Participant() {
                                 justifyContent: "space-between",
                               }}
                             >
-                              {el.state=="Available"&&(!auth.isAuthenticated?
-                              <button
+                              {(!auth.isAuthenticated?
+                             el.state=="Available"&& <button
                               
                                 onClick={()=>{
                                   history.push("/login")
@@ -282,10 +355,10 @@ function Participant() {
                                 
                               </button>:(auth.user.role=="participant"&&
                               !auth.user.cancelation.includes(el._id)&&
-                              (auth.user.banned_date?new Date()>auth.user.banned_date:true)&&
+                              
                               (
                                 !auth.user.events.includes(el._id)?
-                              <button
+                                el.state=="Available"&& <button
                               data-target="modalevnt"
                                 onClick={()=>{
                                   
@@ -330,7 +403,25 @@ function Participant() {
                                 <i className="material-icons right">close</i>
                               </span>
                               <p>{el.description}</p>
-                            
+                              <div
+                              className="right"
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                              }}
+                              >
+                               {" "}
+                               <a
+                                 className="btn-floating  cyan darken-3"
+                                 onClick={() => {
+                                   history.push(`/events/${el._id}`)
+                                  }}
+                                 title="Show comments"
+                               >
+                                 <i className="material-icons ">comment</i>
+                               </a> </div>
                             </div>
                           </div>
                           </div>)
@@ -348,7 +439,7 @@ function Participant() {
           <p>You are about to subscribe to {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )} event, Please
           note that: </p><br/>  
           <ol><li>You can't subscribe to the same event after <b>annulation</b>. </li>
-          <li>You are responsible for all comments you send, in case of non respect your account will be <b>banned</b> for one <b>week</b>.</li>
+          <li>You are responsible for all comments you send, in case of non respect your account will be <b>alerted</b> for one <b>week</b> and you risk to get banned from the admin.</li>
           </ol></>:<><h4>Event annulation</h4>
                       <p>Are you sure you want to cancel the {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )}  event? 
                       {/* {participate&&((new Date(allevents.find(el=>el._id==participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"} */}

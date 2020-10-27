@@ -5,6 +5,8 @@ import { addEvent, editEvent } from "../actions/evntAction";
 import M from "materialize-css";
 import { GET_ERRORS } from "../actions/types";
 import "../addevent.css"
+import resize from "../outils/resize";
+import { logoutUser } from "../actions/authaction";
 
 
 const AddEvent = ({ toggle,action,setAction }) => {
@@ -47,7 +49,7 @@ const location = useLocation()
       type: GET_ERRORS,
       payload: {},
     })}}
-    M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
+    // M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
     M.updateTextFields()
     if(action.type=="add")
     M.Chips.init(document.querySelectorAll('.chips'),{
@@ -63,6 +65,11 @@ const location = useLocation()
     
     
   });
+
+ useEffect(()=>{
+  M.Timepicker.init(document.querySelectorAll('.timepicker'),{twelveHour:false,showClearBtn:true});
+ },[])
+
 const onChange_tags=(e)=>{
 setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
 }
@@ -92,7 +99,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
     data.append("cloud_name", "med");
 
     const send = await fetch(
-      "https://api.cloudinary.com/v1_1/med/image/upload",
+      "https://api.cloudinary.com/v1_1/med/image/upload/",
       {
         method: "post",
         body: data,
@@ -103,7 +110,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
     // newEvent.image &&
       res.error && M.toast({ html: "Please insert a valid image", classes: "red" })&& setBtn(false)
      
-      !res.error && (newEvent.image = res.url);
+      !res.error && (newEvent.image = resize(res.url));
       console.log(newEvent);
    if(action.type=="add")
    
@@ -119,7 +126,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
 
   return (
    
-      <div className="col s10 offset-s1">
+      <div className="col s12">
         <div className="row">
           <div
             className="col s12 row"
@@ -132,7 +139,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
               <span
                 style={{
                   width: "100%",
-                  color: "cadetblue",
+                  color: "#006064",
                 }}
               >
                 {" "}
@@ -169,16 +176,20 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
 
               <label htmlFor="description" className="active">Event description</label>
             </div>
-            <div className="input-field col s12 l6">
+            <div className=" col s12 l6">
+              <div className="input-field col s8">
               <input
                 onChange={onChange}
                 value={events.date}
                 id="date"
                 type="date"
               />
-              <label htmlFor="date" className="active">Event date</label>
+              <label htmlFor="date" className="active">Event start date</label>
             </div>
-
+            <div className="input-field col s4">
+            <input type="text" className="timepicker" placeholder="Time"/>
+              </div>
+              </div>
             <div className="input-field file-field col s12 l6 ">
               <div className="btn-small">
                 <span>File</span>
@@ -251,7 +262,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
                   }}
                   // disabled={btn}
                   type="submit"
-                  className={!btn?"btn waves-effect waves-light hoverable":"btn waves-effect waves-light hoverable disabled"} 
+                  className={!btn?"btn  hoverable":"btn  hoverable disabled"} 
                   
                 >
                   {action.type=="add"?"ADD":"Edit"}
@@ -267,7 +278,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
                     height: "40px",
                   }}
                   type="button"
-                  className="btn waves-effect waves-light hoverable "
+                  className="btn  hoverable "
                   onClick={() => {
                     toggle()
                     setAction({type:"add",payload:{}})
@@ -278,8 +289,9 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
               </div>
             </div>
           </form>
-          <div className='col s12 container '>
-            <h6>* Please note that you can't (modify,close and re-open) your event before <b>three days</b>  from it's schudeled day.</h6> </div>
+          {/* <div className='col s12 container '>
+            <h6>* Please note that you can't (modify,close and re-open) your event before <b>three days</b>  from it's schudeled day.</h6> 
+            </div> */}
         </div>
       </div>
     
