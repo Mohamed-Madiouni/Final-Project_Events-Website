@@ -57,7 +57,7 @@ function Navbar() {
             <i className="material-icons">menu</i></a>}
         </div>
        
-        <div className={!resize.state?"div3 col s10":" div3 col s11"}>
+        <div className={!resize.state?"div4 col s10":" div4 col s11"}>
         {!resize.state?(<>
 
           <div className="col s10 nav_list" style={{display:"flex",justifyContent:"center",alignItems:"center",}}>
