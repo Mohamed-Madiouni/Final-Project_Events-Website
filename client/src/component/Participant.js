@@ -11,7 +11,8 @@ import eventClosing from "../outils/eventClosing";
 import { GET_ERRORS } from "../actions/types";
 import { getMyEvents,getCurrentUser } from "../actions/authaction";
 import historyevent from "../outils/history"
-
+import Search from "./Search";
+import "../participant.css"
 
 function Participant() {
 
@@ -38,8 +39,7 @@ function Participant() {
       setModal(!modal)
     return modal
     };
-    const onChange = (e) => {
-        setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value })};
+  
     
    
     
@@ -101,43 +101,32 @@ function Participant() {
   
     return (
         <>
-        <div className='row container' ><h5><b>Quick search</b></h5></div>
-
-<div className="row container" style={{marginTop:"20px",fontSize:15,fontWeight:800}} >
-  <form >
-  <div className="input-field col s4 m5">
-<input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
-<label forhtml="title">Event title</label>
-</div>
-<div className="input-field col s4 m3">
-<select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none"}}>
-<option value="">State</option>
-<option value="Available" className="green-text">Available</option>
-<option value="Closed" className="gray-text">Closed</option>
-<option value="Ended" className="gray-text">Ended</option>
-</select>
-<label className="active">Event state</label>
-</div>
-<div className="input-field col s4 m4">
-<input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
-<label forhtml="title">Event tags</label>
-</div>
-  </form>
-</div>
+        <Search
+        quickSearch={quickSearch}
+        setQuickSearch={setQuickSearch}/>
             
       <div className="col s12 row">
         
-        <div className="col s10 l8 organizer_hi">
+        <div className="
+         organizer_hi">
           <div
-            className="col s12"
+            // className="col s12"
             style={{
               paddingTop: "0.75rem",
               paddingBottom: "0.75rem",
-              margin: "0px",
+             
 
             }}
           >
+            
             {" "}
+            {/* <figure class="profile-banner">
+    <img src="https://www.bacp.co.uk/media/7326/partybanner.jpg?anchor=center&mode=crop&width=1120&heightratio=0&format=jpg&quality=80&slimmage=true&rnd=132207170210000000" alt="Profile banner" />
+  </figure> */}
+  <div class="profile-picture" 
+    style={{backgroundImage:`url(${auth.user.avatar})`}}>
+  </div>
+  <div style={{marginLeft:"50%"}}>
             <h5>
               <b>Hi there,</b> {auth.user.fname}
             </h5>
@@ -148,19 +137,22 @@ function Participant() {
               This is your <b>Dashboard</b>, you can see all your events that
               you have been participated.
             </p>
-           
+            </div>
           </div>
          
         </div>
         <div
-          className="col s2 l4"
+          className="col s12 l1"
 
           style={{
-            paddingRight: "0px",
+            paddingRight: "0px",  
           }}
         >
-
-          <div className="organizer_nav_part">
+          <div className="organizer_nav_part"
+          style={{position: "fixed",
+          marginTop:"20px",
+          right:50
+          }}>
             <div>
               <a className="btn-floating  cadetblue">
                 <i
@@ -168,11 +160,11 @@ function Participant() {
                   onClick={toggle}
                   title="Add Comment"
                 >
-                  add
+                comment
                 </i>
               </a>
 
-              <label>Add comment</label>
+              {/* <label>Add comment</label> */}
 
             </div>
           </div>

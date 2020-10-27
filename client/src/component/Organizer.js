@@ -76,19 +76,19 @@ useEffect(()=>{
 
   return (
    <>
-      
-     
     
-     
+
       <div className="col s12 row">
-        
-        <div className="col s10 l6 organizer_hi">
+
+        <div className="col s12 l12 organizer_hi">
           <div
-            className="col s12"
+         
+            className=" div-1 col s12"
             style={{
               paddingTop: "0.75rem",
               paddingBottom: "0.75rem",
               margin: "0px",
+              
             }}
           >
             {" "}

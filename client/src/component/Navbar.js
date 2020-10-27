@@ -23,7 +23,7 @@ function Navbar() {
   return (
     <div className="navbar-fixed" style={{height:"60px"}}>
     <div className="test row">
-      <div className="div2 col s10 l11 row">
+      <div className="div2 col s12 l11 row">
        <div
           style={{
             padding: "0px",
@@ -38,25 +38,34 @@ function Navbar() {
             }}
           >
             <img
-              src="/coco2.png"
-              alt="COCO PARTY"
-              width="100%"
-              height="100%"
+              src="/cocoEventtt.jpg"
+              alt="COCO EVENT"
+              width="157px"
+              height="60px"
               style={{
-                paddingTop: "7px",
-                paddingLeft:"5px"
+                // paddingTop: "7px",
+                paddingLeft:"40px",
+                cursor: "pointer"
+
               }}
             />
-          </Link> : <a href="#" data-target="slide-out" className="sidenav-trigger" style={{paddingLeft:10,color:"black",display:"flex",alignItems:"center"}}><i className="material-icons">menu</i></a>}
+          </Link> : <a href="#" data-target="slide-out" className="sidenav-trigger" 
+          style={{paddingLeft:10,
+          color:"black",
+          display:"flex",
+          alignItems:"center"}}>
+            <i className="material-icons">menu</i></a>}
         </div>
        
-        <div className={!resize.state?"div4 col s10":" div4 col s11"}>
+        <div className={!resize.state?"div3 col s10":" div3 col s11"}>
         {!resize.state?(<>
-          <div className="col s11  nav_list" style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-            <Link to="/" style={{color:location.pathname=="/"&&"rgb(14, 161, 152)"}}>Home</Link>
-            <Link to="/dashboard" style={{color:(location.pathname=="/dashboard"||location.pathname==`/events/${auth.user._id}`)&&"rgb(14, 161, 152)"}}>Dashboard</Link>
-            <Link to="/events" style={{color:location.pathname=="/events"&&"rgb(14, 161, 152)"}}>Events</Link>
-            <Link to="/calendar" style={{color:location.pathname=="/calendar"&&"rgb(14, 161, 152)"}}>Calendar</Link>
+          <div className="col s10 nav_list" style={{display:"flex",justifyContent:"center",alignItems:"center",}}>
+            <Link to="/" style={{borderRadius:"10px" ,backgroundColor:location.pathname=="/"&&"cadetblue"}}>Home</Link>
+            <Link to="/dashboard" style={{borderRadius:"10px", backgroundColor:(location.pathname=="/dashboard"||location.pathname==`/events/${auth.user._id}`)&&"cadetblue"}}>Dashboard</Link>
+            <Link to="/contact" style={{borderRadius:"10px", backgroundColor:location.pathname=="/contact"&&"cadetblue"}}>Contact</Link>
+            <Link to="/about" style={{borderRadius:"10px", backgroundColor:location.pathname=="/about"&&"cadetblue"}}>About</Link>
+            <Link to="/events" style={{borderRadius:"10px", backgroundColor:location.pathname=="/events"&&"cadetblue"}}>Events</Link>
+            <Link to="/calendar" style={{borderRadius:"10px", backgroundColor:location.pathname=="/calendar"&&"cadetblue"}}>Calendar</Link>
           </div>
           <i
             className="fa fa-search col s1 "
@@ -89,7 +98,8 @@ function Navbar() {
                 payload: !search.etat,
               })
             }
-          ></i><Link
+          ></i>
+          {/* <Link
             to="/"
             style={{
               textDecoration: "none",
@@ -98,18 +108,20 @@ function Navbar() {
               alignItems:"center",
               width:"100%"
             }}
-          >
-            <img
-              src="/coco2.png"
-              alt="COCO PARTY"
+          > */}
+            {/* <img
+              src="/cocoEventtt.jpg"
+              alt="COCO EVENT"
               width="180px"
               height="45px"
+
               style={{
                 marginRight: "10px",
-                
+
               }}
-            />
-          </Link></>)}
+            /> */}
+          {/* </Link> */}
+          </>)}
         </div>
         {/* <div className="div3 col s3 l2 ">
           <Link
@@ -128,10 +140,11 @@ function Navbar() {
           </Link>
         </div> */}
       </div>
-      <div className="landing col s2 l1" style={{
+      <div className="landing col s2 l2" style={{
         margin:0
-      }}>
+      }}> 
         <Landing />
+        
       </div>
     </div>
     </div>

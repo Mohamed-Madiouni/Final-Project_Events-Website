@@ -5,7 +5,7 @@ import Login from "./component/Login";
 import Account from "./component/Account";
 import {Link, Route, Switch,useLocation } from "react-router-dom";
 import setAuthToken from "./token/authtoken";
-import PrivateRoute from "./component/Privateroute";
+import PrivateRoute from "./component/privateroute";
 import Dashboard from "./component/Dashboard";
 import Home from "./component/Home";
 import Searchevents from "./component/Searchevents";
@@ -17,8 +17,9 @@ import Calendar from "./component/Calendar"
 import { getCurrentUser } from "./actions/authaction";
 import { INI_RESIZE, SET_RESIZE } from "./actions/types";
 import M from "materialize-css";
-import AddEvent from "./component/AddEvent";
-
+// import AddEvent from "./component/AddEvent";
+import ContactUs from "./component/ContactUs"
+import AboutUs from "./component/AboutUs";
 
 function App() {
 
@@ -86,6 +87,8 @@ useEffect(()=>{
             <Route path="/search" component={Searchresult} />
             <Route exact path="/events" component={Events} />
             <Route path="/calendar" component={Calendar} />
+            <Route exact path="/contact" component={ContactUs} />
+            <Route exact path="/about" component={AboutUs} />
 
             <PrivateRoute path="/myaccount" component={Account} />
 
@@ -99,17 +102,18 @@ useEffect(()=>{
           </Switch>
         </div>
       )}
-    { resize.state&&<ul id="slide-out" className="sidenav" >
+    { resize.state&&<ul id="slide-out" className="sidenav" style={{background:" linear-gradient(90deg, #1c1b1b 0%, rgb(26, 23, 23) 100%)"}}>
     <li>
-        <div style={{height:"60px",display:"flex",justifyContent:"center",alignItems:"center"}}>
+        <div style={{background:" linear-gradient(90deg, #1c1b1b 0%, rgb(26, 23, 23) 100%)",
+ height:"60px",display:"flex",justifyContent:"center",alignItems:"center"}}>
           {/* <div className="background">
             <img src="/background_profil.jpg" height="100%" width="100%" />
           </div> */}
          <img
-              src="/coco2.png"
-              alt="COCO PARTY"
-              width="50%"
-              height="60%"
+              src="/cocoEventtt.jpg"
+              alt="COCO Event"
+              width="150px"
+              height="50px"
               // style={{
               //   paddingTop: "7px",
               // }}
@@ -121,18 +125,18 @@ useEffect(()=>{
         </div>
       </li>
  <li style={{transform: "translateY(-8px)"}}>
-        <div className="divider"></div>
+        {/* <div className="divider"></div> */}
       </li>
       {/* <li>
         <a href="/myaccount">
           <i className="material-icons">settings</i>Account Setting
         </a>
       </li> */}
-      <li className="no-padding">
+      <li className="no-padding" >
         <ul className="collapsible collapsible-accordion">
           <li className="active" >
             <a className="collapsible-header">Pages<i className="material-icons right chevron">chevron_right </i></a>
-            <div className="collapsible-body">
+            <div className="collapsible-body" >
               <ul>
                 <li><Link to="/" style={{color:location.pathname=="/"&&"white",backgroundColor:location.pathname=="/"&&"rgb(14, 161, 152)"}}>Home</Link></li>
                 <li><Link to="/dashboard" style={{color:(location.pathname=="/dashboard"||location.pathname==`/events/${auth.user._id}`)&&"white",backgroundColor:(location.pathname=="/dashboard"||location.pathname==`/events/${auth.user._id}`)&&"rgb(14, 161, 152)"}}>Dashboard</Link></li>

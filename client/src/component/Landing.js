@@ -28,10 +28,12 @@ function Landing() {
         <Link
           to="/register"
           style={{
-            width: "90%",
+            width: "100%",
             borderRadius: "3px",
-            letterSpacing: "1.5px",
+            
+            // letterSpacing: "1.5px",
             display: localStorage.token ? "none" : "inline",
+            marginRight:5
           }}
           className="btn waves-effect waves-light "
         >
@@ -41,9 +43,11 @@ function Landing() {
         <Link
           to="/login"
           style={{
-            width: "90%",
+            width: "100%",
             borderRadius: "3px",
-            letterSpacing: "1.5px",
+            // letterSpacing: "1.5px",
+             marginRight:5,
+
             display: localStorage.token ? "none" : "inline",
           }}
           className="btn"
@@ -78,26 +82,50 @@ function Landing() {
           
           onClick={onLogoutClick}
         > </a> */}
-        {localStorage.token&&<div style={{width:"100%",display:"flex",alignItems:"center",justifyContent:resize.state?"flex-end":"space-around"}}>
-          {localStorage.token &&<a href="#signoutmodal" className="modal-trigger" style={{color:"black",height:17}}><i className="fas fa-sign-out-alt" style={{cursor:"pointer",fontSize:17}}   title="sign out"></i></a>}
+        {localStorage.token&&
+        <div style={{width:"100%",
+        display:"flex",
+        alignItems:"center",
+        justifyContent:resize.state?"flex-end":"space-around"}}>
+          {localStorage.token &&
+          <a href="#signoutmodal" 
+          className="modal-trigger" 
+          style={{color:"white",marginTop:5}}>
+            <i className="fas fa-sign-out-alt" 
+            style={{cursor:"pointer",fontSize:20}}   
+            title="sign out"></i></a>}
           
        
-        {localStorage.token&&<a href='#' data-target='dropdown1' className='dropdown-trigger' style={{margin:resize.state&&"11px",transform:"translateY(3.2px)"}}><img className="circle" src={auth.user.avatar} width="30px" height="30px"/></a>}
+        {localStorage.token&&
+        <a href='#' data-target='dropdown1' className='dropdown-trigger' 
+        style={{margin:resize.state&&"11px",
+        transform:"translateY(3.2px)"}}>
+          <img className="circle" src={auth.user.avatar} width="30px" height="30px"/></a>}
         </div>}
       </div>
 
       <ul id='dropdown1' className='dropdown-content' >
         <li style={{height:"100%"}}>
-      <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"space-around",height:"100%"}}>
+      <div style={{display:"flex",
+      flexDirection:"column",
+      alignItems:"center",
+      justifyContent:"space-around",
+      height:"100%"}}>
           
             
           
           <img className="circle" src={auth.user.avatar} width="55px" width="55px" />
-         <div style={{width:"100%",display:"flex",flexDirection:"column",alignItems:"center"}}> <span className="black-text name">
+         <div style={{width:"100%",
+         display:"flex",
+         flexDirection:"column",
+         alignItems:"center"}}> 
+         <span className="black-text name">
             <b>{auth.user.fname + " " + auth.user.lname}</b>
           </span>
           <span className="black-text email">{auth.user.email}</span></div>
-          <button className="account" onClick={()=>history.push("/myaccount")} style={{marginBottom:"5px"}}>Account setting</button>
+          <button className="account"
+           onClick={()=>history.push("/myaccount")} 
+           style={{marginBottom:"5px"}}>Account setting</button>
         </div>
        </li>
   </ul>

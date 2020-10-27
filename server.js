@@ -9,6 +9,7 @@ app.use(express.json())
 app.use("/user",require("./routes/users"))
 app.use("/event",require("./routes/events"))
 app.use("/admin",require("./routes/admin"));
+app.use("/contact",require("./routes/contacts"))
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, (err) => {

@@ -8,6 +8,8 @@ import eventClosing from "../outils/eventClosing";
 import { closeEvent, getEvent, endEvent } from "../actions/evntAction";
 import { useHistory } from "react-router-dom";
 import { GET_ERRORS } from "../actions/types";
+import Footer from "./Footer"
+//import AboutSection from "./AboutSection";
 function Home() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -52,32 +54,6 @@ function Home() {
     <>
       <Navbar />
       <div className="parallax-container">
-        <div className="parallax">
-          <img src="festival_home.jpg" alt="Home" className="responsive-img" />
-        </div>
-      </div>
-      <div className="section white">
-        <div className="row container">
-          <h2 className="header">COCO PARTY</h2>
-          <p
-            className="grey-text text-darken-2 "
-            style={{
-              lineHeight: "38px",
-            }}
-          >
-            Welcome to the number 1 event website in the WORLD <br /> We
-            consider our self as a family, and as a family we welcome you to be
-            part of our universe.
-            <br />
-            <span className=" black-text">
-              You can check our last available events here below.
-            </span>
-          </p>
-          <h4>
-            <b># BLACK LIVES MATTER</b>
-          </h4>
-        </div>
-      </div>
       {allevents && (
         <div className="slider" >
           <ul className="slides">
@@ -148,6 +124,35 @@ function Home() {
           </ul>
         </div>
       )}
+        {/* <div className="parallax">
+          <img src="festival_home.jpg" alt="Home" className="responsive-img" />
+        </div> */}
+      </div>
+      
+      <div className="section white">
+        <div className="row container">
+          <h2 className="header">COCO PARTY</h2>
+          <p
+            className="grey-text text-darken-2 "
+            style={{
+              lineHeight: "38px",
+            }}
+          >
+            Welcome to the number 1 event website in the WORLD <br /> We
+            consider our self as a family, and as a family we welcome you to be
+            part of our universe.
+            <br />
+            <span className=" black-text">
+              You can check our last available events here below.
+            </span>
+          </p>
+          <h4>
+            <b># BLACK LIVES MATTER</b>
+          </h4>
+        </div>
+      </div>
+      
+      <Footer/>
     </>
   );
 }

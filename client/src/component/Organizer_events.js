@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import eventClosing from "../outils/eventClosing";
 import Navbar from "./Navbar";
 import "../organizer_event.css";
-
+import Search from './Search'
 
 
 function Organizer_events({ history }) {
@@ -112,36 +112,16 @@ useEffect(()=>{
    })
 
 
-  const onChange = (e) => {
-    setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value })};
+
   
   return (
       <>
       <Navbar/>
-
-      <div className='row container' ><h5><b>Quick search</b></h5></div>
-
-<div className="row container" style={{marginTop:"20px",fontSize:15,fontWeight:800}} >
-  <form >
-  <div className="input-field col s4 m5">
-<input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
-<label forhtml="title">Event title</label>
-</div>
-<div className="input-field col s4 m3">
-<select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none"}}>
-<option value="">State</option>
-<option value="Available" className="green-text">Available</option>
-<option value="Closed" className="gray-text">Closed</option>
-<option value="Ended" className="gray-text">Ended</option>
-</select>
-<label className="active">Event state</label>
-</div>
-<div className="input-field col s4 m4">
-<input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
-<label forhtml="title">Event tags</label>
-</div>
-  </form>
-</div>
+      <Search
+        quickSearch={quickSearch}
+        setQuickSearch={setQuickSearch}
+        />
+      
     {/* <div className="col s12">
         <Link
               to="/dashboard"
