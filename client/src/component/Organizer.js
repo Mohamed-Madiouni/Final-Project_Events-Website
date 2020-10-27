@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {Link, useHistory} from "react-router-dom";
 import {closeEvent,getEventOrganizer, deleteEvent,openEvent,getEvent,endEvent, fullEvent} from "../actions/evntAction";
+import {getNotifications, sendNotifications} from "../actions/notificationaction";
 import get_month from "../outils/get_month"
 import historyevent from "../outils/history"
 import AddEvent from "./AddEvent";
@@ -82,7 +83,10 @@ useEffect(()=>{
   for(let i=0;i<events.events.length;i++){
     if( events.events[i].participant.length!=events.events[i].nb_participant&&events.events[i].state=="Full")
     dispatch(openEvent(events.events[i]._id))
-  }
+    let title="newevent";
+    let content= "new event"
+    dispatch(sendNotifications(content,title,auth.user._id,auth.user._id,auth.user.role))
+    }
 },[])
  useEffect(()=>{
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
