@@ -300,7 +300,8 @@ history.push("/login")
      <i className="material-icons" style={{color:"rgb(255, 180, 0)",fontSize:35}}>star</i>
      <div style={{display:"flex",flexDirection:"column",}}>
      <p><span style={{fontWeight:"bold",fontSize:20}}>{calcul_rating(allevents.find(el=>el._id==match.params.event_id).rating)}</span>/10</p>
-       <p>{nbr_comments(allevents.find(el=>el._id==match.params.event_id).rating.length)}</p> 
+      <p> <span style={{fontWeight:"bold",fontSize:18}}>{nbr_comments(allevents.find(el=>el._id==match.params.event_id).rating.length)}</span><i className=" tiny material-icons" style={{fontSize:"20px", position:"absolute", top:"559px"}}>person</i></p>
+       
     </div> 
     </div>
     </div>
