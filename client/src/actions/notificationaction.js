@@ -22,7 +22,7 @@ export const getNotifications = () => (dispatch) => {
 };
 
 // Send Notifications
-export const sendNotifications = (userId, title, content, role) => (
+export const sendNotifications = (userId, title, content, role, state, counter) => (
   dispatch
 ) => {
   setAuthToken(localStorage.token);
@@ -33,7 +33,7 @@ export const sendNotifications = (userId, title, content, role) => (
       createdBy: userId,
       role: role,
       state: state,
-      counter: counter,
+      counter: counter
     })
     .then((res) => {
       dispatch({
