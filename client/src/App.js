@@ -153,6 +153,8 @@ useEffect(()=>{
                 <li><Link to="/dashboard" style={{color:(location.pathname=="/dashboard"||location.pathname==`/dashboard/${auth.user._id}`)&&"white",backgroundColor:(location.pathname=="/dashboard"||location.pathname==`/dashboard/${auth.user._id}`)&&"rgb(14, 161, 152)"}}>Dashboard</Link></li>
                 <li> <Link to="/events" style={{color:location.pathname=="/events"&&"white",backgroundColor:location.pathname=="/events"&&"rgb(14, 161, 152)"}}>Events</Link></li>
                 <li> <Link to="/calendar" style={{color:location.pathname=="/calendar"&&"white",backgroundColor:location.pathname=="/calendar"&&"rgb(14, 161, 152)"}}>Calendar</Link></li>
+                <li> <Link to="/contact" style={{color:location.pathname=="/contact"&&"white",backgroundColor:location.pathname=="/contact"&&"rgb(14, 161, 152)"}}>Contact</Link></li>
+                <li> <Link to="/about" style={{color:location.pathname=="/about"&&"white",backgroundColor:location.pathname=="/about"&&"rgb(14, 161, 152)"}}>About</Link></li>
               </ul>
             </div>
           </li>
