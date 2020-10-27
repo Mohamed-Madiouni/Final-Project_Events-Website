@@ -373,22 +373,19 @@ const UserList = () => {
           </table>
           <p>
             {(countuser + 1) * 10 < users.length && (
-              <div
-                style={{
-                  display: "flex",
-                  cursor: "pointer",
-                  color: "rgb(46, 143, 165)",
-                  fontWeight: 550,
-                }}
-                onClick={() => {
+           <div style={{
+           marginBottom:"50px",
+           cursor: "pointer",
+           display: "flex",
+           justifyContent:"center",
+           alignItems:"center"}}
+           id="loadMore" className="thb-gp-load-more"
+           data-thb-gp-lm-type="event"
+           data-org-text="MORE"
+           onClick={() => {
                   setCountuser(countuser + 1);
-                }}
-              >
-                <i className="material-icons">expand_more</i>
-                <p>Show more users</p>
-              </div>
-            )}{" "}
-          </p>{" "}
+                }}>SHOW MORE</div>)}
+          </p>
         </span>
       ) : (
         <div>
