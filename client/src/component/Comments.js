@@ -756,7 +756,7 @@ setTextedit("")
 
       {allevents.filter(el=>el._id!=match.params.event_id).slice(0).sort(function(a, b) {
   return new Date(a.date) - new Date(b.date);
-}).reverse().slice(0,10+countevent*10).map((el,i)=>{
+}).reverse().filter(el=>el.state!="Invalid").slice(0,10+countevent*10).map((el,i)=>{
 return(
 <div key={i} style={{position:"relative"}}>
 <img  src={el.image} width="100%" height="220px" alt="event image" style={{cursor:"pointer"}} onClick={()=>{
