@@ -5,7 +5,7 @@ import Login from "./component/Login";
 import Account from "./component/Account";
 import {Link, Route, Switch,useLocation } from "react-router-dom";
 import setAuthToken from "./token/authtoken";
-import PrivateRoute from "./component/privateroute";
+import PrivateRoute from "./component/Privateroute";
 import Dashboard from "./component/Dashboard";
 import Home from "./component/Home";
 import Searchevents from "./component/Searchevents";
