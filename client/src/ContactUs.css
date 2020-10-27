@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=David+Libre:wght@700&display=swap');
+/* 
+.container-1{
+position: relative;
+min-width: 1100px;
+display: flex;
+z-index: 1000;
+}
+.containerinfo{
+    position: absolute;
+    top: 40px;
+    width: 350px;
+    height: calc(100% - 80px);
+    background: #0f3959;
+    z-index: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+justify-content: space-between;  
+box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2);  
+}
+h2{
+    color:#fff;
+    font-size: 24px;
+    font-weight: 500;
+}
+.info{
+    position: relative;
+    list-style: none;
+    display:flex;
+    margin: 20px 0;
+    cursor: pointer;
+    align-items: flex-start;
+}
+li span:nth-child(1){
+    width: 30px;
+min-width: 100%;
+}
+li span:nth-child(1) img{
+    max-width: 100%;
+    filter: invert(1);
+    opacity: 0.5;
+}
+li span:nth-child(2){
+   color:#fff;
+margin-left:10px;
+font-weight: 300;
+opacity: 0.5;
+}
+li span:nth-child(2) img{
+    max-width: 100%;
+    filter: invert(1);
+    opacity: 0.5;
+} */
+/* .contact_us{ */
+    /* background: url("https://coolbackgrounds.io/images/backgrounds/black/pure-black-background-f82588d3.jpg") no-repeat center center fixed;
+    -webkit-background: cover;
+    -moz-background: cover;
+    -o-background: cover;
+    background: cover; */
+    /* min-height: 300px;
+    color: #FFF;
+    font-family: sans-serif;
+    
+   
+    
+    
+} */
+
+
+ /* .form-control {
+    background-color: rgba(82,78,78,.07);
+    color: #FFF;
+    border: none;
+    
+ 
+  transition: all .2s ease-in-out;
+} */
+.content-1{
+    background-color: rgba(0, 0, 0,);
+    padding: 20px;
+    margin: 20px 300px;
+    transition: 0.5s;
+} 
+h1{
+    margin-bottom: 40px;
+    margin-top: 20px;
+    font-size: 70px;
+    font-family: 'David Libre', serif;
+   
+}
+.active{
+ 
+  transform: scale(1.1, 1.1);
+}
+ textarea{
+    height: 108px;
+    outline:none;
+}
+.btn-danger {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.row-3{
+    /* margin-left: 25%; */
+    margin-top: 40px;
+}
+.cont-1{
+    margin-top: 64px;
+    margin-bottom: 0;
+    padding: 20px;
+    box-shadow: 0px 6px 30px 0px rgba(24, 32, 111, 0.14);
+   
+}
+/*----------------------------*/
+.vc_row {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+.vc_row:before {
+    content: " ";
+    display: table;
+}
+.vc_column_container {
+    padding-left: 0;
+    padding-right: 0;
+}
+.vc_column_container>.vc_column-inner {
+    box-sizing: border-box;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100%;
+}

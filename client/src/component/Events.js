@@ -13,8 +13,13 @@ import "../events.css";
 import M from "materialize-css";
 import { GET_ERRORS } from "../actions/types";
 import eventClosing from "../outils/eventClosing";
+
+import Footer from './Footer';
+import Search from './Search';
+
 import { logoutUser } from "../actions/authaction";
 import calcul_rating from '../outils/calucle_rating';
+
 
 function Events() {
     const dispatch = useDispatch()
@@ -114,47 +119,91 @@ useEffect(()=>{
      })
 
 
-    const onChange = (e) => {
-      setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value })};
+    
 
     return (
+
+<div>
+  <Navbar/>
+  <Search
+  quickSearch={quickSearch}
+  setQuickSearch={setQuickSearch}/>
+
       
-        <div>
-             <Navbar/>
-            
-             <div className='row container' ><h5><b>Quick search</b></h5></div>
+//         <div>
+//              <Navbar/>
 
-
-            <div className="row container" style={{marginTop:"20px",fontSize:15,fontWeight:800}} >
             
-     <form >
-              <div className="input-field col s4 m5">
-          <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
-          <label forhtml="title">Event title</label>
-        </div>
-        <div className="input-field col s4 m3">
-    <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none"}}>
-      <option value="">State</option>
-      <option value="Available"  className="green-text">Available</option>
-      <option value="Closed" className="gray-text">Closed</option>
-      <option value="Ended" className="gray-text">Ended</option>
-    </select>
-    <label className="active">Event state</label>
-  </div>
-  <div className="input-field col s4 m4">
-          <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
-          <label forhtml="title">Event tags</label>
-        </div>
-              </form>
+             {/* <div className='row container' ><h5><b>Quick search</b></h5></div> */}
+
+            
+
+            <div className="row container" 
+            style={{marginLeft:"30px",marginTop:"20px",fontSize:15,fontWeight:800}} 
+            >
+          
+
+//      <form >
+//               <div className="input-field col s4 m5">
+//           <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
+//           <label forhtml="title">Event title</label>
+//         </div>
+//         <div className="input-field col s4 m3">
+//     <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none"}}>
+//       <option value="">State</option>
+//       <option value="Available"  className="green-text">Available</option>
+//       <option value="Closed" className="gray-text">Closed</option>
+//       <option value="Ended" className="gray-text">Ended</option>
+//     </select>
+//     <label className="active">Event state</label>
+//   </div>
+//   <div className="input-field col s4 m4">
+//           <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
+//           <label forhtml="title">Event tags</label>
+//         </div>
+//               </form>
+
             </div>
 
             {(quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&
             
-            <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>}
-             <div className="row">
+            <div className="row" style={{marginLeft:"50px"}} > 
+              <div class=" row vc_row wpb_row vc_row-fluid section-header featured">
+              <div class="wpb_column vc_column_container col 12">
+                <div class="vc_column-inner">
+                  <div class="wpb_wrapper">
+                    <div class="wpb_text_column wpb_content_element ">
+                      <div class=" wpb_wrapper"> 
+                      <h2>{events.length}</h2>
+                        <p className="pra-2"> result(s) found </p>
+                        </div></div></div></div></div></div> 
            
+
+            </div>}
+            
+             <div className="row" style={{marginLeft:"50px",marginTop:"20px"}}>
+             <div class=" row vc_row wpb_row vc_row-fluid section-header featured">
+              <div class="wpb_column vc_column_container col 12">
+                <div class="vc_column-inner">
+                  <div class="wb_wrapper">
+                    <div class="wpb_text_column wpb_content_element ">
+                      <div class=" wpb_wrapper">
+                        <h2>Upcoming Events</h2>
+                        <p className="pra-2">Keep up with the latest digital events</p>
+                        </div></div></div></div></div></div>
+//  {events&&events.slice(0).reverse().map(el=>{
+//      return (
+
+//      <div className="col s12 m3 l2 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
+       
+
+
+
+       
+
  {events&&events.slice(0).reverse().slice(0, 12 + countevent * 12).filter(el=>el.state!="Invalid").map(el=>{
      return (<div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
+
        <div
                   className="card small sticky-action"
                   style={{
@@ -448,9 +497,11 @@ note that: </p><br/>
             
           </div>
         </div>
-        
+
+//         <a style={{marginBottom:"50px"}} href="#" id="loadMore" class="thb-gp-load-more" data-thb-gp-lm-type="event" data-org-text="MORE">MORE</a>
+        <Footer/>
         </div>
-        
+
     )
 }
 

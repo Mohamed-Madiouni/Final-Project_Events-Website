@@ -98,22 +98,25 @@ useEffect(()=>{
 
   return (
    <>
+
       { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
         <i className="fas fa-exclamation-circle" style={{color:"red",fontSize:15,marginTop:5}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban your account 
         </i>
         }
      
-    
-     
+
+
       <div className="col s12 row">
-        
-        <div className="col s10 l6 organizer_hi">
+
+        <div className="col s12 l12 organizer_hi">
           <div
-            className="col s12"
+         
+            className=" div-1 col s12"
             style={{
               paddingTop: "0.75rem",
               paddingBottom: "0.75rem",
               margin: "0px",
+              
             }}
           >
             {" "}

@@ -149,6 +149,27 @@ export const getMyEvents = () => (dispatch) => {
         payload: err.response.data,
       }));
 };
+
+// contact validation
+export const contactUs = (data) => (dispatch) => {
+  axios
+    .post("/contact/contactus", data)
+    .then((res) => {
+     
+      dispatch({
+        type: GET_ERRORS,
+        payload: {},
+      });
+    }) 
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
+
 //add follower
 export const addfollow = (idorganizer) => (dispatch) => {
   setAuthToken(localStorage.token)
@@ -189,3 +210,4 @@ export const removefollow = (idorganizer) => (dispatch) => {
       payload: err.response.data,
     }));
 };
+

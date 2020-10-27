@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=David+Libre:wght@700&display=swap');
+
 .home_app{
     text-align: center;
     position: absolute;
@@ -22,3 +24,37 @@
     transform: translateX(-1.78%); */
     height: 530px;
 }
+h2{
+   
+    font-size: 70px;
+    font-family: 'David Libre', serif;
+    margin: 40px auto;
+    white-space: nowrap;
+    overflow: hidden;
+}
+    /* font-size: 70px;
+    color:#00abff;
+    width: 620px;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid #000;
+    font-family:"David Libre', serif ";
+    -webkit-animation: typing 17s steps(39, end),
+     blink-pipe 1s step-end infinite;
+     -moz-animation: typing 17s steps(39, end),
+     blink-pipe 1s step-end infinite;
+
+}
+@-webkit-keyframes typing{
+    from{width: 0}
+    to{width: 620px}
+}
+@-webkit-keyframes blink-pipe{
+    from, to{border-color: transparent}
+    50%{border-color: #000}
+} */
+
+b{
+    font-size: 20px;
+    font-family: 'David Libre', serif;
+} 
