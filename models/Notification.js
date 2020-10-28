@@ -21,15 +21,15 @@ const NotifSchema = new schema({
     type: Date,
     default: Date.now,
   },
-  state: {
-    type: Boolean,
-    required: true,
-    default: false,
+  notiftype: {
+    type: String,
   },
-  counter: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
+ 
+state:[{
+user: String,   
+consulted: Date
+  }],
+
+
 });
 module.exports = mongoose.model("notification", NotifSchema);
