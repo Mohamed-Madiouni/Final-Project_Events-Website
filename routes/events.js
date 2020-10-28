@@ -161,15 +161,15 @@ router.put("/edit/:id",authMiddleware, (req, res) => {
   evt.title && (evtUpdated.title= evt.title);
       evt.address&& (evtUpdated.address=evt.address),
       evt.description&&( evtUpdated.description=evt.description),
-      evt.date&& ( evtUpdated.date=evt.date),
-      evt.duration&& (evtUpdated.duration=evt.duration),
+      evt.start.split("T")[0]&& ( evtUpdated.start=evt.start),
+      evt.end.split("T")&& (evtUpdated.end=evt.end),
       evt.nb_participant&& (evtUpdated.nb_participant=evt.nb_participant),
       evtUpdated.image=evt.image
       evtUpdated.tags=evt.tags
      
   Event.findByIdAndUpdate(
     req.params.id,
-    { $set: evtUpdated },
+    { $set: {...evtUpdated,state:"Invalid"} },
     { new: true },
     (err, event) => {
       if (err) {

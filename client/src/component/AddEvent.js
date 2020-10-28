@@ -27,13 +27,13 @@ const users=useSelector(state=>state.admin.users)
     title: action.type=="add"?"":action.payload.title,
     address:action.type=="add"?"":action.payload.address ,
     description:action.type=="add"?"":action.payload.description ,
-    start: action.type=="add"?"":action.payload.start,
-    end: action.type=="add"?"":action.payload.end,
+    start: action.type=="add"?"":action.payload.start.split("T")[0],
+    end: action.type=="add"?"":action.payload.end.split("T")[0],
     nb_participant:action.type=="add"?"":action.payload.nb_participant ,
     image: action.type=="add"?"":action.payload.image,
     tags:[],
-    time_start:"",
-    time_end:"",
+    time_start:action.type=="add"?"":action.payload.start.split("T")[1],
+    time_end:action.type=="add"?"":action.payload.end.split("T")[1],
     error: {},
   });
   const[btn,setBtn]=useState(false)
@@ -104,7 +104,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
       image: events.image,
       tags:(chip_input.current.innerText).replace(/\W/gi,"").split("close").slice(0,(chip_input.current.innerText).replace(/\W/gi,"").toLowerCase().split("close").length-1)
     };
-console.log(newEvent)
+// console.log(newEvent)
     const data = new FormData();
     data.append("file", newEvent.image);
     data.append("upload_preset", "events-website");
