@@ -64,12 +64,12 @@ useEffect(()=>{
 useEffect(()=>{
   
   for(let i=0;i<allevents.length;i++){
-    if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
+    if( new Date(allevents[i].end)<new Date())
     dispatch(endEvent(allevents[i]._id))
   }
 
   for(let i=0;i<events.events.length;i++){
-    if( new Date(eventClosing(events.events[i].date,events.events[i].duration))<new Date())
+    if( new Date(events.events[i].end)<new Date())
     dispatch(endEvent(events.events[i]._id))
   }
 },[])
@@ -82,8 +82,9 @@ useEffect(()=>{
   for(let i=0;i<events.events.length;i++){
     if( events.events[i].participant.length!=events.events[i].nb_participant&&events.events[i].state=="Full")
     dispatch(openEvent(events.events[i]._id))
-  }
+    }
 },[])
+
  useEffect(()=>{
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
     M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false });
@@ -202,9 +203,9 @@ useEffect(()=>{
                   <img className="activator" src={el.image} height="100%" width="100%" />
 
                   <div className="date right">
-                    <div className="day">{el.date.split("-")[2]}</div>
+                    <div className="day">{el.start.split("T")[0].split("-")[2]}</div>
                     <div className="month">
-                      {get_month(Number(el.date.split("-")[1]))}
+                      {get_month(Number(el.start.split("T")[0].split("-")[1]))}
                     </div>
                   </div>
                   <div className="star_rate left">

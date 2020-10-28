@@ -4,7 +4,6 @@ import axios from "axios";
 import { getCurrentUser, getMyEvents } from "./authaction";
 
 
-
 // get all events
 export const getEvent = () => (dispatch) => {
   

@@ -9,7 +9,7 @@ app.use(express.json())
 app.use("/user",require("./routes/users"))
 app.use("/event",require("./routes/events"))
 app.use("/admin",require("./routes/admin"));
-
+app.use("/notifications",require("./routes/notifications"))
 app.use("/contact",require("./routes/contacts"))
 
 app.use("/comment",require("./routes/comment"))

@@ -54,7 +54,7 @@ function Navbar() {
           color:"black",
           display:"flex",
           alignItems:"center"}}>
-            <i className="material-icons">menu</i></a>}
+            <i className="material-icons white-text">menu</i></a>}
         </div>
        
         <div className={!resize.state?"div4 col s10":" div4 col s11"}>
@@ -76,7 +76,7 @@ function Navbar() {
 
           </div>
           <i
-            className="fa fa-search col s1 "
+            className="fa fa-search col s1 white-text"
             style={{
               fontSize: "21px",
               cursor: "pointer",
@@ -91,23 +91,10 @@ function Navbar() {
               })
             }
           ></i>
-          <ul className="col s1">
-    <li >
-      <a  href="#">
-    <span class="notification-box">
-    <span class="notification-count">16</span>
-    <span class="notification-bell">
-      <span class="bell-top"></span>
-      <span class="bell-middle"></span>
-      <span class="bell-bottom"></span>
-      <span class="bell-rad"></span>
-    </span></span>
-      </a>  
-    </li>
-    </ul>
+
           
           </>):( <><i
-            className="fa fa-search col s1 "
+            className="fa fa-search col s1 white-text"
             style={{
               fontSize: "21px",
               cursor: "pointer",

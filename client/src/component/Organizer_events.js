@@ -98,11 +98,11 @@ useEffect(()=>{
 //check if events ended
   useEffect(()=>{
     for(let i=0;i<allevents.length;i++){
-      if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
+      if( new Date(allevents[i].end)<new Date())
       dispatch(endEvent(allevents[i]._id))
     }
     for(let i=0;i<allparticipant.participant.length;i++){
-      if( new Date(eventClosing(allparticipant.participant[i].date,allparticipant.participant[i].duration))<new Date())
+      if( new Date(allparticipant.participant[i].end)<new Date())
       dispatch(endEvent(allparticipant.participant[i]._id))
     }
   },[])
@@ -211,9 +211,9 @@ useEffect(()=>{
                     <img className="activator" src={el.image} height="100%"/>
 
                     <div className="date right">
-                      <div className="day">{el.date.split("-")[2]}</div>
+                      <div className="day">{el.start.split("T")[0].split("-")[2]}</div>
                       <div className="month">
-                        {get_month(Number(el.date.split("-")[1]))}
+                        {get_month(Number(el.start.split("T")[0].split("-")[1]))}
                       </div>
                     </div>
                     <div className="star_rate left">

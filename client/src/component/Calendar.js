@@ -49,7 +49,7 @@ useEffect(()=>{
 useEffect(()=>{
   
   for(let i=0;i<allevents.length;i++){
-    if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
+    if( new Date(allevents[i].end)<new Date())
     dispatch(endEvent(allevents[i]._id))
   }
 },[])
@@ -68,12 +68,12 @@ useEffect(() => {
      }
 });
 
-let calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
+let calendarEvents=allevents.filter(el=>el.state=="Invalid").map(el=>{
   return (
   {
   ["title"]:el.title,
-  ['start']:new Date(el.date),
-  ['end']: calendarEndEvent(el.date,el.duration) ,
+  ['start']:new Date(el.start),
+  ['end']: new Date(el.end),
   ['id']:el._id,
   // allDay:true,
   ["state"]:el.state
@@ -152,9 +152,9 @@ let calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
                     <img className="activator" src={allevents.find(e=>e._id==eventId).image} height="100%"  />
 
                     <div className="date right">
-                      <div className="day">{allevents.find(e=>e._id==eventId).date.split("-")[2]}</div>
+                      <div className="day">{allevents.find(e=>e._id==eventId).start.split("T")[0].split("-")[2]}</div>
                       <div className="month">
-                        {get_month(Number(allevents.find(e=>e._id==eventId).date.split("-")[1]))}
+                        {get_month(Number(allevents.find(e=>e._id==eventId).start.split("T")[0].split("-")[1]))}
                       </div>
                     </div>
                     <div className="cal_hov" style={{
@@ -288,7 +288,7 @@ let calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
                       onClick={()=>{
                         // !auth.user.events.includes(el._id)&&
                          setParticipate(allevents.find(e=>e._id==eventId)._id)
-                         setEventDate(allevents.find(e=>e._id==eventId).date)
+                         setEventDate(allevents.find(e=>e._id==eventId).start)
                         // :dispatch(unfollowEvent(el._id))
                       }}
                       style={{ display: "flex", alignItems: "center",borderRadius:"5px" }}

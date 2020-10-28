@@ -239,9 +239,9 @@ useEffect(()=>{
            
            <img className="materialboxed" src={allevents.find(el=>el._id==match.params.event_id).image} width="100%" height="440px" />
            <div className="date_com right">
-                      <div className="day_com">{allevents.find(el=>el._id==match.params.event_id).date.split("-")[2]}</div>
+                      <div className="day_com">{allevents.find(el=>el._id==match.params.event_id).start.split("T")[0].split("-")[2]}</div>
                       <div className="month_com">
-                        {get_month(Number(allevents.find(el=>el._id==match.params.event_id).date.split("-")[1]))}
+                        {get_month(Number(allevents.find(el=>el._id==match.params.event_id).start.split('T')[0].split("-")[1]))}
                       </div>
                     </div>
            <span className="title"><b>{allevents.find(el=>el._id==match.params.event_id).title}</b></span>
@@ -300,7 +300,8 @@ history.push("/login")
      <i className="material-icons" style={{color:"rgb(255, 180, 0)",fontSize:35}}>star</i>
      <div style={{display:"flex",flexDirection:"column",}}>
      <p><span style={{fontWeight:"bold",fontSize:20}}>{calcul_rating(allevents.find(el=>el._id==match.params.event_id).rating)}</span>/10</p>
-       <p>{nbr_comments(allevents.find(el=>el._id==match.params.event_id).rating.length)}</p> 
+      <p> <span style={{fontWeight:"bold",fontSize:18}}>{nbr_comments(allevents.find(el=>el._id==match.params.event_id).rating.length)}</span><i className=" tiny material-icons" style={{fontSize:"20px", position:"absolute", top:"559px"}}>person</i></p>
+       
     </div> 
     </div>
     </div>
@@ -353,7 +354,7 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==allevents.find(el=>el._id==
     <div className="collapsible-body" >
       <div style={{display:"flex",flexWrap:"wrap",alignItems:"center",justifyContent:"space-around"}}>
     {allevents.filter(el=>el._id!=match.params.event_id).slice(0).sort(function(a, b) {
-  return new Date(a.date) - new Date(b.date);
+  return new Date(a.start) - new Date(b.start);
 }).reverse().slice(0,6+countevent*6).map((el,i)=>{
 return(
 <div key={i} style={{position:"relative"}}>
@@ -363,9 +364,9 @@ return(
   document.querySelector(".rating").style.display="none"
 }}/>
  <div className="date_com right">
- <div className="day_com">{el.date.split("-")[2]}</div>
+ <div className="day_com">{el.start.split("T")[0].split("-")[2]}</div>
  <div className="month_com">
-   {get_month(Number(el.date.split("-")[1]))}
+   {get_month(Number(el.start.split("T")[0].split("-")[1]))}
  </div>
 </div>
 </div>
@@ -755,7 +756,7 @@ setTextedit("")
    {!resiz&& <div className="col l4  scroll_event">
 
       {allevents.filter(el=>el._id!=match.params.event_id).slice(0).sort(function(a, b) {
-  return new Date(a.date) - new Date(b.date);
+  return new Date(a.start) - new Date(b.start);
 }).reverse().filter(el=>el.state!="Invalid").slice(0,10+countevent*10).map((el,i)=>{
 return(
 <div key={i} style={{position:"relative"}}>
@@ -765,9 +766,9 @@ return(
   document.querySelector(".rating").style.display="none"
 }}/>
  <div className="date_com right">
- <div className="day_com">{el.date.split("-")[2]}</div>
+ <div className="day_com">{el.start.split("T")[0].split("-")[2]}</div>
  <div className="month_com">
-   {get_month(Number(el.date.split("-")[1]))}
+   {get_month(Number(el.start.split("T")[0].split("-")[1]))}
  </div>
 </div>
 </div>

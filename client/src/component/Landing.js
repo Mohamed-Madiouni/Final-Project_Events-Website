@@ -4,15 +4,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../actions/authaction";
 import "../landing.css";
 import M from "materialize-css";
-import {useLocation} from "react-router-dom"
+import {useLocation} from "react-router-dom";
 
-function Landing() {
+
+function Landing({}) {
   const dispatch = useDispatch();
   const history = useHistory()
   const auth = useSelector((state) => state.auth);
   const resize=useSelector(state=>state.resize)
   const location=useLocation()
-
+  const allnotif=useSelector(state=>state.notification)
   useEffect(() => {
     M.Sidenav.init(document.querySelectorAll(".sidenav"));
     
@@ -107,6 +108,22 @@ useEffect(()=>{
           <img className="circle" src={auth.user.avatar} width="30px" height="30px"/></a>}
         </div>}
       </div>
+
+    <ul>
+    <li >
+      <a href="#">
+    <span className="notification-box">
+    {/* <span className="notification-count"></span> {(allnotif.find(el=>el._id==auth.user._id).length)} */}
+    <span className="notification-count">5</span>
+    <span className="notification-bell">
+      <span className="bell-top"></span>
+      <span className="bell-middle"></span>
+      <span className="bell-bottom"></span>
+      <span className="bell-rad"></span>
+    </span></span>
+      </a>  
+    </li>
+    </ul>
 
       <ul id='dropdown1' className='dropdown-content lan' >
         <li style={{height:"100%"}}>
