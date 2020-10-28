@@ -7,8 +7,12 @@ import { GET_ERRORS } from "../actions/types";
 import "../addevent.css"
 import resize from "../outils/resize";
 import { logoutUser } from "../actions/authaction";
+
+import {sendNotifications} from "../actions/notificationaction";
+
 import Events from "./Events";
 import verif_date from "../outils/verif_date";
+
 
 
 const AddEvent = ({ toggle,action,setAction }) => {
@@ -17,6 +21,7 @@ const dispatch = useDispatch()
 const errors = useSelector((state) => state.errors);
 const auth = useSelector((state)=>state.auth)
 const location = useLocation()
+const users=useSelector(state=>state.admin.users)
 
   const [events, setEvents] = useState({
     title: action.type=="add"?"":action.payload.title,
@@ -119,9 +124,14 @@ console.log(newEvent)
      
       !res.error && (newEvent.image = resize(res.url));
       console.log(newEvent);
-   if(action.type=="add")
-   
+   if(action.type=="add"){
+  let title="New Event";
+  let content= "A new event was created by " + auth.user.fname + " " + auth.user.lname;
+  let notiftype="New_Event";
+  dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, Date.now, notiftype, [users.find(el=>el.role=="administrator")]))
+
    !res.error&&dispatch(addEvent({...newEvent,id_organizer:auth.user._id}));
+   }
       else{
         !res.error &&dispatch(editEvent(action.payload._id,newEvent))
      

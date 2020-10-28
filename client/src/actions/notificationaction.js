@@ -22,11 +22,11 @@ export const getNotifications = () => (dispatch) => {
 };
 
 // Send Notifications
-export const sendNotifications = (userId,title,content,role,created_at,state,counter) => (dispatch) =>{
+export const sendNotifications = (userId,title,content,role,created_at,notiftype,state) => (dispatch) =>{
   setAuthToken(localStorage.token)
   // console.log(userId, title, content, role)
   axios
-    .post("/notifications/add", {userId:userId, title:title, content:content, role:role, created_at:created_at, state:state, counter})
+    .post("/notifications/add", {userId:userId, title:title, content:content, role:role, created_at:created_at, notiftype:notiftype, state:state})
       .then((res) => {
       
       dispatch({  
