@@ -30,7 +30,8 @@ const users=useSelector(state=>state.admin.users)
     start: action.type=="add"?"":action.payload.start.split("T")[0],
     end: action.type=="add"?"":action.payload.end.split("T")[0],
     nb_participant:action.type=="add"?"":action.payload.nb_participant ,
-    image: action.type=="add"?"":action.payload.image,
+    image: "",
+    // action.type=="add"?"":action.payload.image,
     tags:[],
     time_start:action.type=="add"?"":action.payload.start.split("T")[1],
     time_end:action.type=="add"?"":action.payload.end.split("T")[1],
@@ -331,7 +332,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
             </div>
           </form>
           <div className='col s12 container '>
-            <h6>* Please note that a admin validation is required (for any <b> new event</b> or <b>modification</b> of a exstance one).</h6> 
+            <h6>* Please note that a admin validation is required (for any <b> new event</b> or <b>modification</b> of an existing one).</h6> 
             </div>
         </div>
       </div>
