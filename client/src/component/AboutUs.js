@@ -9,82 +9,82 @@ function AboutUs() {
     <>
     <Navbar/>
     <div className="use-bootstrap">
-    <div class="jumbotron jumbotron-simple-new jumbotron-simple-new-dark">
-    <div class="exp1 container">
-    <div class="row-2 row text-center">
-      <div class="col-md-12 col-md-offset-1">
+    <div className="jumbotron jumbotron-simple-new jumbotron-simple-new-dark">
+    <div className="exp1 container">
+    <div className="row-2 row text-center">
+      <div className="col-md-12 col-md-offset-1">
 		<h1 className="title-1">Why CocoEvent</h1> 
-		<p class="lead"> Here are the top 9 reasons event planners choose CocoEvent</p>
+		<p className="lead"> Here are the top 9 reasons event planners choose CocoEvent</p>
       </div>
     </div>
   </div>
 </div>
-{/*---*********************************---*/}
-<div class="exp1 container ">
-<div class="row row-2 ">
-	<div class="col-md-12">
-		<div class="row-2 row text-center icon-block">
-			<div class="col-md-4">
-				<i class="icon icon-egg-timer"></i>				
-				<h5>Save time</h5> 
-				<p> Get setup in seconds</p>
+{/*---***************the 9 reasons******************---*/}
+<div className="exp1 container ">
+<div className="row row-2 ">
+	<div className="col-md-12 coll-1">
+		<div className="row-2 row text-center icon-block">
+			<div className="col-md-4  icon-4">
+				<i className="icon icon-egg-timer"></i>				
+				<h5 className="about-h5">Save time</h5> 
+				<p className="para-1"> Get setup in seconds</p>
 			</div>
-			<div class="col-md-4">
-				<i class="icon icon-lock"></i>							
+			<div className="col-md-4  icon-4">
+				<i className="icon icon-lock"></i>							
 				<h5>Safe and secure</h5> 
-				<p> Fully secure. PCI compliant. SSL enabled.</p>
+				<p className="para-1"> Fully secure. PCI compliant. SSL enabled.</p>
 			</div>	
-			<div class="col-md-4">
-				<i class="icon icon-photo"></i>							
-				<h5>Remove our branding</h5> 
-				<p> Feature your brand. Not ours.</p>
+			<div className="col-md-4 icon-4">
+				<i className="icon icon-photo"></i>							
+				<h5 className="about-h5">Remove our branding</h5> 
+				<p className="para-1"> Feature your brand. Not ours.</p>
 			</div>				
 		</div>
-		<div class="row-2 row text-center icon-block">
-			<div class="col-md-4">
-				<i class="icon icon-money-withdrawal"></i>				
-				<h5>Get paid fast</h5> 
-				<p> We don't hold your money.</p>
+		<div className="row-2 row text-center icon-block">
+			<div className="col-md-4 icon-4">
+				<i className="icon icon-money-withdrawal"></i>				
+				<h5 className="about-h5">Get paid fast</h5> 
+				<p className="para-1"> We don't hold your money.</p>
 			</div>
-			<div class="col-md-4">
-				<i class="icon icon-users"></i>							
-				<h5>Dedicated success manager</h5> 
-				<p> We're here to help anytime.</p>
+			<div className="col-md-4 icon-4">
+				<i className="icon icon-users"></i>							
+				<h5 className="about-h5">Dedicated success manager</h5> 
+				<p className="para-1"> We're here to help anytime.</p>
 			</div>
-			<div class="col-md-4">
-				<i class="icon icon-megaphone"></i>							
-				<h5>Powerful promotion built in</h5> 
-				<p> Distribute your event in one click.</p>
+			<div className="col-md-4 icon-4">
+				<i className="icon icon-megaphone"></i>							
+				<h5 className="about-h5">Powerful promotion built in</h5> 
+				<p className="para-1"> Distribute your event in one click.</p>
 			</div>	
 		</div>
-		<div class="row-2 row text-center icon-block">			
-			<div class="col-md-4">
-				<i class="icon icon-database"></i>							
-				<h5>You own the data</h5> 
-				<p> You own all your data. Not us.</p>
+		<div className="row-2 row text-center icon-block">			
+			<div className="col-md-4 icon-4">
+				<i className="icon icon-database"></i>							
+				<h5 className="about-h5">You own the data</h5> 
+				<p className="para-1"> You own all your data. Not us.</p>
 			</div>		
-			<div class="col-md-4">
-				<i class="icon icon-ban"></i>							
-				<h5>No event cross promotion</h5> 
-				<p> You won't see competing events on your event page.</p>
+			<div className="col-md-4 icon-4">
+				<i className="icon icon-ban"></i>							
+				<h5 className="about-h5">No event cross promotion</h5> 
+				<p className="para-1"> You won't see competing events on your event page.</p>
 			</div>	
-			<div class="col-md-4">
-				<i class="icon icon-power-mobile"></i>							
-				<h5>Mobile-friendly design</h5> 
-				<p> Fully mobile and tablet friendly</p>
+			<div className="col-md-4 icon-4">
+				<i className="icon icon-power-mobile"></i>							
+				<h5 className="about-h5">Mobile-friendly design</h5> 
+				<p className="para-1"> Fully mobile and tablet friendly</p>
 			</div>		
 		</div>
 	</div>
 </div>
 </div>
-{/*---*********************************---*/}
+{/*---*******************how it work**************---*/}
 
-<div class="jumbotron jumbotron-simple-new jumbotron-simple-new-dark">
-  <div class="exp1 container">
-    <div class="row-2 row text-center">
-      <div class="col-md-12 col-md-offset-1">
+<div className="jumbotron jumbotron-simple-new jumbotron-simple-new-dark">
+  <div className="exp1 container">
+    <div className="row-2 row text-center">
+      <div className="col-md-12 coll-1 col-md-offset-1">
         <h1 className="title-1">How CocoEvent Works </h1>
-        <p class="lead">Here's how CocoEvent works.
+        <p className="lead">Here's how CocoEvent works.
          It's simple, 
          yet powerful, 
          with hundreds of easy-to use features.
@@ -94,7 +94,7 @@ function AboutUs() {
     </div>
   </div>
 </div>
-{/*---*********************************---*/}
+{/*---****************1*****************---*/}
 
 <div className="page-section page-section-theme ">
         <div className="exp1 container">
@@ -102,9 +102,9 @@ function AboutUs() {
                 <div className="col-md-6 col-padding-right"
                 >
                     <div className="number">1</div>
-                    <h3> Build your Event Website </h3>
+                    <h3 className="about-h3"> Build your Event Website </h3>
                     <p style={{color:"#fff"}}className="lead"> Instant setup. No coding required. </p>
-                    <p style={{color:"#fff"}}> CocoEvent makes it easy to a beautiful,
+                    <p className="para-1" style={{color:"#fff"}}> CocoEvent makes it easy to a beautiful,
                        professional-looking event in minutes using CocoEvent’s easy-to-use Event builder.
                         Get started by choosing one of CocoEvent's event . 
                         From there, you can quickly add content, 
@@ -137,13 +137,13 @@ function AboutUs() {
                 float: "right",
                 marginRight: "58px"}}/>
             </div>
-
+{/*---****************2*****************---*/}
 
             <div className="col-md-6 col-padding-right"> 
                 <div className="number">2</div>
-                <h3> Collect Event Registrations and Track Attendees</h3>
+                <h3 className="about-h3"> Collect Event Registrations and Track Attendees</h3>
                 <p className="lead"> All the tools you need, built-in.</p>
-                <p> Whether your event is a conference with thousands of attendees or a small party with friends,
+                <p className="para-1"> Whether your event is a conference with thousands of attendees or a small party with friends,
                    CocoEvent gives you the power to create your event registration process.
                     Sell tickets, accept credit cards, and quickly tweak your registration form by adding unlimited custom questions (like “Are you bringing a guest?”). 
                      CocoEvent's powerful analytics allow you to easily track and manage your attendees in one place. 
@@ -158,13 +158,13 @@ function AboutUs() {
         </div>
     </div>
 </div>
-{/* //---------------------------------// */}
-<div class="jumbotron jumbotron-simple-new jumbotron-simple-new-dark">
-  <div class="exp1 container">
-    <div class="row-2 row text-center">
-      <div class="col-md-12 col-md-offset-1">
+{/* //------------------the team---------------// */}
+<div className="jumbotron jumbotron-simple-new jumbotron-simple-new-dark">
+  <div className="exp1 container">
+    <div className="row-2 row text-center">
+      <div className="col-md-12 coll-1 col-md-offset-1">
         <h1 className="title-1"> CocoEvent Team</h1>
-        <p class="lead">
+        <p className="lead">
             Met our exceptionally talented team, ready to harness the force for good <br/>
              “Together, we can make waves.”
 
@@ -178,10 +178,10 @@ function AboutUs() {
 {/*---------------------------------------------------*/}
 
 <section id="team">
-        <div class="container">
-            <div class="row">
-                <div class=" col-md-4 profile-pic text-center">
-                    <div class="img-box1"></div>
+        <div className="container">
+            <div className="row">
+                <div className=" col-md-4 profile-pic text-center">
+                    <div className="img-box1"></div>
                     <img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRHitPEzAyyl85mJu94hAoo4OqUZxW4Vp_8NRkd7f1ZGFkVAhvX&usqp=CAU" />
                     <ul id="u1">
                         <a className="faa" herf="#">
@@ -195,12 +195,12 @@ function AboutUs() {
                         </a>
                     </ul>
 
-                    <h2>Akshay Kumar</h2>
-                    <h3>Founder/CEO</h3>
-                    <p>We succeed by pursuing our vision and goals with tenacity and unwavering resolve</p>
+                    <h2 className="about-h2" >Akshay Kumar</h2>
+                    <h3 className="about-h3">Founder/CEO</h3>
+                    <p className="para-1">We succeed by pursuing our vision and goals with tenacity and unwavering resolve</p>
                 </div>
-                <div class=" col-md-4 profile-pic text-center">
-                    <div class="img-box1"></div>
+                <div className=" col-md-4 profile-pic text-center">
+                    <div className="img-box1"></div>
                     <img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQYsC5n8Dib3nag0Uyf0XUE0MagznOU1_adXKCvhgl6ICvl7Dn8&usqp=CAU" />
                     <ul id="u1">
                         <a className="faa" herf="#">
@@ -214,9 +214,9 @@ function AboutUs() {
                         </a>
                     </ul>
 
-                    <h2>Arjun Kapur</h2>
-                    <h3>UI Designer</h3>
-                    <p>They reflect our common aspiration to build a sustainable business to bring long-term values to our shareholders, our customers and our employees.</p>
+                    <h2 className="about-h2">Arjun Kapur</h2>
+                    <h3 className="about-h3">UI Designer</h3>
+                    <p className="para-1">They reflect our common aspiration to build a sustainable business to bring long-term values to our shareholders, our customers and our employees.</p>
                 </div>
                 <div className=" col-md-4 profile-pic text-center">
                     <div className="img-box1"></div>
@@ -233,9 +233,9 @@ function AboutUs() {
                         </a>
                     </ul>
 
-                    <h2>Alia Bhatt</h2>
-                    <h3>Marketing Head</h3>
-                    <p>The creativity and innovation of our people and hence our products & services set us apart.</p>
+                    <h2 className="about-h2">Alia Bhatt</h2>
+                    <h3 className="about-h3">Marketing Head</h3>
+                    <p className="para-1">The creativity and innovation of our people and hence our products & services set us apart.</p>
                 </div>
                 
             </div>
