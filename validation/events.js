@@ -6,8 +6,8 @@ module.exports = function validateEventsInput(data) {
   data.title = !isEmpty(data.title) ? data.title : "";
   data.address = !isEmpty(data.address) ? data.address : "";
   data.description = !isEmpty(data.description) ? data.description : "";
-  data.date = !isEmpty(data.date) ? data.date : "";
-  data.duration = !isEmpty(data.duration) ? data.duration : "";
+  data.start = !isEmpty(data.start) ? data.start : "";
+  data.end = !isEmpty(data.end) ? data.end : "";
   data.nb_participant = !isEmpty(data.nb_participant) ? data.nb_participant : "";
   data.image = !isEmpty(data.image) ? data.image : "";
 
@@ -22,11 +22,11 @@ module.exports = function validateEventsInput(data) {
     errors.description= "description field is required";
   }
 
-  if (Validator.isEmpty(data.date)) {
+  if (Validator.isEmpty(data.start)||Validator.isEmpty(data.start.split('T')[0])) {
     errors.date = "date field is required";
   }
   
-if (Validator.isEmpty(data.duration)) {
+if (Validator.isEmpty(data.end)||Validator.isEmpty(data.end.split('T')[0])) {
     errors.duration = "duration field is required";
   }
 

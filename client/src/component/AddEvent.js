@@ -7,6 +7,8 @@ import { GET_ERRORS } from "../actions/types";
 import "../addevent.css"
 import resize from "../outils/resize";
 import { logoutUser } from "../actions/authaction";
+import Events from "./Events";
+import verif_date from "../outils/verif_date";
 
 
 const AddEvent = ({ toggle,action,setAction }) => {
@@ -20,11 +22,13 @@ const location = useLocation()
     title: action.type=="add"?"":action.payload.title,
     address:action.type=="add"?"":action.payload.address ,
     description:action.type=="add"?"":action.payload.description ,
-    date: action.type=="add"?"":action.payload.date,
-    duration: action.type=="add"?"":action.payload.duration,
+    start: action.type=="add"?"":action.payload.start,
+    end: action.type=="add"?"":action.payload.end,
     nb_participant:action.type=="add"?"":action.payload.nb_participant ,
     image: action.type=="add"?"":action.payload.image,
     tags:[],
+    time_start:"",
+    time_end:"",
     error: {},
   });
   const[btn,setBtn]=useState(false)
@@ -81,18 +85,21 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
   };
   const onSubmit = async (e) => {
     e.preventDefault();
+    if(!(verif_date(events.time_start)&&verif_date(events.time_end)))
+     return M.toast({ html: "Invalid time format", classes: "red" });
+
     await setBtn(true)
     const newEvent = {
       title: events.title,
       address: events.address,
       description: events.description,
-      date: events.date,
-      duration: events.duration,
+      start: events.start+"T"+events.time_start,
+      end: events.end+'T'+events.time_end,
       nb_participant: events.nb_participant,
       image: events.image,
       tags:(chip_input.current.innerText).replace(/\W/gi,"").split("close").slice(0,(chip_input.current.innerText).replace(/\W/gi,"").toLowerCase().split("close").length-1)
     };
-
+console.log(newEvent)
     const data = new FormData();
     data.append("file", newEvent.image);
     data.append("upload_preset", "events-website");
@@ -180,14 +187,38 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
               <div className="input-field col s8">
               <input
                 onChange={onChange}
-                value={events.date}
-                id="date"
+                value={events.start}
+                id="start"
                 type="date"
               />
               <label htmlFor="date" className="active">Event start date</label>
             </div>
             <div className="input-field col s4">
-            <input type="text" className="timepicker" placeholder="Time"/>
+            <input type="text" className="timepicker" placeholder="Time" value={events.time_start}
+            id='time_start'
+            onChange={(e)=>setEvents({...events,[e.target.id]:e.target.value})}
+            onBlur={(e)=>setEvents({...events,[e.target.id]:e.target.value})}
+            />
+              </div>
+              </div>
+              <div className=" col s12 l6">
+              <div className="input-field col s8">
+              <input
+                onChange={onChange}
+                value={events.end}
+                id="end"
+                type="date"
+              />
+              <label htmlFor="date" className="active">Event end date</label>
+            </div>
+            <div className="input-field col s4">
+            <input type="text" className="timepicker" placeholder="Time"
+            value={events.time_end}
+            id='time_end'
+            onChange={(e)=>setEvents({...events,[e.target.id]:e.target.value})}
+            onBlur={(e)=>setEvents({...events,[e.target.id]:e.target.value})}
+            
+            />
               </div>
               </div>
             <div className="input-field file-field col s12 l6 ">
@@ -214,7 +245,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
               <label htmlFor="nb_participant" className="active">Number of participant </label>
             </div>
 
-            <div
+            {/* <div
               className="col s12 m6"
               style={{
                 position: "relative",
@@ -241,7 +272,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
                 <option value="2">2 days</option>
                 <option value="3">3 days</option>
               </select>
-            </div>
+            </div> */}
             <div className="col s12">
             <div className="chips" ref={chip_input}>
     <input className="custom-class" id="tags"  />
@@ -289,9 +320,9 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
               </div>
             </div>
           </form>
-          {/* <div className='col s12 container '>
-            <h6>* Please note that you can't (modify,close and re-open) your event before <b>three days</b>  from it's schudeled day.</h6> 
-            </div> */}
+          <div className='col s12 container '>
+            <h6>* Please note that a admin validation is required (for any <b> new event</b> or <b>modification</b> of a exstance one).</h6> 
+            </div>
         </div>
       </div>
     
