@@ -82,7 +82,7 @@ li span:nth-child(2) img{
     margin: 20px 300px;
     transition: 0.5s;
 } 
-h1{
+.title-1{
     margin-bottom: 40px;
     margin-top: 20px;
     font-size: 70px;

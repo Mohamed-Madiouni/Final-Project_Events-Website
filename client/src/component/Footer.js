@@ -6,42 +6,42 @@ function Footer() {
   return (
     <div className='footer-container'>
       <section className='footer-subscription'>
-        <p className='footer-subscription-heading'>
+        <p className='footer-subscription-heading footer-p'>
         Top Ranked, Unbelievably Easy-to-Use
         </p>
-        <p className='footer-subscription-text'>
+        <p className='footer-subscription-text footer-p'>
         CocoEvent was independently ranked a Top Event Management Software .
         </p>
       </section>
       <div className='footer-links'>
         <div className='footer-link-wrapper'>
           <div className='footer-link-items'>
-            <h5>About Us</h5>
-            <Link to='/AboutUs'>How it works</Link>
-            <Link to='/AboutUs'>why CocoEvent</Link>
-            <Link to='/AboutUs'>Team of Service</Link>
+            <h5 className="footer-h5">About Us</h5>
+            <Link className="footer-a" to='/AboutUs'>How it works</Link>
+            <Link className="footer-a" to='/AboutUs'>Team of Service</Link>
           </div>
-          <div class='footer-link-items'>
-            <h5>Contact Us</h5>
-            <Link to='/ContactUs'>Contact</Link>
-            <Link to='/ContactUs'>Support</Link>
-            <Link to='/ContactUs'>Destinations</Link>
+            <Link className="footer-a" to='/AboutUs'>why CocoEvent</Link>
+          <div className='footer-link-items'>
+            <h5 className="footer-h5">Contact Us</h5>
+            <Link className="footer-a" to='/ContactUs'>Support</Link>
+            <Link className="footer-a" to='/ContactUs'>Destinations</Link>
+            <Link className="footer-a" to='/ContactUs'>Contact</Link>
           </div>
         </div>
         <div className='footer-link-wrapper'>
           <div className='footer-link-items'>
-            <h5>Events</h5>
-            <Link to='/Events'>Create Events</Link>
-            <Link to='/Events'>Participate in Events</Link>
-            <Link to='/Events'>comment events</Link>
-            <Link to='/Events'>show events</Link>
+            <h5 className="footer-h5">Events</h5>
+            <Link className="footer-a" to='/Events'>Participate in Events</Link>
+            <Link className="footer-a" to='/Events'>comment events</Link>
+            <Link className="footer-a" to='/Events'>Create Events</Link>
+            <Link className="footer-a" to='/Events'>show events</Link>
           </div>
           <div className='footer-link-items'>
-            <h5>Social Media</h5>
-            <Link to='/'>Instagram</Link>
-            <Link to='/'>Facebook</Link>
-            <Link to='/'>Youtube</Link>
-            <Link to='/'>Twitter</Link>
+            <h5 className="footer-h5">Social Media</h5>
+            <Link className="footer-a" to='/'>Instagram</Link>
+            <Link className="footer-a" to='/'>Facebook</Link>
+            <Link className="footer-a" to='/'>Youtube</Link>
+            <Link className="footer-a" to='/'>Twitter</Link>
           </div>
         </div>
       </div>

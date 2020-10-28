@@ -14,11 +14,11 @@
 
 
 @media (min-width: 992px){
-.col-md-4 {
+.icon-4 {
     width: 33.3333333333%;
 }}
 @media (min-width: 992px){
-.col-md-12 {
+.coll-1 {
     width: 100%;
 }}
 .icon-block {
@@ -31,14 +31,14 @@
     text-align: center;
 }
 
-.col-md-4{
+.icon-4{
     position: relative;
     min-height: 1px;
     padding-right: 15px;
     padding-left: 15px;
 
 }
-.icon-block i {
+.icon-block .icon {
     display: inline-block;
     background: #2e8fa5;
     color: #fff;
@@ -49,11 +49,9 @@
 }
 .icon {
     display: inline-flex;
-}
-i {
     font-style: italic;
 }
-h5{
+.about-h5{
     font-size: 17px;
     font-weight: 600;
     -webkit-font-smoothing: antialiased;
@@ -66,7 +64,7 @@ h5{
     line-height: 1.1;
     color: inherit;
 }
-p {
+.para-1 {
 
     line-height: 26px;
     margin: 0 0 10px;
@@ -109,7 +107,7 @@ p {
     font-weight: 700;
     top: -5px;
 }
-.h3 {
+.about-h3 {
     letter-spacing: -1px;
     font-size: 10px ;
     font-family: "miller-display, serif";
@@ -117,12 +115,12 @@ p {
     font-style: normal;
 }
 
-.pages p.lead, .themes p.lead {
+.pages .para-1.lead, .themes .para-1.lead {
     font-size: 20px;
     line-height: 27px;
 }
 
-.page-section p {
+.page-section .para-1 {
     font-size: 16px;
     line-height: 26px;
     color: #000000;
@@ -133,10 +131,10 @@ p {
     line-height: 32px;
     color: black;
 }
-.page-section-theme p {
+.page-section-theme .para-1 {
     color: #ffffff9c;
 }
-.page-section p {
+.page-section .para-1 {
     font-size: 16px;
     line-height: 26px;
     color: #000000;
@@ -148,7 +146,7 @@ p {
     max-width: 100%;
     height: auto;
 }
-img {
+.image {
     vertical-align: middle;
     border: 0;
 }  
@@ -202,7 +200,7 @@ img {
     bottom: 0;
     /* position: relative; */
 }
-.img-box1>ul{
+.img-box1>#u1{
     margin: 0;
     padding: 20px 0;
     position: absolute;
@@ -229,16 +227,16 @@ img {
 .img-box1:hover>::after{
     opacity: 1;
 }
-.img-box1:hover> ul{
+.img-box1:hover> #u1{
     opacity: 1;
 }
-.img-box1 .faa:hover> li{
+.img-box1 .faa:hover> .fa1{
     color: #007bff;
     border: 1px solid #007bff;
 }
 .img-box1::after>
-.img-box1 ul>
-.img-box1 ul li{
+.img-box1 #u1>
+.img-box1 #u1 .fa1{
     transition: all 0.5s ease-in-out 0s;
 }
 image{
@@ -250,14 +248,14 @@ image:hover {
     cursor: pointer;
 }
 
-.profile-pic h2 {
+ .about-h2 {
     font-size: 22px;
     font-weight: bold;
     margin-top: 15px;
     color: #007bff !important;
 }
 
-.profile-pic h3 {
+ .about-h3 {
     font-size: 15px;
     font-weight: bold;
     margin-top: 15px;
