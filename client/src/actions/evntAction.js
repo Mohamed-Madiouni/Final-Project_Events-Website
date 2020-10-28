@@ -2,7 +2,6 @@ import { GET_EVENTS,GET_ERRORS,GET_ALL_EVENTS,GET_ALL_PARTICIPANT} from "./types
 import setAuthToken from "../token/authtoken";
 import axios from "axios";
 import { getCurrentUser, getMyEvents } from "./authaction";
-import { sendNotifications } from "./notificationaction";
 
 
 // get all events
@@ -47,7 +46,6 @@ export const addEvent = (newEvent) => (dispatch) => {
     .then((res) =>{
        dispatch(getEventOrganizer())
        dispatch(getParticipant())
-       dispatch (sendNotifications())
        dispatch({
         type: GET_ERRORS,
         payload: {success:"done"},
