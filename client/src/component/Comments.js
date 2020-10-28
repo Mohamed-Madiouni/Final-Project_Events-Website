@@ -364,9 +364,9 @@ return(
   document.querySelector(".rating").style.display="none"
 }}/>
  <div className="date_com right">
- <div className="day_com">{el.date.split("-")[2]}</div>
+ <div className="day_com">{el.start.split("T")[0].split("-")[2]}</div>
  <div className="month_com">
-   {get_month(Number(el.date.split("-")[1]))}
+   {get_month(Number(el.start.split("T")[0].split("-")[1]))}
  </div>
 </div>
 </div>
@@ -766,9 +766,9 @@ return(
   document.querySelector(".rating").style.display="none"
 }}/>
  <div className="date_com right">
- <div className="day_com">{el.date.split("-")[2]}</div>
+ <div className="day_com">{el.start.split("T")[0].split("-")[2]}</div>
  <div className="month_com">
-   {get_month(Number(el.date.split("-")[1]))}
+   {get_month(Number(el.start.split("T")[0].split("-")[1]))}
  </div>
 </div>
 </div>
