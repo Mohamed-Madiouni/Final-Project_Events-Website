@@ -14,7 +14,7 @@ const CommentSchema = new schema({
          type: mongoose.Types.ObjectId, 
          ref: "user" 
         },
-        
+        reply:[],
         likes:{
             type:Number,
             default:0
