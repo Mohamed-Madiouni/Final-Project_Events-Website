@@ -9,7 +9,6 @@ const validateEventsInput = require("../validation/events");
 //add event
 router.post("/add",authMiddleware, (req, res) => {
   const { errors, isValid } = validateEventsInput(req.body);
-
   if (!isValid) {
     return res.status(400).json({msg:"insert all field"});
   }
