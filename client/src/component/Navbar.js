@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { INI_SEARCH } from "../actions/types";
 import "../notification.css"
+
 function Navbar() {
   const search = useSelector((state) => state.search);
   const dispatch = useDispatch();

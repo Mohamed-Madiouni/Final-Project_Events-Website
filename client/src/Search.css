@@ -126,7 +126,7 @@ padding-right: 20px;
 font-size: 16px;
 margin-bottom: 15px;
 }
-p {
+/* p {
 margin: 0;
 padding: 0;
 line-height: 23px;
@@ -137,7 +137,7 @@ margin-block-start: 1em;
 margin-block-end: 1em;
 margin-inline-start: 0px;
 margin-inline-end: 0px;
-}
+} */
 .vc_column_container {
 width: 100%;
 }

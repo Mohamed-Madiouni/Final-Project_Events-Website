@@ -13,6 +13,7 @@ import { logoutUser } from "../actions/authaction";
 import calcul_rating from "../outils/calucle_rating";
 
 
+
 function Organizer() {
   
   
@@ -105,7 +106,6 @@ useEffect(()=>{
         </i>
         }
      
-
 
       <div className="col s12 row">
 

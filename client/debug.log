@@ -461,3 +461,4 @@
 [1021/210222.424:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: Tentative d’accčs ŕ un processus en cours d’arręt. (0xc000010a)
 [1022/144258.746:ERROR:directory_reader_win.cc(43)] FindFirstFile: Le chemin d’accčs spécifié est introuvable. (0x3)
 
+[1029/160457.434:ERROR:directory_reader_win.cc(43)] FindFirstFile: Le chemin d�acc�s sp�cifi� est introuvable. (0x3)

@@ -245,8 +245,10 @@ useEffect(()=>{
                       </div>
                     </div>
            <span className="title"><b>{allevents.find(el=>el._id==match.params.event_id).title}</b></span>
-           <div style={{display:"flex",alignItems:"center",marginTop:0}}>
+           <div style={{display:"flex",alignItems:"center",marginTop:0,justifyContent:"space-between"}}>
              <p style={{ marginRigth: 7}}>{date_youtube(allevents.find(el=>el._id==match.params.event_id).created_at)}</p>
+             
+             <div>
              <div style={{ display:auth.isAuthenticated &&auth.user.events.includes(allevents.find(el=>el._id==match.params.event_id)._id)&&allevents.find(el=>el._id==match.params.event_id).state=="Ended"?"flex":"none",alignItems:"center"}} className='rate' onClick={()=>{
             if(done)
              document.querySelector(".rating").style.display="initial"
@@ -296,14 +298,16 @@ history.push("/login")
           starColor="#2e8fa5"
         />}
              </div>
-             <div style={{display:"flex",alignItems:"center",style:15}}>
+             <div style={{display:"flex",alignItems:"center",fontSize:15,position:"relative"}}>
      <i className="material-icons" style={{color:"rgb(255, 180, 0)",fontSize:35}}>star</i>
      <div style={{display:"flex",flexDirection:"column",}}>
      <p><span style={{fontWeight:"bold",fontSize:20}}>{calcul_rating(allevents.find(el=>el._id==match.params.event_id).rating)}</span>/10</p>
-      <p> <span style={{fontWeight:"bold",fontSize:18}}>{nbr_comments(allevents.find(el=>el._id==match.params.event_id).rating.length)}</span><i className=" tiny material-icons" style={{fontSize:"20px", position:"absolute", top:"559px"}}>person</i></p>
+      <p> <span style={{fontWeight:"bold",fontSize:18}}>{nbr_comments(allevents.find(el=>el._id==match.params.event_id).rating.length)}</span><i className=" tiny material-icons" style={{fontSize:"19px", position:"absolute", top:"33px"}}>person</i></p>
        
     </div> 
     </div>
+    </div>
+
     </div>
            </div> 
     <div>

@@ -68,7 +68,7 @@ useEffect(() => {
      }
 });
 
-let calendarEvents=allevents.filter(el=>el.state=="Invalid").map(el=>{
+let calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
   return (
   {
   ["title"]:el.title,

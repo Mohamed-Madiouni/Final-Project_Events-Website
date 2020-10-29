@@ -12,7 +12,7 @@ import {sendNotifications} from "../actions/notificationaction";
 
 import Events from "./Events";
 import verif_date from "../outils/verif_date";
-
+import PlacesAutocomplete,{geocodeByAddress,getLatLng} from 'react-places-autocomplete';
 
 
 const AddEvent = ({ toggle,action,setAction }) => {
@@ -37,9 +37,13 @@ const users=useSelector(state=>state.admin.users)
     time_end:action.type=="add"?"":action.payload.end.split("T")[1],
     error: {},
   });
+  const [address,setaddress]=useState("")
   const[btn,setBtn]=useState(false)
   
   const chip_input =useRef()
+
+
+  const handleSelect=async value=>{}
 
   useEffect(() => {
     
@@ -288,9 +292,15 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
             <div className="chips" ref={chip_input}>
     <input className="custom-class" id="tags"  />
   </div>
-
-
-    
+            </div>
+           <div className='col s12'>
+            <PlacesAutocomplete
+        value={address}
+        onChange={setaddress}
+        onSelect={handleSelect}
+      >
+        {()=>(<div>heey</div>)}
+        </PlacesAutocomplete>
             </div>
             <div className="col s12" style={{display:"flex",justifyContent:"space-around",alignItems:"center"}}>
               <div >
