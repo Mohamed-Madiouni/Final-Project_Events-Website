@@ -134,20 +134,30 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
       !res.error && (newEvent.image = resize(res.url));
       console.log(newEvent);
    if(action.type=="add"){
-  let title="New Event";
-  let content= "A new event was created by " + auth.user.fname + " " + auth.user.lname;
-  let notiftype="New_Event";
-  dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, Date.now, notiftype, [users.find(el=>el.role=="administrator")]))
-
-   !res.error&&dispatch(addEvent({...newEvent,id_organizer:auth.user._id}));
+    let title="New Event";
+    let content= "A new event was created by " + auth.user.fname + " " + auth.user.lname;
+    let notiftype="New_Event";
+    var state=[]
+        users.filter(el=>el.role=="administrator"||el.role=="moderator").map(el=>{
+          state=[...state,{users:el._id,consulted:false}]})
+          if(!res.error) {
+            dispatch(addEvent({...newEvent,id_organizer:auth.user._id}))
+            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+             }
    }
       else{
-        !res.error &&dispatch(editEvent(action.payload._id,newEvent))
-     
-      }
-  //     console.log(events);
-      
-   
+  let title="Event edition";
+  let content= "A event was edited by " + auth.user.fname + " " + auth.user.lname;
+  let notiftype="Event_Edition";
+        var state=[]
+        users.filter(el=>el.role=="administrator"||el.role=="moderator").map(el=>{
+          state=[...state,{users:el._id,consulted:false}]
+        })
+             if(!res.error) {
+               dispatch(editEvent(action.payload._id,newEvent))
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+             }
+          }
   };
 
   return (

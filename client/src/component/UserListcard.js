@@ -155,7 +155,7 @@ const UserListcard = ({ users }) => {
                         )}
                     </div>
 
-                    <div>
+                    <div style={{marginBottom:"5px"}}>
                       <span className="black-text">
                         <b>
                           {el.fname + " "}
@@ -164,9 +164,9 @@ const UserListcard = ({ users }) => {
                       </span>
                     </div>
 
-                    <p className="black-text">{el.email}</p>
+                    <p className="black-text" style={{marginBottom:"8px"}}>{el.email}</p>
                     <span className="black-text">
-                      <br />
+                      
                       {el.role}
                     </span>
 

@@ -24,7 +24,7 @@ import AboutUs from "./component/AboutUs";
 
 import Comments from "./component/Comments";
 import Bannned_home from "./component/Bannned_home";
-
+import Notifications from "./component/Notifications";
 
 function App() {
 
@@ -103,6 +103,7 @@ useEffect(()=>{
 
             <PrivateRoute path="/myaccount" component={Account} />
             <Route path="/banned" component={Bannned_home} />
+            <Route path="/notifications" component={Notifications} />
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <PrivateRoute
               path="/dashboard/:organizer_id"

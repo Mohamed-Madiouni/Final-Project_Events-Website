@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../actions/authaction";
 import "../landing.css";
 import M from "materialize-css";
 import {useLocation} from "react-router-dom";
-
+import { getNotifications } from "../actions/notificationaction";
+import notif, { filter_notif } from "../outils/notif_length";
+import historyevent from "../outils/history";
 
 function Landing({}) {
   const dispatch = useDispatch();
@@ -13,12 +15,12 @@ function Landing({}) {
   const auth = useSelector((state) => state.auth);
   const resize=useSelector(state=>state.resize)
   const location=useLocation()
-  const allnotif=useSelector(state=>state.notification)
+  const allnotif=useSelector(state=>state.notification.notifications)
   useEffect(() => {
     M.Sidenav.init(document.querySelectorAll(".sidenav"));
-    
-    
   });
+
+  console.log(filter_notif(allnotif,auth.user._id))
 useEffect(()=>{M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))},[])
   const onLogoutClick = () => {
   
@@ -26,6 +28,7 @@ useEffect(()=>{M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))},
   };
 useEffect(()=>{
   M.Modal.init(document.querySelectorAll(".modal"))
+  dispatch(getNotifications())
 },[])
   return (
     <>
@@ -91,7 +94,9 @@ useEffect(()=>{
         <div style={{width:"100%",
         display:"flex",
         alignItems:"center",
-        justifyContent:resize.state?"flex-end":"space-around"}}>
+        justifyContent:resize.state?"flex-end":"space-around"}}
+        
+        >
           {localStorage.token &&
           <a href="#signoutmodal" 
           className="modal-trigger" 
@@ -109,48 +114,108 @@ useEffect(()=>{
         </div>}
       </div>
 
-    <ul>
-    <li >
-      <a href="#">
-    <span className="notification-box">
-    {/* <span className="notification-count"></span> {(allnotif.find(el=>el._id==auth.user._id).length)} */}
-    <span className="notification-count">5</span>
+    {localStorage.token &&
+    <ul onClick={()=>console.log(2)}>     
+    <li>
+    <a href='#!' data-target='dropdown2' className='dropdown-trigger' >
+    <span className="notification-box" >
+    <span className="notification-count">{allnotif.length!=0&&notif(allnotif,auth.user._id)}</span>
     <span className="notification-bell">
       <span className="bell-top"></span>
       <span className="bell-middle"></span>
       <span className="bell-bottom"></span>
       <span className="bell-rad"></span>
     </span></span>
-      </a>  
+    </a>
     </li>
-    </ul>
+    </ul>}
 
-      <ul id='dropdown1' className='dropdown-content lan' >
-        <li style={{height:"100%"}}>
-      <div style={{display:"flex",
-      flexDirection:"column",
-      alignItems:"center",
-      justifyContent:"space-around",
-      height:"100%"}}>
-          
-            
-          
-          <img className="circle" src={auth.user.avatar} width="55px" width="55px" />
-         <div style={{width:"100%",
-         display:"flex",
-         flexDirection:"column",
-         alignItems:"center"}}> 
-         <span className="black-text name">
-
-            <b>{auth.user.fname + " " + auth.user.lname}</b>
-          </span>
-          <span className="black-text email">{auth.user.email}</span></div>
-          <button className="account"
-           onClick={()=>history.push("/myaccount")} 
-           style={{marginBottom:"5px"}}>Account setting</button>
-        </div>
-       </li>
+  <ul id='dropdown1' className='dropdown-content lan' >
+    <li style={{height:"100%"}}>
+  <div style={{display:"flex",
+  flexDirection:"column",
+  alignItems:"center",
+  justifyContent:"space-around",
+  height:"100%"}}>
+  <img className="circle" src={auth.user.avatar} width="55px" width="55px" />
+   <div style={{width:"100%",
+   display:"flex",
+   flexDirection:"column",
+   alignItems:"center"}}> 
+   <span className="black-text name">
+   <b>{auth.user.fname + " " + auth.user.lname}</b>
+   </span>
+   <span className="black-text email">{auth.user.email}</span></div>
+   <button className="account"
+   onClick={()=>history.push("/myaccount")} 
+   style={{marginBottom:"5px"}}>Account setting</button>
+   </div>
+    </li>
   </ul>
+
+  <ul id='dropdown2' className='dropdown-content notif' style={{height: "auto",overflowY:"auto",
+             display: "flex",
+           justifyContent:"center",
+           alignItems:"center",
+           height: "auto",
+           width:"400px",height:"auto",overflowY:"auto"}}>
+    {console.log(allnotif.length)}
+    {((filter_notif(allnotif,auth.user._id)).length>0)?
+    (filter_notif(allnotif,auth.user._id)).map(el=>{
+      return(
+     <li  style={{
+           justifyContent:"center",
+           alignItems:"center",
+           width:"400px",    
+           overflowY:"auto",
+           bottom: "0px"}}>
+    
+      <div style={{
+      display: "flex",
+      justifyContent:"left",
+      alignItems:"left",
+      }}>{(el.title)}</div>
+      <p/>
+    <div style={{
+      display: "flex",
+      justifyContent:"center",
+      alignItems:"center",
+      }}> {(el.content)}
+    </div><p/>
+    <div style={{
+      display: "flex",
+      justifyContent:"left",
+      alignItems:"left",
+      }}>{historyevent(el.created_at)}</div>
+    <hr/>    
+    </li>)}): <li style={{
+           display: "flex",
+           justifyContent:"center",
+           alignItems:"center",
+           width:"400px",
+           height:"70px",
+           overflowY:"auto",
+           bottom: "0px",
+           }}>No new Notifications</li>}
+
+          <li style={{
+           display: "flex",
+           justifyContent:"center",
+           alignItems:"center",
+           width:"400px",
+           height:"70px",
+           overflowY:"auto",
+           bottom: "0px",
+           color:"red",
+           backgroundColor: "coral"}}
+           onClick={() => {history.push("/notifications")
+
+    }}> Show all my notifications
+     
+     </li>
+   
+  </ul>
+
   <div id="signoutmodal" className="modal">
           <div className="modal-content">
             <h4> <b>Sign out</b> </h4>

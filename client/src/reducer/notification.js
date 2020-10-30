@@ -6,7 +6,7 @@ export const notifications=(state = initState, action) =>{
   switch (action.type) {
     case GET_NOTIFICATIONS:
       return {
-        comments:action.payload}
+        notifications:action.payload}
     default:  return state;
   }
 }

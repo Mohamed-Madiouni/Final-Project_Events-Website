@@ -28,8 +28,6 @@
 .btn{
 
     background-color: rgba(240, 238, 238, 0.466);
-    font-family: 'Courier New', Courier, monospace;
-     font-size: 16px;
     color: black; 
     line-height: normal;
 }
@@ -51,6 +49,11 @@
 .account:hover{
     background-color:rgb(14, 161, 152); 
     color: white;
+}
+
+.notif{
+    width: 400px !important;
+    height: auto !important;
 }
 /* @media screen and (min-width: 900px) {
     .landing_app a{
