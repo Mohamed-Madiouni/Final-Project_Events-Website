@@ -281,7 +281,7 @@ const EventList = () => {
                       >
                         <span
                           style={{
-                            margin: 10,
+                            margin: 7,
                             marginLeft: 0,
                             marginRight: 0,
                             display: "flex",
@@ -325,7 +325,11 @@ const EventList = () => {
                         >
                           <ul className="slides">
                             {el.tags.map((el, i) => (
-                              <li key={i}>
+                              <li key={i}  style={{
+                                justifyContent:"center",
+                                alignItems: "center",
+                                display: "flex",
+                              }}>
                                 {" "}
                                 <p className="chip">{el}</p>{" "}
                               </li>
@@ -336,7 +340,7 @@ const EventList = () => {
                       <div
                         style={{
                           display: "flex",
-                          justifyContent: "space-around",
+                          justifyContent: "center",
                         }}
                       >
                         <span

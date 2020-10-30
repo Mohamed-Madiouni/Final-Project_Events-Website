@@ -11,12 +11,14 @@ import eventClosing from "../outils/eventClosing";
 import { GET_ERRORS } from "../actions/types";
 import { logoutUser } from "../actions/authaction";
 import calcul_rating from "../outils/calucle_rating";
+import { getUsers } from '../actions/adminaction';
 
 
 
 function Organizer() {
   
-  
+  const users=useSelector(state=>state.admin.users)
+
   const dispatch = useDispatch();
   const events = useSelector((state) => state.events);
   const auth = useSelector((state) => state.auth);
@@ -43,6 +45,7 @@ function Organizer() {
   useEffect(() => {
     dispatch(getEventOrganizer());
     dispatch(getEvent())
+    dispatch(getUsers())
     M.Modal.init(document.querySelectorAll(".modal"))
   }, []);
   

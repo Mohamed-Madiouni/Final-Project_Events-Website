@@ -8,7 +8,7 @@ import admin from "./admin"
 
 import {part} from "./participant"
 import {myevents} from "./myEvents"
-
+import {notifications} from "./notification"
 import resize from "./resize"
 export default combineReducers({
   auth: authReducer,
@@ -19,5 +19,6 @@ export default combineReducers({
   admin: admin,
   participant:part,
   myevents:myevents,
-  comments:comment
+  comments:comment,
+  notification:notifications
 });
