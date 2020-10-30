@@ -7,7 +7,7 @@ import M from "materialize-css";
 import {useLocation} from "react-router-dom";
 import { getNotifications } from "../actions/notificationaction";
 import notif, { filter_notif } from "../outils/notif_length";
-
+import historyevent from "../outils/history";
 
 function Landing({}) {
   const dispatch = useDispatch();
@@ -156,42 +156,47 @@ useEffect(()=>{
     </li>
   </ul>
 
-  <ul id='dropdown2' className='dropdown-content notif' style={{height:"500px"}}>
+  <ul id='dropdown2' className='dropdown-content notif' style={{height: "auto",overflowY:"auto", cursor: "not-allowed"}}>
     <li style={{
            display: "flex",
            justifyContent:"center",
            alignItems:"center",
+           height: "auto"
+          
+     
+
      }}>
-     <div style={{width:"400px",height:"auto",overflowY:"auto",position:"absolute"}}>
+     <div style={{width:"400px",height:"auto",overflowY:"auto"}}>
     
     
     {(filter_notif(allnotif,auth.user._id)).map(el=>{
       return(
-     <div style={{
-           cursor: "pointer",
-           display: "flex",
+     <div  style={{
            justifyContent:"center",
            alignItems:"center",
            width:"400px",    
            overflowY:"auto",
-           bottom: "0px"}}
-           onClick={() => {
-
-    }}>  <span style={{
+           bottom: "0px",
+           onmouseOver:"bgChange('red')"}}>
+    
+      <div style={{
+      display: "flex",
+      justifyContent:"left",
+      alignItems:"left",
+      }}>{(el.title)}</div>
+      <p/>
+    <div style={{
       display: "flex",
       justifyContent:"center",
       alignItems:"center",
-      overflowY:"auto"
-      }}>{(el.title)}</span><br/><br/>
-    <span style={{
-      display: "flex",
-      justifyContent:"center",
-      alignItems:"center",
-      overflowY:"auto"
       }}> {(el.content)}
-    </span>
-    
-    
+    </div><p/>
+    <div style={{
+      display: "flex",
+      justifyContent:"left",
+      alignItems:"left",
+      }}>{historyevent(el.created_at)}</div>
+    <hr/>    
     </div>)})}
 
           <div style={{
@@ -200,9 +205,11 @@ useEffect(()=>{
            justifyContent:"center",
            alignItems:"center",
            width:"400px",
-           
+           height:"70px",
            overflowY:"auto",
-           bottom: "0px"}}
+           bottom: "0px",
+           color:"red",
+           backgroundColor: "coral"}}
            onClick={() => {
 
     }}> Show all my notifications
