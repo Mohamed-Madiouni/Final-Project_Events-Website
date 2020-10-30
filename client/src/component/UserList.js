@@ -185,7 +185,7 @@ const UserList = () => {
 
       {modal ? (
         <span>
-          <table>
+          <table style={{marginBottom:10}}>
             <thead>
               <tr>
                 <th className="center-align">Avatar</th>

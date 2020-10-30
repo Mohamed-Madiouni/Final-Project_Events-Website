@@ -379,17 +379,32 @@ return(
 
 
       })}</div>
-       {((countevent+1)*6)<allevents.filter(el=>el._id!=match.params.event_id).length&&<div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
-              setCountevent(countevent+1)
+       {((countevent+1)*6)<allevents.filter(el=>el._id!=match.params.event_id).filter(el=>el.state!="Invalid").length&&
+      //  <div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
+      //         setCountevent(countevent+1)
               
-              }}>
-          <i
-                  className="material-icons"
-                >
-                 expand_more
-                </i>
-            <p  >Show more events</p>
-          </div>}
+      //         }}>
+      //     <i
+      //             className="material-icons"
+      //           >
+      //            expand_more
+      //           </i>
+      //       <p  >Show more events</p>
+      //     </div>
+          
+      <div style={{
+        marginBottom:"50px",
+        cursor: "pointer",
+        display: "flex",
+        justifyContent:"center",
+        alignItems:"center"}}
+        id="loadMore" className="thb-gp-load-more"
+        data-thb-gp-lm-type="event"
+        data-org-text="MORE"
+        onClick={() => {
+          setCountevent(countevent+1)
+     }}>SHOW MORE EVENTS</div>
+          }
           
           </div>
     </li>
@@ -741,17 +756,35 @@ setTextedit("")
 )
 
           })}
-          {((count+1)*10)<comments.comments.filter(elm=>elm.event==match.params.event_id).length&&<div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
-              setCount(count+1)
+          {((count+1)*10)<comments.comments.filter(elm=>elm.event==match.params.event_id).length&&
+          
+          // <div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
+          //     setCount(count+1)
               
-              }}>
-          <i
-                  className="material-icons"
-                >
-                 expand_more
-                </i>
-            <p  >Show more comments</p>
-          </div>}
+          //     }}>
+          // <i
+          //         className="material-icons"
+          //       >
+          //        expand_more
+          //       </i>
+          //   <p  >Show more comments</p>
+          // </div>
+          <div style={{
+            marginBottom:"50px",
+            cursor: "pointer",
+            display: "flex",
+            justifyContent:"center",
+            alignItems:"center"}}
+            id="loadMore" className="thb-gp-load-more"
+            data-thb-gp-lm-type="event"
+            data-org-text="MORE"
+            onClick={() => {
+              setCount(count+1)
+         }}>SHOW MORE COMMENT</div>
+          
+          
+          
+          }
 
      </div>
    
@@ -781,18 +814,40 @@ return(
 
 
       })}
-       {((countevent+1)*10)<allevents.filter(el=>el._id!=match.params.event_id).length&&<div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
-              setCountevent(countevent+1)
+       {((countevent+1)*10)<allevents.filter(el=>el._id!=match.params.event_id).filter(el=>el.state!="Invalid").length&&
+       
+      //  <div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
+      //         setCountevent(countevent+1)
               
-              }}>
-          <i
-                  className="material-icons"
-                >
-                 expand_more
-                </i>
-            <p  >Show more events</p>
-          </div>}
-    </div>}
+      //         }}>
+      //     <i
+      //             className="material-icons"
+      //           >
+      //            expand_more
+      //           </i>
+      //       <p  >Show more events</p>
+      //     </div>
+          <div style={{
+            marginBottom:"50px",
+            cursor: "pointer",
+            display: "flex",
+            justifyContent:"center",
+            alignItems:"center"}}
+            id="loadMore" className="thb-gp-load-more"
+            data-thb-gp-lm-type="event"
+            data-org-text="MORE"
+            onClick={() => {
+            setCountevent(countevent + 1);
+         }}>SHOW MORE EVENTS</div>
+          
+          
+          
+          }
+    </div>
+    
+    
+    
+    }
    
         </div> 
        

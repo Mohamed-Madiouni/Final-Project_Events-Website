@@ -137,7 +137,7 @@ useEffect(()=>{
   alignItems:"center",
   justifyContent:"space-around",
   height:"100%"}}>
-  <img className="circle" src={auth.user.avatar} width="55px" width="55px" />
+  <img className="circle" src={auth.user.avatar} height="55px" width="55px" />
    <div style={{width:"100%",
    display:"flex",
    flexDirection:"column",
