@@ -14,6 +14,7 @@ function Landing({}) {
   const history = useHistory()
   const auth = useSelector((state) => state.auth);
   const resize=useSelector(state=>state.resize)
+  const [id_notif,setid_notif]=useState("")
   const location=useLocation()
   const allnotif=useSelector(state=>state.notification.notifications)
   const [clknotif,setclknotif]=useState(false)
@@ -156,7 +157,7 @@ useEffect(()=>{
     </li>
   </ul>
 
-  <ul id='dropdown2' className='dropdown-content notif' style={{height: "auto",overflowY:"auto", cursor: "not-allowed"}}>
+  <ul id='dropdown2' className='dropdown-content notif' style={{height: "auto",overflowY:"auto"}}>
     <li style={{
            display: "flex",
            justifyContent:"center",
@@ -177,7 +178,8 @@ useEffect(()=>{
            width:"400px",    
            overflowY:"auto",
            bottom: "0px",
-           onmouseOver:"bgChange('red')"}}>
+           curseur:id_notif&&"pointer"}}
+           onMouseOver={()=>setid_notif(el._id)}>
     
       <div style={{
       display: "flex",
@@ -200,7 +202,6 @@ useEffect(()=>{
     </div>)})}
 
           <div style={{
-           cursor: "pointer",
            display: "flex",
            justifyContent:"center",
            alignItems:"center",
