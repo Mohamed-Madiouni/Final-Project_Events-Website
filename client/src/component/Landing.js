@@ -14,14 +14,10 @@ function Landing({}) {
   const history = useHistory()
   const auth = useSelector((state) => state.auth);
   const resize=useSelector(state=>state.resize)
-  const [id_notif,setid_notif]=useState("")
   const location=useLocation()
   const allnotif=useSelector(state=>state.notification.notifications)
-  const [clknotif,setclknotif]=useState(false)
   useEffect(() => {
     M.Sidenav.init(document.querySelectorAll(".sidenav"));
-    
-    
   });
 
   console.log(filter_notif(allnotif,auth.user._id))
@@ -157,29 +153,22 @@ useEffect(()=>{
     </li>
   </ul>
 
-  <ul id='dropdown2' className='dropdown-content notif' style={{height: "auto",overflowY:"auto"}}>
-    <li style={{
-           display: "flex",
+  <ul id='dropdown2' className='dropdown-content notif' style={{height: "auto",overflowY:"auto",
+             display: "flex",
            justifyContent:"center",
            alignItems:"center",
-           height: "auto"
-          
-     
-
-     }}>
-     <div style={{width:"400px",height:"auto",overflowY:"auto"}}>
+           height: "auto",
+           width:"400px",height:"auto",overflowY:"auto"}}>
     
     
     {(filter_notif(allnotif,auth.user._id)).map(el=>{
       return(
-     <div  style={{
+     <li  style={{
            justifyContent:"center",
            alignItems:"center",
            width:"400px",    
            overflowY:"auto",
-           bottom: "0px",
-           curseur:id_notif&&"pointer"}}
-           onMouseOver={()=>setid_notif(el._id)}>
+           bottom: "0px"}}>
     
       <div style={{
       display: "flex",
@@ -199,7 +188,7 @@ useEffect(()=>{
       alignItems:"left",
       }}>{historyevent(el.created_at)}</div>
     <hr/>    
-    </div>)})}
+    </li>)})}
 
           <div style={{
            display: "flex",
@@ -214,9 +203,9 @@ useEffect(()=>{
            onClick={() => {
 
     }}> Show all my notifications
+     
      </div>
-     </div>
-    </li>
+   
   </ul>
 
   <div id="signoutmodal" className="modal">
