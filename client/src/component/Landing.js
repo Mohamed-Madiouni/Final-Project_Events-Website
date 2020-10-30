@@ -190,7 +190,7 @@ useEffect(()=>{
     <hr/>    
     </li>)})}
 
-          <div style={{
+          <li style={{
            display: "flex",
            justifyContent:"center",
            alignItems:"center",
@@ -200,11 +200,11 @@ useEffect(()=>{
            bottom: "0px",
            color:"red",
            backgroundColor: "coral"}}
-           onClick={() => {
+           onClick={() => {history.push("/notifications")
 
     }}> Show all my notifications
      
-     </div>
+     </li>
    
   </ul>
 
