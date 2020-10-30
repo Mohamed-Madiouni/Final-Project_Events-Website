@@ -316,19 +316,22 @@ useEffect(()=>{
                       {el.state}
                     </span>
                   </div>
-                  <div className="card-reveal">
+                  <div className="card-reveal" style={{paddingRight:55,overflowWrap:"anywhere"}}>
                     <span className="card-title grey-text text-darken-4">
                       <b>{el.title}</b>
-                      <i className="material-icons right">close</i>
+                      <i className="material-icons " style={{position:"absolute",right:10,top:10}}>close</i>
                     </span>
-                    <p>{el.description}</p>
+                    <p style={{lineHeight:"normal"}}>{el.description}</p>
                     <div
-                      className="right"
+                     
                       style={{
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "space-between",
+                        position:"absolute",
+                        right:5,
+                        top:65
                       }}
                     >
                       {" "}
@@ -365,7 +368,7 @@ useEffect(()=>{
                       >
                         <i className="material-icons ">delete</i>{" "}
                       </button>
-                      {el.state=="Available"||el.state=="Full"&&(
+                      {(el.state=="Available"||el.state=="Full")&&(
                     <button className="btn-floating  cyan darken-3 modal-trigger" title="close"   data-target="modal2" onClick={
                       ()=>{setClosedid(el._id);}
                     }>

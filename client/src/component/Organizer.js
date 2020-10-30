@@ -130,7 +130,9 @@ useEffect(()=>{
               This is your <b>Dashboard</b>, you can create edit and delete an
               event.
             </p>
-           
+             {/* <figure >
+    <img  className="circle" src="https://www.bacp.co.uk/media/7326/partybanner.jpg?anchor=center&mode=crop&width=1120&heightratio=0&format=jpg&quality=80&slimmage=true&rnd=132207170210000000" alt="Profile banner" />
+  </figure>  */}
           </div>
          
         </div>
@@ -286,20 +288,23 @@ useEffect(()=>{
                   </Link>
                   <span className={el.state=="Available"?"right green-text":"right gray-text text-darken-3"}> {el.state}</span>
                 </div>
-                <div className="card-reveal"  >
+                <div className="card-reveal" style={{paddingRight:55,overflowWrap:"anywhere"}} >
                 
                   <span className="card-title grey-text text-darken-4">
                     <b>{el.title}</b>
-                    <i className="material-icons right">close</i>
+                    <i className="material-icons" style={{position:"absolute",right:10,top:10}}>close</i>
                   </span>
-                  <p>{el.description}</p>
+                  <p style={{lineHeight:"normal"}}>{el.description}</p>
                   <div
-                    className="right"
+                    // className="right"
                     style={{
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "space-between",
+                      position:"absolute",
+                      right:5,
+                      top:65
                     }}
                   >
                     {" "}
@@ -325,7 +330,7 @@ useEffect(()=>{
                     }>
                       <i className="material-icons ">delete</i>{" "}
                     </button>
-                    {el.state=="Available"||el.state=="Full"&&(
+                    {(el.state=="Available"||el.state=="Full")&&(
                     <button className="btn-floating cyan darken-3 modal-trigger" title="close"   data-target="modal2" onClick={
                       ()=>setClosedid(el._id)
                     }>

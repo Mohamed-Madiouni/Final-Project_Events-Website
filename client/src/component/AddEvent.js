@@ -15,6 +15,7 @@ import verif_date from "../outils/verif_date";
 import PlacesAutocomplete,{geocodeByAddress,getLatLng} from 'react-places-autocomplete';
 
 
+
 const AddEvent = ({ toggle,action,setAction }) => {
 
 const dispatch = useDispatch()
@@ -65,24 +66,27 @@ const users=useSelector(state=>state.admin.users)
     })}}
     // M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
     M.updateTextFields()
-    if(action.type=="add")
-    M.Chips.init(document.querySelectorAll('.chips'),{
-      placeholder:"Optional: Press enter to add tags (3 Max)",
-      limit:3,
-    })
-    if(action.type=="edit")
-    M.Chips.init(document.querySelectorAll('.chips'),{
-      placeholder:"Optional: Press enter to add tags (3 Max)",
-      limit:3,
-      data:action.payload.tags.map(el=>{return {tag:el}})
-    })
-    
+   
     
   });
 
  useEffect(()=>{
   M.Timepicker.init(document.querySelectorAll('.timepicker'),{twelveHour:false,showClearBtn:true});
- },[])
+  if(action.type=="add")
+  M.Chips.init(document.querySelectorAll('.chips'),{
+    placeholder:"Optional: Press enter to add tags (3 Max)",
+    limit:3,
+  })
+  if(action.type=="edit")
+  M.Chips.init(document.querySelectorAll('.chips'),{
+    placeholder:"Optional: Press enter to add tags (3 Max)",
+    limit:3,
+    data:action.payload.tags.map(el=>{return {tag:el}})
+  })
+   
+
+
+},[])
 
 const onChange_tags=(e)=>{
 setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
@@ -293,15 +297,46 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
     <input className="custom-class" id="tags"  />
   </div>
             </div>
-           <div className='col s12'>
+            <div className='col s12'>
             <PlacesAutocomplete
         value={address}
         onChange={setaddress}
         onSelect={handleSelect}
       >
-        {()=>(<div>heey</div>)}
-        </PlacesAutocomplete>
+        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+          <div>
+            <input
+              {...getInputProps({
+                placeholder: 'Search Places ...',
+                className: 'location-search-input',
+              })}
+            />
+            <div className="autocomplete-dropdown-container">
+              {loading && <div>Loading...</div>}
+              {suggestions.map(suggestion => {
+                const className = suggestion.active
+                  ? 'suggestion-item--active'
+                  : 'suggestion-item';
+                // inline style for demonstration purpose
+                const style = suggestion.active
+                  ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                  : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                return (
+                  <div
+                    {...getSuggestionItemProps(suggestion, {
+                      className,
+                      style,
+                    })}
+                  >
+                    <span>{suggestion.description}</span>
+                  </div>
+                );
+              })}
             </div>
+          </div>
+        )}
+        </PlacesAutocomplete>
+            </div>            
             <div className="col s12" style={{display:"flex",justifyContent:"space-around",alignItems:"center"}}>
               <div >
                 <button

@@ -346,7 +346,7 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==allevents.find(el=>el._id==
        to recieve a notification when he add a new event.
       
       </p>}
-      <p>{allevents.find(el=>el._id==match.params.event_id).description}</p>
+      <p style={{overflowWrap:"anywhere"}}>{allevents.find(el=>el._id==match.params.event_id).description}</p>
   
     </li>
     
@@ -359,7 +359,7 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==allevents.find(el=>el._id==
       <div style={{display:"flex",flexWrap:"wrap",alignItems:"center",justifyContent:"space-around"}}>
     {allevents.filter(el=>el._id!=match.params.event_id).slice(0).sort(function(a, b) {
   return new Date(a.start) - new Date(b.start);
-}).reverse().slice(0,6+countevent*6).map((el,i)=>{
+}).reverse().filter(el=>el.state!="Invalid").slice(0,6+countevent*6).map((el,i)=>{
 return(
 <div key={i} style={{position:"relative"}}>
 <img  src={el.image} width="250px" height="250px" alt="event image" style={{cursor:"pointer"}} onClick={()=>{
