@@ -159,9 +159,9 @@ useEffect(()=>{
            alignItems:"center",
            height: "auto",
            width:"400px",height:"auto",overflowY:"auto"}}>
-    
-    
-    {(filter_notif(allnotif,auth.user._id)).map(el=>{
+    {console.log(allnotif.length)}
+    {((filter_notif(allnotif,auth.user._id)).length>0)?
+    (filter_notif(allnotif,auth.user._id)).map(el=>{
       return(
      <li  style={{
            justifyContent:"center",
@@ -188,7 +188,15 @@ useEffect(()=>{
       alignItems:"left",
       }}>{historyevent(el.created_at)}</div>
     <hr/>    
-    </li>)})}
+    </li>)}): <li style={{
+           display: "flex",
+           justifyContent:"center",
+           alignItems:"center",
+           width:"400px",
+           height:"70px",
+           overflowY:"auto",
+           bottom: "0px",
+           }}>No new Notifications</li>}
 
           <li style={{
            display: "flex",
