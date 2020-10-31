@@ -23,5 +23,19 @@ router.post("/add",authMiddleware, (req, res) => {
       });
   });
 
+// ADD CLOSE
+router.put("/close",authMiddleware, (req, res) => {
+  console.log(req.body)
+    // Notification.findByIdAndUpdate
+    // ({_id:filter_notif(allnotif,auth.user._id)},
+    //   {$set:{
+    //     {state.consulted} : true
+    //   },})
+    //   .then((notifications) => res.status(201).send(notifications))
+    //   .catch((err) => {
+    //     console.log(err.message);
+    //   });
+  });
+
   module.exports=router
 
