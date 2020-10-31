@@ -164,14 +164,13 @@ useEffect(()=>{
     {(notifsize>0)?
     (filter_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>4)?4:4).map((el,i)=>{
       return(
-     <li key={i} style={{
+     <li key={i} className='switchcolor' style={{
            justifyContent:"center",
            alignItems:"center",
            width:"400px",    
            overflowY:"auto",
            bottom: "0px",
            cursor:"auto",
-
            padding:"15px 15px 15px 15px"
            }}>
     
