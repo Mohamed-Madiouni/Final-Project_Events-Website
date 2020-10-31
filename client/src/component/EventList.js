@@ -83,7 +83,7 @@ const EventList = () => {
     return (
       el.title.toLowerCase().includes(quickSearch.title.toLowerCase()) &&
       el.state.toLowerCase().includes(quickSearch.state.toLowerCase()) &&
-      el.address.toLowerCase().includes(quickSearch.address.toLowerCase()) &&
+      el.address.address.toLowerCase().includes(quickSearch.address.toLowerCase()) &&
       el.description
         .toLowerCase()
         .includes(quickSearch.description.toLowerCase()) &&
@@ -269,7 +269,7 @@ const EventList = () => {
                       <span className="card-title  grey-text text-darken-4">
                         <b>{el.title}</b>
                       </span>
-                      <p className="red-text">{el.address}</p>
+                      <p className="red-text">{el.address.address}</p>
                       <div
                         style={{
                           display: "flex",

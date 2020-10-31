@@ -194,7 +194,7 @@ let calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
                     <span className="card-title  grey-text text-darken-4">
                       <b>{allevents.find(e=>e._id==eventId).title}</b>
                     </span>
-                    <p className="red-text">{allevents.find(e=>e._id==eventId).address}</p>
+                    <p className="red-text">{allevents.find(e=>e._id==eventId).address.address}</p>
                     <div
                       style={{
                         display: "flex",

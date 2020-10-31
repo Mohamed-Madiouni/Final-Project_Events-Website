@@ -26,7 +26,7 @@ const users=useSelector(state=>state.admin.users)
 
   const [events, setEvents] = useState({
     title: action.type=="add"?"":action.payload.title,
-    address:action.type=="add"?"":action.payload.address ,
+    // address:action.type=="add"?"":action.payload.address ,
     description:action.type=="add"?"":action.payload.description ,
     start: action.type=="add"?"":action.payload.start.split("T")[0],
     end: action.type=="add"?"":action.payload.end.split("T")[0],
@@ -38,13 +38,26 @@ const users=useSelector(state=>state.admin.users)
     time_end:action.type=="add"?"":action.payload.end.split("T")[1],
     error: {},
   });
-  const [address,setaddress]=useState("")
+  const [address,setaddress]=useState({
+    address: action.type=="add"?"":action.payload.address.address,
+    lat: action.type=="add"?"":action.payload.address.lat,
+    lng: action.type=="add"?"":action.payload.address.lng
+  })
+
+  
   const[btn,setBtn]=useState(false)
   
   const chip_input =useRef()
 
 
-  const handleSelect=async value=>{}
+  const handleSelect=async value=>{
+const result = await geocodeByAddress(value)
+console.log("result",result)
+const lating = await getLatLng(result[0])
+console.log("lating",lating)
+setaddress({address:result[0].formatted_address,lat:lating.lat,lng:lating.lng})
+
+  }
 
   useEffect(() => {
     
@@ -105,7 +118,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
     await setBtn(true)
     const newEvent = {
       title: events.title,
-      address: events.address,
+      address: address,
       description: events.description,
       start: events.start+"T"+events.time_start,
       end: events.end+'T'+events.time_end,
@@ -193,7 +206,58 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
               />
               <label htmlFor="title" className="active">Title</label>
             </div>
-            <div className="input-field col s12 m6">
+            <div className='input-field col s12 m6'>
+            <PlacesAutocomplete
+        value={address.address}
+        onChange={(value)=>{setaddress({...address,address:value})}}
+        onSelect={handleSelect}
+       
+      >
+        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+          <div>
+            <input
+              {...getInputProps({
+                placeholder: 'Type event address',
+              
+              })}
+              id="address"
+             
+            />
+            <div className="autocomplete-dropdown-container">
+              {loading && <div className="preloader-wrapper active" >
+              <div class="spinner-layer spinner-blue-only">
+      <div className="circle-clipper left">
+        <div className="circle"></div>
+      </div><div className="gap-patch">
+        <div className="circle"></div>
+      </div><div className="circle-clipper right">
+        <div className="circle"></div>
+      </div>
+    </div>
+                
+                </div>}
+              {suggestions.map(suggestion => {
+                const style = suggestion.active
+                  ? { backgroundColor: ' #2e8fa5', cursor: 'pointer',color:"white",padding:2 }
+                  : { backgroundColor: '#ffffff', cursor: 'pointer',color:"black",padding:2 };
+                  
+                return (
+                  <div
+                    {...getSuggestionItemProps(suggestion, {
+                      style,
+                    })}
+                  >
+                    <span>{suggestion.description}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+        </PlacesAutocomplete>
+        <label htmlFor="address" className="active">Event address</label>
+            </div>            
+            {/* <div className="input-field col s12 m6">
               <input
                 onChange={onChange}
                 value={events.address}
@@ -201,7 +265,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
                 type="text"
               />
               <label htmlFor="address" className="active">Event address</label>
-            </div>
+            </div> */}
             <div className="input-field col s12">
               <textarea
                 id="description"
@@ -307,46 +371,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
     <input className="custom-class" id="tags"  />
   </div>
             </div>
-            <div className='col s12'>
-            <PlacesAutocomplete
-        value={address}
-        onChange={setaddress}
-        onSelect={handleSelect}
-      >
-        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div>
-            <input
-              {...getInputProps({
-                placeholder: 'Search Places ...',
-                className: 'location-search-input',
-              })}
-            />
-            <div className="autocomplete-dropdown-container">
-              {loading && <div>Loading...</div>}
-              {suggestions.map(suggestion => {
-                const className = suggestion.active
-                  ? 'suggestion-item--active'
-                  : 'suggestion-item';
-                // inline style for demonstration purpose
-                const style = suggestion.active
-                  ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                  : { backgroundColor: '#ffffff', cursor: 'pointer' };
-                return (
-                  <div
-                    {...getSuggestionItemProps(suggestion, {
-                      className,
-                      style,
-                    })}
-                  >
-                    <span>{suggestion.description}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-        </PlacesAutocomplete>
-            </div>            
+           
             <div className="col s12" style={{display:"flex",justifyContent:"space-around",alignItems:"center"}}>
               <div >
                 <button

@@ -4,7 +4,7 @@ module.exports = function validateEventsInput(data) {
   let errors = {};
 // Convert empty fields to an empty string so we can use validator functions
   data.title = !isEmpty(data.title) ? data.title : "";
-  data.address = !isEmpty(data.address) ? data.address : "";
+  data.address.address = !isEmpty(data.address.address) ? data.address.address : "";
   data.description = !isEmpty(data.description) ? data.description : "";
   data.start = !isEmpty(data.start) ? data.start : "";
   data.end = !isEmpty(data.end) ? data.end : "";
@@ -14,7 +14,7 @@ module.exports = function validateEventsInput(data) {
   if (Validator.isEmpty(data.title)) {
     errors.title = "title field is required";
   }
-  if (Validator.isEmpty(data.address)) {
+  if (Validator.isEmpty(data.address.address)) {
     errors.address = "address field is required";
   }
 
