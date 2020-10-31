@@ -6,11 +6,10 @@ div.chip{
     color: white;
 }
 .autocomplete-dropdown-container{
-position: absolute;
+/* position: absolute;
 top: 55px;
-right: 5px;
-z-index: 10;
+right: 5px; */
+/* z-index: 10; */
 background-color: white;
 padding: 5px;
-
 }
