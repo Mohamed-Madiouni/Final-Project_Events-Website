@@ -15,6 +15,7 @@ import "../events.css";
 import M from "materialize-css";
 import "../userlist.css";
 import UserList from "./UserList";
+import {sendNotifications} from "../actions/notificationaction";
 const UserListcard = ({ users }) => {
   const dispatch = useDispatch();
   const allusers = useSelector((state) => state.admin.users);
@@ -339,7 +340,14 @@ const UserListcard = ({ users }) => {
           <a
             href="#!"
             className="modal-close btn-flat"
-            onClick={() => dispatch(alertUser(alertid))}
+            onClick={() =>{ 
+              let title="Account Alerted";
+              let content= "Your Account was Alerted";
+              let notiftype="Account_Alerted";
+              var state=[]
+              state=[...state,{users:alertid,consulted:false}]
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(alertUser(alertid))}}
           >
             Agree
           </a>
@@ -358,7 +366,14 @@ const UserListcard = ({ users }) => {
           <a
             href="#!"
             className="modal-close btn-flat"
-            onClick={() => dispatch(unalertUser(alertid))}
+            onClick={() => { 
+              let title="Alert Removed";
+              let content= "An alert was removed from you account";
+              let notiftype="Alert_Removed";
+              var state=[]
+              state=[...state,{users:alertid,consulted:false}]
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(unalertUser(alertid))}}
           >
             Agree
           </a>

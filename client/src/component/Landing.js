@@ -21,7 +21,7 @@ function Landing({}) {
     M.Sidenav.init(document.querySelectorAll(".sidenav"));
   });
 
-  console.log(filter_notif(allnotif,auth.user._id))
+//  console.log(filter_notif(allnotif,auth.user._id))
 useEffect(()=>{M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))},[])
   const onLogoutClick = () => {
   
@@ -162,7 +162,7 @@ useEffect(()=>{
            width:"400px",height:"auto",overflowY:"auto"}}>
   
     {(notifsize>0)?
-    (filter_notif(allnotif,auth.user._id)).slice(0, (notifsize>4)?4:4).map(el=>{
+    (filter_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>4)?4:4).map(el=>{
       return(
      <li  style={{
            justifyContent:"center",
