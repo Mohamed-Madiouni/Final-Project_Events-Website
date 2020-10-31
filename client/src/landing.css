@@ -68,3 +68,13 @@
     font-size: 1.8vw;
 }} */
 
+li:nth-child(odd)
+{
+    color:rgb(6, 8, 8);
+    background-color: rgb(88, 88, 88)
+}
+li:nth-child(even)
+{
+    color:rgb(155, 155, 155);
+    background-color: rgb(49, 49, 49)
+}

@@ -54,3 +54,21 @@ export const sendNotifications = (
       })
     );
 };
+
+//close notifications
+export const closeNotif = () => (dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+    .put(`/notifications/close/`,{state:"Closed"})
+    .then((res) => {
+      dispatch({
+       type: GET_ERRORS,
+       payload: {},
+     })
+      
+   })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+};

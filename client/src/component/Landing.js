@@ -5,7 +5,7 @@ import { logoutUser } from "../actions/authaction";
 import "../landing.css";
 import M from "materialize-css";
 import {useLocation} from "react-router-dom";
-import { getNotifications } from "../actions/notificationaction";
+import { getNotifications, closeNotif } from "../actions/notificationaction";
 import notif, { filter_notif } from "../outils/notif_length";
 import historyevent from "../outils/history";
 
@@ -16,11 +16,12 @@ function Landing({}) {
   const resize=useSelector(state=>state.resize)
   const location=useLocation()
   const allnotif=useSelector(state=>state.notification.notifications)
+  var notifsize=notif(allnotif,auth.user._id);
   useEffect(() => {
     M.Sidenav.init(document.querySelectorAll(".sidenav"));
   });
 
-  console.log(filter_notif(allnotif,auth.user._id))
+//  console.log(filter_notif(allnotif,auth.user._id))
 useEffect(()=>{M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))},[])
   const onLogoutClick = () => {
   
@@ -159,16 +160,20 @@ useEffect(()=>{
            alignItems:"center",
            height: "auto",
            width:"400px",height:"auto",overflowY:"auto"}}>
-    {console.log(allnotif.length)}
-    {((filter_notif(allnotif,auth.user._id)).length>0)?
-    (filter_notif(allnotif,auth.user._id)).map(el=>{
+  
+    {(notifsize>0)?
+    (filter_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>4)?4:4).map((el,i)=>{
       return(
-     <li  style={{
+     <li key={i} style={{
            justifyContent:"center",
            alignItems:"center",
            width:"400px",    
            overflowY:"auto",
-           bottom: "0px"}}>
+           bottom: "0px",
+           cursor:"auto",
+
+           padding:"15px 15px 15px 15px"
+           }}>
     
       <div style={{
       display: "flex",
@@ -187,7 +192,7 @@ useEffect(()=>{
       justifyContent:"left",
       alignItems:"left",
       }}>{historyevent(el.created_at)}</div>
-    <hr/>    
+        
     </li>)}): <li style={{
            display: "flex",
            justifyContent:"center",
@@ -196,6 +201,9 @@ useEffect(()=>{
            height:"70px",
            overflowY:"auto",
            bottom: "0px",
+           cursor:"auto",
+           color:"#4d4d4d",
+           backgroundColor: "#8f8b8b"
            }}>No new Notifications</li>}
 
           <li style={{
@@ -206,10 +214,12 @@ useEffect(()=>{
            height:"70px",
            overflowY:"auto",
            bottom: "0px",
-           color:"red",
-           backgroundColor: "coral"}}
-           onClick={() => {history.push("/notifications")
-
+           color:"#b9b6b6",
+           backgroundColor: "#000000"}}
+           onClick={() => {
+           history.push("/notifications")  
+            dispatch(closeNotif())
+            
     }}> Show all my notifications
      
      </li>

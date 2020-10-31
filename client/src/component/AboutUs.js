@@ -113,7 +113,7 @@ function AboutUs() {
 
                     <div className="form-group">
                         <Button className="btn btn-primary btn-purple"
-                         href="/users/sign_up?pagesource=homepage&amp;referrallinksource=createwebsite">Continue<i class="far fa-arrow-right"></i></Button>
+                         href="/users/sign_up?pagesource=homepage&amp;referrallinksource=createwebsite">Continue<i className="far fa-arrow-right"></i></Button>
                     </div>
                  </div>
                 <div className="col-md-6">
@@ -131,7 +131,7 @@ function AboutUs() {
         <div className="row-2 row">
 
             <div className="col-md-6"> 
-                <img src="https://res.cloudinary.com/dy8r4yh5x/image/upload/v1554851706/home_2.jpg" class="img-responsive" 
+                <img src="https://res.cloudinary.com/dy8r4yh5x/image/upload/v1554851706/home_2.jpg" className="img-responsive" 
                 style={{width: "200%",
                 maxWidth: "114%",
                 float: "right",
@@ -185,13 +185,13 @@ function AboutUs() {
                     <img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRHitPEzAyyl85mJu94hAoo4OqUZxW4Vp_8NRkd7f1ZGFkVAhvX&usqp=CAU" />
                     <ul id="u1">
                         <a className="faa" herf="#">
-                            <li className="fa1"><i class="fa fa-facebook" aria-hidden="true"></i></li>
+                            <li className="fa1"><i className="fa fa-facebook" aria-hidden="true"></i></li>
                         </a>
                         <a className="faa" herf="#">
-                            <li className="fa1"><i class="fa fa-twitter" aria-hidden="true"></i></li>
+                            <li className="fa1"><i className="fa fa-twitter" aria-hidden="true"></i></li>
                         </a>
                         <a className="faa" herf="#">
-                            <li className="fa1"><i class="fa fa-linkedin" aria-hidden="true"></i></li>
+                            <li className="fa1"><i className="fa fa-linkedin" aria-hidden="true"></i></li>
                         </a>
                     </ul>
 
@@ -204,13 +204,13 @@ function AboutUs() {
                     <img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQYsC5n8Dib3nag0Uyf0XUE0MagznOU1_adXKCvhgl6ICvl7Dn8&usqp=CAU" />
                     <ul id="u1">
                         <a className="faa" herf="#">
-                            <li className="fa1"><i class="fa fa-facebook" aria-hidden="true"></i></li>
+                            <li className="fa1"><i className="fa fa-facebook" aria-hidden="true"></i></li>
                         </a>
                         <a className="faa" herf="#">
-                            <li className="fa1"><i class="fa fa-twitter" aria-hidden="true"></i></li>
+                            <li className="fa1"><i className="fa fa-twitter" aria-hidden="true"></i></li>
                         </a>
                         <a className="faa" herf="#">
-                            <li className="fa1"><i class="fa fa-linkedin" aria-hidden="true"></i></li>
+                            <li className="fa1"><i className="fa fa-linkedin" aria-hidden="true"></i></li>
                         </a>
                     </ul>
 
@@ -223,13 +223,13 @@ function AboutUs() {
                     <img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRUNfNzNQuI3hs2yjNVE3kK5mvroZDoCv6a7oi_GIIYjmpnAiV2&usqp=CAU" />
                     <ul id="u1">
                         <a className="faa" herf="#">
-                            <li className="fa1"><i class="fa fa-facebook" aria-hidden="true"></i></li>
+                            <li className="fa1"><i className="fa fa-facebook" aria-hidden="true"></i></li>
                         </a>
                         <a  className="faa" herf="#">
-                            <li className="fa1"><i class="fa fa-twitter" aria-hidden="true"></i></li>
+                            <li className="fa1"><i className="fa fa-twitter" aria-hidden="true"></i></li>
                         </a>
                         <a className="faa" herf="#">
-                            <li className="fa1"><i class="fa fa-linkedin" aria-hidden="true"></i></li>
+                            <li className="fa1"><i className="fa fa-linkedin" aria-hidden="true"></i></li>
                         </a>
                     </ul>
 
