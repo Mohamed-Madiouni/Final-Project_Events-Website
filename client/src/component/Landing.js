@@ -162,9 +162,9 @@ useEffect(()=>{
            width:"400px",height:"auto",overflowY:"auto"}}>
   
     {(notifsize>0)?
-    (filter_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>4)?4:4).map(el=>{
+    (filter_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>4)?4:4).map((el,i)=>{
       return(
-     <li  style={{
+     <li key={i} style={{
            justifyContent:"center",
            alignItems:"center",
            width:"400px",    

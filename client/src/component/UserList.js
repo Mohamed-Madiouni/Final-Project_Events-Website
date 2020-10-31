@@ -431,7 +431,14 @@ const UserList = () => {
           <a
             href="#!"
             className="modal-close  btn-flat"
-            onClick={() => dispatch(banUser(banid))}
+            onClick={() =>{
+              let title="Account Banned";
+              let content= "Your account is Banned";
+              let notiftype="Account_Banned";
+              var state=[]
+              state=[...state,{users:banid,consulted:false}]
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(banUser(banid))}}
           >
             Agree
           </a>
@@ -450,7 +457,14 @@ const UserList = () => {
           <a
             href="#!"
             className="modal-close  btn-flat"
-            onClick={() => dispatch(unbanUser(banid))}
+            onClick={() =>{
+              let title="Account Unbanned";
+              let content= "Your account was Unbanned";
+              let notiftype="Account_Unbanned";
+              var state=[]
+              state=[...state,{users:banid,consulted:false}]
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(unbanUser(banid))}}
           >
             Agree
           </a>
@@ -476,7 +490,6 @@ const UserList = () => {
               var state=[]
               state=[...state,{users:alertid,consulted:false}]
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
-              console.log(alertid)
               dispatch(alertUser(alertid))}}
           >
             Agree
@@ -503,7 +516,6 @@ const UserList = () => {
               var state=[]
               state=[...state,{users:alertid,consulted:false}]
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
-              console.log(alertid)
               dispatch(unalertUser(alertid))}}
           >
             Agree
