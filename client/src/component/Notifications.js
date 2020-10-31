@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GET_ERRORS } from "../actions/types";
 import { useSelector, useDispatch } from "react-redux";
-import Navbar from "./Navbar";
 import historyuser from "../outils/history";
 
 
@@ -20,7 +19,7 @@ let auth = useSelector((state) => state.auth);
 
   return (
     <>
-    <Navbar />
+   
     <div
         className="col l9 offset-l1 s12"
         style={{ marginTop: "20px", fontSize: 15, fontWeight: 800 }}
