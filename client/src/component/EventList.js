@@ -13,6 +13,7 @@ import historyevent from "../outils/history";
 import "../events.css";
 import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
+import {sendNotifications} from "../actions/notificationaction";
 import { endEvent, fullEvent, openEvent } from "../actions/evntAction";
 
 const EventList = () => {
@@ -23,6 +24,7 @@ const EventList = () => {
   const history = useHistory();
   const [deleteid, setDeleteid] = useState("");
   const [validateid, setValidateid] = useState("");
+  const [Organizerid, setOrganizerid] = useState("");
   const [countevent, setCountevent] = useState(0);
   const [quickSearch, setQuickSearch] = useState({
     title: "",
@@ -394,7 +396,9 @@ const EventList = () => {
                           type="button"
                           className="btn btn-medium modal-trigger"
                           data-target="modal2"
-                          onClick={() => setValidateid(el._id)}
+                          onClick={() => {
+                            setOrganizerid(el.id_organizer)
+                            setValidateid(el._id)}}
                         >
                           Valid
                         </button>
@@ -410,7 +414,9 @@ const EventList = () => {
                           type="button"
                           className="btn btn-medium modal-trigger"
                           data-target="modal3"
-                          onClick={() => setValidateid(el._id)}
+                          onClick={() => {
+                            setOrganizerid(el.id_organizer)
+                            setValidateid(el._id)}}
                         >
                           Invalid
                         </button>
@@ -506,7 +512,17 @@ const EventList = () => {
           <a
             href="#!"
             className="modal-close btn-flat"
-            onClick={() => dispatch(validateEvent(validateid))}
+            onClick={() => {
+              
+              let title="Event Validation";
+              let content= "Your event was validated";
+              let notiftype="Event_Validation";
+              var state=[]
+              state=[...state,{users:Organizerid,consulted:false}]
+              
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(validateEvent(validateid))
+            }}
           >
             Agree
           </a>
@@ -525,7 +541,17 @@ const EventList = () => {
           <a
             href="#!"
             className="modal-close  btn-flat"
-            onClick={() => dispatch(invalidateEvent(validateid))}
+            onClick={() =>{
+              
+              let title="Event Invalidated";
+              let content= "Your event was invalidated";
+              let notiftype="Event_Invalidation";
+              var state=[]
+              state=[...state,{users:Organizerid,consulted:false}]
+                    
+              dispatch(invalidateEvent(validateid))
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+            }}
           >
             Agree
           </a>
