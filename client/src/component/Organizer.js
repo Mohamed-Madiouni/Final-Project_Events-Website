@@ -222,10 +222,10 @@ useEffect(()=>{
                   className="card-content  "
                   style={{ padding: "0px 10px 0px 24px" }}
                 >
-                  <span className="card-title  grey-text text-darken-4">
-                    <b>{el.title}</b>
+                  <span className="card-title  grey-text text-darken-4" style={{height: "fit-content",lineHeight: "normal",marginTop: "2px",marginBottom:2}}>
+                   <marquee behavior="scroll" direction="left"><b>{el.title}</b></marquee> 
                   </span>
-                  <p className="red-text">{el.address.address}</p>
+                 <marquee behavior="scroll" direction="left"><p className="red-text">{el.address.address}</p></marquee>  
                   <div
                     style={{
                       display: "flex",
@@ -267,8 +267,8 @@ useEffect(()=>{
                     </span>
                   </div>
                   {el.tags.length!=0&&<div className="slider right tag_slide_home">
-    <ul className="slides">
-              {el.tags.map((el,index)=><li key={index}> <p className='chip' style={{padding:8,display:"flex",alignItems:"center",fontSize:12}}>{el}</p> </li>)}
+    <ul className="slides" >
+              {el.tags.map((el,index)=><li key={index} style={{height:50}}> <p className='chip' style={{padding:8,display:"flex",alignItems:"center",fontSize:12}}>{el}</p> </li>)}
     </ul>
   </div>}
                 </div>
