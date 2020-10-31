@@ -378,7 +378,9 @@ const EventList = () => {
                         type="button"
                         className="btn btn-medium modal-trigger"
                         data-target="modal1"
-                        onClick={() => setDeleteid(el._id)}
+                        onClick={() =>{
+                          setDeleteid(el._id)
+                          setOrganizerid(el.id_organizer)}}
                         disabled={auth.user.role!="administrator"}
                       >
                         Delete
@@ -493,7 +495,14 @@ const EventList = () => {
           <a
             href="#!"
             className="modal-close  btn-flat"
-            onClick={() => dispatch(deleteEvent(deleteid))}
+            onClick={() => {              
+              let title="Event Deleted";
+              let content= "Your event was Delete by a Moderator";
+              let notiftype="Event_Deleted";
+              var state=[]
+              state=[...state,{users:Organizerid,consulted:false}]
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))  
+              dispatch(deleteEvent(deleteid))}}
           >
             Agree
           </a>
