@@ -1,25 +1,27 @@
-import React,{useState,useRef, useCallback} from 'react'
+import React,{useState,useRef, useCallback, useEffect} from 'react'
 import {
   GoogleMap,
   useLoadScript,
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
-// import usePlacesAutocomplete, {
-//   getGeocode,
-//   getLatLng,
-// } from "use-places-autocomplete";
-// import {
-//   Combobox,
-//   ComboboxInput,
-//   ComboboxPopover,
-//   ComboboxList,
-//   ComboboxOption,
-// } from "@reach/combobox";
-// import { formatRelative } from "date-fns";
-
-// import "@reach/combobox/styles.css";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxPopover,
+  ComboboxList,
+  ComboboxOption,
+} from "@reach/combobox";
+import { formatRelative } from "date-fns";
+import "@reach/combobox/styles.css";
 import mapStyles from "./mapStyles";
+import Geocode from "react-geocode";
+import "../maps.css"
+
 
 const containerStyle = {
   width: '100vw',
@@ -30,7 +32,7 @@ const center = {
   lat: 35.6,
   lng: 10
 };
-const libraries=["places"]
+// const libraries=["places"]
 
 const options = {
   styles: mapStyles,
@@ -40,35 +42,59 @@ const options = {
 
 
 function MyComponent() {
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_MAPS,
-    libraries
-  });
+ 
+  // const { isLoaded, loadError } = useLoadScript({
+  //   googleMapsApiKey: process.env.REACT_APP_MAPS,
+  //   libraries
+  // });
   const [markers, setMarkers] = useState({});
-const omMapClick=useCallback((event)=>{
+  const [select,setselect]=useState(null)
+const onMapClick=useCallback((event)=>{
   setMarkers({lat:event.latLng.lat(),lng:event.latLng.lng()})
   console.log(event)
 },[])
 const mapRef =useRef()
-const onMapLoad = React.useCallback((map) => {
+const onMapLoad = useCallback((map) => {
   mapRef.current = map;
 }, []);
-  
+const panTo=useCallback(({lat,lng})=>{
+mapRef.current.panTo({lat,lng})
+mapRef.current.setZoom(16)
+},[])
+console.log(mapRef.current)
 
-    if (loadError) return "Error";
-    if (!isLoaded) return "Loading...";
+useEffect(() => {
+  Geocode.setApiKey(process.env.REACT_APP_MAPS);
+}, [])
+
+useEffect(()=>{
+  if(markers.lat)
+  Geocode.fromLatLng(markers.lat,markers.lng).then(
+    response => {
+      const address = response.results[0].formatted_address;
+      console.log("address",address);
+    },
+    error => {
+      console.error(error);
+    }
+  );
+},[markers])
+
+    // if (loadError) return "Error";
+    // if (!isLoaded) return "Loading...";
 
 
 
   return (
-   
-    
+   <div>
+    <Search panTo={panTo}/>
+    <Locate panTo={panTo}/>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
-        zoom={10}
+        zoom={14}
         options={options}
-        onClick={omMapClick}
+        onClick={onMapClick}
         onLoad={onMapLoad}
       >
        <Marker 
@@ -79,13 +105,92 @@ const onMapLoad = React.useCallback((map) => {
         anchor: new window.google.maps.Point(15, 15),
         scaledSize: new window.google.maps.Size(30, 30),
       }}
+      draggable={true}
+      onDragEnd={onMapClick}
+      onClick={()=>setselect(markers)}
        />
+{select?(<InfoWindow position={{lat:select.lat,lng:select.lng}} onCloseClick={()=>setselect(null)}>
+  <div>
+<h2>new one</h2>
+<p>lat:{select.lat}</p>
 
+  </div>
+</InfoWindow>):null}
       </GoogleMap>
-    
+      </div>
   )
 }
 
+
+function Locate({ panTo }) {
+  return (
+    <button
+      className="locate_map"
+      onClick={() => {
+        document.querySelector(".locate_map").style.background="none"
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            panTo({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+          },
+          () => null
+        );
+      }}
+    >
+      <img src="/compass.svg" alt="compass" />
+    </button>
+  );
+}
+
+function Search ({panTo}){
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    // requestOptions: {
+    //   radius: 100 * 1000,
+    // },
+  });
+
+  return (
+    <div className="search_map">
+      <Combobox onSelect={async(address)=>{
+        setValue(address,false)
+        clearSuggestions()
+try{
+const result = await getGeocode({address})
+const {lat,lng}= await getLatLng(result[0])
+panTo({lat,lng})
+console.log(lat,lng)
+}catch(err){
+  console.log(err)
+}
+
+      }}>
+        <ComboboxInput
+          value={value}
+          onChange={(e)=>setValue(e.target.value)}
+          disabled={!ready}
+          placeholder="Search event location"
+        />
+        <ComboboxPopover>
+          <ComboboxList>
+            {status === "OK" &&
+              data.map(({ id, description }) => (
+                <ComboboxOption key={id} value={description} />
+              ))}
+          </ComboboxList>
+        </ComboboxPopover>
+      </Combobox>
+    </div>
+  );
+
+}
 
 // import { GoogleMap, Marker,withGoogleMap,withScriptjs, } from "react-google-maps"
 
