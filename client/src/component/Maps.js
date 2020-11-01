@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState,useRef, useCallback} from 'react'
 import {
   GoogleMap,
   useLoadScript,
@@ -34,14 +34,26 @@ const libraries=["places"]
 
 const options = {
   styles: mapStyles,
+  disableDefaultUI: true,
+  zoomControl: true,
 }
 
 
 function MyComponent() {
   const { isLoaded, loadError } = useLoadScript({
-      googleMapsApiKey: process.env.REACT_APP_MAPS,
-      libraries
-    });
+    googleMapsApiKey: process.env.REACT_APP_MAPS,
+    libraries
+  });
+  const [markers, setMarkers] = useState({});
+const omMapClick=useCallback((event)=>{
+  setMarkers({lat:event.latLng.lat(),lng:event.latLng.lng()})
+  console.log(event)
+},[])
+const mapRef =useRef()
+const onMapLoad = React.useCallback((map) => {
+  mapRef.current = map;
+}, []);
+  
 
     if (loadError) return "Error";
     if (!isLoaded) return "Loading...";
@@ -56,9 +68,19 @@ function MyComponent() {
         center={center}
         zoom={10}
         options={options}
+        onClick={omMapClick}
+        onLoad={onMapLoad}
       >
-        { /* Child components, such as markers, info windows, etc. */ }
-        <></>
+       <Marker 
+       position={markers.lat&&{lat:markers.lat,lng:markers.lng}}
+       icon={{
+        url: `/logo12.jpg`,
+        origin: new window.google.maps.Point(0, 0),
+        anchor: new window.google.maps.Point(15, 15),
+        scaledSize: new window.google.maps.Size(30, 30),
+      }}
+       />
+
       </GoogleMap>
     
   )
