@@ -11,6 +11,7 @@ import notif, { filter_notif } from "../outils/notif_length";
 import historyevent from "../outils/history";
 import Notificationuser from "./Notificationsuser";
 import Notifications from "./Notifications";
+import { getUsers } from "../actions/adminaction";
 function Landing({}) {
   const dispatch = useDispatch();
   const history = useHistory()
@@ -19,9 +20,13 @@ function Landing({}) {
   const location=useLocation()
   const allnotif=useSelector(state=>state.notification.notifications)
   var notifsize=notif(allnotif,auth.user._id);
+  const users=useSelector(state=>state.admin.users)
   useEffect(() => {
     M.Sidenav.init(document.querySelectorAll(".sidenav"));
   });
+  useEffect(() => {
+    dispatch(getUsers())
+  }, []);
 
 //  console.log(filter_notif(allnotif,auth.user._id))
 useEffect(()=>{M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))},[])
@@ -107,6 +112,7 @@ useEffect(()=>{
     (filter_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>4)?4:4).map((el,i)=>{
       return(
         <li key={i} className="note switchcolor"><i className="material-icons">mail</i> {(el.title)}
+    <img src={users.find(e=>e._id==el.userId).avatar} alt="" className="circle" width="40px" height="40px" style={{ position:"absolute", right:"5px", margin: "4px"}}/>
     <div> {(el.content)}</div>
     <div style={{ display: "flex",justifyContent:"center",alignItems:"center"}}>
       {historyevent(el.created_at)}</div></li>

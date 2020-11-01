@@ -382,7 +382,7 @@ const UserListcard = ({ users }) => {
             className="modal-close btn-flat"
             onClick={() => { 
               let title="Alert Removed";
-              let content= "An alert was removed from you account";
+              let content= "An alert was removed from your account";
               let notiftype="Alert_Removed";
               var state=[]
               state=[...state,{users:alertid,consulted:false}]

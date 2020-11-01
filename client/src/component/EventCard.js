@@ -53,13 +53,7 @@ function EventCard({ event, getEvt }) {
         
 </div>
     </div>
-
-               
-
-
-               
-
-           
+ 
     )
 }
 

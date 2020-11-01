@@ -148,7 +148,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
       console.log(newEvent);
    if(action.type=="add"){
     let title="New Event";
-    let content= "A new event was created by " + auth.user.fname + " " + auth.user.lname;
+    let content= "A new event was created";
     let notiftype="New_Event";
     var state=[]
         users.filter(el=>el.role=="administrator"||el.role=="moderator").map(el=>{
@@ -160,7 +160,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
    }
       else{
   let title="Event edition";
-  let content= "A event was edited by " + auth.user.fname + " " + auth.user.lname;
+  let content= "A event was edited";
   let notiftype="Event_Edition";
         var state=[]
         users.filter(el=>el.role=="administrator"||el.role=="moderator").map(el=>{

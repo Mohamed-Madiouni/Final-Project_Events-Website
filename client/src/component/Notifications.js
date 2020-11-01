@@ -2,19 +2,23 @@ import React, { useEffect, useState } from "react";
 import { GET_ERRORS } from "../actions/types";
 import { useSelector, useDispatch } from "react-redux";
 import historyuser from "../outils/history";
-
+import { getUsers } from "../actions/adminaction";
 
 function Notifications() {
   const dispatch = useDispatch();
   const [countnotif, setCountnotif] = useState(0);
   const allnotif = useSelector((state) => state.notification.notifications);
   let auth = useSelector((state) => state.auth);
-
+  const users=useSelector(state=>state.admin.users)
   useEffect(() => {
     dispatch({
       type: GET_ERRORS,
       payload: {},
     });
+  }, []);
+
+  useEffect(() => {
+    dispatch(getUsers())
   }, []);
 
   return (
@@ -49,8 +53,8 @@ function Notifications() {
                               <span className="center-align">{el.content}</span>
                             </td>
                             <td className="center-align" style={{ padding: 10 }}>
-                              <span>{el.role}</span>
-                            </td>
+                              <span>{"The " +el.role + ": "} {users.find(e=>e._id==el.userId).fname + " "}{users.find(e=>e._id==el.userId).lname}</span> 
+                           </td>
                             <td className="center-align" style={{ padding: 10 }}>
                               <span>
                                 <i
