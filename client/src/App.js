@@ -25,6 +25,7 @@ import AboutUs from "./component/AboutUs";
 import Comments from "./component/Comments";
 import Bannned_home from "./component/Bannned_home";
 import Notifications from "./component/Notifications";
+import Maps from "./component/Maps";
 
 function App() {
 
@@ -94,7 +95,7 @@ useEffect(()=>{
             <Route path="/search" component={Searchresult} />
             <Route exact path="/events" component={Events} />
             <Route path="/calendar" component={Calendar} />
-
+            <Route path="/maps" component={Maps} />
             <Route exact path="/contact" component={ContactUs} />
             <Route exact path="/about" component={AboutUs} />
 

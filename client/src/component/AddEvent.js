@@ -238,8 +238,8 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
                 </div>}
               {suggestions.map(suggestion => {
                 const style = suggestion.active
-                  ? { backgroundColor: ' #2e8fa5', cursor: 'pointer',color:"white",padding:2 }
-                  : { backgroundColor: '#ffffff', cursor: 'pointer',color:"black",padding:2 };
+                  ? { backgroundColor: ' #2e8fa5', cursor: 'pointer',color:"white",padding:3 }
+                  : { backgroundColor: '#ffffff', cursor: 'pointer',color:"black",padding:3 };
                   
                 return (
                   <div
