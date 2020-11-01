@@ -1,0 +1,123 @@
+
+.toggleNotifications {
+    position: relative;
+    display: inline-flex;
+    float: right;
+    height: 58px;
+    width: 70px;
+    user-select: none;
+    .show {
+       flex: 1;
+       margin: auto;
+       height: 40px;
+       max-width: 40px;
+       text-align: center;
+       border-radius: 50%;
+       border: 1px solid rgba(0, 0, 0, 1);
+       background: rgba(0, 0, 0, 0.5);
+       font-size: 24px;
+       transition: all 0.2s;
+       &:hover {
+          background: rgb(255, 255, 255);
+          cursor: pointer;
+          color: cadetblue;
+       }
+       i {
+          line-height: 38px;
+       }
+    }
+ }
+ .count{
+    position:absolute;
+    top:5px;
+    right:26px;
+    .num{
+       position:absolute;
+       top:0px;
+       left:0px;
+       background:#f22;
+       border-radius:50%;
+       width:18px;
+       height:18px;
+       text-align:center;
+       line-height:17px;
+       font-size:11px;
+       box-shadow:0px 1px 3px rgba(0, 0, 0, 0.25);
+       border:1px solid rgba(0, 0, 0, 0.20);
+       transition:all 0.3s;
+    }
+ }
+ .notifications {
+    position: absolute;
+    top: 70px;
+    right: 14px;
+    width: 350px;
+    background: rgb(0, 0, 0);
+    border: 4px solid rgb(0, 0, 0);
+    border-radius: 2px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s;
+    display: none;
+    &:after {
+       content: ' ';
+       position: absolute;
+       top: -24px;
+       right: -3px;
+       width: 34px;
+       height: 17px;
+       border-right: 20px solid transparent;
+       border-left: 20px solid transparent;
+       border-bottom: 20px solid rgb(0, 0, 0);
+       pointer-events: none;
+    }
+    &:before {
+       content: ' ';
+       position: absolute;
+       top: -24px;
+       right: -3px;
+       width: 34px;
+       height: 10px;
+       border-right: 20px solid transparent;
+       border-left: 20px solid transparent;
+       border-bottom: 20px solid rgb(0, 0, 0);
+       pointer-events: none;
+    }
+
+    
+    .note {
+       padding: 0px 10px;
+       height: auto;
+       line-height: 40px;
+       border-radius: 2px;
+       &:first-of-type {
+          margin-top: 0px;
+       }
+       transition:all 0.2s;
+       overflow:hidden;
+       max-height:auto;
+       &.read {
+          color: #CDCDCD;
+       }
+       &:hover {
+          background: rgba(0, 0, 0, 0.25);
+          color: #CDCDCD;
+          cursor: pointer;
+       }
+       i {
+          position: relative;
+          top: -1px;
+          margin-right: 5px;
+          vertical-align: middle;
+          color: white;
+       }
+    }
+ }
+ 
+ #navtoggle {
+    display: inline-block;
+    &:checked {
+       ~ .toggleNotifications .notifications {
+         display: inline-block;
+       }
+    }
+ }
