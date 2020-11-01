@@ -497,7 +497,7 @@ const EventList = () => {
             className="modal-close  btn-flat"
             onClick={() => {              
               let title="Event Deleted";
-              let content= "Your event was Delete by a Moderator";
+              let content= "Your event was Delete";
               let notiftype="Event_Deleted";
               var state=[]
               state=[...state,{users:Organizerid,consulted:false}]

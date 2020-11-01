@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { GET_ERRORS } from "../actions/types";
 import { useSelector, useDispatch } from "react-redux";
 import historyuser from "../outils/history";
+import notif, { filter_notif } from "../outils/notif_length";
 import { getUsers } from "../actions/adminaction";
-
-function Notifications() {
+function Notificationsuser() {
   const dispatch = useDispatch();
   const [countnotif, setCountnotif] = useState(0);
   const allnotif = useSelector((state) => state.notification.notifications);
   let auth = useSelector((state) => state.auth);
+  var notifsize=notif(allnotif,auth.user._id);
   const users=useSelector(state=>state.admin.users)
   useEffect(() => {
     dispatch({
@@ -23,7 +24,7 @@ function Notifications() {
 
   return (
        
-      <div id="modalnotifall" style={{ padding: 0, margin:0 }}>
+      <div id="modalnotifuser" style={{ padding: 0, margin:0 }}>
 
             <div style={{ padding: 10 }}>
               <h4 className="center">Notifications Center</h4>
@@ -38,8 +39,8 @@ function Notifications() {
                   </tr>
                 </thead>
                 <tbody>
-                  {allnotif &&
-                    allnotif
+                  {(notifsize>0) &&
+                    (filter_notif(allnotif,auth.user._id))
                       .slice(0)
                       .reverse()
                       .slice(0, 10 + countnotif * 10)
@@ -53,8 +54,8 @@ function Notifications() {
                               <span className="center-align">{el.content}</span>
                             </td>
                             <td className="center-align" style={{ padding: 10 }}>
-                              <span>{"The " +el.role + ": "} {users.find(e=>e._id==el.userId).fname + " "}{users.find(e=>e._id==el.userId).lname}</span> 
-                           </td>
+                            <span>{"The " +el.role + ": "} {users.find(e=>e._id==el.userId).fname + " "}{users.find(e=>e._id==el.userId).lname}</span> 
+                            </td>
                             <td className="center-align" style={{ padding: 10 }}>
                               <span>
                                 <i
@@ -75,7 +76,7 @@ function Notifications() {
                 </tbody>
               </table>
                <p/>
-                {(countnotif + 1) * 10 < allnotif.length && (
+                {(countnotif + 1) * 10 < notifsize && (
                   <div
                     style={{
                       position: "abosolute",
@@ -104,4 +105,4 @@ function Notifications() {
   );
 }
 
-export default Notifications;
+export default Notificationsuser;

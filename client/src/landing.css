@@ -68,13 +68,8 @@
     font-size: 1.8vw;
 }} */
 
-.switchcolor:nth-child(odd)
+.switchcolor
 {
-    color:rgb(155, 155, 155);
-    background-color: rgb(49, 49, 49)
-}
-.switchcolor:nth-child(even)
-{
-    color:rgb(6, 8, 8);
-    background-color: rgb(88, 88, 88)
+    color:white;
+    background-color:rgb(82, 83, 87)
 }

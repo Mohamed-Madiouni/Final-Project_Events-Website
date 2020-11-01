@@ -9,7 +9,9 @@ import {useLocation} from "react-router-dom";
 import { getNotifications, closeNotif } from "../actions/notificationaction";
 import notif, { filter_notif } from "../outils/notif_length";
 import historyevent from "../outils/history";
-
+import Notificationuser from "./Notificationsuser";
+import Notifications from "./Notifications";
+import { getUsers } from "../actions/adminaction";
 function Landing({}) {
   const dispatch = useDispatch();
   const history = useHistory()
@@ -18,9 +20,13 @@ function Landing({}) {
   const location=useLocation()
   const allnotif=useSelector(state=>state.notification.notifications)
   var notifsize=notif(allnotif,auth.user._id);
+  const users=useSelector(state=>state.admin.users)
   useEffect(() => {
     M.Sidenav.init(document.querySelectorAll(".sidenav"));
   });
+  useEffect(() => {
+    dispatch(getUsers())
+  }, []);
 
 //  console.log(filter_notif(allnotif,auth.user._id))
 useEffect(()=>{M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))},[])
@@ -98,14 +104,15 @@ useEffect(()=>{
     <div className="toggleNotifications">
     {(notifsize>0)&&<div className="count">
             <div className="num">{allnotif.length!=0&&notif(allnotif,auth.user._id)}</div></div>}
-        <label className="show" for="navtoggle"><i className="material-icons">notifications</i></label>
-        <div class="notifications">
-            <ul class="groupofnotes">
+        <label className="show" htmlFor="navtoggle"><i className="material-icons">notifications</i></label>
+        <div className="notifications">
+            <ul className="groupofnotes">
 
      {(notifsize>0)?
     (filter_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>4)?4:4).map((el,i)=>{
       return(
-        <li className="note switchcolor"><i className="material-icons">mail</i> {(el.title)}
+        <li key={i} className="note switchcolor"><i className="material-icons">mail</i> {(el.title)}
+    <img src={users.find(e=>e._id==el.userId).avatar} alt="" className="circle" width="40px" height="40px" style={{ position:"absolute", right:"5px", margin: "4px"}}/>
     <div> {(el.content)}</div>
     <div style={{ display: "flex",justifyContent:"center",alignItems:"center"}}>
       {historyevent(el.created_at)}</div></li>
@@ -123,8 +130,7 @@ useEffect(()=>{
            }}>No new Notifications</li>}
                 
             </ul>
-            <div className="btnbar" onClick={() => {
-              history.push("/notifications")  
+            <div data-target="modalnotifuser" className="btnbar modal-trigger" onClick={() => {
               dispatch(closeNotif())
             }} style={{
               display: "flex",
@@ -169,13 +175,13 @@ useEffect(()=>{
 
 </div>
 
+<div id="modalnotifuser" className="modal" style={{ padding: 0, margin:0 }}>
+<Notificationuser />
+ </div>
 
-
-
-
-
-
-
+ <div id="modalnotifall" className="modal" style={{ padding: 0, margin:0 }}>
+<Notifications />
+ </div>
 
   <ul id='dropdown1' className='dropdown-content lan' >
     <li style={{height:"100%"}}>

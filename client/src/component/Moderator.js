@@ -56,7 +56,7 @@ useEffect(()=> { M.Modal.init(document.querySelectorAll(".modal"))})
         >
           <div>
           <button className="btn btn-medium modal-trigger"
-          data-target="modalnotif"
+          data-target="modalnotifall"
           style={{marginBottom:"5px"}}>View logs</button>
 
               <div className="switch right" style={{marginTop:10,color:"black",fontSize:20}}>
@@ -103,12 +103,9 @@ useEffect(()=> { M.Modal.init(document.querySelectorAll(".modal"))})
           </div>
         )}
 
-<div id="modalnotif" className="modal">
-        <div className="modal-content">
-          <Notification />
-        </div>
-        <div className="modal-footer"></div>
-      </div>   
+<div id="modalnotif" className="modal" style={{ padding: 0, margin:0 }}>
+<Notification />
+ </div> 
 
     </div>
     </div>
