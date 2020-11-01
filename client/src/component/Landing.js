@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../actions/authaction";
 import "../landing.css";
+import "../notification.scss";
 import M from "materialize-css";
 import {useLocation} from "react-router-dom";
 import { getNotifications, closeNotif } from "../actions/notificationaction";
@@ -91,7 +92,58 @@ useEffect(()=>{
           
           onClick={onLogoutClick}
         > </a> */}
-        {localStorage.token&&
+
+     {localStorage.token &&
+    <div><input type="checkbox" id="navtoggle" value="unchecked" /><input type="checkbox"/>
+    <div className="toggleNotifications">
+    {(notifsize>0)&&<div className="count">
+            <div className="num">{allnotif.length!=0&&notif(allnotif,auth.user._id)}</div></div>}
+        <label className="show" for="navtoggle"><i className="material-icons">notifications</i></label>
+        <div class="notifications">
+            <ul class="groupofnotes">
+
+     {(notifsize>0)?
+    (filter_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>4)?4:4).map((el,i)=>{
+      return(
+        <li className="note switchcolor"><i className="material-icons">mail</i> {(el.title)}
+    <div> {(el.content)}</div>
+    <div style={{ display: "flex",justifyContent:"center",alignItems:"center"}}>
+      {historyevent(el.created_at)}</div></li>
+      
+        )}): <li style={{
+           display: "flex",
+           justifyContent:"center",
+           alignItems:"center",
+           height:"70px",
+           overflowY:"auto",
+           bottom: "0px",
+           cursor:"auto",
+           color:"#4d4d4d",
+           backgroundColor: "#8f8b8b"
+           }}>No new Notifications</li>}
+                
+            </ul>
+            <div className="btnbar" onClick={() => {
+              history.push("/notifications")  
+              dispatch(closeNotif())
+            }} style={{
+              display: "flex",
+              justifyContent:"center",
+              alignItems:"center",
+              height:"70px",
+              overflowY:"auto",
+              bottom: "0px",
+              cursor:"pointer",
+              color:"#b9b6b6",
+              backgroundColor: "#000000"}}>
+               
+       Show all my notifications</div>
+        </div>
+    </div>
+</div>
+}
+
+{localStorage.token&&
         <div style={{width:"100%",
         display:"flex",
         alignItems:"center",
@@ -113,23 +165,17 @@ useEffect(()=>{
         transform:"translateY(3.2px)"}}>
           <img className="circle" src={auth.user.avatar} width="30px" height="30px"/></a>}
         </div>}
-      </div>
 
-    {localStorage.token &&
-    <ul onClick={()=>console.log(2)}>     
-    <li>
-    <a href='#!' data-target='dropdown2' className='dropdown-trigger' >
-    <span className="notification-box" >
-    <span className="notification-count">{allnotif.length!=0&&notif(allnotif,auth.user._id)}</span>
-    <span className="notification-bell">
-      <span className="bell-top"></span>
-      <span className="bell-middle"></span>
-      <span className="bell-bottom"></span>
-      <span className="bell-rad"></span>
-    </span></span>
-    </a>
-    </li>
-    </ul>}
+
+</div>
+
+
+
+
+
+
+
+
 
   <ul id='dropdown1' className='dropdown-content lan' >
     <li style={{height:"100%"}}>
@@ -161,67 +207,7 @@ useEffect(()=>{
            height: "auto",
            width:"400px",height:"auto",overflowY:"auto"}}>
   
-    {(notifsize>0)?
-    (filter_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>4)?4:4).map((el,i)=>{
-      return(
-     <li key={i} className='switchcolor' style={{
-           justifyContent:"center",
-           alignItems:"center",
-           width:"400px",    
-           overflowY:"auto",
-           bottom: "0px",
-           cursor:"auto",
-           padding:"15px 15px 15px 15px"
-           }}>
     
-      <div style={{
-      display: "flex",
-      justifyContent:"left",
-      alignItems:"left",
-      }}>{(el.title)}</div>
-      <p/>
-    <div style={{
-      display: "flex",
-      justifyContent:"center",
-      alignItems:"center",
-      }}> {(el.content)}
-    </div><p/>
-    <div style={{
-      display: "flex",
-      justifyContent:"left",
-      alignItems:"left",
-      }}>{historyevent(el.created_at)}</div>
-        
-    </li>)}): <li style={{
-           display: "flex",
-           justifyContent:"center",
-           alignItems:"center",
-           width:"400px",
-           height:"70px",
-           overflowY:"auto",
-           bottom: "0px",
-           cursor:"auto",
-           color:"#4d4d4d",
-           backgroundColor: "#8f8b8b"
-           }}>No new Notifications</li>}
-
-          <li style={{
-           display: "flex",
-           justifyContent:"center",
-           alignItems:"center",
-           width:"400px",
-           height:"70px",
-           overflowY:"auto",
-           bottom: "0px",
-           color:"#b9b6b6",
-           backgroundColor: "#000000"}}
-           onClick={() => {
-           history.push("/notifications")  
-            dispatch(closeNotif())
-            
-    }}> Show all my notifications
-     
-     </li>
    
   </ul>
 
