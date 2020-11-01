@@ -17,6 +17,7 @@
        background: rgba(0, 0, 0, 0.5);
        font-size: 24px;
        transition: all 0.2s;
+       color: white;
        &:hover {
           background: rgb(255, 255, 255);
           cursor: pointer;
@@ -35,7 +36,7 @@
        position:absolute;
        top:0px;
        left:0px;
-       background:#f22;
+       background:rgb(216, 5, 5);
        border-radius:50%;
        width:18px;
        height:18px;
@@ -45,6 +46,7 @@
        box-shadow:0px 1px 3px rgba(0, 0, 0, 0.25);
        border:1px solid rgba(0, 0, 0, 0.20);
        transition:all 0.3s;
+       color: rgb(255, 255, 255);
     }
  }
  .notifications {
@@ -89,6 +91,7 @@
        height: auto;
        line-height: 40px;
        border-radius: 2px;
+       margin-bottom: 2px;
        &:first-of-type {
           margin-top: 0px;
        }
@@ -99,8 +102,8 @@
           color: #CDCDCD;
        }
        &:hover {
-          background: rgba(0, 0, 0, 0.25);
-          color: #CDCDCD;
+          background:cadetblue;
+          color: #000000;
           cursor: pointer;
        }
        i {

@@ -259,7 +259,7 @@ const UserListcard = ({ users }) => {
               );
             })}
       </div>
-      <p>
+      <p/>
           {(countuser + 1) * 10 < users.length && (
            <div style={{
            marginBottom:"50px",
@@ -273,11 +273,11 @@ const UserListcard = ({ users }) => {
            onClick={() => {
            setCountuser(countuser + 1);
            }}>SHOW MORE</div>)}
-      </p>
+      
       <div id="modal1" className="modal">
         <div className="modal-content">
           <h4>User delete</h4>
-          <p>Are you sure you want to delete this User?</p>
+          <p/>Are you sure you want to delete this User?
         </div>
         <div className="modal-footer">
           <a
