@@ -236,7 +236,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
            
             <div className="autocomplete-dropdown-container">
               {loading && <div className="preloader-wrapper active" >
-              <div class="spinner-layer spinner-blue-only">
+              <div className="spinner-layer spinner-blue-only">
       <div className="circle-clipper left">
         <div className="circle"></div>
       </div><div className="gap-patch">
@@ -247,7 +247,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
     </div>
                 
                 </div>}
-              {suggestions.map(suggestion => {
+              {suggestions.map((suggestion,i) => {
                 const style = suggestion.active
                   ? { backgroundColor: ' #2e8fa5', cursor: 'pointer',color:"white",padding:3 }
                   : { backgroundColor: '#ffffff', cursor: 'pointer',color:"black",padding:3 };
@@ -257,6 +257,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
                     {...getSuggestionItemProps(suggestion, {
                       style,
                     })}
+                    key={i}
                   >
                     <span>{suggestion.description}</span>
                   </div>
