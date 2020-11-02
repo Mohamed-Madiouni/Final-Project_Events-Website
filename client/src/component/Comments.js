@@ -583,31 +583,27 @@ setTextedit("")
           {if(actvlike)
             {if(auth.isAuthenticated&&!auth.user.likes.includes(el._id))
               
-            {setactvlike(false)
-              dispatch(likecomment(el._id,Number(el.likes)+1,auth.user._id))
-
-            //let title= "Like";
-            //let content= auth.user.fname +" "+ auth.user.lname + " Like your comment";
-            //let notiftype="New_Like";
-            //let state=[]
-            //state=[...state,{users:((comments.comments.find(el=>el._id)).postedBy),consulted:false}]
-            //dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
-            //console.log((comments.comments.find(el=>el._id)).postedBy)
-
-            auth.user.dislikes.includes(el._id)&& dispatch(removedislikecomment(el._id,Number(el.dislikes)-1,auth.user._id))
-          }
+          {setactvlike(false)
+            dispatch(likecomment(el._id,Number(el.likes)+1,auth.user._id))
+            let title= "Like";
+            let content= auth.user.fname +" "+ auth.user.lname + " Like your comment";
+            let notiftype="New_Like";
+            let state=[]
+            state=[...state,{users:(el.postedBy),consulted:false}]
+            state[0].users!=auth.user._id &&
+            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+            
+            auth.user.dislikes.includes(el._id)&& dispatch(removedislikecomment(el._id,Number(el.dislikes)-1,auth.user._id))}
             else
             {setactvlike(false)
             dispatch(removelikecomment(el._id,Number(el.likes)-1,auth.user._id))
-            
-            //let title= "Dislike";
-            //let content= auth.user.fname +" "+ auth.user.lname + " Dislike your comment";
-            //let notiftype="New_Dislike";
-            //let state=[]
-            //state=[...state,{users:((comments.comments.find(el=>el._id)).postedBy),consulted:false}]
-            //dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
-            //console.log((comments.comments.find(el=>el._id)).postedBy)
-
+            let title= "Dislike";
+            let content= auth.user.fname +" "+ auth.user.lname + " Dislike your comment";
+            let notiftype="New_Dislike";
+            let state=[]
+            state=[...state,{users:(el.postedBy),consulted:false}]
+            state[0].users!=auth.user._id &&
+            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
             }
             if(!auth.isAuthenticated)
             history.push("/login")}
