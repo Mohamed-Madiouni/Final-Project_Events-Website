@@ -16,3 +16,5 @@ export const GET_ALL_PARTICIPANT = "GET_ALL_PARTICIPANT";
 export const GET_ALL_MY_EVENTS = "GET_ALL_MY_EVENTS";
 export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
 export const SHOW_MAP = "SHOW_MAP"
+export const ADD_PLACE = "ADD_PLACE"
+export const ADD_INP = "ADD_INP"

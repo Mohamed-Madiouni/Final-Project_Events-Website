@@ -8,7 +8,7 @@ import AddEvent from "./AddEvent";
 import "../organizer.css";
 import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
-import { GET_ERRORS, SHOW_MAP } from "../actions/types";
+import { ADD_INP, ADD_PLACE, GET_ERRORS, SHOW_MAP } from "../actions/types";
 import { logoutUser } from "../actions/authaction";
 import calcul_rating from "../outils/calucle_rating";
 import { getUsers } from '../actions/adminaction';
@@ -32,6 +32,17 @@ function Organizer() {
   const [closedid,setClosedid]= useState("")
   const toggle = () => {
     setModal(!modal)
+    dispatch({
+      type:ADD_PLACE,
+      payload:{}
+    })
+    dispatch({
+      type:ADD_INP,
+      payload:{
+        state:false,
+        inp:{}
+      }
+    })
   return modal
   };
   
@@ -92,7 +103,7 @@ useEffect(()=>{
 
  useEffect(()=>{
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
-    M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false });
+    M.Slider.init(document.querySelectorAll(".slider"), { height: 60,indicators:false });
     if(errors.deleted){
       M.toast({ html: "Event deleted successfully", classes: "green" });
       dispatch({
@@ -104,7 +115,8 @@ useEffect(()=>{
 
   return (
    <div onClick={(e)=>{
-        map.show&&!document.querySelector(".map_container").contains(e.target)&&dispatch({
+        map.show&&!(document.querySelector(".map_container").contains(e.target)||document.querySelector("reach-portal").contains(e.target))&&
+        dispatch({
           type:SHOW_MAP,
           payload:false
         })
@@ -156,7 +168,11 @@ useEffect(()=>{
               <a className="btn-floating cyan darken-3">
                 <i
                   className="material-icons"
-                  onClick={toggle}
+                  onClick={()=>{
+                    setAction({ type: "add", payload:{} });
+                    toggle()
+                  }
+                }
                   title="Add event"
                 >
                   add
@@ -277,7 +293,7 @@ useEffect(()=>{
                   </div>
                   {el.tags.length!=0&&<div className="slider right tag_slide_home">
     <ul className="slides" >
-              {el.tags.map((el,index)=><li key={index} style={{height:50}}> <p className='chip' style={{padding:8,display:"flex",alignItems:"center",fontSize:12}}>{el}</p> </li>)}
+              {el.tags.map((el,index)=><li key={index} style={{height:60}}> <p className='chip' style={{padding:8,display:"flex",alignItems:"center",fontSize:12}}>{el}</p> </li>)}
     </ul>
   </div>}
                 </div>

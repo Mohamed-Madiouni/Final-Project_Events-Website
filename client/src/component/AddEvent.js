@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addEvent, editEvent } from "../actions/evntAction";
 import M from "materialize-css";
-import { GET_ERRORS, SHOW_MAP } from "../actions/types";
+import { ADD_INP, ADD_PLACE, GET_ERRORS, SHOW_MAP } from "../actions/types";
 import "../addevent.css"
 import resize from "../outils/resize";
 import { logoutUser } from "../actions/authaction";
@@ -24,20 +24,20 @@ const errors = useSelector((state) => state.errors);
 const auth = useSelector((state)=>state.auth)
 const location = useLocation()
 const users=useSelector(state=>state.admin.users)
-
+const map = useSelector(state=>state.map)
 
   const [events, setEvents] = useState({
-    title: action.type=="add"?"":action.payload.title,
+    title: map.inp.state?map.inp.inp.title:action.type=="add"?"":action.payload.title,
     // address:action.type=="add"?"":action.payload.address ,
-    description:action.type=="add"?"":action.payload.description ,
-    start: action.type=="add"?"":action.payload.start.split("T")[0],
-    end: action.type=="add"?"":action.payload.end.split("T")[0],
-    nb_participant:action.type=="add"?"":action.payload.nb_participant ,
-    image: "",
+    description:map.inp.state?map.inp.inp.description:action.type=="add"?"":action.payload.description ,
+    start: map.inp.state?map.inp.inp.start:action.type=="add"?"":action.payload.start.split("T")[0],
+    end: map.inp.state?map.inp.inp.end:action.type=="add"?"":action.payload.end.split("T")[0],
+    nb_participant:map.inp.state?map.inp.inp.nb_participant:action.type=="add"?"":action.payload.nb_participant ,
+    image:"",
     // action.type=="add"?"":action.payload.image,
     tags:[],
-    time_start:action.type=="add"?"":action.payload.start.split("T")[1],
-    time_end:action.type=="add"?"":action.payload.end.split("T")[1],
+    time_start:map.inp.state?map.inp.inp.time_start:action.type=="add"?"":action.payload.start.split("T")[1],
+    time_end:map.inp.state?map.inp.inp.time_end:action.type=="add"?"":action.payload.end.split("T")[1],
     error: {},
   });
   const [address,setaddress]=useState({
@@ -73,6 +73,17 @@ setaddress({address:result[0].formatted_address,lat:lating.lat,lng:lating.lng})
     }
     if(errors.success){
     toggle()
+    dispatch({
+      type:ADD_PLACE,
+      payload:{}
+    })
+    dispatch({
+      type:ADD_INP,
+      payload:{
+        state:false,
+        inp:{}
+      }
+    })
     M.toast({ html: action.type=="add"?"Event successfully added check your list":"Event successfully updated", classes: "green" });
     setAction({type:"add",payload:{}})
     return ()=>{ dispatch({
@@ -86,8 +97,16 @@ setaddress({address:result[0].formatted_address,lat:lating.lat,lng:lating.lng})
   });
 
  useEffect(()=>{
-  M.Timepicker.init(document.querySelectorAll('.timepicker'),{twelveHour:false,showClearBtn:true});
-  if(action.type=="add")
+  M.Timepicker.init(document.querySelectorAll('.timepicker'),{twelveHour:false});
+  if(map.inp.state)
+  M.Chips.init(document.querySelectorAll('.chips'),{
+    placeholder:"Optional: Press enter to add tags (3 Max)",
+    limit:3,
+    data:map.inp.inp.tags.map(el=>{return {tag:el}})
+  })
+  else
+ {
+    if(action.type=="add")
   M.Chips.init(document.querySelectorAll('.chips'),{
     placeholder:"Optional: Press enter to add tags (3 Max)",
     limit:3,
@@ -98,10 +117,16 @@ setaddress({address:result[0].formatted_address,lat:lating.lat,lng:lating.lng})
     limit:3,
     data:action.payload.tags.map(el=>{return {tag:el}})
   })
+}
    
 
 
 },[])
+
+useEffect(()=>{
+  if(map.selected.lat)
+  setaddress(map.selected)
+},[map.selected])
 
 const onChange_tags=(e)=>{
 setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
@@ -226,10 +251,29 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
             style={{boxSizing:"border-box",paddingRight:35}}
             />
             <button type="button" style={{position:"absolute",right:5,top:8,border:"none",zIndex:10,background:"none",cursor:"pointer"}}
-            onClick={()=>{dispatch({
+            onClick={()=>{
+              dispatch({
               type:SHOW_MAP,
               payload:true
-            })}}
+            })
+            if(address.address)
+            dispatch({
+              type:ADD_PLACE,
+              payload:address
+            })
+          else
+          dispatch({
+            type:ADD_PLACE,
+            payload:{}
+          })
+          dispatch({
+            type:ADD_INP,
+            payload:{
+              state:true,
+              inp:{...events, tags:(chip_input.current.innerText).replace(/\W/gi,"").split("close").slice(0,(chip_input.current.innerText).replace(/\W/gi,"").toLowerCase().split("close").length-1)},
+            }
+          })
+          }}
             >
               <img src="/map_icon.png"  width={"28px"} height={"28px"} alt="map"/>
             </button>

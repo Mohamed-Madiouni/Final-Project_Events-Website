@@ -21,6 +21,8 @@ import "@reach/combobox/styles.css";
 import mapStyles from "./mapStyles";
 import Geocode from "react-geocode";
 import "../maps.css"
+import { ADD_PLACE } from '../actions/types';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const containerStyle = {
@@ -28,10 +30,10 @@ const containerStyle = {
   height: '100%'
 };
 
-const center = {
-  lat: 35.559043,
-  lng: 9.365944
-};
+// const center = {
+  
+ 
+// };
 // const libraries=["places"]
 
 const options = {
@@ -43,25 +45,55 @@ const options = {
 
 function MyMap() {
  
+  const dispatch=useDispatch()
+  const map=useSelector(state=>state.map)
   // const { isLoaded, loadError } = useLoadScript({
   //   googleMapsApiKey: process.env.REACT_APP_MAPS,
   //   libraries
   // });
+
+  const [center,setcenter] =useState({
+    lat: 35.559043,
+    lng: 9.365944
+  })
   const [markers, setMarkers] = useState({});
   const [select,setselect]=useState(null)
 const onMapClick=useCallback((event)=>{
   setMarkers({lat:event.latLng.lat(),lng:event.latLng.lng()})
-  console.log(event)
+//  console.log(markers)
+  
+
+ 
 },[])
 const mapRef =useRef()
 const onMapLoad = useCallback((map) => {
   mapRef.current = map;
 }, []);
+
+useEffect(()=>{
+  if(map.selected.lat)
+  {
+    setcenter({
+    lat:map.selected.lat,
+    lng:map.selected.lng
+  })
+}
+},[])
+
 const panTo=useCallback(({lat,lng})=>{
 mapRef.current.panTo({lat,lng})
 mapRef.current.setZoom(16)
 },[])
-console.log(mapRef.current)
+
+useEffect(()=>{
+if(map.selected.lat)
+{
+ 
+setMarkers(map.selected)
+
+}
+},[map.selected.lat])
+
 
 useEffect(() => {
   Geocode.setApiKey(process.env.REACT_APP_MAPS);
@@ -72,13 +104,22 @@ useEffect(()=>{
   Geocode.fromLatLng(markers.lat,markers.lng).then(
     response => {
       const address = response.results[0].formatted_address;
-      console.log("address",address);
+     
+ dispatch({
+    type:ADD_PLACE,
+    payload:{
+      lat:markers.lat,
+      lng:markers.lng,
+      address:address
+    }
+  })
+
     },
     error => {
       console.error(error);
     }
-  );
-},[markers])
+  )
+},[markers.lat])
 
     // if (loadError) return "Error";
     // if (!isLoaded) return "Loading...";
@@ -92,7 +133,7 @@ useEffect(()=>{
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
-        zoom={8}
+        zoom={map.selected.lat?16:8}
         options={options}
         onClick={onMapClick}
         onLoad={onMapLoad}
