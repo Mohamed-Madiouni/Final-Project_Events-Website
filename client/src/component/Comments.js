@@ -9,7 +9,7 @@ import { addfollow, getCurrentUser, removefollow } from '../actions/authaction';
 import {makeComment, fullEvent, openEvent, addrating, } from "../actions/evntAction";
 import {getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply, likecomment,dislikecomment, removelikecomment, removedislikecomment, likereply, removelikereply,dislikereply, removedislikereply} from "../actions/comntaction"
 import {followEvent, getEvent, unfollowEvent,endEvent, closeEvent} from "../actions/evntAction";
-
+import {sendNotifications} from "../actions/notificationaction";
 import get_month from "../outils/get_month"
 import historyevent from "../outils/history"
 import Navbar from './Navbar';
@@ -197,18 +197,46 @@ useEffect(()=>{
 
      const onsubmit=(e)=>{
           e.preventDefault()
+          let title= "New Comment";
+          let content= auth.user.fname +" "+ auth.user.lname + " commented on your event " + (allevents.find(el=>el._id==match.params.event_id).title);
+          let notiftype="New_Comment";
+          var state=[]
+          state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
           dispatch(addComment(comnt,match.params.event_id,auth.user._id))
-          
-      }
+          state[0].users!=auth.user._id &&
+          dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+          }
 
       const onedit=(e)=>{
         e.preventDefault()
+        let title= "Comment Edition";
+        let content= auth.user.fname +" "+ auth.user.lname + " edit a comment on your event " + (allevents.find(el=>el._id==match.params.event_id).title);
+        let notiftype="Comment_Edition";
+        var state=[]
+        state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
         dispatch(editComment(edit,textedit))
-        
+        state[0].users!=auth.user._id &&
+        dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
     }
     const onreply=(e)=>{
       e.preventDefault()
+      let title= "Comment Reply";
+      let content= auth.user.fname +" "+ auth.user.lname + " replied to a comment on your event " + (allevents.find(el=>el._id==match.params.event_id).title);
+      let notiftype="Comment_Reply_organizer";
+      let state=[]
+      state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
       dispatch(addreply(reply,replyid,auth.user._id,uuidv4()))
+      state[0].users!=auth.user._id &&
+      dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+      
+
+      let title2= "Comment Reply";
+      let content2= auth.user.fname +" "+ auth.user.lname + " replied to your comment on the event " + (allevents.find(el=>el._id==match.params.event_id).title);
+      let notiftype2="Comment_Reply_User";
+      let state2=[]
+      state2=[...state2,{users:(comments.comments.find(el=>el._id==replyid)).postedBy,consulted:false}]
+      state[0].users!=state2[0].users &&
+      dispatch(sendNotifications(auth.user._id,title2,content2,auth.user.role, notiftype2,state2))
       
   }
 
@@ -319,10 +347,20 @@ history.push("/login")
       </div> 
       <button className='follow'  onClick={()=>{
         if(auth.isAuthenticated)
-        auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)?
+        if (auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)){
        setunfollow(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer))
-       :
+        }
+       else
+       {
        dispatch(addfollow(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id))
+       console.log("hello");
+       let title= "New Follow";
+       let content= auth.user.fname +" "+ auth.user.lname + " is now followinf you";
+       let notiftype="New_Follow";
+       let state=[]
+       state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
+       dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+       }
         else
         history.push("/login")
       }}
@@ -545,10 +583,29 @@ setTextedit("")
               
             {setactvlike(false)
               dispatch(likecomment(el._id,Number(el.likes)+1,auth.user._id))
+
+            //let title= "Like";
+            //let content= auth.user.fname +" "+ auth.user.lname + " Like your comment";
+            //let notiftype="New_Like";
+            //let state=[]
+            //state=[...state,{users:((comments.comments.find(el=>el._id)).postedBy),consulted:false}]
+            //dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+            //console.log((comments.comments.find(el=>el._id)).postedBy)
+
             auth.user.dislikes.includes(el._id)&& dispatch(removedislikecomment(el._id,Number(el.dislikes)-1,auth.user._id))}
             else
             {setactvlike(false)
-            dispatch(removelikecomment(el._id,Number(el.likes)-1,auth.user._id))}
+            dispatch(removelikecomment(el._id,Number(el.likes)-1,auth.user._id))
+            
+            //let title= "Dislike";
+            //let content= auth.user.fname +" "+ auth.user.lname + " Dislike your comment";
+            //let notiftype="New_Dislike";
+            //let state=[]
+            //state=[...state,{users:((comments.comments.find(el=>el._id)).postedBy),consulted:false}]
+            //dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+            //console.log((comments.comments.find(el=>el._id)).postedBy)
+
+            }
             if(!auth.isAuthenticated)
             history.push("/login")}
             }}></i>
@@ -690,18 +747,8 @@ setTextedit("")
              }}>reply</i>}
             
             </div>
-        
-      
-    
-    </li>
-   
-    
+   </li>
   </ul>
-
-
-
-
-
     )
   })}
  { auth.isAuthenticated&&<form className="input_add" style={{marginLeft:20}}>
@@ -914,7 +961,14 @@ return(
               className=" btn #2e8fa5-text"
               onClick={()=>{
                 dispatch(removefollow(unfollow._id))
-              setunfollow("")
+                setunfollow("")
+                console.log("hello")
+                let title= "Remove Follow";
+                let content= auth.user.fname +" "+ auth.user.lname + " is no longer following you";
+                let notiftype="Remove_Follow";
+                let state=[]
+                state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
+                dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
               }
             }
             >
