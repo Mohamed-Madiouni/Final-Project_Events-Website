@@ -3,9 +3,8 @@ import { useDispatch,useSelector } from 'react-redux';
 import { useHistory,Link } from 'react-router-dom';
 import { getCurrentUser } from '../actions/authaction';
 import {fullEvent, openEvent} from "../actions/evntAction";
-
+import {sendNotifications} from "../actions/notificationaction";
 import {followEvent, getEvent, unfollowEvent,endEvent, closeEvent} from "../actions/evntAction";
-
 import get_month from "../outils/get_month"
 import historyevent from "../outils/history"
 import Navbar from './Navbar';
@@ -13,10 +12,8 @@ import "../events.css";
 import M from "materialize-css";
 import { GET_ERRORS } from "../actions/types";
 import eventClosing from "../outils/eventClosing";
-
 import Footer from './Footer';
 import Search from './Search';
-
 import { logoutUser } from "../actions/authaction";
 import calcul_rating from '../outils/calucle_rating';
 
@@ -26,7 +23,6 @@ function Events() {
     const history =useHistory()
     const allevents=useSelector(state=>state.events.allEvents)
     const [countevent, setCountevent] = useState(0);
-
     // const comment=useSelector(state=>state.comments.comment)
     let auth = useSelector(state=>state.auth)
     let errors=useSelector(state=>state.errors)
@@ -258,7 +254,6 @@ useEffect(()=>{
                         >
                           history
                         </i>
-
                         {historyevent(el.created_at)}
                       </span>
                       <span
@@ -296,7 +291,6 @@ useEffect(()=>{
                   >
                     {(!auth.isAuthenticated?
                     el.state=="Available"&&<button
-                    
                       onClick={()=>{
                         history.push("/login")
                       }}
@@ -369,7 +363,6 @@ useEffect(()=>{
                         className="btn-floating  cyan darken-3"
                         onClick={() => {
                           history.push(`/events/${el._id}`)
-                         
                         }}
                         title="Show comments"
                       >
@@ -468,7 +461,26 @@ note that: </p><br/>
               href="#!"
               className="modal-close btn-flat"
               onClick={()=>{
-                participate&&(!auth.user.events.includes(participate)?dispatch(followEvent(participate)):dispatch(unfollowEvent(participate,eventDate)))}}
+                if (participate&&(!auth.user.events.includes(participate)))
+                {dispatch(followEvent(participate)) 
+                let title= "New Participation";
+                let content= auth.user.fname +" "+ auth.user.lname + " participate to " + (allevents.find(el=>el._id==participate).title);
+                let notiftype="New_Participation";
+                let state=[]
+                state=[...state,{users:(allevents.find(el=>el._id==participate).id_organizer),consulted:false}]
+                dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+                }
+                else
+                {dispatch(unfollowEvent(participate,eventDate))
+                
+                  let title= "Cancel Participation";
+                  let content= auth.user.fname +" "+ auth.user.lname + " cancelled participation to " + (allevents.find(el=>el._id==participate).title);
+                  let notiftype="Cancel_Participation";
+                  let state=[]
+                  state=[...state,{users:(allevents.find(el=>el._id==participate).id_organizer),consulted:false}]
+                  dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+                }
+              }}
             >
               Agree
             </a>
