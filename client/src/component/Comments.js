@@ -347,7 +347,8 @@ history.push("/login")
       </div> 
       <button className='follow'  onClick={()=>{
         if(auth.isAuthenticated)
-        if (auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)){
+        {
+          if (auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)){
        setunfollow(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer))
         }
        else
@@ -361,6 +362,7 @@ history.push("/login")
        state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
        dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
        }
+      }
         else
         history.push("/login")
       }}
@@ -592,7 +594,8 @@ setTextedit("")
             //dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
             //console.log((comments.comments.find(el=>el._id)).postedBy)
 
-            auth.user.dislikes.includes(el._id)&& dispatch(removedislikecomment(el._id,Number(el.dislikes)-1,auth.user._id))}
+            auth.user.dislikes.includes(el._id)&& dispatch(removedislikecomment(el._id,Number(el.dislikes)-1,auth.user._id))
+          }
             else
             {setactvlike(false)
             dispatch(removelikecomment(el._id,Number(el.likes)-1,auth.user._id))
