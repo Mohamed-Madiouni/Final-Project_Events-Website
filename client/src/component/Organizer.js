@@ -8,11 +8,11 @@ import AddEvent from "./AddEvent";
 import "../organizer.css";
 import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
-import { GET_ERRORS } from "../actions/types";
+import { GET_ERRORS, SHOW_MAP } from "../actions/types";
 import { logoutUser } from "../actions/authaction";
 import calcul_rating from "../outils/calucle_rating";
 import { getUsers } from '../actions/adminaction';
-
+import MyMap from "./Maps";
 
 
 function Organizer() {
@@ -24,6 +24,7 @@ function Organizer() {
   const auth = useSelector((state) => state.auth);
   const allevents= useSelector((state)=>state.events.allEvents)
   const errors=useSelector(state=>state.errors)
+  const map = useSelector(state=>state.map)
   const history = useHistory();
   const [modal, setModal] = useState(false);
   const [action, setAction] = useState({ type: "add", payload: {} });
@@ -102,7 +103,12 @@ useEffect(()=>{
   })
 
   return (
-   <>
+   <div onClick={(e)=>{
+        map.show&&!document.querySelector(".map_container").contains(e.target)&&dispatch({
+          type:SHOW_MAP,
+          payload:false
+        })
+      }}>
 
       { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
         <i className="fas fa-exclamation-circle" style={{color:"red",fontSize:15,marginTop:5}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban your account 
@@ -110,7 +116,7 @@ useEffect(()=>{
         }
      
 
-      <div className="col s12 row">
+      <div className="col s12 row" >
 
         <div className="col s12 l12 organizer_hi">
           <div
@@ -174,9 +180,12 @@ useEffect(()=>{
       </div>
 
 
-      {modal && (<div className="container organizer_add row">
+     { !map.show?modal && (<div className="container organizer_add row">
         <AddEvent toggle={toggle} action={action} setAction={setAction} /></div>
-      )}
+      ):
+      <div className=" map_container">
+<MyMap/>
+        </div>}
 
 {/* <div className="container organizer_add row" >
         <AddEvent toggle={toggle} action={action} setAction={setAction} /></div> */}
@@ -430,7 +439,7 @@ useEffect(()=>{
             </a>
           </div>
         </div>
-     </>
+     </div>
   );
 }
 

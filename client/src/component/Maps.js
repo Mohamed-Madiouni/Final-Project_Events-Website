@@ -25,12 +25,12 @@ import "../maps.css"
 
 const containerStyle = {
   width: '100vw',
-  height: '100vh'
+  height: '100%'
 };
 
 const center = {
-  lat: 35.6,
-  lng: 10
+  lat: 35.559043,
+  lng: 9.365944
 };
 // const libraries=["places"]
 
@@ -41,7 +41,7 @@ const options = {
 }
 
 
-function MyComponent() {
+function MyMap() {
  
   // const { isLoaded, loadError } = useLoadScript({
   //   googleMapsApiKey: process.env.REACT_APP_MAPS,
@@ -86,13 +86,13 @@ useEffect(()=>{
 
 
   return (
-   <div>
+   <div style={{height:"100%",width:"100%",position:"relative"}} className="googlemap">
     <Search panTo={panTo}/>
     <Locate panTo={panTo}/>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
-        zoom={14}
+        zoom={8}
         options={options}
         onClick={onMapClick}
         onLoad={onMapLoad}
@@ -176,7 +176,7 @@ console.log(lat,lng)
           value={value}
           onChange={(e)=>setValue(e.target.value)}
           disabled={!ready}
-          placeholder="Search event location"
+          placeholder="Search location"
         />
         <ComboboxPopover>
           <ComboboxList>
@@ -219,4 +219,4 @@ console.log(lat,lng)
 //     )
 // }
 
-export default MyComponent
+export default MyMap

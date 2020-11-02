@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addEvent, editEvent } from "../actions/evntAction";
 import M from "materialize-css";
-import { GET_ERRORS } from "../actions/types";
+import { GET_ERRORS, SHOW_MAP } from "../actions/types";
 import "../addevent.css"
 import resize from "../outils/resize";
 import { logoutUser } from "../actions/authaction";
@@ -16,6 +16,7 @@ import PlacesAutocomplete,{geocodeByAddress,getLatLng} from 'react-places-autoco
 
 
 
+
 const AddEvent = ({ toggle,action,setAction }) => {
 
 const dispatch = useDispatch()
@@ -23,6 +24,7 @@ const errors = useSelector((state) => state.errors);
 const auth = useSelector((state)=>state.auth)
 const location = useLocation()
 const users=useSelector(state=>state.admin.users)
+
 
   const [events, setEvents] = useState({
     title: action.type=="add"?"":action.payload.title,
@@ -206,7 +208,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
               />
               <label htmlFor="title" className="active">Title</label>
             </div>
-            <div className='input-field col s12 m6'>
+            <div className='input-field col s12 m6' style={{position:"relative"}}>
             <PlacesAutocomplete
         value={address.address}
         onChange={(value)=>{setaddress({...address,address:value})}}
@@ -217,12 +219,21 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
           <div>
             <input
               {...getInputProps({
-                placeholder: 'Type event address',
+                placeholder: 'Enter event address or select in the map',
               
               })}
               id="address"
-             
+            style={{boxSizing:"border-box",paddingRight:35}}
             />
+            <button type="button" style={{position:"absolute",right:5,top:8,border:"none",zIndex:10,background:"none",cursor:"pointer"}}
+            onClick={()=>{dispatch({
+              type:SHOW_MAP,
+              payload:true
+            })}}
+            >
+              <img src="/map_icon.png"  width={"28px"} height={"28px"} alt="map"/>
+            </button>
+           
             <div className="autocomplete-dropdown-container">
               {loading && <div className="preloader-wrapper active" >
               <div class="spinner-layer spinner-blue-only">
@@ -410,11 +421,14 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
                 </button>
               </div>
             </div>
+           
           </form>
           <div className='col s12 container '>
             <h6>* Please note that a admin validation is required (for any <b> new event</b> or <b>modification</b> of an existing one).</h6> 
             </div>
+             
         </div>
+        
       </div>
     
   );

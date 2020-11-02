@@ -23,8 +23,8 @@ function Notificationsuser() {
   }, []);
 
   return (
-       
-      <div id="modalnotifuser" style={{ padding: 0, margin:0 }}>
+       <>
+      {users.length!=0&&<div id="modalnotifuser" style={{ padding: 0, margin:0 }}>
 
             <div style={{ padding: 10 }}>
               <h4 className="center">Notifications Center</h4>
@@ -98,7 +98,9 @@ function Notificationsuser() {
                     SHOW MORE
                   </div>
                 )}
-        </div>
+        </div>}
+
+        </>
 
  
     

@@ -40,7 +40,7 @@ useEffect(()=>{
 },[])
   return (
     <>
-      <div className="landing_app">
+     { users.length!=0&&<div className="landing_app">
         <Link
           to="/register"
           style={{
@@ -173,7 +173,7 @@ useEffect(()=>{
         </div>}
 
 
-</div>
+</div>}
 
 <div id="modalnotifuser" className="modal" style={{ padding: 0, margin:0 }}>
 <Notificationuser />

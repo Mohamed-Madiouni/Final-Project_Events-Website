@@ -30,3 +30,6 @@
     cursor: pointer;
     background: transparent;
   }
+  .googlemap >div{
+    width :100% !important
+  }

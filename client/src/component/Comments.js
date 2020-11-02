@@ -317,7 +317,7 @@ history.push("/login")
         <div><img src={users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).avatar} alt="" className="circle" style={{width:43,height:43}}/>
        <p><b>{users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).fname+" "+users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).lname}</b></p> 
       </div> 
-      <button className='follow' onClick={()=>{
+      <button className='follow'  onClick={()=>{
         if(auth.isAuthenticated)
         auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)?
        setunfollow(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer))
@@ -326,10 +326,10 @@ history.push("/login")
         else
         history.push("/login")
       }}
-      style={{position:"relative",cursor:"pointer",background:auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)&&"rgb(73, 82, 92)"}}
+      style={{display:auth.isAuthenticated&&auth.user._id==users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id&&"none",position:"relative",cursor:"pointer",background:auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)&&"rgb(73, 82, 92)"}}
 onMouseOver={()=>{setfollow(!follow)}}
 onMouseLeave={()=>{setfollow(!follow)}}
-      disabled={auth.isAuthenticated&&auth.user._id==users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id}
+   
      
      >
         {auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)?"UNFOLLOW":"FOLLOW"}
