@@ -118,13 +118,13 @@ payload:!shownotif
         })}>
           <i className="material-icons">notifications</i></label>
       { shownotif&& <div className="notifications">
-            <ul className="groupofnotes">
+            <ul className="groupofnotes scrollbar" id="style-3" style={{ maxHeight: "500px", backgroundColor:"rgb(51, 50, 50)", overflowY: "auto"}}>
 
      {(notifsize>0)?
-    (filter_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>4)?4:4).map((el,i)=>{
+    (filter_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>10)?10:10).map((el,i)=>{
       return(
-        <li key={i} className="note switchcolor"><i className="material-icons">mail</i> {(el.title)}
-    <div><img src={users.find(e=>e._id==el.userId).avatar} alt="" className="circle" width="40px" height="40px" style={{ position:"absolute", alignItems:"stretch", marginRight: "4px"}}/>
+        <li key={i} className="note"><i className="material-icons">mail</i> {(el.title)}
+    <div style={{ display: "flex"}}><img src={users.find(e=>e._id==el.userId).avatar} alt="" className="circle" width="40px" height="40px" style={{ alignItems:"stretch", marginRight: "4px"}}/>
      {(el.content)}</div>
     <div style={{ display: "flex",justifyContent:"center",alignItems:"center"}}>
       {historyevent(el.created_at)}</div></li>
@@ -133,15 +133,15 @@ payload:!shownotif
            display: "flex",
            justifyContent:"center",
            alignItems:"center",
-           height:"70px",
+           height:"40px",
            overflowY:"auto",
            bottom: "0px",
            cursor:"auto",
            color:"#4d4d4d",
            backgroundColor: "#8f8b8b"
-           }}>No new Notifications</li>}
+           }}>No new Notifications</li>}</ul>
                 
-            </ul>
+            
             <div data-target="modalnotifuser" className="btnbar modal-trigger" onClick={() => {
               dispatch(closeNotif())
               dispatch({
@@ -152,12 +152,12 @@ payload:!shownotif
               display: "flex",
               justifyContent:"center",
               alignItems:"center",
-              height:"70px",
+              height:"50px",
               overflowY:"auto",
               bottom: "0px",
               cursor:"pointer",
               color:"#b9b6b6",
-              backgroundColor: "rgb(82, 83, 87)"}}>
+              backgroundColor: "rgba(0, 0, 0, 0.5)"}}>
                
        Show all my notifications</div>
         </div>}
@@ -221,7 +221,6 @@ payload:!shownotif
    </div>
     </li>
   </ul>
-
 
   <div id="signoutmodal" className="modal">
           <div className="modal-content">
