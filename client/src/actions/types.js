@@ -18,3 +18,4 @@ export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
 export const SHOW_MAP = "SHOW_MAP"
 export const ADD_PLACE = "ADD_PLACE"
 export const ADD_INP = "ADD_INP"
+export const SHOW_NOTIF = "SHOW_NOTIF"

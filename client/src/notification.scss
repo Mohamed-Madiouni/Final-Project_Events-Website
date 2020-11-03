@@ -59,7 +59,7 @@
     border-radius: 2px;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
     transition: all 0.2s;
-    display: none;
+    
     &:after {
        content: ' ';
        position: absolute;
@@ -102,8 +102,7 @@
           color: #CDCDCD;
        }
        &:hover {
-          background:cadetblue;
-          color: #000000;
+          background:rgb(46, 46, 46);
           cursor: pointer;
        }
        i {
@@ -116,11 +115,11 @@
     }
  }
  
- #navtoggle {
-    display: inline-block;
-    &:checked {
-       ~ .toggleNotifications .notifications {
-         display: inline-block;
-       }
-    }
- }
+//  #navtoggle {
+//     display: inline-block;
+//     &:checked {
+//        ~ .toggleNotifications .notifications {
+//          display: inline-block;
+//        }
+//     }
+//  }

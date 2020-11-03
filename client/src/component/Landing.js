@@ -12,6 +12,7 @@ import historyevent from "../outils/history";
 import Notificationuser from "./Notificationsuser";
 import Notifications from "./Notifications";
 import { getUsers } from "../actions/adminaction";
+import { SHOW_NOTIF } from "../actions/types";
 function Landing({}) {
   const dispatch = useDispatch();
   const history = useHistory()
@@ -21,6 +22,8 @@ function Landing({}) {
   const allnotif=useSelector(state=>state.notification.notifications)
   var notifsize=notif(allnotif,auth.user._id);
   const users=useSelector(state=>state.admin.users)
+  const shownotif =useSelector(state=>state.notification.show)
+  // const [show,setshow]=useState(false)
   useEffect(() => {
     M.Sidenav.init(document.querySelectorAll(".sidenav"));
   });
@@ -29,7 +32,7 @@ function Landing({}) {
   }, []);
 
 //  console.log(filter_notif(allnotif,auth.user._id))
-useEffect(()=>{M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))},[])
+useEffect(()=>{M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))})
   const onLogoutClick = () => {
   
     dispatch(logoutUser());
@@ -39,7 +42,11 @@ useEffect(()=>{
   dispatch(getNotifications())
 },[])
   return (
-    <>
+    <div 
+    // onClick={(e)=>{
+    //   show&&!document.querySelector(".notifications").contains(e.target)&&setshow(!show)
+    // }}
+      >
      { users.length!=0&&<div className="landing_app">
         <Link
           to="/register"
@@ -100,12 +107,17 @@ useEffect(()=>{
         > </a> */}
 
      {localStorage.token &&
-    <div><input type="checkbox" id="navtoggle" value="unchecked" /><input type="checkbox"/>
+    // <div><input type="checkbox" id="navtoggle" value="unchecked" /><input type="checkbox"/>
     <div className="toggleNotifications">
     {(notifsize>0)&&<div className="count">
             <div className="num">{allnotif.length!=0&&notif(allnotif,auth.user._id)}</div></div>}
-        <label className="show" htmlFor="navtoggle"><i className="material-icons">notifications</i></label>
-        <div className="notifications">
+        <label className="show" htmlFor="navtoggle" onClick={()=>dispatch({
+type:SHOW_NOTIF,
+payload:!shownotif
+
+        })}>
+          <i className="material-icons">notifications</i></label>
+      { shownotif&& <div className="notifications">
             <ul className="groupofnotes">
 
      {(notifsize>0)?
@@ -132,6 +144,10 @@ useEffect(()=>{
             </ul>
             <div data-target="modalnotifuser" className="btnbar modal-trigger" onClick={() => {
               dispatch(closeNotif())
+              dispatch({
+                type:SHOW_NOTIF,
+                payload:!shownotif
+              })
             }} style={{
               display: "flex",
               justifyContent:"center",
@@ -141,12 +157,12 @@ useEffect(()=>{
               bottom: "0px",
               cursor:"pointer",
               color:"#b9b6b6",
-              backgroundColor: "#000000"}}>
+              backgroundColor: "rgb(82, 83, 87)"}}>
                
        Show all my notifications</div>
-        </div>
+        </div>}
     </div>
-</div>
+// </div>
 }
 
 {localStorage.token&&
@@ -166,7 +182,7 @@ useEffect(()=>{
           
        
         {localStorage.token&&
-        <a href='#' data-target='dropdown1' className='dropdown-trigger' 
+        <a href='#!' data-target='dropdown1' className='dropdown-trigger' 
         style={{margin:resize.state&&"11px",
         transform:"translateY(3.2px)"}}>
           <img className="circle" src={auth.user.avatar} width="30px" height="30px"/></a>}
@@ -206,17 +222,6 @@ useEffect(()=>{
     </li>
   </ul>
 
-  <ul id='dropdown2' className='dropdown-content notif' style={{height: "auto",overflowY:"auto",
-             display: "flex",
-           justifyContent:"center",
-           alignItems:"center",
-           height: "auto",
-           width:"400px",height:"auto",overflowY:"auto"}}>
-  
-    
-   
-  </ul>
-
   <div id="signoutmodal" className="modal">
           <div className="modal-content">
             <h4> <b>Sign out</b> </h4>
@@ -238,7 +243,7 @@ useEffect(()=>{
             </a>
           </div>
         </div>
-    </>
+    </div>
   );
 }
 
