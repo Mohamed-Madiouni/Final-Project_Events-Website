@@ -1,0 +1,24 @@
+.notification-page__content{margin:30px 0;width:100%;background:#fff;padding:25px}
+.notification-page__content__title{font-size:0.8125rem;font-weight:bold;line-height:1.38;text-align:left;color:#202224}
+.notification-page__content__container{margin-top:20px;position:relative;z-index:1}
+
+.notification-page__content__container{margin-top:20px;position:relative;z-index:1}
+.notification-page__content__container .ant-empty{background-color:#fff}
+.notification-page__content__container::before{content:'';position:absolute;background-color:#cccccc;width:1px;height:100%;z-index:-1;left:47px}
+.notification-page__content::-webkit-scrollbar-track{background-color:white}
+.notification-page__content::-webkit-scrollbar-thumb{background-color:#979797;outline:1px solid slategrey;border-radius:50px 50px}
+.notification-page .demo-infinite-container{border:1px solid #e8e8e8;border-radius:4px;overflow:auto;padding:8px 24px;height:300px}
+.notifications-loading-container{position:relative;bottom:65px;display:flex;justify-content:center}
+.notifications-loading-container .ant-spin-dot-item{background-color:#7d7d7d !important}
+.notification-per-period__title{margin:0 0 30px 0;font-size:16px;font-size:1rem;line-height:1.13;letter-spacing:normal;color:#202224;display:flex}
+.notification-container .notification-per-period__title div{min-width:90px;background-color:white;border:solid 5px white}
+.notification-container .notification-per-period__title__line{width:1px;height:30px;background-color:#cccccc}
+.notification-container .notification-per-period__period-card{width:100%;padding:19px 42px 19px 0;background-color:#ebebeb;border-radius:10px;display:flex;margin-bottom:13px;border:solid white;align-items:center;position:relative}
+.notification-container .notification-per-period__period-card img{height:38px;width:38px}
+.notification-container .notification-per-period__period-card__type{font-size:0.75rem;font-weight:500;color:#979797;text-transform:uppercase}
+.notification-container .notification-per-period__period-card__content{font-size:0.9375rem;text-align:left;color:#2e384d;margin:9px 0 10px;line-height:1.33}
+.notification-container .notification-per-period__period-card__date{color:#979797;font-size:0.75rem}
+.notification-container .notification-per-period__link:last-child{margin:0 0 30px 0;display:block}
+.notification-container .notification-per-period__small-line{width:1px;height:13px;background-color:#cccccc;margin:0 0 4px 37px}
+.big-line{width:1px;height:30px;background-color:#cccccc;margin:0 0 4px 37px}
+.x-flex-column-h-center-v-any{display:flex;flex-direction:column;align-items:center}
