@@ -70,15 +70,12 @@ const onMapLoad = useCallback((map) => {
   mapRef.current = map;
 }, []);
 
-useEffect(()=>{
-  if(map.selected.lat)
-  {
-    setcenter({
-    lat:map.selected.lat,
-    lng:map.selected.lng
-  })
-}
-},[])
+// useEffect(()=>{
+//   if(map.selected.lat)
+//   {
+   
+// }
+// },[])
 
 const panTo=useCallback(({lat,lng})=>{
 mapRef.current.panTo({lat,lng})
@@ -88,7 +85,10 @@ mapRef.current.setZoom(16)
 useEffect(()=>{
 if(map.selected.lat)
 {
- 
+  setcenter({
+    lat:map.selected.lat,
+    lng:map.selected.lng
+  })
 setMarkers(map.selected)
 
 }

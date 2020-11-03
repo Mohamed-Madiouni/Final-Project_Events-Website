@@ -461,7 +461,8 @@ note that: </p><br/>
               href="#!"
               className="modal-close btn-flat"
               onClick={()=>{
-                if (participate&&(!auth.user.events.includes(participate)))
+               if(auth.isAuthenticated)
+                { if (participate&&(!auth.user.events.includes(participate)))
                 {dispatch(followEvent(participate)) 
                 let title= "New Participation";
                 let content= auth.user.fname +" "+ auth.user.lname + " participate to " + (allevents.find(el=>el._id==participate).title);
@@ -479,7 +480,7 @@ note that: </p><br/>
                   let state=[]
                   state=[...state,{users:(allevents.find(el=>el._id==participate).id_organizer),consulted:false}]
                   dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
-                }
+                }}
               }}
             >
               Agree
