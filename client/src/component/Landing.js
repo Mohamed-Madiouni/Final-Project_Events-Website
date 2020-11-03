@@ -29,7 +29,7 @@ function Landing({}) {
   }, []);
 
 //  console.log(filter_notif(allnotif,auth.user._id))
-useEffect(()=>{M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))},[])
+useEffect(()=>{M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))})
   const onLogoutClick = () => {
   
     dispatch(logoutUser());
@@ -166,7 +166,7 @@ useEffect(()=>{
           
        
         {localStorage.token&&
-        <a href='#' data-target='dropdown1' className='dropdown-trigger' 
+        <a href='#!' data-target='dropdown1' className='dropdown-trigger' 
         style={{margin:resize.state&&"11px",
         transform:"translateY(3.2px)"}}>
           <img className="circle" src={auth.user.avatar} width="30px" height="30px"/></a>}
@@ -206,16 +206,7 @@ useEffect(()=>{
     </li>
   </ul>
 
-  <ul id='dropdown2' className='dropdown-content notif' style={{height: "auto",overflowY:"auto",
-             display: "flex",
-           justifyContent:"center",
-           alignItems:"center",
-           height: "auto",
-           width:"400px",height:"auto",overflowY:"auto"}}>
   
-    
-   
-  </ul>
 
   <div id="signoutmodal" className="modal">
           <div className="modal-content">
