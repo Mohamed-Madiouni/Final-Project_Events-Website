@@ -185,8 +185,8 @@ key={i}
 {select?(<InfoWindow position={{lat:select.address.lat,lng:select.address.lng}} 
 onCloseClick={()=>setselect(null)}>
   <div>
-<h4>{select.title}</h4>
-<p>{formatRelative(new Date(select.start),new Date())-formatRelative(new Date(select.end),new Date())}</p>
+<h5>{select.title}</h5>
+<p>{formatRelative(new Date(select.start),new Date())+" - "+formatRelative(new Date(select.end),new Date())}</p>
 <p>{select.address.address}</p>
 
   </div>

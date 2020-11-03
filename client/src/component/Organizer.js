@@ -117,7 +117,7 @@ useEffect(()=>{
 
   return (
    <div onClick={(e)=>{
-        map.show&&!(document.querySelector(".map_container").contains(e.target)||document.querySelector("reach-portal").contains(e.target)||document.querySelectorAll(".address_map").forEach(el=> el.contains(e.target)))&&
+        map.show&&!(document.querySelector(".map_container").contains(e.target)||document.querySelector("reach-portal").contains(e.target)||[...document.getElementsByClassName("address_map")].includes(e.target))&&
         dispatch({
           type:SHOW_MAP,
           payload:false
@@ -262,7 +262,7 @@ useEffect(()=>{
                    <marquee behavior="scroll" direction="left"><b>{el.title}</b></marquee> 
                   </span>
                   <a href="#map" >
-                 <marquee className='address_map' behavior="scroll" direction="left"><p className="red-text" style={{cursor:"pointer"}} onClick={()=>{
+                 <marquee  behavior="scroll" direction="left"><p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
                      dispatch({
                       type:SHOW_MAP,
                       payload:true

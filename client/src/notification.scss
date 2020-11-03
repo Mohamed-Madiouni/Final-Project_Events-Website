@@ -13,8 +13,8 @@
        max-width: 40px;
        text-align: center;
        border-radius: 50%;
-       border: 1px solid rgba(0, 0, 0, 1);
-       background: rgba(0, 0, 0, 0.5);
+      //  border: 1px solid rgba(0, 0, 0, 1);
+      //  background: rgba(0, 0, 0, 0.5);
        font-size: 24px;
        transition: all 0.2s;
        color: white;
@@ -35,7 +35,7 @@
     .num{
        position:absolute;
        top:0px;
-       left:0px;
+       left:4px;
        background:rgb(216, 5, 5);
        border-radius:50%;
        width:18px;
@@ -56,7 +56,7 @@
     width: 350px;
     background: rgb(51, 50, 50);
     border-top: 3px solid rgb(51, 50, 50);
-    border-bottom: 3px solid rgb(51, 50, 50);
+   //  border-bottom: 3px solid rgb(51, 50, 50);
     border-radius: 2px;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
     transition: all 0.2s;
@@ -66,7 +66,7 @@
        content: ' ';
        position: absolute;
        top: -23px;
-       right: -1px;
+       right: 0px;
        width: 34px;
        height: 17px;
        border-right: 20px solid transparent;
@@ -78,7 +78,7 @@
        content: ' ';
        position: absolute;
        top: -23px;
-       right: -1px;
+       right: 0px;
        width: 34px;
        height: 10px;
        border-right: 20px solid transparent;
@@ -90,7 +90,7 @@
     .note {
        padding: 0px 10px;
        height: auto;
-       line-height: 40px;
+       line-height: 32px;
        border-radius: 2px;
        margin-bottom: 2px;
        background-color:rgb(0, 0, 0);

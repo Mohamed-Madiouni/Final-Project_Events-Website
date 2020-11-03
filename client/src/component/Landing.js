@@ -124,10 +124,26 @@ payload:!shownotif
     (filter_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>10)?10:10).map((el,i)=>{
       return(
         <li key={i} className="note"><i className="material-icons">mail</i> {(el.title)}
-    <div style={{ display: "flex"}}><img src={users.find(e=>e._id==el.userId).avatar} alt="" className="circle" width="40px" height="40px" style={{ alignItems:"stretch", marginRight: "4px"}}/>
-     {(el.content)}</div>
-    <div style={{ display: "flex",justifyContent:"center",alignItems:"center"}}>
-      {historyevent(el.created_at)}</div></li>
+    <div style={{ display: "flex",marginTop:2}}>
+      <img src={users.find(e=>e._id==el.userId).avatar} alt="" className="circle" width="37px" height="37px" style={{ marginRight: "8px"}}/>
+     <div style={{display:"flex",flexDirection:"column",alignItems:"flex-start"}}>
+      <div>
+ {(el.content)}
+      </div>
+<div style={{ display: "flex",alignItems:"center"}}>
+<i
+                        className=" tiny material-icons"
+                        style={{marginTop:1}}
+                      >
+                        history
+                      </i>
+         {historyevent(el.created_at)}
+      </div>
+     </div>
+    
+     
+     </div>
+   </li>
       
         )}): <li style={{
            display: "flex",
