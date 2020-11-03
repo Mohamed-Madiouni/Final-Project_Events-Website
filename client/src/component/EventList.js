@@ -497,10 +497,13 @@ const EventList = () => {
             className="modal-close  btn-flat"
             onClick={() => {              
               let title="Event Deleted";
-              let content= "Your event was Delete";
+              let content= "The event " +  allevents.find((elm) => elm._id==deleteid).title +" was deleted by " + auth.user.fname + " "+ auth.user.lname;
               let notiftype="Event_Deleted";
               var state=[]
               state=[...state,{users:Organizerid,consulted:false}]
+              allevents.find((elm) => elm._id ==deleteid).participant.map(el=>{
+                state=[...state,{users:el._id,consulted:false}]
+              })
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))  
               dispatch(deleteEvent(deleteid))}}
           >
@@ -530,7 +533,6 @@ const EventList = () => {
               state=[...state,{users:Organizerid,consulted:false}]
               allusers.filter((elm) => elm.follow.includes(Organizerid)).map(el=>{
               state=[...state,{users:el._id,consulted:false}]
-              
              })
               dispatch(sendNotifications(Organizerid,title,content,auth.user.role, notiftype,state))
               dispatch(validateEvent(validateid))
@@ -555,10 +557,13 @@ const EventList = () => {
             className="modal-close  btn-flat"
             onClick={() =>{
               let title="Event Invalidated";
-              let content= "Your event was invalidated";
+              let content= "The event " + allevents.find((elm) => elm._id==validateid).title + " was invalidated by " + auth.user.fname + " " + auth.user.lname;
               let notiftype="Event_Invalidation";
               var state=[]
               state=[...state,{users:Organizerid,consulted:false}]
+              allevents.find((elm) => elm._id ==validateid).participant.map(el=>{
+                state=[...state,{users:el,consulted:false}]
+              })
               dispatch(invalidateEvent(validateid))
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
             }}
