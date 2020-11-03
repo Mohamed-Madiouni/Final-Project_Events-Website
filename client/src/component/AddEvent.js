@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addEvent, editEvent } from "../actions/evntAction";
 import M from "materialize-css";
-import { ADD_INP, ADD_PLACE, GET_ERRORS, SHOW_MAP } from "../actions/types";
+import { ADD_INP, ADD_PLACE, GET_ERRORS, SHOW_MAP, STATE_MAP } from "../actions/types";
 import "../addevent.css"
 import resize from "../outils/resize";
 import { logoutUser } from "../actions/authaction";
@@ -272,6 +272,10 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
               state:true,
               inp:{...events, tags:(chip_input.current.innerText).replace(/\W/gi,"").split("close").slice(0,(chip_input.current.innerText).replace(/\W/gi,"").toLowerCase().split("close").length-1)},
             }
+          })
+          dispatch({
+            type:STATE_MAP,
+            payload:"add"
           })
           }}
             >

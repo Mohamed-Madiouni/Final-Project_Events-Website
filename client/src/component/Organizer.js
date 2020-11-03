@@ -8,7 +8,7 @@ import AddEvent from "./AddEvent";
 import "../organizer.css";
 import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
-import { ADD_INP, ADD_PLACE, GET_ERRORS, SHOW_MAP } from "../actions/types";
+import { ADD_FOCUS, ADD_INP, ADD_PLACE, GET_ERRORS, SHOW_MAP, STATE_MAP } from "../actions/types";
 import { logoutUser } from "../actions/authaction";
 import calcul_rating from "../outils/calucle_rating";
 import { getUsers } from '../actions/adminaction';
@@ -117,11 +117,20 @@ useEffect(()=>{
 
   return (
    <div onClick={(e)=>{
-        map.show&&!(document.querySelector(".map_container").contains(e.target)||document.querySelector("reach-portal").contains(e.target))&&
+        map.show&&!(document.querySelector(".map_container").contains(e.target)||document.querySelector("reach-portal").contains(e.target)||document.querySelectorAll(".address_map").forEach(el=> el.contains(e.target)))&&
         dispatch({
           type:SHOW_MAP,
           payload:false
+        })&&
+        dispatch({
+          type:STATE_MAP,
+          payload:""
+        })&&
+        dispatch({
+          type:ADD_FOCUS,
+          payload:{}
         })
+        
       }}>
 
       { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
@@ -201,7 +210,7 @@ useEffect(()=>{
      { !map.show?modal && (<div className="container organizer_add row">
         <AddEvent toggle={toggle} action={action} setAction={setAction} /></div>
       ):
-      <div className=" map_container">
+      <div className=" map_container" id="map">
 <MyMap/>
         </div>}
 
@@ -246,13 +255,30 @@ useEffect(()=>{
                     </div>
                 </div>
                 <div
-                  className="card-content  "
+                  className="card-content "
                   style={{ padding: "0px 10px 0px 24px" }}
                 >
                   <span className="card-title  grey-text text-darken-4" style={{height: "fit-content",lineHeight: "normal",marginTop: "2px",marginBottom:2}}>
                    <marquee behavior="scroll" direction="left"><b>{el.title}</b></marquee> 
                   </span>
-                 <marquee behavior="scroll" direction="left"><p className="red-text">{el.address.address}</p></marquee>  
+                  <a href="#map" >
+                 <marquee className='address_map' behavior="scroll" direction="left"><p className="red-text" style={{cursor:"pointer"}} onClick={()=>{
+                     dispatch({
+                      type:SHOW_MAP,
+                      payload:true
+                    })
+                    
+                    dispatch({
+                      type:STATE_MAP,
+                      payload:"show"
+                    })
+                    dispatch({
+                      type:ADD_FOCUS,
+                      payload:el.address
+                    })
+                  
+
+                 }}>{el.address.address}</p></marquee>  </a>
                   <div
                     style={{
                       display: "flex",

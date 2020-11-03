@@ -47,6 +47,7 @@ function MyMap() {
  
   const dispatch=useDispatch()
   const map=useSelector(state=>state.map)
+  const allevents=useSelector(state=>state.events.allEvents)
   // const { isLoaded, loadError } = useLoadScript({
   //   googleMapsApiKey: process.env.REACT_APP_MAPS,
   //   libraries
@@ -94,6 +95,17 @@ setMarkers(map.selected)
 }
 },[map.selected.lat])
 
+useEffect(()=>{
+  if(map.focus.lat&&map.type=="show")
+  {
+    setcenter({
+      lat:map.focus.lat,
+      lng:map.focus.lng
+    })
+  
+  }
+  },[map.focus.lat])
+  
 
 useEffect(() => {
   Geocode.setApiKey(process.env.REACT_APP_MAPS);
@@ -133,12 +145,13 @@ useEffect(()=>{
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
-        zoom={map.selected.lat?16:8}
+        zoom={(map.selected.lat||map.focus.lat)?16:8}
         options={options}
-        onClick={onMapClick}
+        onClick={map.type=="add"&&onMapClick}
         onLoad={onMapLoad}
       >
-       <Marker 
+
+       {map.type=="add" ?<Marker 
        position={markers.lat&&{lat:markers.lat,lng:markers.lng}}
        icon={{
         url: `/logo12.jpg`,
@@ -148,12 +161,33 @@ useEffect(()=>{
       }}
       draggable={true}
       onDragEnd={onMapClick}
-      onClick={()=>setselect(markers)}
+      // onClick={()=>setselect(markers)}
        />
-{select?(<InfoWindow position={{lat:select.lat,lng:select.lng}} onCloseClick={()=>setselect(null)}>
+:      
+allevents.map((el,i)=>
+(<Marker   
+key={i}
+        position={{lat:el.address.lat,lng:el.address.lng}}
+        icon={{
+         url: `/logo12.jpg`,
+         origin: new window.google.maps.Point(0, 0),
+         anchor: new window.google.maps.Point(15, 15),
+         scaledSize: new window.google.maps.Size(30, 30),
+       }}
+       // draggable={true}
+       // onDragEnd={onMapClick}
+       onClick={()=>setselect(el)}
+        />
+       
+       ))}
+       
+        
+{select?(<InfoWindow position={{lat:select.address.lat,lng:select.address.lng}} 
+onCloseClick={()=>setselect(null)}>
   <div>
-<h2>new one</h2>
-<p>lat:{select.lat}</p>
+<h4>{select.title}</h4>
+<p>{formatRelative(new Date(select.start),new Date())-formatRelative(new Date(select.end),new Date())}</p>
+<p>{select.address.address}</p>
 
   </div>
 </InfoWindow>):null}
@@ -207,7 +241,6 @@ try{
 const result = await getGeocode({address})
 const {lat,lng}= await getLatLng(result[0])
 panTo({lat,lng})
-console.log(lat,lng)
 }catch(err){
   console.log(err)
 }
@@ -222,8 +255,8 @@ console.log(lat,lng)
         <ComboboxPopover>
           <ComboboxList>
             {status === "OK" &&
-              data.map(({ id, description }) => (
-                <ComboboxOption key={id} value={description} />
+              data.map(({description},i) => (
+                <ComboboxOption key={i} value={description} />
               ))}
           </ComboboxList>
         </ComboboxPopover>
