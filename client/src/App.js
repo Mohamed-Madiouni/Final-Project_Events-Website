@@ -15,7 +15,7 @@ import Searchresult from "./component/Searchresult";
 import Events from "./component/Events";
 import Calendar from "./component/Calendar"
 import { getCurrentUser } from "./actions/authaction";
-import { INI_RESIZE, SET_RESIZE } from "./actions/types";
+import { INI_RESIZE, SET_RESIZE, SHOW_NOTIF } from "./actions/types";
 import M from "materialize-css";
 
 // import AddEvent from "./component/AddEvent";
@@ -33,6 +33,7 @@ function App() {
   const auth =useSelector(state=>state.auth)
   const dispatch = useDispatch()
   const resize =useSelector(state=>state.resize)
+  const shownotif=useSelector(state=>state.notification.show)
   const location = useLocation()
   const [homeNav,setHomeNav]=useState(false)
  
@@ -82,7 +83,13 @@ useEffect(()=>{
   
 
   return (
-    <div className="App">
+    <div className="App"  
+     onClick={(e)=>{
+        shownotif&&!document.querySelector(".notifications").contains(e.target)&&dispatch({
+          type:SHOW_NOTIF,
+          payload:!shownotif
+        })
+      }}>
       
       {search.etat ? (
         <Searchevents />

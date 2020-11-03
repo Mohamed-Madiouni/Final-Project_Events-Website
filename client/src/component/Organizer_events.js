@@ -440,24 +440,14 @@ useEffect(()=>{
               className="modal-close btn-flat"
               onClick={()=>{
                 dispatch(deleteEvent(deleteid))
-
                 let title="Event Deleted";
-                let content= "The organizer " +{}+"deleted the event " + {};
+                let content=  "The organizer " + auth.user.fname+ " " + auth.user.fname +" deleted the event " +  allevents.find((elm) => elm._id==deleteid).title;
                 let notiftype="Event_Deleted";
                 var state=[]
-                
-  
-                 //console.log((allusers.find((elm) => elm._id == (allusers.find(el=>el.follow==Organizerid)._id))))
-               // state=[...state,{users:(allusers.find((elm) => elm._id == (allusers.find(el=>el.follow==Organizerid)._id))),consulted:false}]
-               //console.log( (allusers.find(el=>el._id==allevents.find(el=>el._id==el.follow==Organizerid)))._id)
-  
-               
-  
-               // state=[...state,{users:Organizerid,consulted:false}]
-                      
-               // dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
-  
-              
+                allevents.find((elm) => elm._id ==deleteid).participant.map(el=>{
+                  state=[...state,{users:el,consulted:false}]
+                })
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
               }}
             >
               Agree
@@ -481,28 +471,15 @@ useEffect(()=>{
               className="modal-close btn-flat"
               onClick={()=>{
                 dispatch(closeEvent(closedid))
-              
-              
-              
                 let title="Event Closed";
-                let content= "The organizer " +{}+"Closed the event " + {};
+                let content= "The organizer " + auth.user.fname+ " " + auth.user.fname +" closed the event " +  allevents.find((elm) => elm._id==closedid).title;
                 let notiftype="Event_Closed";
                 var state=[]
-                
-  
-                 //console.log((allusers.find((elm) => elm._id == (allusers.find(el=>el.follow==Organizerid)._id))))
-               // state=[...state,{users:(allusers.find((elm) => elm._id == (allusers.find(el=>el.follow==Organizerid)._id))),consulted:false}]
-              // console.log( (allusers.find(el=>el._id==allevents.find(el=>el._id==el.follow==Organizerid)))._id)
-  
-               
-  
-               // state=[...state,{users:Organizerid,consulted:false}]
-                      
-               // dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
-  
-              
-              
-              }}
+                allevents.find((elm) => elm._id ==closedid).participant.map(el=>{
+                  state=[...state,{users:el,consulted:false}]
+                })
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+                }}
             >
               Agree
             </a>
@@ -523,7 +500,17 @@ useEffect(()=>{
             <a
               href="#!"
               className="modal-close btn-flat"
-              onClick={()=>dispatch(openEvent(closedid))}
+              onClick={()=>{
+                dispatch(openEvent(closedid))
+                let title="Event Opened";
+                let content=  "The organizer " + auth.user.fname+ " " + auth.user.fname +" reopened the event " +  allevents.find((elm) => elm._id==closedid).title;
+                let notiftype="Event_Opened";
+                var state=[]
+                allevents.find((elm) => elm._id ==closedid).participant.map(el=>{
+                  state=[...state,{users:el,consulted:false}]
+                })
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              }}
             >
               Agree
             </a>

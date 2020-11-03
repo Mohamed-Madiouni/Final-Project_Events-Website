@@ -13,6 +13,8 @@ import { logoutUser } from "../actions/authaction";
 import calcul_rating from "../outils/calucle_rating";
 import { getUsers } from '../actions/adminaction';
 import MyMap from "./Maps";
+import {sendNotifications} from "../actions/notificationaction";
+
 
 
 function Organizer() {
@@ -401,7 +403,17 @@ useEffect(()=>{
             <a
               href="#!"
               className="modal-close  btn-flat"
-              onClick={()=>dispatch(deleteEvent(deleteid))}
+              onClick={()=>{
+                dispatch(deleteEvent(deleteid))
+                let title="Event Deleted";
+                let content=  "The organizer " + auth.user.fname+ " " + auth.user.fname +" deleted the event " +  allevents.find((elm) => elm._id==deleteid).title;
+                let notiftype="Event_Deleted";
+                var state=[]
+                allevents.find((elm) => elm._id ==deleteid).participant.map(el=>{
+                  state=[...state,{users:el,consulted:false}]
+                })
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              }}
             >
               Agree
             </a>
@@ -422,7 +434,16 @@ useEffect(()=>{
             <a
               href="#!"
               className="modal-close  btn-flat"
-              onClick={()=>dispatch(closeEvent(closedid))}
+              onClick={()=>{dispatch(closeEvent(closedid))
+                let title="Event Closed";
+                let content= "The organizer " + auth.user.fname+ " " + auth.user.fname +" closed the event " +  allevents.find((elm) => elm._id==closedid).title;
+                let notiftype="Event_Closed";
+                var state=[]
+                allevents.find((elm) => elm._id ==closedid).participant.map(el=>{
+                  state=[...state,{users:el,consulted:false}]
+                })
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))              
+              }}
             >
               Agree
             </a>
@@ -443,7 +464,17 @@ useEffect(()=>{
             <a
               href="#!"
               className="modal-close  btn-flat"
-              onClick={()=>dispatch(openEvent(closedid))}
+              onClick={()=>{
+                dispatch(openEvent(closedid))
+                let title="Event Opened";
+                let content=  "The organizer " + auth.user.fname+ " " + auth.user.fname +" reopened the event " +  allevents.find((elm) => elm._id==closedid).title;
+                let notiftype="Event_Opened";
+                var state=[]
+                allevents.find((elm) => elm._id ==closedid).participant.map(el=>{
+                  state=[...state,{users:el,consulted:false}]
+                })
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              }}
             >
               Agree
             </a>

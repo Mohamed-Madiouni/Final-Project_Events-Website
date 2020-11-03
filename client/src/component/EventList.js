@@ -497,10 +497,13 @@ const EventList = () => {
             className="modal-close  btn-flat"
             onClick={() => {              
               let title="Event Deleted";
-              let content= "Your event was Delete";
+              let content= "The event " +  allevents.find((elm) => elm._id==deleteid).title +" was deleted by " + auth.user.fname + " "+ auth.user.lname;
               let notiftype="Event_Deleted";
               var state=[]
               state=[...state,{users:Organizerid,consulted:false}]
+              allevents.find((elm) => elm._id ==deleteid).participant.map(el=>{
+                state=[...state,{users:el._id,consulted:false}]
+              })
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))  
               dispatch(deleteEvent(deleteid))}}
           >
@@ -523,13 +526,15 @@ const EventList = () => {
             className="modal-close btn-flat"
             onClick={() => {
               
-              let title="Event Validation";
-              let content= "Your event was validated";
+              let title="New Event";
+              let content= `A new event was Added by ${allusers.find(el=>el._id==Organizerid).fname} ${allusers.find(el=>el._id==Organizerid).lname}` ;
               let notiftype="Event_Validation";
               var state=[]
               state=[...state,{users:Organizerid,consulted:false}]
-              
-              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              allusers.filter((elm) => elm.follow.includes(Organizerid)).map(el=>{
+              state=[...state,{users:el._id,consulted:false}]
+             })
+              dispatch(sendNotifications(Organizerid,title,content,auth.user.role, notiftype,state))
               dispatch(validateEvent(validateid))
             }}
           >
@@ -551,21 +556,14 @@ const EventList = () => {
             href="#!"
             className="modal-close  btn-flat"
             onClick={() =>{
-              
               let title="Event Invalidated";
-              let content= "Your event was invalidated";
+              let content= "The event " + allevents.find((elm) => elm._id==validateid).title + " was invalidated by " + auth.user.fname + " " + auth.user.lname;
               let notiftype="Event_Invalidation";
               var state=[]
-              
-
-               //console.log((allusers.find((elm) => elm._id == (allusers.find(el=>el.follow==Organizerid)._id))))
-             // state=[...state,{users:(allusers.find((elm) => elm._id == (allusers.find(el=>el.follow==Organizerid)._id))),consulted:false}]
-             console.log( (allusers.find(el=>el._id==allevents.find(el=>el._id==el.follow==Organizerid)))._id)
-
-             
-
               state=[...state,{users:Organizerid,consulted:false}]
-                    
+              allevents.find((elm) => elm._id ==validateid).participant.map(el=>{
+                state=[...state,{users:el,consulted:false}]
+              })
               dispatch(invalidateEvent(validateid))
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
             }}
