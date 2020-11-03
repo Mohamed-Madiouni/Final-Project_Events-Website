@@ -556,6 +556,14 @@ const EventList = () => {
               let content= "Your event was invalidated";
               let notiftype="Event_Invalidation";
               var state=[]
+              
+
+               //console.log((allusers.find((elm) => elm._id == (allusers.find(el=>el.follow==Organizerid)._id))))
+             // state=[...state,{users:(allusers.find((elm) => elm._id == (allusers.find(el=>el.follow==Organizerid)._id))),consulted:false}]
+             console.log( (allusers.find(el=>el._id==allevents.find(el=>el._id==el.follow==Organizerid)))._id)
+
+             
+
               state=[...state,{users:Organizerid,consulted:false}]
                     
               dispatch(invalidateEvent(validateid))

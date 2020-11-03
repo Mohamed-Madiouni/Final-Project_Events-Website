@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import eventClosing from "../outils/eventClosing";
 import Navbar from "./Navbar";
 import "../organizer_event.css";
-
+import {sendNotifications} from "../actions/notificationaction";
 import Search from './Search'
 
 import { logoutUser } from "../actions/authaction";
@@ -438,7 +438,27 @@ useEffect(()=>{
             <a
               href="#!"
               className="modal-close btn-flat"
-              onClick={()=>dispatch(deleteEvent(deleteid))}
+              onClick={()=>{
+                dispatch(deleteEvent(deleteid))
+
+                let title="Event Deleted";
+                let content= "The organizer " +{}+"deleted the event " + {};
+                let notiftype="Event_Deleted";
+                var state=[]
+                
+  
+                 //console.log((allusers.find((elm) => elm._id == (allusers.find(el=>el.follow==Organizerid)._id))))
+               // state=[...state,{users:(allusers.find((elm) => elm._id == (allusers.find(el=>el.follow==Organizerid)._id))),consulted:false}]
+               //console.log( (allusers.find(el=>el._id==allevents.find(el=>el._id==el.follow==Organizerid)))._id)
+  
+               
+  
+               // state=[...state,{users:Organizerid,consulted:false}]
+                      
+               // dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+  
+              
+              }}
             >
               Agree
             </a>
@@ -459,7 +479,30 @@ useEffect(()=>{
             <a
               href="#!"
               className="modal-close btn-flat"
-              onClick={()=>dispatch(closeEvent(closedid))}
+              onClick={()=>{
+                dispatch(closeEvent(closedid))
+              
+              
+              
+                let title="Event Closed";
+                let content= "The organizer " +{}+"Closed the event " + {};
+                let notiftype="Event_Closed";
+                var state=[]
+                
+  
+                 //console.log((allusers.find((elm) => elm._id == (allusers.find(el=>el.follow==Organizerid)._id))))
+               // state=[...state,{users:(allusers.find((elm) => elm._id == (allusers.find(el=>el.follow==Organizerid)._id))),consulted:false}]
+              // console.log( (allusers.find(el=>el._id==allevents.find(el=>el._id==el.follow==Organizerid)))._id)
+  
+               
+  
+               // state=[...state,{users:Organizerid,consulted:false}]
+                      
+               // dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+  
+              
+              
+              }}
             >
               Agree
             </a>
