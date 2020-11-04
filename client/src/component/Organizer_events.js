@@ -7,18 +7,17 @@ import { getCurrentUser } from "../actions/authaction";
 import AddEvent from "./AddEvent";
  import "../organizer.css";
 import M from "materialize-css";
-import { GET_ERRORS } from "../actions/types";
+import {ADD_FOCUS, ADD_INP, ADD_PLACE, GET_ERRORS, SHOW_MAP, STATE_MAP} from "../actions/types";
 import { Link } from "react-router-dom";
 import eventClosing from "../outils/eventClosing";
 import Navbar from "./Navbar";
 import "../organizer_event.css";
-
+import {sendNotifications} from "../actions/notificationaction";
 import Search from './Search'
-
 import { logoutUser } from "../actions/authaction";
 import calcul_rating from "../outils/calucle_rating";
-
-
+import MyMap from "./Maps";
+import { formatRelative } from "date-fns";
 
 function Organizer_events({ history }) {
   const auth = useSelector((state) => state.auth);
@@ -27,6 +26,7 @@ function Organizer_events({ history }) {
   const allevents= useSelector((state)=>state.events.allEvents)
   const errors=useSelector(state=>state.errors)
   const allparticipant=useSelector(state=>state.participant)
+  const map = useSelector(state=>state.map)
   const [modal, setModal] = useState(false);
   const [modalId, setModalId] = useState("");
   const [action, setAction] = useState({ type: "add", payload: {} });
@@ -45,6 +45,17 @@ function Organizer_events({ history }) {
 });
   const toggle = () =>{ 
     setModal(!modal)
+    dispatch({
+      type:ADD_PLACE,
+      payload:{}
+    })
+    dispatch({
+      type:ADD_INP,
+      payload:{
+        state:false,
+        inp:{}
+      }
+    })
   return modal};
   const participantToggle= () => {
     setParticipant(!participant);
@@ -69,7 +80,7 @@ function Organizer_events({ history }) {
   useEffect(() => {
     if (!localStorage.token) history.push("/");
      
-    M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false});
+    M.Slider.init(document.querySelectorAll(".slider"), { height: 60,indicators:false});
     M.updateTextFields()
     
     // return ()=>{setModal(false)}
@@ -136,59 +147,72 @@ useEffect(()=>{
    })
 
 
-
+   const onChange = (e) => {
+    setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value })};
   
   return (
-      <>
+      <div onClick={(e)=>{
+        map.show&&!(document.querySelector(".map_container").contains(e.target)||document.querySelector("reach-portal").contains(e.target)||[...document.getElementsByClassName("address_map")].includes(e.target))&&
+        dispatch({
+          type:SHOW_MAP,
+          payload:false
+        })&&
+        dispatch({
+          type:STATE_MAP,
+          payload:""
+        })&&
+        dispatch({
+          type:ADD_FOCUS,
+          payload:{}
+        })
+        
+      }}>
       <Navbar/>
 
-      <Search
+      {/* <Search
         quickSearch={quickSearch}
         setQuickSearch={setQuickSearch}
-        />
+        /> */}
       
 
 
-{/* //       <div className='row container' ><h5><b>Quick search</b></h5></div>
 
-// <div className="row container" style={{marginTop:"20px",fontSize:15,fontWeight:800}} >
-//   <form >
-//   <div className="input-field col s4 m5">
-// <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
-// <label forhtml="title">Event title</label>
-// </div>
-// <div className="input-field col s4 m3">
-// <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none"}}>
-// <option value="">State</option>
-// <option value="Available" className="green-text">Available</option>
-// <option value="Closed" className="gray-text">Closed</option>
-// <option value="Ended" className="gray-text">Ended</option>
-// <option value="Invalid" className="gray-text">Invalid</option>
-// </select>
-// <label className="active">Event state</label>
-// </div>
-// <div className="input-field col s4 m4">
-// <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
-// <label forhtml="title">Event tags</label>
-// </div>
-//   </form>
-// </div> */}
+ <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >
+     <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
+       <div className="col s12 l4" style={{fontStyle: "italic",fontSize:17,marginBottom:10}}>
+   <p>Select an event state or choose title or tag to discover best events for you.</p>
+   </div>
+   <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
 
-    {/* <div className="col s12">
-        <Link
-              to="/dashboard"
-              className="btn-flat waves-effect"
-              onClick={() =>
-                dispatch({
-                  type: GET_ERRORS,
-                  payload: {},
-                })
-              }
-            >
-              <i className="material-icons left">keyboard_backspace</i> Back to
-              dashboard
-            </Link>
-            </div> */}
+   
+   <form >
+   <div className="input-field col s4 m5">
+ <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
+ <label forhtml="title">Event title</label>
+ </div>
+ <div className="input-field col s4 m3">
+ <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none",background:"transparent",border:"1px solid #9e9e9e"}}>
+ <option value="">State</option>
+ <option value="Available" className="green-text">Available</option>
+ <option value="Closed" className="gray-text">Closed</option>
+  <option value="Ended" className="gray-text">Ended</option>
+ <option value="Invalid" className="gray-text">Invalid</option>
+ </select>
+ <label className="active">Event state</label>
+ </div>
+ <div className="input-field col s4 m4">
+ <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
+ <label forhtml="title">Event tags</label>
+ </div>
+   </form>
+   </div>
+ </div>
+
+
+{ map.show&&<div className=" map_container" id="map">
+<MyMap/>
+        </div>}
+
            { (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&eventsorganizer.length!=0&&
             
             <div className="row" style={{marginLeft:10}} > <h5> <b>{eventsorganizer.length+" result(s) found"}</b> </h5></div>}
@@ -225,10 +249,50 @@ useEffect(()=>{
                     className="card-content"
                     style={{ padding: "0px 10px 0px 24px" }}
                   >
-                    <span className="card-title  grey-text text-darken-4">
-                      <b>{el.title}</b>
+                    <span className="card-title  grey-text text-darken-4" style={{height: "fit-content",lineHeight: "normal",marginTop: "2px",marginBottom:2}}>
+                    {el.title.length<=12? <b>{el.title}</b>:<marquee scrolldelay={140} behavior="scroll" direction="left"><b>{el.title}</b></marquee> }
                     </span>
-                    <p className="red-text">{el.address}</p>
+                    {el.address.address.length<=20?
+                  <a href="#map" >
+                  {/* <marquee  behavior="scroll" direction="left" scrolldelay={200}> */}
+                    <p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
+                      dispatch({
+                       type:SHOW_MAP,
+                       payload:true
+                     })
+                     
+                     dispatch({
+                       type:STATE_MAP,
+                       payload:"show"
+                     })
+                     dispatch({
+                       type:ADD_FOCUS,
+                       payload:el.address
+                     })
+                   
+ 
+                  }}>{el.address.address}</p>
+                  {/* </marquee>  */}
+                   </a>
+                  
+                  :<a href="#map" >
+                 <marquee  behavior="scroll" direction="left" scrolldelay={140}><p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
+                     dispatch({
+                      type:SHOW_MAP,
+                      payload:true
+                    })
+                    
+                    dispatch({
+                      type:STATE_MAP,
+                      payload:"show"
+                    })
+                    dispatch({
+                      type:ADD_FOCUS,
+                      payload:el.address
+                    })
+                  
+
+                 }}>{el.address.address}</p></marquee>  </a>}
                     <div
                       style={{
                         display: "flex",
@@ -284,8 +348,8 @@ useEffect(()=>{
                       justifyContent: "space-between",
                     }}
                   >
-                    <Link
-                    to='#!'
+                    <a
+                    href='#style-3'
                       onClick={()=>{
                         if(participant&&btnpart!=el._id){
                         
@@ -304,7 +368,7 @@ useEffect(()=>{
                     >
                       Show participants
                       <i className="tiny material-icons " style={{color:"#006064"}}>arrow_forward</i>
-                    </Link>
+                    </a>
                     <span
                       className={
                         el.state == "Available"
@@ -316,19 +380,23 @@ useEffect(()=>{
                       {el.state}
                     </span>
                   </div>
-                  <div className="card-reveal">
+                  <div className="card-reveal" style={{paddingRight:55,overflowWrap:"anywhere"}}>
                     <span className="card-title grey-text text-darken-4">
                       <b>{el.title}</b>
-                      <i className="material-icons right">close</i>
+                      <i className="material-icons " style={{position:"absolute",right:10,top:10}}>close</i>
                     </span>
-                    <p>{el.description}</p>
+                    <p style={{fontSize:13,color:"rgb(0, 96, 100)"}}>{formatRelative(new Date(el.start),new Date())+" - "+formatRelative(new Date(el.end),new Date())}</p>
+                    <p style={{lineHeight:"normal"}}>{el.description}</p>
                     <div
-                      className="right"
+                     
                       style={{
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "space-between",
+                        position:"absolute",
+                        right:5,
+                        top:65
                       }}
                     >
                       {" "}
@@ -353,7 +421,7 @@ useEffect(()=>{
                         }}
                         title={el._id}
                         id={el._id}
-                        href="#!"
+                        href="#style-3"
                       >
                         <i className="material-icons ">edit</i>
                       </a>}
@@ -365,7 +433,7 @@ useEffect(()=>{
                       >
                         <i className="material-icons ">delete</i>{" "}
                       </button>
-                      {el.state=="Available"||el.state=="Full"&&(
+                      {(el.state=="Available"||el.state=="Full")&&(
                     <button className="btn-floating  cyan darken-3 modal-trigger" title="close"   data-target="modal2" onClick={
                       ()=>{setClosedid(el._id);}
                     }>
@@ -394,8 +462,8 @@ useEffect(()=>{
                   </div>
                 </div>
               </div>
-              {modal && modalId==el._id&&<div className="col s12 m6" style={{overflowY:"scroll",height:"360px",backgroundColor:"white"}}><AddEvent toggle={toggle} action={action} setAction={setAction} /></div>}
-              {participant&&participantId==el._id&&<div className="col s12 m6" style={{overflowY:"auto",height:"360px"}}>
+              {modal && modalId==el._id&&<div className="col s12 m6 groupofnotes scrollbar" id="style-3" style={{overflowY:"scroll",height:"360px",backgroundColor:"white"}}><AddEvent toggle={toggle} action={action} setAction={setAction} /></div>}
+              {participant&&participantId==el._id&&<div className="col s12 m6 groupofnotes scrollbar" id="style-3" style={{overflowY:"auto",height:"360px"}}>
               {el.participant.length!=0?<ul className="collection org">
     
     {el.participant.map((el,i)=>
@@ -435,7 +503,17 @@ useEffect(()=>{
             <a
               href="#!"
               className="modal-close btn-flat"
-              onClick={()=>dispatch(deleteEvent(deleteid))}
+              onClick={()=>{
+                dispatch(deleteEvent(deleteid))
+                let title="Event Deleted";
+                let content=  "The organizer " + auth.user.fname+ " " + auth.user.fname +" deleted the event " +  allevents.find((elm) => elm._id==deleteid).title;
+                let notiftype="Event_Deleted";
+                var state=[]
+                allevents.find((elm) => elm._id ==deleteid).participant.map(el=>{
+                  state=[...state,{users:el,consulted:false}]
+                })
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              }}
             >
               Agree
             </a>
@@ -456,7 +534,17 @@ useEffect(()=>{
             <a
               href="#!"
               className="modal-close btn-flat"
-              onClick={()=>dispatch(closeEvent(closedid))}
+              onClick={()=>{
+                dispatch(closeEvent(closedid))
+                let title="Event Closed";
+                let content= "The organizer " + auth.user.fname+ " " + auth.user.fname +" closed the event " +  allevents.find((elm) => elm._id==closedid).title;
+                let notiftype="Event_Closed";
+                var state=[]
+                allevents.find((elm) => elm._id ==closedid).participant.map(el=>{
+                  state=[...state,{users:el,consulted:false}]
+                })
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+                }}
             >
               Agree
             </a>
@@ -477,7 +565,17 @@ useEffect(()=>{
             <a
               href="#!"
               className="modal-close btn-flat"
-              onClick={()=>dispatch(openEvent(closedid))}
+              onClick={()=>{
+                dispatch(openEvent(closedid))
+                let title="Event Opened";
+                let content=  "The organizer " + auth.user.fname+ " " + auth.user.fname +" reopened the event " +  allevents.find((elm) => elm._id==closedid).title;
+                let notiftype="Event_Opened";
+                var state=[]
+                allevents.find((elm) => elm._id ==closedid).participant.map(el=>{
+                  state=[...state,{users:el,consulted:false}]
+                })
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              }}
             >
               Agree
             </a>
@@ -489,7 +587,7 @@ useEffect(()=>{
             </a>
           </div>
         </div>
-    </>
+    </div>
   );
 }
 

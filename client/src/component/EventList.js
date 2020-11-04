@@ -13,6 +13,7 @@ import historyevent from "../outils/history";
 import "../events.css";
 import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
+import {sendNotifications} from "../actions/notificationaction";
 import { endEvent, fullEvent, openEvent } from "../actions/evntAction";
 
 const EventList = () => {
@@ -23,6 +24,7 @@ const EventList = () => {
   const history = useHistory();
   const [deleteid, setDeleteid] = useState("");
   const [validateid, setValidateid] = useState("");
+  const [Organizerid, setOrganizerid] = useState("");
   const [countevent, setCountevent] = useState(0);
   const [quickSearch, setQuickSearch] = useState({
     title: "",
@@ -83,7 +85,7 @@ const EventList = () => {
     return (
       el.title.toLowerCase().includes(quickSearch.title.toLowerCase()) &&
       el.state.toLowerCase().includes(quickSearch.state.toLowerCase()) &&
-      el.address.toLowerCase().includes(quickSearch.address.toLowerCase()) &&
+      el.address.address.toLowerCase().includes(quickSearch.address.toLowerCase()) &&
       el.description
         .toLowerCase()
         .includes(quickSearch.description.toLowerCase()) &&
@@ -269,7 +271,7 @@ const EventList = () => {
                       <span className="card-title  grey-text text-darken-4">
                         <b>{el.title}</b>
                       </span>
-                      <p className="red-text">{el.address}</p>
+                      <p className="red-text">{el.address.address}</p>
                       <div
                         style={{
                           display: "flex",
@@ -281,7 +283,7 @@ const EventList = () => {
                       >
                         <span
                           style={{
-                            margin: 10,
+                            margin: 7,
                             marginLeft: 0,
                             marginRight: 0,
                             display: "flex",
@@ -325,7 +327,11 @@ const EventList = () => {
                         >
                           <ul className="slides">
                             {el.tags.map((el, i) => (
-                              <li key={i}>
+                              <li key={i}  style={{
+                                justifyContent:"center",
+                                alignItems: "center",
+                                display: "flex",
+                              }}>
                                 {" "}
                                 <p className="chip">{el}</p>{" "}
                               </li>
@@ -336,7 +342,7 @@ const EventList = () => {
                       <div
                         style={{
                           display: "flex",
-                          justifyContent: "space-around",
+                          justifyContent: "center",
                         }}
                       >
                         <span
@@ -372,7 +378,9 @@ const EventList = () => {
                         type="button"
                         className="btn btn-medium modal-trigger"
                         data-target="modal1"
-                        onClick={() => setDeleteid(el._id)}
+                        onClick={() =>{
+                          setDeleteid(el._id)
+                          setOrganizerid(el.id_organizer)}}
                         disabled={auth.user.role!="administrator"}
                       >
                         Delete
@@ -390,7 +398,9 @@ const EventList = () => {
                           type="button"
                           className="btn btn-medium modal-trigger"
                           data-target="modal2"
-                          onClick={() => setValidateid(el._id)}
+                          onClick={() => {
+                            setOrganizerid(el.id_organizer)
+                            setValidateid(el._id)}}
                         >
                           Valid
                         </button>
@@ -406,7 +416,9 @@ const EventList = () => {
                           type="button"
                           className="btn btn-medium modal-trigger"
                           data-target="modal3"
-                          onClick={() => setValidateid(el._id)}
+                          onClick={() => {
+                            setOrganizerid(el.id_organizer)
+                            setValidateid(el._id)}}
                         >
                           Invalid
                         </button>
@@ -483,7 +495,17 @@ const EventList = () => {
           <a
             href="#!"
             className="modal-close  btn-flat"
-            onClick={() => dispatch(deleteEvent(deleteid))}
+            onClick={() => {              
+              let title="Event Deleted";
+              let content= "The event " +  allevents.find((elm) => elm._id==deleteid).title +" was deleted by " + auth.user.fname + " "+ auth.user.lname;
+              let notiftype="Event_Deleted";
+              var state=[]
+              state=[...state,{users:Organizerid,consulted:false}]
+              allevents.find((elm) => elm._id ==deleteid).participant.map(el=>{
+                state=[...state,{users:el._id,consulted:false}]
+              })
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))  
+              dispatch(deleteEvent(deleteid))}}
           >
             Agree
           </a>
@@ -502,7 +524,19 @@ const EventList = () => {
           <a
             href="#!"
             className="modal-close btn-flat"
-            onClick={() => dispatch(validateEvent(validateid))}
+            onClick={() => {
+              
+              let title="New Event";
+              let content= `A new event was Added by ${allusers.find(el=>el._id==Organizerid).fname} ${allusers.find(el=>el._id==Organizerid).lname}` ;
+              let notiftype="Event_Validation";
+              var state=[]
+              state=[...state,{users:Organizerid,consulted:false}]
+              allusers.filter((elm) => elm.follow.includes(Organizerid)).map(el=>{
+              state=[...state,{users:el._id,consulted:false}]
+             })
+              dispatch(sendNotifications(Organizerid,title,content,auth.user.role, notiftype,state))
+              dispatch(validateEvent(validateid))
+            }}
           >
             Agree
           </a>
@@ -521,7 +555,18 @@ const EventList = () => {
           <a
             href="#!"
             className="modal-close  btn-flat"
-            onClick={() => dispatch(invalidateEvent(validateid))}
+            onClick={() =>{
+              let title="Event Invalidated";
+              let content= "The event " + allevents.find((elm) => elm._id==validateid).title + " was invalidated by " + auth.user.fname + " " + auth.user.lname;
+              let notiftype="Event_Invalidation";
+              var state=[]
+              state=[...state,{users:Organizerid,consulted:false}]
+              allevents.find((elm) => elm._id ==validateid).participant.map(el=>{
+                state=[...state,{users:el,consulted:false}]
+              })
+              dispatch(invalidateEvent(validateid))
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+            }}
           >
             Agree
           </a>

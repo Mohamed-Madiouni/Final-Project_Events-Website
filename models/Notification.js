@@ -25,10 +25,7 @@ const NotifSchema = new schema({
     type: String,
   },
  
-state:[{
-user: String,   
-consulted: Date
-  }],
+state:[],
 
 
 });

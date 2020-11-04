@@ -4,7 +4,7 @@ const Search = ({setQuickSearch,quickSearch}) => {
     const onChange = (e) => {
         setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value })};
     return (
-        <div>
+        <div >
             <div class="thb-agency-listing-explore cf">
     <div class="wrap">
       <div class="vc_row wpb_row vc_row-fluid">

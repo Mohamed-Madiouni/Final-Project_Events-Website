@@ -9,7 +9,7 @@ import { addfollow, getCurrentUser, removefollow } from '../actions/authaction';
 import {makeComment, fullEvent, openEvent, addrating, } from "../actions/evntAction";
 import {getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply, likecomment,dislikecomment, removelikecomment, removedislikecomment, likereply, removelikereply,dislikereply, removedislikereply} from "../actions/comntaction"
 import {followEvent, getEvent, unfollowEvent,endEvent, closeEvent} from "../actions/evntAction";
-
+import {sendNotifications} from "../actions/notificationaction";
 import get_month from "../outils/get_month"
 import historyevent from "../outils/history"
 import Navbar from './Navbar';
@@ -197,18 +197,46 @@ useEffect(()=>{
 
      const onsubmit=(e)=>{
           e.preventDefault()
+          let title= "New Comment";
+          let content= auth.user.fname +" "+ auth.user.lname + " commented on your event " + (allevents.find(el=>el._id==match.params.event_id).title);
+          let notiftype="New_Comment";
+          var state=[]
+          state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
           dispatch(addComment(comnt,match.params.event_id,auth.user._id))
-          
-      }
+          state[0].users!=auth.user._id &&
+          dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+          }
 
       const onedit=(e)=>{
         e.preventDefault()
+        let title= "Comment Edition";
+        let content= auth.user.fname +" "+ auth.user.lname + " edit a comment on your event " + (allevents.find(el=>el._id==match.params.event_id).title);
+        let notiftype="Comment_Edition";
+        var state=[]
+        state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
         dispatch(editComment(edit,textedit))
-        
+        state[0].users!=auth.user._id &&
+        dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
     }
     const onreply=(e)=>{
       e.preventDefault()
+      let title= "Comment Reply";
+      let content= auth.user.fname +" "+ auth.user.lname + " replied to a comment on your event " + (allevents.find(el=>el._id==match.params.event_id).title);
+      let notiftype="Comment_Reply_organizer";
+      let state=[]
+      state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
       dispatch(addreply(reply,replyid,auth.user._id,uuidv4()))
+      state[0].users!=auth.user._id &&
+      dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+      
+
+      let title2= "Comment Reply";
+      let content2= auth.user.fname +" "+ auth.user.lname + " replied to your comment on the event " + (allevents.find(el=>el._id==match.params.event_id).title);
+      let notiftype2="Comment_Reply_User";
+      let state2=[]
+      state2=[...state2,{users:(comments.comments.find(el=>el._id==replyid)).postedBy,consulted:false}]
+      state[0].users!=state2[0].users &&
+      dispatch(sendNotifications(auth.user._id,title2,content2,auth.user.role, notiftype2,state2))
       
   }
 
@@ -245,8 +273,10 @@ useEffect(()=>{
                       </div>
                     </div>
            <span className="title"><b>{allevents.find(el=>el._id==match.params.event_id).title}</b></span>
-           <div style={{display:"flex",alignItems:"center",marginTop:0}}>
+           <div style={{display:"flex",alignItems:"center",marginTop:0,justifyContent:"space-between"}}>
              <p style={{ marginRigth: 7}}>{date_youtube(allevents.find(el=>el._id==match.params.event_id).created_at)}</p>
+             
+             <div>
              <div style={{ display:auth.isAuthenticated &&auth.user.events.includes(allevents.find(el=>el._id==match.params.event_id)._id)&&allevents.find(el=>el._id==match.params.event_id).state=="Ended"?"flex":"none",alignItems:"center"}} className='rate' onClick={()=>{
             if(done)
              document.querySelector(".rating").style.display="initial"
@@ -296,14 +326,16 @@ history.push("/login")
           starColor="#2e8fa5"
         />}
              </div>
-             <div style={{display:"flex",alignItems:"center",style:15}}>
+             <div style={{display:"flex",alignItems:"center",fontSize:15,position:"relative"}}>
      <i className="material-icons" style={{color:"rgb(255, 180, 0)",fontSize:35}}>star</i>
      <div style={{display:"flex",flexDirection:"column",}}>
      <p><span style={{fontWeight:"bold",fontSize:20}}>{calcul_rating(allevents.find(el=>el._id==match.params.event_id).rating)}</span>/10</p>
-      <p> <span style={{fontWeight:"bold",fontSize:18}}>{nbr_comments(allevents.find(el=>el._id==match.params.event_id).rating.length)}</span><i className=" tiny material-icons" style={{fontSize:"20px", position:"absolute", top:"559px"}}>person</i></p>
+      <p> <span style={{fontWeight:"bold",fontSize:18}}>{nbr_comments(allevents.find(el=>el._id==match.params.event_id).rating.length)}</span><i className=" tiny material-icons" style={{fontSize:"19px", position:"absolute", top:"33px"}}>person</i></p>
        
     </div> 
     </div>
+    </div>
+
     </div>
            </div> 
     <div>
@@ -313,19 +345,31 @@ history.push("/login")
         <div><img src={users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).avatar} alt="" className="circle" style={{width:43,height:43}}/>
        <p><b>{users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).fname+" "+users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).lname}</b></p> 
       </div> 
-      <button className='follow' onClick={()=>{
+      <button className='follow'  onClick={()=>{
         if(auth.isAuthenticated)
-        auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)?
+        {
+          if (auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)){
        setunfollow(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer))
-       :
+        }
+       else
+       {
        dispatch(addfollow(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id))
+       console.log("hello");
+       let title= "New Follow";
+       let content= auth.user.fname +" "+ auth.user.lname + " is now followinf you";
+       let notiftype="New_Follow";
+       let state=[]
+       state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
+       dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+       }
+      }
         else
         history.push("/login")
       }}
-      style={{position:"relative",cursor:"pointer",background:auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)&&"rgb(73, 82, 92)"}}
+      style={{display:auth.isAuthenticated&&auth.user._id==users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id&&"none",position:"relative",cursor:"pointer",background:auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)&&"rgb(73, 82, 92)"}}
 onMouseOver={()=>{setfollow(!follow)}}
 onMouseLeave={()=>{setfollow(!follow)}}
-      disabled={auth.isAuthenticated&&auth.user._id==users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id}
+   
      
      >
         {auth.user.follow&&auth.user.follow.includes(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id)?"UNFOLLOW":"FOLLOW"}
@@ -342,7 +386,7 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==allevents.find(el=>el._id==
        to recieve a notification when he add a new event.
       
       </p>}
-      <p>{allevents.find(el=>el._id==match.params.event_id).description}</p>
+      <p style={{overflowWrap:"anywhere"}}>{allevents.find(el=>el._id==match.params.event_id).description}</p>
   
     </li>
     
@@ -355,7 +399,7 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==allevents.find(el=>el._id==
       <div style={{display:"flex",flexWrap:"wrap",alignItems:"center",justifyContent:"space-around"}}>
     {allevents.filter(el=>el._id!=match.params.event_id).slice(0).sort(function(a, b) {
   return new Date(a.start) - new Date(b.start);
-}).reverse().slice(0,6+countevent*6).map((el,i)=>{
+}).reverse().filter(el=>el.state!="Invalid").slice(0,6+countevent*6).map((el,i)=>{
 return(
 <div key={i} style={{position:"relative"}}>
 <img  src={el.image} width="250px" height="250px" alt="event image" style={{cursor:"pointer"}} onClick={()=>{
@@ -375,17 +419,32 @@ return(
 
 
       })}</div>
-       {((countevent+1)*6)<allevents.filter(el=>el._id!=match.params.event_id).length&&<div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
-              setCountevent(countevent+1)
+       {((countevent+1)*6)<allevents.filter(el=>el._id!=match.params.event_id).filter(el=>el.state!="Invalid").length&&
+      //  <div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
+      //         setCountevent(countevent+1)
               
-              }}>
-          <i
-                  className="material-icons"
-                >
-                 expand_more
-                </i>
-            <p  >Show more events</p>
-          </div>}
+      //         }}>
+      //     <i
+      //             className="material-icons"
+      //           >
+      //            expand_more
+      //           </i>
+      //       <p  >Show more events</p>
+      //     </div>
+          
+      <div style={{
+        marginBottom:"50px",
+        cursor: "pointer",
+        display: "flex",
+        justifyContent:"center",
+        alignItems:"center"}}
+        id="loadMore" className="thb-gp-load-more"
+        data-thb-gp-lm-type="event"
+        data-org-text="MORE"
+        onClick={() => {
+          setCountevent(countevent+1)
+     }}>SHOW MORE EVENTS</div>
+          }
           
           </div>
     </li>
@@ -524,12 +583,28 @@ setTextedit("")
           {if(actvlike)
             {if(auth.isAuthenticated&&!auth.user.likes.includes(el._id))
               
-            {setactvlike(false)
-              dispatch(likecomment(el._id,Number(el.likes)+1,auth.user._id))
+          {setactvlike(false)
+            dispatch(likecomment(el._id,Number(el.likes)+1,auth.user._id))
+            let title= "Like";
+            let content= auth.user.fname +" "+ auth.user.lname + " Like your comment";
+            let notiftype="New_Like";
+            let state=[]
+            state=[...state,{users:(el.postedBy),consulted:false}]
+            state[0].users!=auth.user._id &&
+            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+            
             auth.user.dislikes.includes(el._id)&& dispatch(removedislikecomment(el._id,Number(el.dislikes)-1,auth.user._id))}
             else
             {setactvlike(false)
-            dispatch(removelikecomment(el._id,Number(el.likes)-1,auth.user._id))}
+            dispatch(removelikecomment(el._id,Number(el.likes)-1,auth.user._id))
+            let title= "Dislike";
+            let content= auth.user.fname +" "+ auth.user.lname + " Dislike your comment";
+            let notiftype="New_Dislike";
+            let state=[]
+            state=[...state,{users:(el.postedBy),consulted:false}]
+            state[0].users!=auth.user._id &&
+            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+            }
             if(!auth.isAuthenticated)
             history.push("/login")}
             }}></i>
@@ -671,18 +746,8 @@ setTextedit("")
              }}>reply</i>}
             
             </div>
-        
-      
-    
-    </li>
-   
-    
+   </li>
   </ul>
-
-
-
-
-
     )
   })}
  { auth.isAuthenticated&&<form className="input_add" style={{marginLeft:20}}>
@@ -737,17 +802,35 @@ setTextedit("")
 )
 
           })}
-          {((count+1)*10)<comments.comments.filter(elm=>elm.event==match.params.event_id).length&&<div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
-              setCount(count+1)
+          {((count+1)*10)<comments.comments.filter(elm=>elm.event==match.params.event_id).length&&
+          
+          // <div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
+          //     setCount(count+1)
               
-              }}>
-          <i
-                  className="material-icons"
-                >
-                 expand_more
-                </i>
-            <p  >Show more comments</p>
-          </div>}
+          //     }}>
+          // <i
+          //         className="material-icons"
+          //       >
+          //        expand_more
+          //       </i>
+          //   <p  >Show more comments</p>
+          // </div>
+          <div style={{
+            marginBottom:"50px",
+            cursor: "pointer",
+            display: "flex",
+            justifyContent:"center",
+            alignItems:"center"}}
+            id="loadMore" className="thb-gp-load-more"
+            data-thb-gp-lm-type="event"
+            data-org-text="MORE"
+            onClick={() => {
+              setCount(count+1)
+         }}>SHOW MORE COMMENT</div>
+          
+          
+          
+          }
 
      </div>
    
@@ -777,18 +860,40 @@ return(
 
 
       })}
-       {((countevent+1)*10)<allevents.filter(el=>el._id!=match.params.event_id).length&&<div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
-              setCountevent(countevent+1)
+       {((countevent+1)*10)<allevents.filter(el=>el._id!=match.params.event_id).filter(el=>el.state!="Invalid").length&&
+       
+      //  <div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
+      //         setCountevent(countevent+1)
               
-              }}>
-          <i
-                  className="material-icons"
-                >
-                 expand_more
-                </i>
-            <p  >Show more events</p>
-          </div>}
-    </div>}
+      //         }}>
+      //     <i
+      //             className="material-icons"
+      //           >
+      //            expand_more
+      //           </i>
+      //       <p  >Show more events</p>
+      //     </div>
+          <div style={{
+            marginBottom:"50px",
+            cursor: "pointer",
+            display: "flex",
+            justifyContent:"center",
+            alignItems:"center"}}
+            id="loadMore" className="thb-gp-load-more"
+            data-thb-gp-lm-type="event"
+            data-org-text="MORE"
+            onClick={() => {
+            setCountevent(countevent + 1);
+         }}>SHOW MORE EVENTS</div>
+          
+          
+          
+          }
+    </div>
+    
+    
+    
+    }
    
         </div> 
        
@@ -855,7 +960,14 @@ return(
               className=" btn #2e8fa5-text"
               onClick={()=>{
                 dispatch(removefollow(unfollow._id))
-              setunfollow("")
+                setunfollow("")
+                console.log("hello")
+                let title= "Remove Follow";
+                let content= auth.user.fname +" "+ auth.user.lname + " is no longer following you";
+                let notiftype="Remove_Follow";
+                let state=[]
+                state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
+                dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
               }
             }
             >

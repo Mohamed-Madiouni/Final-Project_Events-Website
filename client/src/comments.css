@@ -201,6 +201,9 @@ nav{
     .colapse{
         background:white
     }
+    .colapse .active{
+        transform: none;
+    }
     .colapse>.active .collapsible-header .chevron{
         transform: rotate(180deg);
     }

@@ -5,9 +5,11 @@ import { INI_UPDATE, GET_USERS } from "../actions/types";
 import { useDispatch, useSelector } from "react-redux";
 import UserList from "./UserList";
 import EventList from "./EventList";
+import Notification from "./Notifications";
 import "../organizer.css";
 import M from "materialize-css";
 import { getUsers, getEvents } from "../actions/adminaction";
+
 function Administrator() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -54,6 +56,10 @@ function Administrator() {
           }}
         >
           <div>
+          <button className="btn btn-medium modal-trigger"
+          data-target="modalnotifall"
+          style={{marginBottom:"5px"}}>View logs</button>
+
           <div className="switch right" style={{marginTop:10,color:"black",fontSize:20}}>
               <label>Manage account
             
@@ -98,8 +104,13 @@ function Administrator() {
           </div>
         )}
 
+<div id="modalnotif" className="modal" style={{ padding: 0, margin:0 }}>
+<Notification />
+ </div>
+      </div>   
+
     </div>
-    </div>
+    
   );
 }
 

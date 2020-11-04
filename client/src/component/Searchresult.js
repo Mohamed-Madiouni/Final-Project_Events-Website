@@ -97,7 +97,7 @@ useEffect(() => {
      let search=allevents.filter(el=>{
       return(
        el.title.toLowerCase().includes(params.title?params.title.toLowerCase():"")
-       &&el.address.toLowerCase().includes(params.address?params.address.toLowerCase():"")
+       &&el.address.address.toLowerCase().includes(params.address?params.address.toLowerCase():"")
        &&el.description.toLowerCase().includes(params.description?params.description.toLowerCase():"")
        && el.title.toLowerCase().includes(quickSearch.title.toLowerCase())
        &&el.state.toLowerCase().includes(quickSearch.state.toLowerCase())
@@ -192,7 +192,7 @@ useEffect(() => {
                     <span className="card-title  grey-text text-darken-4">
                       <b>{el.title}</b>
                     </span>
-                    <p className="red-text">{el.address}</p>
+                    <p className="red-text">{el.address.address}</p>
                     <div
                       style={{
                         display: "flex",

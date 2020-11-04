@@ -5,10 +5,10 @@ import setSearch from './setSearch';
 import {reducer} from './evnt'
 import {comment} from './comment'
 import admin from "./admin"
-
+import {map} from "./map"
 import {part} from "./participant"
 import {myevents} from "./myEvents"
-
+import {notifications} from "./notification"
 import resize from "./resize"
 export default combineReducers({
   auth: authReducer,
@@ -19,5 +19,7 @@ export default combineReducers({
   admin: admin,
   participant:part,
   myevents:myevents,
-  comments:comment
+  comments:comment,
+  notification:notifications,
+  map:map
 });

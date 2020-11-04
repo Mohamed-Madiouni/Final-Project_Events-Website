@@ -15,7 +15,7 @@ import Searchresult from "./component/Searchresult";
 import Events from "./component/Events";
 import Calendar from "./component/Calendar"
 import { getCurrentUser } from "./actions/authaction";
-import { INI_RESIZE, SET_RESIZE } from "./actions/types";
+import { INI_RESIZE, SET_RESIZE, SHOW_NOTIF } from "./actions/types";
 import M from "materialize-css";
 
 // import AddEvent from "./component/AddEvent";
@@ -24,7 +24,8 @@ import AboutUs from "./component/AboutUs";
 
 import Comments from "./component/Comments";
 import Bannned_home from "./component/Bannned_home";
-
+import Notifications from "./component/Notifications";
+import Maps from "./component/Maps";
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
   const auth =useSelector(state=>state.auth)
   const dispatch = useDispatch()
   const resize =useSelector(state=>state.resize)
+  const shownotif=useSelector(state=>state.notification.show)
   const location = useLocation()
   const [homeNav,setHomeNav]=useState(false)
  
@@ -81,7 +83,13 @@ useEffect(()=>{
   
 
   return (
-    <div className="App">
+    <div className="App"  
+     onClick={(e)=>{
+        shownotif&&!document.querySelector(".notifications").contains(e.target)&&dispatch({
+          type:SHOW_NOTIF,
+          payload:!shownotif
+        })
+      }}>
       
       {search.etat ? (
         <Searchevents />
@@ -94,7 +102,7 @@ useEffect(()=>{
             <Route path="/search" component={Searchresult} />
             <Route exact path="/events" component={Events} />
             <Route path="/calendar" component={Calendar} />
-
+            <Route path="/maps" component={Maps} />
             <Route exact path="/contact" component={ContactUs} />
             <Route exact path="/about" component={AboutUs} />
 
@@ -103,6 +111,7 @@ useEffect(()=>{
 
             <PrivateRoute path="/myaccount" component={Account} />
             <Route path="/banned" component={Bannned_home} />
+            <Route path="/notifications" component={Notifications} />
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <PrivateRoute
               path="/dashboard/:organizer_id"
@@ -113,9 +122,9 @@ useEffect(()=>{
           </Switch>
         </div>
       )}
-    { resize.state&&<ul id="slide-out" className="sidenav" style={{background:" linear-gradient(90deg, #1c1b1b 0%, rgb(26, 23, 23) 100%)"}}>
+    { resize.state&&<ul id="slide-out" className="sidenav " style={{background:"white"}}>
     <li>
-        <div style={{background:" linear-gradient(90deg, #1c1b1b 0%, rgb(26, 23, 23) 100%)",
+        <div style={{background:"linear-gradient(90deg, #1c1b1b 0%, rgb(26, 23, 23) 100%)",
  height:"60px",display:"flex",justifyContent:"center",alignItems:"center"}}>
           {/* <div className="background">
             <img src="/background_profil.jpg" height="100%" width="100%" />
@@ -123,7 +132,7 @@ useEffect(()=>{
          <img
               src="/cocoEventtt.jpg"
               alt="COCO Event"
-              width="150px"
+              width="140px"
               height="50px"
               // style={{
               //   paddingTop: "7px",
@@ -136,7 +145,7 @@ useEffect(()=>{
         </div>
       </li>
  <li style={{transform: "translateY(-8px)"}}>
-        {/* <div className="divider"></div> */}
+        <div className="divider"></div>
       </li>
       {/* <li>
         <a href="/myaccount">

@@ -17,6 +17,9 @@
 .sidenav .collapsible>.active .collapsible-header .chevron{
     transform: rotate(90deg);
 }
+.sidenav .collapsible>.active{
+    transform: none;
+}
     /* height: 90%;
     margin-top: 5px; */
     /* color: rgb(214, 211, 211); */

@@ -4,7 +4,7 @@ import Landing from "./Landing";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { INI_SEARCH } from "../actions/types";
-import "../notification.css"
+
 function Navbar() {
   const search = useSelector((state) => state.search);
   const dispatch = useDispatch();
@@ -23,46 +23,49 @@ function Navbar() {
   return (
     <div className="navbar-fixed" style={{height:"60px"}}>
     <div className="test row">
-      <div className="div2 col s10 row">
+      <div className={!resize.state?"div2 col s10 row":"div3 col s8 row"}>
        <div
           style={{
             padding: "0px",
-            marginRight:10
+         margin:0,
+            height:60
           }}
           className={!resize.state?"col s2":"col s1"}
         >{ !resize.state?
+          
+          
           <Link
             to="/"
             style={{
-              textDecoration: "none",
+              textDecoration: "none",display:"flex",justifyContent:"center",height:60
             }}
           >
             <img
               src="/cocoEventtt.jpg"
               alt="COCO EVENT"
-              width="157px"
+              width="80%"
               height="60px"
               style={{
                 // paddingTop: "7px",
-                paddingLeft:"40px",
+                // paddingLeft:"40px",
                 cursor: "pointer"
 
               }}
             />
           </Link> : <a href="#" data-target="slide-out" className="sidenav-trigger" 
-          style={{paddingLeft:10,
-          color:"black",
+          style={{
+          height:60,
           display:"flex",
           alignItems:"center"}}>
             <i className="material-icons white-text">menu</i></a>}
         </div>
        
-        <div className={!resize.state?"div4 col s10":" div4 col s11"}>
+        <div className={!resize.state?"div4 col s10 row":" div5 col s2"} style={{margin:0}}>
         {!resize.state?(<>
 
-          <div className="col s10 nav_list" style={{display:"flex",justifyContent:"center",alignItems:"center",}}>
+          <div className="col s11 nav_list " style={{display:"flex",justifyContent:"space-around",alignItems:"center",margin:0}}>
             <Link to="/" style={{borderRadius:"10px" ,backgroundColor:location.pathname=="/"&&"cadetblue"}}>Home</Link>
-            <Link to="/dashboard" style={{borderRadius:"10px", backgroundColor:(location.pathname=="/dashboard"||location.pathname==`/events/${auth.user._id}`)&&"cadetblue"}}>Dashboard</Link>
+            <Link to="/dashboard" style={{borderRadius:"10px", backgroundColor:(location.pathname=="/dashboard"||location.pathname==`/dashboard/${auth.user._id}`)&&"cadetblue"}}>Dashboard</Link>
             <Link to="/contact" style={{borderRadius:"10px", backgroundColor:location.pathname=="/contact"&&"cadetblue"}}>Contact</Link>
             <Link to="/about" style={{borderRadius:"10px", backgroundColor:location.pathname=="/about"&&"cadetblue"}}>About</Link>
             <Link to="/events" style={{borderRadius:"10px", backgroundColor:location.pathname=="/events"&&"cadetblue"}}>Events</Link>
@@ -80,7 +83,12 @@ function Navbar() {
             style={{
               fontSize: "21px",
               cursor: "pointer",
-              paddingLeft:10
+              paddingLeft:10,
+              margin:0,
+              display:"flex",
+              justifyContent:"flex-end",
+              alignItems:"center",
+              transform: 'translateY(-2px)'
              
 
             }}
@@ -99,7 +107,11 @@ function Navbar() {
               fontSize: "21px",
               cursor: "pointer",
               paddingRight:10,
-              marginLeft:0
+              margin:0,
+              display:"flex",
+              justifyContent:"flex-end",
+              alignItems:"center",
+             
              
 
             }}
@@ -151,7 +163,7 @@ function Navbar() {
           </Link>
         </div> */}
       </div>
-      <div className="landing col s2" style={{
+      <div className={!resize.state?" landing col s2": "landing col s4" } style={{
         margin:0
       }}> 
         <Landing />

@@ -3,7 +3,7 @@
     align-items: center;
     /* flex-direction: column; */
     justify-content:center;
-    height: 100%;
+    height: 60px;
     /* padding-right: 10px; */
     
 }
@@ -11,7 +11,7 @@
     width: 200px !important;
     height: 200px !important;
     border-radius: 10px;
-    transform: translateY(-40px);
+    transform: translateY(-52px);
     
 }
 .lan>li:hover{
@@ -28,9 +28,8 @@
 .btn{
 
     background-color: rgba(240, 238, 238, 0.466);
-    font-family: 'David Libre', serif;
-    font-size: 16px;
     color: black; 
+    line-height: normal;
 }
 .account{
     border-radius: 10px;
@@ -51,6 +50,11 @@
     background-color:rgb(14, 161, 152); 
     color: white;
 }
+
+.notif{
+    width: 400px !important;
+    height: auto !important;
+}
 /* @media screen and (min-width: 900px) {
     .landing_app a{
     font-size: 1.01vw;
@@ -64,3 +68,19 @@
     font-size: 1.8vw;
 }} */
 
+#style-3::-webkit-scrollbar-track
+{
+	box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+#style-3::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+#style-3::-webkit-scrollbar-thumb
+{
+	background-color:rgb(65, 65, 65);
+}

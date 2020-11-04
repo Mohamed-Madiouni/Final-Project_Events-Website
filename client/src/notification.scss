@@ -1,0 +1,118 @@
+
+.toggleNotifications {
+    position: relative;
+    display: inline-flex;
+    float: right;
+    height: 60px;
+    width: 60px;
+    user-select: none;
+    .show {
+       flex: 1;
+       margin: auto;
+       height: 40px;
+       max-width: 40px;
+       text-align: center;
+       border-radius: 50%;
+      //  border: 1px solid rgba(0, 0, 0, 1);
+      //  background: rgba(0, 0, 0, 0.5);
+       font-size: 24px;
+       transition: all 0.2s;
+       color: white;
+       &:hover {
+          background: rgb(255, 255, 255);
+          cursor: pointer;
+          color: cadetblue;
+       }
+       i {
+          line-height: 38px;
+       }
+    }
+ }
+ .count{
+    position:absolute;
+    top:5px;
+    right:26px;
+    .num{
+       position:absolute;
+       top:0px;
+       left:0px;
+       background:rgb(216, 5, 5);
+       border-radius:50%;
+       width:18px;
+       height:18px;
+       text-align:center;
+       line-height:17px;
+       font-size:11px;
+       box-shadow:0px 1px 3px rgba(0, 0, 0, 0.25);
+       border:1px solid rgba(0, 0, 0, 0.20);
+       transition:all 0.3s;
+       color: rgb(255, 255, 255);
+    }
+ }
+ .notifications {
+    position: absolute;
+    top: 70px;
+    right: 9px;
+    width: 350px;
+    background: rgb(51, 50, 50);
+    border-top: 3px solid rgb(51, 50, 50);
+   //  border-bottom: 3px solid rgb(51, 50, 50);
+    border-radius: 2px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s;
+    height: fit-content;
+    
+    &:after {
+       content: ' ';
+       position: absolute;
+       top: -23px;
+       right: 0px;
+       width: 34px;
+       height: 17px;
+       border-right: 20px solid transparent;
+       border-left: 20px solid transparent;
+       border-bottom: 20px solid rgb(51, 50, 50);
+       pointer-events: none;
+    }
+    &:before {
+       content: ' ';
+       position: absolute;
+       top: -23px;
+       right: 0px;
+       width: 34px;
+       height: 10px;
+       border-right: 20px solid transparent;
+       border-left: 20px solid transparent;
+       border-bottom: 20px solid rgb(51, 50, 50);
+       pointer-events: none;
+    }
+
+    .note {
+       padding: 0px 10px;
+       height: auto;
+       line-height: 32px;
+       border-radius: 2px;
+       margin-bottom: 2px;
+       background-color:rgb(0, 0, 0);
+       color:white;
+       &:first-of-type {
+          margin-top: 0px;
+       }
+       transition:all 0.2s;
+       overflow:hidden;
+       max-height:auto;
+       &.read {
+          color: #CDCDCD;
+       }
+       &:hover {
+          background:rgb(46, 46, 46);
+       }
+       i {
+          position: relative;
+          top: -1px;
+          margin-right: 5px;
+          vertical-align: middle;
+          color: white;
+       }
+    }
+ }

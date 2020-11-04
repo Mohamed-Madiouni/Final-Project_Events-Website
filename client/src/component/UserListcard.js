@@ -15,6 +15,7 @@ import "../events.css";
 import M from "materialize-css";
 import "../userlist.css";
 import UserList from "./UserList";
+import {sendNotifications} from "../actions/notificationaction";
 const UserListcard = ({ users }) => {
   const dispatch = useDispatch();
   const allusers = useSelector((state) => state.admin.users);
@@ -155,7 +156,7 @@ const UserListcard = ({ users }) => {
                         )}
                     </div>
 
-                    <div>
+                    <div style={{marginBottom:"5px"}}>
                       <span className="black-text">
                         <b>
                           {el.fname + " "}
@@ -164,9 +165,9 @@ const UserListcard = ({ users }) => {
                       </span>
                     </div>
 
-                    <p className="black-text">{el.email}</p>
+                    <p className="black-text" style={{marginBottom:"8px"}}>{el.email}</p>
                     <span className="black-text">
-                      <br />
+                      
                       {el.role}
                     </span>
 
@@ -258,7 +259,7 @@ const UserListcard = ({ users }) => {
               );
             })}
       </div>
-      <p>
+      <p/>
           {(countuser + 1) * 10 < users.length && (
            <div style={{
            marginBottom:"50px",
@@ -272,11 +273,11 @@ const UserListcard = ({ users }) => {
            onClick={() => {
            setCountuser(countuser + 1);
            }}>SHOW MORE</div>)}
-      </p>
+      
       <div id="modal1" className="modal">
         <div className="modal-content">
           <h4>User delete</h4>
-          <p>Are you sure you want to delete this User?</p>
+          <p/>Are you sure you want to delete this User?
         </div>
         <div className="modal-footer">
           <a
@@ -301,7 +302,14 @@ const UserListcard = ({ users }) => {
           <a
             href="#!"
             className="modal-close btn-flat"
-            onClick={() => dispatch(banUser(banid))}
+            onClick={() =>{
+              let title="Account Banned";
+              let content= "Your account is Banned";
+              let notiftype="Account_Banned";
+              var state=[]
+              state=[...state,{users:banid,consulted:false}]
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(banUser(banid))}}
           >
             Agree
           </a>
@@ -320,7 +328,14 @@ const UserListcard = ({ users }) => {
           <a
             href="#!"
             className="modal-close btn-flat"
-            onClick={() => dispatch(unbanUser(banid))}
+            onClick={() => {
+              let title="Account Unbanned";
+              let content= "Your account was Unbanned";
+              let notiftype="Account_Unbanned";
+              var state=[]
+              state=[...state,{users:banid,consulted:false}]
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(unbanUser(banid))}}
           >
             Agree
           </a>
@@ -339,7 +354,14 @@ const UserListcard = ({ users }) => {
           <a
             href="#!"
             className="modal-close btn-flat"
-            onClick={() => dispatch(alertUser(alertid))}
+            onClick={() =>{ 
+              let title="Account Alerted";
+              let content= "Your Account was Alerted";
+              let notiftype="Account_Alerted";
+              var state=[]
+              state=[...state,{users:alertid,consulted:false}]
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(alertUser(alertid))}}
           >
             Agree
           </a>
@@ -358,7 +380,14 @@ const UserListcard = ({ users }) => {
           <a
             href="#!"
             className="modal-close btn-flat"
-            onClick={() => dispatch(unalertUser(alertid))}
+            onClick={() => { 
+              let title="Alert Removed";
+              let content= "An alert was removed from your account";
+              let notiftype="Alert_Removed";
+              var state=[]
+              state=[...state,{users:alertid,consulted:false}]
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(unalertUser(alertid))}}
           >
             Agree
           </a>

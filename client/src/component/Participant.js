@@ -295,7 +295,7 @@ style={{marginTop:"200px"}}>
                               <span className="card-title  grey-text text-darken-4">
                                 <b>{el.title}</b>
                               </span>
-                              <p className="red-text">{el.address}</p>
+                              <p className="red-text">{el.address.address}</p>
                               <div
                                 style={{
                                   display: "flex",

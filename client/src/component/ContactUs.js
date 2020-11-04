@@ -115,13 +115,13 @@ const resetContact=()=>{
     </div>
   </div>
 </div>  
-<div class=" row vc_row wpb_row vc_row-fluid section-header featured"
+<div className=" row vc_row wpb_row vc_row-fluid section-header featured"
 style={{marginLeft:"50px",marginTop:"20px"}}>
-              <div class="wpb_column vc_column_container col 12">
-                <div class="vc_column-inner">
-                  <div class="wb_wrapper">
-                    <div class="wpb_text_column wpb_content_element ">
-                      <div class=" wpb_wrapper">
+              <div className="wpb_column vc_column_container col 12">
+                <div className="vc_column-inner">
+                  <div className="wb_wrapper">
+                    <div className="wpb_text_column wpb_content_element ">
+                      <div className=" wpb_wrapper">
                         <h2>Give us a shout</h2>
                         <p>If you’ve got any questions, please fill out the form below and we promise to get back to you with lightning speed! You may also take a look at our Help Center where you can find answers of common questions that we receive.</p>
                         
@@ -151,7 +151,7 @@ style={{marginLeft:"50px",marginTop:"20px"}}>
                             </div>
                             <div className="input-field">
                                 <input 
-                                // class="form-control input-lg" 
+                                // className="form-control input-lg" 
                                 id="email"
                                  type="email"
                                   // placeholder="Email"
@@ -190,35 +190,35 @@ style={{marginLeft:"50px",marginTop:"20px"}}>
                                {inputs.error.message}</span>
                             </div> 
                             <div className="form-group">
-                            <button data-toggle="modal" data-target="#exampleModal" class="btn modal-trigger"
+                            <button data-toggle="modal" data-target="#exampleModal" className="btn modal-trigger"
                             
                     >Contact Us</button>
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div className="modal-body">
         ...
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
           
-{/* <div id="modal1" class="modal">
-  <div class="modal-content">
+{/* <div id="modal1" className="modal">
+  <div className="modal-content">
     <h4>Modal Header</h4>
     <p>A bunch of text</p>
   </div>
-  <div class="modal-footer">
-    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+  <div className="modal-footer">
+    <a href="#!" className="modal-close waves-effect waves-green btn-flat">Agree</a>
   </div>
 </div> */}
 
