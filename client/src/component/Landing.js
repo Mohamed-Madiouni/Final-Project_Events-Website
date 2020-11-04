@@ -123,7 +123,51 @@ payload:!shownotif
      {(notifsize>0)?
     (filter_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>10)?10:10).map((el,i)=>{
       return(
-        <li key={i} className="note"><i className="material-icons">mail</i> {(el.title)}
+        <li key={i} className="note">
+          {(el.notiftype=="Event_Validation")&&
+           <img src="/Event_Validation.png" alt="Event_Validation" width="25px" height="25px"/>}
+          {(el.notiftype=="New_Event")&&
+           <img src="/New_Event.png" alt="New_Event" width="25px" height="25px"/>}
+          {(el.notiftype=="Event_Edition")&&
+           <img src="/Event_Edition.png" alt="Event_Edition" width="25px" height="25px"/>}
+          {(el.notiftype=="Comment_Reply_organizer")&&
+           <img src="/Comment_Reply_organizer.png" alt="Comment_Reply_organizer" width="25px" height="25px"/>}
+          {(el.notiftype=="Comment_Reply_User")&&
+           <img src="/Comment_Reply_User.png" alt="Comment_Reply_User" width="25px" height="25px"/>}
+          {(el.notiftype=="New_Follow")&&
+           <img src="/New_Follow.png" alt="New_Follow" width="25px" height="25px"/>}
+          {(el.notiftype=="New_Like")&&
+           <img src="/New_Like.png" alt="New_Like" width="25px" height="25px"/>}
+          {(el.notiftype=="New_Dislike")&&
+           <img src="/New_Dislike.png" alt="New_Dislike" width="25px" height="25px"/>}
+          {(el.notiftype=="Remove_Follow")&&
+           <img src="/Remove_Follow.png" alt="Remove_Follow" width="25px" height="25px" width="25px" height="25px" width="25px" height="25px" width="25px" height="25px" />}
+          {(el.notiftype=="Event_Deleted")&&
+           <img src="/Event_Deleted.png" alt="Event_Deleted" width="25px" height="25px" width="25px" height="25px" width="25px" height="25px" />}
+          {(el.notiftype=="Event_Invalidation")&&
+           <img src="/Event_Invalidation.png" alt="Event_Invalidation" width="25px" height="25px" width="25px" height="25px" />}
+          {(el.notiftype=="New_Participation")&&
+           <img src="/New_Participation.png" alt="New_Participation" width="25px" height="25px" />}
+          {(el.notiftype=="Cancel_Participation")&&
+           <img src="/Cancel_Participation.png" alt="Cancel_Participation" width="25px" height="25px" />}
+          {(el.notiftype=="Event_Closed")&&
+           <img src="/Event_Closed.png" alt="Event_Closed" width="25px" height="25px" width="25px" height="25px" width="25px" height="25px" width="25px" height="25px" width="25px" height="25px" />}
+          {(el.notiftype=="Event_Opened")&&
+           <img src="/Event_Opened.png" alt="Event_Opened" width="25px" height="25px" width="25px" height="25px" width="25px" height="25px" width="25px" height="25px" />}
+          {(el.notiftype=="Account_Banned")&&
+           <img src="/Account_Banned.png" alt="Account_Banned" width="25px" height="25px" width="25px" height="25px" width="25px" height="25px" />}
+          {(el.notiftype=="Account_Unbanned")&&
+           <img src="/Account_Unbanned.png" alt="Account_Unbanned" width="25px" height="25px" width="25px" height="25px" />}
+          {(el.notiftype=="Account_Alerted")&&
+           <img src="/Account_Alerted.png" alt="Account_Alerted" width="25px" height="25px" />}
+          {(el.notiftype=="Alert_Removed")&&
+           <img src="/Alert_Removed.png" alt="Alert_Removed" width="25px" height="25px" />}
+          {(el.notiftype=="New_Comment")&&
+           <img src="/New_Comment.png" alt="New_Comment" width="25px" height="25px" />}
+          {(el.notiftype=="Comment_Edition")&&
+           <img src="/Comment_Edition.png" alt="Comment_Edition" width="25px" height="25px" />}  
+
+           {(el.title)}
     <div style={{ display: "flex",marginTop:2}}>
       <img src={users.find(e=>e._id==el.userId).avatar} alt="" className="circle" width="37px" height="37px" style={{ marginRight: "8px"}}/>
      <div style={{display:"flex",flexDirection:"column",alignItems:"flex-start"}}>

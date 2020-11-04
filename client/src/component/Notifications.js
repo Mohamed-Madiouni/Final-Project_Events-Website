@@ -26,12 +26,9 @@ function Notifications() {
   return (
       <> 
       {users.length!=0&&<div id="modalnotifall" style={{ padding: 0, margin:0 }}>
-
-
              <div >
               <h4 className="center" style={{ marginTop: "20px" }}>Notifications Center</h4>
             </div>
-
             <div className="notification-page__content" style={{ marginBottom: "0px" }}>
               <div className="notification-page__content__title">
                 <span>Notifications</span>
@@ -41,7 +38,6 @@ function Notifications() {
                     <div className="notification-per-period">
                       <div className="notification-per-period__title">
                         <div className="x-flex-column-h-center-v-any ">
-                          <span>2020-10-06</span>
                           </div>
                           </div>
                           <div className="notification-per-period__link">
