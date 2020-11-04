@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function Footer() {
   return (
     <div className='footer-container'>
-      <section className='footer-subscription'>
+      <section className='footer-subscription '>
         <p className='footer-subscription-heading footer-p'>
         Top Ranked, Unbelievably Easy-to-Use
         </p>
@@ -13,14 +13,15 @@ function Footer() {
         CocoEvent was independently ranked a Top Event Management Software .
         </p>
       </section>
-      <div className='footer-links'>
+      {/* <div className='footer-links'>
         <div className='footer-link-wrapper'>
           <div className='footer-link-items'>
             <h5 className="footer-h5">About Us</h5>
             <Link className="footer-a" to='/AboutUs'>How it works</Link>
             <Link className="footer-a" to='/AboutUs'>Team of Service</Link>
-          </div>
             <Link className="footer-a" to='/AboutUs'>why CocoEvent</Link>
+
+          </div>
           <div className='footer-link-items'>
             <h5 className="footer-h5">Contact Us</h5>
             <Link className="footer-a" to='/ContactUs'>Support</Link>
@@ -44,11 +45,10 @@ function Footer() {
             <Link className="footer-a" to='/'>Twitter</Link>
           </div>
         </div>
-      </div>
-      <section className='social-media'>
-        <div className='social-media-wrap'>
-          <div className='footer-logo'>
-            <Link to='/' className='social-logo'>
+      </div> */}
+      <section className='social-media row'>
+          <div className='footer-logo col s2' style={{marginLeft:-150}}>
+            <Link to='/' className='social-logo '>
             <img
               src="/cocoE.jpg"
               alt="COCO PARTY"
@@ -60,9 +60,18 @@ function Footer() {
               }}
               />
             </Link>
+            </div>
+            <div className='footer-link-wrapper col s5'style={{marginLeft:90}}>
+            <Link to="/about" className='footer-link-items' >
+            <h5 className="footer-h5">About</h5></Link>
+            <Link to="/contact" className='footer-link-items'>
+            <h5 className="footer-h5">Contact</h5></Link>
+            <Link to="events" className='footer-link-items'>
+            <h5 className="footer-h5">Events</h5></Link>
           </div>
-          <small className='website-rights'>Coco © 2020</small>
-          <div className='social-icons'>
+          
+         
+          <div className='social-icons col s5 l5'style={{marginRight:-100}}>
             <Link
               className='social-icon-link facebook'
               to='/'
@@ -104,8 +113,9 @@ function Footer() {
               <i className='fab fa-linkedin' />
             </Link>
           </div>
-        </div>
       </section>
+      <small className='website-rights'>Coco © 2020</small>
+
     </div>
   );
 }

@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=David+Libre:wght@700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=David+Libre:wght@400;500&family=Roboto:ital,wght@0,100;0,400;1,500&display=swap');
   .exp1 {
     padding-right: 10px;
     padding-left: 10px;
@@ -49,7 +48,7 @@
 }
 .icon {
     display: inline-flex;
-    font-style: italic;
+    /* font-style: italic; */
 }
 .about-h5{
     font-size: 17px;
@@ -59,13 +58,15 @@
     font-size: 14px;
     margin-top: 10px;
     margin-bottom: 10px;
-    font-family: inherit;
+    font-family: 'David Libre', serif !important;
+    /* font-family: 'Roboto', sans-serif !important; */
+    /* font-family: inherit; */
     font-weight: 500;
     line-height: 1.1;
     color: inherit;
 }
 .para-1 {
-
+    font-family: 'David Libre', serif;
     line-height: 26px;
     margin: 0 0 10px;
     display: block;
@@ -96,9 +97,6 @@
     padding: 80px 0 90px;
     overflow: hidden;
 }
-
-
-
 .number {
     position: absolute;
     left: -24px;
@@ -107,10 +105,11 @@
     font-weight: 700;
     top: -5px;
 }
-.about-h3 {
+.about-h33 {
     letter-spacing: -1px;
-    font-size: 10px ;
-    font-family: "miller-display, serif";
+    font-size: 40px !important ;
+    font-family: 'David Libre', serif;
+    /* font-family: "miller-display, serif"; */
     /* font-weight: 700; */
     font-style: normal;
 }
@@ -118,6 +117,7 @@
 .pages .para-1.lead, .themes .para-1.lead {
     font-size: 20px;
     line-height: 27px;
+    font-family: 'David Libre', serif;
 }
 
 .page-section .para-1 {
@@ -130,6 +130,7 @@
     font-size: 20x;
     line-height: 32px;
     color: black;
+    font-family: 'David Libre', serif;
 }
 .page-section-theme .para-1 {
     color: #ffffff9c;
@@ -167,6 +168,7 @@
     text-align: center;
     color: #555 !important;
     padding-bottom: 10px;
+    font-size: 60px !important;
 }
 
 .title-1::after {
@@ -249,14 +251,14 @@ image:hover {
 }
 
  .about-h2 {
-    font-size: 22px;
+    font-size: 25px !important;
     font-weight: bold;
     margin-top: 15px;
-    color: #007bff !important;
+    color: #2e8fa5 !important;
 }
 
  .about-h3 {
-    font-size: 15px;
+    font-size: 17px !important;
     font-weight: bold;
     margin-top: 15px;
 }
@@ -264,7 +266,7 @@ image:hover {
 #team .fa {
     height: 25px;
     width: 25px;
-    color: #007bff !important;
+    color: #2e8fa5 !important;
     background: #fff;
     padding: 4px;
     border-radius: 50%;
@@ -313,3 +315,47 @@ li {
     letter-spacing: 1.5px;
     font-family: sans-serif;
 } */
+.btn-1{
+    font-family: 'David Libre', serif;
+
+    background: none;
+    color: #ccc;
+    width: 100px;
+    height: 50px;
+    border: 1px solid #ccc;
+    font-size: 18px;
+    border-radius: 20px !important;
+    transition: 0.6s;
+    overflow: hidden;
+}
+.btn-1:focus{
+    outline: none;
+}
+
+.btn-1:hover{
+    background: #ccc;
+    cursor: pointer;
+    color:black;
+}
+.btn-2{
+    font-family: 'David Libre', serif;
+
+    background: none;
+    color: black;
+    width: 100px;
+    height: 50px;
+    border: 1px solid #ccc;
+    font-size: 18px;
+    border-radius: 20px !important;
+    transition: 0.6s;
+    overflow: hidden;
+}
+.btn-2:focus{
+    outline: none;
+}
+
+.btn-2:hover{
+    background: rgb(24, 24, 29);
+    cursor: pointer;
+    color:white;
+}

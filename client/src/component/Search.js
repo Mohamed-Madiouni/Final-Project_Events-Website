@@ -20,7 +20,7 @@ const Search = ({setQuickSearch,quickSearch}) => {
                                  <div class="select-agency-list region-list icon unselected">  
           <form class="  wpcf7-form-control wpcf7-select form-input dropdown" >
           <div class=" col s4 m5 wpb_column vc_column_container vc_col-sm-12 vc_col-sm-4">
-          <p>Select an event state or choose title or tag to discover top digital events near you.</p></div>
+          <p className="para-11">Select an event state or choose title or tag to discover top digital events near you.</p></div>
           <div className="input-field col s3 m2">
           <input placeholder="event title"
            id="title"

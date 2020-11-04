@@ -6,7 +6,7 @@ import {unfollowEvent,followEvent,getEvent,endEvent,closeEvent, fullEvent, openE
 import get_month from "../outils/get_month"
 import "../organizer.css";
 import M from "materialize-css";
-import eventClosing from "../outils/eventClosing";
+// import eventClosing from "../outils/eventClosing";
 import { GET_ERRORS } from "../actions/types";
 import { getMyEvents,getCurrentUser } from "../actions/authaction";
 import historyevent from "../outils/history"
@@ -16,7 +16,7 @@ import "../participant.css"
 
 import { logoutUser } from "../actions/authaction";
 import calcul_rating from "../outils/calucle_rating";
-
+import Footer from "./Footer"
 
 function Participant() {
 
@@ -130,8 +130,9 @@ useEffect(()=>{
   
     return (
 
-        <>
-        <Search
+        <div>
+          <div className="row">
+        <Search className="col s12"
         quickSearch={quickSearch}
         setQuickSearch={setQuickSearch}/>
 
@@ -165,17 +166,17 @@ useEffect(()=>{
 // </div> */}
 
             
-      <div className="col s12 row">
+      
         
-        <div className="
-         organizer_hi">
+        <div className=" col s12
+         organizer_hi "
+style={{marginTop:"200px"}}>
           <div
             // className="col s12"
             style={{
-              paddingTop: "0.75rem",
-              paddingBottom: "0.75rem",
-             
-
+              // paddingTop: "0.75rem",
+              // paddingBottom: "0.75rem",
+              marginTop:20,
             }}
           >
             
@@ -183,18 +184,17 @@ useEffect(()=>{
             {/* <figure class="profile-banner">
     <img src="https://www.bacp.co.uk/media/7326/partybanner.jpg?anchor=center&mode=crop&width=1120&heightratio=0&format=jpg&quality=80&slimmage=true&rnd=132207170210000000" alt="Profile banner" />
   </figure> */}
-  <div class="profile-picture" 
+  
+  {/* <div class="profile-picture" 
     style={{backgroundImage:`url(${auth.user.avatar})`}}>
-  </div>
-  <div style={{marginLeft:"50%"}}>
-            <h5>
-              <b>Hi there,</b> {auth.user.fname}
+  </div> */}
+  <div style={{marginTop:"60px"}} >
+            <h5 className="h5-tit">
+              <span className="blue-title">Hi there,</span> {auth.user.fname} {auth.user.lname}
             </h5>
-        <p>
+        <p className="para-blue">
           {" "}
           We are happy to see you among US. <br />
-
-
               This is your <b>Dashboard</b>, you can see all your events that
               you have been participated.
             </p>
@@ -242,16 +242,27 @@ useEffect(()=>{
         </div>  */}
       </div>
 
-      
  { (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&events.length!=0&&
             
             <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>}
 
  {events&&events.length!=0?
-<div className="row">
-           
+ 
+<div className="row"style={{marginLeft:"50px",marginTop:"20px"}}>
+             <div class=" row vc_row wpb_row vc_row-fluid section-header featured">
+              <div class="wpb_column vc_column_container col 12">
+                <div class="vc_column-inner">
+                  <div class="wb_wrapper">
+                    <div class="wpb_text_column wpb_content_element ">
+                      <div class=" wpb_wrapper">
+                        <h2>Your participation</h2>
+                        <p className="pra-2">Keep up with the latest digital events</p>
+                        </div></div></div></div></div></div>
            {events&&events.slice(0).reverse().map(el=>{
                return (<div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
+                 
+                 
+                 
                  <div
                             className="card small sticky-action"
                             style={{
@@ -262,6 +273,7 @@ useEffect(()=>{
                             }}
                            
                           >
+                            
                             <div className="card-image " style={{height:"55%",cursor:"pointer"}}>
                               <img className="activator" src={el.image} height="100%" />
           
@@ -431,7 +443,21 @@ useEffect(()=>{
                       </div>: (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")?
             
             <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>:<div  style={{marginLeft:10}}>
-          <h4> <b>Your dashboard is empty, get started and join events</b> </h4>
+          {/* <h4> <b>Your dashboard is empty, get started and join events</b> </h4> */}
+          <div className="row div--11">
+        <div className="col s6" id="down">
+          <h1 className="title-h">Your dashboard is empty</h1>
+          <p className="title-p">
+            Build your brand’s recognition and get started and join events.
+          </p>
+          <Link to="/events">
+          <button className="title-btn">Get Started</button>
+          </Link>
+        </div>
+        <div className="col s6" id="up">
+          <img className="working-img" src="/illustration-working.svg" />
+        </div>
+      </div>
         </div>}
                       <div id="modalevnt" className="modal">
                     <div className="modal-content">
@@ -463,8 +489,9 @@ useEffect(()=>{
                       </a>
                     </div>
                   </div>
+                  <Footer/>
 
-        </>
+        </div>
     )
 }
 

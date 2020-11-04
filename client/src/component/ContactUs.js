@@ -105,11 +105,11 @@ const resetContact=()=>{
     return (
         <>
         <Navbar/>
-         <div className="jumbotron jumbotron-simple-new jumbotron-simple-new-dark">
-  <div className="container">
+  <div className="jumbotron jumbotron-simple-new jumbotron-simple-new-dark">
+  <div className="exp1 container">
     <div className="row-3 text-center">
       <div className="col-md-12 col-md-offset-1">
-        <h1>Contact Us </h1>
+        <h1 className="title-1">Contact Us </h1>
         <p className="parg">Contact us! We're hear to help.</p>
       </div>
     </div>
