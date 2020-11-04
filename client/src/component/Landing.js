@@ -124,6 +124,7 @@ payload:!shownotif
     (filter_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>10)?10:10).map((el,i)=>{
       return(
         <li key={i} className="note">
+          <span style={{ display: "flex", marginRight: "8px", marginTop: "8px"}}>
           {(el.notiftype=="Event_Validation")&&
            <img src="/Event_Validation.png" alt="Event_Validation" width="25px" height="25px"/>}
           {(el.notiftype=="New_Event")&&
@@ -166,21 +167,16 @@ payload:!shownotif
            <img src="/New_Comment.png" alt="New_Comment" width="25px" height="25px" />}
           {(el.notiftype=="Comment_Edition")&&
            <img src="/Comment_Edition.png" alt="Comment_Edition" width="25px" height="25px" />}  
-
-           {(el.title)}
+          
+           <span style={{ display: "flex", marginLeft: "8px", marginBottom: "8px", bottom: "2px", position: "relative"}}>{(el.title)}</span></span>
     <div style={{ display: "flex",marginTop:2}}>
       <img src={users.find(e=>e._id==el.userId).avatar} alt="" className="circle" width="37px" height="37px" style={{ marginRight: "8px"}}/>
      <div style={{display:"flex",flexDirection:"column",alignItems:"flex-start"}}>
       <div>
  {(el.content)}
       </div>
-<div style={{ display: "flex",alignItems:"center"}}>
-<i
-                        className=" tiny material-icons"
-                        style={{marginTop:1}}
-                      >
-                        history
-                      </i>
+<div style={{ display: "flex",alignItems:"center", position: "relative", left: "157px"}}>
+<i className=" tiny material-icons" style={{marginTop:1}}> history </i>
          {historyevent(el.created_at)}
       </div>
      </div>

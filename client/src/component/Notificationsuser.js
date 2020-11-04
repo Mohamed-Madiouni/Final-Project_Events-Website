@@ -103,7 +103,7 @@ function Notificationsuser() {
                     )})}
                                   </div>
                                   <p/>
-            {(countnotif + 1) * 10 < allnotif.length && (
+            {(countnotif + 1) * 10 < (filter_notif(allnotif,auth.user._id)).length && (
               <div
                 style={{
                   position: "abosolute",
