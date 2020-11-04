@@ -12,14 +12,14 @@ margin-right: auto;
 max-width: 1170px;
 padding: 0 15px;
 }
-@media screen and (max-width: 1023px) and (min-width: 768px){
+/* @media screen and (max-width: 1023px) and (min-width: 768px){
 .wrap {
   max-width: 725px;
 }}
 @media only screen and (min-width: 768px){
 .thb-agency-location-container .wrap {
   padding: 0;
-}}
+}} */
 
 .vc_row {
 margin-left: -15px;
@@ -33,7 +33,7 @@ display: table;
 padding-left: 0;
 padding-right: 0;
 }
-@media (min-width: 768px){
+/* @media (min-width: 768px){
 .vc_col-sm-12 {
   width: 100%;
 }} 
@@ -41,7 +41,7 @@ padding-right: 0;
 .vc_column_container > .vc_column-inner {
   padding-left: 10px !important;
   padding-right: 10px !important;
-}}
+}} */
 .vc_column_container>.vc_column-inner {
   box-sizing: border-box;
   padding-left: 15px;
@@ -78,13 +78,13 @@ margin-bottom: 10px;
 line-height: 1.4;
 margin: 0;
 padding: 0;
-letter-spacing: -1px;
+
 color: #131529;
 
 }
 
 @media only screen and (min-width: 768px){
-.thb-offset-title > h2 {
+.thb-offset-title > .tit1 {
   position: absolute;
   font-size: 28px;
   white-space: nowrap;
@@ -113,25 +113,25 @@ width: 100%;
 .vc_col-sm-12, .vc_col-sm-4{
 float: left;
 }} */
-.thb-job-search .vc_col-sm-4 p {
+.thb-job-search .vc_col-sm-4 .para-11 {
 padding-right: 30px;
 }
 @media only screen and (min-width: 768px){
-.thb-agency-listing-explore p {
+.thb-agency-listing-explore .para-11 {
 margin-bottom: 0;
 }} 
-.thb-agency-listing-explore p {
+.thb-agency-listing-explore .para-11 {
 display: block;
 padding-right: 20px;
 font-size: 16px;
 margin-bottom: 15px;
 }
-p {
+.para-11 {
 margin: 0;
 padding: 0;
 line-height: 23px;
 }
-p {
+.para-11 {
 display: block;
 margin-block-start: 1em;
 margin-block-end: 1em;
@@ -154,10 +154,10 @@ padding-right: 15px;
 box-sizing: border-box;
 
 } */
-@media only screen and (min-width: 768px){
+/* @media only screen and (min-width: 768px){
 .thb-multi-select {
   flex-direction: row;
-}} 
+}}  */
 /* .thb-multi-select {
   display: flex;
   flex-direction: column;
@@ -167,7 +167,7 @@ box-sizing: border-box;
 position: relative;
 overflow: visible;
 } */
-@media only screen and (min-width: 768px){
+/* @media only screen and (min-width: 768px){
 .thb-multi-select .select-agency-list {
 margin: 0 10px 0 0;
 }} 
@@ -182,7 +182,7 @@ flex: 1;
 @media screen and (max-width: 1023px) and (min-width: 768px){
 .select-agency-list {
 margin-right: 20px;
-}} 
+}}  */
 
 /* .thb-offset-title select{
 width: 100%;

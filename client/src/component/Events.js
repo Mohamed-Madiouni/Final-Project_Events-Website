@@ -12,7 +12,7 @@ import Navbar from './Navbar';
 import "../events.css";
 import M from "materialize-css";
 import { GET_ERRORS } from "../actions/types";
-import eventClosing from "../outils/eventClosing";
+// import eventClosing from "../outils/eventClosing";
 
 import Footer from './Footer';
 import Search from './Search';

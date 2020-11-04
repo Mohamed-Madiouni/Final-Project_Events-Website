@@ -51,7 +51,9 @@ z-index: 999;
       }
       .nav_list{
         transform: translateX(-2px) !important;
-        font-family: 'Courier New', Courier, monospace;
+        /* font-family: 'Courier New', Courier, monospace; */
+        font-family: 'David Libre', serif;
+        letter-spacing: 0.09rem;
       } 
 
       .nav_list > a {
