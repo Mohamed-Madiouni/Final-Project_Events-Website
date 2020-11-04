@@ -224,7 +224,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
             </b>
           </div>
           <form className="col s12" onSubmit={onSubmit}>
-            <div className="input-field col s12 m6">
+            <div className="input-field col s12 l6">
               <input
                 onChange={onChange}
                 value={events.title}
@@ -233,7 +233,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
               />
               <label htmlFor="title" className="active">Title</label>
             </div>
-            <div className='input-field col s12 m6' style={{position:"relative"}}>
+            <div className='input-field col s12 l6' style={{position:"relative"}}>
             <PlacesAutocomplete
         value={address.address}
         onChange={(value)=>{setaddress({...address,address:value})}}
@@ -250,6 +250,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
               id="address"
             style={{boxSizing:"border-box",paddingRight:35}}
             />
+            <a href="#map">
             <button type="button" style={{position:"absolute",right:5,top:8,border:"none",zIndex:10,background:"none",cursor:"pointer"}}
             onClick={()=>{
               dispatch({
@@ -281,7 +282,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
             >
               <img src="/map_icon.png"  width={"28px"} height={"28px"} alt="map"/>
             </button>
-           
+            </a>
             <div className="autocomplete-dropdown-container">
               {loading && <div className="preloader-wrapper active" >
               <div className="spinner-layer spinner-blue-only">
@@ -436,7 +437,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
               <div >
                 <button
                   style={{
-                    width: "120px",
+                    width: "100px",
                     borderRadius: "5px",
                     letterSpacing: "1.5px",
                     margin: "1rem",
@@ -453,7 +454,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
               <div >
                 <button
                   style={{
-                    width: "120px",
+                    width: "100px",
                     borderRadius: "5px",
                     letterSpacing: "1.5px",
                     margin: "1rem",

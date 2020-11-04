@@ -14,7 +14,7 @@ import calcul_rating from "../outils/calucle_rating";
 import { getUsers } from '../actions/adminaction';
 import MyMap from "./Maps";
 import {sendNotifications} from "../actions/notificationaction";
-
+import { formatRelative } from "date-fns";
 
 
 function Organizer() {
@@ -259,7 +259,7 @@ useEffect(()=>{
                   style={{ padding: "0px 10px 0px 24px" }}
                 >
                   <span className="card-title  grey-text text-darken-4" style={{height: "fit-content",lineHeight: "normal",marginTop: "2px",marginBottom:2}}>
-                  {el.title.length<=1? <b>{el.title}</b>:<marquee scrolldelay={140} behavior="scroll" direction="left"><b>{el.title}</b></marquee> }
+                  {el.title.length<=12? <b>{el.title}</b>:<marquee scrolldelay={140} behavior="scroll" direction="left"><b>{el.title}</b></marquee> }
                   </span>
                   {el.address.address.length<=20?
                   <a href="#map" >
@@ -373,6 +373,7 @@ useEffect(()=>{
                     <b>{el.title}</b>
                     <i className="material-icons" style={{position:"absolute",right:10,top:10}}>close</i>
                   </span>
+                  <p style={{fontSize:13,color:"rgb(0, 96, 100)"}}>{formatRelative(new Date(el.start),new Date())+" - "+formatRelative(new Date(el.end),new Date())}</p>
                   <p style={{lineHeight:"normal"}}>{el.description}</p>
                   <div
                     // className="right"

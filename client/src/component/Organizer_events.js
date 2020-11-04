@@ -7,17 +7,16 @@ import { getCurrentUser } from "../actions/authaction";
 import AddEvent from "./AddEvent";
  import "../organizer.css";
 import M from "materialize-css";
-import { GET_ERRORS } from "../actions/types";
+import {ADD_FOCUS, ADD_INP, ADD_PLACE, GET_ERRORS, SHOW_MAP, STATE_MAP} from "../actions/types";
 import { Link } from "react-router-dom";
 import eventClosing from "../outils/eventClosing";
 import Navbar from "./Navbar";
 import "../organizer_event.css";
 import {sendNotifications} from "../actions/notificationaction";
 import Search from './Search'
-
 import { logoutUser } from "../actions/authaction";
 import calcul_rating from "../outils/calucle_rating";
-
+import MyMap from "./Maps";
 
 
 function Organizer_events({ history }) {
@@ -27,6 +26,7 @@ function Organizer_events({ history }) {
   const allevents= useSelector((state)=>state.events.allEvents)
   const errors=useSelector(state=>state.errors)
   const allparticipant=useSelector(state=>state.participant)
+  const map = useSelector(state=>state.map)
   const [modal, setModal] = useState(false);
   const [modalId, setModalId] = useState("");
   const [action, setAction] = useState({ type: "add", payload: {} });
@@ -136,59 +136,72 @@ useEffect(()=>{
    })
 
 
-
+   const onChange = (e) => {
+    setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value })};
   
   return (
-      <>
+      <div onClick={(e)=>{
+        map.show&&!(document.querySelector(".map_container").contains(e.target)||document.querySelector("reach-portal").contains(e.target)||[...document.getElementsByClassName("address_map")].includes(e.target))&&
+        dispatch({
+          type:SHOW_MAP,
+          payload:false
+        })&&
+        dispatch({
+          type:STATE_MAP,
+          payload:""
+        })&&
+        dispatch({
+          type:ADD_FOCUS,
+          payload:{}
+        })
+        
+      }}>
       <Navbar/>
 
-      <Search
+      {/* <Search
         quickSearch={quickSearch}
         setQuickSearch={setQuickSearch}
-        />
+        /> */}
       
 
 
-{/* //       <div className='row container' ><h5><b>Quick search</b></h5></div>
 
-// <div className="row container" style={{marginTop:"20px",fontSize:15,fontWeight:800}} >
-//   <form >
-//   <div className="input-field col s4 m5">
-// <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
-// <label forhtml="title">Event title</label>
-// </div>
-// <div className="input-field col s4 m3">
-// <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none"}}>
-// <option value="">State</option>
-// <option value="Available" className="green-text">Available</option>
-// <option value="Closed" className="gray-text">Closed</option>
-// <option value="Ended" className="gray-text">Ended</option>
-// <option value="Invalid" className="gray-text">Invalid</option>
-// </select>
-// <label className="active">Event state</label>
-// </div>
-// <div className="input-field col s4 m4">
-// <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
-// <label forhtml="title">Event tags</label>
-// </div>
-//   </form>
-// </div> */}
+ <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >
+     <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
+       <div className="col s12 l4" style={{fontStyle: "italic",fontSize:17,marginBottom:10}}>
+   <p>Select an event state or choose title or tag to discover best events for you.</p>
+   </div>
+   <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
 
-    {/* <div className="col s12">
-        <Link
-              to="/dashboard"
-              className="btn-flat waves-effect"
-              onClick={() =>
-                dispatch({
-                  type: GET_ERRORS,
-                  payload: {},
-                })
-              }
-            >
-              <i className="material-icons left">keyboard_backspace</i> Back to
-              dashboard
-            </Link>
-            </div> */}
+   
+   <form >
+   <div className="input-field col s4 m5">
+ <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
+ <label forhtml="title">Event title</label>
+ </div>
+ <div className="input-field col s4 m3">
+ <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none",background:"transparent",border:"1px solid #9e9e9e"}}>
+ <option value="">State</option>
+ <option value="Available" className="green-text">Available</option>
+ <option value="Closed" className="gray-text">Closed</option>
+  <option value="Ended" className="gray-text">Ended</option>
+ <option value="Invalid" className="gray-text">Invalid</option>
+ </select>
+ <label className="active">Event state</label>
+ </div>
+ <div className="input-field col s4 m4">
+ <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
+ <label forhtml="title">Event tags</label>
+ </div>
+   </form>
+   </div>
+ </div>
+
+
+{ map.show&&<div className=" map_container" id="map">
+<MyMap/>
+        </div>}
+
            { (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&eventsorganizer.length!=0&&
             
             <div className="row" style={{marginLeft:10}} > <h5> <b>{eventsorganizer.length+" result(s) found"}</b> </h5></div>}
@@ -284,8 +297,8 @@ useEffect(()=>{
                       justifyContent: "space-between",
                     }}
                   >
-                    <Link
-                    to='#!'
+                    <a
+                    href='#style-3'
                       onClick={()=>{
                         if(participant&&btnpart!=el._id){
                         
@@ -304,7 +317,7 @@ useEffect(()=>{
                     >
                       Show participants
                       <i className="tiny material-icons " style={{color:"#006064"}}>arrow_forward</i>
-                    </Link>
+                    </a>
                     <span
                       className={
                         el.state == "Available"
@@ -356,7 +369,7 @@ useEffect(()=>{
                         }}
                         title={el._id}
                         id={el._id}
-                        href="#!"
+                        href="#style-3"
                       >
                         <i className="material-icons ">edit</i>
                       </a>}
@@ -397,8 +410,8 @@ useEffect(()=>{
                   </div>
                 </div>
               </div>
-              {modal && modalId==el._id&&<div className="col s12 m6" style={{overflowY:"scroll",height:"360px",backgroundColor:"white"}}><AddEvent toggle={toggle} action={action} setAction={setAction} /></div>}
-              {participant&&participantId==el._id&&<div className="col s12 m6" style={{overflowY:"auto",height:"360px"}}>
+              {modal && modalId==el._id&&<div className="col s12 m6 groupofnotes scrollbar" id="style-3" style={{overflowY:"scroll",height:"360px",backgroundColor:"white"}}><AddEvent toggle={toggle} action={action} setAction={setAction} /></div>}
+              {participant&&participantId==el._id&&<div className="col s12 m6 groupofnotes scrollbar" id="style-3" style={{overflowY:"auto",height:"360px"}}>
               {el.participant.length!=0?<ul className="collection org">
     
     {el.participant.map((el,i)=>
@@ -522,7 +535,7 @@ useEffect(()=>{
             </a>
           </div>
         </div>
-    </>
+    </div>
   );
 }
 

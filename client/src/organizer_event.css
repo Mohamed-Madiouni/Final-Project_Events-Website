@@ -37,3 +37,8 @@
     background: white !important;
       
     }
+    .quicksearch{
+      -webkit-box-shadow: 0px 8px 20px 0px rgba(24, 32, 111, 0.2);
+-moz-box-shadow: 0px 8px 20px 0px rgba(24, 32, 111, 0.2);
+box-shadow: 0px 8px 20px 0px rgba(24, 32, 111, 0.2);
+    }
