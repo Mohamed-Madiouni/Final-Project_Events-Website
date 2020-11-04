@@ -15,6 +15,7 @@ import M from "materialize-css";
 import Navbar from './Navbar';
 import { getCurrentUser } from '../actions/authaction';
 import { logoutUser } from "../actions/authaction";
+import { formatRelativeWithOptions } from 'date-fns/esm/fp';
 
 
 function Calendar() {
@@ -131,7 +132,11 @@ let calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
         events={calendarEvents}
         dayMaxEvents={2}
         // events={[{title:"med",start:"2020-10-13T12:00",end:"2020-10-13T19:00"},{title:"med1",start:"2020-10-13T14:00",end:"2020-10-13T18:00"}]}
-        
+        eventTimeFormat={{
+          hour:"2-digit",
+          minute:"2-digit",
+          hour12:false
+        }}
       />
       </div>
       {/* <div  className="custom_mod" style={{display:mod?"initial":"none",padding:10}}>
