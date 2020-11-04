@@ -259,10 +259,33 @@ useEffect(()=>{
                   style={{ padding: "0px 10px 0px 24px" }}
                 >
                   <span className="card-title  grey-text text-darken-4" style={{height: "fit-content",lineHeight: "normal",marginTop: "2px",marginBottom:2}}>
-                   <marquee behavior="scroll" direction="left"><b>{el.title}</b></marquee> 
+                  {el.title.length<=1? <b>{el.title}</b>:<marquee scrolldelay={140} behavior="scroll" direction="left"><b>{el.title}</b></marquee> }
                   </span>
+                  {el.address.address.length<=20?
                   <a href="#map" >
-                 <marquee  behavior="scroll" direction="left"><p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
+                  {/* <marquee  behavior="scroll" direction="left" scrolldelay={200}> */}
+                    <p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
+                      dispatch({
+                       type:SHOW_MAP,
+                       payload:true
+                     })
+                     
+                     dispatch({
+                       type:STATE_MAP,
+                       payload:"show"
+                     })
+                     dispatch({
+                       type:ADD_FOCUS,
+                       payload:el.address
+                     })
+                   
+ 
+                  }}>{el.address.address}</p>
+                  {/* </marquee>  */}
+                   </a>
+                  
+                  :<a href="#map" >
+                 <marquee  behavior="scroll" direction="left" scrolldelay={140}><p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
                      dispatch({
                       type:SHOW_MAP,
                       payload:true
@@ -278,7 +301,7 @@ useEffect(()=>{
                     })
                   
 
-                 }}>{el.address.address}</p></marquee>  </a>
+                 }}>{el.address.address}</p></marquee>  </a>}
                   <div
                     style={{
                       display: "flex",
