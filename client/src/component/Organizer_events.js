@@ -17,7 +17,7 @@ import Search from './Search'
 import { logoutUser } from "../actions/authaction";
 import calcul_rating from "../outils/calucle_rating";
 import MyMap from "./Maps";
-
+import { formatRelative } from "date-fns";
 
 function Organizer_events({ history }) {
   const auth = useSelector((state) => state.auth);
@@ -45,6 +45,17 @@ function Organizer_events({ history }) {
 });
   const toggle = () =>{ 
     setModal(!modal)
+    dispatch({
+      type:ADD_PLACE,
+      payload:{}
+    })
+    dispatch({
+      type:ADD_INP,
+      payload:{
+        state:false,
+        inp:{}
+      }
+    })
   return modal};
   const participantToggle= () => {
     setParticipant(!participant);
@@ -69,7 +80,7 @@ function Organizer_events({ history }) {
   useEffect(() => {
     if (!localStorage.token) history.push("/");
      
-    M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false});
+    M.Slider.init(document.querySelectorAll(".slider"), { height: 60,indicators:false});
     M.updateTextFields()
     
     // return ()=>{setModal(false)}
@@ -238,10 +249,50 @@ useEffect(()=>{
                     className="card-content"
                     style={{ padding: "0px 10px 0px 24px" }}
                   >
-                    <span className="card-title  grey-text text-darken-4">
-                      <b>{el.title}</b>
+                    <span className="card-title  grey-text text-darken-4" style={{height: "fit-content",lineHeight: "normal",marginTop: "2px",marginBottom:2}}>
+                    {el.title.length<=12? <b>{el.title}</b>:<marquee scrolldelay={140} behavior="scroll" direction="left"><b>{el.title}</b></marquee> }
                     </span>
-                    <p className="red-text">{el.address.address}</p>
+                    {el.address.address.length<=20?
+                  <a href="#map" >
+                  {/* <marquee  behavior="scroll" direction="left" scrolldelay={200}> */}
+                    <p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
+                      dispatch({
+                       type:SHOW_MAP,
+                       payload:true
+                     })
+                     
+                     dispatch({
+                       type:STATE_MAP,
+                       payload:"show"
+                     })
+                     dispatch({
+                       type:ADD_FOCUS,
+                       payload:el.address
+                     })
+                   
+ 
+                  }}>{el.address.address}</p>
+                  {/* </marquee>  */}
+                   </a>
+                  
+                  :<a href="#map" >
+                 <marquee  behavior="scroll" direction="left" scrolldelay={140}><p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
+                     dispatch({
+                      type:SHOW_MAP,
+                      payload:true
+                    })
+                    
+                    dispatch({
+                      type:STATE_MAP,
+                      payload:"show"
+                    })
+                    dispatch({
+                      type:ADD_FOCUS,
+                      payload:el.address
+                    })
+                  
+
+                 }}>{el.address.address}</p></marquee>  </a>}
                     <div
                       style={{
                         display: "flex",
@@ -334,6 +385,7 @@ useEffect(()=>{
                       <b>{el.title}</b>
                       <i className="material-icons " style={{position:"absolute",right:10,top:10}}>close</i>
                     </span>
+                    <p style={{fontSize:13,color:"rgb(0, 96, 100)"}}>{formatRelative(new Date(el.start),new Date())+" - "+formatRelative(new Date(el.end),new Date())}</p>
                     <p style={{lineHeight:"normal"}}>{el.description}</p>
                     <div
                      

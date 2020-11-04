@@ -122,9 +122,9 @@ useEffect(()=>{
           </Switch>
         </div>
       )}
-    { resize.state&&<ul id="slide-out" className="sidenav" style={{background:" linear-gradient(90deg, #1c1b1b 0%, rgb(26, 23, 23) 100%)"}}>
+    { resize.state&&<ul id="slide-out" className="sidenav " style={{background:"white"}}>
     <li>
-        <div style={{background:" linear-gradient(90deg, #1c1b1b 0%, rgb(26, 23, 23) 100%)",
+        <div style={{background:"linear-gradient(90deg, #1c1b1b 0%, rgb(26, 23, 23) 100%)",
  height:"60px",display:"flex",justifyContent:"center",alignItems:"center"}}>
           {/* <div className="background">
             <img src="/background_profil.jpg" height="100%" width="100%" />
@@ -132,7 +132,7 @@ useEffect(()=>{
          <img
               src="/cocoEventtt.jpg"
               alt="COCO Event"
-              width="150px"
+              width="140px"
               height="50px"
               // style={{
               //   paddingTop: "7px",
@@ -145,7 +145,7 @@ useEffect(()=>{
         </div>
       </li>
  <li style={{transform: "translateY(-8px)"}}>
-        {/* <div className="divider"></div> */}
+        <div className="divider"></div>
       </li>
       {/* <li>
         <a href="/myaccount">

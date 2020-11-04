@@ -3,8 +3,8 @@
     position: relative;
     display: inline-flex;
     float: right;
-    height: 58px;
-    width: 70px;
+    height: 60px;
+    width: 60px;
     user-select: none;
     .show {
        flex: 1;
@@ -35,7 +35,7 @@
     .num{
        position:absolute;
        top:0px;
-       left:4px;
+       left:0px;
        background:rgb(216, 5, 5);
        border-radius:50%;
        width:18px;
@@ -52,7 +52,7 @@
  .notifications {
     position: absolute;
     top: 70px;
-    right: 7px;
+    right: 9px;
     width: 350px;
     background: rgb(51, 50, 50);
     border-top: 3px solid rgb(51, 50, 50);

@@ -47,7 +47,9 @@ useEffect(()=>{
     //   show&&!document.querySelector(".notifications").contains(e.target)&&setshow(!show)
     // }}
       >
-     { users.length!=0&&<div className="landing_app">
+     { users.length!=0&&
+     <div className="landing_app">
+    {!localStorage.token?<div>
         <Link
           to="/register"
           style={{
@@ -78,36 +80,13 @@ useEffect(()=>{
           LogIn
         </Link>
 
+        </div>
+     :<div style={{width:"100%",
+        display:"flex",
+        alignItems:"center",
+        justifyContent:"space-around"}}
         
-        {/* <a
-          href="#"
-          data-target="slide-out"
-          className="sidenav-trigger btn"
-          style={{
-            width: "90%",
-            borderRadius: "3px",
-            letterSpacing: "1.5px",
-            display: !localStorage.token ? "none" : "inline",
-          }}
         >
-          Account
-        </a> */}
-
-        {/* <a
-          to="/"
-          style={{
-            width: "90%",
-            borderRadius: "3px",
-            letterSpacing: "1.5px",
-            display: !localStorage.token ? "none" : "inline",
-            color: "white",
-          }}
-          
-          onClick={onLogoutClick}
-        > </a> */}
-
-     {localStorage.token &&
-    // <div><input type="checkbox" id="navtoggle" value="unchecked" /><input type="checkbox"/>
     <div className="toggleNotifications">
     {(notifsize>0)&&<div className="count">
             <div className="num">{allnotif.length!=0&&notif(allnotif,auth.user._id)}</div></div>}
@@ -118,7 +97,7 @@ payload:!shownotif
         })}>
           <i className="material-icons">notifications</i></label>
       { shownotif&& <div className="notifications">
-            <ul className="groupofnotes scrollbar" id="style-3" style={{ maxHeight: "500px", backgroundColor:"rgb(51, 50, 50)", overflowY: "auto"}}>
+            <ul className="groupofnotes scrollbar" id="style-3" style={{ maxHeight: "420px", backgroundColor:"rgb(51, 50, 50)", overflowY: "auto"}}>
 
      {(notifsize>0)?
     (filter_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>10)?10:10).map((el,i)=>{
@@ -218,33 +197,27 @@ payload:!shownotif
        Show all my notifications</div>
         </div>}
     </div>
-// </div>
-}
+ 
 
-{localStorage.token&&
-        <div style={{width:"100%",
-        display:"flex",
-        alignItems:"center",
-        justifyContent:resize.state?"flex-end":"space-around"}}
+
+
         
-        >
-          {localStorage.token &&
+          
           <a href="#signoutmodal" 
           className="modal-trigger" 
-          style={{color:"white",marginTop:5}}>
+          style={{color:"white",height:60,display:"flex",alignItems:"center",transform: "translateX(-5px)"}}>
             <i className="fas fa-sign-out-alt" 
             style={{cursor:"pointer",fontSize:20}}   
-            title="sign out"></i></a>}
+            title="sign out"></i></a>
           
        
-        {localStorage.token&&
+       
         <a href='#!' data-target='dropdown1' className='dropdown-trigger' 
-        style={{margin:resize.state&&"11px",
-        transform:"translateY(3.2px)"}}>
-          <img className="circle" src={auth.user.avatar} width="30px" height="30px"/></a>}
-        </div>}
+        style={{height:60,display:"flex",alignItems:"center"}}>
+          <img className="circle" src={auth.user.avatar} width="32px" height="32px"/></a>
+        
 
-
+</div>}
 </div>}
 
 <div id="modalnotifuser" className="modal" style={{ padding: 0, margin:0 }}>
