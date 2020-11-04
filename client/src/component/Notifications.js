@@ -54,7 +54,48 @@ function Notifications() {
                         return (
                             <div key={el._id} className="notification-per-period__period-card">
                               <div className="x-flex-column-h-center-v-any" style={{minWidth: "90px"}}>
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAQlBMVEVHcEwun+0un+0un+0un+0un+0un+0un+0un+0un+0un+0un+3+//9LrfCx2/h8w/Ti8v04pO5TsPDI5vrF5Pqu2vjMOoLpAAAAC3RSTlMAichYCprR+CTqMrIcawcAAADYSURBVDjLhVNZFoQgDGNHZHO9/1VHrHYA9bVfhYQmQMsYhpJaOGud0FKxZwzaegyrhw5WvIJPCm+qDMY/wlRFRudfwo14/hU/GFcNZfxHGPDB670Y6xU/BSr/MYWQKootIrqFW4o+HNjudFPFKiYhm6vtkzJDLm+FJYQVK8c1hOXWEA9/jYZgrvUYu4s4dnmMWwYKwHm7OBYJU5gKZd8LfCyQgBIZKFUCEgLlAGngYhKvmaA2KKX/NbuHyrl/KPKpyc+iv5tsGLrlyKal254eHHr06OH9Hv8fr7ckO+3gY/cAAAAASUVORK5CYII=" alt="Notification" />
+                                {(el.notiftype=="Event_Validation")&&
+                                 <img src="/Event_Validation.png" alt="Event_Validation" />}
+                                {(el.notiftype=="New_Event")&&
+                                 <img src="/New_Event.png" alt="New_Event" />}
+                                {(el.notiftype=="Event_Edition")&&
+                                 <img src="/Event_Edition.png" alt="Event_Edition" />}
+                                {(el.notiftype=="Comment_Reply_organizer")&&
+                                 <img src="/Comment_Reply_organizer.png" alt="Comment_Reply_organizer" />}
+                                {(el.notiftype=="Comment_Reply_User")&&
+                                 <img src="/Comment_Reply_User.png" alt="Comment_Reply_User" />}
+                                {(el.notiftype=="New_Follow")&&
+                                 <img src="/New_Follow.png" alt="New_Follow" />}
+                                {(el.notiftype=="New_Like")&&
+                                 <img src="/New_Like.png" alt="New_Like" />}
+                                {(el.notiftype=="New_Dislike")&&
+                                 <img src="/New_Dislike.png" alt="New_Dislike" />}
+                                {(el.notiftype=="Remove_Follow")&&
+                                 <img src="/Remove_Follow.png" alt="Remove_Follow" />}
+                                {(el.notiftype=="Event_Deleted")&&
+                                 <img src="/Event_Deleted.png" alt="Event_Deleted" />}
+                                {(el.notiftype=="Event_Invalidation")&&
+                                 <img src="/Event_Invalidation.png" alt="Event_Invalidation" />}
+                                {(el.notiftype=="New_Participation")&&
+                                 <img src="/New_Participation.png" alt="New_Participation" />}
+                                {(el.notiftype=="Cancel_Participation")&&
+                                 <img src="/Cancel_Participation.png" alt="Cancel_Participation" />}
+                                {(el.notiftype=="Event_Closed")&&
+                                 <img src="/Event_Closed.png" alt="Event_Closed" />}
+                                {(el.notiftype=="Event_Opened")&&
+                                 <img src="/Event_Opened.png" alt="Event_Opened" />}
+                                {(el.notiftype=="Account_Banned")&&
+                                 <img src="/Account_Banned.png" alt="Account_Banned" />}
+                                {(el.notiftype=="Account_Unbanned")&&
+                                 <img src="/Account_Unbanned.png" alt="Account_Unbanned" />}
+                                {(el.notiftype=="Account_Alerted")&&
+                                 <img src="/Account_Alerted.png" alt="Account_Alerted" />}
+                                {(el.notiftype=="Alert_Removed")&&
+                                 <img src="/Alert_Removed.png" alt="Alert_Removed" />}
+                                {(el.notiftype=="New_Comment")&&
+                                 <img src="/New_Comment.png" alt="New_Comment" />}
+                                {(el.notiftype=="Comment_Edition")&&
+                                 <img src="/Comment_Edition.png" alt="Comment_Edition" />}                                 
                                   </div>
                                   <div>
                                     <div className="notification-per-period__period-card__type">
