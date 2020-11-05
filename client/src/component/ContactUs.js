@@ -12,7 +12,25 @@ import "../ContactUs.css"
 const ContactUs = () => {
   const errors = useSelector((state) => state.errors);
   const dispatch = useDispatch();
-    const [inputs, setInputs] = useState({
+  const [maps, setMaps] = useState({
+    latitude: null,
+    longitude: null,
+    userAddress : null,
+  })
+  const getLocation=(e)=>{getLocation.bind(e)
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(getCoordinates);
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  }
+  const getCoordinates =(position)=>{
+    console.log(position)
+    // setMaps({
+      
+    // })
+  }
+      const [inputs, setInputs] = useState({
         name: '', 
         email: '', 
         phone: '',
@@ -260,7 +278,16 @@ style={{marginLeft:"50px",marginTop:"20px"}}>
           onChange={(e) => { setplace({ place: e }) }} />
       </div> */}
     </div>
-    
+    <div>
+      <h2>location</h2>
+      <button onClick={getLocation}>cordinates</button>
+    <p>Latitude:{maps.latitude}</p>
+    <p>longitude:{maps.longitude}</p>
+    <p>Address:{maps.userAddress}</p>
+
+    </div>
+
+
 <Footer/>
         </>
     );

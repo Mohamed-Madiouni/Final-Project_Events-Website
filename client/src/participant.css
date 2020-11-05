@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=David+Libre:wght@400;500&family=Roboto:ital,wght@0,100;0,400;1,500&display=swap');
 
 .organizer_hi{
-
-  margin:   25px 330px 50px !important;
-  height:   500px;
-  width:  50% !important;
-
+/* position: fixed; */
+  margin:   60px auto auto !important;
+  height:   370px;
+  width:  100% !important;
+ display: table-cell;
+ vertical-align: middle;
   -webkit-box-shadow: 0px 8px 20px 0px rgba(24, 32, 111, 0.2);
 -moz-box-shadow: 0px 8px 20px 0px rgba(24, 32, 111, 0.2);
 box-shadow: 0px 8px 20px 0px rgba(24, 32, 111, 0.2);

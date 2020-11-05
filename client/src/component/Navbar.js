@@ -65,11 +65,11 @@ function Navbar() {
 
           <div className="col s11 nav_list " style={{display:"flex",justifyContent:"space-around",alignItems:"center",margin:0}}>
             <Link to="/" style={{borderRadius:"10px" ,backgroundColor:location.pathname=="/"&&"cadetblue"}}>Home</Link>
-            <Link to="/dashboard" style={{borderRadius:"10px", backgroundColor:(location.pathname=="/dashboard"||location.pathname==`/dashboard/${auth.user._id}`)&&"cadetblue"}}>Dashboard</Link>
-            <Link to="/contact" style={{borderRadius:"10px", backgroundColor:location.pathname=="/contact"&&"cadetblue"}}>Contact</Link>
             <Link to="/about" style={{borderRadius:"10px", backgroundColor:location.pathname=="/about"&&"cadetblue"}}>About</Link>
+            <Link to="/dashboard" style={{borderRadius:"10px", backgroundColor:(location.pathname=="/dashboard"||location.pathname==`/dashboard/${auth.user._id}`)&&"cadetblue"}}>Dashboard</Link>
             <Link to="/events" style={{borderRadius:"10px", backgroundColor:location.pathname=="/events"&&"cadetblue"}}>Events</Link>
             <Link to="/calendar" style={{borderRadius:"10px", backgroundColor:location.pathname=="/calendar"&&"cadetblue"}}>Calendar</Link>
+            <Link to="/contact" style={{borderRadius:"10px", backgroundColor:location.pathname=="/contact"&&"cadetblue"}}>Contact</Link>
 
 {/* //           <div className="col s11  nav_list" style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
 //             <Link to="/" style={{color:location.pathname=="/"&&"rgb(14, 161, 152)"}}>Home</Link>

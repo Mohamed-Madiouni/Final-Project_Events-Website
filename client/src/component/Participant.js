@@ -167,10 +167,11 @@ useEffect(()=>{
 
             
       
-        
+        <div className="container" style={{verticalAlign: "middle"
+}}>
         <div className=" col s12
          organizer_hi "
-style={{marginTop:"200px"}}>
+style={{marginTop:"100px"}}>
           <div
             // className="col s12"
             style={{
@@ -188,7 +189,8 @@ style={{marginTop:"200px"}}>
   {/* <div class="profile-picture" 
     style={{backgroundImage:`url(${auth.user.avatar})`}}>
   </div> */}
-  <div style={{marginTop:"60px"}} >
+  <div 
+  style={{marginTop:"60px"}} >
             <h5 className="h5-tit">
               <span className="blue-title">Hi there,</span> {auth.user.fname} {auth.user.lname}
             </h5>
@@ -200,7 +202,7 @@ style={{marginTop:"200px"}}>
             </p>
             </div>
           </div>
-         
+          </div>
         </div>
         
 
