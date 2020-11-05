@@ -3,7 +3,7 @@
 .organizer_hi{
 /* position: fixed; */
   margin:   60px auto auto !important;
-  height:   370px;
+  height:   400px;
   width:  100% !important;
  display: table-cell;
  vertical-align: middle;
@@ -33,13 +33,13 @@ z-index: 99; */
 
 }
 
- .profile-picture {
+ /* .profile-picture {
   position: absolute;
-    /* background-position: center center; */
+   background-position: center center;
     background-size: cover;
    border: 5px #efefef solid; 
     border-radius: 5%;
-    /* bottom: -50px; */
+     bottom: -50px; 
      box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2), 1px 1px 4px rgba(0,0,0,0.3);
     height: 150px;
     left: 160px;
@@ -47,7 +47,7 @@ z-index: 99; */
     width: 350px;
     z-index: 3; 
       margin-left:-10px; 
-     margin-top: -80px;
+     margin-top: -80px; */
     /*background-position: top center;
     background-size: cover;
     position: absolute;
@@ -61,11 +61,11 @@ z-index: 99; */
   padding: 30px;
   display: flex;
   justify-content: center;
-  align-items: center; */
+  align-items: center;} */
 
  
   
-  }
+  
   .h5-tit{
     font-family: 'David Libre', serif !important;
     color:  hsl(0, 6%, 24%); 
@@ -92,6 +92,7 @@ left: 45px;
 margin-bottom: 10px;
   }
   .para-blue{
+    position: absolute;
     font-family: 'David Libre', serif !important;
     margin-bottom: 40px !important;
     text-align: center;
@@ -139,10 +140,51 @@ margin-bottom: 10px;
     /* position: absolute; */
     left: 6.25rem;
     top: -4.375rem;
-    padding-left: 40px;
+    /* padding-left: 40px; */
+  
   }
   .div--11{
-    margin: 100px 0 100px 100px ;
+    margin: 100px 100px 100px 100px ;
     
   }
+  @media all and (max-width: 820px) {
   
+    .div--11{
+      display: flex;
+    flex-direction: column;
+    margin-Left: -80%;
+    
+    }
+    .title-h{
+      font-size: 50px;
+    text-align: start;
+    }
+    .title-p{
+    width: auto;
+    text-align: start;
+    }
+    .title-btn{
+    text-align: center;
+    }
+    .working-img{
+      width: 300px;
+margin-left: 20%;
+ 
+    }
+    .title-btn{
+      width: auto;
+      margin-left: 27%;
+      margin-top: 50px;
+
+    }
+  }
+  @media all and (max-width: 820px) {
+    .organizer_hi{
+      height:  500px;
+
+    }
+    .h5-tit{
+      font-size: 50px;
+    }
+ 
+  }

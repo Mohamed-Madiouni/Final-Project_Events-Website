@@ -167,7 +167,7 @@ useEffect(()=>{
 
             
       
-        <div className="container" style={{verticalAlign: "middle"
+        <div className="container container-pa" style={{verticalAlign: "middle"
 }}>
         <div className=" col s12
          organizer_hi "
@@ -447,6 +447,9 @@ style={{marginTop:"100px"}}>
             <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>:<div  style={{marginLeft:10}}>
           {/* <h4> <b>Your dashboard is empty, get started and join events</b> </h4> */}
           <div className="row div--11">
+          <div className="col s6" id="up">
+          <img className="working-img" src="/illustration-working.svg" />
+        </div>
         <div className="col s6" id="down">
           <h1 className="title-h">Your dashboard is empty</h1>
           <p className="title-p">
@@ -456,9 +459,7 @@ style={{marginTop:"100px"}}>
           <button className="title-btn">Get Started</button>
           </Link>
         </div>
-        <div className="col s6" id="up">
-          <img className="working-img" src="/illustration-working.svg" />
-        </div>
+       
       </div>
         </div>}
                       <div id="modalevnt" className="modal">
