@@ -49,7 +49,7 @@ function Home() {
   
   // useEffect(()=>{
   //   M.Slider.init(document.querySelectorAll(".slider"), { height: 500 });
-  // },[auth.user.isAuthenticated])
+  // },[])
 
   //check if events ended
   useEffect(() => {
@@ -84,12 +84,13 @@ function Home() {
                 .map((el) => {
                   return (
                     <li key={el._id} >
-                      <img src={el.image} style={{filter:"blur(1.5px)"}} width="100%" height="100%" />
+                      <img src={el.image} style={{filter:"blur(0.5px)",backgroundPosition: "bottom"}} width="100%" height="100%" />
                       <div
                         className="caption left-align"
                         style={{
-                          width: "55%",
-                          left: "5%",
+                      
+                          left: "10%",
+                          position:"absolute",
                           //  background:"rgba(214, 211, 211,0.5)",
                           //  opacity:0.03
                           textShadow: "0 2px black",

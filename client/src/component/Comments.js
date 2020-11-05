@@ -433,7 +433,7 @@ return(
       //     </div>
           
       <div style={{
-        marginBottom:"50px",
+        marginBottom:"5px",
         cursor: "pointer",
         display: "flex",
         justifyContent:"center",
@@ -816,7 +816,7 @@ setTextedit("")
           //   <p  >Show more comments</p>
           // </div>
           <div style={{
-            marginBottom:"50px",
+            marginBottom:"5px",
             cursor: "pointer",
             display: "flex",
             justifyContent:"center",
@@ -874,7 +874,7 @@ return(
       //       <p  >Show more events</p>
       //     </div>
           <div style={{
-            marginBottom:"50px",
+            marginBottom:"5px",
             cursor: "pointer",
             display: "flex",
             justifyContent:"center",

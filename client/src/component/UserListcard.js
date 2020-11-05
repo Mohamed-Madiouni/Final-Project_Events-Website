@@ -262,7 +262,7 @@ const UserListcard = ({ users }) => {
       <p/>
           {(countuser + 1) * 10 < users.length && (
            <div style={{
-           marginBottom:"50px",
+           marginBottom:"5px",
            cursor: "pointer",
            display: "flex",
            justifyContent:"center",

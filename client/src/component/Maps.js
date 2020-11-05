@@ -48,6 +48,7 @@ function MyMap() {
   const dispatch=useDispatch()
   const map=useSelector(state=>state.map)
   const allevents=useSelector(state=>state.events.allEvents)
+  const alleventsadmin=useSelector(state=>state.admin.events)
   // const { isLoaded, loadError } = useLoadScript({
   //   googleMapsApiKey: process.env.REACT_APP_MAPS,
   //   libraries
@@ -164,7 +165,7 @@ useEffect(()=>{
       // onClick={()=>setselect(markers)}
        />
 :      
-allevents.map((el,i)=>
+alleventsadmin.length==0?allevents.map((el,i)=>
 (<Marker   
 key={i}
         position={{lat:el.address.lat,lng:el.address.lng}}
@@ -179,15 +180,36 @@ key={i}
        onClick={()=>setselect(el)}
         />
        
-       ))}
+       ))
+      :
+      alleventsadmin.map((el,i)=>
+(<Marker   
+key={i}
+        position={{lat:el.address.lat,lng:el.address.lng}}
+        icon={{
+         url: `/logo12.jpg`,
+         origin: new window.google.maps.Point(0, 0),
+         anchor: new window.google.maps.Point(15, 15),
+         scaledSize: new window.google.maps.Size(30, 30),
+       }}
+       // draggable={true}
+       // onDragEnd={onMapClick}
+       onClick={()=>setselect(el)}
+        />
+       
+       ))
+      
+      
+      }
        
         
 {select?(<InfoWindow position={{lat:select.address.lat,lng:select.address.lng}} 
 onCloseClick={()=>setselect(null)}>
-  <div>
+  <div style={{lineHeight:"25px"}}>
 <h5>{select.title}</h5>
 <p>{formatRelative(new Date(select.start),new Date())+" - "+formatRelative(new Date(select.end),new Date())}</p>
 <p>{select.address.address}</p>
+<p><b>{select.state}</b></p>
 
   </div>
 </InfoWindow>):null}

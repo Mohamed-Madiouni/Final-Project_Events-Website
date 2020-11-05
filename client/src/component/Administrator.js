@@ -9,6 +9,7 @@ import Notification from "./Notifications";
 import "../organizer.css";
 import M from "materialize-css";
 import { getUsers, getEvents } from "../actions/adminaction";
+import Footer from "./Footer";
 
 function Administrator() {
   const dispatch = useDispatch();
@@ -33,14 +34,15 @@ function Administrator() {
           margin: "30px 15px 20px 15px",
           fontSize: 15,
           height: 200,
-          display: "flex",
-          alignItems: "left",
+          // display: "flex",
+          // alignItems: "left",
           position: "relative",
         }}
       >
         <h5 style={{ position: "absolute", fontSize: 35, left: 5, top: -30 }}>
           <b>Hi there,</b> {auth.user.fname}
         </h5>
+        <div className="col s12" style={{marginBottom:20}}>
         <div
           className="col s8 "
           style={{
@@ -51,32 +53,16 @@ function Administrator() {
             marginTop: 70,
           }}
         >
-          <p /> We are happy to see you among US. <br />
+          <p> We are happy to see you among US. <br />
           This is your <b> Admin Dashboard</b>, You can manage accounts and
-          events.
+          events.</p>
         </div>
-        <br />
+        
 
-        <div
-          className="switch right"
-          style={{
-            color: "black",
-            fontSize: 20,
-            display: "flex",
-            alignItems: "center",
-            marginBottom: "-127px",
-            marginLeft: "-325px",
-            position: "relative",
-          }}
-        >
-          <label>
-            Manage account
-            <input type="checkbox" onClick={toggle} />
-            <span className="lever"></span>
-            Manage events
-          </label>
-        </div>
-
+<div className="col s4" style={{display:"flex",alignItems:"center",justifyContent:"center",
+ marginBottom: 10,
+            marginLeft: 0,
+            marginTop: 70,}}>
         <span
           style={{
             fontWeight: 800,
@@ -94,8 +80,31 @@ function Administrator() {
             View logs
           </button>
         </span>
+        </div>
+        </div>
+        <div
+          className="switch col s12"
+          style={{
+            color: "black",
+            fontSize: 20,
+            display: "flex",
+            alignItems: "center",
+            // marginBottom: "-127px",
+            // marginLeft: "-325px",
+            // position: "relative",
+            justifyContent:"center"
+          }}
+        >
+          <label>
+            Manage account
+            <input type="checkbox" onClick={toggle} />
+            <span className="lever"></span>
+            Manage events
+          </label>
+        </div>
       </div>
 
+     
       <div className="col s12">
         {modal ? (
           <div>
@@ -132,7 +141,9 @@ function Administrator() {
         >
           <Notification />
         </div>
+        
       </div>
+      <Footer/>
     </div>
   );
 }

@@ -18,7 +18,7 @@ import { logoutUser } from "../actions/authaction";
 import calcul_rating from "../outils/calucle_rating";
 import MyMap from "./Maps";
 import { formatRelative } from "date-fns";
-
+import Footer from './Footer';
 function Organizer_events({ history }) {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -186,11 +186,11 @@ useEffect(()=>{
 
    
    <form >
-   <div className="input-field col s4 m5">
+   <div className="input-field col s4">
  <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
  <label forhtml="title">Event title</label>
  </div>
- <div className="input-field col s4 m3">
+ <div className="input-field col s4">
  <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none",background:"transparent",border:"1px solid #9e9e9e"}}>
  <option value="">State</option>
  <option value="Available" className="green-text">Available</option>
@@ -200,7 +200,7 @@ useEffect(()=>{
  </select>
  <label className="active">Event state</label>
  </div>
- <div className="input-field col s4 m4">
+ <div className="input-field col s4">
  <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
  <label forhtml="title">Event tags</label>
  </div>
@@ -215,9 +215,35 @@ useEffect(()=>{
 
            { (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&eventsorganizer.length!=0&&
             
-            <div className="row" style={{marginLeft:10}} > <h5> <b>{eventsorganizer.length+" result(s) found"}</b> </h5></div>}
+            // <div className="row" style={{marginLeft:10}} > <h5> <b>{eventsorganizer.length+" result(s) found"}</b> </h5></div>
+            <div className="row" style={{marginLeft:"10px"}} > 
+              <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
+              <div className="wpb_column vc_column_container col 12">
+                <div className="vc_column-inner">
+                  <div className="wpb_wrapper">
+                    <div className="wpb_text_column wpb_content_element ">
+                      <div className=" wpb_wrapper"> 
+                      <h2>{eventsorganizer.length}</h2>
+                        <p className="pra-2"> result(s) found </p>
+                        </div></div></div></div></div></div> 
+           
+
+            </div> 
+            
+            }
             {eventsorganizer.length!=0?
-            <div className="row">
+            // <div className="row">
+               <div className="row" >
+               <div style={{marginLeft:"10px"}}>
+             <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
+              <div className="wpb_column vc_column_container col 12">
+                <div className="vc_column-inner">
+                  <div className="wb_wrapper">
+                    <div className="wpb_text_column wpb_content_element ">
+                      <div className=" wpb_wrapper">
+                        <h2>Your Events</h2>
+                        <p className="pra-2">Keep up with the latest events</p>
+                        </div></div></div></div></div></div></div>
       {eventsorganizer&&
         eventsorganizer.slice(0).reverse().map((el) => {
           return (
@@ -488,11 +514,37 @@ useEffect(()=>{
         
         </div>:(quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")?
             
-            <div className="row" style={{marginLeft:10}} > <h5> <b>{eventsorganizer.length+" result(s) found"}</b> </h5></div>:
-        <div  style={{marginLeft:10}}>
-          <h4> <b>Your dashboard is empty, get started and create events</b> </h4>
-        </div>
-        
+            // <div className="row" style={{marginLeft:10}} > <h5> <b>{eventsorganizer.length+" result(s) found"}</b> </h5></div>
+            <div className="row" style={{marginLeft:"10px"}} > 
+            <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
+            <div className="wpb_column vc_column_container col 12">
+              <div className="vc_column-inner">
+                <div className="wpb_wrapper">
+                  <div className="wpb_text_column wpb_content_element ">
+                    <div className=" wpb_wrapper"> 
+                    <h2>{eventsorganizer.length}</h2>
+                      <p className="pra-2"> result(s) found </p>
+                      </div></div></div></div></div></div> 
+         
+
+          </div>
+            :
+        // <div  style={{marginLeft:10}}>
+        //   <h4> <b>Your dashboard is empty, get started and create events</b> </h4>
+        // </div>
+        <div className="row" style={{marginLeft:"10px"}} > 
+        <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
+        <div className="wpb_column vc_column_container col 12">
+          <div className="vc_column-inner">
+            <div className="wpb_wrapper">
+              <div className="wpb_text_column wpb_content_element ">
+                <div className=" wpb_wrapper"> 
+                <h4>Your dashboard is empty, get started and create events</h4>
+                  {/* <p className="pra-2"> result(s) found </p> */}
+                  </div></div></div></div></div></div> 
+     
+
+      </div>
         }
         <div id="modal1" className="modal">
           <div className="modal-content">
@@ -587,6 +639,7 @@ useEffect(()=>{
             </a>
           </div>
         </div>
+        <Footer/>
     </div>
   );
 }

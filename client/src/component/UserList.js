@@ -83,7 +83,118 @@ const UserList = () => {
     <div>
       {/* <div className="row"> */}
 
-      <div
+      <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:255,paddingTop:40,position:"relative"}} >
+     <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for a user?</b></h5>
+       <div className="col s12">
+       <div className="col s12 l4" style={{fontStyle: "italic",fontSize:17,marginBottom:10}}>
+   <p>Select a user name or choose an address or email to find the one looking for.</p>
+   </div>
+   <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
+   <form>
+          <div className="input-field col s4">
+            <input
+              placeholder="First name search"
+              id="fname"
+              type="text"
+              value={quickSearch.fname}
+              onChange={onChange}
+            />
+            <label forhtml="fname">First name</label>
+          </div>
+          <div className="input-field col s4">
+            <select
+              id="role"
+              value={quickSearch.role}
+              onChange={onChange}
+              style={{
+                display: "initial",
+                marginTop: 4,
+                borderRadius: 5,
+                outline: "none",
+                background:"transparent",
+                border:"1px solid #9e9e9e"
+              }}
+            >
+              <option value="">All</option>
+              <option value="Participant" className="gray-text">
+                Participant
+              </option>
+              <option value="Organizer" className="gray-text">
+                Organizer
+              </option>
+              <option value="Admin" className="gray-text">
+                Admin
+              </option>
+              <option value="Moderator" className="gray-text">
+                Moderator
+              </option>
+            </select>
+            <label className="active">Role</label>
+          </div>
+          <div className="input-field col s4">
+            <input
+              placeholder="Last name search"
+              id="lname"
+              type="text"
+              value={quickSearch.lname}
+              onChange={onChange}
+            />
+            <label forhtml="title">Last name</label>
+          </div>
+
+          <div className="input-field col s4">
+            <input
+              placeholder="Email search"
+              id="email"
+              type="text"
+              value={quickSearch.email}
+              onChange={onChange}
+            />
+            <label forhtml="title">Email</label>
+          </div>
+          <div className="input-field col s4">
+            <input
+              placeholder="Address search"
+              id="address"
+              type="text"
+              value={quickSearch.address}
+              onChange={onChange}
+            />
+            <label forhtml="title">Address</label>
+          </div>
+          <div className="input-field col s4">
+            <input
+              placeholder="Telephone search"
+              id="tel"
+              type="text"
+              value={quickSearch.tel}
+              onChange={onChange}
+            />
+            <label forhtml="title">Telephone</label>
+          </div>
+        </form>
+   </div>
+   </div>
+   {resiz && (
+        <div className="col s12" style={{ display: "flex",
+        alignItems: "center",
+        justifyContent:"center"}}>
+          <div>
+            <div className="switch">
+              <label>
+                Card
+                <input type="checkbox" onClick={toggle} />
+                <span className="lever"></span>
+                List
+              </label>
+            </div>
+          </div>
+        </div>
+      )}
+ </div>
+
+
+      {/* <div
         className="col l9 offset-l1 s12"
         style={{ marginTop: "20px", fontSize: 15, fontWeight: 800 }}
       >
@@ -168,8 +279,8 @@ const UserList = () => {
             <label forhtml="title">Telephone</label>
           </div>
         </form>
-      </div>
-      {resiz && (
+      </div> */}
+      {/* {resiz && (
         <div className="col l2 s12">
           <div>
             <div className="switch">
@@ -182,7 +293,24 @@ const UserList = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
+
+{(quickSearch.fname!="" || quickSearch.lname!="" || quickSearch.role!="" || quickSearch.address!="" || quickSearch.tel!="" || quickSearch.email!="")&&
+            
+            <div className="row" style={{marginLeft:"10px"}} > 
+              <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
+              <div className="wpb_column vc_column_container col 12">
+                <div className="vc_column-inner">
+                  <div className="wpb_wrapper">
+                    <div className="wpb_text_column wpb_content_element ">
+                      <div className=" wpb_wrapper"> 
+                      <h2>{users.length}</h2>
+                        <p className="pra-2"> result(s) found </p>
+                        </div></div></div></div></div></div> 
+           
+
+            </div>}
+
 
       {modal ? (
         <span>
@@ -227,7 +355,7 @@ const UserList = () => {
                         }}
                         // key={el._id}
                       >
-                        <td className="center-align" style={{ padding: 0 }}>
+                        <td className="center-align" style={{ padding: 0,lineHeight: "normal" }}>
                           <span
                             className="card-image center-align"
                             style={{
@@ -375,7 +503,7 @@ const UserList = () => {
           <p>
             {(countuser + 1) * 10 < users.length && (
            <div style={{
-           marginBottom:"50px",
+           marginBottom:"5px",
            cursor: "pointer",
            display: "flex",
            justifyContent:"center",

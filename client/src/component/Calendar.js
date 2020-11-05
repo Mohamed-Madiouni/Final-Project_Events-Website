@@ -16,6 +16,7 @@ import Navbar from './Navbar';
 import { getCurrentUser } from '../actions/authaction';
 import { logoutUser } from "../actions/authaction";
 import { formatRelativeWithOptions } from 'date-fns/esm/fp';
+import Footer from './Footer';
 
 
 function Calendar() {
@@ -465,6 +466,7 @@ note that: </p><br/>
           </div>
         </div>
         </div>
+        <Footer/>
         </>
     )
 }

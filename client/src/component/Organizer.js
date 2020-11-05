@@ -15,7 +15,7 @@ import { getUsers } from '../actions/adminaction';
 import MyMap from "./Maps";
 import {sendNotifications} from "../actions/notificationaction";
 import { formatRelative } from "date-fns";
-
+import Footer from './Footer';
 
 function Organizer() {
   
@@ -143,8 +143,8 @@ useEffect(()=>{
       <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,display:"flex",alignItems:"center",position:"relative"}} >
      <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Hi there,</b> {auth.user.fname}</h5>
        <div className="col s8 " style={{fontStyle: "italic",fontSize:17,marginBottom:10}}>
-   <p />  We are happy to see you among US. <br />
-    This is your <b>Dashboard</b>, you can create edit and delete an event.
+   <p>  We are happy to see you among US. <br />
+    This is your <b>Dashboard</b>, you can create edit and delete an event.</p>
    </div>
    <div className="col s4" style={{fontWeight:800,marginBottom:10,height: "60%",display:"flex",flexDirection:"column",justifyContent:"space-around"}}>
    <div>
@@ -257,16 +257,39 @@ useEffect(()=>{
         <AddEvent toggle={toggle} action={action} setAction={setAction} /></div> */}
 
 
-<div className="col s12">
-  <h5  style={{marginLeft:10,color:"rgb(0, 96, 100)"}}> <b>Your last events</b> </h5>
+
+<div className=" col s12" >
+               <div style={{marginLeft:"10px"}}>
+             <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
+              <div className="wpb_column vc_column_container col 12">
+                <div className="vc_column-inner">
+                  <div className="wb_wrapper">
+                    <div className="wpb_text_column wpb_content_element ">
+                      <div className=" wpb_wrapper">
+                        <h2>Your Last Events</h2>
+                        {/* <p className="pra-2">Keep up with the latest events</p> */}
+                        </div></div></div></div></div></div></div>
+  {/* <h5  style={{marginLeft:10,color:"rgb(0, 96, 100)"}}> <b>Your last events</b> </h5> */}
 </div>
-        {events.events==0&&
-        <div  style={{marginLeft:10}}>
-          <h4> <b>Your dashboard is empty, get started and create events</b> </h4>
-        </div>
-        
+        {events.events.length==0&&
+        // <div  style={{marginLeft:10}}>
+        //   <h4> <b>Your dashboard is empty, get started and create events</b> </h4>
+        // </div>
+        <div className="row" style={{marginLeft:"10px"}} > 
+        <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
+        <div className="wpb_column vc_column_container col 12">
+          <div className="vc_column-inner">
+            <div className="wpb_wrapper">
+              <div className="wpb_text_column wpb_content_element ">
+                <div className=" wpb_wrapper"> 
+                <h4>Your dashboard is empty, get started and create events</h4>
+                  {/* <p className="pra-2"> result(s) found </p> */}
+                  </div></div></div></div></div></div> 
+     
+
+      </div>
         }
-      <div className="row card_event">
+      <div className="row ">
         {events.events &&
           events.events.slice(-6).reverse().map((el) => {
             return (
@@ -575,6 +598,7 @@ useEffect(()=>{
             </a>
           </div>
         </div>
+        <Footer/>
      </div>
   );
 }
