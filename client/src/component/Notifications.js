@@ -11,6 +11,7 @@ function Notifications() {
   const [countnotif, setCountnotif] = useState(0);
   const allnotif = useSelector((state) => state.notification.notifications);
   let auth = useSelector((state) => state.auth);
+  let allusers = useSelector((state) => state.admin.users);
   const users=useSelector(state=>state.admin.users)
   useEffect(() => {
     dispatch({
@@ -98,7 +99,11 @@ function Notifications() {
                                       <span>{el.title}</span>
                                       </div>
                                       <div className="notification-per-period__period-card__content">{el.content}</div>
-                                      <div className="notification-per-period__period-card__date">{historyuser(el.created_at)}</div>
+                                      <div className="notification-per-period__period-card__date">User:{" " +(allusers.find((elm) => elm._id == el.state[0].users)).fname + " "}{(allusers.find((elm) => elm._id == el.state[0].users)).fname}
+                                      <div className="notification-per-period__period-card__date">{el.created_at.toString().replace('Z', '').replace('T', ' ').replace(/\.\d+/, "")}</div>
+                                      
+                                      </div>
+                                      
                                       </div></div>
                         )})}
                                       </div>

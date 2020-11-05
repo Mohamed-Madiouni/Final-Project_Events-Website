@@ -22,6 +22,7 @@ function Notificationsuser() {
   useEffect(() => {
     dispatch(getUsers())
   }, []);
+  var i=0
 
   return (
        <>
@@ -35,12 +36,9 @@ function Notificationsuser() {
                 </div>
                 <div className="notification-page__content__container">
                   <div className="notification-container">
-                    <div className="notification-per-period">
-                      <div className="notification-per-period__title">
-                        <div className="x-flex-column-h-center-v-any ">
-                          </div>
-                          </div>
-                          <div className="notification-per-period__link">
+                   
+
+
                   {(notifsize>0) &&
                     (filter_notif(allnotif,auth.user._id))
                       .slice(0)
@@ -48,8 +46,35 @@ function Notificationsuser() {
                       .slice(0, 10 + countnotif * 10)
                       .map((el) => {
                         return (
-                          <div key={el._id} className="notification-per-period__period-card">
+
+                      <div key={el._id} >
+                     <div className="notification-per-period">
+                    
+                        
+
+
+            {((historyuser(el.created_at)[i])!=(historyuser(el.created_at)[i+1])) &&
+            
+                       
+                      <div className="notification-per-period__title">
+                        <div className="x-flex-column-h-center-v-any ">
+                         <span> 
+                          <div className="notification-per-period__period-card__date">{historyuser(el.created_at) }</div>
+                         </span>
+                         </div>
+                       </div>
+           } <span hidden>{i=i+1} </span>        
+
+                      
+                     
+
+
+
+
+                         <div className="notification-per-period__link">
+                          <div  className="notification-per-period__period-card">
                           <div className="x-flex-column-h-center-v-any" style={{minWidth: "90px"}}>
+                            
                           {(el.notiftype=="Event_Validation")&&
                                  <img src="/Event_Validation.png" alt="Event_Validation" />}
                                 {(el.notiftype=="New_Event")&&
@@ -98,8 +123,8 @@ function Notificationsuser() {
                                   <span>{el.title}</span>
                                   </div>
                                   <div className="notification-per-period__period-card__content">{el.content}</div>
-                                  <div className="notification-per-period__period-card__date">{historyuser(el.created_at)}</div>
-                                  </div></div>
+                                  <div className="notification-per-period__period-card__date">{el.created_at.toString().replace('Z', '').replace('T', ' ').replace(/\.\d+/, "")}</div>
+                                  </div></div></div></div></div>
                     )})}
                                   </div>
                                   <p/>
@@ -125,8 +150,8 @@ function Notificationsuser() {
                 SHOW MORE
               </div>
             )}
-         </div>
-         </div>
+         
+         
          </div>
          </div>
     </div>} 
