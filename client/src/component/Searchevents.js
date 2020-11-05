@@ -38,7 +38,7 @@ inp.current.focus()
   };
   function onSubmit(e) {
     e.preventDefault();
-    console.log(eventsearch);
+    
   //  let search= allevents.filter(el=>{
   //    return(
   //     el.title.toLowerCase().includes(eventsearch.title.toLowerCase())

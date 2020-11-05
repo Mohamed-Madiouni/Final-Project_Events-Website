@@ -297,7 +297,7 @@ useEffect(()=>{
                      })
                    
  
-                  }}>{el.address.address}</p>
+                  }}><i className="fas fa-home" style={{marginRight:5}}></i>{el.address.address}</p>
                   {/* </marquee>  */}
                    </a>
                   
@@ -318,7 +318,7 @@ useEffect(()=>{
                     })
                   
 
-                 }}>{el.address.address}</p></marquee>  </a>}
+                 }}><i className="fas fa-home" style={{marginRight:5}}></i>{el.address.address}</p></marquee>  </a>}
                     <div
                       style={{
                         display: "flex",
@@ -496,7 +496,7 @@ useEffect(()=>{
     {return(<li key={i} className="collection-item avatar">
       <img src={el.avatar} alt="" className="circle"/>
       <span className="title"><b>{el.fname+" "+el.lname}</b></span>
-      <p className="red-text">{el.address}</p>
+      <p className="red-text"><i className="fas fa-home" style={{marginRight:5}}></i>{el.address}</p>
         <p>{el.email}</p> 
       
       
@@ -533,16 +533,26 @@ useEffect(()=>{
         //   <h4> <b>Your dashboard is empty, get started and create events</b> </h4>
         // </div>
         <div className="row" style={{marginLeft:"10px"}} > 
-        <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
+        {/* <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
         <div className="wpb_column vc_column_container col 12">
           <div className="vc_column-inner">
             <div className="wpb_wrapper">
               <div className="wpb_text_column wpb_content_element ">
                 <div className=" wpb_wrapper"> 
                 <h4>Your dashboard is empty, get started and create events</h4>
-                  {/* <p className="pra-2"> result(s) found </p> */}
-                  </div></div></div></div></div></div> 
-     
+                 
+                  </div></div></div></div></div></div>  */}
+      <div className="row">
+        <div className="col s12 l6" id="down">
+          <h1 className="title-h">Your dashboard is empty</h1>
+          <p className="title-p">
+          Get started and create events.
+          </p>
+        </div>
+        <div className="col s12 l6" id="up">
+          <img className="working-img" src="/illustration-working.svg" />
+        </div>
+      </div>
 
       </div>
         }

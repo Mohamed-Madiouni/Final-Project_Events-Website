@@ -424,7 +424,7 @@ const EventList = () => {
                      })
                    
  
-                  }}>{el.address.address}</p>
+                  }}><i className="fas fa-home" style={{marginRight:5}}></i>{el.address.address}</p>
                   {/* </marquee>  */}
                    </a>
                   
@@ -445,7 +445,7 @@ const EventList = () => {
                     })
                   
 
-                 }}>{el.address.address}</p></marquee>  </a>}
+                 }}><i className="fas fa-home" style={{marginRight:5}}></i>{el.address.address}</p></marquee>  </a>}
                       <div
                         style={{
                           display: "flex",
@@ -505,6 +505,7 @@ const EventList = () => {
                                 justifyContent:"center",
                                 alignItems: "center",
                                 display: "flex",
+                                zIndex:1
                               }}>
                                 {" "}
                                 <p className="chip">{el}</p>{" "}

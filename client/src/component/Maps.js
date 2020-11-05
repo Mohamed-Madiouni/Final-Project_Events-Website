@@ -209,7 +209,8 @@ onCloseClick={()=>setselect(null)}>
 <h5>{select.title}</h5>
 <p>{formatRelative(new Date(select.start),new Date())+" - "+formatRelative(new Date(select.end),new Date())}</p>
 <p>{select.address.address}</p>
-<p><b>{select.state}</b></p>
+<p className={select.state == "Available"? "green-text": " gray-text text-darken-3"}>
+  <b>{select.state}</b></p>
 
   </div>
 </InfoWindow>):null}

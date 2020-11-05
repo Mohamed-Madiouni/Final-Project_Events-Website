@@ -108,6 +108,7 @@ useEffect(()=>{
                 value={userlog.email}
                 id="email"
                 type="email"
+                autoFocus
               />
               <label htmlFor="email">Email</label>
               <span className={userlog.error.email && "red-text"}>

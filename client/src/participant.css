@@ -2,8 +2,8 @@
 
 .organizer_hi{
 /* position: fixed; */
-  margin:   60px auto auto !important;
-  height:   370px;
+  margin-top:   10px;
+  height:   fit-content;
   width:  100% !important;
  display: table-cell;
  vertical-align: middle;
@@ -72,11 +72,14 @@ z-index: 99; */
 
     text-align: center;
   font-weight: 600;
-  font-size: 70px;
-  letter-spacing: 10px;
-  margin-bottom: 70px;
-  padding: 30px 70px 0px 70px;
-  text-transform: uppercase;}
+  font-size: 50px;
+  letter-spacing: 5px;
+  /* margin-bottom: 70px; */
+  /* padding: 30px 70px 0px 70px; */
+  text-transform: uppercase;
+padding-top: 60px;
+
+}
   .blue-title {
     color: hsl(180, 66%, 49%);
     /* opacity: 0.5; */
@@ -89,16 +92,16 @@ position: absolute;
 z-index: 10;
 top: 15px;
 left: 45px;
-margin-bottom: 10px;
+/* margin-bottom: 10px; */
   }
   .para-blue{
     font-family: 'David Libre', serif !important;
-    margin-bottom: 40px !important;
+    /* margin-bottom: 40px !important; */
     text-align: center;
     color: black; 
   font-weight: 400;
   line-height: 1.6;
-  padding: 0px 57px 20px 57px;
+  padding: 0px 57px 30px 57px;
   font-size: 20px;
   }
   .title-h {

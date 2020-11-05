@@ -128,135 +128,99 @@ useEffect(()=>{
          )
        })
   
+       const onChange = (e) => {
+        setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value })};
+
     return (
 
         <div>
-          <div className="row">
-        <Search className="col s12"
-        quickSearch={quickSearch}
-        setQuickSearch={setQuickSearch}/>
-
-        {/* <>         */}
+         
         { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
         <i className="fas fa-exclamation-circle" style={{color:"red",fontSize:15,marginTop:5}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban your account 
         </i>
         }
-{/* //         <div className='row container' ><h5><b>Quick search</b></h5></div>
 
-// <div className="row container" style={{marginTop:"20px",fontSize:15,fontWeight:800}} >
-//   <form >
-//   <div className="input-field col s4 m5">
-// <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
-// <label forhtml="title">Event title</label>
-// </div>
-// <div className="input-field col s4 m3">
-// <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none"}}>
-// <option value="">State</option>
-// <option value="Available" className="green-text">Available</option>
-// <option value="Closed" className="gray-text">Closed</option>
-// <option value="Ended" className="gray-text">Ended</option>
-// </select>
-// <label className="active">Event state</label>
-// </div>
-// <div className="input-field col s4 m4">
-// <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
-// <label forhtml="title">Event tags</label>
-// </div>
-//   </form>
-// </div> */}
-
-            
-      
-        <div className="container" style={{verticalAlign: "middle"
+<div className="container row" style={{verticalAlign: "middle"
 }}>
-        <div className=" col s12
-         organizer_hi "
-style={{marginTop:"100px"}}>
-          <div
-            // className="col s12"
-            style={{
-              // paddingTop: "0.75rem",
-              // paddingBottom: "0.75rem",
-              marginTop:20,
-            }}
-          >
-            
-            {" "}
-            {/* <figure class="profile-banner">
-    <img src="https://www.bacp.co.uk/media/7326/partybanner.jpg?anchor=center&mode=crop&width=1120&heightratio=0&format=jpg&quality=80&slimmage=true&rnd=132207170210000000" alt="Profile banner" />
-  </figure> */}
-  
-  {/* <div class="profile-picture" 
-    style={{backgroundImage:`url(${auth.user.avatar})`}}>
-  </div> */}
-  <div 
-  style={{marginTop:"60px"}} >
-            <h5 className="h5-tit">
-              <span className="blue-title">Hi there,</span> {auth.user.fname} {auth.user.lname}
-            </h5>
+        <div className=" col s12 organizer_hi "
+         >
+            <p className="h5-tit">
+              {auth.user.fname} {auth.user.lname}
+            </p>
+            <span className="blue-title">Hi there,</span> 
         <p className="para-blue">
           {" "}
           We are happy to see you among US. <br />
               This is your <b>Dashboard</b>, you can see all your events that
               you have been participated.
             </p>
-            </div>
-          </div>
+           
           </div>
         </div>
+
+<div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >
+     <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
+       <div className="col s12 l4" style={{fontStyle: "italic",fontSize:17,marginBottom:10}}>
+   <p>Select an event state or choose title or tag to discover best events for you.</p>
+   </div>
+   <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
+
+   
+   <form >
+   <div className="input-field col s4">
+ <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
+ <label forhtml="title">Event title</label>
+ </div>
+ <div className="input-field col s4">
+ <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none",background:"transparent",border:"1px solid #9e9e9e"}}>
+ <option value="">State</option>
+ <option value="Available" className="green-text">Available</option>
+ <option value="Closed" className="gray-text">Closed</option>
+  <option value="Ended" className="gray-text">Ended</option>
+ </select>
+ <label className="active">Event state</label>
+ </div>
+ <div className="input-field col s4">
+ <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
+ <label forhtml="title">Event tags</label>
+ </div>
+   </form>
+   </div>
+ </div>
+
+
+            
+      
         
-
-{/* //           This is your <b>Dashboard</b>, you can see all your events that
-//           you have been participated.
-//         </p>
-           
-//           </div>
-         
-//         </div> */}
-        {/* <div
-          className="col s2 l4"
-
-
-          style={{
-            paddingRight: "0px",  
-          }}
-        >
-          <div className="organizer_nav_part"
-          style={{position: "fixed",
-          marginTop:"20px",
-          right:50
-          }}>
-            <div>
-              <a className="btn-floating  cadetblue">
-                <i
-                  className="material-icons"
-                  onClick={toggle}
-                  title="Add Comment"
-                >
-                comment
-                </i>
-              </a>
-
-              {/* <label>Add comment</label> */}
-
-            {/* </div>
-          </div>
-        </div>  */}
-      </div>
+    
 
  { (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&events.length!=0&&
             
-            <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>}
+            // <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>
+            <div className="row" style={{marginLeft:"10px"}} > 
+              <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
+              <div className="wpb_column vc_column_container col 12">
+                <div className="vc_column-inner">
+                  <div className="wpb_wrapper">
+                    <div className="wpb_text_column wpb_content_element ">
+                      <div className=" wpb_wrapper"> 
+                      <h2>{events.length}</h2>
+                        <p className="pra-2"> result(s) found </p>
+                        </div></div></div></div></div></div> 
+           
+
+            </div>
+            }
 
  {events&&events.length!=0?
  
 <div className="row"style={{marginLeft:"50px",marginTop:"20px"}}>
-             <div class=" row vc_row wpb_row vc_row-fluid section-header featured">
-              <div class="wpb_column vc_column_container col 12">
-                <div class="vc_column-inner">
-                  <div class="wb_wrapper">
-                    <div class="wpb_text_column wpb_content_element ">
-                      <div class=" wpb_wrapper">
+             <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
+              <div className="wpb_column vc_column_container col 12">
+                <div className="vc_column-inner">
+                  <div className="wb_wrapper">
+                    <div className="wpb_text_column wpb_content_element ">
+                      <div className=" wpb_wrapper">
                         <h2>Your participation</h2>
                         <p className="pra-2">Keep up with the latest digital events</p>
                         </div></div></div></div></div></div>
@@ -444,19 +408,32 @@ style={{marginTop:"100px"}}>
                      
                       </div>: (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")?
             
-            <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>:<div  style={{marginLeft:10}}>
+            <div className="row" style={{marginLeft:"10px"}} > 
+              <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
+              <div className="wpb_column vc_column_container col 12">
+                <div className="vc_column-inner">
+                  <div className="wpb_wrapper">
+                    <div className="wpb_text_column wpb_content_element ">
+                      <div className=" wpb_wrapper"> 
+                      <h2>{events.length}</h2>
+                        <p className="pra-2"> result(s) found </p>
+                        </div></div></div></div></div></div> 
+           
+
+            </div>
+            :<div  style={{marginLeft:10}}>
           {/* <h4> <b>Your dashboard is empty, get started and join events</b> </h4> */}
-          <div className="row div--11">
-        <div className="col s6" id="down">
+          <div className="row">
+        <div className="col s12 l6" id="down">
           <h1 className="title-h">Your dashboard is empty</h1>
           <p className="title-p">
-            Build your brand’s recognition and get started and join events.
+           Get started and join events.
           </p>
-          <Link to="/events">
-          <button className="title-btn">Get Started</button>
-          </Link>
+          
+          <button className="title-btn"><Link to="/events">Get Started</Link></button>
+          
         </div>
-        <div className="col s6" id="up">
+        <div className="col s12 l6" id="up">
           <img className="working-img" src="/illustration-working.svg" />
         </div>
       </div>

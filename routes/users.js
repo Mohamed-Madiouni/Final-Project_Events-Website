@@ -164,7 +164,7 @@ res.status(200).send(users)
 router.put('/add/follow',authMiddleware,(req,res)=>{
 User.findByIdAndUpdate(req.userId,{$push:{follow:req.body.follow}})
 .then(user=>{
-  console.log(user)
+  // console.log(user)
   res.status(202).send({follow:"succefully"})})
 .catch(err=>res.status(500).send(err.message))
 
@@ -174,7 +174,7 @@ User.findByIdAndUpdate(req.userId,{$push:{follow:req.body.follow}})
 router.put('/remove/follow',authMiddleware,(req,res)=>{
   User.findByIdAndUpdate(req.userId,{$pull:{follow:req.body.follow}})
   .then(user=>{
-    console.log(user)
+    // console.log(user)
     res.status(202).send({unfollow:"succefully"})})
   .catch(err=>res.status(500).send(err.message))
   

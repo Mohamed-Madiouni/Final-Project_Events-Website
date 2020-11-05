@@ -10,7 +10,7 @@ import historyevent from "../outils/history"
 import Navbar from './Navbar';
 import "../events.css";
 import M from "materialize-css";
-import {ADD_FOCUS, ADD_INP, ADD_PLACE, GET_ERRORS, SHOW_MAP, STATE_MAP  } from "../actions/types";
+import {ADD_FOCUS, GET_ERRORS, SHOW_MAP, STATE_MAP  } from "../actions/types";
 import eventClosing from "../outils/eventClosing";
 import Footer from './Footer';
 import Search from './Search';
@@ -301,7 +301,7 @@ useEffect(()=>{
                      })
                    
  
-                  }}>{el.address.address}</p>
+                  }}><i className="fas fa-home" style={{marginRight:5}}></i>{el.address.address}</p>
                   {/* </marquee>  */}
                    </a>
                   
@@ -322,7 +322,7 @@ useEffect(()=>{
                     })
                   
 
-                 }}>{el.address.address}</p></marquee>  </a>}
+                 }}><i className="fas fa-home" style={{marginRight:5}}></i>{el.address.address}</p></marquee>  </a>}
                     <div
                       style={{
                         display: "flex",

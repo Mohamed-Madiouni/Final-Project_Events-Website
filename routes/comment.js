@@ -94,7 +94,7 @@ router.put("/add/like/:commentId",authMiddleware,(req,res)=>{
     });  
 User.findByIdAndUpdate(req.body.user,{$push:{likes:req.params.commentId}},(err,user)=>{
   if (err) throw err
-  console.log(user)
+  // console.log(user)
 })
     res.status(202).send(com)
   })
@@ -119,7 +119,7 @@ router.put("/add/like/remove/:commentId",authMiddleware,(req,res)=>{
     });  
 User.findByIdAndUpdate(req.body.user,{$pull:{likes:req.params.commentId}},(err,user)=>{
   if (err) throw err
-  console.log(user)
+  // console.log(user)
 })
     res.status(202).send(com)
   })
@@ -143,7 +143,7 @@ router.put("/add/dislike/:commentId",authMiddleware,(req,res)=>{
     });  
 User.findByIdAndUpdate(req.body.user,{$push:{dislikes:req.params.commentId}},(err,user)=>{
   if (err) throw err
-  console.log(user)
+  // console.log(user)
 })
     res.status(202).send(com)
   })
@@ -167,7 +167,7 @@ router.put("/add/dislike/remove/:commentId",authMiddleware,(req,res)=>{
     });  
 User.findByIdAndUpdate(req.body.user,{$pull:{dislikes:req.params.commentId}},(err,user)=>{
   if (err) throw err
-  console.log(user)
+  // console.log(user)
 })
     res.status(202).send(com)
   })
@@ -208,7 +208,7 @@ router.put("/add/like/reply/:replyId",authMiddleware,(req,res)=>{
     });
     User.findByIdAndUpdate(req.body.user,{$push:{likes:req.params.replyId}},(err,user)=>{
       if (err) throw err
-      console.log(user)
+      // console.log(user)
     })
 
     res.status(202).send(com)
@@ -232,7 +232,7 @@ router.put("/add/like/reply/remove/:replyId",authMiddleware,(req,res)=>{
     });
     User.findByIdAndUpdate(req.body.user,{$pull:{likes:req.params.replyId}},(err,user)=>{
       if (err) throw err
-      console.log(user)
+      // console.log(user)
     })
 
     res.status(202).send(com)
@@ -257,7 +257,7 @@ router.put("/add/dislike/reply/:replyId",authMiddleware,(req,res)=>{
     });
     User.findByIdAndUpdate(req.body.user,{$push:{dislikes:req.params.replyId}},(err,user)=>{
       if (err) throw err
-      console.log(user)
+      // console.log(user)
     })
 
     res.status(202).send(com)
@@ -281,7 +281,7 @@ router.put("/add/dislike/reply/remove/:replyId",authMiddleware,(req,res)=>{
     });
     User.findByIdAndUpdate(req.body.user,{$pull:{dislikes:req.params.replyId}},(err,user)=>{
       if (err) throw err
-      console.log(user)
+      // console.log(user)
     })
 
     res.status(202).send(com)
@@ -327,7 +327,7 @@ router.put("/edit/reply/:commentId",authMiddleware,(req,res)=>{
 
  //delete reply 
  router.put("/delete/reply/:commentId",authMiddleware,(req,res)=>{
- console.log(req.body)
+//  console.log(req.body)
   Comment.findOneAndUpdate({_id:req.params.commentId},{$pull:{reply:{id:req.body.reply_id}}})
   .then(del=> {
     pusher.trigger('my-channel', 'my-event', {
