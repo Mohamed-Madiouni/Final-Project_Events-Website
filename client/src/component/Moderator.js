@@ -45,7 +45,7 @@ function Moderator() {
         <div
           className="col s8 "
           style={{
-            fontStyle: "italic",
+            fontStyle: "",
             fontSize: 17,
             marginBottom: 10,
             marginLeft: 0,

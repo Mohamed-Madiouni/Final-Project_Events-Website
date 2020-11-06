@@ -140,7 +140,7 @@ const EventList = () => {
     }}>
        <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:250,paddingTop:45,position:"relative"}} >
      <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
-       <div className="col s12 l4" style={{fontStyle: "italic",fontSize:17,marginBottom:10}}>
+       <div className="col s12 l4" style={{fontStyle: "",fontSize:17,marginBottom:10}}>
    <p>Select an event title or choose an address or tags to find the one looking for.</p>
    </div>
    <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>

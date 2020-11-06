@@ -46,7 +46,7 @@ function Administrator() {
         <div
           className="col s8 "
           style={{
-            fontStyle: "italic",
+            // fontStyle: "italic",
             fontSize: 17,
             marginBottom: 10,
             marginLeft: 0,

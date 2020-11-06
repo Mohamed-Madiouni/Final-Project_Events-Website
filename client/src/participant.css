@@ -91,7 +91,8 @@ line-height: 40px;
 position: absolute;
 z-index: 10;
 top: 15px;
-left: 45px;
+left: 50%;
+transform: translateX(-78px);
 /* margin-bottom: 10px; */
   }
   .para-blue{

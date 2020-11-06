@@ -7,7 +7,7 @@ import get_month from "../outils/get_month"
 import "../organizer.css";
 import M from "materialize-css";
 // import eventClosing from "../outils/eventClosing";
-import { GET_ERRORS } from "../actions/types";
+import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP  } from "../actions/types";
 import { getMyEvents,getCurrentUser } from "../actions/authaction";
 import historyevent from "../outils/history"
 
@@ -17,12 +17,14 @@ import "../participant.css"
 import { logoutUser } from "../actions/authaction";
 import calcul_rating from "../outils/calucle_rating";
 import Footer from "./Footer"
+import { formatRelative } from "date-fns";
+import MyMap from "./Maps";
 
 function Participant() {
 
     const dispatch = useDispatch();
     const history =useHistory()
-  
+    const map = useSelector(state=>state.map)
     const auth = useSelector((state) => state.auth);
     const allevents= useSelector((state)=>state.events.allEvents)
     const errors=useSelector(state=>state.errors)
@@ -106,7 +108,7 @@ useEffect(()=>{
 
    useEffect(()=>{
       M.Materialbox.init(document.querySelectorAll('.materialboxed'))
-      M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false });
+      M.Slider.init(document.querySelectorAll(".slider"), { height: 60,indicators:false });
       M.updateTextFields()
       if(errors.banned)
       {
@@ -133,14 +135,29 @@ useEffect(()=>{
 
     return (
 
-        <div>
+        <div onClick={(e)=>{
+          map.show&&!(document.querySelector(".map_container").contains(e.target)||document.querySelector("reach-portal").contains(e.target)||[...document.getElementsByClassName("address_map")].includes(e.target))&&
+          dispatch({
+            type:SHOW_MAP,
+            payload:false
+          })&&
+          dispatch({
+            type:STATE_MAP,
+            payload:""
+          })&&
+          dispatch({
+            type:ADD_FOCUS,
+            payload:{}
+          })
+          
+        }}>
          
         { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
         <i className="fas fa-exclamation-circle" style={{color:"red",fontSize:15,marginTop:5}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban your account 
         </i>
         }
 
-<div className="container row" style={{verticalAlign: "middle"
+<div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px"
 }}>
         <div className=" col s12 organizer_hi "
          >
@@ -160,7 +177,7 @@ useEffect(()=>{
 
 <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >
      <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
-       <div className="col s12 l4" style={{fontStyle: "italic",fontSize:17,marginBottom:10}}>
+       <div className="col s12 l4" style={{fontStyle: "",fontSize:17,marginBottom:10}}>
    <p>Select an event state or choose title or tag to discover best events for you.</p>
    </div>
    <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
@@ -191,7 +208,9 @@ useEffect(()=>{
 
             
       
-        
+ { map.show&&<div className=" map_container" id="map">
+<MyMap/>
+        </div>} 
     
 
  { (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&events.length!=0&&
@@ -222,7 +241,7 @@ useEffect(()=>{
                     <div className="wpb_text_column wpb_content_element ">
                       <div className=" wpb_wrapper">
                         <h2>Your participation</h2>
-                        <p className="pra-2">Keep up with the latest digital events</p>
+                        <p className="pra-2">Keep up with the latest events</p>
                         </div></div></div></div></div></div>
            {events&&events.slice(0).reverse().map(el=>{
                return (<div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
@@ -258,10 +277,50 @@ useEffect(()=>{
                               className="card-content "
                               style={{ padding: "0px 10px 0px 24px" }}
                             >
-                              <span className="card-title  grey-text text-darken-4">
-                                <b>{el.title}</b>
-                              </span>
-                              <p className="red-text">{el.address.address}</p>
+                              <span className="card-title  grey-text text-darken-4" style={{height: "fit-content",lineHeight: "normal",marginTop: "2px",marginBottom:2}} >
+                              {el.title.length<=12? <b>{el.title}</b>:<marquee scrolldelay={140} behavior="scroll" direction="left"><b>{el.title}</b></marquee> }
+                  </span>
+                  {el.address.address.length<=18?
+                  <a href="#map" >
+                  {/* <marquee  behavior="scroll" direction="left" scrolldelay={200}> */}
+                    <p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
+                      dispatch({
+                       type:SHOW_MAP,
+                       payload:true
+                     })
+                     
+                     dispatch({
+                       type:STATE_MAP,
+                       payload:"show"
+                     })
+                     dispatch({
+                       type:ADD_FOCUS,
+                       payload:el.address
+                     })
+                   
+ 
+                  }}><i className="fas fa-home" style={{marginRight:5}}></i>{el.address.address}</p>
+                  {/* </marquee>  */}
+                   </a>
+                  
+                  :<a href="#map" >
+                 <marquee  behavior="scroll" direction="left" scrolldelay={140}><p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
+                     dispatch({
+                      type:SHOW_MAP,
+                      payload:true
+                    })
+                    
+                    dispatch({
+                      type:STATE_MAP,
+                      payload:"show"
+                    })
+                    dispatch({
+                      type:ADD_FOCUS,
+                      payload:el.address
+                    })
+                  
+
+                 }}><i className="fas fa-home" style={{marginRight:5}}></i>{el.address.address}</p></marquee>  </a>}
                               <div
                                 style={{
                                   display: "flex",
@@ -375,12 +434,13 @@ useEffect(()=>{
                                 {el.state}
                               </span>
                             </div>
-                            <div className="card-reveal">
+                            <div className="card-reveal" style={{paddingRight:55,overflowWrap:"anywhere"}}>
                               <span className="card-title grey-text text-darken-4">
                                 <b>{el.title}</b>
-                                <i className="material-icons right">close</i>
+                                <i className="material-icons right"  style={{position:"absolute",right:10,top:10}}>close</i>
                               </span>
-                              <p>{el.description}</p>
+                              <p style={{fontSize:13,color:"rgb(0, 96, 100)"}}>{formatRelative(new Date(el.start),new Date())+" - "+formatRelative(new Date(el.end),new Date())}</p>
+                              <p style={{lineHeight:"normal"}}>{el.description}</p>
                               <div
                               className="right"
                               style={{
@@ -388,6 +448,9 @@ useEffect(()=>{
                                 flexDirection: "column",
                                 alignItems: "center",
                                 justifyContent: "space-between",
+                                position:"absolute",
+                                right:5,
+                                top:65
                               }}
                               >
                                {" "}
