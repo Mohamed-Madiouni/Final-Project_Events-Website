@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../actions/authaction";
@@ -13,6 +13,7 @@ import Notificationuser from "./Notificationsuser";
 import Notifications from "./Notifications";
 import { getUsers } from "../actions/adminaction";
 import { SHOW_NOTIF } from "../actions/types";
+import { roundToNearestMinutes } from "date-fns";
 function Landing({}) {
   const dispatch = useDispatch();
   const history = useHistory()
@@ -40,7 +41,26 @@ useEffect(()=>{M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))})
 useEffect(()=>{
   M.Modal.init(document.querySelectorAll(".modal"))
   localStorage.token&&dispatch(getNotifications())
+  
 },[])
+const notifref=useRef()
+useEffect(()=>{
+  
+  window.addEventListener("resize",()=>{
+    if(shownotif===true&&notifref.current)
+   { if(window.innerWidth<=545)
+notifref.current.style.width=Number(Number(window.innerWidth)-195).toString()+"px"
+else
+notifref.current.style.width="350px"
+  }})
+ 
+})
+
+useEffect(()=>{
+  if(shownotif&&notifref.current&&window.innerWidth<=545)
+notifref.current.style.width=Number(Number(window.innerWidth)-195).toString()+"px"
+},[shownotif])
+
   return (
     <div 
     // onClick={(e)=>{
@@ -90,7 +110,7 @@ payload:!shownotif
 
         })}>
           <i className="material-icons">notifications</i></label>
-      { shownotif&& <div className="notifications">
+      { shownotif&& <div className="notifications" style={{width:350}} ref={notifref}>
             <ul className="groupofnotes scrollbar" id="style-3" style={{ maxHeight: "420px", backgroundColor:"rgb(51, 50, 50)", overflowY: "auto"}}>
 
      {(notifsize>0)?
@@ -148,7 +168,9 @@ payload:!shownotif
       <div>
  {(el.content)}
       </div>
-<div style={{ display: "flex",alignItems:"center", position: "relative", left: "157px"}}>
+<div style={{ display: "flex",alignItems:"center", width: "100%",
+    justifyContent: "flex-end",
+    paddingRight: "15px"}}>
 <i className=" tiny material-icons" style={{marginTop:1}}> history </i>
          {historyevent(el.created_at)}
       </div>
