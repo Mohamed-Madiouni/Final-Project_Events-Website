@@ -59,7 +59,7 @@ export const sendNotifications = (
 export const closeNotif = (idNotif) => (dispatch) => {
   setAuthToken(localStorage.token)
   axios
-    .put(`/notifications/close/${idNotif}`)
+    .put(`/notifications/close/`,idNotif)
     .then((res) => {
       dispatch({
        type: GET_ERRORS,

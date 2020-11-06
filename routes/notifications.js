@@ -24,15 +24,19 @@ router.post("/add",authMiddleware, (req, res) => {
 
 // ADD CLOSE
 router.put("/close",authMiddleware, (req, res) => {
-  console.log(Notification.findById({userId:req.userId}))
-     Notification.findByIdAndUpdate(req.userId,
+
+  // console.log(req.body)
+  let t1=[]
+  req.body.map(el=>t1=[...t1,el._id])
+  // console.log((t1))
+     Notification.updateMany({_id:{$in:t1}},
        {
          $set:{ 
-           title : "ererer"
+          "state.$.consulted":true
          },
        }
        )
-       .then((notifications) => res.status(201).send(notifications))
+       .then((notifications) => console.log(notifications))
        .catch((err) => {
          console.log(err.message);
        });

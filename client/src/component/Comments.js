@@ -524,7 +524,7 @@ return(
        <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
 <p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
-      </div>
+      </div><span style={{display:"flex",justifyContent:"right"}}>
      {(el.postedBy==auth.user._id||auth.user.role=="administrator")&&<div id="editdelete">
        {!edit||el._id!=edit?<i className="material-icons" title="Edit" onClick={()=>{
 setEdit(el._id)
@@ -535,7 +535,7 @@ setEdit("")
 setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletecomid(el._id)} className="modal-trigger material-icons" data-target="modaldeletcom" title="Delete">delete</i>
-     </div>}
+     </div>}{(el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.isAuthenticated ) && <span id="editdelete"><i  className='modal-trigger material-icons' data-target='modalreport' title="report">report</i></span>}</span>
       </div>
      
       {el._id!=edit?<p style={{overflowWrap: "break-word"}}>{el.content}</p>:
@@ -659,7 +659,7 @@ else
        <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
 <p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
-      </div>
+      </div><span style={{display:"flex",justifyContent:"right"}}>
      {(el.postedBy==auth.user._id||auth.user.role=="administrator")&&<div id="editdelete">
      {!edit||el.id!=edit?<i className="material-icons" title="Edit" onClick={()=>{
 setEdit(el.id)
@@ -670,7 +670,7 @@ setEdit("")
 setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletereplyid(el.id)} className='modal-trigger material-icons' data-target='modaldeletreply' title="delete">delete</i>
-     </div>}
+</div>}{(el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.isAuthenticated ) && <span id="editdelete"><i  className='modal-trigger material-icons' data-target='modalreport' title="report">report</i></span>}</span>
       </div>
      
       {el.id!=edit?<p style={{overflowWrap: "break-word"}}>{el.content}</p>:

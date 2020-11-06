@@ -23,6 +23,7 @@ function Notifications() {
   useEffect(() => {
     dispatch(getUsers())
   }, []);
+  var i=0
 
   return (
       <> 
@@ -36,12 +37,7 @@ function Notifications() {
                 </div>
                 <div className="notification-page__content__container">
                   <div className="notification-container">
-                    <div className="notification-per-period">
-                      <div className="notification-per-period__title">
-                        <div className="x-flex-column-h-center-v-any ">
-                          </div>
-                          </div>
-                          <div className="notification-per-period__link">
+
                           {allnotif &&
                     allnotif
                       .slice(0)
@@ -49,8 +45,36 @@ function Notifications() {
                       .slice(0, 10 + countnotif * 10)
                       .map((el) => {
                         return (
-                            <div key={el._id} className="notification-per-period__period-card">
+                      <div key={el._id} >
+                          <div className="notification-per-period">
+                     {/* { console.log ((el.created_at).toString().slice(0,10).split("-").join("")) } 
+            {(((el.created_at).toString().slice(0,10).split("-").join(""))[i])!=(((el.created_at).toString().slice(0,10).split("-").join("")) [i+1])&& */}
+            
+                          <div className="notification-per-period__title">
+                            <div className="x-flex-column-h-center-v-any ">
+
+
+
+                            <span> 
+                          <div className="notification-per-period__period-card__date">{(el.created_at.toString().slice(0,10))}</div>
+                         </span>
+                         </div>
+                       </div>
+                       <span hidden>{i=i+1} </span> 
+
+
+                              {/* <div className="notification-per-period__link"> */}
+
+                            <div className="notification-per-period__period-card">
                               <div className="x-flex-column-h-center-v-any" style={{minWidth: "90px"}}>
+
+                              <img src={users.find(e=>e._id==el.userId).avatar} alt="" className="circle"  style={{ marginRight: "8px",width:"40px" ,height:"40px"}}/>
+
+</div>
+<div>
+
+<div className="notification-per-period__period-card__type" style={{display:"flex", alignContent: "center"}}>
+
                                 {(el.notiftype=="Event_Validation")&&
                                  <img src="/Event_Validation.png" alt="Event_Validation" />}
                                 {(el.notiftype=="New_Event")&&
@@ -93,18 +117,21 @@ function Notifications() {
                                  <img src="/New_Comment.png" alt="New_Comment" />}
                                 {(el.notiftype=="Comment_Edition")&&
                                  <img src="/Comment_Edition.png" alt="Comment_Edition" />}                                 
-                                  </div>
-                                  <div>
-                                    <div className="notification-per-period__period-card__type">
-                                      <span>{el.title}</span>
+                                  <span style={{height: "min-content",
+                                transform: "translateY(2px)"}}>{el.title}</span>
+
                                       </div>
-                                      <div className="notification-per-period__period-card__content">{el.content}</div>
-                                      <div className="notification-per-period__period-card__date">User:{" " +(allusers.find((elm) => elm._id == el.state[0].users)).fname + " "}{(allusers.find((elm) => elm._id == el.state[0].users)).fname}
-                                      <div className="notification-per-period__period-card__date">{el.created_at.toString().replace('Z', '').replace('T', ' ').replace(/\.\d+/, "")}</div>
+                                      <div className="notification-per-period__period-card__content">
+                                        {el.content}</div>                                
+                                      <div className="notification-per-period__period-card__date">                                
+
+                                        User:{" " +(allusers.find((elm) => elm._id == el.state[0].users)).fname + " "}{(allusers.find((elm) => elm._id == el.state[0].users)).fname}</div>
+                                      <div className="notification-per-period__period-card__date">
+                                        {el.created_at.toString().replace('Z', '').replace('T', ' ').replace(/\.\d+/, "")}</div>
                                       
                                       </div>
                                       
-                                      </div></div>
+                                      </div></div></div>
                         )})}
                                       </div>
                                       <p/>
@@ -132,9 +159,8 @@ function Notifications() {
                 )}
              </div>
              </div>
-             </div>
-             </div>
-        </div>} 
+             </div>}
+
 </>
  
     
