@@ -1,4 +1,6 @@
-.organizer_nav{
+@import url('https://fonts.googleapis.com/css2?family=David+Libre:wght@400;500&family=Roboto:ital,wght@0,100;0,400;1,500&display=swap');
+
+.organizer_nav{   
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -51,6 +53,10 @@
 }
 .organizer_nav_part i:active{
     color: cadetblue;
+}
+.div-or{
+    font-family: 'David Libre', serif !important;
+
 }
 .organizer_hi{
     /* border:  1px solid gray; */

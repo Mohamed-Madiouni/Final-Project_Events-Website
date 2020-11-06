@@ -171,7 +171,7 @@ useEffect(()=>{
 }}>
         <div className=" col s12
          organizer_hi "
-style={{marginTop:"100px"}}>
+style={{marginTop:"20px"}}>
           <div
             // className="col s12"
             style={{
