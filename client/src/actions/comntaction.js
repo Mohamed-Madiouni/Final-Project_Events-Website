@@ -293,3 +293,35 @@ export const removedislikereply =(reply_id,nb_likes,userid,comment_id)=> (dispat
         payload: err.response.data,
       }));
   };
+
+    //report comment
+    export const reportComment =(coment_id,nb_reports,userid)=> (dispatch)=>{
+      setAuthToken(localStorage.token)
+      axios
+      .put(`/comment/add/report/${coment_id}`,{reports:nb_reports,user:userid})
+      .then((res) => {
+        dispatch(getComment())
+        dispatch(getCurrentUser())
+     })
+     .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+      
+    };
+
+    //report reply
+    export const reportReply =(reply_id,nb_reports,userid)=> (dispatch)=>{
+      setAuthToken(localStorage.token)
+      axios
+      .put(`/comment/add/report/${reply_id}`,{reports:nb_reports,user:userid})
+      .then((res) => {
+        dispatch(getComment())
+        dispatch(getCurrentUser())
+     })
+     .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+      
+    };
