@@ -61,6 +61,7 @@ export const closeNotif = (idNotif) => (dispatch) => {
   axios
     .put(`/notifications/close/`,idNotif)
     .then((res) => {
+      dispatch(getNotifications())
       dispatch({
        type: GET_ERRORS,
        payload: {},

@@ -39,7 +39,7 @@ function Notificationsuser() {
                    
 
 
-                  {(notifsize>0) &&
+                  {
                     (filter_notif(allnotif,auth.user._id))
                       .slice(0)
                       .reverse()

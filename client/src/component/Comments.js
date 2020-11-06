@@ -951,7 +951,7 @@ return(
         </div>
 
 
-        {el.comment.map((el,i)=>{
+        {/* {el.comment.map((el,i)=>{
     return (        
         <div id="modalreportcom" className="modal">
           <div className="modal-content">
@@ -1015,7 +1015,7 @@ return(
             </a>
           </div>
         </div> 
-    )})}
+    )})} */}
 
 
         

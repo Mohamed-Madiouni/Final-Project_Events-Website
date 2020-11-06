@@ -21,7 +21,7 @@ function Landing({}) {
   const resize=useSelector(state=>state.resize)
   const location=useLocation()
   const allnotif=useSelector(state=>state.notification.notifications)
-  var notifsize=notif(allnotif,auth.user._id);
+  let notifsize=notif(allnotif,auth.user._id);
   const users=useSelector(state=>state.admin.users)
   const shownotif =useSelector(state=>state.notification.show)
   // const [show,setshow]=useState(false)
@@ -44,6 +44,7 @@ useEffect(()=>{
   
 },[])
 const notifref=useRef()
+
 useEffect(()=>{
   
   window.addEventListener("resize",()=>{
@@ -194,7 +195,7 @@ payload:!shownotif
                 
             
             <div data-target="modalnotifuser" className="btnbar modal-trigger" onClick={() => {
-              dispatch(closeNotif(filter_notif(allnotif,auth.user._id)))
+              notifsize>0&&dispatch(closeNotif(filter_notif(allnotif,auth.user._id)))
               dispatch({
                 type:SHOW_NOTIF,
                 payload:!shownotif
