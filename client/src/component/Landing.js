@@ -172,7 +172,7 @@ payload:!shownotif
                 
             
             <div data-target="modalnotifuser" className="btnbar modal-trigger" onClick={() => {
-              dispatch(closeNotif())
+              dispatch(closeNotif(filter_notif(allnotif,auth.user._id)))
               dispatch({
                 type:SHOW_NOTIF,
                 payload:!shownotif
@@ -214,11 +214,11 @@ payload:!shownotif
 </div>}
 </div>}
 
-<div id="modalnotifuser" className="modal" style={{ padding: 0, margin:0 }}>
+<div id="modalnotifuser" className="modal">
 <Notificationuser />
  </div>
 
- <div id="modalnotifall" className="modal" style={{ padding: 0, margin:0 }}>
+ <div id="modalnotifall" className="modal" >
 <Notifications />
  </div>
 

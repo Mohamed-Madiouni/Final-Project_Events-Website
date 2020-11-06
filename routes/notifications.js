@@ -2,7 +2,6 @@ const express = require("express");
 const Notification = require("../models/Notification");
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
-
 // GET NOTIF
 router.get("/",authMiddleware, (req, res) => {
     Notification.find()
@@ -15,7 +14,7 @@ router.get("/",authMiddleware, (req, res) => {
 
 // ADD NOTIF
 router.post("/add",authMiddleware, (req, res) => {
-  console.log(req.body)
+  
     Notification.create(req.body)
       .then((notifications) => res.status(201).send(notifications))
       .catch((err) => {
@@ -25,16 +24,22 @@ router.post("/add",authMiddleware, (req, res) => {
 
 // ADD CLOSE
 router.put("/close",authMiddleware, (req, res) => {
-  console.log(req.body)
-    // Notification.findByIdAndUpdate
-    // ({_id:filter_notif(allnotif,auth.user._id)},
-    //   {$set:{
-    //     {state.consulted} : true
-    //   },})
-    //   .then((notifications) => res.status(201).send(notifications))
-    //   .catch((err) => {
-    //     console.log(err.message);
-    //   });
+
+  // console.log(req.body)
+  let t1=[]
+  req.body.map(el=>t1=[...t1,el._id])
+  // console.log((t1))
+     Notification.updateMany({_id:{$in:t1}},
+       {
+         $set:{ 
+          "state.$.consulted":true
+         },
+       }
+       )
+       .then((notifications) => console.log(notifications))
+       .catch((err) => {
+         console.log(err.message);
+       });
   });
 
   module.exports=router
