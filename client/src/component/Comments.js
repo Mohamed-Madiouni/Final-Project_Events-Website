@@ -7,7 +7,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import { useHistory,Link } from 'react-router-dom';
 import { addfollow, getCurrentUser, removefollow } from '../actions/authaction';
 import {makeComment, fullEvent, openEvent, addrating, } from "../actions/evntAction";
-import {getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply, likecomment,dislikecomment, removelikecomment, removedislikecomment, likereply, removelikereply,dislikereply, removedislikereply} from "../actions/comntaction"
+import {reportComment,reportReply,getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply, likecomment,dislikecomment, removelikecomment, removedislikecomment, likereply, removelikereply,dislikereply, removedislikereply} from "../actions/comntaction"
 import {followEvent, getEvent, unfollowEvent,endEvent, closeEvent} from "../actions/evntAction";
 import {sendNotifications} from "../actions/notificationaction";
 import get_month from "../outils/get_month"
@@ -48,7 +48,9 @@ const [emojreply,setEmojReply]=useState(false)
 const[replyid,setReplyId]=useState("")
 const [deletecomid,setDeletecomid]=useState("")
 const [deletereplyid,setDeletereplyid]=useState("")
+
 const[actvlike,setactvlike]=useState(true)
+const[actvreport,setactvreport]=useState(true)
 const [countevent,setCountevent] = useState(0)
 const[resiz,setresiz]=useState(false)
 const [rating,setRating]=useState(0)
@@ -536,7 +538,7 @@ setEdit("")
 setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletecomid(el._id)} className="modal-trigger material-icons" data-target="modaldeletcom" title="Delete">delete</i>
-     </div>}{(el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.isAuthenticated ) && <span id="editdelete"><i  className='modal-trigger material-icons' data-target='modalreport' title="report">report</i></span>}</span>
+     </div>}{(el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.isAuthenticated ) && <span id="editdelete"><i onClick={()=>actvreport(el._id)} className='modal-trigger material-icons' data-target='modalreportcom' title="report">report</i></span>}</span>
       </div>
      
       {el._id!=edit?<p style={{overflowWrap: "break-word"}}>{el.content}</p>:
@@ -671,7 +673,9 @@ setEdit("")
 setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletereplyid(el.id)} className='modal-trigger material-icons' data-target='modaldeletreply' title="delete">delete</i>
-</div>}{(el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.isAuthenticated ) && <span id="editdelete"><i  className='modal-trigger material-icons' data-target='modalreport' title="report">report</i></span>}</span>
+</div>}
+{(el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.isAuthenticated ) && <span id="editdelete">
+<i onClick={()=>actvreport(el.id)} className='modal-trigger material-icons' data-target='modalreportreply' title="report">report</i></span>}</span>
       </div>
      
       {el.id!=edit?<p style={{overflowWrap: "break-word"}}>{el.content}</p>:
@@ -945,6 +949,76 @@ return(
             </a>
           </div>
         </div>
+
+
+        {el.comment.map((el,i)=>{
+    return (        
+        <div id="modalreportcom" className="modal">
+          <div className="modal-content">
+            <h4>Report Comment</h4>
+            <p>Are you sure you want to report the comment?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+              onClick={()=>
+                {if(actvreport)
+                  {if(auth.isAuthenticated&&!auth.user.reports.includes(el._id))
+                    
+                {setactvreport(false)
+                  dispatch(reportComment(el._id,Number(el.reports)+1,auth.user._id))
+
+                 }}
+                  }}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
+    )})}
+    
+    {el.comment.map((el,i)=>{
+      return (    
+        <div id="modalreportreply" className="modal">
+          <div className="modal-content">
+            <h4>Report Comment</h4>
+            <p>Are you sure you want to report the comment?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+              onClick={()=>
+                {if(actvreport)
+                  {if(auth.isAuthenticated&&!auth.user.reports.includes(el._id))
+                    
+                {setactvreport(false)
+                  dispatch(reportReply(el._id,Number(el.reports)+1,auth.user._id))
+
+                 }}
+                  }}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close waves-effect waves-green btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div> 
+    )})}
+
+
+        
         <div  className="custom_mod" style={{display:unfollow?"initial":"none",padding:"10px",background:"white",zIndex:10,border:"2px solid #2e8fa5"}}>
           <div className="modal-content">
             {/* <h4>Account Update</h4>
