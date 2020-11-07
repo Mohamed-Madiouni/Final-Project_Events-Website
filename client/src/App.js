@@ -132,7 +132,7 @@ useEffect(()=>{
          <img
               src="/cocoEventtt.jpg"
               alt="COCO Event"
-              width="140px"
+              width="130px"
               height="50px"
               // style={{
               //   paddingTop: "7px",

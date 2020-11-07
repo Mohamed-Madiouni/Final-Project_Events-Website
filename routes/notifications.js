@@ -2,6 +2,19 @@ const express = require("express");
 const Notification = require("../models/Notification");
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
+var Pusher = require('pusher');
+require("dotenv").config();
+
+var pusher = new Pusher({
+  appId: process.env.appId,
+  key: process.env.key,
+  secret: process.env.secret,
+  cluster: 'eu',
+  useTLS: true,
+});
+
+
+
 // GET NOTIF
 router.get("/",authMiddleware, (req, res) => {
     Notification.find()
@@ -16,7 +29,15 @@ router.get("/",authMiddleware, (req, res) => {
 router.post("/add",authMiddleware, (req, res) => {
   
     Notification.create(req.body)
-      .then((notifications) => res.status(201).send(notifications))
+      .then((notifications) => {
+
+        pusher.trigger('channel1', 'notification', {
+          'message': 'hello world'
+        });  
+      
+        res.status(201).send(notifications)
+      
+      })
       .catch((err) => {
         console.log(err.message);
       });
@@ -51,12 +72,16 @@ for(let i=0;i<notifications.length;i++)
     {  
       Notification.replaceOne({_id:notifications[i]._id},notifications[i],(err,notf)=>{
        if (err) throw err
-       console.log(notf)
+      //  console.log(notf)
      })
     
     }
-      
-  });
+    pusher.trigger('channel1', 'notification', {
+      'message': 'hello world'
+    });
+    res.status(201).send(notifications)
+  })
+
 })
   module.exports=router
 

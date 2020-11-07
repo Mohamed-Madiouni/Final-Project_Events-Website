@@ -7,13 +7,15 @@ import "../notification.scss";
 import M from "materialize-css";
 import {useLocation} from "react-router-dom";
 import { getNotifications, closeNotif } from "../actions/notificationaction";
-import notif, { filter_notif } from "../outils/notif_length";
+import notif, { filter_inactive_notif, filter_notif } from "../outils/notif_length";
 import historyevent from "../outils/history";
 import Notificationuser from "./Notificationsuser";
 import Notifications from "./Notifications";
 import { getUsers } from "../actions/adminaction";
 import { SHOW_NOTIF } from "../actions/types";
 import { roundToNearestMinutes } from "date-fns";
+import Pusher from 'pusher-js'
+
 function Landing({}) {
   const dispatch = useDispatch();
   const history = useHistory()
@@ -61,6 +63,19 @@ useEffect(()=>{
   if(shownotif&&notifref.current&&window.innerWidth<=545)
 notifref.current.style.width=Number(Number(window.innerWidth)-195).toString()+"px"
 },[shownotif])
+
+useEffect(()=>{
+  // Pusher.logToConsole = true;
+
+  var pusher = new Pusher(process.env.REACT_APP_KEY, {
+    cluster: 'eu'
+  });
+  var channel = pusher.subscribe('channel1');
+  channel.bind('notification', function(data) {
+   dispatch(getNotifications())
+  });
+},[])
+
 
   return (
     <div 
@@ -111,14 +126,14 @@ payload:!shownotif
 
         })}>
           <i className="material-icons">notifications</i></label>
-      { shownotif&& <div className="notifications" style={{width:350}} ref={notifref}>
+      { shownotif&& <div className="notifications" style={{width:"350px"}} ref={notifref}>
             <ul className="groupofnotes scrollbar" id="style-3" style={{ maxHeight: "420px", backgroundColor:"rgb(51, 50, 50)", overflowY: "auto"}}>
 
      {(notifsize>0)?
-    (filter_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>10)?10:10).map((el,i)=>{
+    (filter_inactive_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>10)?10:10).map((el,i)=>{
       return(
         <li key={i} className="note">
-          <span style={{ display: "flex", marginRight: "8px", marginTop: "8px"}}>
+          <span style={{ display: "flex", marginRight: "8px", marginTop: "8px",alignItems:"center", marginBottom: "4px"}}>
           {(el.notiftype=="Event_Validation")&&
            <img src="/Event_Validation.png" alt="Event_Validation" width="25px" height="25px"/>}
           {(el.notiftype=="New_Event")&&
@@ -162,16 +177,17 @@ payload:!shownotif
           {(el.notiftype=="Comment_Edition")&&
            <img src="/Comment_Edition.png" alt="Comment_Edition" width="25px" height="25px" />}  
           
-           <span style={{ display: "flex", marginLeft: "8px", marginBottom: "8px", bottom: "2px", position: "relative"}}>{(el.title)}</span></span>
+           <span style={{marginLeft: "8px"}}>{(el.title)}</span></span>
     <div style={{ display: "flex",marginTop:2}}>
       <img src={users.find(e=>e._id==el.userId).avatar} alt="" className="circle" width="37px" height="37px" style={{ marginRight: "8px"}}/>
-     <div style={{display:"flex",flexDirection:"column",alignItems:"flex-start"}}>
+     <div style={{display:"flex",flexDirection:"column",alignItems:"flex-start",width:"100%"}}>
       <div>
  {(el.content)}
       </div>
 <div style={{ display: "flex",alignItems:"center", width: "100%",
     justifyContent: "flex-end",
-    paddingRight: "15px"}}>
+    // paddingRight: "15px"
+    }}>
 <i className=" tiny material-icons" style={{marginTop:1}}> history </i>
          {historyevent(el.created_at)}
       </div>

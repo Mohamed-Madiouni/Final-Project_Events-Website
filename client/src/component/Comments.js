@@ -159,10 +159,10 @@ useEffect(()=>{
 
 useEffect(()=>{
    M.updateTextFields()
-   if(edit&&reply)
+  //  if(edit&&reply)
   //  M.textareaAutoResize(document.querySelector(".materialize-textarea"));
    if(errors.success)
-   setEdit("")
+    setEdit("")
    if(errors.added)
    setComnt("")
    if(errors.reply)
@@ -1019,7 +1019,7 @@ return(
 
 
         
-        <div  className="custom_mod" style={{display:unfollow?"initial":"none",padding:"10px",background:"white",zIndex:10,border:"2px solid #2e8fa5"}}>
+        <div  className="custom_mod" style={{display:unfollow?"initial":"none",padding:"10px",background:"white",zIndex:10,border:"2px solid #2e8fa5",width:"70%"}}>
           <div className="modal-content">
             {/* <h4>Account Update</h4>
             <p>Are you sure you want to update your profile?</p> */}
