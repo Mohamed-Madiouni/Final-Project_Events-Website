@@ -341,7 +341,7 @@ router.put("/edit/reply/:commentId",authMiddleware,(req,res)=>{
 
 
 //Report reply
-router.put("/add/report/reply/:replyId",authMiddleware,(req,res)=>{
+router.put("/add/reply/report/:replyId",authMiddleware,(req,res)=>{
   
   Comment.findOneAndUpdate(
     {_id:req.body.comment,"reply.id":req.params.replyId}

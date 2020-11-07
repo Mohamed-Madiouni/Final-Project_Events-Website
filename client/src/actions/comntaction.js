@@ -155,7 +155,7 @@ export const addComment =(content,eventId,userId)=> (dispatch)=>{
   export const addreply =(content,coment_id,userId,idreply)=> (dispatch)=>{
     setAuthToken(localStorage.token)
     axios
-    .put(`/comment/add/reply/${coment_id}`,{content:content,postedBy:userId,created_at:new Date(),id:idreply,likes:0,dislikes:0})
+    .put(`/comment/add/reply/${coment_id}`,{content:content,postedBy:userId,created_at:new Date(),id:idreply,likes:0,dislikes:0,reports:0})
     .then((res) => {
       
       dispatch({
@@ -302,6 +302,10 @@ export const removedislikereply =(reply_id,nb_likes,userid,comment_id)=> (dispat
       .then((res) => {
         dispatch(getComment())
         dispatch(getCurrentUser())
+        dispatch({
+          type: GET_ERRORS,
+          payload: {reportcom:"done"},
+        })
      })
      .catch((err) => dispatch({
       type: GET_ERRORS,
@@ -311,13 +315,17 @@ export const removedislikereply =(reply_id,nb_likes,userid,comment_id)=> (dispat
     };
 
     //report reply
-    export const reportReply =(reply_id,nb_reports,userid)=> (dispatch)=>{
+    export const reportReply =(reply_id,nb_reports,userid,comment_id)=> (dispatch)=>{
       setAuthToken(localStorage.token)
       axios
-      .put(`/comment/add/report/${reply_id}`,{reports:nb_reports,user:userid})
+      .put(`/comment/add/reply/report/${reply_id}`,{reports:nb_reports,user:userid,comment:comment_id})
       .then((res) => {
         dispatch(getComment())
         dispatch(getCurrentUser())
+        dispatch({
+          type: GET_ERRORS,
+          payload: {reportreply:"done"},
+        })
      })
      .catch((err) => dispatch({
       type: GET_ERRORS,

@@ -167,6 +167,22 @@ useEffect(()=>{
    setComnt("")
    if(errors.reply)
    setReply("")
+   if(errors.reportcom)
+   { M.toast({ html: "Report sended", classes: "green" });
+   dispatch({
+     type:GET_ERRORS,
+     payload:{}
+   })
+   
+   }
+   if(errors.reportreply)
+   { M.toast({ html: "Report sended", classes: "green" });
+   dispatch({
+     type:GET_ERRORS,
+     payload:{}
+   })
+   
+   }
     
   })
 
@@ -538,7 +554,7 @@ setEdit("")
 setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletecomid(el._id)} className="modal-trigger material-icons" data-target="modaldeletcom" title="Delete">delete</i>
-     </div>}{(el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.isAuthenticated ) && <span id="editdelete"><i onClick={()=>actvreport(el._id)} className='modal-trigger material-icons' data-target='modalreportcom' title="report">report</i></span>}</span>
+     </div>}{(el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.isAuthenticated &&!auth.user.reports.includes(el._id)) && <span id="editdelete"><i onClick={()=>setactvreport(el._id)} className='modal-trigger material-icons' data-target='modalreportcom' title="report">report</i></span>}</span>
       </div>
      
       {el._id!=edit?<p style={{overflowWrap: "break-word"}}>{el.content}</p>:
@@ -674,8 +690,8 @@ setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletereplyid(el.id)} className='modal-trigger material-icons' data-target='modaldeletreply' title="delete">delete</i>
 </div>}
-{(el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.isAuthenticated ) && <span id="editdelete">
-<i onClick={()=>actvreport(el.id)} className='modal-trigger material-icons' data-target='modalreportreply' title="report">report</i></span>}</span>
+{(el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.isAuthenticated&&!auth.user.reports.includes(el.id) ) && <span id="editdelete">
+<i onClick={()=>setactvreport(el.id)} className='modal-trigger material-icons' data-target='modalreportreply' title="report">report</i></span>}</span>
       </div>
      
       {el.id!=edit?<p style={{overflowWrap: "break-word"}}>{el.content}</p>:
@@ -936,14 +952,14 @@ return(
           <div className="modal-footer">
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
               onClick={()=>dispatch(deleteReply(replyid,deletereplyid))}
             >
               Agree
             </a>
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
             >
               Cancel
             </a>
@@ -951,8 +967,8 @@ return(
         </div>
 
 
-        {/* {el.comment.map((el,i)=>{
-    return (        
+  
+           
         <div id="modalreportcom" className="modal">
           <div className="modal-content">
             <h4>Report Comment</h4>
@@ -961,61 +977,54 @@ return(
           <div className="modal-footer">
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
               onClick={()=>
-                {if(actvreport)
-                  {if(auth.isAuthenticated&&!auth.user.reports.includes(el._id))
-                    
-                {setactvreport(false)
-                  dispatch(reportComment(el._id,Number(el.reports)+1,auth.user._id))
+             
+               
+                  dispatch(reportComment(actvreport,Number(comments.comments.find(el=>el._id==actvreport).reports)+1,auth.user._id))
 
-                 }}
-                  }}
+                 }
+                  // }}
             >
               Agree
             </a>
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
             >
               Cancel
             </a>
           </div>
         </div>
-    )})}
     
-    {el.comment.map((el,i)=>{
-      return (    
+    
         <div id="modalreportreply" className="modal">
           <div className="modal-content">
-            <h4>Report Comment</h4>
-            <p>Are you sure you want to report the comment?</p>
+            <h4>Report reply</h4>
+            <p>Are you sure you want to report the reply?</p>
           </div>
           <div className="modal-footer">
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close btn-flat"
               onClick={()=>
-                {if(actvreport)
-                  {if(auth.isAuthenticated&&!auth.user.reports.includes(el._id))
-                    
-                {setactvreport(false)
-                  dispatch(reportReply(el._id,Number(el.reports)+1,auth.user._id))
+               
+                  dispatch(reportReply(actvreport,Number(comments.comments.find(el=>el._id==replyid).reply.find(el=>el.id==actvreport).reports)+1,auth.user._id,replyid))
 
-                 }}
-                  }}
+                 }
+                  
             >
               Agree
             </a>
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close btn-flat"
             >
               Cancel
             </a>
           </div>
         </div> 
-    )})} */}
+   
 
 
         
