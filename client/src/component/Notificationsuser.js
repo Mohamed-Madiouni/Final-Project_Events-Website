@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { GET_ERRORS } from "../actions/types";
 import { useSelector, useDispatch } from "react-redux";
 import historyuser from "../outils/history";
-import notif, { filter_notif } from "../outils/notif_length";
+import notif, { filter_notif, sort_notif_bydate } from "../outils/notif_length";
 import { getUsers } from "../actions/adminaction";
 import "../notifications.css";
 function Notificationsuser() {
@@ -22,7 +22,6 @@ function Notificationsuser() {
   useEffect(() => {
     dispatch(getUsers())
   }, []);
-  var i=0
 
   return (
        <>
@@ -40,20 +39,19 @@ function Notificationsuser() {
 
 
                   {
-                    (filter_notif(allnotif,auth.user._id))
+                  sort_notif_bydate((filter_notif(allnotif,auth.user._id)))
                       .slice(0)
+                      // .sort(function(a, b) {
+                      //   return new Date(a[0].created_at) - new Date(b[0].created_at);
+                      // })
                       .reverse()
                       .slice(0, 10 + countnotif * 10)
                       .map((el) => {
                         return (
 
-                      <div key={el._id} >
+                      <div key={el[0]._id} >
                      <div className="notification-per-period">
-                    
-                        
-
-                     {/* { console.log ((el.created_at).toString().slice(0,10).split("-").join("")) } 
-            {(((el.created_at).toString().slice(0,10).split("-").join(""))[i])!=(((el.created_at).toString().slice(0,10).split("-").join("")) [i+1])&& */}
+                
             
                       
                       <div className="notification-per-period__title">
@@ -61,20 +59,15 @@ function Notificationsuser() {
 
 
                          <span> 
-                          <div className="notification-per-period__period-card__date">{(el.created_at.toString().slice(0,10))}</div>
+                          <div className="notification-per-period__period-card__date">{(el[0].created_at.toString().slice(0,10))}</div>
                          </span>
                          </div>
                        </div>
-                       <span hidden>{i=i+1} </span>        
-
-                      
-                     
-                         {/* <div className="notification-per-period__link"> */}
-
-
-
-
-                          <div  className="notification-per-period__period-card">
+                            
+                        {
+                            
+                            el.map((el,i)=>
+                            <div key={i} className="notification-per-period__period-card">
                           <div className="x-flex-column-h-center-v-any" style={{minWidth: "90px"}}>
 
                         <img src={users.find(e=>e._id==el.userId).avatar} alt="" className="circle"  style={{ marginRight: "8px",width:"40px" ,height:"40px"}}/>
@@ -139,11 +132,13 @@ function Notificationsuser() {
                                     
                                     
                                     {el.created_at.toString().replace('Z', '').replace('T', ' ').replace(/\.\d+/, "")}</div>
-                                  </div></div></div></div>
-                    )})}
+                                  </div></div>)}
+                                  </div></div>
+                    )})
+                    }
                                   </div>
                                   <p/>
-            {(countnotif + 1) * 10 < (filter_notif(allnotif,auth.user._id)).length && (
+            {(countnotif + 1) * 10 < sort_notif_bydate((filter_notif(allnotif,auth.user._id))).length && (
               <div
                 style={{
                   position: "abosolute",

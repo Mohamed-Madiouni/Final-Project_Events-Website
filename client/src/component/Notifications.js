@@ -5,6 +5,7 @@ import historyuser from "../outils/history";
 import { getUsers } from "../actions/adminaction";
 import { notifications } from "../reducer/notification";
 import "../notifications.css";
+import { sort_notif_bydate } from "../outils/notif_length";
 
 function Notifications() {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ function Notifications() {
   useEffect(() => {
     dispatch(getUsers())
   }, []);
-  var i=0
+ 
 
   return (
       <> 
@@ -39,16 +40,15 @@ function Notifications() {
                   <div className="notification-container">
 
                           {allnotif &&
-                    allnotif
+                    sort_notif_bydate(allnotif)
                       .slice(0)
                       .reverse()
                       .slice(0, 10 + countnotif * 10)
                       .map((el) => {
                         return (
-                      <div key={el._id} >
+                      <div key={el[0]._id} >
                           <div className="notification-per-period">
-                     {/* { console.log ((el.created_at).toString().slice(0,10).split("-").join("")) } 
-            {(((el.created_at).toString().slice(0,10).split("-").join(""))[i])!=(((el.created_at).toString().slice(0,10).split("-").join("")) [i+1])&& */}
+                     
             
                           <div className="notification-per-period__title">
                             <div className="x-flex-column-h-center-v-any ">
@@ -56,16 +56,18 @@ function Notifications() {
 
 
                             <span> 
-                          <div className="notification-per-period__period-card__date">{(el.created_at.toString().slice(0,10))}</div>
+                          <div className="notification-per-period__period-card__date">{(el[0].created_at.toString().slice(0,10))}</div>
                          </span>
                          </div>
                        </div>
-                       <span hidden>{i=i+1} </span> 
+                      
 
 
-                              {/* <div className="notification-per-period__link"> */}
+                             
 
-                            <div className="notification-per-period__period-card">
+                           {  el.map((el,i)=>
+                           
+                           <div key={i} className="notification-per-period__period-card">
                               <div className="x-flex-column-h-center-v-any" style={{minWidth: "90px"}}>
 
                               <img src={users.find(e=>e._id==el.userId).avatar} alt="" className="circle"  style={{ marginRight: "8px",width:"40px" ,height:"40px"}}/>
@@ -123,19 +125,22 @@ function Notifications() {
                                       </div>
                                       <div className="notification-per-period__period-card__content">
                                         {el.content}</div>                                
-                                      <div className="notification-per-period__period-card__date">                                
+                                     { allusers.find((elm) => elm._id == el.state[0].users)&&<div className="notification-per-period__period-card__date">                                
 
-                                        User:{" " +(allusers.find((elm) => elm._id == el.state[0].users)).fname + " "}{(allusers.find((elm) => elm._id == el.state[0].users)).fname}</div>
+                                        User:{" " +(allusers.find((elm) => elm._id == el.state[0].users)).fname+" "+(allusers.find((elm) => elm._id == el.state[0].users)).lname} 
+                                      
+                                        </div>}
                                       <div className="notification-per-period__period-card__date">
                                         {el.created_at.toString().replace('Z', '').replace('T', ' ').replace(/\.\d+/, "")}</div>
                                       
                                       </div>
                                       
-                                      </div></div></div>
+                                      </div>)}
+                                      </div></div>
                         )})}
                                       </div>
                                       <p/>
-                {(countnotif + 1) * 10 < allnotif.length && (
+                {(countnotif + 1) * 10 < sort_notif_bydate(allnotif).length && (
                   <div
                     style={{
                       position: "abosolute",
