@@ -482,7 +482,7 @@ setTextedit("")
             <a
               href="#!"
               className="modal-close  btn-flat"
-              onClick={()=>dispatch(removereportReply(removereport,Number(comments.comments.find(el=>el._id==actvreport).reports)=-1,auth.user._id))}
+              onClick={()=>dispatch(removereportReply(removereport,-1,auth.user._id))}
                >
               Agree
             </a>
@@ -505,7 +505,7 @@ setTextedit("")
             <a
               href="#!"
               className="modal-close  btn-flat"
-              onClick={()=> dispatch(removereportComment(removereport,Number(comments.comments.find(el=>el._id==replyid).reply.find(el=>el.id==removereport).reports)=-1,auth.user._id,replyid))}        
+              onClick={()=> dispatch(removereportComment(removereport,-1,auth.user._id,replyid))}        
             >
               Agree
             </a>
