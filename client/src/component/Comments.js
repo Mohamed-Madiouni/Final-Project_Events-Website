@@ -559,7 +559,7 @@ setEdit("")
 setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletecomid(el._id)} className="modal-trigger material-icons" data-target="modaldeletcom" title="Delete">delete</i>
-     </div>}{(el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.isAuthenticated &&!auth.user.reports.includes(el._id)) && <span id="editdelete"><i onClick={()=>setactvreport(el._id)} className='modal-trigger material-icons' data-target='modalreportcom' title="report">report</i></span>}</span>
+     </div>}{(users.find(e=>e._id==el.postedBy).role!="moderator" && users.find(e=>e._id==el.postedBy).role!="administrator" && el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.user.role!="moderator" && auth.isAuthenticated &&!auth.user.reports.includes(el._id)) && <span id="editdelete"><i onClick={()=>setactvreport(el._id)} className='modal-trigger material-icons' data-target='modalreportcom' title="report">report</i></span>}</span>
       </div>
      
       {el._id!=edit?<p style={{overflowWrap: "break-word"}}>{el.content}</p>:
@@ -697,7 +697,7 @@ setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletereplyid(el.id)} className='modal-trigger material-icons' data-target='modaldeletreply' title="delete">delete</i>
 </div>}
-{(el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.isAuthenticated&&!auth.user.reports.includes(el.id) ) && <span id="editdelete">
+{(users.find(e=>e._id==el.postedBy).role!="moderator" && users.find(e=>e._id==el.postedBy).role!="administrator" && el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.user.role!="moderator" && auth.isAuthenticated &&!auth.user.reports.includes(el._id)) && <span id="editdelete">
 <i onClick={()=>setactvreport(el.id)} className='modal-trigger material-icons' data-target='modalreportreply' title="report">report</i></span>}</span>
       </div>
      
