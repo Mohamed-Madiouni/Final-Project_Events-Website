@@ -549,7 +549,7 @@ return(
 </div>
       </div>
       <span style={{display:"flex",justifyContent:"right"}}>
-     {(el.postedBy==auth.user._id||auth.user.role=="administrator")&&<div id="editdelete">
+     {(el.postedBy==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&<div id="editdelete">
        {!edit||el._id!=edit?<i className="material-icons" title="Edit" onClick={()=>{
 setEdit(el._id)
 setTextedit(el.content)
@@ -686,7 +686,7 @@ else
 <p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
       </div><span style={{display:"flex",justifyContent:"right"}}>
-     {(el.postedBy==auth.user._id||auth.user.role=="administrator")&&<div id="editdelete">
+     {(el.postedBy==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&<div id="editdelete">
      {!edit||el.id!=edit?<i className="material-icons" title="Edit" onClick={()=>{
 setEdit(el.id)
 setTextedit(el.content)
@@ -985,11 +985,18 @@ return(
             <a
               href="#!"
               className="modal-close  btn-flat"
-              onClick={()=>
-             
-               
-                  dispatch(reportComment(actvreport,Number(comments.comments.find(el=>el._id==actvreport).reports)+1,auth.user._id))
+              onClick={()=>{
+                let title="New Report";
+                let content= "A new comment was reported";
+                let notiftype="New_Report";
+                let compid=match.params.event_id;
+                var state=[]
+                    users.filter(el=>el.role=="administrator"||el.role=="moderator").map(el=>{
+                    state=[...state,{users:el._id,consulted:false}]})
+               dispatch(reportComment(actvreport,Number(comments.comments.find(el=>el._id==actvreport).reports)+1,auth.user._id))
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
 
+}
                  }
                   // }}
             >
@@ -1014,11 +1021,17 @@ return(
             <a
               href="#!"
               className="modal-close btn-flat"
-              onClick={()=>
-               
-                  dispatch(reportReply(actvreport,Number(comments.comments.find(el=>el._id==replyid).reply.find(el=>el.id==actvreport).reports)+1,auth.user._id,replyid))
-
-                 }
+              onClick={()=>{
+                let title="New Report";
+                let content= "A new reply was reported";
+                let notiftype="New_Report";
+                let compid=match.params.event_id;
+                var state=[]
+                    users.filter(el=>el.role=="administrator"||el.role=="moderator").map(el=>{
+                    state=[...state,{users:el._id,consulted:false}]})
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
+               dispatch(reportReply(actvreport,Number(comments.comments.find(el=>el._id==replyid).reply.find(el=>el.id==actvreport).reports)+1,auth.user._id,replyid))
+               } }
                   
             >
               Agree
