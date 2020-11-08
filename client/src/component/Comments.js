@@ -218,11 +218,12 @@ useEffect(()=>{
           let title= "New Comment";
           let content= auth.user.fname +" "+ auth.user.lname + " commented on your event " + (allevents.find(el=>el._id==match.params.event_id).title);
           let notiftype="New_Comment";
+          let compid=match.params.event_id
           var state=[]
           state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
           dispatch(addComment(comnt,match.params.event_id,auth.user._id))
           state[0].users!=auth.user._id &&
-          dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+          dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
           }
 
       const onedit=(e)=>{
@@ -230,31 +231,34 @@ useEffect(()=>{
         let title= "Comment Edition";
         let content= auth.user.fname +" "+ auth.user.lname + " edit a comment on your event " + (allevents.find(el=>el._id==match.params.event_id).title);
         let notiftype="Comment_Edition";
+        let compid=match.params.event_id
         var state=[]
         state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
         dispatch(editComment(edit,textedit))
         state[0].users!=auth.user._id &&
-        dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+        dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
     }
     const onreply=(e)=>{
       e.preventDefault()
       let title= "Comment Reply";
       let content= auth.user.fname +" "+ auth.user.lname + " replied to a comment on your event " + (allevents.find(el=>el._id==match.params.event_id).title);
       let notiftype="Comment_Reply_organizer";
+      let compid=match.params.event_id
       let state=[]
       state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
       dispatch(addreply(reply,replyid,auth.user._id,uuidv4()))
       state[0].users!=auth.user._id &&
-      dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+      dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
       
 
       let title2= "Comment Reply";
       let content2= auth.user.fname +" "+ auth.user.lname + " replied to your comment on the event " + (allevents.find(el=>el._id==match.params.event_id).title);
       let notiftype2="Comment_Reply_User";
+      let compid2=match.params.event_id
       let state2=[]
       state2=[...state2,{users:(comments.comments.find(el=>el._id==replyid)).postedBy,consulted:false}]
       state[0].users!=state2[0].users &&
-      dispatch(sendNotifications(auth.user._id,title2,content2,auth.user.role, notiftype2,state2))
+      dispatch(sendNotifications(auth.user._id,title2,content2,auth.user.role, notiftype2,state2,compid2))
       
   }
 
@@ -376,9 +380,10 @@ history.push("/login")
        let title= "New Follow";
        let content= auth.user.fname +" "+ auth.user.lname + " is now followinf you";
        let notiftype="New_Follow";
+       let compid=auth.user._id
        let state=[]
        state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
-       dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+       dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
        }
       }
         else
@@ -607,10 +612,11 @@ setTextedit("")
             let title= "Like";
             let content= auth.user.fname +" "+ auth.user.lname + " Like your comment";
             let notiftype="New_Like";
+            let compid=match.params.event_id
             let state=[]
             state=[...state,{users:(el.postedBy),consulted:false}]
             state[0].users!=auth.user._id &&
-            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
             
             auth.user.dislikes.includes(el._id)&& dispatch(removedislikecomment(el._id,Number(el.dislikes)-1,auth.user._id))}
             else
@@ -619,10 +625,11 @@ setTextedit("")
             let title= "Dislike";
             let content= auth.user.fname +" "+ auth.user.lname + " Dislike your comment";
             let notiftype="New_Dislike";
+            let compid=match.params.event_id
             let state=[]
             state=[...state,{users:(el.postedBy),consulted:false}]
             state[0].users!=auth.user._id &&
-            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
             }
             if(!auth.isAuthenticated)
             history.push("/login")}
@@ -1049,9 +1056,10 @@ return(
                 let title= "Remove Follow";
                 let content= auth.user.fname +" "+ auth.user.lname + " is no longer following you";
                 let notiftype="Remove_Follow";
+                let compid=auth.user._id
                 let state=[]
                 state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
-                dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+                dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
               }
             }
             >

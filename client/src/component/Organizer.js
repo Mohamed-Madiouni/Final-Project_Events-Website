@@ -522,11 +522,12 @@ useEffect(()=>{
                 let title="Event Deleted";
                 let content=  "The organizer " + auth.user.fname+ " " + auth.user.fname +" deleted the event " +  allevents.find((elm) => elm._id==deleteid).title;
                 let notiftype="Event_Deleted";
+                let compid=deleteid
                 var state=[]
                 allevents.find((elm) => elm._id ==deleteid).participant.map(el=>{
                   state=[...state,{users:el,consulted:false}]
                 })
-               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
               }}
             >
               Agree
@@ -552,11 +553,12 @@ useEffect(()=>{
                 let title="Event Closed";
                 let content= "The organizer " + auth.user.fname+ " " + auth.user.fname +" closed the event " +  allevents.find((elm) => elm._id==closedid).title;
                 let notiftype="Event_Closed";
+                let compid=closedid
                 var state=[]
                 allevents.find((elm) => elm._id ==closedid).participant.map(el=>{
                   state=[...state,{users:el,consulted:false}]
                 })
-               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))              
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))              
               }}
             >
               Agree
@@ -583,11 +585,12 @@ useEffect(()=>{
                 let title="Event Opened";
                 let content=  "The organizer " + auth.user.fname+ " " + auth.user.fname +" reopened the event " +  allevents.find((elm) => elm._id==closedid).title;
                 let notiftype="Event_Opened";
+                let compid=closedid
                 var state=[]
                 allevents.find((elm) => elm._id ==closedid).participant.map(el=>{
                   state=[...state,{users:el,consulted:false}]
                 })
-               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
               }}
             >
               Agree

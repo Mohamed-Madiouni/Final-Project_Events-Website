@@ -563,9 +563,10 @@ note that: </p><br/>
                 let title= "New Participation";
                 let content= auth.user.fname +" "+ auth.user.lname + " participate to " + (allevents.find(el=>el._id==participate).title);
                 let notiftype="New_Participation";
+                let compid=allevents.find(el=>el._id==participate)._id
                 let state=[]
                 state=[...state,{users:(allevents.find(el=>el._id==participate).id_organizer),consulted:false}]
-                dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+                dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
                 }
                 else
                 {dispatch(unfollowEvent(participate,eventDate))
@@ -573,9 +574,10 @@ note that: </p><br/>
                   let title= "Cancel Participation";
                   let content= auth.user.fname +" "+ auth.user.lname + " cancelled participation to " + (allevents.find(el=>el._id==participate).title);
                   let notiftype="Cancel_Participation";
+                  let compid=allevents.find(el=>el._id==participate)._id
                   let state=[]
                   state=[...state,{users:(allevents.find(el=>el._id==participate).id_organizer),consulted:false}]
-                  dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+                  dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
                 }}
               }}
             >
