@@ -1,7 +1,23 @@
 .page404{
   body { background-color: #FF7F2E; font-family: 'Concert One', cursive; margin: 0; overflow: hidden; padding: 0; }
 
+  .btn-404{
+    color:black;
+    padding:0.5em 0.5em;
+    border-radius: 5px;
+   letter-spacing: 1.5px;
+  //  border: 1px solid black;
+   font-family:'David Libre', serif; 
+   line-height: normal;
+   font-size: 20px;
+    
+}
 
+.btn-404:hover{
+  color:white;
+  border:1px solid white;
+  background: black;
+}
 /*/////////////////// rules */
 $color-black:     #13242C;
 $color-white:     #fff;
@@ -30,7 +46,7 @@ $color-wood-2:    #410A09;
 @mixin centered {
   left: 50%;
   position: absolute;
-  top: 50%;
+  top: 58%;
   transform: translate(-50%, -50%);
 }
 
@@ -38,9 +54,10 @@ $color-wood-2:    #410A09;
 .text {
   @include centered;
   color: rgba($color-black, 0.1);
-  font-size: 30em;
+  font-size: 27vw;
   text-align: center;
-  top: 40%;
+  top: 18%;
+  height: fit-content;
 }
 .container {
   @include centered;
@@ -314,4 +331,8 @@ $color-wood-2:    #410A09;
 }
 #link p {margin: 0; margin-left: 5px;}
 #link:hover {opacity: 1;}
+
+
+
+  
 }

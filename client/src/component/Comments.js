@@ -198,7 +198,10 @@ useEffect(()=>{
     });
   },[])
 
-  
+  useEffect(()=>{
+   if(allevents.length!=0&&allevents.find(el=>el._id==match.params.event_id).state=="Invalid")
+    history.push("/404")
+  })
 
   
    useEffect(() => {

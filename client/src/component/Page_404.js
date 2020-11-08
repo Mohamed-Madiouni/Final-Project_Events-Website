@@ -3,49 +3,53 @@ import "../404.scss"
 function Page_404() {
     return (
         
-<div className="page404 row container">
+<div className="page404 container " style={{position:"relative",height:700}}>
 
-<div class="text"><p>404</p></div>
-<div class="container">
-  {/* <!-- caveman left --> */}
-  <div class="caveman">
-    <div class="leg">
-      <div class="foot"><div class="fingers"></div></div>      
+
+
+<div className="text"><p>404</p></div>
+<div className="container">
+  
+  <div className="caveman">
+    <div className="leg">
+      <div className="foot"><div className="fingers"></div></div>      
     </div>
-    <div class="leg">
-      <div class="foot"><div class="fingers"></div></div>      
+    <div className="leg">
+      <div className="foot"><div className="fingers"></div></div>      
     </div>
-    <div class="shape">
-      <div class="circle"></div>
-      <div class="circle"></div>
+    <div className="shape">
+      <div className="circle"></div>
+      <div className="circle"></div>
     </div>
-    <div class="head">
-      <div class="eye"><div class="nose"></div></div>
-      <div class="mouth"></div>
+    <div className="head">
+      <div className="eye"><div className="nose"></div></div>
+      <div className="mouth"></div>
     </div>
-    <div class="arm-right"><div class="club"></div></div>    
+    <div className="arm-right"><div className="club"></div></div>    
   </div>
-  {/* <!-- caveman right --> */}
-  <div class="caveman">
-    <div class="leg">
-      <div class="foot"><div class="fingers"></div></div>      
+  
+  <div className="caveman">
+    <div className="leg">
+      <div className="foot"><div className="fingers"></div></div>      
     </div>
-    <div class="leg">
-      <div class="foot"><div class="fingers"></div></div>      
+    <div className="leg">
+      <div className="foot"><div className="fingers"></div></div>      
     </div>
-    <div class="shape">
-      <div class="circle"></div>
-      <div class="circle"></div>
+    <div className="shape">
+      <div className="circle"></div>
+      <div className="circle"></div>
     </div>
-    <div class="head">
-      <div class="eye"><div class="nose"></div></div>
-      <div class="mouth"></div>
+    <div className="head">
+      <div className="eye"><div className="nose"></div></div>
+      <div className="mouth"></div>
     </div>
-    <div class="arm-right"><div class="club"></div></div>    
+    <div className="arm-right"><div className="club"></div></div>    
   </div>
 </div>
 
-
+<div  style={{display:"flex",alignItems:"center",justifyContent:"center",width:"100%",position:"absolute",top:590}}>
+<a className="btn-404" href="/">Go Home</a>
+</div>
 
 </div>
         )

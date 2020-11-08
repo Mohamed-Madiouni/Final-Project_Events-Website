@@ -64,20 +64,16 @@ function Moderator() {
 <div className="col s4" style={{display:"flex",alignItems:"center",justifyContent:"center",
  marginBottom: 10,
             marginLeft: 0,
-            marginTop: 70,}}>
-        <span
-          style={{
-            fontWeight: 800,
-            margin: "auto",
-            display: "flex",
-            alignItems: "right",
-            position: "relative",
-          }}
-        >
+            marginTop: 35,
+            flexDirection:"column",
+            height:"100%"
+            }}>
+        
+        
           <button
             className="btn btn-medium modal-trigger"
             data-target="modalnotifall"
-            style={{ marginBottom: "5px" }}
+            style={{ marginBottom: "7px" }}
           >
             View logs
           </button>
@@ -88,7 +84,7 @@ function Moderator() {
           >
             View Reports
           </button>
-        </span>
+        
         </div>
         </div>
         <div
