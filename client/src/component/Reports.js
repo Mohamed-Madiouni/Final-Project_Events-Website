@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
 import { useDispatch,useSelector } from 'react-redux';
-import {getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply, likecomment,dislikecomment, removelikecomment, removedislikecomment, likereply, removelikereply,dislikereply, removedislikereply} from "../actions/comntaction"
+import {removereportComment, removereportReply, getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply, likecomment,dislikecomment, removelikecomment, removedislikecomment, likereply, removelikereply,dislikereply, removedislikereply} from "../actions/comntaction"
 import {getEvent} from "../actions/evntAction";
 import historyevent from "../outils/history"
 import "../comments.css";
@@ -13,7 +13,7 @@ import { logoutUser } from "../actions/authaction";
 import {v4 as uuidv4} from "uuid"
 import Pusher from 'pusher-js'
 import nbr_comments from "../outils/nbr_comments"
-
+import "../notification.scss";
 function Reports({match, history}) {
     const allevents=useSelector(state=>state.events.allEvents)
     const users=useSelector(state=>state.admin.users)
@@ -33,6 +33,7 @@ const [reply,setReply]=useState("")
 const [emojreply,setEmojReply]=useState(false)
 const[replyid,setReplyId]=useState("")
 const [deletecomid,setDeletecomid]=useState("")
+const [removereport,setRemovereport]=useState("")
 const [deletereplyid,setDeletereplyid]=useState("")
 const[actvlike,setactvlike]=useState(true)
 const[resiz,setresiz]=useState(false)
@@ -200,6 +201,8 @@ setEdit("")
 setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletecomid(el._id)} className="modal-trigger material-icons" data-target="modaldeletcom" title="Delete">delete</i>
+
+<i onClick={()=>setRemovereport(el._id)} className="modal-trigger count" data-target="modaldeletreport" title="Remove Report"><span className="num" style={{top:"5px", left:"8px"}}>{el.reports}</span></i>
      </div>}</span>
       </div>
   
@@ -466,6 +469,59 @@ setTextedit("")
             </a>
           </div>
         </div>
+
+
+
+
+        <div id="modaldeletreportcom" className="modal">
+          <div className="modal-content">
+            <h4>Remove Report</h4>
+            <p>Are you sure you want to remove the report from this comment?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+              onClick={()=>dispatch(removereportReply(removereport,Number(comments.comments.find(el=>el._id==actvreport).reports)=-1,auth.user._id))}
+               >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
+
+
+        <div id="modaldeletreportreply" className="modal">
+          <div className="modal-content">
+            <h4>Remove Report</h4>
+            <p>Are you sure you want to remove the report from this comment?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+              onClick={()=> dispatch(removereportComment(removereport,Number(comments.comments.find(el=>el._id==replyid).reply.find(el=>el.id==removereport).reports)=-1,auth.user._id,replyid))}        
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
+
+
+
+
+        
    </>
     )
 }
