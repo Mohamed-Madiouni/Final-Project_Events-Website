@@ -15,7 +15,7 @@ import Searchresult from "./component/Searchresult";
 import Events from "./component/Events";
 import Calendar from "./component/Calendar"
 import { getCurrentUser } from "./actions/authaction";
-import { INI_RESIZE, SET_RESIZE, SHOW_NOTIF } from "./actions/types";
+import { GET_LOADING, INI_RESIZE, SET_RESIZE, SHOW_NOTIF } from "./actions/types";
 import M from "materialize-css";
 
 // import AddEvent from "./component/AddEvent";
@@ -27,6 +27,7 @@ import Bannned_home from "./component/Bannned_home";
 import Notifications from "./component/Notifications";
 import Maps from "./component/Maps";
 import Page_404 from "./component/Page_404";
+import Loading from "./component/Loading";
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
   const shownotif=useSelector(state=>state.notification.show)
   const location = useLocation()
   const [homeNav,setHomeNav]=useState(false)
+  const loading=useSelector(state=>state.loading.loading)
  
   // Check for token to keep user logged in
   useEffect(() => {
@@ -81,7 +83,15 @@ useEffect(()=>{
   })
 },[resize.state])
 
-  
+  useEffect(()=>{
+    if(loading)
+setTimeout(()=>{
+  dispatch({
+    type:GET_LOADING,
+    payload:false
+  })
+},3000)
+  })
 
   return (
     <div className="App"  
@@ -91,8 +101,8 @@ useEffect(()=>{
           payload:!shownotif
         })
       }}>
-      
-      {search.etat ? (
+      {loading?<Loading/>:
+      search.etat ? (
         <Searchevents />
       ) : (
         <div className="App_center">

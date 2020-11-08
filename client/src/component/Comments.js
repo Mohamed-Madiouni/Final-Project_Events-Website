@@ -381,7 +381,7 @@ history.push("/login")
        dispatch(addfollow(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id))
       //  console.log("hello");
        let title= "New Follow";
-       let content= auth.user.fname +" "+ auth.user.lname + " is now followinf you";
+       let content= auth.user.fname +" "+ auth.user.lname + " is now following you";
        let notiftype="New_Follow";
        let compid=auth.user._id
        let state=[]
@@ -613,7 +613,7 @@ setTextedit("")
           {setactvlike(false)
             dispatch(likecomment(el._id,Number(el.likes)+1,auth.user._id))
             let title= "Like";
-            let content= auth.user.fname +" "+ auth.user.lname + " Like your comment";
+            let content= auth.user.fname +" "+ auth.user.lname + " like your comment";
             let notiftype="New_Like";
             let compid=match.params.event_id
             let state=[]
@@ -626,7 +626,7 @@ setTextedit("")
             {setactvlike(false)
             dispatch(removelikecomment(el._id,Number(el.likes)-1,auth.user._id))
             let title= "Dislike";
-            let content= auth.user.fname +" "+ auth.user.lname + " Dislike your comment";
+            let content= auth.user.fname +" "+ auth.user.lname + " dislike your comment";
             let notiftype="New_Dislike";
             let compid=match.params.event_id
             let state=[]
@@ -700,7 +700,7 @@ setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletereplyid(el.id)} className='modal-trigger material-icons' data-target='modaldeletreply' title="delete">delete</i>
 </div>}
-{(users.find(e=>e._id==el.postedBy).role!="moderator" && users.find(e=>e._id==el.postedBy).role!="administrator" && el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.user.role!="moderator" && auth.isAuthenticated &&!auth.user.reports.includes(el._id)) && <span id="editdelete">
+{(users.find(e=>e._id==el.postedBy).role!="moderator" && users.find(e=>e._id==el.postedBy).role!="administrator" && el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.user.role!="moderator" && auth.isAuthenticated &&!auth.user.reports.includes(el.id)) && <span id="editdelete">
 <i onClick={()=>setactvreport(el.id)} className='modal-trigger material-icons' data-target='modalreportreply' title="report">report</i></span>}</span>
       </div>
      
@@ -1069,7 +1069,7 @@ return(
                 dispatch(removefollow(unfollow._id))
                 setunfollow("")
                 // console.log("hello")
-                let title= "Remove Follow";
+                let title= "Following removed";
                 let content= auth.user.fname +" "+ auth.user.lname + " is no longer following you";
                 let notiftype="Remove_Follow";
                 let compid=auth.user._id
