@@ -133,8 +133,8 @@ payload:!shownotif
     (filter_inactive_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>10)?10:10).map((el,i)=>{
       return(
         <li key={i} className="note" onClick={() => {
-          if (el.notiftype=="Event_Validation") { history.push("/events/"+el.compid)}
-          else if (el.notiftype=="New_Event") { history.push("/events/"+el.compid)}
+          if (el.notiftype=="Event_Validation") { history.push("/events/")}
+          else if (el.notiftype=="New_Event") { history.push("/events/")}
           else if (el.notiftype=="Event_Edition") {history.push("/events/"+el.compid)}
           else if (el.notiftype=="Comment_Reply_organizer") { history.push("/events/"+el.compid)}
           else if (el.notiftype=="Comment_Reply_User") { history.push("/events/"+el.compid)}
@@ -154,23 +154,16 @@ payload:!shownotif
           else if (el.notiftype=="Alert_Removed") { history.push("/dashboard")}
           else if (el.notiftype=="New_Comment") { history.push("/events/"+el.compid)}
           else {  history.push("/")}
+          
+          dispatch(closeNotif([el]))
+          dispatch({
+            type:SHOW_NOTIF,
+            payload:!shownotif
+          })
           }}>
           
          
-                        
-
-                        {/* <span onClick={((el) => {
-        switch (el.notiftype) {
-          case "New_Event": history.push("/about");
-          case "New_Like": history.push("/about");
-          case "Remove_Follow":  history.push("/about");
-          default:      history.push("/about");
-        }
-      })()}> */}
-
-
-
-
+                      
           <span style={{ display: "flex", marginRight: "8px", marginTop: "8px",alignItems:"center", marginBottom: "4px"}}>
           {(el.notiftype=="Event_Validation")&&
            <img src="/Event_Validation.png" alt="Event_Validation" width="20px" height="20px"/>}
