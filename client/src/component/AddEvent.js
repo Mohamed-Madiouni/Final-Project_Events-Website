@@ -187,7 +187,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
              }
    }
       else{
-  let title="Event edition";
+  let title="Event update";
   let content= "An event was edited";
   let notiftype="Event_Edition";
   let compid=action.payload._id;

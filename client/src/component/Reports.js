@@ -138,11 +138,11 @@ useEffect(()=>{
 
     return (
       <>
-        <div >
+        <div>
           <h4 className="center" style={{ marginTop: "20px" }}>Comment Moderation</h4>
         </div>
         {load&&allevents.length!=0&&users.length!=0&&<>
-        <div className="row" style={{marginTop:10,filter:unfollow&&"blur(3px)"}} onClick={(e)=>{
+        <div className="row" style={{marginTop:10,filter:unfollow&&"blur(3px)",margin:0}} onClick={(e)=>{
          emoj&&!document.querySelector(".emoji-mart").contains(e.target)&&setEmoj(!emoj)
          emojedt&&!document.querySelector(".emoji-mart").contains(e.target)&&setEmojedt(!emojedt)
          emojreply&&!document.querySelector(".emoji-mart").contains(e.target)&&setEmojReply(!emojreply)

@@ -140,15 +140,15 @@ export default [
             }
         ]
     },
-    {
-        "featureType": "water",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#c8d7d4"
-            }
-        ]
-    },
+    // {
+    //     "featureType": "water",
+    //     "elementType": "geometry.fill",
+    //     "stylers": [
+    //         {
+    //             "color": "#c8d7d4"
+    //         }
+    //     ]
+    // },
     {
         "featureType": "water",
         "elementType": "labels.text.fill",

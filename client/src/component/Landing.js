@@ -132,31 +132,31 @@ payload:!shownotif
      {(notifsize>0)?
     (filter_inactive_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>10)?10:10).map((el,i)=>{
       return(
-        <li key={i} className="note" onClick={(el.notiftype)}>
+        <li key={i} className="note" onClick={() => {
+          if (el.notiftype=="Event_Validation") { history.push("/events/"+el.compid)}
+          else if (el.notiftype=="New_Event") { history.push("/events/"+el.compid)}
+          else if (el.notiftype=="Event_Edition") {history.push("/events/"+el.compid)}
+          else if (el.notiftype=="Comment_Reply_organizer") { history.push("/events/"+el.compid)}
+          else if (el.notiftype=="Comment_Reply_User") { history.push("/events/"+el.compid)}
+          else if (el.notiftype=="New_Follow") { history.push("/dasboard")}
+          else if (el.notiftype=="New_Like") { history.push("/events/"+el.compid)}
+          else if (el.notiftype=="New_Dislike") { history.push("/events/"+el.compid)}
+          else if (el.notiftype=="Remove_Follow") { history.push("/")}
+          else if (el.notiftype=="Event_Deleted") { history.push("/")}
+          else if (el.notiftype=="Event_Invalidation") { history.push("/events/"+el.compid)}
+          else if (el.notiftype=="New_Participation") { history.push("/events/"+el.compid)}
+          else if (el.notiftype=="Cancel_Participation") { history.push("/events/"+el.compid)}
+          else if (el.notiftype=="Event_Closed") { history.push("/events/"+el.compid)}
+          else if (el.notiftype=="Event_Opened") { history.push("/events/"+el.compid)}
+          else if (el.notiftype=="Account_Banned") {history.push("/dashboard")}
+          else if (el.notiftype=="Account_Unbanned") { history.push("/dashboard")}
+          else if (el.notiftype=="Account_Alerted") { history.push("/dashboard")}
+          else if (el.notiftype=="Alert_Removed") { history.push("/dashboard")}
+          else if (el.notiftype=="New_Comment") { history.push("/events/"+el.compid)}
+          else {  history.push("/")}
+          }}>
           
-          <span onClick={(() => {
-                      if (el.notiftype=="Event_Validation") { history.push("/event/"+el.compid)}
-                      else if (el.notiftype=="New_Event") { history.push("/event/"+el.compid)}
-                      else if (el.notiftype=="Event_Edition") {history.push("/event/"+el.compid)}
-                      else if (el.notiftype=="Comment_Reply_organizer") { history.push("/event/"+el.compid)}
-                      else if (el.notiftype=="Comment_Reply_User") { history.push("/event/"+el.compid)}
-                      else if (el.notiftype=="New_Follow") { history.push("/dasboard")}
-                      else if (el.notiftype=="New_Like") { history.push("/event/"+el.compid)}
-                      else if (el.notiftype=="New_Dislike") { history.push("/event/"+el.compid)}
-                      else if (el.notiftype=="Remove_Follow") { history.push("/home")}
-                      else if (el.notiftype=="Event_Deleted") { history.push("/home")}
-                      else if (el.notiftype=="Event_Invalidation") { history.push("/event/"+el.compid)}
-                      else if (el.notiftype=="New_Participation") { history.push("/event/"+el.compid)}
-                      else if (el.notiftype=="Cancel_Participation") { history.push("/event/"+el.compid)}
-                      else if (el.notiftype=="Event_Closed") { history.push("/event/"+el.compid)}
-                      else if (el.notiftype=="Event_Opened") { history.push("/event/"+el.compid)}
-                      else if (el.notiftype=="Account_Banned") {history.push("/dashboard")}
-                      else if (el.notiftype=="Account_Unbanned") { history.push("/dashboard")}
-                      else if (el.notiftype=="Account_Alerted") { history.push("/dashboard")}
-                      else if (el.notiftype=="Alert_Removed") { history.push("/dashboard")}
-                      else if (el.notiftype=="New_Comment") { history.push("/event/"+el.compid)}
-                      else {  history.push("/home")}
-                      })}>
+         
                         
 
                         {/* <span onClick={((el) => {
@@ -232,7 +232,7 @@ payload:!shownotif
      </div>
     
      
-     </div></span>
+     </div>
    </li>
       
         )}): <li style={{
