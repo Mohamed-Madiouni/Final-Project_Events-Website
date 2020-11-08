@@ -120,7 +120,7 @@ useEffect(()=>{
     }   
   
     })
-    let events=myevents&&myevents.filter(el=>(el!="Invalid"||el!="Closed")).filter(el=>{
+    let events=myevents&&myevents.filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").filter(el=>{
         return(
         
          el.title.toLowerCase().includes(quickSearch.title.toLowerCase())
@@ -243,7 +243,7 @@ useEffect(()=>{
                         <h2>Your participation</h2>
                         <p className="pra-2">Keep up with the latest events</p>
                         </div></div></div></div></div></div>
-           {events&&events.filter(el=>(el!="Invalid"||el!="Closed")).slice(0).reverse().map(el=>{
+           {events&&events.filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").slice(0).reverse().map(el=>{
                return (<div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
                  
                  
