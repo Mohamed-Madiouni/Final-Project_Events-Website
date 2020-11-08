@@ -24,6 +24,9 @@ const NotifSchema = new schema({
   notiftype: {
     type: String,
   },
+  compid: {
+    type: String,
+  },
  
 state:[],
 

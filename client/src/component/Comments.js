@@ -218,11 +218,12 @@ useEffect(()=>{
           let title= "New Comment";
           let content= auth.user.fname +" "+ auth.user.lname + " commented on your event " + (allevents.find(el=>el._id==match.params.event_id).title);
           let notiftype="New_Comment";
+          let compid=match.params.event_id
           var state=[]
           state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
           dispatch(addComment(comnt,match.params.event_id,auth.user._id))
           state[0].users!=auth.user._id &&
-          dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+          dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
           }
 
       const onedit=(e)=>{
@@ -230,31 +231,34 @@ useEffect(()=>{
         let title= "Comment Edition";
         let content= auth.user.fname +" "+ auth.user.lname + " edit a comment on your event " + (allevents.find(el=>el._id==match.params.event_id).title);
         let notiftype="Comment_Edition";
+        let compid=match.params.event_id
         var state=[]
         state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
         dispatch(editComment(edit,textedit))
         state[0].users!=auth.user._id &&
-        dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+        dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
     }
     const onreply=(e)=>{
       e.preventDefault()
       let title= "Comment Reply";
       let content= auth.user.fname +" "+ auth.user.lname + " replied to a comment on your event " + (allevents.find(el=>el._id==match.params.event_id).title);
       let notiftype="Comment_Reply_organizer";
+      let compid=match.params.event_id
       let state=[]
       state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
       dispatch(addreply(reply,replyid,auth.user._id,uuidv4()))
       state[0].users!=auth.user._id &&
-      dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+      dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
       
 
       let title2= "Comment Reply";
       let content2= auth.user.fname +" "+ auth.user.lname + " replied to your comment on the event " + (allevents.find(el=>el._id==match.params.event_id).title);
       let notiftype2="Comment_Reply_User";
+      let compid2=match.params.event_id
       let state2=[]
       state2=[...state2,{users:(comments.comments.find(el=>el._id==replyid)).postedBy,consulted:false}]
       state[0].users!=state2[0].users &&
-      dispatch(sendNotifications(auth.user._id,title2,content2,auth.user.role, notiftype2,state2))
+      dispatch(sendNotifications(auth.user._id,title2,content2,auth.user.role, notiftype2,state2,compid2))
       
   }
 
@@ -376,9 +380,10 @@ history.push("/login")
        let title= "New Follow";
        let content= auth.user.fname +" "+ auth.user.lname + " is now followinf you";
        let notiftype="New_Follow";
+       let compid=auth.user._id
        let state=[]
        state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
-       dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+       dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
        }
       }
         else
@@ -544,7 +549,7 @@ return(
 </div>
       </div>
       <span style={{display:"flex",justifyContent:"right"}}>
-     {(el.postedBy==auth.user._id||auth.user.role=="administrator")&&<div id="editdelete">
+     {(el.postedBy==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&<div id="editdelete">
        {!edit||el._id!=edit?<i className="material-icons" title="Edit" onClick={()=>{
 setEdit(el._id)
 setTextedit(el.content)
@@ -607,10 +612,11 @@ setTextedit("")
             let title= "Like";
             let content= auth.user.fname +" "+ auth.user.lname + " Like your comment";
             let notiftype="New_Like";
+            let compid=match.params.event_id
             let state=[]
             state=[...state,{users:(el.postedBy),consulted:false}]
             state[0].users!=auth.user._id &&
-            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
             
             auth.user.dislikes.includes(el._id)&& dispatch(removedislikecomment(el._id,Number(el.dislikes)-1,auth.user._id))}
             else
@@ -619,10 +625,11 @@ setTextedit("")
             let title= "Dislike";
             let content= auth.user.fname +" "+ auth.user.lname + " Dislike your comment";
             let notiftype="New_Dislike";
+            let compid=match.params.event_id
             let state=[]
             state=[...state,{users:(el.postedBy),consulted:false}]
             state[0].users!=auth.user._id &&
-            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
             }
             if(!auth.isAuthenticated)
             history.push("/login")}
@@ -679,7 +686,7 @@ else
 <p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
       </div><span style={{display:"flex",justifyContent:"right"}}>
-     {(el.postedBy==auth.user._id||auth.user.role=="administrator")&&<div id="editdelete">
+     {(el.postedBy==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&<div id="editdelete">
      {!edit||el.id!=edit?<i className="material-icons" title="Edit" onClick={()=>{
 setEdit(el.id)
 setTextedit(el.content)
@@ -978,11 +985,18 @@ return(
             <a
               href="#!"
               className="modal-close  btn-flat"
-              onClick={()=>
-             
-               
-                  dispatch(reportComment(actvreport,Number(comments.comments.find(el=>el._id==actvreport).reports)+1,auth.user._id))
+              onClick={()=>{
+                let title="New Report";
+                let content= "A new comment was reported";
+                let notiftype="New_Report";
+                let compid=match.params.event_id;
+                var state=[]
+                    users.filter(el=>el.role=="administrator"||el.role=="moderator").map(el=>{
+                    state=[...state,{users:el._id,consulted:false}]})
+               dispatch(reportComment(actvreport,Number(comments.comments.find(el=>el._id==actvreport).reports)+1,auth.user._id))
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
 
+}
                  }
                   // }}
             >
@@ -1007,11 +1021,17 @@ return(
             <a
               href="#!"
               className="modal-close btn-flat"
-              onClick={()=>
-               
-                  dispatch(reportReply(actvreport,Number(comments.comments.find(el=>el._id==replyid).reply.find(el=>el.id==actvreport).reports)+1,auth.user._id,replyid))
-
-                 }
+              onClick={()=>{
+                let title="New Report";
+                let content= "A new reply was reported";
+                let notiftype="New_Report";
+                let compid=match.params.event_id;
+                var state=[]
+                    users.filter(el=>el.role=="administrator"||el.role=="moderator").map(el=>{
+                    state=[...state,{users:el._id,consulted:false}]})
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
+               dispatch(reportReply(actvreport,Number(comments.comments.find(el=>el._id==replyid).reply.find(el=>el.id==actvreport).reports)+1,auth.user._id,replyid))
+               } }
                   
             >
               Agree
@@ -1049,9 +1069,10 @@ return(
                 let title= "Remove Follow";
                 let content= auth.user.fname +" "+ auth.user.lname + " is no longer following you";
                 let notiftype="Remove_Follow";
+                let compid=auth.user._id
                 let state=[]
                 state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
-                dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+                dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
               }
             }
             >

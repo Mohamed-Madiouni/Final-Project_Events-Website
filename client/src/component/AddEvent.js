@@ -177,25 +177,27 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
     let title="New Event";
     let content= "A new event was created";
     let notiftype="New_Event";
+    let compid=newEvent._id;
     var state=[]
         users.filter(el=>el.role=="administrator"||el.role=="moderator").map(el=>{
           state=[...state,{users:el._id,consulted:false}]})
           if(!res.error) {
             dispatch(addEvent({...newEvent,id_organizer:auth.user._id}))
-            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
              }
    }
       else{
   let title="Event edition";
   let content= "An event was edited";
   let notiftype="Event_Edition";
+  let compid=action.payload._id;
         var state=[]
         users.filter(el=>el.role=="administrator"||el.role=="moderator").map(el=>{
           state=[...state,{users:el._id,consulted:false}]
         })
              if(!res.error) {
                dispatch(editEvent(action.payload._id,newEvent))
-               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
              }
           }
   };

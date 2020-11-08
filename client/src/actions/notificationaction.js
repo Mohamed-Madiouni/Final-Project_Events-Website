@@ -28,7 +28,8 @@ export const sendNotifications = (
   content,
   role,
   notiftype,
-  state
+  state,
+  compid
 ) => (dispatch) => {
   setAuthToken(localStorage.token);
   axios
@@ -39,6 +40,7 @@ export const sendNotifications = (
       role: role,
       notiftype: notiftype,
       state: state,
+      compid: compid,
     })
     .then((res) => {
       dispatch({
