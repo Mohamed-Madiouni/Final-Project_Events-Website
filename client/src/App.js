@@ -26,6 +26,7 @@ import Comments from "./component/Comments";
 import Bannned_home from "./component/Bannned_home";
 import Notifications from "./component/Notifications";
 import Maps from "./component/Maps";
+import Page_404 from "./component/Page_404";
 
 function App() {
 
@@ -106,7 +107,7 @@ useEffect(()=>{
             <Route exact path="/contact" component={ContactUs} />
             <Route exact path="/about" component={AboutUs} />
 
-
+            <Route exact path="/404" component={Page_404} />
             <Route path="/events/:event_id" component={Comments} />
 
             <PrivateRoute path="/myaccount" component={Account} />

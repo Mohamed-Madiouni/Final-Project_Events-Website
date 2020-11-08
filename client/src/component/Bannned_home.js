@@ -14,24 +14,24 @@ function Bannned_home() {
   }, []);
 
   return (
-    <div class="ban">
-      <div class="scene">
-        <div class="overlay"></div>
-        <div class="overlay"></div>
-        <div class="overlay"></div>
-        <div class="overlay"></div>
-        <span class="bg-403">403</span>
-        <div class="text">
-          <span class="hero-text"></span>
-          <span class="msg">
+    <div className="ban">
+      <div className="scene">
+        <div className="overlay"></div>
+        <div className="overlay"></div>
+        <div className="overlay"></div>
+        <div className="overlay"></div>
+        <span className="bg-403">403</span>
+        <div className="text">
+          <span className="hero-text"></span>
+          <span className="msg">
             Your <span>account</span> get baned.
           </span>
-          <span class="support">
+          <span className="support">
             <span>unexpected?</span>
             <a href="/contact">contact support</a>
           </span>
         </div>
-        <div class="lock"></div>
+        <div className="lock"></div>
       </div>
     </div>
   );
