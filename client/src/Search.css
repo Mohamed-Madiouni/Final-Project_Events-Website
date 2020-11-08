@@ -12,14 +12,14 @@ margin-right: auto;
 max-width: 1170px;
 padding: 0 15px;
 }
-.vc_row {
+/* .vc_row {
 margin-left: -15px;
 margin-right: -15px;
-}
-.vc_row:after, .vc_row:before {
+} */
+/* .vc_row:after, .vc_row:before {
 content: " ";
 display: table;
-}
+} */
 .vc_column_container {
 padding-left: 0;
 padding-right: 0;
@@ -84,10 +84,10 @@ color: #131529;
 .thb-offset-title .vc_row {
 margin: 0;
 }
-.vc_row {
+/* .vc_row {
 margin-left: -15px;
 margin-right: -15px;
-}
+} */
 .vc_column_container {
 padding-left: 0;
 padding-right: 0;

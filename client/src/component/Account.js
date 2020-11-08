@@ -9,6 +9,7 @@ import Navbar from "./Navbar";
 import "../account.css"
 import resize from "../outils/resize";
 import { logoutUser } from "../actions/authaction";
+import Footer from "./Footer";
 
 function Updateacc({ history }) {
   const errors = useSelector((state) => state.errors);
@@ -347,6 +348,7 @@ setConfirmationInput({confirm:""})
             </a>
           </div>
         </div>
+        <Footer/>
     </>
   );
 }

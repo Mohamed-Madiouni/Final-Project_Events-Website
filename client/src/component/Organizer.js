@@ -15,7 +15,7 @@ import { getUsers } from '../actions/adminaction';
 import MyMap from "./Maps";
 import {sendNotifications} from "../actions/notificationaction";
 import { formatRelative } from "date-fns";
-
+import Footer from './Footer';
 
 function Organizer() {
   
@@ -246,7 +246,7 @@ useEffect(()=>{
       </div>
 
 
-     { !map.show?modal && (<div className="container organizer_add row">
+     { !map.show?modal && (<div className="container organizer_add row" id="edt">
         <AddEvent toggle={toggle} action={action} setAction={setAction} /></div>
       ):
       <div className=" map_container" id="map">
@@ -257,16 +257,41 @@ useEffect(()=>{
         <AddEvent toggle={toggle} action={action} setAction={setAction} /></div> */}
 
 
-<div className="col s12">
-  <h5  style={{marginLeft:10,color:"rgb(0, 96, 100)"}}> <b>Your last events</b> </h5>
+
+<div className=" col s12" >
+               <div style={{marginLeft:"10px"}}>
+             <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
+              <div className="wpb_column vc_column_container col 12">
+                <div className="vc_column-inner">
+                  <div className="wb_wrapper">
+                    <div className="wpb_text_column wpb_content_element ">
+                      <div className=" wpb_wrapper">
+                        <h2>Your Last Events</h2>
+                        {/* <p className="pra-2">Keep up with the latest events</p> */}
+                        </div></div></div></div></div></div></div>
+  {/* <h5  style={{marginLeft:10,color:"rgb(0, 96, 100)"}}> <b>Your last events</b> </h5> */}
 </div>
-        {events.events==0&&
-        <div  style={{marginLeft:10}}>
-          <h4> <b>Your dashboard is empty, get started and create events</b> </h4>
+        {events.events.length==0&&
+        // <div  style={{marginLeft:10}}>
+        //   <h4> <b>Your dashboard is empty, get started and create events</b> </h4>
+        // </div>
+        <div className="row" style={{marginLeft:"10px"}} > 
+         <div className="row">
+        <div className="col s12 l6" id="down">
+          <h1 className="title-h">Your dashboard is empty</h1>
+          <p className="title-p">
+          Get started and create events.
+          </p>
         </div>
-        
+        <div className="col s12 l6" id="up">
+          <img className="working-img" src="/illustration-working.svg" />
+        </div>
+      </div>
+     
+
+      </div>
         }
-      <div className="row card_event">
+      <div className="row ">
         {events.events &&
           events.events.slice(-6).reverse().map((el) => {
             return (
@@ -319,7 +344,7 @@ useEffect(()=>{
                      })
                    
  
-                  }}>{el.address.address}</p>
+                  }}><i className="fas fa-home" style={{marginRight:5}}></i>{el.address.address}</p>
                   {/* </marquee>  */}
                    </a>
                   
@@ -340,7 +365,7 @@ useEffect(()=>{
                     })
                   
 
-                 }}>{el.address.address}</p></marquee>  </a>}
+                 }}><i className="fas fa-home" style={{marginRight:5}}></i>{el.address.address}</p></marquee>  </a>}
                   <div
                     style={{
                       display: "flex",
@@ -440,7 +465,7 @@ useEffect(()=>{
                       
                       }}
                       title="edit"
-                      
+                      href={!modal?"#edt":undefined}
                     >
                       <i className="material-icons ">edit</i>
                     </a>}
@@ -575,6 +600,7 @@ useEffect(()=>{
             </a>
           </div>
         </div>
+        <Footer/>
      </div>
   );
 }

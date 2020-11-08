@@ -55,7 +55,7 @@ function Register({ history }) {
       address: user.address,
       role: form.current.elements.user.value,
     };
-    console.log(newUser);
+    // console.log(newUser);
     dispatch(registerUser(newUser, history));
   };
   return (

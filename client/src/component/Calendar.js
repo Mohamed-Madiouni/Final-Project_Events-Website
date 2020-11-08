@@ -15,6 +15,10 @@ import M from "materialize-css";
 import Navbar from './Navbar';
 import { getCurrentUser } from '../actions/authaction';
 import { logoutUser } from "../actions/authaction";
+import { formatRelativeWithOptions } from 'date-fns/esm/fp';
+import Footer from './Footer';
+import calcul_rating from '../outils/calucle_rating';
+import { formatRelative } from 'date-fns';
 
 
 function Calendar() {
@@ -34,7 +38,7 @@ function Calendar() {
       },[])
 
       useEffect(()=>{
-        M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false})
+        M.Slider.init(document.querySelectorAll(".slider"), { height: 55,indicators:false})
       })
 
 
@@ -84,7 +88,9 @@ let calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
 
 
     return (
-      <>
+      < div onClick={(e)=>{
+        mod&&!document.querySelector(".custom_mod_cal").contains(e.target)&&setMod(!mod)
+      }}>
       <Navbar/>
         <div className="container" >
           <div style={{filter:mod&&"brightness(30%)"}}>
@@ -131,7 +137,11 @@ let calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
         events={calendarEvents}
         dayMaxEvents={2}
         // events={[{title:"med",start:"2020-10-13T12:00",end:"2020-10-13T19:00"},{title:"med1",start:"2020-10-13T14:00",end:"2020-10-13T18:00"}]}
-        
+        eventTimeFormat={{
+          hour:"2-digit",
+          minute:"2-digit",
+          hour12:false
+        }}
       />
       </div>
       {/* <div  className="custom_mod" style={{display:mod?"initial":"none",padding:10}}>
@@ -157,7 +167,11 @@ let calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
                         {get_month(Number(allevents.find(e=>e._id==eventId).start.split("T")[0].split("-")[1]))}
                       </div>
                     </div>
-                    <div className="cal_hov" style={{
+                    <div className="star_rate left">
+                    <i className="material-icons" style={{color:"rgb(255, 180, 0)",fontSize:65,position:"relative"}}>star</i>
+                    <p style={{position:"absolute",top:22,lineHeight:"normal",left:21.5,width:22,height:22, display:"flex",alignItems:"center",justifyContent:"center"}}>{allevents.find(e=>e._id==eventId).rating.length==0?"--":calcul_rating(allevents.find(e=>e._id==eventId).rating)}</p>
+                    </div>
+                    {/* <div className="cal_hov" style={{
                        position: "absolute",
                        top: 10,
                        left: 10,
@@ -184,17 +198,20 @@ let calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
         >
           close
         </i>
-        </div>
+        </div> */}
                     
                   </div>
                   <div
                     className="card-content "
                     style={{ padding: "0px 10px 0px 24px" }}
                   >
-                    <span className="card-title  grey-text text-darken-4">
-                      <b>{allevents.find(e=>e._id==eventId).title}</b>
-                    </span>
-                    <p className="red-text">{allevents.find(e=>e._id==eventId).address.address}</p>
+                    <span className="card-title  grey-text text-darken-4" style={{height: "fit-content",lineHeight: "normal",marginTop: "2px",marginBottom:2}}>
+                    {allevents.find(e=>e._id==eventId).title.length<=12? <b>{allevents.find(e=>e._id==eventId).title}</b>:<marquee scrolldelay={140} behavior="scroll" direction="left"><b>{allevents.find(e=>e._id==eventId).title}</b></marquee> }
+                  </span>
+                  {allevents.find(e=>e._id==eventId).address.address.length<=20?
+                    <p className="red-text address_map" style={{cursor:"pointer"}}><i className="fas fa-home" style={{marginRight:5}}></i>{allevents.find(e=>e._id==eventId).address.address}</p>
+                  :
+                 <marquee  behavior="scroll" direction="left" scrolldelay={140}><p className="red-text address_map" style={{cursor:"pointer"}}><i className="fas fa-home" style={{marginRight:5}}></i>{allevents.find(e=>e._id==eventId).address.address}</p></marquee> }
                     <div
                       style={{
                         display: "flex",
@@ -308,12 +325,13 @@ let calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
                       {allevents.find(e=>e._id==eventId).state}
                     </span>
                   </div>
-                  <div className="card-reveal">
+                  <div className="card-reveal" style={{paddingRight:55,overflowWrap:"anywhere"}}>
                     <span className="card-title grey-text text-darken-4">
                       <b>{allevents.find(e=>e._id==eventId).title}</b>
-                      <i className="material-icons right">close</i>
+                      <i className="material-icons right" style={{position:"absolute",right:10,top:10}}>close</i>
                     </span>
-                    <p>{allevents.find(e=>e._id==eventId).description}</p>
+                    <p style={{fontSize:13,color:"rgb(0, 96, 100)"}}>{formatRelative(new Date(allevents.find(e=>e._id==eventId).start),new Date())+" - "+formatRelative(new Date(allevents.find(e=>e._id==eventId).end),new Date())}</p>
+                    <p  style={{lineHeight:"normal"}}>{allevents.find(e=>e._id==eventId).description}</p>
                     <div
                       className="right"
                       style={{
@@ -321,6 +339,9 @@ let calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "space-between",
+                        position:"absolute",
+                      right:5,
+                      top:65
                       }}
                     >
                       {" "}
@@ -460,7 +481,8 @@ note that: </p><br/>
           </div>
         </div>
         </div>
-        </>
+        <Footer/>
+        </div>
     )
 }
 

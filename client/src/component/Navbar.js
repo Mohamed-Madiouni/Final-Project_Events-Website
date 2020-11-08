@@ -4,7 +4,7 @@ import Landing from "./Landing";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { INI_SEARCH } from "../actions/types";
-
+import {ADD_FOCUS,SHOW_MAP, STATE_MAP  } from "../actions/types";
 function Navbar() {
   const search = useSelector((state) => state.search);
   const dispatch = useDispatch();
@@ -12,6 +12,7 @@ function Navbar() {
   const location = useLocation()
   const [nav,setNav]=useState(true)
   const resize =useSelector(state=>state.resize)
+  const map =useSelector(state=>state.map)
   //  useEffect(()=>{
   //   window.addEventListener("resize",()=>{
   //     if(window.innerWidth<=992)
@@ -21,16 +22,31 @@ function Navbar() {
   //   })
   // })
   return (
-    <div className="navbar-fixed" style={{height:"60px"}}>
+    <div className="navbar-fixed" style={{height:"60px"}} onClick={(e)=>{
+      map.show&&
+      dispatch({
+        type:SHOW_MAP,
+        payload:false
+      })&&
+      dispatch({
+        type:STATE_MAP,
+        payload:""
+      })&&
+      dispatch({
+        type:ADD_FOCUS,
+        payload:{}
+      })
+      
+    }}>
     <div className="test row">
-      <div className={!resize.state?"div2 col s10 row":"div3 col s8 row"}>
+      <div className={!resize.state?"div2 col s10 row":"div3 col s6 m8 row"}>
        <div
           style={{
             padding: "0px",
          margin:0,
             height:60
           }}
-          className={!resize.state?"col s2":"col s1"}
+          className={!resize.state?"col s2":"col s2"}
         >{ !resize.state?
           
           
@@ -56,7 +72,11 @@ function Navbar() {
           style={{
           height:60,
           display:"flex",
-          alignItems:"center"}}>
+          alignItems:"center",
+          width:"100%",
+          flexDirection:"flex-start"
+          
+          }}>
             <i className="material-icons white-text">menu</i></a>}
         </div>
        
@@ -102,16 +122,16 @@ function Navbar() {
 
           
           </>):( <><i
-            className="fa fa-search col s1 white-text"
+            className="fa fa-search white-text"
             style={{
               fontSize: "21px",
               cursor: "pointer",
-              paddingRight:10,
+              // paddingRight:10,
               margin:0,
               display:"flex",
               justifyContent:"flex-end",
               alignItems:"center",
-             
+             width:"100%"
              
 
             }}
@@ -163,7 +183,7 @@ function Navbar() {
           </Link>
         </div> */}
       </div>
-      <div className={!resize.state?" landing col s2": "landing col s4" } style={{
+      <div className={!resize.state?" landing col s2": "landing col s6 m4" } style={{
         margin:0
       }}> 
         <Landing />

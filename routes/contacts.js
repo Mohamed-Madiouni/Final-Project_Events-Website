@@ -75,7 +75,7 @@ const validateContactInput= require("../validation/contact");
 router.post('/contactus',(req,res)=>{
     const data =req.body
 
-    console.log(data)
+    // console.log(data)
     const { errors, isValid } = validateContactInput(req.body)
   //   console.log();
   // console.log("errors",errors,isValid)

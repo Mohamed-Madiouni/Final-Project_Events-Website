@@ -9,8 +9,11 @@ import Navbar from './Navbar';
 import M from "materialize-css";
 import "../events.css";
 import eventClosing from "../outils/eventClosing";
-import { GET_ERRORS } from "../actions/types";
+import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP } from "../actions/types";
 import calcul_rating from '../outils/calucle_rating';
+import { formatRelative } from 'date-fns';
+import MyMap from "./Maps";
+import Footer from './Footer';
 let url = require('url');
 let querystring = require('querystring');
 
@@ -25,6 +28,7 @@ function Searchresult() {
     const allevents=useSelector(state=>state.events.allEvents)
     let auth = useSelector(state=>state.auth)
     let errors=useSelector(state=>state.errors)
+    const map = useSelector(state=>state.map)
     const [initial,setInitial]=useState(["welcome"])
     const [quickSearch, setQuickSearch] = useState({
       title: "",
@@ -79,7 +83,7 @@ useEffect(() => {
     useEffect(()=>{setInitial(search)},[])
    
    useEffect(()=>{
-     M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false})
+     M.Slider.init(document.querySelectorAll(".slider"), { height: 60,indicators:false})
      M.updateTextFields() 
     
      if(errors.banned)
@@ -94,7 +98,7 @@ useEffect(() => {
  
  
  
-     let search=allevents.filter(el=>{
+     let search=allevents.filter(el=>el.state!="Invalid").filter(el=>{
       return(
        el.title.toLowerCase().includes(params.title?params.title.toLowerCase():"")
        &&el.address.address.toLowerCase().includes(params.address?params.address.toLowerCase():"")
@@ -127,10 +131,25 @@ useEffect(() => {
  
  
     return (
-        <div>
+        <div onClick={(e)=>{
+          map.show&&!(document.querySelector(".map_container").contains(e.target)||document.querySelector("reach-portal").contains(e.target)||[...document.getElementsByClassName("address_map")].includes(e.target))&&
+          dispatch({
+            type:SHOW_MAP,
+            payload:false
+          })&&
+          dispatch({
+            type:STATE_MAP,
+            payload:""
+          })&&
+          dispatch({
+            type:ADD_FOCUS,
+            payload:{}
+          })
+          
+        }}>
             <Navbar/>
 
-<div className='row container'><h5><b>Quick search</b></h5></div>
+{/* <div className='row container'><h5><b>Quick search</b></h5></div>
 
             <div className="row container" style={{marginTop:"20px",fontSize:15,fontWeight:800}} >
               <form >
@@ -152,10 +171,57 @@ useEffect(() => {
           <label forhtml="title">Event tags</label>
         </div>
               </form>
-            </div>
+            </div> */}
+            <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >
+     <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
+       <div className="col s12 l4" style={{fontStyle: "italic",fontSize:17,marginBottom:10}}>
+   <p>Select an event state or choose title or tag to discover best events for you.</p>
+   </div>
+   <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
+
+   
+   <form >
+   <div className="input-field col s4">
+ <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
+ <label forhtml="title">Event title</label>
+ </div>
+ <div className="input-field col s4">
+ <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none",background:"transparent",border:"1px solid #9e9e9e"}}>
+ <option value="">State</option>
+ <option value="Available" className="green-text">Available</option>
+ <option value="Closed" className="gray-text">Closed</option>
+  <option value="Ended" className="gray-text">Ended</option>
+ </select>
+ <label className="active">Event state</label>
+ </div>
+ <div className="input-field col s4">
+ <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
+ <label forhtml="title">Event tags</label>
+ </div>
+   </form>
+   </div>
+ </div>
+ { map.show&&<div className=" map_container" id="map">
+<MyMap/>
+        </div>}
             {(('title' in params || 'address' in params || "description" in params)||search.length!=0)&&
             
-            <div className="row" style={{marginLeft:10}} > <h5> <b>{search.length+" result(s) found"}</b> </h5></div>}
+            // <div className="row" style={{marginLeft:10}} > <h5> <b>{search.length+" result(s) found"}</b> </h5></div>
+            <div className="row" style={{marginLeft:"10px"}} > 
+              <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
+              <div className="wpb_column vc_column_container col 12">
+                <div className="vc_column-inner">
+                  <div className="wpb_wrapper">
+                    <div className="wpb_text_column wpb_content_element ">
+                      <div className=" wpb_wrapper"> 
+                      <h2>{search.length}</h2>
+                        <p className="pra-2"> result(s) found </p>
+                        </div></div></div></div></div></div> 
+           
+
+            </div>
+            
+            }
             <div  className="row">
 
  {search&&search.slice(0).reverse().filter(el=>el.state!="Invalid").map(el=>{
@@ -189,10 +255,50 @@ useEffect(() => {
                     className="card-content "
                     style={{ padding: "0px 10px 0px 24px" }}
                   >
-                    <span className="card-title  grey-text text-darken-4">
-                      <b>{el.title}</b>
-                    </span>
-                    <p className="red-text">{el.address.address}</p>
+                    <span className="card-title  grey-text text-darken-4" style={{height: "fit-content",lineHeight: "normal",marginTop: "2px",marginBottom:2}}>
+                    {el.title.length<=12? <b>{el.title}</b>:<marquee scrolldelay={140} behavior="scroll" direction="left"><b>{el.title}</b></marquee> }
+                  </span>
+                  {el.address.address.length<=20?
+                  <a href="#map" >
+                  {/* <marquee  behavior="scroll" direction="left" scrolldelay={200}> */}
+                    <p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
+                      dispatch({
+                       type:SHOW_MAP,
+                       payload:true
+                     })
+                     
+                     dispatch({
+                       type:STATE_MAP,
+                       payload:"show"
+                     })
+                     dispatch({
+                       type:ADD_FOCUS,
+                       payload:el.address
+                     })
+                   
+ 
+                  }}><i className="fas fa-home" style={{marginRight:5}}></i>{el.address.address}</p>
+                  {/* </marquee>  */}
+                   </a>
+                  
+                  :<a href="#map" >
+                 <marquee  behavior="scroll" direction="left" scrolldelay={140}><p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
+                     dispatch({
+                      type:SHOW_MAP,
+                      payload:true
+                    })
+                    
+                    dispatch({
+                      type:STATE_MAP,
+                      payload:"show"
+                    })
+                    dispatch({
+                      type:ADD_FOCUS,
+                      payload:el.address
+                    })
+                  
+
+                 }}><i className="fas fa-home" style={{marginRight:5}}></i>{el.address.address}</p></marquee>  </a>}
                     <div
                       style={{
                         display: "flex",
@@ -303,12 +409,13 @@ useEffect(() => {
                       {el.state}
                     </span>
                   </div>
-                  <div className="card-reveal">
+                  <div className="card-reveal" style={{paddingRight:55,overflowWrap:"anywhere"}}>
                     <span className="card-title grey-text text-darken-4">
                       <b>{el.title}</b>
-                      <i className="material-icons right">close</i>
+                      <i className="material-icons right" style={{position:"absolute",right:10,top:10}}>close</i>
                     </span>
-                    <p>{el.description}</p>
+                    <p style={{fontSize:13,color:"rgb(0, 96, 100)"}}>{formatRelative(new Date(el.start),new Date())+" - "+formatRelative(new Date(el.end),new Date())}</p>
+                    <p style={{lineHeight:"normal"}}>{el.description}</p>
                     <div
                       className="right"
                       style={{
@@ -316,6 +423,9 @@ useEffect(() => {
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "space-between",
+                        position:"absolute",
+                        right:5,
+                        top:65
                       }}
                     >
                       {" "}
@@ -413,6 +523,7 @@ note that: </p><br/>
             </a>
           </div>
         </div>
+        <Footer/>
         </div>
     )
 }

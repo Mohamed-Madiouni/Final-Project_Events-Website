@@ -354,7 +354,7 @@ history.push("/login")
        else
        {
        dispatch(addfollow(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id))
-       console.log("hello");
+      //  console.log("hello");
        let title= "New Follow";
        let content= auth.user.fname +" "+ auth.user.lname + " is now followinf you";
        let notiftype="New_Follow";
@@ -433,7 +433,7 @@ return(
       //     </div>
           
       <div style={{
-        marginBottom:"50px",
+        marginBottom:"5px",
         cursor: "pointer",
         display: "flex",
         justifyContent:"center",
@@ -816,7 +816,7 @@ setTextedit("")
           //   <p  >Show more comments</p>
           // </div>
           <div style={{
-            marginBottom:"50px",
+            marginBottom:"5px",
             cursor: "pointer",
             display: "flex",
             justifyContent:"center",
@@ -874,7 +874,7 @@ return(
       //       <p  >Show more events</p>
       //     </div>
           <div style={{
-            marginBottom:"50px",
+            marginBottom:"5px",
             cursor: "pointer",
             display: "flex",
             justifyContent:"center",
@@ -961,7 +961,7 @@ return(
               onClick={()=>{
                 dispatch(removefollow(unfollow._id))
                 setunfollow("")
-                console.log("hello")
+                // console.log("hello")
                 let title= "Remove Follow";
                 let content= auth.user.fname +" "+ auth.user.lname + " is no longer following you";
                 let notiftype="Remove_Follow";

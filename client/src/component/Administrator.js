@@ -9,6 +9,7 @@ import Notification from "./Notifications";
 import "../organizer.css";
 import M from "materialize-css";
 import { getUsers, getEvents } from "../actions/adminaction";
+import Footer from "./Footer";
 
 function Administrator() {
   const dispatch = useDispatch();
@@ -17,61 +18,93 @@ function Administrator() {
   const events = useSelector((state) => state.admin);
 
   const [modal, setModal] = useState(false);
-  const toggle = () => {setModal(!modal)}
-
+  const toggle = () => {
+    setModal(!modal);
+  };
 
   useEffect(() => {
-    dispatch(getUsers(), getEvents())
+    dispatch(getUsers(), getEvents());
   }, []);
-// useEffect(()=> { M.Modal.init(document.querySelectorAll(".modal"))})
-  return (
-    <div className="row">
-      <div className="col s12 ">
-        <div className="col s6 m7 organizer_hi">
-          <div
-            className="col s12"
-            style={{
-              paddingTop: "0.75rem",
-              paddingBottom: "0.75rem",
-              margin: "0px",
-            }}
-          >
-            {" "}
-            <h5>
-              <b>Hi there,</b> {auth.user.fname}
-            </h5>
-            <p>
-              {" "}
-              We are happy to see you among US. <br />
-              This is your <b>Admin Dashboard</b><br />
-              You can manage accounts and events.
-            </p>
-          </div>
 
-        </div>
+  return (
+    <div className="col s12 row">
+      <div
+        className="row quicksearch"
+        style={{
+          margin: "30px 15px 20px 15px",
+          fontSize: 15,
+          height: 200,
+          // display: "flex",
+          // alignItems: "left",
+          position: "relative",
+        }}
+      >
+        <h5 style={{ position: "absolute", fontSize: 35, left: 5, top: -30 }}>
+          <b>Hi there,</b> {auth.user.fname}
+        </h5>
+        <div className="col s12" style={{marginBottom:20}}>
         <div
-          className="col s6 m5"
+          className="col s8 "
           style={{
-            paddingRight: "0px",
+            fontStyle: "italic",
+            fontSize: 17,
+            marginBottom: 10,
+            marginLeft: 0,
+            marginTop: 70,
           }}
         >
-          <div>
-          <button className="btn btn-medium modal-trigger"
-          data-target="modalnotifall"
-          style={{marginBottom:"5px"}}>View logs</button>
+          <p> We are happy to see you among US. <br />
+          This is your <b> Admin Dashboard</b>, You can manage accounts and
+          events.</p>
+        </div>
+        
 
-          <div className="switch right" style={{marginTop:10,color:"black",fontSize:20}}>
-              <label>Manage account
-            
-              <input type="checkbox" onClick={toggle}/>
-              <span className="lever"></span>
-          
-              Manage events</label>
-            </div>
-          </div>
+<div className="col s4" style={{display:"flex",alignItems:"center",justifyContent:"center",
+ marginBottom: 10,
+            marginLeft: 0,
+            marginTop: 70,}}>
+        <span
+          style={{
+            fontWeight: 800,
+            margin: "auto",
+            display: "flex",
+            alignItems: "right",
+            position: "relative",
+          }}
+        >
+          <button
+            className="btn btn-medium modal-trigger"
+            data-target="modalnotifall"
+            style={{ marginBottom: "5px" }}
+          >
+            View logs
+          </button>
+        </span>
+        </div>
+        </div>
+        <div
+          className="switch col s12"
+          style={{
+            color: "black",
+            fontSize: 20,
+            display: "flex",
+            alignItems: "center",
+            // marginBottom: "-127px",
+            // marginLeft: "-325px",
+            // position: "relative",
+            justifyContent:"center"
+          }}
+        >
+          <label>
+            Manage account
+            <input type="checkbox" onClick={toggle} />
+            <span className="lever"></span>
+            Manage events
+          </label>
         </div>
       </div>
 
+     
       <div className="col s12">
         {modal ? (
           <div>
@@ -86,10 +119,7 @@ function Administrator() {
               </div>
             </div>
           </div>
-        )
-     :
-
-       (
+        ) : (
           <div>
             <div className="row">
               <div
@@ -104,14 +134,18 @@ function Administrator() {
           </div>
         )}
 
-<div id="modalnotif" className="modal" style={{ padding: 0, margin:0 }}>
-<Notification />
- </div>
-      </div>   
-
+        <div
+          id="modalnotif"
+          className="modal"
+          style={{ padding: 0, margin: 0 }}
+        >
+          <Notification />
+        </div>
+        
+      </div>
+      <Footer/>
     </div>
-    
   );
 }
 
-export default Administrator; 
+export default Administrator;

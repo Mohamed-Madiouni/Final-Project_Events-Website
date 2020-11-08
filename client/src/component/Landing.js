@@ -39,7 +39,7 @@ useEffect(()=>{M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))})
   };
 useEffect(()=>{
   M.Modal.init(document.querySelectorAll(".modal"))
-  dispatch(getNotifications())
+  localStorage.token&&dispatch(getNotifications())
 },[])
   return (
     <div 
@@ -49,35 +49,29 @@ useEffect(()=>{
       >
      { users.length!=0&&
      <div className="landing_app">
-    {!localStorage.token?<div>
+    {!localStorage.token?<div style={{width:"100%",height:60,display: "flex",alignItems: "center",justifyContent: "space-around"}}>
         <Link
           to="/register"
           style={{
-            width: "100%",
-            borderRadius: "3px",
+           
             
-            // letterSpacing: "1.5px",
-            display: localStorage.token ? "none" : "inline",
-            marginRight:5
           }}
-          className="btn waves-effect waves-light "
+          className="btn-nav"
         >
-          Register
+          Register Now
         </Link>
 
         <Link
           to="/login"
           style={{
-            width: "100%",
-            borderRadius: "3px",
-            // letterSpacing: "1.5px",
-             marginRight:5,
+           
+            
 
-            display: localStorage.token ? "none" : "inline",
+           
           }}
-          className="btn"
+          className="btn-nav"
         >
-          LogIn
+          Log In
         </Link>
 
         </div>

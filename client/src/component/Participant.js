@@ -7,7 +7,7 @@ import get_month from "../outils/get_month"
 import "../organizer.css";
 import M from "materialize-css";
 // import eventClosing from "../outils/eventClosing";
-import { GET_ERRORS } from "../actions/types";
+import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP  } from "../actions/types";
 import { getMyEvents,getCurrentUser } from "../actions/authaction";
 import historyevent from "../outils/history"
 
@@ -17,12 +17,14 @@ import "../participant.css"
 import { logoutUser } from "../actions/authaction";
 import calcul_rating from "../outils/calucle_rating";
 import Footer from "./Footer"
+import { formatRelative } from "date-fns";
+import MyMap from "./Maps";
 
 function Participant() {
 
     const dispatch = useDispatch();
     const history =useHistory()
-  
+    const map = useSelector(state=>state.map)
     const auth = useSelector((state) => state.auth);
     const allevents= useSelector((state)=>state.events.allEvents)
     const errors=useSelector(state=>state.errors)
@@ -106,7 +108,7 @@ useEffect(()=>{
 
    useEffect(()=>{
       M.Materialbox.init(document.querySelectorAll('.materialboxed'))
-      M.Slider.init(document.querySelectorAll(".slider"), { height: 40,indicators:false });
+      M.Slider.init(document.querySelectorAll(".slider"), { height: 60,indicators:false });
       M.updateTextFields()
       if(errors.banned)
       {
@@ -128,137 +130,118 @@ useEffect(()=>{
          )
        })
   
+       const onChange = (e) => {
+        setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value })};
+
     return (
 
-        <div>
-          <div className="row">
-        <Search className="col s12"
-        quickSearch={quickSearch}
-        setQuickSearch={setQuickSearch}/>
-
-        {/* <>         */}
+        <div onClick={(e)=>{
+          map.show&&!(document.querySelector(".map_container").contains(e.target)||document.querySelector("reach-portal").contains(e.target)||[...document.getElementsByClassName("address_map")].includes(e.target))&&
+          dispatch({
+            type:SHOW_MAP,
+            payload:false
+          })&&
+          dispatch({
+            type:STATE_MAP,
+            payload:""
+          })&&
+          dispatch({
+            type:ADD_FOCUS,
+            payload:{}
+          })
+          
+        }}>
+         
         { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
         <i className="fas fa-exclamation-circle" style={{color:"red",fontSize:15,marginTop:5}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban your account 
         </i>
         }
-{/* //         <div className='row container' ><h5><b>Quick search</b></h5></div>
 
-// <div className="row container" style={{marginTop:"20px",fontSize:15,fontWeight:800}} >
-//   <form >
-//   <div className="input-field col s4 m5">
-// <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
-// <label forhtml="title">Event title</label>
-// </div>
-// <div className="input-field col s4 m3">
-// <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none"}}>
-// <option value="">State</option>
-// <option value="Available" className="green-text">Available</option>
-// <option value="Closed" className="gray-text">Closed</option>
-// <option value="Ended" className="gray-text">Ended</option>
-// </select>
-// <label className="active">Event state</label>
-// </div>
-// <div className="input-field col s4 m4">
-// <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
-// <label forhtml="title">Event tags</label>
-// </div>
-//   </form>
-// </div> */}
-
-            
-      
-        <div className="container container-pa" style={{verticalAlign: "middle"
+<div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px"
 }}>
-        <div className=" col s12
-         organizer_hi "
-style={{marginTop:"20px"}}>
-          <div
-            // className="col s12"
-            style={{
-              // paddingTop: "0.75rem",
-              // paddingBottom: "0.75rem",
-              marginTop:20,
-            }}
-          >
-            
-            {" "}
-            {/* <figure class="profile-banner">
-    <img src="https://www.bacp.co.uk/media/7326/partybanner.jpg?anchor=center&mode=crop&width=1120&heightratio=0&format=jpg&quality=80&slimmage=true&rnd=132207170210000000" alt="Profile banner" />
-  </figure> */}
-  
-  {/* <div class="profile-picture" 
-    style={{backgroundImage:`url(${auth.user.avatar})`}}>
-  </div> */}
-  <div 
-  style={{marginTop:"60px"}} >
-            <h5 className="h5-tit">
-              <span className="blue-title">Hi there,</span> {auth.user.fname} {auth.user.lname}
-            </h5>
+        <div className=" col s12 organizer_hi "
+         >
+            <p className="h5-tit">
+              {auth.user.fname} {auth.user.lname}
+            </p>
+            <span className="blue-title">Hi there,</span> 
         <p className="para-blue">
           {" "}
           We are happy to see you among US. <br />
               This is your <b>Dashboard</b>, you can see all your events that
               you have been participated.
             </p>
-            </div>
-          </div>
+           
           </div>
         </div>
-        
 
-{/* //           This is your <b>Dashboard</b>, you can see all your events that
-//           you have been participated.
-//         </p>
-           
-//           </div>
-         
-//         </div> */}
-        {/* <div
-          className="col s2 l4"
+<div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >
+     <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
+       <div className="col s12 l4" style={{fontStyle: "",fontSize:17,marginBottom:10}}>
+   <p>Select an event state or choose title or tag to discover best events for you.</p>
+   </div>
+   <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
+
+   
+   <form >
+   <div className="input-field col s4">
+ <input placeholder="event title" id="title" type="text"  value ={quickSearch.title} onChange={onChange}/>
+ <label forhtml="title">Event title</label>
+ </div>
+ <div className="input-field col s4">
+ <select id ="state" value={quickSearch.state} onChange={onChange} style={{display:"initial",marginTop:4,borderRadius:5,outline:"none",background:"transparent",border:"1px solid #9e9e9e"}}>
+ <option value="">State</option>
+ <option value="Available" className="green-text">Available</option>
+ <option value="Closed" className="gray-text">Closed</option>
+  <option value="Ended" className="gray-text">Ended</option>
+ </select>
+ <label className="active">Event state</label>
+ </div>
+ <div className="input-field col s4">
+ <input placeholder="Tags search" id="tags" type="text" value={quickSearch.tags} onChange={onChange}/>
+ <label forhtml="title">Event tags</label>
+ </div>
+   </form>
+   </div>
+ </div>
 
 
-          style={{
-            paddingRight: "0px",  
-          }}
-        >
-          <div className="organizer_nav_part"
-          style={{position: "fixed",
-          marginTop:"20px",
-          right:50
-          }}>
-            <div>
-              <a className="btn-floating  cadetblue">
-                <i
-                  className="material-icons"
-                  onClick={toggle}
-                  title="Add Comment"
-                >
-                comment
-                </i>
-              </a>
-
-              {/* <label>Add comment</label> */}
-
-            {/* </div>
-          </div>
-        </div>  */}
-      </div>
+            
+      
+ { map.show&&<div className=" map_container" id="map">
+<MyMap/>
+        </div>} 
+    
 
  { (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&events.length!=0&&
             
-            <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>}
+            // <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>
+            <div className="row" style={{marginLeft:"10px"}} > 
+              <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
+              <div className="wpb_column vc_column_container col 12">
+                <div className="vc_column-inner">
+                  <div className="wpb_wrapper">
+                    <div className="wpb_text_column wpb_content_element ">
+                      <div className=" wpb_wrapper"> 
+                      <h2>{events.length}</h2>
+                        <p className="pra-2"> result(s) found </p>
+                        </div></div></div></div></div></div> 
+           
+
+            </div>
+            }
 
  {events&&events.length!=0?
  
 <div className="row"style={{marginLeft:"50px",marginTop:"20px"}}>
-             <div class=" row vc_row wpb_row vc_row-fluid section-header featured">
-              <div class="wpb_column vc_column_container col 12">
-                <div class="vc_column-inner">
-                  <div class="wb_wrapper">
-                    <div class="wpb_text_column wpb_content_element ">
-                      <div class=" wpb_wrapper">
+             <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
+              <div className="wpb_column vc_column_container col 12">
+                <div className="vc_column-inner">
+                  <div className="wb_wrapper">
+                    <div className="wpb_text_column wpb_content_element ">
+                      <div className=" wpb_wrapper">
                         <h2>Your participation</h2>
-                        <p className="pra-2">Keep up with the latest digital events</p>
+                        <p className="pra-2">Keep up with the latest events</p>
                         </div></div></div></div></div></div>
            {events&&events.slice(0).reverse().map(el=>{
                return (<div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
@@ -294,10 +277,50 @@ style={{marginTop:"20px"}}>
                               className="card-content "
                               style={{ padding: "0px 10px 0px 24px" }}
                             >
-                              <span className="card-title  grey-text text-darken-4">
-                                <b>{el.title}</b>
-                              </span>
-                              <p className="red-text">{el.address.address}</p>
+                              <span className="card-title  grey-text text-darken-4" style={{height: "fit-content",lineHeight: "normal",marginTop: "2px",marginBottom:2}} >
+                              {el.title.length<=12? <b>{el.title}</b>:<marquee scrolldelay={140} behavior="scroll" direction="left"><b>{el.title}</b></marquee> }
+                  </span>
+                  {el.address.address.length<=18?
+                  <a href="#map" >
+                  {/* <marquee  behavior="scroll" direction="left" scrolldelay={200}> */}
+                    <p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
+                      dispatch({
+                       type:SHOW_MAP,
+                       payload:true
+                     })
+                     
+                     dispatch({
+                       type:STATE_MAP,
+                       payload:"show"
+                     })
+                     dispatch({
+                       type:ADD_FOCUS,
+                       payload:el.address
+                     })
+                   
+ 
+                  }}><i className="fas fa-home" style={{marginRight:5}}></i>{el.address.address}</p>
+                  {/* </marquee>  */}
+                   </a>
+                  
+                  :<a href="#map" >
+                 <marquee  behavior="scroll" direction="left" scrolldelay={140}><p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
+                     dispatch({
+                      type:SHOW_MAP,
+                      payload:true
+                    })
+                    
+                    dispatch({
+                      type:STATE_MAP,
+                      payload:"show"
+                    })
+                    dispatch({
+                      type:ADD_FOCUS,
+                      payload:el.address
+                    })
+                  
+
+                 }}><i className="fas fa-home" style={{marginRight:5}}></i>{el.address.address}</p></marquee>  </a>}
                               <div
                                 style={{
                                   display: "flex",
@@ -411,12 +434,13 @@ style={{marginTop:"20px"}}>
                                 {el.state}
                               </span>
                             </div>
-                            <div className="card-reveal">
+                            <div className="card-reveal" style={{paddingRight:55,overflowWrap:"anywhere"}}>
                               <span className="card-title grey-text text-darken-4">
                                 <b>{el.title}</b>
-                                <i className="material-icons right">close</i>
+                                <i className="material-icons right"  style={{position:"absolute",right:10,top:10}}>close</i>
                               </span>
-                              <p>{el.description}</p>
+                              <p style={{fontSize:13,color:"rgb(0, 96, 100)"}}>{formatRelative(new Date(el.start),new Date())+" - "+formatRelative(new Date(el.end),new Date())}</p>
+                              <p style={{lineHeight:"normal"}}>{el.description}</p>
                               <div
                               className="right"
                               style={{
@@ -424,6 +448,9 @@ style={{marginTop:"20px"}}>
                                 flexDirection: "column",
                                 alignItems: "center",
                                 justifyContent: "space-between",
+                                position:"absolute",
+                                right:5,
+                                top:65
                               }}
                               >
                                {" "}
@@ -444,22 +471,34 @@ style={{marginTop:"20px"}}>
                      
                       </div>: (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")?
             
-            <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>:<div  style={{marginLeft:10}}>
+            <div className="row" style={{marginLeft:"10px"}} > 
+              <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
+              <div className="wpb_column vc_column_container col 12">
+                <div className="vc_column-inner">
+                  <div className="wpb_wrapper">
+                    <div className="wpb_text_column wpb_content_element ">
+                      <div className=" wpb_wrapper"> 
+                      <h2>{events.length}</h2>
+                        <p className="pra-2"> result(s) found </p>
+                        </div></div></div></div></div></div> 
+           
+
+            </div>
+            :<div  style={{marginLeft:10}}>
           {/* <h4> <b>Your dashboard is empty, get started and join events</b> </h4> */}
-          <div className="row div--11">
-          <div className="col s6" id="up">
-          <img className="working-img" src="/illustration-working.svg" />
-        </div>
-        <div className="col s6" id="down">
+          <div className="row">
+        <div className="col s12 l6" id="down">
           <h1 className="title-h">Your dashboard is empty</h1>
           <p className="title-p">
-            Build your brand’s recognition and get started and join events.
+           Get started and join events.
           </p>
-          <Link to="/events">
-          <button className="title-btn">Get Started</button>
-          </Link>
+          
+          <button className="title-btn"><Link to="/events">Get Started</Link></button>
+          
         </div>
-       
+        <div className="col s12 l6" id="up">
+          <img className="working-img" src="/illustration-working.svg" />
+        </div>
       </div>
         </div>}
                       <div id="modalevnt" className="modal">
@@ -499,4 +538,3 @@ style={{marginTop:"20px"}}>
 }
 
 export default Participant
-

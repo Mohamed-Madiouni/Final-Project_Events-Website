@@ -15,12 +15,17 @@ import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
 import {sendNotifications} from "../actions/notificationaction";
 import { endEvent, fullEvent, openEvent } from "../actions/evntAction";
+import { formatRelative } from "date-fns";
+import MyMap from "./Maps";
+import {ADD_FOCUS, SHOW_MAP, STATE_MAP  } from "../actions/types";
+import calcul_rating from "../outils/calucle_rating";
 
 const EventList = () => {
   const dispatch = useDispatch();
   const allevents = useSelector((state) => state.admin.events);
   let auth = useSelector((state) => state.auth);
   let allusers = useSelector((state) => state.admin.users);
+  const map = useSelector(state=>state.map)
   const history = useHistory();
   const [deleteid, setDeleteid] = useState("");
   const [validateid, setValidateid] = useState("");
@@ -117,8 +122,117 @@ const EventList = () => {
     setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value });
   };
   return (
-    <div>
-      <div>
+    <div onClick={(e)=>{
+      map.show&&!(document.querySelector(".map_container").contains(e.target)||document.querySelector("reach-portal").contains(e.target)||[...document.getElementsByClassName("address_map")].includes(e.target))&&
+      dispatch({
+        type:SHOW_MAP,
+        payload:false
+      })&&
+      dispatch({
+        type:STATE_MAP,
+        payload:""
+      })&&
+      dispatch({
+        type:ADD_FOCUS,
+        payload:{}
+      })
+      
+    }}>
+       <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:250,paddingTop:45,position:"relative"}} >
+     <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
+       <div className="col s12 l4" style={{fontStyle: "italic",fontSize:17,marginBottom:10}}>
+   <p>Select an event title or choose an address or tags to find the one looking for.</p>
+   </div>
+   <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
+   <form>
+          <div className="input-field col s4">
+            <input
+              placeholder="Event title search"
+              id="title"
+              type="text"
+              value={quickSearch.title}
+              onChange={onChange}
+            />
+            <label forhtml="title">Event title</label>
+          </div>
+          <div className="input-field col s4">
+            <select
+              id="state"
+              value={quickSearch.state}
+              onChange={onChange}
+              style={{
+                display: "initial",
+                marginTop: 4,
+                borderRadius: 5,
+                outline: "none",
+                background:"transparent",
+                border:"1px solid #9e9e9e"
+              }}
+            >
+              <option value="">State</option>
+              <option value="Available" className="green-text">
+                Available
+              </option>
+              <option value="Closed" className="gray-text">
+                Closed
+              </option>
+              <option value="Ended" className="gray-text">
+                Ended
+              </option>
+              <option value="Invalid" className="gray-text">
+                Invalid
+              </option>
+            </select>
+            <label className="active">Event state</label>
+          </div>
+          <div className="input-field col s4">
+            <input
+              placeholder="Tags search"
+              id="tags"
+              type="text"
+              value={quickSearch.tags}
+              onChange={onChange}
+            />
+            <label forhtml="title">Event tags</label>
+          </div>
+
+          <div className="input-field col s4">
+            <input
+              placeholder="Address search"
+              id="address"
+              type="text"
+              value={quickSearch.address}
+              onChange={onChange}
+            />
+            <label forhtml="address">Event address</label>
+          </div>
+
+          <div className="input-field col s4">
+            <input
+              placeholder="Description search"
+              id="description"
+              type="text"
+              value={quickSearch.description}
+              onChange={onChange}
+            />
+            <label forhtml="description">Event description</label>
+          </div>
+
+          <div className="input-field col s4">
+            <input
+              placeholder="Organizer search"
+              id="id_organizer"
+              type="text"
+              value={quickSearch.id_organizer}
+              onChange={onChange}
+            />
+            <label forhtml="id_organizer">Event organizer</label>
+          </div>
+        </form>
+   </div>
+   </div>
+
+      {/* <div>
         <h5>
           <b>Manage Events</b>
         </h5>
@@ -211,20 +325,36 @@ const EventList = () => {
             <label forhtml="id_organizer">Event organizer</label>
           </div>
         </form>
-      </div>
+      </div> */}
+      { map.show&&<div className=" map_container" id="map">
+<MyMap/>
+        </div>}
       {(quickSearch.title != "" ||
         quickSearch.state != "" ||
         quickSearch.tags != "" ||
         quickSearch.address != "" ||
         quickSearch.description != "" ||
         quickSearch.id_organizer != "") && (
-        <div className="row" style={{ marginLeft: 10 }}>
-          {" "}
-          <h5>
-            {" "}
-            <b>{events.length + " result(s) found"}</b>{" "}
-          </h5>
-        </div>
+        // <div className="row" style={{ marginLeft: 10 }}>
+        //   {" "}
+        //   <h5>
+        //     {" "}
+        //     <b>{events.length + " result(s) found"}</b>{" "}
+        //   </h5>
+        // </div>
+        <div className="row" style={{marginLeft:"10px"}} > 
+              <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
+              <div className="wpb_column vc_column_container col 12">
+                <div className="vc_column-inner">
+                  <div className="wpb_wrapper">
+                    <div className="wpb_text_column wpb_content_element ">
+                      <div className=" wpb_wrapper"> 
+                      <h2>{events.length}</h2>
+                        <p className="pra-2"> result(s) found </p>
+                        </div></div></div></div></div></div> 
+           
+
+            </div>
       )}
       <div className="row">
         {events &&
@@ -263,15 +393,59 @@ const EventList = () => {
                           {get_month(Number(el.start.split("T")[0].split("-")[1]))}
                         </div>
                       </div>
+                      <div className="star_rate left">
+                    <i className="material-icons" style={{color:"rgb(255, 180, 0)",fontSize:65,position:"relative"}}>star</i>
+                    <p style={{position:"absolute",top:22,lineHeight:"normal",left:21.5,width:22,height:22, display:"flex",alignItems:"center",justifyContent:"center"}}>{el.rating.length==0?"--":calcul_rating(el.rating)}</p>
+                    </div>
                     </div>
                     <div
                       className="card-content "
                       style={{ paddingBottom: 0, paddingTop: 0, height: 175 }}
                     >
-                      <span className="card-title  grey-text text-darken-4">
-                        <b>{el.title}</b>
-                      </span>
-                      <p className="red-text">{el.address.address}</p>
+                      <span className="card-title  grey-text text-darken-4" style={{height: "fit-content",lineHeight: "normal",marginTop: "2px",marginBottom:2}}>
+                      {el.title.length<=20? <b>{el.title}</b>:<marquee scrolldelay={140} behavior="scroll" direction="left"><b>{el.title}</b></marquee> }
+                  </span>
+                  {el.address.address.length<=20?
+                  <a href="#map" >
+                  {/* <marquee  behavior="scroll" direction="left" scrolldelay={200}> */}
+                    <p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
+                      dispatch({
+                       type:SHOW_MAP,
+                       payload:true
+                     })
+                     
+                     dispatch({
+                       type:STATE_MAP,
+                       payload:"show"
+                     })
+                     dispatch({
+                       type:ADD_FOCUS,
+                       payload:el.address
+                     })
+                   
+ 
+                  }}><i className="fas fa-home" style={{marginRight:5}}></i>{el.address.address}</p>
+                  {/* </marquee>  */}
+                   </a>
+                  
+                  :<a href="#map" >
+                 <marquee  behavior="scroll" direction="left" scrolldelay={140}><p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
+                     dispatch({
+                      type:SHOW_MAP,
+                      payload:true
+                    })
+                    
+                    dispatch({
+                      type:STATE_MAP,
+                      payload:"show"
+                    })
+                    dispatch({
+                      type:ADD_FOCUS,
+                      payload:el.address
+                    })
+                  
+
+                 }}><i className="fas fa-home" style={{marginRight:5}}></i>{el.address.address}</p></marquee>  </a>}
                       <div
                         style={{
                           display: "flex",
@@ -331,6 +505,7 @@ const EventList = () => {
                                 justifyContent:"center",
                                 alignItems: "center",
                                 display: "flex",
+                                zIndex:1
                               }}>
                                 {" "}
                                 <p className="chip">{el}</p>{" "}
@@ -424,19 +599,13 @@ const EventList = () => {
                         </button>
                       )}
                     </div>
-                    <div className="card-reveal">
+                    <div className="card-reveal" style={{paddingRight:55,overflowWrap:"anywhere"}}>
                       <span className="card-title grey-text text-darken-4">
                         <b>{el.title}</b>
-                        <i className="material-icons right">close</i>
+                        <i className="material-icons right" style={{position:"absolute",right:10,top:10}}>close</i>
                       </span>
-                      <p
-                        style={{
-                          display: "flex",
-                          alignItems: "left",
-                        }}
-                      >
-                        {el.description}
-                      </p>
+                      <p style={{fontSize:13,color:"rgb(0, 96, 100)"}}>{formatRelative(new Date(el.start),new Date())+" - "+formatRelative(new Date(el.end),new Date())}</p>
+                      <p style={{lineHeight:"normal"}}>{el.description}</p>
                       <div
                       className="right"
                       style={{
@@ -444,11 +613,14 @@ const EventList = () => {
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "space-between",
+                        position:"absolute",
+                        right:5,
+                        top:65
                       }}
                     >
                       {" "}
                       <a
-                        className="btn-floating  cadetblue"
+                        className="btn-floating cyan darken-3"
                         onClick={() => {
                           history.push(`/events/${el._id}`)
                           // setAction({ type: "edit", payload: el });
@@ -474,7 +646,7 @@ const EventList = () => {
 
       {(countevent + 1) * 12 < events.length && (
         <div style={{
-           marginBottom:"50px",
+           marginBottom:"5px",
            cursor: "pointer",
            display: "flex",
            justifyContent:"center",

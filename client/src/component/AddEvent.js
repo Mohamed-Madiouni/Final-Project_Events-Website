@@ -54,9 +54,9 @@ const map = useSelector(state=>state.map)
 
   const handleSelect=async value=>{
 const result = await geocodeByAddress(value)
-console.log("result",result)
+// console.log("result",result)
 const lating = await getLatLng(result[0])
-console.log("lating",lating)
+// console.log("lating",lating)
 setaddress({address:result[0].formatted_address,lat:lating.lat,lng:lating.lng})
 
   }
@@ -167,12 +167,12 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
       }
     );
     const res = await send.json();
-    console.log(res)
+    // console.log(res)
     // newEvent.image &&
       res.error && M.toast({ html: "Please insert a valid image", classes: "red" })&& setBtn(false)
      
       !res.error && (newEvent.image = resize(res.url));
-      console.log(newEvent);
+      // console.log(newEvent);
    if(action.type=="add"){
     let title="New Event";
     let content= "A new event was created";
@@ -187,7 +187,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
    }
       else{
   let title="Event edition";
-  let content= "A event was edited";
+  let content= "An event was edited";
   let notiftype="Event_Edition";
         var state=[]
         users.filter(el=>el.role=="administrator"||el.role=="moderator").map(el=>{
