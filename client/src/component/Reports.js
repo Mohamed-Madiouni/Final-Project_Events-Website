@@ -33,7 +33,7 @@ const [reply,setReply]=useState("")
 const [emojreply,setEmojReply]=useState(false)
 const[replyid,setReplyId]=useState("")
 const [deletecomid,setDeletecomid]=useState("")
-const [removereport,setRemovereport]=useState("")
+const [removereport,setRemovereport]=useState(true)
 const [deletereplyid,setDeletereplyid]=useState("")
 const[actvlike,setactvlike]=useState(true)
 const[resiz,setresiz]=useState(false)
@@ -581,7 +581,7 @@ setTextedit("")
             <a
               href="#!"
               className="modal-close  btn-flat"
-              onClick={()=>dispatch(removereportReply(removereport,-1,auth.user._id))}
+              onClick={()=>dispatch(removereportComment(removereport,-1,auth.user._id))}
                >
               Agree
             </a>
@@ -604,7 +604,7 @@ setTextedit("")
             <a
               href="#!"
               className="modal-close  btn-flat"
-              onClick={()=> dispatch(removereportComment(removereport,-1,auth.user._id,replyid))}        
+              onClick={()=> dispatch(removereportReply(removereport,-1,auth.user._id,replyid))}        
             >
               Agree
             </a>
