@@ -37,9 +37,6 @@ function Notificationsuser() {
                 </div>
                 <div className="notification-page__content__container">
                   <div className="notification-container">
-                   
-
-
                   {
                   sort_notif_bydate((filter_notif(allnotif,auth.user._id)))
                       .slice(0)
@@ -53,13 +50,8 @@ function Notificationsuser() {
 
                       <div key={el[0]._id} >
                      <div className="notification-per-period">
-                
-            
-                      
                       <div className="notification-per-period__title">
                         <div className="x-flex-column-h-center-v-any ">
-
-
                          <span> 
                           <div className="notification-per-period__period-card__date">{(el[0].created_at.toString().slice(0,10))}</div>
                          </span>
@@ -67,7 +59,6 @@ function Notificationsuser() {
                        </div>
                             
                         {
-                            
                             el.map((el,i)=>
                             <div key={i} style={{cursor:"pointer"}} className="notification-per-period__period-card" onClick={() => {
                               if (el.notiftype=="Event_Validation") { history.push("/events/"+el.compid)}
@@ -75,7 +66,7 @@ function Notificationsuser() {
                               else if (el.notiftype=="Event_Edition") {history.push("/events/"+el.compid)}
                               else if (el.notiftype=="Comment_Reply_organizer") { history.push("/events/"+el.compid)}
                               else if (el.notiftype=="Comment_Reply_User") { history.push("/events/"+el.compid)}
-                              else if (el.notiftype=="New_Follow") { history.push("/dasboard")}
+                              else if (el.notiftype=="New_Follow") { history.push("/dashboard")}
                               else if (el.notiftype=="New_Like") { history.push("/events/"+el.compid)}
                               else if (el.notiftype=="New_Dislike") { history.push("/events/"+el.compid)}
                               else if (el.notiftype=="Remove_Follow") { history.push("/")}

@@ -58,7 +58,7 @@ function Notifications() {
                          </div>
                        </div>
                            {  el.map((el,i)=>
-                           <div key={i} style={{cursor:"pointer"}}className="notification-per-period__period-card" onmouseover="document.bgColor='greem'" onClick={() => {
+                           <div key={i} style={{cursor:"pointer"}}className="notification-per-period__period-card" onClick={() => {
                             if (el.notiftype=="Event_Validation") { history.push("/events/"+el.compid)}
                             else if (el.notiftype=="New_Event") { history.push("/events/")}
                             else if (el.notiftype=="Event_Edition") {history.push("/events/"+el.compid)}
