@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -21,10 +21,13 @@ import calcul_rating from '../outils/calucle_rating';
 import { formatRelative } from 'date-fns';
 
 
+
+
 function Calendar() {
     const allevents=useSelector(state=>state.events.allEvents)
     const dispatch = useDispatch()
     let auth = useSelector(state=>state.auth)
+    const allnotif=useSelector(state=>state.notification.notifications)
     const history =useHistory()
     const[mod,setMod]=useState(false)
     const [eventId,setEventId]=useState("")
@@ -41,7 +44,7 @@ function Calendar() {
         M.Slider.init(document.querySelectorAll(".slider"), { height: 55,indicators:false})
       })
 
-
+     
 //check if events full
 useEffect(()=>{
   for(let i=0;i<allevents.length;i++){
@@ -72,32 +75,39 @@ useEffect(() => {
      }
 });
 
-const calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
+ 
+
+const calendarEvents= useMemo(()=>{
+return allevents.filter(el=>el.state!="Invalid").map(el=>{
   return (
-  {
-  ["title"]:el.title,
-  ['start']:new Date(el.start),
-  ['end']: new Date(el.end),
-  ['id']:el._id,
-  // allDay:true,
-  ["state"]:el.state
-  }
-  )
-  })
+    {
+    ["title"]:el.title,
+    ['start']:new Date(el.start),
+    ['end']: new Date(el.end),
+    ['id']:el._id,
+    // allDay:true,
+    ["state"]:el.state
+    }
+    )
+    })
+
+},[allnotif])  
 
 
-
-
-
+const oneventclick=useCallback((e)=>{
+  setMod(!mod)
+ setEventId(e.event.id)
+ 
+ },[])
     return (
-      < div onClick={(e)=>{
-        mod&&!document.querySelector(".custom_mod_cal").contains(e.target)&&setMod(!mod)
-      }}>
+      < div >
       <Navbar/>
-        <div className="container" >
+        <div className="container" onClick={(e)=>{
+       
+      }}>
           <div style={{filter:mod&&"brightness(30%)"}}>
             <FullCalendar
-            
+             
         plugins={[ dayGridPlugin,timeGridPlugin ]}
         headerToolbar={{
             left: 'prev,next today',
@@ -132,13 +142,11 @@ const calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
 //               </>
 //             )
 //           }}
-           eventClick={(e)=>{
-             setMod(!mod)
-            setEventId(e.event.id)
-            }}
+           eventClick={oneventclick}
         height={700}
         events={calendarEvents}
-        dayMaxEvents={2}
+       dayMaxEvents={2}
+            //  dayMaxEventRows={true}
         // events={[{title:"med",start:"2020-10-13T12:00",end:"2020-10-13T19:00"},{title:"med1",start:"2020-10-13T14:00",end:"2020-10-13T18:00"}]}
         eventTimeFormat={{
           hour:"2-digit",
@@ -170,11 +178,11 @@ const calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
                         {get_month(Number(allevents.find(e=>e._id==eventId).start.split("T")[0].split("-")[1]))}
                       </div>
                     </div>
-                    <div className="star_rate left">
+                    <div className="star_rate_cal right">
                     <i className="material-icons" style={{color:"rgb(255, 180, 0)",fontSize:65,position:"relative"}}>star</i>
                     <p style={{position:"absolute",top:22,lineHeight:"normal",left:21.5,width:22,height:22, display:"flex",alignItems:"center",justifyContent:"center"}}>{allevents.find(e=>e._id==eventId).rating.length==0?"--":calcul_rating(allevents.find(e=>e._id==eventId).rating)}</p>
                     </div>
-                    {/* <div className="cal_hov" style={{
+                    <div className="cal_hov" style={{
                        position: "absolute",
                        top: 10,
                        left: 10,
@@ -195,13 +203,16 @@ const calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
             // textShadow: "0px 3px black"
           }}
           onClick={() =>
-            setMod(!mod)
+            {
+              setMod(!mod)
+              setEventId("")
+            }
           }
           title="Close"
         >
           close
         </i>
-        </div> */}
+        </div>
                     
                   </div>
                   <div
@@ -212,9 +223,9 @@ const calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
                     {allevents.find(e=>e._id==eventId).title.length<=12? <b>{allevents.find(e=>e._id==eventId).title}</b>:<marquee scrolldelay={140} behavior="scroll" direction="left"><b>{allevents.find(e=>e._id==eventId).title}</b></marquee> }
                   </span>
                   {allevents.find(e=>e._id==eventId).address.address.length<=20?
-                    <p className="red-text address_map" style={{cursor:"pointer"}}><i className="fas fa-home" style={{marginRight:5}}></i>{allevents.find(e=>e._id==eventId).address.address}</p>
+                    <p className="red-text address_map" ><i className="fas fa-home" style={{marginRight:5}}></i>{allevents.find(e=>e._id==eventId).address.address}</p>
                   :
-                 <marquee  behavior="scroll" direction="left" scrolldelay={140}><p className="red-text address_map" style={{cursor:"pointer"}}><i className="fas fa-home" style={{marginRight:5}}></i>{allevents.find(e=>e._id==eventId).address.address}</p></marquee> }
+                 <marquee  behavior="scroll" direction="left" scrolldelay={140}><p className="red-text address_map"><i className="fas fa-home" style={{marginRight:5}}></i>{allevents.find(e=>e._id==eventId).address.address}</p></marquee> }
                     <div
                       style={{
                         display: "flex",

@@ -149,4 +149,32 @@ transform: translateX(-78px);
     margin: 100px 0 100px 100px ;
     
   }
-  
+  .organizer_list{
+    position: absolute;
+    left:  0px;
+    top:114px;
+    display:flex;
+    z-index: 999999;
+   
+    
+  }
+  .organizer_list >div{
+   transition: all 0.7s;
+    height: 500px;
+    overflow-y: auto;
+    background: white;
+  }
+  .organizer_list>a{
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+    height: 45px;
+    transition: all 0.4s;
+    font-size: 30px;
+    line-height: normal;
+    background: white;
+    width: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+   
+  }

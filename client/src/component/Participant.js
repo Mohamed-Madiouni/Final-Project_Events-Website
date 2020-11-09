@@ -10,6 +10,7 @@ import M from "materialize-css";
 import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP  } from "../actions/types";
 import { getMyEvents,getCurrentUser } from "../actions/authaction";
 import historyevent from "../outils/history"
+import { getUsers } from '../actions/adminaction';
 
 import Search from "./Search";
 import "../participant.css"
@@ -29,7 +30,7 @@ function Participant() {
     const allevents= useSelector((state)=>state.events.allEvents)
     const errors=useSelector(state=>state.errors)
     const myevents=useSelector(state=>state.myevents.myevents.events)
-
+    const users=useSelector(state=>state.admin.users)
     const [modal, setModal] = useState(false);
     const [action, setAction] = useState({ type: "add", payload: {} });
     const [deleteid,setDeleteid]= useState("")
@@ -41,6 +42,7 @@ function Participant() {
       });
       const [participate,setParticipate]=useState("")
       const [eventDate,setEventDate]=useState("")
+      const [clkwidth,setclkwidth]=useState(false)
     const toggle = () => {
       setModal(!modal)
     return modal
@@ -104,6 +106,7 @@ useEffect(()=>{
     
    localStorage.token&&dispatch(getCurrentUser())
  M.Modal.init(document.querySelectorAll(".modal"))
+ dispatch(getUsers())
 },[])
 
    useEffect(()=>{
@@ -149,6 +152,7 @@ useEffect(()=>{
             type:ADD_FOCUS,
             payload:{}
           })
+          clkwidth&&!document.querySelector(".organizer_list").contains(e.target)&&setclkwidth(!clkwidth)
           
         }}>
          
@@ -532,7 +536,31 @@ useEffect(()=>{
                     </div>
                   </div>
                   <Footer/>
+{users.length!=0&&auth.user.follow.length!=0&&<div className="organizer_list">
+  <div style={{width:clkwidth?300:0,boxShadow: clkwidth&&"0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}}>
+  <ul className="collection org">
+{auth.user.follow.map((el,i)=>{
+  return (
+<li key={i} className="collection-item avatar">
+      <img src={users.find(elm=>elm._id==el).avatar} alt="" className="circle"/>
+      <span className="title"><b>{users.find(elm=>elm._id==el).fname+" "+el.lname}</b></span>
+      <p className="red-text"><i className="fas fa-home" style={{marginRight:5}}></i>{users.find(elm=>elm._id==el).address}</p>
+        <p>{users.find(elm=>elm._id==el).email}</p> 
+      
+      
+    </li>
 
+
+
+  )
+})}
+</ul>
+  </div>
+
+{!clkwidth&&<a title="Subscriptions" href='#!' style={{ cursor:"pointer",  boxShadow: "9px 8px 20px 0px rgba(24, 32, 111, 0.4)"}} onClick={()=>setclkwidth(!clkwidth)}>
+<i className="fas fa-angle-double-right"></i>
+</a>}
+</div>}
         </div>
     )
 }
