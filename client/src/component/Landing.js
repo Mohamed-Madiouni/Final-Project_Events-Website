@@ -133,7 +133,7 @@ payload:!shownotif
     (filter_inactive_notif(allnotif,auth.user._id)).reverse().slice(0, (notifsize>10)?10:10).map((el,i)=>{
       return(
         <li key={i} className="note" onClick={() => {
-          if (el.notiftype=="Event_Validation") { history.push("/events/")}
+          if (el.notiftype=="Event_Validation") { history.push("/events/"+el.compid)}
           else if (el.notiftype=="New_Event") { history.push("/events/")}
           else if (el.notiftype=="Event_Edition") {history.push("/events/"+el.compid)}
           else if (el.notiftype=="Comment_Reply_organizer") { history.push("/events/"+el.compid)}
@@ -143,10 +143,10 @@ payload:!shownotif
           else if (el.notiftype=="New_Dislike") { history.push("/events/"+el.compid)}
           else if (el.notiftype=="Remove_Follow") { history.push("/")}
           else if (el.notiftype=="Event_Deleted") { history.push("/")}
-          else if (el.notiftype=="Event_Invalidation") { history.push("/events/"+el.compid)}
+          else if (el.notiftype=="Event_Invalidation") { history.push("/dashboard/")}
           else if (el.notiftype=="New_Participation") { history.push("/events/"+el.compid)}
           else if (el.notiftype=="Cancel_Participation") { history.push("/events/"+el.compid)}
-          else if (el.notiftype=="Event_Closed") { history.push("/events/"+el.compid)}
+          else if (el.notiftype=="Event_Closed") { history.push("/dashboard/")}
           else if (el.notiftype=="Event_Opened") { history.push("/events/"+el.compid)}
           else if (el.notiftype=="Account_Banned") {history.push("/dashboard")}
           else if (el.notiftype=="Account_Unbanned") { history.push("/dashboard")}
@@ -154,15 +154,12 @@ payload:!shownotif
           else if (el.notiftype=="Alert_Removed") { history.push("/dashboard")}
           else if (el.notiftype=="New_Comment") { history.push("/events/"+el.compid)}
           else {  history.push("/")}
-          
           dispatch(closeNotif([el]))
           dispatch({
             type:SHOW_NOTIF,
             payload:!shownotif
           })
           }}>
-          
-         
                       
           <span style={{ display: "flex", marginRight: "8px", marginTop: "8px",alignItems:"center", marginBottom: "4px"}}>
           {(el.notiftype=="Event_Validation")&&
