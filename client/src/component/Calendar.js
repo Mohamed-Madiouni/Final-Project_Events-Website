@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -72,7 +72,7 @@ useEffect(() => {
      }
 });
 
-let calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
+const calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
   return (
   {
   ["title"]:el.title,
@@ -87,6 +87,8 @@ let calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
 
 
 
+
+
     return (
       < div onClick={(e)=>{
         mod&&!document.querySelector(".custom_mod_cal").contains(e.target)&&setMod(!mod)
@@ -95,6 +97,7 @@ let calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
         <div className="container" >
           <div style={{filter:mod&&"brightness(30%)"}}>
             <FullCalendar
+            
         plugins={[ dayGridPlugin,timeGridPlugin ]}
         headerToolbar={{
             left: 'prev,next today',
@@ -133,7 +136,7 @@ let calendarEvents=allevents.filter(el=>el.state!="Invalid").map(el=>{
              setMod(!mod)
             setEventId(e.event.id)
             }}
-        height={605}
+        height={700}
         events={calendarEvents}
         dayMaxEvents={2}
         // events={[{title:"med",start:"2020-10-13T12:00",end:"2020-10-13T19:00"},{title:"med1",start:"2020-10-13T14:00",end:"2020-10-13T18:00"}]}
