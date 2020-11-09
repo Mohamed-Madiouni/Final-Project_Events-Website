@@ -431,7 +431,7 @@ useEffect(()=>{
                   </Link>
                   <span className={el.state=="Available"?"right green-text":"right gray-text text-darken-3"}> {el.state}</span>
                 </div>
-                <div className="card-reveal" style={{paddingRight:55,overflowWrap:"anywhere"}} >
+                <div className="card-reveal groupofnotes scrollbar"  id="style-3" style={{paddingRight:55,overflowWrap:"anywhere"}} >
                 
                   <span className="card-title grey-text text-darken-4">
                     <b>{el.title}</b>

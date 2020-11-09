@@ -409,7 +409,7 @@ useEffect(() => {
                       {el.state}
                     </span>
                   </div>
-                  <div className="card-reveal" style={{paddingRight:55,overflowWrap:"anywhere"}}>
+                  <div className="card-reveal groupofnotes scrollbar"  id="style-3"style={{paddingRight:55,overflowWrap:"anywhere"}}>
                     <span className="card-title grey-text text-darken-4">
                       <b>{el.title}</b>
                       <i className="material-icons right" style={{position:"absolute",right:10,top:10}}>close</i>

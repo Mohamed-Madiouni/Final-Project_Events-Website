@@ -439,7 +439,7 @@ useEffect(()=>{
                                 {el.state}
                               </span>
                             </div>
-                            <div className="card-reveal" style={{paddingRight:55,overflowWrap:"anywhere"}}>
+                            <div className="card-reveal groupofnotes scrollbar" id="style-3" style={{paddingRight:55,overflowWrap:"anywhere"}}>
                               <span className="card-title grey-text text-darken-4">
                                 <b>{el.title}</b>
                                 <i className="material-icons right"  style={{position:"absolute",right:10,top:10}}>close</i>
@@ -538,27 +538,27 @@ useEffect(()=>{
                   </div>
                   <Footer/>
 {users.length!=0&&auth.user.follow.length!=0&&allevents.length!=0&&<div className="organizer_list">
-  <div style={{width:clkwidth?300:0,boxShadow: clkwidth&&"0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}}>
+  <div className="groupofnotes scrollbar" id="style-3"  style={{width:clkwidth?300:0,boxShadow: clkwidth&&"0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}}>
   <ul className="collection par">
 {auth.user.follow.map((el,i)=>{
   return (
-<li key={i} className="">
-  <div style={{display:"flex",flexDirection:"column",justifyContent:"space-around"}}>
+<a href={`/organizer/${el}`} key={i}><li  className="">
+  <div style={{display:"flex",flexDirection:"column",justifyContent:"space-around",alignItems:"center",width:80}}>
       <img src={users.find(elm=>elm._id==el).avatar} alt="" className="circle"/>
       <span className="title"><b>{users.find(elm=>elm._id==el).fname}</b></span>
       </div>
-      <div  style={{display:"flex",justifyContent:"space-around",alignItems:"center"}}>
-    <div style={{display:"flex",flexDirection:"column",justifyContent:"space-around"}}>
-      <span>Events</span>
-  <p>{getlenthorg(allevents,el)}</p>
+      <div  style={{display:"flex",justifyContent:"space-around",alignItems:"center",flexDirection:"column",width:200,paddingLeft:10}}>
+    <div style={{display:"flex",alignItems:"center",width:"100%"}}>
+      <span><b>Events :</b> </span>
+  <p style={{marginLeft:5,lineHeight:"normal"}}>{" "+getlenthorg(allevents,el)}</p>
     </div>
-    <div style={{display:"flex",flexDirection:"column",justifyContent:"space-around"}}>
-      <span>Last update</span>
-  <p>{formatRelative(new Date(getlastdateorg(allevents,el)),new Date())}</p> 
+    <div style={{display:"flex",alignItems:"center",width:"100%"}}>
+      <span> <b>Last update :</b> </span>
+  <span style={{marginLeft:5,lineHeight:"normal"}}>{" "+formatRelative(new Date(getlastdateorg(allevents,el)),new Date())}</span> 
     </div>
       </div>
       
-    </li>
+    </li></a>
 
 
 
