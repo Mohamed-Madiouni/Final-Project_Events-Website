@@ -365,7 +365,7 @@ router.put("/add/reply/report/:replyId",authMiddleware,(req,res)=>{
 })
 
 //Report comment
-router.put("/add/report/:commentId",authMiddleware,(req,res)=>{
+router.put("/add/comment/report/:commentId",authMiddleware,(req,res)=>{
  
   Comment.findOneAndUpdate({
     _id:req.params.commentId
@@ -387,6 +387,54 @@ User.findByIdAndUpdate(req.body.user,{$push:{reports:req.params.commentId}},(err
   .catch(err=>res.status(404).send(err.message))
 })
 
+
+
+//Remove Report reply
+router.put("/remove/reply/report/:replyId",authMiddleware,(req,res)=>{
+  
+  Comment.findOneAndUpdate(
+    {_id:req.body.comment,"reply.id":req.params.replyId}
+  ,{$set:{"reply.$.reports":req.body.reports}},
+  {
+    new:true,
+    runValidators:true
+  })
+  .then(com=>{
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
+    User.findByIdAndUpdate(req.body.user,{$push:{reports:req.params.replyId}},(err,user)=>{
+      if (err) throw err
+      // console.log(user)
+    })
+
+    res.status(202).send(com)
+  })
+  .catch(err=>res.status(404).send(err.message))
+})
+
+//Remove Report comment
+router.put("/remove/comment/report/:commentId",authMiddleware,(req,res)=>{
+ 
+  Comment.findOneAndUpdate({
+    _id:req.params.commentId
+  },{$set:{reports: req.body.reports}},
+  {
+    new:true,
+    runValidators:true
+  })
+  .then(com=>{
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });  
+User.findByIdAndUpdate(req.body.user,{$push:{reports:req.params.commentId}},(err,user)=>{
+  if (err) throw err
+  // console.log(user)
+})
+    res.status(202).send(com)
+  })
+  .catch(err=>res.status(404).send(err.message))
+})
 
 
 

@@ -298,7 +298,7 @@ export const removedislikereply =(reply_id,nb_likes,userid,comment_id)=> (dispat
     export const reportComment =(coment_id,nb_reports,userid)=> (dispatch)=>{
       setAuthToken(localStorage.token)
       axios
-      .put(`/comment/add/report/${coment_id}`,{reports:nb_reports,user:userid})
+      .put(`/comment/add/comment/report/${coment_id}`,{reports:nb_reports,user:userid})
       .then((res) => {
         dispatch(getComment())
         dispatch(getCurrentUser())
@@ -338,7 +338,7 @@ export const removedislikereply =(reply_id,nb_likes,userid,comment_id)=> (dispat
     export const removereportComment =(coment_id,nb_reports,userid)=> (dispatch)=>{
       setAuthToken(localStorage.token)
       axios
-      .put(`/comment/remove/report/${coment_id}`,{reports:nb_reports,user:userid})
+      .put(`/comment/remove/comment/report/${coment_id}`,{reports:nb_reports,user:userid})
       .then((res) => {
         dispatch(getComment())
         dispatch(getCurrentUser())
