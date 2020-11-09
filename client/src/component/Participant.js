@@ -538,12 +538,14 @@ useEffect(()=>{
                   <Footer/>
 {users.length!=0&&auth.user.follow.length!=0&&<div className="organizer_list">
   <div style={{width:clkwidth?300:0,boxShadow: clkwidth&&"0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}}>
-  <ul className="collection org">
+  <ul className="collection par">
 {auth.user.follow.map((el,i)=>{
   return (
-<li key={i} className="collection-item avatar">
+<li key={i} className="">
+  <div style={{display:"flex",flexDirection:"column",justifyContent:"space-around"}}>
       <img src={users.find(elm=>elm._id==el).avatar} alt="" className="circle"/>
       <span className="title"><b>{users.find(elm=>elm._id==el).fname+" "+el.lname}</b></span>
+      </div>
       <p className="red-text"><i className="fas fa-home" style={{marginRight:5}}></i>{users.find(elm=>elm._id==el).address}</p>
         <p>{users.find(elm=>elm._id==el).email}</p> 
       

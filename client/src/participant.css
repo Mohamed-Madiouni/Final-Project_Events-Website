@@ -178,3 +178,13 @@ transform: translateX(-78px);
     align-items: center; 
    
   }
+  .par{
+    overflow: initial;
+}
+.par img{
+    width: 43px !important;
+    height: 43px !important;   
+}
+.par li{
+    border: 1px solid #2e8fa5 !important
+}
