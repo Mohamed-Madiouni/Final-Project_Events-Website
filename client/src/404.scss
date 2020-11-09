@@ -46,7 +46,7 @@ $color-wood-2:    #410A09;
 @mixin centered {
   left: 50%;
   position: absolute;
-  top: 58%;
+  top: 400px;
   transform: translate(-50%, -50%);
 }
 
@@ -56,7 +56,7 @@ $color-wood-2:    #410A09;
   color: rgba($color-black, 0.1);
   font-size: 27vw;
   text-align: center;
-  top: 18%;
+  top: 150px;
   height: fit-content;
 }
 .container {
