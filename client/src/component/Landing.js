@@ -138,7 +138,7 @@ payload:!shownotif
           else if (el.notiftype=="Event_Edition") {history.push("/events/"+el.compid)}
           else if (el.notiftype=="Comment_Reply_organizer") { history.push("/events/"+el.compid)}
           else if (el.notiftype=="Comment_Reply_User") { history.push("/events/"+el.compid)}
-          else if (el.notiftype=="New_Follow") { history.push("/dasboard")}
+          else if (el.notiftype=="New_Follow") { history.push("/dashboard")}
           else if (el.notiftype=="New_Like") { history.push("/events/"+el.compid)}
           else if (el.notiftype=="New_Dislike") { history.push("/events/"+el.compid)}
           else if (el.notiftype=="Remove_Follow") { history.push("/")}
