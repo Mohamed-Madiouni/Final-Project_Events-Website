@@ -438,7 +438,7 @@ setTextedit("")
        
          <textarea value={textedit} 
         onChange={(e)=>setTextedit(e.target.value)}
-         onKeyDown={(e)=> { if (e.key === "Enter") onedit(e)}}
+         onKeyDown={(e)=> { if (e.key === "Enter") oneditreply(e)}}
                  className="materialize-textarea"
                   style={{paddingRight:"30px"}}
                   id="textarea_edit"
