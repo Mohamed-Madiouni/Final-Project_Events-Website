@@ -20,6 +20,7 @@ import calcul_rating from "../outils/calucle_rating";
 import Footer from "./Footer"
 import { formatRelative } from "date-fns";
 import MyMap from "./Maps";
+import getlenthorg, { getlastdateorg } from "../outils/geteventorg";
 
 function Participant() {
 
@@ -536,7 +537,7 @@ useEffect(()=>{
                     </div>
                   </div>
                   <Footer/>
-{users.length!=0&&auth.user.follow.length!=0&&<div className="organizer_list">
+{users.length!=0&&auth.user.follow.length!=0&&allevents.length!=0&&<div className="organizer_list">
   <div style={{width:clkwidth?300:0,boxShadow: clkwidth&&"0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}}>
   <ul className="collection par">
 {auth.user.follow.map((el,i)=>{
@@ -544,11 +545,18 @@ useEffect(()=>{
 <li key={i} className="">
   <div style={{display:"flex",flexDirection:"column",justifyContent:"space-around"}}>
       <img src={users.find(elm=>elm._id==el).avatar} alt="" className="circle"/>
-      <span className="title"><b>{users.find(elm=>elm._id==el).fname+" "+el.lname}</b></span>
+      <span className="title"><b>{users.find(elm=>elm._id==el).fname}</b></span>
       </div>
-      <p className="red-text"><i className="fas fa-home" style={{marginRight:5}}></i>{users.find(elm=>elm._id==el).address}</p>
-        <p>{users.find(elm=>elm._id==el).email}</p> 
-      
+      <div  style={{display:"flex",justifyContent:"space-around",alignItems:"center"}}>
+    <div style={{display:"flex",flexDirection:"column",justifyContent:"space-around"}}>
+      <span>Events</span>
+  <p>{getlenthorg(allevents,el)}</p>
+    </div>
+    <div style={{display:"flex",flexDirection:"column",justifyContent:"space-around"}}>
+      <span>Last update</span>
+  <p>{formatRelative(new Date(getlastdateorg(allevents,el)),new Date())}</p> 
+    </div>
+      </div>
       
     </li>
 
