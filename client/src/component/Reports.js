@@ -175,7 +175,7 @@ useEffect(()=>{
     </div>}
     </div>
 
-  {comments.comments&&comments.comments.filter(el=>el.reports>0).slice(0).sort(function(a, b) {
+  {(comments.comments&&comments.comments).filter(el=>el.reports>0).slice(0).sort(function(a, b) {
   return sorttype.type=="relevent"? (a.likes - b.likes):(a.created_at - b.created_at);
 }).reverse().slice(0,10+count*10).map(el=>{
 return(
@@ -202,7 +202,7 @@ setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletecomid(el._id)} className="modal-trigger material-icons" data-target="modaldeletcom" title="Delete">delete</i>
 
-<i onClick={()=>setRemovereport(el._id)} className="modal-trigger count" data-target="modaldeletreport" title="Remove Report"><span className="num" style={{top:"5px", left:"8px"}}>{el.reports}</span></i>
+<i onClick={()=>setRemovereport(el._id)} className="modal-trigger count" data-target="modaldeletreportcom" title="Remove Report"><span className="num" style={{top:"5px", left:"8px"}}>{el.reports}</span></i>
      </div>}</span>
       </div>
   
@@ -272,7 +272,6 @@ setTextedit("")
             history.push("/login")}
             }}></i>
            <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.dislikes==0?"":el.dislikes}</p> 
-           {(el.postedBy!=auth.user._id)&&auth.isAuthenticated&&<i title="reply" className="material-icons" onClick={()=>{ if(!replycount) setReplayCount(!replycount); setReply(""); setReplyId(el._id)}}>reply</i>}
             
             </div>
       
@@ -395,6 +394,7 @@ setTextedit("")
             
             </div>
    </li>
+
   </ul>
     )
   })}
@@ -406,7 +406,132 @@ setTextedit("")
     
   </ul>
 )
-          })}
+  })}
+
+
+ {(comments.comments&&comments.comments).slice(0).sort(function(a, b) {
+  return sorttype.type=="relevent"? (a.likes - b.likes):(a.created_at - b.created_at);
+}).reverse().slice(0,10+count*10).map(elc=>{elc.reply.map(el=>{
+  console.log(el)
+    return (
+    <ul className="collection" key={el.i} style={{overflow:"initial",marginLeft:15}}>
+    <li className="collection-item avatar">
+      <div style={{display:"flex",justifyContent:"space-between"}}>
+       <div>
+          <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
+       <div style={{display:"flex"}}>
+       <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
+<p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
+</div>
+      </div><span style={{display:"flex",justifyContent:"right"}}>
+     {(el.postedBy==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&<div id="editdelete">
+     {!edit||el.id!=edit?<i className="material-icons" title="Edit" onClick={()=>{
+setEdit(el.id)
+setTextedit(el.content)
+       }}>edit</i>:
+       el.id==edit&&<i className="material-icons" title="Cancel" onClick={()=>{
+setEdit("")
+setTextedit("")
+       }}>close</i>}
+<i onClick={()=>setDeletereplyid(el.id)} className='modal-trigger material-icons' data-target='modaldeletreply' title="delete">delete</i>
+</div>}
+</span>
+      </div>
+     
+      {el.id!=edit?<p style={{overflowWrap: "break-word"}}>{el.content}</p>:
+       
+       
+       <form>
+      
+         
+       <div style={{width:"100%",position:"relative"}}>
+       
+         <textarea value={textedit} 
+        onChange={(e)=>setTextedit(e.target.value)}
+         onKeyDown={(e)=> { if (e.key === "Enter") oneditreply(e)}}
+                 className="materialize-textarea"
+                  style={{paddingRight:"30px"}}
+                  id="textarea_edit"
+                  autoFocus
+                  > 
+                  </textarea> 
+                  
+       <i className="far fa-smile"  style={{position:"absolute",bottom:20,right:5,cursor:"pointer"}} onClick={()=>setEmojedt(!emojedt)}></i>
+         {emojedt&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-360px",right:0,zIndex:9999999999}} id="emoj_cont">
+           
+           <Picker
+        set='apple'
+       color="#2e8fa5"
+         onSelect={(emoji)=>setTextedit(textedit.concat(emoji.native))} 
+        
+         i18n={{ search: 'Recherche', categories: { search: 'Résultats de recherche', recent: 'Récents' } }}
+         emojiSize={30}
+         showSkinTones={false}
+         showPreview={false}
+         perLine={8}
+  
+         />
+     </div>}
+     </div>
+ 
+         </form>}
+         <div style={{marginTop:5,display:"flex",alignItems:"center"}} id="editdelete">
+         <i className="far fa-thumbs-up" title="like" style={{cursor:"pointer",color:auth.isAuthenticated&&auth.user.likes.includes(el.id)&&"#2e8fa5"}} onClick={()=>
+          {if(actvlike)
+            {if(auth.isAuthenticated&&!auth.user.likes.includes(el.id))
+            {setactvlike(false)
+              dispatch(likereply(el.id,Number(el.likes)+1,auth.user._id,replyid))
+            auth.user.dislikes.includes(el.id)&&dispatch(removedislikereply(el.id,Number(el.dislikes)-1,auth.user._id,replyid))}
+            else
+            {setactvlike(false)
+            dispatch(removelikereply(el.id,Number(el.likes)-1,auth.user._id,replyid))}
+            if(!auth.isAuthenticated)
+            history.push("/login")}
+            }}></i>
+        <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.likes==0?"":el.likes}</p>
+         <i className="far fa-thumbs-down fa-flip-horizontal" title="dislike" style={{color:auth.isAuthenticated&&auth.user.dislikes.includes(el.id)&&"#2e8fa5"}} onClick={()=>
+          {if(actvlike)
+           { if(auth.isAuthenticated&&!auth.user.dislikes.includes(el.id))
+            {setactvlike(false)
+              dispatch(dislikereply(el.id,Number(el.dislikes)+1,auth.user._id,replyid))
+            auth.user.likes.includes(el.id)&& dispatch(removelikereply(el.id,Number(el.likes)-1,auth.user._id,replyid))}
+            else
+            {setactvlike(false)
+            dispatch(removedislikereply(el.id,Number(el.dislikes)-1,auth.user._id,replyid))}
+            if(!auth.isAuthenticated)
+            history.push("/login")}
+            }}></i>
+           <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.dislikes==0?"":el.dislikes}</p> 
+           {(el.postedBy!=auth.user._id)&&auth.isAuthenticated&&<i title="reply" className="material-icons" onClick={()=>{ 
+             setReply("@"+users.find(e=>e._id==el.postedBy).fname+"-"+users.find(e=>e._id==el.postedBy).lname+" ")
+             document.getElementById('replyinp').focus()
+             }}>reply</i>}
+            
+            </div>
+   </li>
+
+  </ul>
+    )
+  })})}
+
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           {((count+1)*5)<comments.comments.filter(el=>el.reports>0).length&&
           <div style={{
             marginBottom:"5px",
