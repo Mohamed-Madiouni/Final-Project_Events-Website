@@ -171,7 +171,7 @@ const oneventclick=useCallback((e)=>{
                   // key={el._id}
                 >
                   <div className="card-image " style={{height:"59%",cursor:"pointer"}}>
-                    <img className="activator" src={allevents.find(e=>e._id==eventId).image} height="100%"  />
+                    <img className="activator" src={allevents.find(e=>e._id==eventId).image} height="100%"  alt=""/>
 
                     <div className="date right">
                       <div className="day">{allevents.find(e=>e._id==eventId).start.split("T")[0].split("-")[2]}</div>

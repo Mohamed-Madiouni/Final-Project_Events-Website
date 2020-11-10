@@ -369,6 +369,7 @@ const UserList = () => {
                               className="circle center-align"
                               src={el.avatar}
                               style={{ borderRadius: "50%", width: "50px" }}
+                              alt=""
                             />
                           </span>
                         </td>

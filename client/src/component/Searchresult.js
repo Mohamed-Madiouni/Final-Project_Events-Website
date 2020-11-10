@@ -236,7 +236,7 @@ useEffect(() => {
                   key={el._id}
                 >
                   <div className="card-image " style={{height:"55%",cursor:"pointer"}}>
-                    <img className="activator" src={el.image} height='100%'/>
+                    <img className="activator" src={el.image} height='100%' alt=""/>
 
                     <div className="date right">
                       <div className="day">{el.start.split("T")[0].split("-")[2]}</div>

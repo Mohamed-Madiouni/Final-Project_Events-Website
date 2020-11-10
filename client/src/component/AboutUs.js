@@ -123,11 +123,12 @@ function AboutUs() {
                     </div>
                  </div>
                 <div className="col-md-6">
-                    <img src="/mess.png"
+                    <img src="/mess.png" alt=""
                      style={{width: "200%",
                      maxWidth: "114%",
                      float: "left",
-                     marginLeft: "60px"}}/>
+                     marginLeft: "60px"
+                     }}/>
                 </div>
             </div>
         </div>
@@ -138,7 +139,7 @@ function AboutUs() {
 
             <div className="col-md-6"> 
 
-                <img src="/photo.png" class="img-responsive" 
+                <img src="/photo.png" alt="" class="img-responsive" 
 
                 style={{width: "200%",
                 maxWidth: "114%",
@@ -193,7 +194,7 @@ function AboutUs() {
             <div className="row">
                 <div className=" col-md-4 profile-pic text-center">
                     <div className="img-box1"></div>
-                    <img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRHitPEzAyyl85mJu94hAoo4OqUZxW4Vp_8NRkd7f1ZGFkVAhvX&usqp=CAU" />
+                    <img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRHitPEzAyyl85mJu94hAoo4OqUZxW4Vp_8NRkd7f1ZGFkVAhvX&usqp=CAU" alt=""/>
                     <ul id="u1">
                         <a className="faa" herf="#">
                             <li className="fa1"><i className="fa fa-facebook" aria-hidden="true"></i></li>
@@ -212,7 +213,7 @@ function AboutUs() {
                 </div>
                 <div className=" col-md-4 profile-pic text-center">
                     <div className="img-box1"></div>
-                    <img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQYsC5n8Dib3nag0Uyf0XUE0MagznOU1_adXKCvhgl6ICvl7Dn8&usqp=CAU" />
+                    <img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQYsC5n8Dib3nag0Uyf0XUE0MagznOU1_adXKCvhgl6ICvl7Dn8&usqp=CAU" alt=""/>
                     <ul id="u1">
                         <a className="faa" herf="#">
                             <li className="fa1"><i className="fa fa-facebook" aria-hidden="true"></i></li>
@@ -231,7 +232,7 @@ function AboutUs() {
                 </div>
                 <div className=" col-md-4 profile-pic text-center">
                     <div className="img-box1"></div>
-                    <img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRUNfNzNQuI3hs2yjNVE3kK5mvroZDoCv6a7oi_GIIYjmpnAiV2&usqp=CAU" />
+                    <img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRUNfNzNQuI3hs2yjNVE3kK5mvroZDoCv6a7oi_GIIYjmpnAiV2&usqp=CAU" alt=""/>
                     <ul id="u1">
                         <a className="faa" herf="#">
                             <li className="fa1"><i className="fa fa-facebook" aria-hidden="true"></i></li>
