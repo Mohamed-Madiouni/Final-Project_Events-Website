@@ -77,6 +77,10 @@ const  [unfollow,setunfollow]=useState("")
 
 
 useEffect(()=>{
+localStorage.token&&dispatch( getCurrentUser())
+},[])
+
+useEffect(()=>{
   if(errors.follow)
  { M.toast({ html: "subscription added", classes: "green" });
 dispatch({
@@ -368,7 +372,10 @@ history.push("/login")
     <ul className="collection org">
     <li className="collection-item avatar">
       <div style={{display:"flex",justifyContent:"space-between"}}>
-        <div><img src={users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).avatar} alt="" className="circle" style={{width:43,height:43}}/>
+        <div>
+          <a href={`/organizer/${allevents.find(el=>el._id==match.params.event_id).id_organizer}`}>
+          <img src={users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).avatar} alt="" className="circle" style={{width:43,height:43}}/>
+          </a>
        <p><b>{users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).fname+" "+users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).lname}</b></p> 
       </div> 
       <button className='follow'  onClick={()=>{
