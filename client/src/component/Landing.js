@@ -134,25 +134,25 @@ payload:!shownotif
       return(
         <li key={i} className="note" onClick={() => {
           if (el.notiftype=="Event_Validation") { history.push("/events/"+el.compid)}
-          else if (el.notiftype=="New_Event") { history.push("/events/")}
+          else if (el.notiftype=="New_Event") { history.push("/events")}
           else if (el.notiftype=="Event_Edition") {history.push("/events/"+el.compid)}
           else if (el.notiftype=="Comment_Reply_organizer") { history.push("/events/"+el.compid)}
           else if (el.notiftype=="Comment_Reply_User") { history.push("/events/"+el.compid)}
-          else if (el.notiftype=="New_Follow") { history.push("/dashboard")}
+          else if (el.notiftype=="New_Follow") { history.push(`/${el.role}/${el.userId}`)}
           else if (el.notiftype=="New_Like") { history.push("/events/"+el.compid)}
           else if (el.notiftype=="New_Dislike") { history.push("/events/"+el.compid)}
-          else if (el.notiftype=="Remove_Follow") { history.push("/")}
-          else if (el.notiftype=="Event_Deleted") { history.push("/")}
-          else if (el.notiftype=="Event_Invalidation") { history.push("/dashboard/")}
-          else if (el.notiftype=="New_Participation") { history.push("/events/"+el.compid)}
-          else if (el.notiftype=="Cancel_Participation") { history.push("/events/"+el.compid)}
-          else if (el.notiftype=="Event_Closed") { history.push("/dashboard/")}
-          else if (el.notiftype=="Event_Opened") { history.push("/events/"+el.compid)}
+          else if (el.notiftype=="Remove_Follow") { history.push(`/${el.role}/${el.userId}`)}
+          else if (el.notiftype=="Event_Deleted") { history.push("/events")}
+          else if (el.notiftype=="Event_Invalidation") { history.push("/dashboard")}
+          else if (el.notiftype=="New_Participation") { history.push(`/${el.role}/${el.userId}`)}
+          else if (el.notiftype=="Cancel_Participation") { history.push(`/${el.role}/${el.userId}`)}
+          else if (el.notiftype=="Event_Closed") { history.push("/events")}
+          else if (el.notiftype=="Event_Opened") { history.push("/events"+el.compid)}
           else if (el.notiftype=="Account_Banned") {history.push("/dashboard")}
           else if (el.notiftype=="Account_Unbanned") { history.push("/dashboard")}
           else if (el.notiftype=="Account_Alerted") { history.push("/dashboard")}
           else if (el.notiftype=="Alert_Removed") { history.push("/dashboard")}
-          else if (el.notiftype=="New_Comment") { history.push("/events/"+el.compid)}
+          else if (el.notiftype=="New_Comment") { history.push("/events"+el.compid)}
           else {  history.push("/")}
           dispatch(closeNotif([el]))
           dispatch({
