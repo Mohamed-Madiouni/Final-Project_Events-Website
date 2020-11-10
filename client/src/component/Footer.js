@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 function Footer() {
   return (
     <div className='footer-container'>
-      {/* <section className='footer-subscription '>
+      <section className='footer-subscription '>
         <p className='footer-subscription-heading footer-p'>
         Top Ranked, Unbelievably Easy-to-Use
         </p>
         <p className='footer-subscription-text footer-p'>
         CocoEvent was independently ranked a Top Event Management Software .
         </p>
-      </section> */}
+      </section>
       {/* <div className='footer-links'>
         <div className='footer-link-wrapper'>
           <div className='footer-link-items'>
@@ -50,7 +50,7 @@ function Footer() {
       <section className='social-media row'>
           <div className='footer-logo col s2' style={{marginLeft:-290}}>
             <Link to='/' className='social-logo '>
-            <img
+            <img 
               src="/cocoE.jpg"
               alt="COCO PARTY"
               width="150px"
@@ -62,10 +62,9 @@ function Footer() {
               />
             </Link>
             </div>
-            <div className='footer-link-wrapper col s7'
-            style={{marginLeft:40,marginTop:5,display: "flex",
-  justifyContent:"space-between",width:500
-  }}>
+            <div className='footer-link-wrapper col s7' style={{display: "flex",  justifyContent:"space-between",
+
+marginLeft:"40px"}}>
             <Link to="/about" className='footer-link-items' >
             <h5 className="footer-h5">About</h5></Link>
             <Link to="/contact" className='footer-link-items'>

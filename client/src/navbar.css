@@ -9,7 +9,7 @@
 box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
 /* background-color:#242424; */
 background: linear-gradient(90deg, #1c1b1b 0%, rgb(26, 23, 23) 100%);
-position: fixed;
+/* position: fixed; */
 margin: 0px;
 z-index: 999;
 

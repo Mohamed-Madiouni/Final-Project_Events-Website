@@ -178,9 +178,14 @@ useEffect(()=>{
 
 
  <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >
-     <h5 className="h5-org" style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
+
+     {/* <h5 className="h5-org" style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
        <div className="col s12 l4 div-orEv" style={{fontSize:17,marginBottom:10}}>
-   <p className="para-org">Select an event state or choose title or tag to discover best events for you.</p>
+   <p className="para-org">Select an event state or choose title or tag to discover best events for you.</p> */}
+
+     <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
+       <div className="col s12 l4" style={{fontStyle: "",fontSize:17,marginBottom:10}}>
+   <p>Select an event state or choose title or tag to discover best events for you.</p>
    </div>
    <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
 
@@ -570,11 +575,12 @@ useEffect(()=>{
                 let title="Event Deleted";
                 let content=  "The organizer " + auth.user.fname+ " " + auth.user.fname +" deleted the event " +  allevents.find((elm) => elm._id==deleteid).title;
                 let notiftype="Event_Deleted";
+                let compid=deleteid
                 var state=[]
                 allevents.find((elm) => elm._id ==deleteid).participant.map(el=>{
                   state=[...state,{users:el,consulted:false}]
                 })
-               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
               }}
             >
               Agree
@@ -601,11 +607,12 @@ useEffect(()=>{
                 let title="Event Closed";
                 let content= "The organizer " + auth.user.fname+ " " + auth.user.fname +" closed the event " +  allevents.find((elm) => elm._id==closedid).title;
                 let notiftype="Event_Closed";
+                let compid=closedid
                 var state=[]
                 allevents.find((elm) => elm._id ==closedid).participant.map(el=>{
                   state=[...state,{users:el,consulted:false}]
                 })
-               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
                 }}
             >
               Agree
@@ -632,11 +639,12 @@ useEffect(()=>{
                 let title="Event Opened";
                 let content=  "The organizer " + auth.user.fname+ " " + auth.user.fname +" reopened the event " +  allevents.find((elm) => elm._id==closedid).title;
                 let notiftype="Event_Opened";
+                let compid=closedid
                 var state=[]
                 allevents.find((elm) => elm._id ==closedid).participant.map(el=>{
                   state=[...state,{users:el,consulted:false}]
                 })
-               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
               }}
             >
               Agree

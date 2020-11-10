@@ -140,7 +140,7 @@ const EventList = () => {
     }}>
        <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:250,paddingTop:45,position:"relative"}} >
      <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
-       <div className="col s12 l4" style={{fontStyle: "italic",fontSize:17,marginBottom:10}}>
+       <div className="col s12 l4" style={{fontStyle: "",fontSize:17,marginBottom:10}}>
    <p>Select an event title or choose an address or tags to find the one looking for.</p>
    </div>
    <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
@@ -671,12 +671,13 @@ const EventList = () => {
               let title="Event Deleted";
               let content= "The event " +  allevents.find((elm) => elm._id==deleteid).title +" was deleted by " + auth.user.fname + " "+ auth.user.lname;
               let notiftype="Event_Deleted";
+              let compid=deleteid
               var state=[]
               state=[...state,{users:Organizerid,consulted:false}]
               allevents.find((elm) => elm._id ==deleteid).participant.map(el=>{
                 state=[...state,{users:el._id,consulted:false}]
               })
-              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))  
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))  
               dispatch(deleteEvent(deleteid))}}
           >
             Agree
@@ -697,16 +698,16 @@ const EventList = () => {
             href="#!"
             className="modal-close btn-flat"
             onClick={() => {
-              
               let title="New Event";
               let content= `A new event was Added by ${allusers.find(el=>el._id==Organizerid).fname} ${allusers.find(el=>el._id==Organizerid).lname}` ;
               let notiftype="Event_Validation";
-              var state=[]
+              let compid=validateid
+              var state=[];
               state=[...state,{users:Organizerid,consulted:false}]
               allusers.filter((elm) => elm.follow.includes(Organizerid)).map(el=>{
               state=[...state,{users:el._id,consulted:false}]
              })
-              dispatch(sendNotifications(Organizerid,title,content,auth.user.role, notiftype,state))
+              dispatch(sendNotifications(Organizerid,title,content,auth.user.role, notiftype,state,compid))
               dispatch(validateEvent(validateid))
             }}
           >
@@ -731,13 +732,14 @@ const EventList = () => {
               let title="Event Invalidated";
               let content= "The event " + allevents.find((elm) => elm._id==validateid).title + " was invalidated by " + auth.user.fname + " " + auth.user.lname;
               let notiftype="Event_Invalidation";
-              var state=[]
+              let compid=validateid
+              var state=[]              
               state=[...state,{users:Organizerid,consulted:false}]
               allevents.find((elm) => elm._id ==validateid).participant.map(el=>{
                 state=[...state,{users:el,consulted:false}]
               })
               dispatch(invalidateEvent(validateid))
-              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
             }}
           >
             Agree

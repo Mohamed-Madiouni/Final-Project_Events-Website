@@ -189,9 +189,10 @@
     opacity: 1;
     display: block;
     position: relative;
+    margin-bottom: 20px;
 }
 
-.img-box1:after {
+.img-box1::after {
     content: '';
     opacity: 0;
     background-color: rgba(0, 0, 0, 0.6);
@@ -211,7 +212,7 @@
     display: block;
     left: 50%;
     transform: translateX(-50%) ;
-    opacity: 1;
+    opacity: 0;
 }
 /* .img-box1 ul */
   .fa1 {
@@ -226,21 +227,22 @@
 .img-box1>.faa{
  color:#fff;
 }
-.img-box1:hover>::after{
+.img-box1:hover::after{
     opacity: 1;
+    cursor: pointer;
 }
 .img-box1:hover> #u1{
     opacity: 1;
 }
-.img-box1 .faa:hover> .fa1{
+.faa:hover>.fa1{
     color: #007bff;
     border: 1px solid #007bff;
 }
-.img-box1::after>
+/* .img-box1::after>
 .img-box1 #u1>
 .img-box1 #u1 .fa1{
     transition: all 0.5s ease-in-out 0s;
-}
+} */
 image{
     filter: grayscale(1);
 }
@@ -250,29 +252,18 @@ image:hover {
     cursor: pointer;
 }
 
- .about-h2 {
-    font-size: 25px !important;
-    font-weight: bold;
-    margin-top: 15px;
-    color: #2e8fa5 !important;
-}
 
- .about-h3 {
-    font-size: 17px !important;
-    font-weight: bold;
-    margin-top: 15px;
-}
-
-#team .fa {
+/* #team .fa {
     height: 25px;
     width: 25px;
     color: #2e8fa5 !important;
     background: #fff;
     padding: 4px;
     border-radius: 50%;
-}
+}  */
 
- /* .ul {
+  
+  /* #ul {
     padding: 15px 0;
     position: absolute;
     z-index: 2;
@@ -280,24 +271,23 @@ image:hover {
     left: -50%;
     transform: translateX(-50%);
     opacity: 0;
-}
-
-li {
-    list-style: none;
-}
- */
-
-
-/* ul .img-box1:hover  {
-    opacity: 1;
-}
-
-.img-box1 ul,
-.img-box1 ul li {
-    transition: 0.5s;
 } */
 
-/* #color-c {
+/* .fa1 {
+    list-style: none;
+} */
+ 
+
+
+ /* #ul .img-box1:hover  {
+    opacity: 1;
+} */
+
+/* .img-box1 #ul,
+.img-box1 #ul .fa1 {
+    transition: 0.5s;
+}  */
+ /* #color-c {
     text-align: start;
     color: #004 !important;
     padding-bottom: 10px;
@@ -314,7 +304,20 @@ li {
     font-size: 70px;
     letter-spacing: 1.5px;
     font-family: sans-serif;
-} */
+}  */
+
+.about-h2 {
+    font-size: 25px !important;
+    font-weight: bold;
+    margin-top: 15px;
+    color: #2e8fa5 !important;
+}
+
+ .about-h3 {
+    font-size: 17px !important;
+    font-weight: bold;
+    margin-top: 15px;
+}
 .btn-1{
     font-family: 'David Libre', serif;
 
@@ -359,3 +362,105 @@ li {
     cursor: pointer;
     color:white;
 }
+#PageCoverHeader-2{
+    padding: 0;
+    margin-right: 0;
+    height: 400px;
+    display: table;
+    top: -33px;
+    margin-bottom: -32px;
+    position: relative;
+    left: 15px;
+    box-sizing: border-box;
+    width: 100%;
+    padding-left: 74.5px;
+    padding-right: 74.5px;
+    padding-top: 60px;
+}
+.vc_custom_1489707920796 {
+    background: url(https://digitalagencynetwork.com/wp-content/uploads/2019/09/top-digital-marketing-agency-list-directory.jpg?id=76777) !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+}
+.h1-about{
+    font-size: 50px;
+}
+.span-about{
+    color:#ffff;
+     line-height:1.4;
+     font-family: 'David Libre', serif;
+
+}
+.p-about{
+    font-family: 'David Libre', serif;
+    margin-top: 20px;
+}
+hr {
+	background-color: rgba(255,255,255,0.14);
+    width: 270px;
+    margin: 21px 0 35px 0;
+    border: 0;
+    height: 1px;
+    box-sizing: content-box;
+    overflow: visible;
+}
+.h3-about{
+    font-size:20px
+}
+@media screen and (max-width: 767px){
+.about-us {
+    background-position: top right !important;}
+#PageCoverHeader-2 {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    background-repeat: no-repeat !important;
+    background-size: auto 50% !important;
+    overflow: inherit;
+    height: auto;
+    min-height: auto;
+    top: 0px;
+}
+.vc_row_a {
+    position: relative;
+    margin: 250px 0 0 0;
+    display: block;
+    /* vertical-align: middle; */
+}
+.vc_section {
+    padding: 0 10px !important;
+    margin: 0 !important;
+}
+.h1-about{
+ color: #131529 !important;
+ font-size: 40px !important;
+padding-top: 9px;
+margin-bottom: 4px;
+}
+.span-about{
+    color: #3a3a40 !important;
+    /* font-size: 30px !important; */
+
+}
+hr{
+    margin: 7px 0 18px 0;
+    background-color: rgba(58,58,64,0.4);
+    width: 100%;
+}
+.h3-about{
+    font-size: 16px !important;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: normal;
+margin-bottom: 10px !important;
+}
+.img-about-1{
+ margin-right: 190px !important;
+ margin-top: 40px !important;
+ padding: 0!important;
+}
+.img-responsive{
+    padding-left:170px !important;
+}
+}
+

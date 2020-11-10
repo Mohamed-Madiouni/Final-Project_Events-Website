@@ -1,35 +1,36 @@
 import React,{useState,useEffect} from 'react';
 import Navbar from "./Navbar"
 import Footer from "./Footer"
-import axios from "axios";
 import { GET_ERRORS } from "../actions/types";
 import { useSelector, useDispatch } from "react-redux";
 import { contactUs } from "../actions/authaction";
+
 // import { GoogleComponent } from 'react-google-location'
 
 import "../ContactUs.css"
 
 const ContactUs = () => {
   const errors = useSelector((state) => state.errors);
+
   const dispatch = useDispatch();
-  const [maps, setMaps] = useState({
-    latitude: null,
-    longitude: null,
-    userAddress : null,
-  })
-  const getLocation=(e)=>{getLocation.bind(e)
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(getCoordinates);
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-  }
-  const getCoordinates =(position)=>{
-    console.log(position)
-    // setMaps({
+  // const [maps, setMaps] = useState({
+  //   latitude: null,
+  //   longitude: null,
+  //   userAddress : null,
+  // })
+  // const getLocation=(e)=>{getLocation.bind(e)
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(getCoordinates);
+  //   } else {
+  //     alert("Geolocation is not supported by this browser.");
+  //   }
+  // }
+  // const getCoordinates =(position)=>{
+  //   console.log(position)
+  //   // setMaps({
       
-    // })
-  }
+  //   // })
+  // }
       const [inputs, setInputs] = useState({
         name: '', 
         email: '', 
@@ -83,7 +84,13 @@ const handleSubmit=(e)=>{
     message:inputs.message
   }
     dispatch(contactUs(data))
- console.log(data)
+    const resetContact=()=>{
+      setInputs({
+       name:'',
+       email:'',
+       phone:'',
+       message:''
+      })
 //   axios.post("/contact/contactus",data)
 //   .then(res=>{
 //   //  setInputs({
@@ -95,13 +102,7 @@ const handleSubmit=(e)=>{
 //     console.log('message not sent')
 // })}
 }
-const resetContact=()=>{
-    setInputs({
-     name:'',
-     email:'',
-     phone:'',
-     message:''
-    })
+
     // setTimeout(()=>{
     // setInputs({
     //     sent:false
@@ -123,7 +124,23 @@ const resetContact=()=>{
     return (
         <>
         <Navbar/>
-  <div className="jumbotron jumbotron-simple-new jumbotron-simple-new-dark">
+        <section id="PageCoverHeader" data-vc-full-width="true" data-vc-full-width-init="true"
+         class="vc_section contact-us vc_custom_1489707920794 vc_section-has-fill">
+          <div class="vc_row wpb_row vc_row-fluid">
+            <div class="wpb_column vc_column_container vc_col-sm-12">
+              <div class="vc_column-inner">
+                <div class="wpb_wrapper">
+                  <div class="wpb_text_column wpb_content_element  page-header">
+                    <div class="wpb_wrapper div-wpb">
+                      <h1 className="h1-contact">
+                        <span className="span-contact span-1" >Contact Us</span>
+                        </h1>
+                        <hr/>
+                        <h3 className="h3-contact">
+                          <span className="span-contact" >Eager to learn more about CocoEvent or simply want to say hello? Get in touch and we’ll be happy to answer all your questions.</span>
+                          </h3>
+                          </div></div></div></div></div></div></section>
+  {/* <div className="jumbotron jumbotron-simple-new jumbotron-simple-new-dark">
   <div className="exp1 container">
     <div className="row-3 text-center">
       <div className="col-md-12 col-md-offset-1">
@@ -132,21 +149,21 @@ const resetContact=()=>{
       </div>
     </div>
   </div>
-</div>  
+</div>   */}
 <div className=" row vc_row wpb_row vc_row-fluid section-header featured"
-style={{marginLeft:"50px",marginTop:"20px"}}>
-              <div className="wpb_column vc_column_container col 12">
+style={{marginLeft:"50px",marginTop:"90px",marginRight:"50px"}}>
+              <div className="wpb_column vc_column_container col s12">
                 <div className="vc_column-inner">
-                  <div className="wb_wrapper">
                     <div className="wpb_text_column wpb_content_element ">
                       <div className=" wpb_wrapper">
-                        <h2>Give us a shout</h2>
-                        <p>If you’ve got any questions, please fill out the form below and we promise to get back to you with lightning speed! You may also take a look at our Help Center where you can find answers of common questions that we receive.</p>
+                        <h2 className="h2-contact">Give us a shout</h2>
+                        <p  className="p-contact" style={{marginRight:"70px",fontSize:"20px"}}>If you’ve got any questions, please fill out the form below and we promise to get back to you with lightning speed! You may also take a look at our Help Center where you can find answers of common questions that we receive.</p>
                         
-                        </div></div></div></div></div></div>
+                        </div></div></div></div></div>
 <div className="wrapper animated bounceInLeft">
-    <form className=" contact_us text-center"
- 
+  
+    <form id="FormContainer" className=" contact_us"
+    style={{marginTop:"40px"}}
     method="POST" 
     action="/contact/contactus"
      onSubmit={handleSubmit}>
@@ -279,12 +296,46 @@ style={{marginLeft:"50px",marginTop:"20px"}}>
       </div> */}
     </div>
     <div>
-      <h2>location</h2>
-      <button onClick={getLocation}>cordinates</button>
+      {/* <button onClick={getLocation}>cordinates</button>
     <p>Latitude:{maps.latitude}</p>
     <p>longitude:{maps.longitude}</p>
-    <p>Address:{maps.userAddress}</p>
-
+    <p>Address:{maps.userAddress}</p> */}
+<section id="Location" class="vc_section">
+  <div class="vc_row wpb_row vc_row-fluid section-header featured"
+  style={{marginLeft:"50px",marginTop:"70px"}}>
+    <div class="wpb_column vc_column_container vc_col-sm-12">
+      <div class="vc_column-inner">
+        <div class="wpb_wrapper">
+          <div class="wpb_text_column wpb_content_element ">
+            <div class="wpb_wrapper ">
+              <h2 className="h2-contact">Location</h2>
+              </div>
+              </div>
+              </div></div>
+              </div></div>
+              <div id="map-canvas" class="vc_row wpb_row vc_row-fluid">
+                <div class="wpb_column vc_column_container vc_col-sm-12">
+                      <div class="vc_row wpb_row vc_inner vc_row-fluid map-container">
+                          <div class="vc_column-inner">
+                                <div class="wpb_wrapper">
+                                  <p>
+                                  <iframe className="iframe" style={{border:0, width:"100%"}}
+  height="450"
+  frameborder="0"
+  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBSZLoDPxvY96AxQbxFDlhXxiTS5JxgeDc
+    &q=GoMyCode,tunis+sousse" allowfullscreen>
+</iframe>
+                                  </p></div>
+                                  <div class="wpb_text_column wpb_content_element  address-container">
+                                    <div class="wpb_wrapper">
+                                      <h4 className="h4-title"><i style={{marginRight:"15px"}}class="fa fa-phone"></i>
+                                       Phone Number</h4>
+                                      <p className="p-contact">+21655333333</p>
+                                    <h4 className="h4-title"><i style={{marginRight:"15px"}} class="fa fa-envelope"></i>
+                                       Adress E-mail</h4>
+                                    <p className="p-contact">eventcoco63@gmail.com</p>
+                                    </div></div></div>
+                                    </div></div></div></section>
     </div>
 
 

@@ -120,7 +120,7 @@ useEffect(()=>{
     }   
   
     })
-    let events=myevents&&myevents.filter(el=>{
+    let events=myevents&&myevents.filter(el=>(el!="Invalid"||el!="Closed")).filter(el=>{
         return(
         
          el.title.toLowerCase().includes(quickSearch.title.toLowerCase())
@@ -178,7 +178,10 @@ useEffect(()=>{
 <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >
      <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
        <div className="col s12 l4" style={{fontStyle: "",fontSize:17,marginBottom:10}}>
-   <p>Select an event state or choose title or tag to discover best events for you.</p>
+
+   {/* <p>Select an event state or choose title or tag to discover best events for you.</p> */}
+
+   <p>Select an event state or choose title or tag to find the desired one from your list.</p>
    </div>
    <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
 
@@ -243,7 +246,7 @@ useEffect(()=>{
                         <h2>Your participation</h2>
                         <p className="pra-2">Keep up with the latest events</p>
                         </div></div></div></div></div></div>
-           {events&&events.slice(0).reverse().map(el=>{
+           {events&&events.filter(el=>(el!="Invalid"||el!="Closed")).slice(0).reverse().map(el=>{
                return (<div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
                  
                  

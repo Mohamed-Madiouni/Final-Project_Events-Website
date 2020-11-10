@@ -306,9 +306,10 @@ const UserListcard = ({ users }) => {
               let title="Account Banned";
               let content= "Your account is Banned";
               let notiftype="Account_Banned";
+              let compid=banid
               var state=[]
               state=[...state,{users:banid,consulted:false}]
-              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
               dispatch(banUser(banid))}}
           >
             Agree
@@ -332,9 +333,10 @@ const UserListcard = ({ users }) => {
               let title="Account Unbanned";
               let content= "Your account was Unbanned";
               let notiftype="Account_Unbanned";
+              let compid=banid
               var state=[]
               state=[...state,{users:banid,consulted:false}]
-              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
               dispatch(unbanUser(banid))}}
           >
             Agree
@@ -358,9 +360,10 @@ const UserListcard = ({ users }) => {
               let title="Account Alerted";
               let content= "Your Account was Alerted";
               let notiftype="Account_Alerted";
+              let compid=alertid
               var state=[]
               state=[...state,{users:alertid,consulted:false}]
-              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
               dispatch(alertUser(alertid))}}
           >
             Agree
@@ -384,9 +387,10 @@ const UserListcard = ({ users }) => {
               let title="Alert Removed";
               let content= "An alert was removed from your account";
               let notiftype="Alert_Removed";
+              let compid=alertid
               var state=[]
               state=[...state,{users:alertid,consulted:false}]
-              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
               dispatch(unalertUser(alertid))}}
           >
             Agree

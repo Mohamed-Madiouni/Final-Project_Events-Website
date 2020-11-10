@@ -6,10 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import UserList from "./UserList";
 import EventList from "./EventList";
 import Notification from "./Notifications";
+import Reports from "./Reports";
 import "../organizer.css";
 import M from "materialize-css";
 import { getUsers, getEvents } from "../actions/adminaction";
 import Footer from "./Footer";
+
 function Moderator() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -22,7 +24,8 @@ function Moderator() {
   };
 
   useEffect(() => {
-    dispatch(getUsers(), getEvents());
+    dispatch(getUsers())
+    dispatch(getEvents());
   }, []);
 
   return (
@@ -45,7 +48,7 @@ function Moderator() {
         <div
           className="col s8 "
           style={{
-            fontStyle: "italic",
+            fontStyle: "",
             fontSize: 17,
             marginBottom: 10,
             marginLeft: 0,
@@ -77,6 +80,13 @@ function Moderator() {
             style={{ marginBottom: "5px" }}
           >
             View logs
+          </button>
+          <button
+            className="btn btn-medium modal-trigger"
+            data-target="modalreports"
+            style={{ marginBottom: "5px" }}
+          >
+            View Reports
           </button>
         </span>
         </div>
@@ -139,6 +149,15 @@ function Moderator() {
         >
           <Notification />
         </div>
+
+        <div
+          id="modalreports"
+          className="modal"
+          style={{ padding: 0, margin: 0 }}
+        >
+          <Reports />
+        </div>
+
       </div>
       <Footer/>
     </div>

@@ -53,7 +53,7 @@
     position: absolute;
     top: 70px;
     right: 9px;
-    width: 350px;
+   //  width: 350px;
     background: rgb(51, 50, 50);
     border-top: 3px solid rgb(51, 50, 50);
    //  border-bottom: 3px solid rgb(51, 50, 50);
@@ -95,6 +95,7 @@
        margin-bottom: 2px;
        background-color:rgb(0, 0, 0);
        color:white;
+       cursor: pointer;
        &:first-of-type {
           margin-top: 0px;
        }

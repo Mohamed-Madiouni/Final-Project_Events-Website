@@ -14,7 +14,7 @@
 .notification-container .notification-per-period__title div{min-width:90px;background-color:white;border:solid 5px white}
 .notification-container .notification-per-period__title__line{width:1px;height:30px;background-color:#cccccc}
 .notification-container .notification-per-period__period-card{width:100%;padding:19px 42px 19px 0;background-color:#ebebeb;border-radius:10px;display:flex;margin-bottom:13px;border:solid white;align-items:center;position:relative}
-.notification-container .notification-per-period__period-card img{height:38px;width:38px}
+.notification-container .notification-per-period__period-card .notification-per-period__period-card__type img{height:18px;width:18px; margin-right: 5px;}
 .notification-container .notification-per-period__period-card__type{font-size:0.75rem;font-weight:500;color:#979797;text-transform:uppercase}
 .notification-container .notification-per-period__period-card__content{font-size:0.9375rem;text-align:left;color:#2e384d;margin:9px 0 10px;line-height:1.33}
 .notification-container .notification-per-period__period-card__date{color:#979797;font-size:0.75rem}

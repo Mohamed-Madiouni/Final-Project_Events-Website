@@ -86,7 +86,7 @@ const UserList = () => {
       <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:255,paddingTop:40,position:"relative"}} >
      <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for a user?</b></h5>
        <div className="col s12">
-       <div className="col s12 l4" style={{fontStyle: "italic",fontSize:17,marginBottom:10}}>
+       <div className="col s12 l4" style={{fontStyle: "",fontSize:17,marginBottom:10}}>
    <p>Select a user name or choose an address or email to find the one looking for.</p>
    </div>
    <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
@@ -563,9 +563,10 @@ const UserList = () => {
               let title="Account Banned";
               let content= "Your account is Banned";
               let notiftype="Account_Banned";
+              let compid=banid
               var state=[]
               state=[...state,{users:banid,consulted:false}]
-              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
               dispatch(banUser(banid))}}
           >
             Agree
@@ -589,9 +590,10 @@ const UserList = () => {
               let title="Account Unbanned";
               let content= "Your account was Unbanned";
               let notiftype="Account_Unbanned";
+              let compid=banid
               var state=[]
               state=[...state,{users:banid,consulted:false}]
-              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
               dispatch(unbanUser(banid))}}
           >
             Agree
@@ -615,9 +617,10 @@ const UserList = () => {
               let title="Account Alerted";
               let content= "Your Account was Alerted";
               let notiftype="Account_Alerted";
+              let compid=alertid
               var state=[]
               state=[...state,{users:alertid,consulted:false}]
-              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
               dispatch(alertUser(alertid))}}
           >
             Agree
@@ -640,10 +643,11 @@ const UserList = () => {
             onClick={() =>{ 
               let title="Alert Removed";
               let content= "An alert was removed from your account";
+              let compid=alertid
               let notiftype="Alert_Removed";
               var state=[]
               state=[...state,{users:alertid,consulted:false}]
-              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
               dispatch(unalertUser(alertid))}}
           >
             Agree

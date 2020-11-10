@@ -51,6 +51,7 @@ const userSchema = mongoose.Schema({
   },
   likes:[String],
   dislikes:[String],
+  reports:[String],
   follow:[{type: mongoose.Types.ObjectId, ref: "user" }]
 });
 

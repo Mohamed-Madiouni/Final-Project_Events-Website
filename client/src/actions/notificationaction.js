@@ -28,7 +28,8 @@ export const sendNotifications = (
   content,
   role,
   notiftype,
-  state
+  state,
+  compid
 ) => (dispatch) => {
   setAuthToken(localStorage.token);
   axios
@@ -39,6 +40,7 @@ export const sendNotifications = (
       role: role,
       notiftype: notiftype,
       state: state,
+      compid: compid,
     })
     .then((res) => {
       dispatch({
@@ -56,11 +58,12 @@ export const sendNotifications = (
 };
 
 //close notifications
-export const closeNotif = () => (dispatch) => {
+export const closeNotif = (idNotif) => (dispatch) => {
   setAuthToken(localStorage.token)
   axios
-    .put(`/notifications/close/`,{state:"Closed"})
+    .put(`/notifications/close/`,idNotif)
     .then((res) => {
+      dispatch(getNotifications())
       dispatch({
        type: GET_ERRORS,
        payload: {},

@@ -7,7 +7,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import { useHistory,Link } from 'react-router-dom';
 import { addfollow, getCurrentUser, removefollow } from '../actions/authaction';
 import {makeComment, fullEvent, openEvent, addrating, } from "../actions/evntAction";
-import {getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply, likecomment,dislikecomment, removelikecomment, removedislikecomment, likereply, removelikereply,dislikereply, removedislikereply} from "../actions/comntaction"
+import {reportComment,reportReply,getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply, likecomment,dislikecomment, removelikecomment, removedislikecomment, likereply, removelikereply,dislikereply, removedislikereply} from "../actions/comntaction"
 import {followEvent, getEvent, unfollowEvent,endEvent, closeEvent} from "../actions/evntAction";
 import {sendNotifications} from "../actions/notificationaction";
 import get_month from "../outils/get_month"
@@ -48,7 +48,9 @@ const [emojreply,setEmojReply]=useState(false)
 const[replyid,setReplyId]=useState("")
 const [deletecomid,setDeletecomid]=useState("")
 const [deletereplyid,setDeletereplyid]=useState("")
+
 const[actvlike,setactvlike]=useState(true)
+const[actvreport,setactvreport]=useState(true)
 const [countevent,setCountevent] = useState(0)
 const[resiz,setresiz]=useState(false)
 const [rating,setRating]=useState(0)
@@ -157,14 +159,30 @@ useEffect(()=>{
 
 useEffect(()=>{
    M.updateTextFields()
-   if(edit&&reply)
+  //  if(edit&&reply)
   //  M.textareaAutoResize(document.querySelector(".materialize-textarea"));
    if(errors.success)
-   setEdit("")
+    setEdit("")
    if(errors.added)
    setComnt("")
    if(errors.reply)
    setReply("")
+   if(errors.reportcom)
+   { M.toast({ html: "Report sended", classes: "green" });
+   dispatch({
+     type:GET_ERRORS,
+     payload:{}
+   })
+   
+   }
+   if(errors.reportreply)
+   { M.toast({ html: "Report sended", classes: "green" });
+   dispatch({
+     type:GET_ERRORS,
+     payload:{}
+   })
+   
+   }
     
   })
 
@@ -200,11 +218,12 @@ useEffect(()=>{
           let title= "New Comment";
           let content= auth.user.fname +" "+ auth.user.lname + " commented on your event " + (allevents.find(el=>el._id==match.params.event_id).title);
           let notiftype="New_Comment";
+          let compid=match.params.event_id
           var state=[]
           state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
           dispatch(addComment(comnt,match.params.event_id,auth.user._id))
           state[0].users!=auth.user._id &&
-          dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+          dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
           }
 
       const onedit=(e)=>{
@@ -212,31 +231,34 @@ useEffect(()=>{
         let title= "Comment Edition";
         let content= auth.user.fname +" "+ auth.user.lname + " edit a comment on your event " + (allevents.find(el=>el._id==match.params.event_id).title);
         let notiftype="Comment_Edition";
+        let compid=match.params.event_id
         var state=[]
         state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
         dispatch(editComment(edit,textedit))
         state[0].users!=auth.user._id &&
-        dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+        dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
     }
     const onreply=(e)=>{
       e.preventDefault()
       let title= "Comment Reply";
       let content= auth.user.fname +" "+ auth.user.lname + " replied to a comment on your event " + (allevents.find(el=>el._id==match.params.event_id).title);
       let notiftype="Comment_Reply_organizer";
+      let compid=match.params.event_id
       let state=[]
       state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
       dispatch(addreply(reply,replyid,auth.user._id,uuidv4()))
       state[0].users!=auth.user._id &&
-      dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state))
+      dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
       
 
       let title2= "Comment Reply";
       let content2= auth.user.fname +" "+ auth.user.lname + " replied to your comment on the event " + (allevents.find(el=>el._id==match.params.event_id).title);
       let notiftype2="Comment_Reply_User";
+      let compid2=match.params.event_id
       let state2=[]
       state2=[...state2,{users:(comments.comments.find(el=>el._id==replyid)).postedBy,consulted:false}]
       state[0].users!=state2[0].users &&
-      dispatch(sendNotifications(auth.user._id,title2,content2,auth.user.role, notiftype2,state2))
+      dispatch(sendNotifications(auth.user._id,title2,content2,auth.user.role, notiftype2,state2,compid2))
       
   }
 
@@ -358,9 +380,10 @@ history.push("/login")
        let title= "New Follow";
        let content= auth.user.fname +" "+ auth.user.lname + " is now followinf you";
        let notiftype="New_Follow";
+       let compid=auth.user._id
        let state=[]
        state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
-       dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+       dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
        }
       }
         else
@@ -525,7 +548,8 @@ return(
 <p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
       </div>
-     {(el.postedBy==auth.user._id||auth.user.role=="administrator")&&<div id="editdelete">
+      <span style={{display:"flex",justifyContent:"right"}}>
+     {(el.postedBy==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&<div id="editdelete">
        {!edit||el._id!=edit?<i className="material-icons" title="Edit" onClick={()=>{
 setEdit(el._id)
 setTextedit(el.content)
@@ -535,7 +559,7 @@ setEdit("")
 setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletecomid(el._id)} className="modal-trigger material-icons" data-target="modaldeletcom" title="Delete">delete</i>
-     </div>}
+     </div>}{(el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.isAuthenticated &&!auth.user.reports.includes(el._id)) && <span id="editdelete"><i onClick={()=>setactvreport(el._id)} className='modal-trigger material-icons' data-target='modalreportcom' title="report">report</i></span>}</span>
       </div>
      
       {el._id!=edit?<p style={{overflowWrap: "break-word"}}>{el.content}</p>:
@@ -588,10 +612,11 @@ setTextedit("")
             let title= "Like";
             let content= auth.user.fname +" "+ auth.user.lname + " Like your comment";
             let notiftype="New_Like";
+            let compid=match.params.event_id
             let state=[]
             state=[...state,{users:(el.postedBy),consulted:false}]
             state[0].users!=auth.user._id &&
-            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
             
             auth.user.dislikes.includes(el._id)&& dispatch(removedislikecomment(el._id,Number(el.dislikes)-1,auth.user._id))}
             else
@@ -600,10 +625,11 @@ setTextedit("")
             let title= "Dislike";
             let content= auth.user.fname +" "+ auth.user.lname + " Dislike your comment";
             let notiftype="New_Dislike";
+            let compid=match.params.event_id
             let state=[]
             state=[...state,{users:(el.postedBy),consulted:false}]
             state[0].users!=auth.user._id &&
-            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
             }
             if(!auth.isAuthenticated)
             history.push("/login")}
@@ -659,8 +685,8 @@ else
        <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
 <p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
-      </div>
-     {(el.postedBy==auth.user._id||auth.user.role=="administrator")&&<div id="editdelete">
+      </div><span style={{display:"flex",justifyContent:"right"}}>
+     {(el.postedBy==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&<div id="editdelete">
      {!edit||el.id!=edit?<i className="material-icons" title="Edit" onClick={()=>{
 setEdit(el.id)
 setTextedit(el.content)
@@ -670,7 +696,9 @@ setEdit("")
 setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletereplyid(el.id)} className='modal-trigger material-icons' data-target='modaldeletreply' title="delete">delete</i>
-     </div>}
+</div>}
+{(el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.isAuthenticated&&!auth.user.reports.includes(el.id) ) && <span id="editdelete">
+<i onClick={()=>setactvreport(el.id)} className='modal-trigger material-icons' data-target='modalreportreply' title="report">report</i></span>}</span>
       </div>
      
       {el.id!=edit?<p style={{overflowWrap: "break-word"}}>{el.content}</p>:
@@ -931,20 +959,96 @@ return(
           <div className="modal-footer">
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
               onClick={()=>dispatch(deleteReply(replyid,deletereplyid))}
             >
               Agree
             </a>
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
             >
               Cancel
             </a>
           </div>
         </div>
-        <div  className="custom_mod" style={{display:unfollow?"initial":"none",padding:"10px",background:"white",zIndex:10,border:"2px solid #2e8fa5"}}>
+
+
+  
+           
+        <div id="modalreportcom" className="modal">
+          <div className="modal-content">
+            <h4>Report Comment</h4>
+            <p>Are you sure you want to report the comment?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+              onClick={()=>{
+                let title="New Report";
+                let content= "A new comment was reported";
+                let notiftype="New_Report";
+                let compid=match.params.event_id;
+                var state=[]
+                    users.filter(el=>el.role=="administrator"||el.role=="moderator").map(el=>{
+                    state=[...state,{users:el._id,consulted:false}]})
+               dispatch(reportComment(actvreport,Number(comments.comments.find(el=>el._id==actvreport).reports)+1,auth.user._id))
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
+
+}
+                 }
+                  // }}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
+    
+    
+        <div id="modalreportreply" className="modal">
+          <div className="modal-content">
+            <h4>Report reply</h4>
+            <p>Are you sure you want to report the reply?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close btn-flat"
+              onClick={()=>{
+                let title="New Report";
+                let content= "A new reply was reported";
+                let notiftype="New_Report";
+                let compid=match.params.event_id;
+                var state=[]
+                    users.filter(el=>el.role=="administrator"||el.role=="moderator").map(el=>{
+                    state=[...state,{users:el._id,consulted:false}]})
+               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
+               dispatch(reportReply(actvreport,Number(comments.comments.find(el=>el._id==replyid).reply.find(el=>el.id==actvreport).reports)+1,auth.user._id,replyid))
+               } }
+                  
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div> 
+   
+
+
+        
+        <div  className="custom_mod" style={{display:unfollow?"initial":"none",padding:"10px",background:"white",zIndex:10,border:"2px solid #2e8fa5",width:"70%"}}>
           <div className="modal-content">
             {/* <h4>Account Update</h4>
             <p>Are you sure you want to update your profile?</p> */}
@@ -965,9 +1069,10 @@ return(
                 let title= "Remove Follow";
                 let content= auth.user.fname +" "+ auth.user.lname + " is no longer following you";
                 let notiftype="Remove_Follow";
+                let compid=auth.user._id
                 let state=[]
                 state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
-                dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state))
+                dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
               }
             }
             >

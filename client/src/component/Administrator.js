@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import UserList from "./UserList";
 import EventList from "./EventList";
 import Notification from "./Notifications";
+import Reports from "./Reports";
 import "../organizer.css";
 import M from "materialize-css";
 import { getUsers, getEvents } from "../actions/adminaction";
@@ -16,18 +17,19 @@ function Administrator() {
   const auth = useSelector((state) => state.auth);
   const users = useSelector((state) => state.admin);
   const events = useSelector((state) => state.admin);
-
+  const comments=useSelector((state) => state.comments)
   const [modal, setModal] = useState(false);
   const toggle = () => {
     setModal(!modal);
   };
 
   useEffect(() => {
-    dispatch(getUsers(), getEvents());
+    dispatch(getUsers())
+    dispatch(getEvents());
   }, []);
 
   return (
-    <div className="col s12 row">
+        <div className="col s12 row">
       <div
         className="row quicksearch"
         style={{
@@ -46,7 +48,7 @@ function Administrator() {
         <div
           className="col s8 "
           style={{
-            fontStyle: "italic",
+            // fontStyle: "italic",
             fontSize: 17,
             marginBottom: 10,
             marginLeft: 0,
@@ -62,24 +64,26 @@ function Administrator() {
 <div className="col s4" style={{display:"flex",alignItems:"center",justifyContent:"center",
  marginBottom: 10,
             marginLeft: 0,
-            marginTop: 70,}}>
-        <span
-          style={{
-            fontWeight: 800,
-            margin: "auto",
-            display: "flex",
-            alignItems: "right",
-            position: "relative",
-          }}
-        >
+            marginTop: 35,
+            flexDirection:"column",
+            height:"100%"
+            }}>
+       
           <button
             className="btn btn-medium modal-trigger"
             data-target="modalnotifall"
-            style={{ marginBottom: "5px" }}
+            style={{ marginBottom: "7px" }}
           >
             View logs
           </button>
-        </span>
+          <button
+            className="btn btn-medium modal-trigger"
+            data-target="modalreports"
+            style={{ marginBottom: "5px" }}
+          >
+            View Reports
+          </button>
+        
         </div>
         </div>
         <div
@@ -104,7 +108,6 @@ function Administrator() {
         </div>
       </div>
 
-     
       <div className="col s12">
         {modal ? (
           <div>
@@ -142,6 +145,14 @@ function Administrator() {
           <Notification />
         </div>
         
+        <div
+          id="modalreports"
+          className="modal"
+          style={{ padding: 0, margin: 0,}}
+        >
+          <Reports />
+        </div>
+
       </div>
       <Footer/>
     </div>

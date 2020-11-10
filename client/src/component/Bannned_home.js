@@ -28,7 +28,7 @@ function Bannned_home() {
           </span>
           <span class="support">
             <span>unexpected?</span>
-            <a href="#">contact support</a>
+            <a href="/contact">contact support</a>
           </span>
         </div>
         <div class="lock"></div>

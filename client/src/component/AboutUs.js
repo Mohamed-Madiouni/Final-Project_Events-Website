@@ -8,8 +8,23 @@ function AboutUs() {
   return (
     <>
     <Navbar/>
+    <section id="PageCoverHeader-2" data-vc-full-width="true" data-vc-full-width-init="true"
+         class="vc_section about-us vc_custom_1489707920796 vc_section-has-fill">
+          <div class="vc_row_a wpb_row vc_row-fluid">
+            <div class="wpb_column vc_column_container vc_col-sm-12">
+              <div class="vc_column-inner">
+                  <div class="wpb_text_column wpb_content_element  page-header">
+                    <div class="wpb_wrapper">
+                      <h1 className="h1-about">
+                        <span className="span-about " >Welcome to CocoEvent
+</span>
+                        </h1>
+                        <hr/><h3 className="h3-about">
+                          <span className="span-about " >CocoEvent is an all-in-one platform to create the best events in the world! Join us and get listed among the industry leaders in the world of event createur.</span>
+                          </h3>
+                          </div></div></div></div></div></section>
     <div className="use-bootstrap">
-    <div className="jumbotron jumbotron-simple-new jumbotron-simple-new-dark">
+    <div className="jumbotron jumbotron-simple-new jumbotron-simple-new-dark" style={{marginTop:"50px"}}>
     <div className="exp1 container">
     <div className="row-2 row text-center">
       <div className="col-md-12 col-md-offset-1">
@@ -104,13 +119,13 @@ function AboutUs() {
                 >
                     <div className="number">1</div>
                     <h3 className="about-h33"> Build your Event Website </h3>
-                    <p style={{color:"#fff"}}className="lead"> Instant setup. No coding required. </p>
+                    <p style={{color:"#fff"}}className="lead"> Instant setup. </p>
                     <p className="para-1" style={{color:"#fff"}}> CocoEvent makes it easy to a beautiful,
-                       professional-looking event in minutes using CocoEvent’s easy-to-use Event builder.
+                       professional event in minutes using CocoEvent’s easy-to-use Event createur.
                         Get started by choosing one of CocoEvent's event . 
                         From there, you can quickly add content, 
-                        import images or videos, and modify the Event . 
-                        And don't worry. No coding skills are required and no server setup is needed. It's that easy </p>
+                        import images, and modify the Event . 
+                        And don't worry. no server setup is needed. It's that easy </p>
 
 
                     <div className="form-group"
@@ -122,9 +137,9 @@ function AboutUs() {
 
                     </div>
                  </div>
-                <div className="col-md-6">
+                <div className=" img-about-1 col-md-6">
                     <img src="/mess.png"
-                     style={{width: "200%",
+                     style={{width: "100%",
                      maxWidth: "114%",
                      float: "left",
                      marginLeft: "60px"}}/>
@@ -140,8 +155,8 @@ function AboutUs() {
 
                 <img src="/photo.png" class="img-responsive" 
 
-                style={{width: "200%",
-                maxWidth: "114%",
+                style={{width: "100%",
+                maxWidth: "100%",
                 float: "right",
                 marginRight: "58px"}}/>
             </div>
@@ -151,13 +166,13 @@ function AboutUs() {
              style={{ marginTop:50}}> 
                 <div className="number">2</div>
                 <h3 className="about-h33"> Collect Event Registrations and Track Attendees</h3>
-                <p className="lead"> All the tools you need, built-in.</p>
+                <p className="lead"> All the tools you need, creat-in.</p>
                 <p className="para-1"> Whether your event is a conference with thousands of attendees or a small party with friends,
                    CocoEvent gives you the power to create your event registration process.
-                    Sell tickets, accept credit cards, and quickly tweak your registration form by adding unlimited custom questions (like “Are you bringing a guest?”). 
+                     quickly tweak your registration form by adding unlimited custom questions (like “Are you bringing a guest?”). 
                      CocoEvent's powerful analytics allow you to easily track and manage your attendees in one place. 
                      We take analytics seriously, giving you unprecendented power to understand your event performance.
-                      CocoEvent also helps you identify VIPs, influencers and learn more about who is attending your events.</p>
+                     CocoEvent also help, influencers and learn more about who is attending your events.</p>
 
 
                 <div className="form-group"
@@ -192,8 +207,9 @@ function AboutUs() {
         <div className="container">
             <div className="row">
                 <div className=" col-md-4 profile-pic text-center">
-                    <div className="img-box1"></div>
+                    <div className="img-box1">
                     <img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRHitPEzAyyl85mJu94hAoo4OqUZxW4Vp_8NRkd7f1ZGFkVAhvX&usqp=CAU" />
+                    
                     <ul id="u1">
                         <a className="faa" herf="#">
                             <li className="fa1"><i className="fa fa-facebook" aria-hidden="true"></i></li>
@@ -205,13 +221,13 @@ function AboutUs() {
                             <li className="fa1"><i className="fa fa-linkedin" aria-hidden="true"></i></li>
                         </a>
                     </ul>
-
+                    </div>
                     <h2 className="about-h2" >Akshay Kumar</h2>
                     <h3 className="about-h3">Founder/CEO</h3>
                     <p className="para-1">We succeed by pursuing our vision and goals with tenacity and unwavering resolve</p>
                 </div>
                 <div className=" col-md-4 profile-pic text-center">
-                    <div className="img-box1"></div>
+                    <div className="img-box1">
                     <img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQYsC5n8Dib3nag0Uyf0XUE0MagznOU1_adXKCvhgl6ICvl7Dn8&usqp=CAU" />
                     <ul id="u1">
                         <a className="faa" herf="#">
@@ -224,13 +240,13 @@ function AboutUs() {
                             <li className="fa1"><i className="fa fa-linkedin" aria-hidden="true"></i></li>
                         </a>
                     </ul>
-
+                    </div>
                     <h2 className="about-h2">Arjun Kapur</h2>
                     <h3 className="about-h3">UI Designer</h3>
                     <p className="para-1">They reflect our common aspiration to build a sustainable business to bring long-term values to our shareholders, our customers and our employees.</p>
                 </div>
                 <div className=" col-md-4 profile-pic text-center">
-                    <div className="img-box1"></div>
+                    <div className="img-box1">
                     <img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRUNfNzNQuI3hs2yjNVE3kK5mvroZDoCv6a7oi_GIIYjmpnAiV2&usqp=CAU" />
                     <ul id="u1">
                         <a className="faa" herf="#">
@@ -243,7 +259,7 @@ function AboutUs() {
                             <li className="fa1"><i className="fa fa-linkedin" aria-hidden="true"></i></li>
                         </a>
                     </ul>
-
+                    </div>
                     <h2 className="about-h2">Alia Bhatt</h2>
                     <h3 className="about-h3">Marketing Head</h3>
                     <p className="para-1">The creativity and innovation of our people and hence our products & services set us apart.</p>
