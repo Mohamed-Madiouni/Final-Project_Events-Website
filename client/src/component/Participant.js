@@ -414,7 +414,7 @@ useEffect(()=>{
                                 
                               </button>
                               :
-                              <button
+                              el.state!="Ended"&& <button
                               data-target="modalevnt"
                                 onClick={()=>{
                                  

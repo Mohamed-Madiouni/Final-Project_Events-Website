@@ -620,7 +620,7 @@ setTextedit("")
             state=[...state,{users:(el.postedBy),consulted:false}]
             state[0].users!=auth.user._id &&
             dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
-            
+    
             auth.user.dislikes.includes(el._id)&& dispatch(removedislikecomment(el._id,Number(el.dislikes)-1,auth.user._id))}
             else
             {setactvlike(false)

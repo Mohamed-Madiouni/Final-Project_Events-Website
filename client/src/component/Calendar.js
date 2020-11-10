@@ -315,7 +315,7 @@ const oneventclick=useCallback((e)=>{
                       
                     </button>
                     :
-                    <button
+                    allevents.find(e=>e._id==eventId).state!="Ended"&&<button
                     data-target="modalevnt"
                       onClick={()=>{
                         // !auth.user.events.includes(el._id)&&

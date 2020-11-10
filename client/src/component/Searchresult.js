@@ -382,7 +382,7 @@ useEffect(() => {
                       
                     </button>
                     :
-                    <button
+                    el.state!="Ended"&&<button
                     data-target="modalevnt"
                       onClick={()=>{
                         // !auth.user.events.includes(el._id)&&
