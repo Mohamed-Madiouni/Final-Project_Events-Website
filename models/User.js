@@ -52,7 +52,11 @@ const userSchema = mongoose.Schema({
   likes:[String],
   dislikes:[String],
   reports:[String],
-  follow:[{type: mongoose.Types.ObjectId, ref: "user" }]
+  follow:[{type: mongoose.Types.ObjectId, ref: "user" }],
+  online:{
+    type:Boolean,
+    default:false
+  }
 });
 
 module.exports = mongoose.model("user", userSchema);

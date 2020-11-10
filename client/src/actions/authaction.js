@@ -81,7 +81,7 @@ export const loginUser = (userData) => (dispatch) => {
       // Decode token to get user data
       const decoded = jwt_decode(token);
       // Set current user
-      dispatch(setCurrentUser(decoded));
+      // dispatch(setCurrentUser(decoded));
       dispatch({
         type: GET_ERRORS,
         payload: {},
@@ -124,12 +124,18 @@ export const setCurrentUser = (decoded) => {
 
 // Log user out
 export const logoutUser = () => (dispatch) => {
-  // Remove token from local storage
+  setAuthToken(localStorage.token)
+  axios
+  .put("/user/logout", {online:false})
+  .then(res=>{
+ // Remove token from local storage
   localStorage.removeItem("token");
   // Remove auth header for future requests
   setAuthToken(false);
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
+  })
+ 
 };
 
 //show my event participation

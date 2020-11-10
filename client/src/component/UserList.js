@@ -17,6 +17,8 @@ import "../userlist.css";
 import UserListcard from "./UserListcard";
 import { SET_RESIZE } from "../actions/types";
 import {sendNotifications} from "../actions/notificationaction";
+import Pusher from 'pusher-js'
+
 const UserList = () => {
   const dispatch = useDispatch();
   const allusers = useSelector((state) => state.admin.users);
@@ -39,6 +41,19 @@ const UserList = () => {
     address: "",
     tel: "",
   });
+
+
+  useEffect(()=>{
+    // Pusher.logToConsole = true;
+  
+    var pusher = new Pusher(process.env.REACT_APP_KEY, {
+      cluster: 'eu'
+    });
+    var channel = pusher.subscribe('channel2');
+    channel.bind('log', function(data) {
+     dispatch(getUsers())
+    });
+  },[])
 
   useEffect(() => {
     dispatch(getUsers());
@@ -356,12 +371,14 @@ const UserList = () => {
                         // key={el._id}
                       >
                         <td className="center-align" style={{ padding: 0,lineHeight: "normal" }}>
-                          <span
+                          <div
                             className="card-image center-align"
                             style={{
                               height: "100%",
-                              width: "5%",
+                              width: 70,
                               placeItems: "center",
+                              display:"grid",
+                              position:"relative"
                             }}
                           >
                             <img
@@ -371,7 +388,17 @@ const UserList = () => {
                               style={{ borderRadius: "50%", width: "50px" }}
                               alt=""
                             />
-                          </span>
+                           {el.online&&<div style={{
+                              position:"absolute",
+                              background:"green",
+                              right:4,
+                              bottom:1,
+                              borderRadius:"50%",
+                              width:10,
+                              height:10
+                            }}></div>
+                            }
+                          </div>
                         </td>
                         <td className="center-align" style={{ padding: 0 }}>
                           <span className="center-align">
@@ -408,7 +435,7 @@ const UserList = () => {
                               height: "40px",
                               borderRadius: "3px",
                               letterSpacing: "1.5px",
-                              margin: "1rem",
+                              
                             }}
                             type="button"
                             className="btn btn-medium modal-trigger"
@@ -430,7 +457,7 @@ const UserList = () => {
                                 height: "40px",
                                 borderRadius: "3px",
                                 letterSpacing: "1px",
-                                margin: "1rem",
+                                
                               }}
                               type="button"
                               className="btn btn-medium modal-trigger"
@@ -447,7 +474,7 @@ const UserList = () => {
                                 height: "40px",
                                 borderRadius: "3px",
                                 letterSpacing: "1px",
-                                margin: "1rem",
+                               
                                 backgroundColor: "gray",
                                 color: "white",
                               }}
@@ -501,7 +528,7 @@ const UserList = () => {
                   })}
             </tbody>
           </table>
-          <p>
+          <div>
             {(countuser + 1) * 10 < users.length && (
            <div style={{
            marginBottom:"5px",
@@ -515,7 +542,7 @@ const UserList = () => {
            onClick={() => {
                   setCountuser(countuser + 1);
                 }}>SHOW MORE</div>)}
-          </p>
+          </div>
         </span>
       ) : (
         <div>

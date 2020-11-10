@@ -8,6 +8,16 @@ const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 const validateUpdateInput = require("../validation/update");
 const authMiddleware = require("../middleware/authMiddleware");
+var Pusher = require('pusher');
+require("dotenv").config();
+
+var pusher = new Pusher({
+  appId: process.env.appId,
+  key: process.env.key,
+  secret: process.env.secret,
+  cluster: 'eu',
+  useTLS: true,
+});
 
 
 //handle registration
@@ -132,6 +142,11 @@ router.post("/login", (req, res) => {
         };
 
         jwt.sign(payload, process.env.ACCES_TOKEN_SECRET, (err, token) => {
+          user.online=true
+          user.save()
+          pusher.trigger('channel2', 'log', {
+            'message': 'hello world'
+          });  
           res.json({
             token: token,
           });
@@ -145,6 +160,20 @@ router.post("/login", (req, res) => {
   });
 
 });
+
+
+//handle log out
+router.put("/logout",authMiddleware, (req, res) => {
+
+User.findByIdAndUpdate(req.userId,{$set:{online:req.body.online}})
+.then(user=>{
+  pusher.trigger('channel2', 'log', {
+    'message': 'hello world'
+  });  
+  res.send("logout")})
+
+
+})
 
 // get myevents
 router.get('/all/events',authMiddleware,(req,res)=>{
