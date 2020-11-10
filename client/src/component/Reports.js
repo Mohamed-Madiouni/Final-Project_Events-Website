@@ -47,7 +47,7 @@ const  [unfollow,setunfollow]=useState("")
         setLoad(true)
         M.Modal.init(document.querySelectorAll(".modal"))   
     },[])
-
+var rs=0;
 
 useEffect(()=>{
   window.addEventListener("resize",()=>{
@@ -136,7 +136,6 @@ useEffect(()=>{
     e.preventDefault()
     dispatch(editReply(edit,textedit,replyid))
   }
-
     return (
       <>
         <div>
@@ -156,9 +155,11 @@ useEffect(()=>{
     <div>
     </div>
 
+
 <div style={{position:"relative"}}>
     <p className="comment" >
-      {comments.comments&& nbr_comments(comments.comments.filter(el=>el.reports>0).length)+" "}
+    {(comments.comments&&comments.comments).map(elc=>{elc.reply.filter(el=>el.reports>0).map(el=>{rs=rs+1})})}
+    {comments.comments&& nbr_comments(comments.comments.filter(el=>el.reports>0).length)+ rs +" "}
     Reported comment{comments.comments&&comments.comments.filter(elm=>elm).length==0?"":"s"}
     <i className="fas fa-list" onClick={()=>setsort(!sort)} title="Sort by"></i>
     </p> 
@@ -397,11 +398,11 @@ setTextedit("")
 
 
 
-{/*  */}
 
+  
   {(comments.comments&&comments.comments).slice(0).sort(function(a, b) {
     return sorttype.type=="relevent"? (a.likes - b.likes):(a.created_at - b.created_at);
-  }).reverse().slice(0,10+count*10).map(elc=><div>{elc.reply.filter(el=>el.reports>0).map(el=>{
+  }).reverse().slice(0,10+count*10).map(elc=><div key={elc._id}>{elc.reply.filter(el=>el.reports>0).map(el=>{
 return(
 
 <ul className="collection" key={el.id} style={{overflow:"initial"}}>
