@@ -236,7 +236,7 @@ useEffect(()=>{
 
       const onedit=(e)=>{
         e.preventDefault()
-        let title= "Comment Edition";
+        let title= "Comment Update";
         let content= auth.user.fname +" "+ auth.user.lname + " edit a comment on your event " + (allevents.find(el=>el._id==match.params.event_id).title);
         let notiftype="Comment_Edition";
         let compid=match.params.event_id
