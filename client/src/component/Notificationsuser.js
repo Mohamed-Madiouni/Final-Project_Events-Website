@@ -40,10 +40,6 @@ function Notificationsuser() {
                   {
                   sort_notif_bydate((filter_notif(allnotif,auth.user._id)))
                       .slice(0)
-                      // .sort(function(a, b) {
-                      //   return new Date(a[0].created_at) - new Date(b[0].created_at);
-                      // })
-                      .reverse()
                       .slice(0, 10 + countnotif * 10)
                       .map((el) => {
                         return (

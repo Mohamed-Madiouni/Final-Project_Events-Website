@@ -6,6 +6,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { useHistory,Link } from 'react-router-dom';
 import {followEvent, getEvent, unfollowEvent,endEvent, closeEvent, fullEvent, openEvent} from "../actions/evntAction";
 import { useDispatch,useSelector } from 'react-redux';
+import {sendNotifications} from "../actions/notificationaction";
 import "../calendar.css"
 import calendarEndEvent from '../outils/calendarEndEvent';
 import get_month from "../outils/get_month"
@@ -481,7 +482,28 @@ note that: </p><br/>
               href="#"
               className="modal-close btn-flat"
               onClick={()=>{
-                participate&&(!auth.user.events.includes(participate)?dispatch(followEvent(participate)):dispatch(unfollowEvent(participate,eventDate)))}}
+               if (participate&&(!auth.user.events.includes(participate)))
+               {dispatch(followEvent(participate))
+                let title= "New Participation";
+                let content= auth.user.fname +" "+ auth.user.lname + " participate to " + (allevents.find(el=>el._id==participate).title);
+                let notiftype="New_Participation";
+                let compid=allevents.find(el=>el._id==participate)._id
+                let state=[]
+                state=[...state,{users:(allevents.find(el=>el._id==participate).id_organizer),consulted:false}]
+                dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
+               }
+                else
+                {
+                dispatch(unfollowEvent(participate,eventDate))
+                let title= "Cancel Participation";
+                let content= auth.user.fname +" "+ auth.user.lname + " cancelled participation to " + (allevents.find(el=>el._id==participate).title);
+                let notiftype="Cancel_Participation";
+                let compid=allevents.find(el=>el._id==participate)._id
+                let state=[]
+                state=[...state,{users:(allevents.find(el=>el._id==participate).id_organizer),consulted:false}]
+                dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
+              }}
+              }
             >
               Agree
             </a>

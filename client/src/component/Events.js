@@ -570,7 +570,6 @@ note that: </p><br/>
                 }
                 else
                 {dispatch(unfollowEvent(participate,eventDate))
-                
                   let title= "Cancel Participation";
                   let content= auth.user.fname +" "+ auth.user.lname + " cancelled participation to " + (allevents.find(el=>el._id==participate).title);
                   let notiftype="Cancel_Participation";

@@ -44,7 +44,6 @@ function Notifications() {
                           {allnotif &&
                     sort_notif_bydate(allnotif)
                       .slice(0)
-                      .reverse()
                       .slice(0, 10 + countnotif * 10)
                       .map((el) => {
                         return (
