@@ -2,7 +2,7 @@ export default function getlenthorg(t,id) {
    
 let sum=0
     for (let i = 0; i < t.length; i++) {  
-        if (t[i].id_organizer==id)
+        if (t[i].state!="Invalid"&&t[i].id_organizer==id)
           sum += 1;
       }
       return sum;
@@ -25,5 +25,14 @@ let sum=0
      return date;
     }
   
+    export function geteventorg(t,id) {
    
+      let newt=[]
+          for (let i = 0; i < t.length; i++) {  
+              if (t[i].id_organizer==id)
+              newt = [...newt, t[i]];
+            }
+            return newt;
+          }
+        
   

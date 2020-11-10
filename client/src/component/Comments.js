@@ -199,6 +199,7 @@ useEffect(()=>{
   },[])
 
   useEffect(()=>{
+    if(allevents.length!=0)
    if(allevents.find(el=>el._id==match.params.event_id)==undefined || allevents.find(el=>el._id==match.params.event_id).state=="Invalid")
     history.push("/404")
   })
@@ -301,7 +302,7 @@ useEffect(()=>{
            <div style={{display:"flex",alignItems:"center",marginTop:0,justifyContent:"space-between"}}>
              <p style={{ marginRigth: 7}}>{date_youtube(allevents.find(el=>el._id==match.params.event_id).created_at)}</p>
              
-             <div>
+             <div style={{display:"flex",alignItems:"center"}}>
              <div style={{ display:auth.isAuthenticated &&auth.user.events.includes(allevents.find(el=>el._id==match.params.event_id)._id)&&allevents.find(el=>el._id==match.params.event_id).state=="Ended"?"flex":"none",alignItems:"center"}} className='rate' onClick={()=>{
             if(done)
              document.querySelector(".rating").style.display="initial"

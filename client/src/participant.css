@@ -159,10 +159,12 @@ transform: translateX(-78px);
     
   }
   .organizer_list >div{
-   transition: all 0.7s;
+   transition:  linear 0.5s;
     height: 500px;
     overflow-y: auto;
     background: white;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
   }
   .organizer_list>a{
     border-bottom-right-radius: 20px;
@@ -176,6 +178,7 @@ transform: translateX(-78px);
     display: flex;
     justify-content: center;
     align-items: center; 
+    margin-top: 20px;
    
   }
   .par{
@@ -196,4 +199,7 @@ transform: translateX(-78px);
   background: rgb(63, 63, 63);
  color: white;
   
+}
+.organizer_list>a:hover{
+  transform: scale(1.1,1.1);
 }

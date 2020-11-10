@@ -493,7 +493,7 @@ useEffect(()=>{
               {el.participant.length!=0?<ul className="collection org">
     
     {el.participant.map((el,i)=>
-    {return(<li key={i} className="collection-item avatar">
+    {return(<li key={i} className="collection-item avatar" style={{margin:10}}>
       <img src={el.avatar} alt="" className="circle"/>
       <span className="title"><b>{el.fname+" "+el.lname}</b></span>
       <p className="red-text"><i className="fas fa-home" style={{marginRight:5}}></i>{el.address}</p>

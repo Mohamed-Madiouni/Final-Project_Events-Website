@@ -28,6 +28,7 @@ import Notifications from "./component/Notifications";
 import Maps from "./component/Maps";
 import Page_404 from "./component/Page_404";
 import Loading from "./component/Loading";
+import Organizer_page from "./component/Organizer_page";
 
 function App() {
 
@@ -119,7 +120,7 @@ setTimeout(()=>{
 
             <Route exact path="/404" component={Page_404} />
             <Route path="/events/:event_id" component={Comments} />
-
+            <Route path="/organizer/:organizerId" component={Organizer_page} />
             <PrivateRoute path="/myaccount" component={Account} />
             <Route path="/banned" component={Bannned_home} />
             <Route path="/notifications" component={Notifications} />
