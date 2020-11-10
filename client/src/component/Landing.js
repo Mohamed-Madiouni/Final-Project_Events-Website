@@ -275,7 +275,7 @@ payload:!shownotif
        
         <a href='#!' data-target='dropdown1' className='dropdown-trigger' 
         style={{height:60,display:"flex",alignItems:"center"}}>
-          <img className="circle" src={auth.user.avatar} width="32px" height="32px"/></a>
+          <img className="circle" src={auth.user.avatar} width="32px" height="32px" alt=""/></a>
         
 
 </div>}
@@ -296,7 +296,7 @@ payload:!shownotif
   alignItems:"center",
   justifyContent:"space-around",
   height:"100%"}}>
-  <img className="circle" src={auth.user.avatar} height="55px" width="55px" />
+  <img className="circle" src={auth.user.avatar} height="55px" width="55px" alt=""/>
    <div style={{width:"100%",
    display:"flex",
    flexDirection:"column",

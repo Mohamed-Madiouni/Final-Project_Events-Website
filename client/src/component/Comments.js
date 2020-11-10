@@ -290,7 +290,7 @@ useEffect(()=>{
      <div className="comment_sec">
          <div className="com_picture" >
            
-           <img className="materialboxed" src={allevents.find(el=>el._id==match.params.event_id).image} width="100%" height="440px" />
+           <img className="materialboxed" src={allevents.find(el=>el._id==match.params.event_id).image} width="100%" height="440px" alt=""/>
            <div className="date_com right">
                       <div className="day_com">{allevents.find(el=>el._id==match.params.event_id).start.split("T")[0].split("-")[2]}</div>
                       <div className="month_com">

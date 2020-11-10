@@ -284,7 +284,7 @@ useEffect(()=>{
           </p>
         </div>
         <div className="col s12 l6" id="up">
-          <img className="working-img" src="/illustration-working.svg" />
+          <img className="working-img" src="/illustration-working.svg" alt=""/>
         </div>
       </div>
      
@@ -305,7 +305,7 @@ useEffect(()=>{
                 }}
               >
                 <div className="card-image" style={{height:"65%",cursor:"pointer"}}>
-                  <img className="activator" src={el.image} height="100%" width="100%" />
+                  <img className="activator" src={el.image} height="100%" width="100%" alt=""/>
 
                   <div className="date right">
                     <div className="day">{el.start.split("T")[0].split("-")[2]}</div>

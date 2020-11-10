@@ -119,6 +119,7 @@ const UserListcard = ({ users }) => {
                         src={el.avatar}
                         height="100%"
                         width="100%"
+                        alt=""
                       />
                       {!el.banned&&(!el.alerted_date ||
                         new Date() > new Date(el.alerted_date)) && (
