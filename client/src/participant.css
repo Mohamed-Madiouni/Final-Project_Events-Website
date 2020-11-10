@@ -17,7 +17,6 @@ z-index: 99;
     /* box-shadow: 1px 1px 4px rgba(0,0,0,0.5); */
   /* margin:   25px auto 50px !important;
   margin-right:50 !important;
-
   height:   300px;
   position: relative;
   width:  100% !important;
@@ -149,6 +148,7 @@ transform: translateX(-78px);
     margin: 100px 0 100px 100px ;
     
   }
+
   .organizer_list{
     position: absolute;
     left:  0px;
@@ -203,3 +203,4 @@ transform: translateX(-78px);
 .organizer_list>a:hover{
   transform: scale(1.1,1.1);
 }
+

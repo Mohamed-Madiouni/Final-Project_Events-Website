@@ -7,14 +7,13 @@ const Search = ({setQuickSearch,quickSearch}) => {
         <div >
             <div class="thb-agency-listing-explore cf">
     <div class="wrap">
-      <div class="vc_row wpb_row vc_row-fluid">
-        <div class="wpb_column vc_column_container vc_col-sm-12">
+      <div >
+        <div class=" vc_column_container vc_col-sm-12">
           <div class="vc_column-inner">
             <div class="thb-offset-title form-field">
               <h2 className="tit1">Looking for an event?</h2>
-                <div class="vc_row wpb_row vc_row-fluid">
+                <div class=" wpb_row vc_row-fluid">
                   <div class="row">
-                   
                     <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-sm-8">
                          <div class="thb-multi-select cf">
                                  <div class="select-agency-list region-list icon unselected">  

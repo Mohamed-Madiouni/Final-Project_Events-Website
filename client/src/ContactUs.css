@@ -1,81 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=David+Libre:wght@700&display=swap');
-/* 
-.container-1{
-position: relative;
-min-width: 1100px;
-display: flex;
-z-index: 1000;
-}
-.containerinfo{
-    position: absolute;
-    top: 40px;
-    width: 350px;
-    height: calc(100% - 80px);
-    background: #0f3959;
-    z-index: 1;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-justify-content: space-between;  
-box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2);  
-}
-h2{
-    color:#fff;
-    font-size: 24px;
-    font-weight: 500;
-}
-.info{
-    position: relative;
-    list-style: none;
-    display:flex;
-    margin: 20px 0;
-    cursor: pointer;
-    align-items: flex-start;
-}
-li span:nth-child(1){
-    width: 30px;
-min-width: 100%;
-}
-li span:nth-child(1) img{
-    max-width: 100%;
-    filter: invert(1);
-    opacity: 0.5;
-}
-li span:nth-child(2){
-   color:#fff;
-margin-left:10px;
-font-weight: 300;
-opacity: 0.5;
-}
-li span:nth-child(2) img{
-    max-width: 100%;
-    filter: invert(1);
-    opacity: 0.5;
-} */
-/* .contact_us{ */
-    /* background: url("https://coolbackgrounds.io/images/backgrounds/black/pure-black-background-f82588d3.jpg") no-repeat center center fixed;
-    -webkit-background: cover;
-    -moz-background: cover;
-    -o-background: cover;
-    background: cover; */
-    /* min-height: 300px;
-    color: #FFF;
-    font-family: sans-serif;
-    
-   
-    
-    
-} */
-
-
- /* .form-control {
-    background-color: rgba(82,78,78,.07);
-    color: #FFF;
-    border: none;
-    
- 
-  transition: all .2s ease-in-out;
-} */
 .content-1{
     background-color: rgba(0, 0, 0,);
     padding: 20px;
@@ -130,4 +53,241 @@ li span:nth-child(2) img{
     padding-left: 15px;
     padding-right: 15px;
     width: 100%;
+}
+.h1-contact{
+    font-size:50px
+}
+.h3-contact{
+    font-size:20px}
+#map-canvas{
+    position: relative;
+    margin-left: 70px;
+    margin-bottom: 100px;
+    margin-right: 70px;
+}
+.address-container {
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0px 8px 20px 0px rgba(24,32,111,0.12);
+    position: absolute;
+    right: 60px;
+    top: 90px;
+    margin: auto;
+    padding: 26px 26px;
+    height: 240px;
+    width: 250px;
+}
+.vc_section {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: -15px;
+    margin-right: -15px;
+}
+.h4-title{
+    /* margin-bottom: 2px; */
+    font-size:20px;
+    line-height: 1.4;
+    padding: 0;
+    letter-spacing: -1px;
+    color: #131529;
+    display: block;
+    font-weight: bold;
+    font-family: 'David Libre', serif;
+
+}
+.p-contact{
+    font-size: 14px;
+    margin-left: 25px;
+    font-family: 'David Libre', serif;
+    line-height: 23px;
+
+}
+.vc_custom_1489707920794 {
+    background-image: url(https://digitalagencynetwork.com/wp-content/uploads/2014/12/contact-us.jpg?id=30347) !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+}
+#PageCoverHeader {
+    padding: 0;
+    margin-right: 0;
+    height: 400px;
+    display: table;
+    top: -33px;
+    margin-bottom: -32px;
+    position: relative;
+    left: 15px;
+    box-sizing: border-box;
+    width: 100%;
+    padding-left: 74.5px;
+    padding-right: 74.5px;
+    padding-top: 60px;
+}
+.span-contact{
+     color:#ffff;
+     line-height:1.4;
+     font-family: 'David Libre', serif;
+
+}
+.p-contact{
+    font-family: 'David Libre', serif;
+}
+hr {
+	background-color: rgba(255,255,255,0.14);
+    width: 270px;
+    margin: 21px 0 35px 0;
+    border: 0;
+    height: 1px;
+    box-sizing: content-box;
+    overflow: visible;
+}
+/*---------media--------*/
+@media screen and (max-width: 767px){
+    .contact-us {
+        background-position: top right !important;}
+    
+#PageCoverHeader {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    background-repeat: no-repeat !important;
+    background-size: auto 50% !important;
+    overflow: inherit;
+    height: auto;
+    min-height: auto;
+    top: 0;
+}
+.vc_row {
+    position: relative;
+    margin: 100px 0 0 0;
+    display: block;
+    /* vertical-align: middle; */
+}
+
+}
+@media screen and (max-width: 767px){
+    .vc_section {
+        padding: 0 10px !important;
+        margin: 0 !important;
+    }
+    .h1-contact{
+     color: #131529 !important;
+    /* padding-top: 9px; */
+    margin-bottom: 4px;
+    font-size: 40px !important;
+    padding-top: 9px;
+    }
+    .span-contact{
+        color: #3a3a40 !important;
+    }
+    hr{
+        margin: 7px 0 18px 0;
+        background-color: rgba(58,58,64,0.4);
+        width: 100%;
+    }
+    .h3-contact{
+        font-size: 16px !important;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: normal;
+    margin-bottom: 10px !important;
+    }
+    /* .div-wpb{
+        margin-top: 100px;
+    } */
+    /* .page-header {
+        margin: auto -15px;
+        width: auto;
+        height: auto;
+        padding: 10px 10px 0;
+        background: #ffffff;
+        margin-top: -20px;} */
+}
+
+@media screen and (max-width: 968px){
+ .wpb_text_column {
+    text-align: left;
+}
+}
+/*-------*/
+@media screen and (max-width: 767px){
+.vc_section {
+    padding: 0  !important;
+    margin: 0 !important;
+}
+.section-header{
+    margin-left:"20px";
+    margin-top:"30px"
+}
+.section-header.featured {
+    height: auto;
+    padding: 6px 0 6px 9px !important;
+    margin:  27px 10px 0px 20px !important;
+    border: none;
+    display: inline-block;
+    text-align: left;
+}
+.section-header.featured::before{
+  width: 18px;
+  height: 20px;
+  top: 18px;
+
+}
+.h2-contact {
+    font-size: 35px !important;
+    display: inline-block;
+    letter-spacing: -0.060em;
+    line-height: 1.4;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.p-contact {
+    line-height: 20px;
+    margin-left: -18px;
+    margin-right: -6px;
+    margin-top: 5px;
+    font-size: 20px !important;
+    top: 25px;
+    display: block;
+    margin-bottom: 13px !important;
+    padding: 0;
+
+}
+}
+/*--------*/
+@media screen and (max-width: 767px){
+
+/* .vc_section {
+    padding: 0px 10px !important;
+    margin: 0 !important;
+} */
+#map-canvas {
+    padding: 0;
+}
+.vc_column_container {
+    width: 100%;
+}
+.map-container {
+    position: relative;
+    /* margin: 0 !important; */
+    margin-top: -55px;
+    width: 100%;
+}
+.wpb_content_element {
+    margin: 0 -15px;
+}
+.address-container {
+    padding: 0px  15px;
+    text-align: center;
+    height: 179px;
+    width: auto;
+    bottom: 0;
+    top: auto;
+    left: 0;
+    right: 0;
+    margin: 0 !important;
+
+/*---*/
+
+}
+
+
 }
