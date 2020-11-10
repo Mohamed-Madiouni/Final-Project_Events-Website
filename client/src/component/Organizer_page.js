@@ -8,7 +8,7 @@ import "../organizer.css";
 import M from "materialize-css";
 // import eventClosing from "../outils/eventClosing";
 import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP  } from "../actions/types";
-import {getCurrentUser } from "../actions/authaction";
+import {addfollow, getCurrentUser } from "../actions/authaction";
 import historyevent from "../outils/history"
 import { getUsers } from '../actions/adminaction';
 
@@ -72,6 +72,10 @@ function Organizer_page({match}) {
     }
   },[])
 
+  useEffect(()=>{
+    localStorage.token&&dispatch( getCurrentUser())
+    },[])
+
 
   useEffect(() => {
     if (auth.user.banned===true) {
@@ -93,6 +97,18 @@ useEffect(()=>{
     dispatch(openEvent(geteventorg(allevents,match.params.organizerId)[i]._id))
   }
 },[])
+
+useEffect(()=>{
+    if(errors.follow)
+   { M.toast({ html: "subscription added", classes: "green" });
+  dispatch({
+    type:GET_ERRORS,
+    payload:{}
+  })
+  
+  }
+})
+
 
   useEffect(()=>{
     
@@ -156,8 +172,38 @@ useEffect(()=>{
         <div className=" col s12 organizer_hi "
          >
             {users.length!=0&& <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
+                <div style={{position:"relative"}}>
                  <img  style={{width:130,height:130,paddingTop:10}} src={users.find(el=>el._id==match.params.organizerId).avatar} alt="" className="circle"/>
+                {auth.user._id!=match.params.organizerId&&!auth.user.follow.includes(match.params.organizerId)&& <a className="btn-floating "style={{position:"absolute",right:2,top:1,width:25,height:25,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",background:"rgb(63, 63, 63)"}}>
+                
+                <i
+                  className="material-icons"
+style={{color:"white",lineHeight:"unset"}}
+                  title="Follow"
+onClick={()=>{
+    if(auth.isAuthenticated)
+    {
+   dispatch(addfollow(match.params.organizerId))
+  //  console.log("hello");
+   let title= "New Follow";
+   let content= auth.user.fname +" "+ auth.user.lname + " is now following you";
+   let notiftype="New_Follow";
+   let compid=auth.user._id
+   let state=[]
+   state=[...state,{users:match.params.organizerId,consulted:false}]
+   dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
+   
+  }
+    else
+    history.push("/login")
+  }
 
+}
+                >
+                  add
+                </i>
+                </a>}
+                </div>
              </div>}
             <p className="h5-tit" style={{paddingTop:0}}>
               {users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname} {users.length!=0&&users.find(el=>el._id==match.params.organizerId).lname}
