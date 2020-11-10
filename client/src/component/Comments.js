@@ -369,7 +369,7 @@ history.push("/login")
     <li className="collection-item avatar">
       <div style={{display:"flex",justifyContent:"space-between"}}>
         <div><img src={users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).avatar} alt="" className="circle" style={{width:43,height:43}}/>
-       <p><b>{users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).fname+" "+users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).lname}</b></p> 
+       <p><b><a href={'/organizer/'+users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id}>{users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).fname+" "+users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).lname}</a></b></p> 
       </div> 
       <button className='follow'  onClick={()=>{
         if(auth.isAuthenticated)
@@ -548,7 +548,7 @@ return(
        <div>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
        <div style={{display:"flex"}}>
-       <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
+       <p><b><a href={'/'+users.find(e=>e._id==el.postedBy).role+'/'+users.find(e=>e._id==el.postedBy)._id}>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</a></b></p> 
 <p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
       </div>
@@ -686,7 +686,7 @@ else
        <div>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
        <div style={{display:"flex"}}>
-       <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
+       <p><b><a href={'/'+users.find(e=>e._id==el.postedBy).role+'/'+users.find(e=>e._id==el.postedBy)._id}>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</a></b></p> 
 <p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
       </div><span style={{display:"flex",justifyContent:"right"}}>
