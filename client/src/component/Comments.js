@@ -372,11 +372,14 @@ history.push("/login")
     <ul className="collection org">
     <li className="collection-item avatar">
       <div style={{display:"flex",justifyContent:"space-between"}}>
+
+      
         <div>
           <a href={`/organizer/${allevents.find(el=>el._id==match.params.event_id).id_organizer}`}>
           <img src={users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).avatar} alt="" className="circle" style={{width:43,height:43}}/>
           </a>
        <p><b>{users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).fname+" "+users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).lname}</b></p> 
+
       </div> 
       <button className='follow'  onClick={()=>{
         if(auth.isAuthenticated)
@@ -553,9 +556,11 @@ return(
     <li className="collection-item avatar">
       <div style={{display:"flex",justifyContent:"space-between"}}>
        <div>
+<a href={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
+</a>
        <div style={{display:"flex"}}>
-       <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
+      <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
 <p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
       </div>
@@ -691,9 +696,11 @@ else
     <li className="collection-item avatar">
       <div style={{display:"flex",justifyContent:"space-between"}}>
        <div>
+<a href={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
-       <div style={{display:"flex"}}>
-       <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
+</a>
+       <div style={{display:"flex"}}> 
+ <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
 <p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
       </div><span style={{display:"flex",justifyContent:"right"}}>
