@@ -556,9 +556,11 @@ return(
     <li className="collection-item avatar">
       <div style={{display:"flex",justifyContent:"space-between"}}>
        <div>
+<a href={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
+</a>
        <div style={{display:"flex"}}>
-       <p><b><a href={'/'+users.find(e=>e._id==el.postedBy).role+'/'+users.find(e=>e._id==el.postedBy)._id}>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</a></b></p> 
+      <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
 <p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
       </div>
@@ -694,9 +696,11 @@ else
     <li className="collection-item avatar">
       <div style={{display:"flex",justifyContent:"space-between"}}>
        <div>
+<a href={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
-       <div style={{display:"flex"}}>
-       <p><b><a href={'/'+users.find(e=>e._id==el.postedBy).role+'/'+users.find(e=>e._id==el.postedBy)._id}>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</a></b></p> 
+</a>
+       <div style={{display:"flex"}}> 
+ <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
 <p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
       </div><span style={{display:"flex",justifyContent:"right"}}>
