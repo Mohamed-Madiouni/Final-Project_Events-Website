@@ -137,12 +137,15 @@ function AboutUs() {
 
                     </div>
                  </div>
+
                 <div className=" img-about-1 col-md-6">
                     <img src="/mess.png"
                      style={{width: "100%",
+
                      maxWidth: "114%",
                      float: "left",
-                     marginLeft: "60px"}}/>
+                     marginLeft: "60px"
+                     }}/>
                 </div>
             </div>
         </div>
@@ -153,7 +156,7 @@ function AboutUs() {
 
             <div className="col-md-6"> 
 
-                <img src="/photo.png" class="img-responsive" 
+                <img src="/photo.png" alt="" class="img-responsive" 
 
                 style={{width: "100%",
                 maxWidth: "100%",
@@ -207,9 +210,12 @@ function AboutUs() {
         <div className="container">
             <div className="row">
                 <div className=" col-md-4 profile-pic text-center">
+
                     <div className="img-box1">
                     <img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRHitPEzAyyl85mJu94hAoo4OqUZxW4Vp_8NRkd7f1ZGFkVAhvX&usqp=CAU" />
                     
+
+
                     <ul id="u1">
                         <a className="faa" herf="#">
                             <li className="fa1"><i className="fa fa-facebook" aria-hidden="true"></i></li>
@@ -227,8 +233,11 @@ function AboutUs() {
                     <p className="para-1">We succeed by pursuing our vision and goals with tenacity and unwavering resolve</p>
                 </div>
                 <div className=" col-md-4 profile-pic text-center">
+
                     <div className="img-box1">
                     <img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQYsC5n8Dib3nag0Uyf0XUE0MagznOU1_adXKCvhgl6ICvl7Dn8&usqp=CAU" />
+
+        
                     <ul id="u1">
                         <a className="faa" herf="#">
                             <li className="fa1"><i className="fa fa-facebook" aria-hidden="true"></i></li>
@@ -246,8 +255,11 @@ function AboutUs() {
                     <p className="para-1">They reflect our common aspiration to build a sustainable business to bring long-term values to our shareholders, our customers and our employees.</p>
                 </div>
                 <div className=" col-md-4 profile-pic text-center">
+
                     <div className="img-box1">
                     <img className="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRUNfNzNQuI3hs2yjNVE3kK5mvroZDoCv6a7oi_GIIYjmpnAiV2&usqp=CAU" />
+
+        
                     <ul id="u1">
                         <a className="faa" herf="#">
                             <li className="fa1"><i className="fa fa-facebook" aria-hidden="true"></i></li>

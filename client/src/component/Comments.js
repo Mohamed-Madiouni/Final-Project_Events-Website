@@ -77,6 +77,10 @@ const  [unfollow,setunfollow]=useState("")
 
 
 useEffect(()=>{
+localStorage.token&&dispatch( getCurrentUser())
+},[])
+
+useEffect(()=>{
   if(errors.follow)
  { M.toast({ html: "subscription added", classes: "green" });
 dispatch({
@@ -198,7 +202,11 @@ useEffect(()=>{
     });
   },[])
 
-  
+  useEffect(()=>{
+    if(allevents.length!=0)
+   if(allevents.find(el=>el._id==match.params.event_id)==undefined || allevents.find(el=>el._id==match.params.event_id).state=="Invalid")
+    history.push("/404")
+  })
 
   
    useEffect(() => {
@@ -287,7 +295,7 @@ useEffect(()=>{
      <div className="comment_sec">
          <div className="com_picture" >
            
-           <img className="materialboxed" src={allevents.find(el=>el._id==match.params.event_id).image} width="100%" height="440px" />
+           <img className="materialboxed" src={allevents.find(el=>el._id==match.params.event_id).image} width="100%" height="440px" alt=""/>
            <div className="date_com right">
                       <div className="day_com">{allevents.find(el=>el._id==match.params.event_id).start.split("T")[0].split("-")[2]}</div>
                       <div className="month_com">
@@ -298,7 +306,7 @@ useEffect(()=>{
            <div style={{display:"flex",alignItems:"center",marginTop:0,justifyContent:"space-between"}}>
              <p style={{ marginRigth: 7}}>{date_youtube(allevents.find(el=>el._id==match.params.event_id).created_at)}</p>
              
-             <div>
+             <div style={{display:"flex",alignItems:"center"}}>
              <div style={{ display:auth.isAuthenticated &&auth.user.events.includes(allevents.find(el=>el._id==match.params.event_id)._id)&&allevents.find(el=>el._id==match.params.event_id).state=="Ended"?"flex":"none",alignItems:"center"}} className='rate' onClick={()=>{
             if(done)
              document.querySelector(".rating").style.display="initial"
@@ -364,8 +372,14 @@ history.push("/login")
     <ul className="collection org">
     <li className="collection-item avatar">
       <div style={{display:"flex",justifyContent:"space-between"}}>
-        <div><img src={users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).avatar} alt="" className="circle" style={{width:43,height:43}}/>
+
+      
+        <div>
+          <a href={`/organizer/${allevents.find(el=>el._id==match.params.event_id).id_organizer}`}>
+          <img src={users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).avatar} alt="" className="circle" style={{width:43,height:43}}/>
+          </a>
        <p><b>{users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).fname+" "+users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).lname}</b></p> 
+
       </div> 
       <button className='follow'  onClick={()=>{
         if(auth.isAuthenticated)
@@ -378,7 +392,7 @@ history.push("/login")
        dispatch(addfollow(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id))
       //  console.log("hello");
        let title= "New Follow";
-       let content= auth.user.fname +" "+ auth.user.lname + " is now followinf you";
+       let content= auth.user.fname +" "+ auth.user.lname + " is now following you";
        let notiftype="New_Follow";
        let compid=auth.user._id
        let state=[]
@@ -542,9 +556,11 @@ return(
     <li className="collection-item avatar">
       <div style={{display:"flex",justifyContent:"space-between"}}>
        <div>
+<a href={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
+</a>
        <div style={{display:"flex"}}>
-       <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
+      <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
 <p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
       </div>
@@ -559,7 +575,7 @@ setEdit("")
 setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletecomid(el._id)} className="modal-trigger material-icons" data-target="modaldeletcom" title="Delete">delete</i>
-     </div>}{(el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.isAuthenticated &&!auth.user.reports.includes(el._id)) && <span id="editdelete"><i onClick={()=>setactvreport(el._id)} className='modal-trigger material-icons' data-target='modalreportcom' title="report">report</i></span>}</span>
+     </div>}{(users.find(e=>e._id==el.postedBy).role!="moderator" && users.find(e=>e._id==el.postedBy).role!="administrator" && el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.user.role!="moderator" && auth.isAuthenticated &&!auth.user.reports.includes(el._id)) && <span id="editdelete"><i onClick={()=>setactvreport(el._id)} className='modal-trigger material-icons' data-target='modalreportcom' title="report">report</i></span>}</span>
       </div>
      
       {el._id!=edit?<p style={{overflowWrap: "break-word"}}>{el.content}</p>:
@@ -610,20 +626,20 @@ setTextedit("")
           {setactvlike(false)
             dispatch(likecomment(el._id,Number(el.likes)+1,auth.user._id))
             let title= "Like";
-            let content= auth.user.fname +" "+ auth.user.lname + " Like your comment";
+            let content= auth.user.fname +" "+ auth.user.lname + " like your comment";
             let notiftype="New_Like";
             let compid=match.params.event_id
             let state=[]
             state=[...state,{users:(el.postedBy),consulted:false}]
             state[0].users!=auth.user._id &&
             dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
-            
+    
             auth.user.dislikes.includes(el._id)&& dispatch(removedislikecomment(el._id,Number(el.dislikes)-1,auth.user._id))}
             else
             {setactvlike(false)
             dispatch(removelikecomment(el._id,Number(el.likes)-1,auth.user._id))
             let title= "Dislike";
-            let content= auth.user.fname +" "+ auth.user.lname + " Dislike your comment";
+            let content= auth.user.fname +" "+ auth.user.lname + " dislike your comment";
             let notiftype="New_Dislike";
             let compid=match.params.event_id
             let state=[]
@@ -680,9 +696,11 @@ else
     <li className="collection-item avatar">
       <div style={{display:"flex",justifyContent:"space-between"}}>
        <div>
+<a href={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
-       <div style={{display:"flex"}}>
-       <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
+</a>
+       <div style={{display:"flex"}}> 
+ <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
 <p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
 </div>
       </div><span style={{display:"flex",justifyContent:"right"}}>
@@ -697,7 +715,7 @@ setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletereplyid(el.id)} className='modal-trigger material-icons' data-target='modaldeletreply' title="delete">delete</i>
 </div>}
-{(el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.isAuthenticated&&!auth.user.reports.includes(el.id) ) && <span id="editdelete">
+{(users.find(e=>e._id==el.postedBy).role!="moderator" && users.find(e=>e._id==el.postedBy).role!="administrator" && el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.user.role!="moderator" && auth.isAuthenticated &&!auth.user.reports.includes(el.id)) && <span id="editdelete">
 <i onClick={()=>setactvreport(el.id)} className='modal-trigger material-icons' data-target='modalreportreply' title="report">report</i></span>}</span>
       </div>
      
@@ -1066,7 +1084,7 @@ return(
                 dispatch(removefollow(unfollow._id))
                 setunfollow("")
                 // console.log("hello")
-                let title= "Remove Follow";
+                let title= "Following removed";
                 let content= auth.user.fname +" "+ auth.user.lname + " is no longer following you";
                 let notiftype="Remove_Follow";
                 let compid=auth.user._id

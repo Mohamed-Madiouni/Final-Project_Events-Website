@@ -11,14 +11,12 @@ import "../events.css";
 import eventClosing from "../outils/eventClosing";
 import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP } from "../actions/types";
 import calcul_rating from '../outils/calucle_rating';
+import {sendNotifications} from "../actions/notificationaction";
 import { formatRelative } from 'date-fns';
 import MyMap from "./Maps";
 import Footer from './Footer';
 let url = require('url');
 let querystring = require('querystring');
-
-
-
 
 
 function Searchresult() {
@@ -238,7 +236,7 @@ useEffect(() => {
                   key={el._id}
                 >
                   <div className="card-image " style={{height:"55%",cursor:"pointer"}}>
-                    <img className="activator" src={el.image} height='100%'/>
+                    <img className="activator" src={el.image} height='100%' alt=""/>
 
                     <div className="date right">
                       <div className="day">{el.start.split("T")[0].split("-")[2]}</div>
@@ -384,7 +382,7 @@ useEffect(() => {
                       
                     </button>
                     :
-                    <button
+                    el.state!="Ended"&&<button
                     data-target="modalevnt"
                       onClick={()=>{
                         // !auth.user.events.includes(el._id)&&
@@ -409,7 +407,7 @@ useEffect(() => {
                       {el.state}
                     </span>
                   </div>
-                  <div className="card-reveal" style={{paddingRight:55,overflowWrap:"anywhere"}}>
+                  <div className="card-reveal groupofnotes scrollbar"  id="style-3"style={{paddingRight:55,overflowWrap:"anywhere"}}>
                     <span className="card-title grey-text text-darken-4">
                       <b>{el.title}</b>
                       <i className="material-icons right" style={{position:"absolute",right:10,top:10}}>close</i>
@@ -511,7 +509,27 @@ note that: </p><br/>
               href="#!"
               className="modal-close btn-flat"
               onClick={()=>{
-                participate&&(!auth.user.events.includes(participate)?dispatch(followEvent(participate)):dispatch(unfollowEvent(participate,eventDate)))}}
+                if (participate&&(!auth.user.events.includes(participate)))
+                {dispatch(followEvent(participate))
+                  let title= "New Participation";
+                  let content= auth.user.fname +" "+ auth.user.lname + " participate to " + (allevents.find(el=>el._id==participate).title);
+                  let notiftype="New_Participation";
+                  let compid=allevents.find(el=>el._id==participate)._id
+                  let state=[]
+                  state=[...state,{users:(allevents.find(el=>el._id==participate).id_organizer),consulted:false}]
+                  dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
+                }
+                else
+                {dispatch(unfollowEvent(participate,eventDate))
+                  let title= "Cancel Participation";
+                  let content= auth.user.fname +" "+ auth.user.lname + " cancelled participation to " + (allevents.find(el=>el._id==participate).title);
+                  let notiftype="Cancel_Participation";
+                  let compid=allevents.find(el=>el._id==participate)._id
+                  let state=[]
+                  state=[...state,{users:(allevents.find(el=>el._id==participate).id_organizer),consulted:false}]
+                  dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
+                }
+                }}
             >
               Agree
             </a>

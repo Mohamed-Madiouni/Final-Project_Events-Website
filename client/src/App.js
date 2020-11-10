@@ -15,7 +15,7 @@ import Searchresult from "./component/Searchresult";
 import Events from "./component/Events";
 import Calendar from "./component/Calendar"
 import { getCurrentUser } from "./actions/authaction";
-import { INI_RESIZE, SET_RESIZE, SHOW_NOTIF } from "./actions/types";
+import { GET_LOADING, INI_RESIZE, SET_RESIZE, SHOW_NOTIF } from "./actions/types";
 import M from "materialize-css";
 
 // import AddEvent from "./component/AddEvent";
@@ -26,7 +26,12 @@ import Comments from "./component/Comments";
 import Bannned_home from "./component/Bannned_home";
 import Notifications from "./component/Notifications";
 import Maps from "./component/Maps";
-
+import Page_404 from "./component/Page_404";
+import Loading from "./component/Loading";
+import Organizer_page from "./component/Organizer_page";
+import Participant_page from "./component/Participant_page";
+import Moderator_page from "./component/Moderator_page";
+import Administrator_page from "./component/Administrator_page";
 function App() {
 
   const search = useSelector((state) => state.search);
@@ -36,6 +41,7 @@ function App() {
   const shownotif=useSelector(state=>state.notification.show)
   const location = useLocation()
   const [homeNav,setHomeNav]=useState(false)
+  const loading=useSelector(state=>state.loading.loading)
  
   // Check for token to keep user logged in
   useEffect(() => {
@@ -80,7 +86,15 @@ useEffect(()=>{
   })
 },[resize.state])
 
-  
+  useEffect(()=>{
+    if(loading)
+setTimeout(()=>{
+  dispatch({
+    type:GET_LOADING,
+    payload:false
+  })
+},3000)
+  })
 
   return (
     <div className="App"  
@@ -90,8 +104,8 @@ useEffect(()=>{
           payload:!shownotif
         })
       }}>
-      
-      {search.etat ? (
+      {loading?<Loading/>:
+      search.etat ? (
         <Searchevents />
       ) : (
         <div className="App_center">
@@ -106,9 +120,12 @@ useEffect(()=>{
             <Route exact path="/contact" component={ContactUs} />
             <Route exact path="/about" component={AboutUs} />
 
-
+            <Route exact path="/404" component={Page_404} />
             <Route path="/events/:event_id" component={Comments} />
-
+            <Route path="/organizer/:organizerId" component={Organizer_page} />
+            <Route path="/participant/:participantId" component={Participant_page} />
+            <Route path="/moderator/:moderatorId" component={Moderator_page} />
+            <Route path="/administrator/:administratorId" component={Administrator_page} />
             <PrivateRoute path="/myaccount" component={Account} />
             <Route path="/banned" component={Bannned_home} />
             <Route path="/notifications" component={Notifications} />

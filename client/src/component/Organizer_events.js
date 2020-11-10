@@ -411,7 +411,7 @@ useEffect(()=>{
                       {el.state}
                     </span>
                   </div>
-                  <div className="card-reveal" style={{paddingRight:55,overflowWrap:"anywhere"}}>
+                  <div className="card-reveal groupofnotes scrollbar"  id="style-3" style={{paddingRight:55,overflowWrap:"anywhere"}}>
                     <span className="card-title grey-text text-darken-4">
                       <b>{el.title}</b>
                       <i className="material-icons " style={{position:"absolute",right:10,top:10}}>close</i>
@@ -498,7 +498,7 @@ useEffect(()=>{
               {el.participant.length!=0?<ul className="collection org">
     
     {el.participant.map((el,i)=>
-    {return(<li key={i} className="collection-item avatar">
+    {return(<li key={i} className="collection-item avatar" style={{margin:10}}>
       <img src={el.avatar} alt="" className="circle"/>
       <span className="title"><b>{el.fname+" "+el.lname}</b></span>
       <p className="red-text"><i className="fas fa-home" style={{marginRight:5}}></i>{el.address}</p>

@@ -37,7 +37,7 @@ export function filter_inactive_notif(t, id) {
 
 export function sort_notif_bydate(t) {
   var ref = {};
-  return t.reduce(function(arr1, o) {
+  return t.reverse().reduce(function(arr1, o) {
     //  get day value
     var d = Number(o.created_at.toString().slice(8,10));
     // check already defined in the reference array

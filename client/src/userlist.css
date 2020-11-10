@@ -2,4 +2,5 @@
     height: 242px !important;
     display: grid;
     place-items: center;
+    width: 100%;
 }

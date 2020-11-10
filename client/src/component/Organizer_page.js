@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import {useHistory,Link} from "react-router-dom";
-import {unfollowEvent,followEvent,getEvent,endEvent,closeEvent, fullEvent, openEvent} from "../actions/evntAction";
+import {unfollowEvent,followEvent,getEvent,endEvent, fullEvent, openEvent} from "../actions/evntAction";
 import get_month from "../outils/get_month"
 import "../organizer.css";
 import M from "materialize-css";
 // import eventClosing from "../outils/eventClosing";
 import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP  } from "../actions/types";
-import { getMyEvents,getCurrentUser } from "../actions/authaction";
+import {addfollow, getCurrentUser } from "../actions/authaction";
 import historyevent from "../outils/history"
 import { getUsers } from '../actions/adminaction';
 
@@ -20,10 +20,11 @@ import calcul_rating from "../outils/calucle_rating";
 import Footer from "./Footer"
 import { formatRelative } from "date-fns";
 import MyMap from "./Maps";
-import getlenthorg, { getlastdateorg } from "../outils/geteventorg";
+import {geteventorg } from "../outils/geteventorg";
+import Navbar from "./Navbar";
 import { sendNotifications } from "../actions/notificationaction";
 
-function Participant() {
+function Organizer_page({match}) {
 
     const dispatch = useDispatch();
     const history =useHistory()
@@ -31,7 +32,6 @@ function Participant() {
     const auth = useSelector((state) => state.auth);
     const allevents= useSelector((state)=>state.events.allEvents)
     const errors=useSelector(state=>state.errors)
-    const myevents=useSelector(state=>state.myevents.myevents.events)
     const users=useSelector(state=>state.admin.users)
     const [quickSearch, setQuickSearch] = useState({
         title: "",
@@ -41,9 +41,7 @@ function Participant() {
       const [participate,setParticipate]=useState("")
       const [eventDate,setEventDate]=useState("")
       const [clkwidth,setclkwidth]=useState(false)
-    
   
-    
    
     
  
@@ -54,10 +52,10 @@ function Participant() {
       if( allevents[i].participant.length==allevents[i].nb_participant&&allevents[i].state!="Ended")
       dispatch(fullEvent(allevents[i]._id))
     }
-    if(myevents)
-    for(let i=0;i<myevents.length;i++){
-      if( myevents[i].participant.length==myevents[i].nb_participant&&myevents[i].state!="Ended")
-      dispatch(fullEvent(myevents[i]._id))
+    if(geteventorg(allevents,match.params.organizerId))
+    for(let i=0;i<geteventorg(allevents,match.params.organizerId).length;i++){
+      if(geteventorg(allevents,match.params.organizerId)[i].participant.length==geteventorg(allevents,match.params.organizerId)[i].nb_participant&&geteventorg(allevents,match.params.organizerId)[i].state!="Ended")
+      dispatch(fullEvent(geteventorg(allevents,match.params.organizerId)[i]._id))
     }
   },[])
    //check if events ended
@@ -67,13 +65,16 @@ function Participant() {
       if(new Date(allevents[i].end)<new Date())
       dispatch(endEvent(allevents[i]._id))
     }
-    dispatch(getMyEvents())
-    if(myevents) 
-    for(let i=0;i<myevents.length;i++){
-      if(new Date(myevents[i].end)<new Date())
-      dispatch(endEvent(myevents[i]._id))
+    if(geteventorg(allevents,match.params.organizerId)) 
+    for(let i=0;i<geteventorg(allevents,match.params.organizerId).length;i++){
+      if(new Date(geteventorg(allevents,match.params.organizerId)[i].end)<new Date())
+      dispatch(endEvent(geteventorg(allevents,match.params.organizerId)[i]._id))
     }
   },[])
+
+  useEffect(()=>{
+    localStorage.token&&dispatch( getCurrentUser())
+    },[])
 
 
   useEffect(() => {
@@ -90,12 +91,24 @@ useEffect(()=>{
     if( allevents[i].participant.length!=allevents[i].nb_participant&&allevents[i].state=="Full")
     dispatch(openEvent(allevents[i]._id))
   }
-  if(myevents)
-  for(let i=0;i<myevents.length;i++){
-    if( myevents[i].participant.length!=myevents[i].nb_participant&& myevents[i].state=="Full")
-    dispatch(openEvent(myevents[i]._id))
+  if(geteventorg(allevents,match.params.organizerId))
+  for(let i=0;i<geteventorg(allevents,match.params.organizerId).length;i++){
+    if( geteventorg(allevents,match.params.organizerId)[i].participant.length!=geteventorg(allevents,match.params.organizerId)[i].nb_participant&& geteventorg(allevents,match.params.organizerId)[i].state=="Full")
+    dispatch(openEvent(geteventorg(allevents,match.params.organizerId)[i]._id))
   }
 },[])
+
+useEffect(()=>{
+    if(errors.follow)
+   { M.toast({ html: "subscription added", classes: "green" });
+  dispatch({
+    type:GET_ERRORS,
+    payload:{}
+  })
+  
+  }
+})
+
 
   useEffect(()=>{
     
@@ -118,7 +131,7 @@ useEffect(()=>{
     }   
   
     })
-    let events=myevents&&myevents.filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").filter(el=>{
+    let events=allevents&&geteventorg(allevents,match.params.organizerId).filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").filter(el=>{
         return(
         
          el.title.toLowerCase().includes(quickSearch.title.toLowerCase())
@@ -132,7 +145,8 @@ useEffect(()=>{
         setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value })};
 
     return (
-
+<>
+<Navbar/>
         <div onClick={(e)=>{
           map.show&&!(document.querySelector(".map_container").contains(e.target)||document.querySelector("reach-portal").contains(e.target)||[...document.getElementsByClassName("address_map")].includes(e.target))&&
           dispatch({
@@ -151,25 +165,56 @@ useEffect(()=>{
           
         }}>
          
-        { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
-        <i className="fas fa-exclamation-circle" style={{color:"red",fontSize:15,marginTop:5}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban your account 
-        </i>
-        }
+        
 
 <div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px"
 }}>
         <div className=" col s12 organizer_hi "
          >
-            <p className="h5-tit">
-              {auth.user.fname} {auth.user.lname}
+            {users.length!=0&& <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
+                <div style={{position:"relative"}}>
+                 <img  style={{width:130,height:130,paddingTop:10}} src={users.find(el=>el._id==match.params.organizerId).avatar} alt="" className="circle"/>
+                {auth.user._id!=match.params.organizerId&&!auth.user.follow.includes(match.params.organizerId)&& <a className="btn-floating "style={{position:"absolute",right:2,top:1,width:25,height:25,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",background:"rgb(63, 63, 63)"}}>
+                
+                <i
+                  className="material-icons"
+style={{color:"white",lineHeight:"unset"}}
+                  title="Follow"
+onClick={()=>{
+    if(auth.isAuthenticated)
+    {
+   dispatch(addfollow(match.params.organizerId))
+  //  console.log("hello");
+   let title= "New Follow";
+   let content= auth.user.fname +" "+ auth.user.lname + " is now following you";
+   let notiftype="New_Follow";
+   let compid=auth.user._id
+   let state=[]
+   state=[...state,{users:match.params.organizerId,consulted:false}]
+   dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
+   
+  }
+    else
+    history.push("/login")
+  }
+
+}
+                >
+                  add
+                </i>
+                </a>}
+                </div>
+             </div>}
+            <p className="h5-tit" style={{paddingTop:0}}>
+              {users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname} {users.length!=0&&users.find(el=>el._id==match.params.organizerId).lname}
             </p>
-            <span className="blue-title">Hi there,</span> 
-        <p className="para-blue">
+            {/* <span className="blue-title">Hi there,</span>  */}
+        {/* <p className="para-blue">
           {" "}
           We are happy to see you among US. <br />
               This is your <b>Dashboard</b>, you can see all your events that
               you have been participated.
-            </p>
+            </p> */}
            
           </div>
         </div>
@@ -177,10 +222,7 @@ useEffect(()=>{
 <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >
      <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
        <div className="col s12 l4" style={{fontStyle: "",fontSize:17,marginBottom:10}}>
-
-   {/* <p>Select an event state or choose title or tag to discover best events for you.</p> */}
-
-   <p>Select an event state or choose title or tag to find the desired one from your list.</p>
+   <p>Select an event state or choose title or tag to discover best events for you.</p>
    </div>
    <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
 
@@ -215,7 +257,7 @@ useEffect(()=>{
         </div>} 
     
 
- { (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&events.length!=0&&
+ { (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")&&
             
             // <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>
             <div className="row" style={{marginLeft:"10px"}} > 
@@ -233,7 +275,7 @@ useEffect(()=>{
             </div>
             }
 
- {events&&events.length!=0?
+ 
  
 <div className="row"style={{marginLeft:"50px",marginTop:"20px"}}>
              <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
@@ -242,7 +284,7 @@ useEffect(()=>{
                   <div className="wb_wrapper">
                     <div className="wpb_text_column wpb_content_element ">
                       <div className=" wpb_wrapper">
-                        <h2>Your participation</h2>
+                        <h2> {users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname} Events</h2>
                         <p className="pra-2">Keep up with the latest events</p>
                         </div></div></div></div></div></div>
            {events&&events.filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").slice(0).reverse().map(el=>{
@@ -471,38 +513,7 @@ useEffect(()=>{
           
            })}
                      
-                      </div>: (quickSearch.title!="" || quickSearch.state!="" || quickSearch.tags!="")?
-            
-            <div className="row" style={{marginLeft:"10px"}} > 
-              <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
-              <div className="wpb_column vc_column_container col 12">
-                <div className="vc_column-inner">
-                  <div className="wpb_wrapper">
-                    <div className="wpb_text_column wpb_content_element ">
-                      <div className=" wpb_wrapper"> 
-                      <h2>{events.length}</h2>
-                        <p className="pra-2"> result(s) found </p>
-                        </div></div></div></div></div></div> 
-           
-
-            </div>
-            :<div  style={{marginLeft:10}}>
-          {/* <h4> <b>Your dashboard is empty, get started and join events</b> </h4> */}
-          <div className="row">
-        <div className="col s12 l6" id="down">
-          <h1 className="title-h">Your dashboard is empty</h1>
-          <p className="title-p">
-           Get started and join events.
-          </p>
-          
-          <button className="title-btn"><Link to="/events">Get Started</Link></button>
-          
-        </div>
-        <div className="col s12 l6" id="up">
-          <img className="working-img" src="/illustration-working.svg" alt=""/>
-        </div>
-      </div>
-        </div>}
+                      </div>
                       <div id="modalevnt" className="modal">
                     <div className="modal-content">
                          {participate&& !auth.user.events.includes(participate)?<><h4>Hi, {auth.user.fname}</h4>
@@ -521,28 +532,30 @@ useEffect(()=>{
                         href="#!"
                         className="modal-close btn-flat"
                         onClick={()=>{
-                          if(auth.isAuthenticated)
-                          { if (participate&&(!auth.user.events.includes(participate)))
-                          {dispatch(followEvent(participate)) 
-                          let title= "New Participation";
-                          let content= auth.user.fname +" "+ auth.user.lname + " participate to " + (allevents.find(el=>el._id==participate).title);
-                          let notiftype="New_Participation";
-                          let compid=allevents.find(el=>el._id==participate)._id
-                          let state=[]
-                          state=[...state,{users:(allevents.find(el=>el._id==participate).id_organizer),consulted:false}]
-                          dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
-                          }
-                          else
-                          {dispatch(unfollowEvent(participate,eventDate))
-                            let title= "Cancel Participation";
-                            let content= auth.user.fname +" "+ auth.user.lname + " cancelled participation to " + (allevents.find(el=>el._id==participate).title);
-                            let notiftype="Cancel_Participation";
+                            if(auth.isAuthenticated)
+                            { if (participate&&(!auth.user.events.includes(participate)))
+                            {dispatch(followEvent(participate)) 
+                            let title= "New Participation";
+                            let content= auth.user.fname +" "+ auth.user.lname + " participate to " + (allevents.find(el=>el._id==participate).title);
+                            let notiftype="New_Participation";
                             let compid=allevents.find(el=>el._id==participate)._id
                             let state=[]
                             state=[...state,{users:(allevents.find(el=>el._id==participate).id_organizer),consulted:false}]
                             dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
-                          }}
-                        }}
+                            }
+                            else
+                            {dispatch(unfollowEvent(participate,eventDate))
+                              let title= "Cancel Participation";
+                              let content= auth.user.fname +" "+ auth.user.lname + " cancelled participation to " + (allevents.find(el=>el._id==participate).title);
+                              let notiftype="Cancel_Participation";
+                              let compid=allevents.find(el=>el._id==participate)._id
+                              let state=[]
+                              state=[...state,{users:(allevents.find(el=>el._id==participate).id_organizer),consulted:false}]
+                              dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
+                            }}
+                        
+                        }
+                        }
                       >
                         Agree
                       </a>
@@ -555,7 +568,7 @@ useEffect(()=>{
                     </div>
                   </div>
                   <Footer/>
-{users.length!=0&&auth.user.follow.length!=0&&allevents.length!=0&&<div className="organizer_list">
+{/* {users.length!=0&&auth.user.follow.length!=0&&allevents.length!=0&&<div className="organizer_list">
   <div className="groupofnotes scrollbar" id="style-3"  style={{width:clkwidth?300:0,boxShadow: clkwidth&&"0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}}>
   <ul className="collection par">
 {auth.user.follow.map((el,i)=>{
@@ -588,9 +601,11 @@ useEffect(()=>{
 {!clkwidth&&<a title="Subscriptions" href='#!' style={{ cursor:"pointer",  boxShadow: "9px 8px 20px 0px rgba(24, 32, 111, 0.4)"}} onClick={()=>setclkwidth(!clkwidth)}>
 <i className="fas fa-angle-double-right"></i>
 </a>}
-</div>}
+</div>} */}
         </div>
+        </>
     )
 }
 
-export default Participant
+export default Organizer_page
+

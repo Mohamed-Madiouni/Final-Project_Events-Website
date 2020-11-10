@@ -262,7 +262,7 @@ useEffect(()=>{
                   // key={el._id}
                 >
                   <div className="card-image " style={{height:"55%",cursor:"pointer"}}>
-                    <img className="activator" src={el.image} height="100%"  />
+                    <img className="activator" src={el.image} height="100%" alt=""/>
 
                     <div className="date right">
                       <div className="day">{el.start.split("T")[0].split("-")[2]}</div>
@@ -410,7 +410,7 @@ useEffect(()=>{
                       
                     </button>
                     :
-                    <button
+                    el.state!="Ended"&&<button
                     data-target="modalevnt"
                       onClick={()=>{
                         // !auth.user.events.includes(el._id)&&
@@ -435,7 +435,7 @@ useEffect(()=>{
                       {el.state}
                     </span>
                   </div>
-                  <div className="card-reveal" style={{paddingRight:55,overflowWrap:"anywhere"}}>
+                  <div className="card-reveal groupofnotes scrollbar"  id="style-3" style={{paddingRight:55,overflowWrap:"anywhere"}}>
                     <span className="card-title grey-text text-darken-4">
                       <b>{el.title}</b>
                       <i className="material-icons right" style={{position:"absolute",right:10,top:10}}>close</i>
@@ -570,7 +570,6 @@ note that: </p><br/>
                 }
                 else
                 {dispatch(unfollowEvent(participate,eventDate))
-                
                   let title= "Cancel Participation";
                   let content= auth.user.fname +" "+ auth.user.lname + " cancelled participation to " + (allevents.find(el=>el._id==participate).title);
                   let notiftype="Cancel_Participation";
