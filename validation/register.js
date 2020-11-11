@@ -10,6 +10,7 @@ module.exports = function validateRegisterInput(data) {
   data.password2 = !isEmpty(data.password2) ? data.password2 : "";
   data.tel = !isEmpty(data.tel) ? data.tel : "";
   data.address = !isEmpty(data.address) ? data.address : "";
+  data.note = !isEmpty(data.note) ? data.note : "";
 // Name checks
   if (Validator.isEmpty(data.fname)) {
     errors.fname = "First name field is required";
@@ -44,9 +45,13 @@ if (!Validator.equals(data.password, data.password2)) {
   {errors.tel = "Invalid format"}
   else if(!Validator.isLength(data.tel.slice(4), { min: 8}))
   {errors.tel = "Tel must be at least 8 number"}
-  // Name checks
+  // Adresse checks
   if (Validator.isEmpty(data.address)) {
     errors.address = "Address field is required";
+  }
+  // Note checks
+  if (Validator.isEmpty(data.note)) {
+    errors.note = "Note field is required";
   }
 
 return {

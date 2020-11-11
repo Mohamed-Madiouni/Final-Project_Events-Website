@@ -91,7 +91,7 @@ const modUser ={}
       req.body.tel&&(modUser.tel=req.body.tel)
       req.body.address&& (modUser.address=req.body.address)
       req.body.avatar&&(modUser.avatar= req.body.avatar)
-	
+	    req.body.note&& (modUser.note=req.body.note)
 	User.findByIdAndUpdate(req.userId,{$set: modUser })
 	.then((user) => res.json(user))
   .catch((err) => console.log(err));
