@@ -5,6 +5,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import {removereportComment, removereportReply, getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply, likecomment,dislikecomment, removelikecomment, removedislikecomment, likereply, removelikereply,dislikereply, removedislikereply} from "../actions/comntaction"
 import {getEvent} from "../actions/evntAction";
 import historyevent from "../outils/history"
+import { useHistory,Link } from 'react-router-dom';
 import "../comments.css";
 import M from "materialize-css";
 import { GET_ERRORS } from "../actions/types";
@@ -183,12 +184,22 @@ return(
 
 <ul className="collection" key={el._id} style={{overflow:"initial"}}>
     <li className="collection-item avatar">
-      <div style={{display:"flex",justifyContent:"space-between"}}>
-       <div>
+    <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
+    <div>
+<Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
-       <div style={{display:"flex"}}>
-       <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
-<p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
+</Link>
+       <div style={{display:"flex",alignItems:"center"}}>
+         <div style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
+       <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}> <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
+       </Link>
+       </div>
+{users.find(e=>e._id==el.postedBy).role!="participant"&&<p style={{marginLeft:10,height:"fit-content",display:"flex",alignItems:"center",color:(users.find(e=>e._id==el.postedBy).role=="organizer"&&"#3183E0"||(users.find(e=>e._id==el.postedBy).role=="administrator"&&"#FF4848")||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"#56A26F"))}}>
+  <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i>
+  {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,marginLeft: 0,transform:"translateY(-1px)"}}></i>}
+  {users.find(e=>e._id==el.postedBy).role}
+  {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,transform:"translateY(-1px)"}}></i>}
+  <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i></p>}
 </div>
       </div>
       <span style={{display:"flex",justifyContent:"right"}}>
@@ -202,7 +213,6 @@ setEdit("")
 setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletecomid(el._id)} className="modal-trigger material-icons" data-target="modaldeletcom" title="Delete">delete</i>
-
 <i onClick={()=>setRemovereport(el._id)} className="modal-trigger count" data-target="modaldeletreportcom" title="Remove Report"><span className="num" style={{top:"5px", left:"9px"}}>{el.reports}</span></i>
      </div>}</span>
       </div>
@@ -242,7 +252,8 @@ setTextedit("")
      </div>}
      </div>
          </form>}
-         <div style={{marginTop:5,display:"flex",alignItems:"center"}} id="editdelete">
+         <div style={{marginTop:5,display:"flex",alignItems:"center",justifyContent:"space-between"}} id="editdelete">
+         <div style={{display:"flex",alignItems:"center"}}> 
          <i className="far fa-thumbs-up" title="like" style={{cursor:"pointer",color:auth.isAuthenticated&&auth.user.likes.includes(el._id)&&"#2e8fa5"}} onClick={()=>
           {if(actvlike)
             {if(auth.isAuthenticated&&!auth.user.likes.includes(el._id))
@@ -273,7 +284,9 @@ setTextedit("")
             history.push("/login")}
             }}></i>
            <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.dislikes==0?"":el.dislikes}</p> 
-            
+           {(el.postedBy!=auth.user._id)&&auth.isAuthenticated&&<i title="reply" className="material-icons" onClick={()=>{ if(!replycount) setReplayCount(!replycount); setReply(""); setReplyId(el._id)}}>reply</i>}
+           </div>
+           <p style={{color:"rgb(0, 96, 100)"}} >{historyevent(el.created_at)}</p> 
             </div>
       
       {el.reply.length?<div style={{display:"flex",cursor:"pointer",marginTop:3,color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
@@ -302,15 +315,27 @@ else
     return (
     <ul className="collection" key={i} style={{overflow:"initial",marginLeft:15}}>
     <li className="collection-item avatar">
-      <div style={{display:"flex",justifyContent:"space-between"}}>
+    <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
        <div>
+
+
+
+<Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
-       <div style={{display:"flex"}}>
-       <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
-<p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
+</Link>
+       <div style={{display:"flex",alignItems:"center"}}> 
+       <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}><p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
+</Link>
+{users.find(e=>e._id==el.postedBy).role!="participant"&&<p style={{marginLeft:10,height:"fit-content",display:"flex",alignItems:"center",color:(users.find(e=>e._id==el.postedBy).role=="organizer"&&"#3183E0"||(users.find(e=>e._id==el.postedBy).role=="administrator"&&"#FF4848")||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"#56A26F"))}}>
+  <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i>
+  {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,marginLeft: 0,transform:"translateY(-1px)"}}></i>}
+  {users.find(e=>e._id==el.postedBy).role}
+  {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,transform:"translateY(-1px)"}}></i>}
+  <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i></p>}
+
 </div>
       </div><span style={{display:"flex",justifyContent:"right"}}>
-     {(el.postedBy==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&<div id="editdelete">
+     {(el.postedBy==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&<span id="editdelete">
      {!edit||el.id!=edit?<i className="material-icons" title="Edit" onClick={()=>{
 setEdit(el.id)
 setTextedit(el.content)
@@ -320,8 +345,7 @@ setEdit("")
 setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletereplyid(el.id)} className='modal-trigger material-icons' data-target='modaldeletreply' title="delete">delete</i>
-
-</div>}
+</span>}
 </span>
       </div>
       {el.id!=edit?<p style={{overflowWrap: "break-word"}}>{el.content}</p>:
@@ -365,7 +389,8 @@ setTextedit("")
         
          </form>}
  
-         <div style={{marginTop:5,display:"flex",alignItems:"center"}} id="editdelete">
+         <div style={{marginTop:5,display:"flex",alignItems:"center",justifyContent:"space-between"}} id="editdelete">
+         <div style={{display:"flex",alignItems:"center"}}>
          <i className="far fa-thumbs-up" title="like" style={{cursor:"pointer",color:auth.isAuthenticated&&auth.user.likes.includes(el.id)&&"#2e8fa5"}} onClick={()=>
           {if(actvlike)
             {if(auth.isAuthenticated&&!auth.user.likes.includes(el.id))
@@ -392,6 +417,8 @@ setTextedit("")
             history.push("/login")}
             }}></i>
            <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.dislikes==0?"":el.dislikes}</p> 
+          </div>
+          <p style={{color:"rgb(0, 96, 100)"}}>{historyevent(el.created_at)}</p>
           </div>
    </li>
 
@@ -446,12 +473,24 @@ return(
 
 <ul className="collection" key={el.id} style={{overflow:"initial"}}>
     <li className="collection-item avatar">
-    <div style={{display:"flex",justifyContent:"space-between"}}>
+    <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
        <div>
+       <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
-       <div style={{display:"flex"}}>
-       <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
-<p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
+</Link>
+       <div style={{display:"flex",alignItems:"center"}}>
+         <div style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
+       <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}> <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
+       </Link>
+       </div>
+{users.find(e=>e._id==el.postedBy).role!="participant"&&<p style={{marginLeft:10,height:"fit-content",display:"flex",alignItems:"center",color:(users.find(e=>e._id==el.postedBy).role=="organizer"&&"blue"||(users.find(e=>e._id==el.postedBy).role=="administrator"&&"red")||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"green"))}}>
+  <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i>
+  {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,marginLeft: 0,transform:"translateY(-1px)"}}></i>}
+  {users.find(e=>e._id==el.postedBy).role}
+  {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,transform:"translateY(-1px)"}}></i>}
+  <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i></p>}
+
+
 </div>
       </div><span style={{display:"flex",justifyContent:"right"}}>
      {(el.postedBy==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&<div id="editdelete">
@@ -507,7 +546,8 @@ setTextedit("")
 
 
          </form>}
-         <div style={{marginTop:5,display:"flex",alignItems:"center"}} id="editdelete">
+         <div style={{marginTop:5,display:"flex",alignItems:"center",justifyContent:"space-between"}} id="editdelete">
+         <div style={{display:"flex",alignItems:"center"}}> 
          <i className="far fa-thumbs-up" title="like" style={{cursor:"pointer",color:auth.isAuthenticated&&auth.user.likes.includes(el.id)&&"#2e8fa5"}} onClick={()=>
           {if(actvlike)
             {if(auth.isAuthenticated&&!auth.user.likes.includes(el.id))
@@ -534,17 +574,14 @@ setTextedit("")
             history.push("/login")}
             }}></i>
            <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.dislikes==0?"":el.dislikes}</p>             
+           </div>
+           <p style={{color:"rgb(0, 96, 100)"}} >{historyevent(el.created_at)}</p> 
             </div>
      </li>
  </ul>
 )
   })}
 </div>)}
-
-
-
-
-
 
           {((count+1)*5)<comments.comments.filter(el=>el.reports>0).length&&
           <div style={{
