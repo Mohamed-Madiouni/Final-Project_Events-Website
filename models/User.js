@@ -56,7 +56,12 @@ const userSchema = mongoose.Schema({
   online:{
     type:Boolean,
     default:false
-  }
+  },
+  note: {
+    type: String,
+    required: true,
+    default: "Hi it's me"
+  },
 });
 
 module.exports = mongoose.model("user", userSchema);
