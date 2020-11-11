@@ -92,7 +92,7 @@ return allevents.filter(el=>el.state!="Invalid").map(el=>{
     )
     })
 
-},[allnotif])  
+},[auth])  
 
 
 const oneventclick=useCallback((e)=>{

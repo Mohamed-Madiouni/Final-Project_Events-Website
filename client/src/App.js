@@ -134,6 +134,7 @@ setTimeout(()=>{
               path="/dashboard/:organizer_id"
               component={Organizer_events}
             />
+             <Route path="/*" component={Page_404} />
            
 
           </Switch>

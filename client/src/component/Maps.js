@@ -26,7 +26,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 const containerStyle = {
-  width: '100vw',
+  width: '100%',
   height: '100%'
 };
 
@@ -256,7 +256,7 @@ function Search ({panTo}){
   });
 
   return (
-    <div className="search_map">
+    <div className="search_map" style={{width:"50%"}}>
       <Combobox onSelect={async(address)=>{
         setValue(address,false)
         clearSuggestions()
