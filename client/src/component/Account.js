@@ -26,6 +26,7 @@ function Updateacc({ history }) {
     tel: "",
     address: "",
     avatar: "",
+    note: "",
     error: {},
   });
 const [confirmationInput,setConfirmationInput] = useState({confirm:""})
@@ -114,6 +115,7 @@ setConfirmationInput({confirm:""})
       tel: iti.getNumber(),
       address: user.address,
       avatar: user.avatar,
+      note: user.note,
     };
 
     const data = new FormData();
@@ -271,7 +273,7 @@ setConfirmationInput({confirm:""})
                 <div style={{marginTop: 8}}>
                 <span className={user.error.tel ? "red-text" : "green-text"}>
                   {user.error.tel ||
-                    (auth.user.tel && "Your Number is " + auth.user.tel)}
+                    (auth.user.tel && "Your Number is: " + auth.user.tel)}
                 </span>
                 </div>
               </div>
@@ -288,7 +290,23 @@ setConfirmationInput({confirm:""})
                 >
                   {user.error.address ||
                     (auth.user.address &&
-                      "Your address is " + auth.user.address)}
+                      "Your address is: " + auth.user.address)}
+                </span>
+              </div>
+              <div className="input-field col s12">
+                <input
+                  onChange={onChange}
+                  value={user.note}
+                  id="note"
+                  type="text"
+                />
+                <label htmlFor="note">Enter a note to be displayed for other users</label>
+                <span
+                  className={user.error.note ? "red-text" : "green-text"}
+                >
+                  {user.error.note ||
+                    (auth.user.note &&
+                      "Your note is: " + auth.user.note)}
                 </span>
               </div>
               <div className="col s12" style={{ display:"flex",justifyContent:"center",alignItems:"center" }}>

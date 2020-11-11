@@ -90,7 +90,7 @@ dispatch(getComment())
     {(comments.comments&&comments.comments).map(elc=>{elc.reply.filter(el=>el.postedBy==match.params.administratorId).map(el=>{rs=rs+1})})}
     {comments.comments&& nbr_comments(comments.comments.filter(el=>el.postedBy==match.params.administratorId).length)+ rs +" "}
     comment{comments.comments&&comments.comments.filter(elm=>elm).length==0?"":"s"}</span>
-   
+    <div>My personal note:{users.length!=0&&users.find(el=>el._id==match.params.administratorId).note}</div>   
  </div>
  <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
  </div>
