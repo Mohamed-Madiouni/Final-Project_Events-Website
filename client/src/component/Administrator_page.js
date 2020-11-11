@@ -75,6 +75,9 @@ dispatch(getComment())
           <p className="h5-tit" style={{paddingTop:0}}>
             {users.length!=0&&users.find(el=>el._id==match.params.administratorId).fname} {users.length!=0&&users.find(el=>el._id==match.params.administratorId).lname}
           </p>
+          <p className="h5-tit" style={{paddingTop:0}}>
+            {(users.length!=0&&users.find(el=>el._id==match.params.administratorId).online)?<span style={{color:"green"}}>Online</span>:<span style={{color:"red"}}>Offline</span>}
+          </p>
 
         </div>
       </div>
