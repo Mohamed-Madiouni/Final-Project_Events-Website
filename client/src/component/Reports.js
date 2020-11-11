@@ -638,7 +638,7 @@ setTextedit("")
         <div id="modaldeletreportreply" className="modal">
           <div className="modal-content">
             <h4>Remove Report</h4>
-            <p>Are you sure you want to remove the report from this comment?</p>
+            <p>Are you sure you want to remove the report from this reply?</p>
           </div>
           <div className="modal-footer">
             <a

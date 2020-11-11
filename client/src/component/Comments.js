@@ -571,7 +571,7 @@ return(
        <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}> <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
        </Link>
        </div>
-{users.find(e=>e._id==el.postedBy).role!="participant"&&<p style={{marginLeft:10,height:"fit-content",display:"flex",alignItems:"center",color:(users.find(e=>e._id==el.postedBy).role=="organizer"&&"blue"||(users.find(e=>e._id==el.postedBy).role=="administrator"&&"red")||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"green"))}}>
+{users.find(e=>e._id==el.postedBy).role!="participant"&&<p style={{marginLeft:10,height:"fit-content",display:"flex",alignItems:"center",color:(users.find(e=>e._id==el.postedBy).role=="organizer"&&"#3183E0"||(users.find(e=>e._id==el.postedBy).role=="administrator"&&"#FF4848")||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"#56A26F"))}}>
   <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i>
   {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,marginLeft: 0,transform:"translateY(-1px)"}}></i>}
   {users.find(e=>e._id==el.postedBy).role}
@@ -719,7 +719,7 @@ else
        <div style={{display:"flex",alignItems:"center"}}> 
        <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}><p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
 </Link>
-{users.find(e=>e._id==el.postedBy).role!="participant"&&<p style={{marginLeft:10,height:"fit-content",display:"flex",alignItems:"center",color:(users.find(e=>e._id==el.postedBy).role=="organizer"&&"blue"||(users.find(e=>e._id==el.postedBy).role=="administrator"&&"red")||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"green"))}}>
+{users.find(e=>e._id==el.postedBy).role!="participant"&&<p style={{marginLeft:10,height:"fit-content",display:"flex",alignItems:"center",color:(users.find(e=>e._id==el.postedBy).role=="organizer"&&"#3183E0"||(users.find(e=>e._id==el.postedBy).role=="administrator"&&"#FF4848")||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"#56A26F"))}}>
   <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i>
   {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,marginLeft: 0,transform:"translateY(-1px)"}}></i>}
   {users.find(e=>e._id==el.postedBy).role}
