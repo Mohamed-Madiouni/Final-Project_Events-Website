@@ -8,7 +8,8 @@ module.exports = function validateUpdateInput(data) {
   data.password2 = !isEmpty(data.password2) ? data.password2 : "";
   data.tel = !isEmpty(data.tel) ? data.tel : "";
   data.address = !isEmpty(data.address) ? data.address : "";
-  if ((Validator.isEmpty(data.password))&& (Validator.isEmpty(data.tel))&&(Validator.isEmpty(data.address))&&Validator.isEmpty(data.avatar))
+  data.note = !isEmpty(data.note) ? data.note : "";
+  if ((Validator.isEmpty(data.password))&& (Validator.isEmpty(data.tel))&&(Validator.isEmpty(data.address))&&Validator.isEmpty(data.avatar)&&Validator.isEmpty(data.note))
   errors.msg = "At least one fieled is required";
 else{
 // tel checks
