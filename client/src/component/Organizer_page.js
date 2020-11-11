@@ -41,7 +41,7 @@ function Organizer_page({match}) {
       const [participate,setParticipate]=useState("")
       const [eventDate,setEventDate]=useState("")
       const [clkwidth,setclkwidth]=useState(false)
-  
+      const [follow,setfollow]=useState(false)
    
     
  
@@ -199,12 +199,25 @@ onClick={()=>{
   }
 
 }
+onMouseOver={()=>{setfollow(!follow)}}
+onMouseLeave={()=>{setfollow(!follow)}}
                 >
                   add
                 </i>
-                </a>}
+                </a>}  
+                {follow&&auth.user.follow&&!auth.user.follow.includes(match.params.organizerId)&&  <p style={{width:300,background:"white",position:"absolute",right: 17,
+    top: 30,
+    border: "1px solid black",
+    borderRadius: 4,
+    padding: 10,
+    zIndex: 10,
+outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).fname+" "+users.find(el=>el._id==match.params.organizerId).lname+" "}</b>} 
+       to recieve a notification when he add a new event.
+      
+      </p>}
                 </div>
              </div>}
+           
             <p className="h5-tit" style={{paddingTop:0}}>
               {users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname} {users.length!=0&&users.find(el=>el._id==match.params.organizerId).lname}
             </p>

@@ -26,7 +26,7 @@ module.exports = function validateRegisterInput(data) {
 // Password checks
   if (Validator.isEmpty(data.password)) {
     errors.password = "Password field is required";
-  }else if (!Validator.isLength(data.password, { min: 6, max: 30 })) {
+  }else if (!Validator.isLength(data.password, { min: 6})) {
       errors.password = "Password must be at least 6 characters";
     }
   
@@ -40,7 +40,10 @@ if (!Validator.equals(data.password, data.password2)) {
   // tel checks
   if (Validator.isEmpty(data.tel)) {
     errors.tel = "Tel Number is required";
-  }
+  }else if(!Validator.isNumeric(data.tel.slice(1)))
+  {errors.tel = "Invalid format"}
+  else if(!Validator.isLength(data.tel.slice(4), { min: 8}))
+  {errors.tel = "Tel must be at least 8 number"}
   // Name checks
   if (Validator.isEmpty(data.address)) {
     errors.address = "Address field is required";

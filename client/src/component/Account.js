@@ -10,6 +10,10 @@ import "../account.css"
 import resize from "../outils/resize";
 import { logoutUser } from "../actions/authaction";
 import Footer from "./Footer";
+import "../../node_modules/intl-tel-input/build/css/intlTelInput.css";
+import intlTelInput from 'intl-tel-input';
+import "../tel.scss"
+
 
 function Updateacc({ history }) {
   const errors = useSelector((state) => state.errors);
@@ -29,6 +33,17 @@ const [confirmationInput,setConfirmationInput] = useState({confirm:""})
 const[mod,setMod]=useState(false)
   
   const[btn,setBtn]=useState(false)
+
+  useEffect(()=>{
+    let input = document.querySelector("#tel");
+  intlTelInput(input, {
+         initialCountry: "tn",
+         preferredCountries:["fr","us"],
+         separateDialCode:true,
+         utilsScript:"https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+     });
+   
+ },[]) 
 
   useEffect(() => {
     if (!localStorage.token) history.push("/login");
@@ -85,11 +100,18 @@ setConfirmationInput({confirm:""})
   }
   const onSubmit = async () => {
     // e.preventDefault();
-    await setBtn(true)
+    setBtn(true)
+    let input = document.querySelector("#tel");
+    let iti=intlTelInput(input, {
+        initialCountry: "tn",
+        preferredCountries:["fr","us"],
+        separateDialCode:true,
+        utilsScript:"https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+    });
     const updateduser = {
       password: user.password,
       password2: user.password2,
-      tel: user.tel,
+      tel: iti.getNumber(),
       address: user.address,
       avatar: user.avatar,
     };
@@ -111,7 +133,7 @@ setConfirmationInput({confirm:""})
     updateduser.avatar &&
       res.error &&
       M.toast({ html: res.error.message, classes: "red" })&&setBtn(false)
-    console.log(res);
+    // console.log(res);
     !res.error && (updateduser.avatar = resize(res.url));
     console.log(updateduser);
     dispatch(updateUser(updateduser, history));
@@ -243,13 +265,15 @@ setConfirmationInput({confirm:""})
                   onChange={onChange}
                   value={user.tel}
                   id="tel"
-                  type="number"
+                  type="tel"
                 />
-                <label htmlFor="tel">Enter yout phone number</label>
+                <label htmlFor="tel" className="active">Enter your phone number</label>
+                <div style={{marginTop: 8}}>
                 <span className={user.error.tel ? "red-text" : "green-text"}>
                   {user.error.tel ||
                     (auth.user.tel && "Your Number is " + auth.user.tel)}
                 </span>
+                </div>
               </div>
               <div className="input-field col s12">
                 <input

@@ -16,6 +16,7 @@
     "axios": "^0.20.0",
     "date-fns": "^2.16.1",
     "emoji-mart": "^3.0.0",
+    "intl-tel-input": "^17.0.8",
     "is-empty": "^1.2.0",
     "jwt-decode": "^3.0.0-beta.2",
     "materialize-css": "^1.0.0-rc.2",

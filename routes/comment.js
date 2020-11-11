@@ -386,7 +386,7 @@ User.findByIdAndUpdate(req.body.user,{$push:{reports:req.params.commentId}},(err
 
 //Remove Report reply
 router.put("/remove/reply/report/:replyId",authMiddleware,(req,res)=>{
-  console.log(req.body,req.params.replyId)
+  // console.log(req.body,req.params.replyId)
   Comment.findOneAndUpdate(
     {"reply.id":req.params.replyId}
   ,{$set:{"reply.$.reports":req.body.reports}},
@@ -399,7 +399,7 @@ router.put("/remove/reply/report/:replyId",authMiddleware,(req,res)=>{
     User.updateMany({reports:req.params.replyId},{$pull:{reports:req.params.replyId}},(err,user)=>{
       if (err) throw err
     
-      console.log(user)
+      // console.log(user)
     })
   pusher.trigger('report', 'my-event', {
         'message': 'hello world'

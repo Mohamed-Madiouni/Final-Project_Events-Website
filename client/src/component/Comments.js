@@ -296,7 +296,7 @@ useEffect(()=>{
          emojedt&&!document.querySelector(".emoji-mart").contains(e.target)&&setEmojedt(!emojedt)
          emojreply&&!document.querySelector(".emoji-mart").contains(e.target)&&setEmojReply(!emojreply)
          sort&&!document.querySelector(".sort").contains(e.target)&&setsort(!sort)
-         unfollow&&!document.querySelector(".custom_mod").contains(e.target)&&setunfollow("")
+         unfollow&&!document.querySelector(".custom_mod_com").contains(e.target)&&setunfollow("")
         }}>
             <div className='col l8 s12 '>
      <div className="comment_sec">
@@ -1092,7 +1092,7 @@ return(
 
 
         
-        <div  className="custom_mod" style={{display:unfollow?"initial":"none",padding:"10px",background:"white",zIndex:10,border:"2px solid #2e8fa5",width:"70%"}}>
+        <div  className="custom_mod_com" style={{display:unfollow?"initial":"none",padding:"10px",background:"white",zIndex:10,border:"2px solid #2e8fa5"}}>
           <div className="modal-content">
             {/* <h4>Account Update</h4>
             <p>Are you sure you want to update your profile?</p> */}

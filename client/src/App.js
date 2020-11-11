@@ -32,6 +32,7 @@ import Organizer_page from "./component/Organizer_page";
 import Participant_page from "./component/Participant_page";
 import Moderator_page from "./component/Moderator_page";
 import Administrator_page from "./component/Administrator_page";
+
 function App() {
 
   const search = useSelector((state) => state.search);
@@ -119,7 +120,7 @@ setTimeout(()=>{
             <Route path="/maps" component={Maps} />
             <Route exact path="/contact" component={ContactUs} />
             <Route exact path="/about" component={AboutUs} />
-
+            
             <Route exact path="/404" component={Page_404} />
             <Route path="/events/:event_id" component={Comments} />
             <Route path="/organizer/:organizerId" component={Organizer_page} />

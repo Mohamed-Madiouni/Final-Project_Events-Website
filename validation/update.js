@@ -11,12 +11,17 @@ module.exports = function validateUpdateInput(data) {
   if ((Validator.isEmpty(data.password))&& (Validator.isEmpty(data.tel))&&(Validator.isEmpty(data.address))&&Validator.isEmpty(data.avatar))
   errors.msg = "At least one fieled is required";
 else{
-// Email checks
+// tel checks
+if (!Validator.isEmpty(data.tel)) {
  
-  
+ if(!Validator.isNumeric(data.tel.slice(1)))
+{errors.tel = "Invalid format"}
+else if(!Validator.isLength(data.tel.slice(4), { min: 8}))
+{errors.tel = "Tel must be at least 8 number"}
+}
 // Password checks
   
-(!isEmpty(data.password) && (!Validator.isLength(data.password, { min: 6, max: 30 }))) &&(errors.password = "Password must be at least 6 characters");
+(!isEmpty(data.password) && (!Validator.isLength(data.password, { min: 6}))) &&(errors.password = "Password must be at least 6 characters");
     
   
  if (!Validator.equals(data.password, data.password2)) {
