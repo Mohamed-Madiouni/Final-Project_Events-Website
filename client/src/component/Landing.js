@@ -308,7 +308,13 @@ payload:!shownotif
    <span className="black-text email">{auth.user.email}</span></div>
    <button className="account"
    onClick={()=>history.push("/myaccount")} 
-   style={{marginBottom:"5px"}}>Account setting</button>
+   style={{marginBottom:"5px"}}><i className="fas fa-cog" style={{marginRight:5}}></i>Account setting</button>
+    <button className="account"
+   onClick={()=>history.push(`/${auth.user.role}/${auth.user._id}`)} 
+   style={{marginBottom:"5px"}}><i className="fas fa-address-card" style={{marginRight:5}}></i>My profile</button>
+  <button className="account"
+  //  onClick={()=>history.push("/myaccount")} 
+   style={{marginBottom:"5px"}}><i className="fas fa-users" style={{marginRight:5}}></i>Chat</button>
    </div>
     </li>
   </ul>
