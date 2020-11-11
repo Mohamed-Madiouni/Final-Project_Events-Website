@@ -468,7 +468,7 @@ setTextedit("")
   
   {(comments.comments&&comments.comments).slice(0).sort(function(a, b) {
     return sorttype.type=="relevent"? (a.likes - b.likes):(a.created_at - b.created_at);
-  }).reverse().slice(0,10+count*10).map(elc=><div key={elc._id}>{elc.reply.filter(el=>el.reports>0).map(el=>{
+  }).reverse().map(elc=><div key={elc._id}>{elc.reply.filter(el=>el.reports>0).map(el=>{
 return(
 
 <ul className="collection" key={el.id} style={{overflow:"initial"}}>
@@ -583,7 +583,7 @@ setTextedit("")
   })}
 </div>)}
 
-          {((count+1)*5)<comments.comments.filter(el=>el.reports>0).length&&
+          {((count+1)*10)<comments.comments.filter(el=>el.reports>0).length&&
           <div style={{
             marginBottom:"5px",
             cursor: "pointer",
