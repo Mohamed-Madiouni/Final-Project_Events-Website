@@ -217,9 +217,11 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).f
       </p>}
                 </div>
              </div>}
-           
             <p className="h5-tit" style={{paddingTop:0}}>
               {users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname} {users.length!=0&&users.find(el=>el._id==match.params.organizerId).lname}
+            </p>
+            <p className="h5-tit" style={{paddingTop:0}}>
+            {(users.length!=0&&users.find(el=>el._id==match.params.organizerId).online)?<span style={{color:"green"}}>Online</span>:<span style={{color:"red"}}>Offline</span>}
             </p>
             {/* <span className="blue-title">Hi there,</span>  */}
         {/* <p className="para-blue">

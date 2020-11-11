@@ -284,7 +284,6 @@ setTextedit("")
             history.push("/login")}
             }}></i>
            <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.dislikes==0?"":el.dislikes}</p> 
-           {(el.postedBy!=auth.user._id)&&auth.isAuthenticated&&<i title="reply" className="material-icons" onClick={()=>{ if(!replycount) setReplayCount(!replycount); setReply(""); setReplyId(el._id)}}>reply</i>}
            </div>
            <p style={{color:"rgb(0, 96, 100)"}} >{historyevent(el.created_at)}</p> 
             </div>
