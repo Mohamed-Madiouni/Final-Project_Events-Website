@@ -200,6 +200,13 @@ useEffect(()=>{
     channel.bind('my-event', function(data) {
      dispatch(getComment())
     });
+
+    var channel = pusher.subscribe('report');
+    channel.bind('my-event', function(data) {
+     dispatch(getCurrentUser())
+    });
+
+
   },[])
 
   useEffect(()=>{
@@ -375,11 +382,11 @@ history.push("/login")
 
       
         <div>
-          <a href={`/organizer/${allevents.find(el=>el._id==match.params.event_id).id_organizer}`}>
+          <Link to={`/organizer/${allevents.find(el=>el._id==match.params.event_id).id_organizer}`}>
           <img src={users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).avatar} alt="" className="circle" style={{width:43,height:43}}/>
-          </a>
+         
        <p><b>{users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).fname+" "+users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer).lname}</b></p> 
-
+ </Link>
       </div> 
       <button className='follow'  onClick={()=>{
         if(auth.isAuthenticated)
@@ -423,7 +430,7 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==allevents.find(el=>el._id==
        to recieve a notification when he add a new event.
       
       </p>}
-      <p style={{overflowWrap:"anywhere"}}>{allevents.find(el=>el._id==match.params.event_id).description}</p>
+      <p style={{overflowWrap:"anywhere",marginTop:3}}>{allevents.find(el=>el._id==match.params.event_id).description}</p>
   
     </li>
     
@@ -554,14 +561,22 @@ return(
 
 <ul className="collection" key={el._id} style={{overflow:"initial"}}>
     <li className="collection-item avatar">
-      <div style={{display:"flex",justifyContent:"space-between"}}>
+      <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
        <div>
-<a href={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
+<Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
-</a>
-       <div style={{display:"flex"}}>
-      <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
-<p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
+</Link>
+       <div style={{display:"flex",alignItems:"center"}}>
+         <div style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
+       <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}> <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
+       </Link>
+       </div>
+{users.find(e=>e._id==el.postedBy).role!="participant"&&<p style={{marginLeft:10,height:"fit-content",display:"flex",alignItems:"center",color:(users.find(e=>e._id==el.postedBy).role=="organizer"&&"blue"||(users.find(e=>e._id==el.postedBy).role=="administrator"&&"red")||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"green"))}}>
+  <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i>
+  {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,marginLeft: 0,transform:"translateY(-1px)"}}></i>}
+  {users.find(e=>e._id==el.postedBy).role}
+  {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,transform:"translateY(-1px)"}}></i>}
+  <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i></p>}
 </div>
       </div>
       <span style={{display:"flex",justifyContent:"right"}}>
@@ -618,7 +633,8 @@ setTextedit("")
             
         
          </form>}
-         <div style={{marginTop:5,display:"flex",alignItems:"center"}} id="editdelete">
+         <div style={{marginTop:5,display:"flex",alignItems:"center",justifyContent:"space-between"}} id="editdelete">
+         <div style={{display:"flex",alignItems:"center"}}> 
          <i className="far fa-thumbs-up" title="like" style={{cursor:"pointer",color:auth.isAuthenticated&&auth.user.likes.includes(el._id)&&"#2e8fa5"}} onClick={()=>
           {if(actvlike)
             {if(auth.isAuthenticated&&!auth.user.likes.includes(el._id))
@@ -665,7 +681,8 @@ setTextedit("")
             }}></i>
            <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.dislikes==0?"":el.dislikes}</p> 
            {(el.postedBy!=auth.user._id)&&auth.isAuthenticated&&<i title="reply" className="material-icons" onClick={()=>{ if(!replycount) setReplayCount(!replycount); setReply(""); setReplyId(el._id)}}>reply</i>}
-            
+           </div>
+           <p style={{color:"rgb(0, 96, 100)"}} >{historyevent(el.created_at)}</p> 
             </div>
       
       {el.reply.length?<div style={{display:"flex",cursor:"pointer",marginTop:3,color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
@@ -694,14 +711,21 @@ else
     return (
     <ul className="collection" key={i} style={{overflow:"initial",marginLeft:15}}>
     <li className="collection-item avatar">
-      <div style={{display:"flex",justifyContent:"space-between"}}>
+      <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
        <div>
-<a href={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
+<Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
-</a>
-       <div style={{display:"flex"}}> 
- <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
-<p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
+</Link>
+       <div style={{display:"flex",alignItems:"center"}}> 
+       <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}><p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
+</Link>
+{users.find(e=>e._id==el.postedBy).role!="participant"&&<p style={{marginLeft:10,height:"fit-content",display:"flex",alignItems:"center",color:(users.find(e=>e._id==el.postedBy).role=="organizer"&&"blue"||(users.find(e=>e._id==el.postedBy).role=="administrator"&&"red")||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"green"))}}>
+  <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i>
+  {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,marginLeft: 0,transform:"translateY(-1px)"}}></i>}
+  {users.find(e=>e._id==el.postedBy).role}
+  {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,transform:"translateY(-1px)"}}></i>}
+  <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i></p>}
+
 </div>
       </div><span style={{display:"flex",justifyContent:"right"}}>
      {(el.postedBy==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&<div id="editdelete">
@@ -759,7 +783,8 @@ setTextedit("")
             
         
          </form>}
-         <div style={{marginTop:5,display:"flex",alignItems:"center"}} id="editdelete">
+         <div style={{marginTop:5,display:"flex",alignItems:"center",justifyContent:"space-between"}} id="editdelete">
+        <div style={{display:"flex",alignItems:"center"}}>
          <i className="far fa-thumbs-up" title="like" style={{cursor:"pointer",color:auth.isAuthenticated&&auth.user.likes.includes(el.id)&&"#2e8fa5"}} onClick={()=>
           {if(actvlike)
             {if(auth.isAuthenticated&&!auth.user.likes.includes(el.id))
@@ -790,7 +815,8 @@ setTextedit("")
              setReply("@"+users.find(e=>e._id==el.postedBy).fname+"-"+users.find(e=>e._id==el.postedBy).lname+" ")
              document.getElementById('replyinp').focus()
              }}>reply</i>}
-            
+             </div>
+            <p style={{color:"rgb(0, 96, 100)"}}>{historyevent(el.created_at)}</p>
             </div>
    </li>
   </ul>

@@ -22,16 +22,16 @@ border-radius: 15px;
     width: 40px !important;
     height: 40px !important;
 }
-#editdelete>i{
+#editdelete i{
     font-size: 19px;
     color: gray;
     margin: 3px;
     cursor: pointer;
 }
-#editdelete>i:hover{
+#editdelete i:hover{
     color: #2e8fa5
 }
-#editdelete>i[title=Cancel]{
+#editdelete i[title=Cancel]{
    
     color: #2e8fa5;
   

@@ -84,7 +84,7 @@ function Home() {
                 .map((el) => {
                   return (
                     <li key={el._id} >
-                      <img src={el.image} style={{filter:"blur(0.5px)",backgroundPosition: "bottom"}} width="100%" height="100%" />
+                      <img src={el.image} style={{filter:"blur(0.5px)",backgroundPosition: "bottom"}} width="100%" height="100%" alt=""/>
                       <div
                         className="caption left-align"
                         style={{

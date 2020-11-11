@@ -59,9 +59,6 @@ function Participant_page({match}) {
   
     })
 
-    var url = window.location.pathname;
-    var iduser = url.substring(url.lastIndexOf('/') + 1);
-
     return (
 <>
 <Navbar/>
@@ -71,23 +68,23 @@ function Participant_page({match}) {
         <div className=" col s12 organizer_hi "
          >
             {users.length!=0&& <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
-                 <img  style={{width:130,height:130,paddingTop:10}} src={users.find(el=>el._id==iduser).avatar} alt="../public/User_icon.png" className="circle"/>
+                 <img  style={{width:130,height:130,paddingTop:10}} src={users.find(el=>el._id==match.params.participantId).avatar} alt="../public/User_icon.png" className="circle"/>
 
              </div>}
             <p className="h5-tit" style={{paddingTop:0}}>
-              {users.length!=0&&users.find(el=>el._id==iduser).fname} {users.length!=0&&users.find(el=>el._id==iduser).lname}
+              {users.length!=0&&users.find(el=>el._id==match.params.participantId).fname} {users.length!=0&&users.find(el=>el._id==match.params.participantId).lname}
             </p>
 
           </div>
         </div>
 
 <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >
-     <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Inscription date: {users.length!=0&&users.find(el=>el._id==iduser).created_at}</b></h5>
+     <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Inscription date: {users.length!=0&&users.find(el=>el._id==match.params.participantId).created_at}</b></h5>
        <div className="col s12 l4" style={{fontStyle: "",fontSize:17,marginBottom:10}}>
        <span>Comments number:
 
-{(comments.comments&&comments.comments).map(elc=>{elc.reply.filter(el=>el.postedBy==iduser).map(el=>{rs=rs+1})})}
-{comments.comments&& nbr_comments(comments.comments.filter(el=>el.postedBy==iduser).length)+ rs +" "}
+{(comments.comments&&comments.comments).map(elc=>{elc.reply.filter(el=>el.postedBy==match.params.participantId).map(el=>{rs=rs+1})})}
+{comments.comments&& nbr_comments(comments.comments.filter(el=>el.postedBy==match.params.participantId).length)+ rs +" "}
 comment{comments.comments&&comments.comments.filter(elm=>elm).length==0?"":"s"}</span>
    </div>
    <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>

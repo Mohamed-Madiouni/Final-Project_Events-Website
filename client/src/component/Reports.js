@@ -203,7 +203,7 @@ setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletecomid(el._id)} className="modal-trigger material-icons" data-target="modaldeletcom" title="Delete">delete</i>
 
-<i onClick={()=>setRemovereport(el._id)} className="modal-trigger count" data-target="modaldeletreportcom" title="Remove Report"><span className="num" style={{top:"5px", left:"8px"}}>{el.reports}</span></i>
+<i onClick={()=>setRemovereport(el._id)} className="modal-trigger count" data-target="modaldeletreportcom" title="Remove Report"><span className="num" style={{top:"5px", left:"9px"}}>{el.reports}</span></i>
      </div>}</span>
       </div>
   
@@ -324,7 +324,46 @@ setTextedit("")
 </div>}
 </span>
       </div>
+      {el.id!=edit?<p style={{overflowWrap: "break-word"}}>{el.content}</p>:
+       
+       
+       <form>
+      
+         
+       <div style={{width:"100%",position:"relative"}}>
+       
+         <textarea value={textedit} 
+        onChange={(e)=>setTextedit(e.target.value)}
+         onKeyDown={(e)=> { if (e.key === "Enter") oneditreply(e)}}
+                 className="materialize-textarea"
+                  style={{paddingRight:"30px"}}
+                  id="textarea_edit"
+                  autoFocus
+                  > 
+                  </textarea> 
+                  
+       <i className="far fa-smile"  style={{position:"absolute",bottom:20,right:5,cursor:"pointer"}} onClick={()=>setEmojedt(!emojedt)}></i>
+         {emojedt&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-360px",right:0,zIndex:9999999999}} id="emoj_cont">
+           
+           <Picker
+        set='apple'
+       color="#2e8fa5"
+         onSelect={(emoji)=>setTextedit(textedit.concat(emoji.native))} 
+        
+         i18n={{ search: 'Recherche', categories: { search: 'Résultats de recherche', recent: 'Récents' } }}
+         
+         emojiSize={30}
+         showSkinTones={false}
+         showPreview={false}
+         perLine={8}
+  
+         />
+     </div>}
+     </div>
      
+            
+        
+         </form>}
  
          <div style={{marginTop:5,display:"flex",alignItems:"center"}} id="editdelete">
          <i className="far fa-thumbs-up" title="like" style={{cursor:"pointer",color:auth.isAuthenticated&&auth.user.likes.includes(el.id)&&"#2e8fa5"}} onClick={()=>
@@ -425,7 +464,7 @@ setEdit("")
 setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletereplyid(el.id)} className='modal-trigger material-icons' data-target='modaldeletreply' title="delete">delete</i>
-<i onClick={()=>setRemovereport(el.id)} className="modal-trigger count" data-target="modaldeletreportreply" title="Remove Report"><span className="num" style={{top:"5px", left:"8px"}}>{el.reports}</span></i>
+<i onClick={()=>setRemovereport(el.id)} className="modal-trigger count" data-target="modaldeletreportreply" title="Remove Report"><span className="num" style={{top:"5px", left:"9px"}}>{el.reports}</span></i>
 
 </div>}
 </span>
@@ -582,7 +621,7 @@ setTextedit("")
             <a
               href="#!"
               className="modal-close  btn-flat"
-              onClick={()=>dispatch(removereportComment(removereport,-1,auth.user._id))}
+              onClick={()=>dispatch(removereportComment(removereport,0))}
                >
               Agree
             </a>
@@ -605,7 +644,7 @@ setTextedit("")
             <a
               href="#!"
               className="modal-close  btn-flat"
-              onClick={()=> dispatch(removereportReply(removereport,-1,auth.user._id,replyid))}        
+              onClick={()=> dispatch(removereportReply(removereport,0))}        
             >
               Agree
             </a>
