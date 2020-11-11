@@ -596,7 +596,7 @@ setTextedit("")
             <a
               href="#!"
               className="modal-close  btn-flat"
-              onClick={()=>dispatch(deleteReply(replyid,deletereplyid))}
+              onClick={()=>dispatch(deleteReply(deletereplyid))}
             >
               Agree
             </a>
