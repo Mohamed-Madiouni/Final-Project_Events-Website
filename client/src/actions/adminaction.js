@@ -89,15 +89,15 @@ export const banUser=(idUser, ban)=>(dispatch)=>{
 
 
   //Alert user
-  export const alertUser=(email)=>(dispatch)=>{
+  export const alertUser=(email,type,duration,reason)=>(dispatch)=>{
     setAuthToken(localStorage.token)
-    axios.put(`admin/sanction/alert/add/${email}`)
+    axios.post('admin/sanction/alert/add/',{email:email,type:type,duration:duration,reason:reason})
     .then((res)=>{
-      dispatch(getUsers())
       dispatch({
         type: GET_ERRORS,
         payload: {success:"done"},
       })
+      dispatch(getUsers())
     })
     .catch((err) => dispatch({
       type: GET_ERRORS,

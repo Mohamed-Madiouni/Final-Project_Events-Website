@@ -71,6 +71,9 @@ function Participant_page({match}) {
                 <div style={{position:"relative"}}>
                  <img  style={{width:130,height:130,paddingTop:10}} src={users.find(el=>el._id==match.params.participantId).avatar} alt="../public/User_icon.png" className="circle"/>
                  {users.find(el=>el._id==match.params.participantId).online?<div style={{
+                              display:"flex",
+                              justifyContent:"center",
+                              alignItems:"center",
                               position:"absolute",
                               background:"green",
                               right:4,
@@ -78,8 +81,11 @@ function Participant_page({match}) {
                               borderRadius:"50%",
                               width:10,
                               height:10
-                            }}></div>:
+                            }}><span style={{marginLeft:50, color:"green", fontSize:11, fontWeight:"bold"}}>Online</span></div>:
                             <div style={{
+                              display:"flex",
+                              justifyContent:"center",
+                              alignItems:"center",
                               position:"absolute",
                               background:"#616161",
                               right:4,
@@ -87,7 +93,7 @@ function Participant_page({match}) {
                               borderRadius:"50%",
                               width:10,
                               height:10
-                            }}></div>
+                            }}><span style={{marginLeft:50, color:"#616161", fontSize:11, fontWeight:"bold"}}>Offline</span></div>
                             }
                             </div>
              </div>}

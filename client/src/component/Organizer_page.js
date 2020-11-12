@@ -216,6 +216,9 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).f
       
       </p>}
       {users.find(el=>el._id==match.params.organizerId).online?<div style={{
+                              display:"flex",
+                              justifyContent:"center",
+                              alignItems:"center",
                               position:"absolute",
                               background:"green",
                               right:4,
@@ -223,8 +226,11 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).f
                               borderRadius:"50%",
                               width:10,
                               height:10
-                            }}></div>:
+                            }}><span style={{marginLeft:50, color:"green", fontSize:11, fontWeight:"bold"}}>Online</span></div>:
                             <div style={{
+                              display:"flex",
+                              justifyContent:"center",
+                              alignItems:"center",
                               position:"absolute",
                               background:"#616161",
                               right:4,
@@ -232,7 +238,7 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).f
                               borderRadius:"50%",
                               width:10,
                               height:10
-                            }}></div>
+                            }}><span style={{marginLeft:50, color:"#616161", fontSize:11, fontWeight:"bold"}}>Offline</span></div>
                             }
                 </div>
              </div>}

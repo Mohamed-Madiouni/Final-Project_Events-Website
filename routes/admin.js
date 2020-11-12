@@ -114,10 +114,14 @@ router.put("/users/unban/:_id", authMiddleware, (req, res) => {
 
 
 //Alert
-router.put("/sanction/alert/add/", authMiddleware, (req, res) => {
-  //let nowdate = new Date();
-  // console.log(_id)
-  Sanction.create(req.body)
+router.put("/sanction/alert/add/:email", authMiddleware, (req, res) => {
+  let newSanction = new Sanction({
+    email:req.body.email,
+    type:req.body.type,
+    duration:req.body.duration,
+    reason:req.body.reason    
+  })
+  newSanction.save()
   .then((saction) => {
     pusher.trigger('channel1', 'sanction', {
       'message': 'hello world'
@@ -126,7 +130,7 @@ router.put("/sanction/alert/add/", authMiddleware, (req, res) => {
     res.status(201).send(saction)
   
     })
-    .catch((err) => console.log(err.message));
+    .catch(err=>res.status(402).send(err.message))
 });
 
 
