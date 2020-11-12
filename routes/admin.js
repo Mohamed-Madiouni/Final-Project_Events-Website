@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/User");
 const Event = require("../models/Event");
 const Comment = require("../models/Comment");
+const Sanction = require("../models/Sanction");
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 
@@ -113,26 +114,16 @@ router.put("/users/unban/:_id", authMiddleware, (req, res) => {
 
 
 //Alert
-router.put("/users/alert/:_id", authMiddleware, (req, res) => {
-  var _id = req.params._id;
-  let nowdate = new Date();
+router.put("/sanction/alert/add/", authMiddleware, (req, res) => {
+  //let nowdate = new Date();
   // console.log(_id)
-  User.findByIdAndUpdate(
-    _id,
-    {
-      $set: {
-        alerted_date: new Date(
-          nowdate.getFullYear(),
-          nowdate.getMonth(),
-          nowdate.getDate() + 7
-        ),
-      },
-    },
-    { new: true }
-  )
-    .then((useralerted) => { 
-      //  console.log(useralerted)
-      res.send({ alerted: "ok" })
+  Sanction.create(req.body)
+  .then((saction) => {
+    pusher.trigger('channel1', 'sanction', {
+      'message': 'hello world'
+    });  
+    
+    res.status(201).send(saction)
   
     })
     .catch((err) => console.log(err.message));
@@ -140,22 +131,19 @@ router.put("/users/alert/:_id", authMiddleware, (req, res) => {
 
 
 //Remove Alert
-router.put("/users/unalert/:_id", authMiddleware, (req, res) => {
+router.delete("/sanction/alert/delete/:_id", authMiddleware, (req, res) => {
   var _id = req.params._id;
-  let nowdate = new Date();
-  User.findByIdAndUpdate(
-    _id,
-    {
-      $set: {
-        alerted_date: ""
-      },
-    },
-    { new: true }
-  )
-    .then((userunalert) => res.send({ unalert: "ok" }))
-    .catch((err) => console.log(err.message));
+  Sanction.findByIdAndRemove(_id).then(() => {
+    pusher.trigger('channel1', 'sanction', {
+      'message': 'hello world'
+    });  
+    res.send({ msg: "Alert Deleted!" })
+    .catch((err) => {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  });
+  });
 });
-
 
 
 //valid event by Id

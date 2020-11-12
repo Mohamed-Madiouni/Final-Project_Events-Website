@@ -134,7 +134,7 @@ const UserListcard = ({ users }) => {
                           }}
                           type="button"
                           data-target="modal4"
-                          onClick={() => setAlertid(el._id)}
+                          onClick={() => setAlertid(el.email)}
                           disabled={el.role == "administrator" && true}
                         ></i>
                       )}
@@ -151,7 +151,7 @@ const UserListcard = ({ users }) => {
                             }}
                             type="button"
                             data-target="modal5"
-                            onClick={() => setAlertid(el._id)}
+                            onClick={() => setAlertid(el.email)}
                             disabled={el.role == "administrator" && true}
                           ></i>
                         )}
