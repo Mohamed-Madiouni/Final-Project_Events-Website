@@ -117,7 +117,7 @@ function Register({ history }) {
           </form>
         </div>
         <div
-          className="col s8 m9 l10"
+          className="col s8"
           style={{
             borderLeft: "1px solid grey",
             paddingLeft:0

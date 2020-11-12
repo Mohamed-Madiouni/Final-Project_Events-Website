@@ -174,7 +174,7 @@ useEffect(()=>{
            
           </div>
         </div>
-        {myevents&&myevents.length!=0&&myevents.filter(el=>el.state!="Ended").filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed")&&
+        {myevents&&myevents.length!=0&&myevents.filter(el=>new Date(el.start)>new Date()).length!=0&&myevents.filter(el=>el.state!="Ended").filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").length!=0&&
         <div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px",backgroundColor:'rgb(102, 102, 102)',
         color:"white"
 }}>
@@ -184,7 +184,7 @@ useEffect(()=>{
             <p className="h5-tit" style={{paddingTop:10,color:"white"}}>
               Get ready !! <br/> Your next event start in 
             </p>
-                <Count date={myevents&&(myevents.filter(el=>el.state!="Ended").filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").sort(function(a, b) {return new Date(a.start) - new Date(b.start);
+                <Count date={myevents&&(myevents.filter(el=>new Date(el.start)>new Date()).filter(el=>el.state!="Ended").filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").sort(function(a, b) {return new Date(a.start) - new Date(b.start);
 })[0].start.split("T").join(" "))}/>
              </div>
             
@@ -252,7 +252,7 @@ useEffect(()=>{
 
  {events&&events.length!=0?
  
-<div className="row"style={{marginLeft:"50px",marginTop:"20px"}}>
+<div className="row"style={{marginLeft:"10px",marginTop:"20px"}}>
              <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
               <div className="wpb_column vc_column_container col 12">
                 <div className="vc_column-inner">
