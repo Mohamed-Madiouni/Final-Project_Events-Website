@@ -70,6 +70,13 @@ function Participant_page({match}) {
             {users.length!=0&& <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
                 <div style={{position:"relative"}}>
                  <img  style={{width:130,height:130,paddingTop:10}} src={users.find(el=>el._id==match.params.participantId).avatar} alt="../public/User_icon.png" className="circle"/>
+                <i
+                  className="fas fa-envelope"
+style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-4,top:1,fontSize:22,cursor:"pointer"}}
+                  title="Let's talk">
+                    
+                  </i>
+               
                  {users.find(el=>el._id==match.params.participantId).online?<div style={{
                               display:"flex",
                               justifyContent:"center",

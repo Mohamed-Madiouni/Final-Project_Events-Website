@@ -223,7 +223,7 @@ const oneventclick=useCallback((e)=>{
                     <span className="card-title  grey-text text-darken-4" style={{height: "fit-content",lineHeight: "normal",marginTop: "2px",marginBottom:2}}>
                     {allevents.find(e=>e._id==eventId).title.length<=12? <b>{allevents.find(e=>e._id==eventId).title}</b>:<marquee scrolldelay={140} behavior="scroll" direction="left"><b>{allevents.find(e=>e._id==eventId).title}</b></marquee> }
                   </span>
-                  {allevents.find(e=>e._id==eventId).address.address.length<=20?
+                  {allevents.find(e=>e._id==eventId).address.address.length<=18?
                     <p className="red-text address_map" ><i className="fas fa-home" style={{marginRight:5}}></i>{allevents.find(e=>e._id==eventId).address.address}</p>
                   :
                  <marquee  behavior="scroll" direction="left" scrolldelay={140}><p className="red-text address_map"><i className="fas fa-home" style={{marginRight:5}}></i>{allevents.find(e=>e._id==eventId).address.address}</p></marquee> }

@@ -4,7 +4,10 @@ import Footer from "./Footer"
 import { GET_ERRORS } from "../actions/types";
 import { useSelector, useDispatch } from "react-redux";
 import { contactUs } from "../actions/authaction";
-
+import "../../node_modules/intl-tel-input/build/css/intlTelInput.css";
+import intlTelInput from 'intl-tel-input';
+import "../tel.scss"
+import M from "materialize-css";
 // import { GoogleComponent } from 'react-google-location'
 
 import "../ContactUs.css"
@@ -56,6 +59,17 @@ const ContactUs = () => {
 //   }
 
 useEffect(()=>{
+  let input = document.querySelector("#phone");
+intlTelInput(input, {
+       initialCountry: "tn",
+       preferredCountries:["fr","us"],
+       separateDialCode:true,
+       utilsScript:"https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+   });
+ 
+},[]) 
+
+useEffect(()=>{
   dispatch({
     type: GET_ERRORS,
     payload: {},
@@ -72,7 +86,13 @@ return setInputs({...inputs,[e.target.id]:e.target.value})
 
 const handleSubmit=(e)=>{
   e.preventDefault();
-
+  let input = document.querySelector("#phone");
+  let iti=intlTelInput(input, {
+      initialCountry: "tn",
+      preferredCountries:["fr","us"],
+      separateDialCode:true,
+      utilsScript:"https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+  });
   dispatch({
     type: GET_ERRORS,
     payload: {},
@@ -80,7 +100,7 @@ const handleSubmit=(e)=>{
   let data={
     name:inputs.name,
     email:inputs.email,
-    phone:inputs.phone,
+    phone:iti.getNumber(),
     message:inputs.message
   }
     dispatch(contactUs(data))
@@ -202,15 +222,16 @@ style={{marginLeft:"50px",marginTop:"90px",marginRight:"50px"}}>
                                 <input
                                 //  className="form-control input-lg"
                                  id="phone"
-                                  type="number"
+                                  type="tel"
                                   //  placeholder="Cell Phone"
                                    value={inputs.phone}  
                                    onChange={change}
                                    />
-                                      <label htmlFor="phone"> phone </label>
-
+                                      <label htmlFor="phone" className="active"> phone </label>
+                                      <div style={{marginTop: 8}}>
                                        <span className={inputs.error.phone && "red-text"}>
                 {inputs.error.phone}</span>
+                </div>
                             </div>
                         </div>
                         <div className="col">

@@ -175,7 +175,7 @@ useEffect(()=>{
           </div>
         </div>
         {myevents&&myevents.length!=0&&myevents.filter(el=>new Date(el.start)>new Date()).length!=0&&myevents.filter(el=>el.state!="Ended").filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").length!=0&&
-        <div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px",backgroundColor:'rgb(102, 102, 102)',
+        <div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px",backgroundColor:' rgb(44, 44, 44)',
         color:"white"
 }}>
         <div className=" col s12 organizer_hi " style={{padding:0,margin:0}}
@@ -602,7 +602,7 @@ useEffect(()=>{
 </ul>
   </div>
 
-{!clkwidth&&<a title="Subscriptions" href='#!' style={{ cursor:"pointer",  boxShadow: "9px 8px 20px 0px rgba(24, 32, 111, 0.4)"}} onClick={()=>setclkwidth(!clkwidth)}>
+{!clkwidth&&<a title="Subscriptions" href='#!' style={{ cursor:"pointer",  boxShadow: "0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}} onClick={()=>setclkwidth(!clkwidth)}>
 <i className="fas fa-angle-double-right"></i>
 </a>}
 </div>}

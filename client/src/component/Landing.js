@@ -12,7 +12,7 @@ import historyevent from "../outils/history";
 import Notificationuser from "./Notificationsuser";
 import Notifications from "./Notifications";
 import { getUsers } from "../actions/adminaction";
-import { SHOW_NOTIF } from "../actions/types";
+import { SHOW_CHAT, SHOW_NOTIF } from "../actions/types";
 import { roundToNearestMinutes } from "date-fns";
 import Pusher from 'pusher-js'
 
@@ -26,6 +26,7 @@ function Landing({}) {
   let notifsize=notif(allnotif,auth.user._id);
   const users=useSelector(state=>state.admin.users)
   const shownotif =useSelector(state=>state.notification.show)
+  const showchat=useSelector(state=>state.chat.show)
   // const [show,setshow]=useState(false)
   useEffect(() => {
     M.Sidenav.init(document.querySelectorAll(".sidenav"));
@@ -313,11 +314,15 @@ payload:!shownotif
    onClick={()=>history.push(`/${auth.user.role}/${auth.user._id}`)} 
    style={{marginBottom:"5px"}}><i className="fas fa-address-card" style={{marginRight:5}}></i>My profile</button>
   <button className="account"
-  //  onClick={()=>history.push("/myaccount")} 
+   onClick={()=>dispatch({type:SHOW_CHAT,payload:!showchat})} 
    style={{marginBottom:"5px"}}><i className="fas fa-users" style={{marginRight:5}}></i>Chat</button>
    </div>
     </li>
   </ul>
+
+<div className="chatmodal groupofnotes scrollbar"  id="style-3" style={{width:showchat?300:0}}>
+<p>hello</p>
+</div>
 
   <div id="signoutmodal" className="modal">
           <div className="modal-content">
