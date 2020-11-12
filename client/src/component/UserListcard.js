@@ -23,6 +23,7 @@ const UserListcard = ({ users }) => {
   const history = useHistory();
   const [deleteid, setDeleteid] = useState("");
   const [banid, setBanid] = useState("");
+  const [email, setEmail] = useState("");
   const [alertid, setAlertid] = useState("");
   const [modal, setModal] = useState(false);
   const [countuser, setCountuser] = useState(0);
@@ -134,7 +135,9 @@ const UserListcard = ({ users }) => {
                           }}
                           type="button"
                           data-target="modal4"
-                          onClick={() => setAlertid(el.email)}
+                          onClick={() => {
+                            setAlertid(el._id)
+                            setEmail(el.email)}}
                           disabled={el.role == "administrator" && true}
                         ></i>
                       )}
@@ -151,7 +154,9 @@ const UserListcard = ({ users }) => {
                             }}
                             type="button"
                             data-target="modal5"
-                            onClick={() => setAlertid(el.email)}
+                            onClick={() => {
+                              setEmail(el.email)
+                              setAlertid(el._id)}}
                             disabled={el.role == "administrator" && true}
                           ></i>
                         )}
@@ -365,7 +370,7 @@ const UserListcard = ({ users }) => {
               var state=[]
               state=[...state,{users:alertid,consulted:false}]
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
-              dispatch(alertUser(alertid))}}
+              dispatch(alertUser(email, "alert", "1", "reason"))}}
           >
             Agree
           </a>
@@ -392,7 +397,8 @@ const UserListcard = ({ users }) => {
               var state=[]
               state=[...state,{users:alertid,consulted:false}]
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
-              dispatch(unalertUser(alertid))}}
+              dispatch(unalertUser(email))}}
+           
           >
             Agree
           </a>

@@ -3,15 +3,15 @@ const mongoose = require("mongoose");
 const userSchema = mongoose.Schema({
   type: {
     type: String,
-    required: true,
+    defauly: "Alert"
   },
   duration: {
     type: String,
-    required: true,
+    defauly: "1"
   },
   reason: {
     type: String,
-    required: true,
+    defauly: "test"
   },
   email: {
     type: String,
