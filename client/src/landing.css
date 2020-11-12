@@ -107,9 +107,26 @@
     height: 500px;
     transition:  linear 0.5s;
     overflow-y: auto;
+    overflow-x: hidden;
     background: white;
     border-bottom-left-radius: 20px;
     border-top-left-radius: 20px;
     z-index: 999999;
     box-shadow: 0px 8px 20px 0px rgba(24, 32, 111, 0.8)
+}
+.discumodal{
+    position: fixed;
+    left: 0;
+    right: 0;
+    background-color: #fafafa;
+    padding: 0;
+    max-height: 70%;
+    width: 55%;
+    margin: auto;
+    overflow-y: auto;
+    border-radius: 2px;
+    box-shadow: 0px 8px 20px 0px rgba(36, 36, 37, 0.8);
+    z-index: 9999999;
+    top:12%;
+    
 }

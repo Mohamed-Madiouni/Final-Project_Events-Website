@@ -15,7 +15,7 @@ import Searchresult from "./component/Searchresult";
 import Events from "./component/Events";
 import Calendar from "./component/Calendar"
 import { getCurrentUser } from "./actions/authaction";
-import { GET_LOADING, INI_RESIZE, SET_RESIZE, SHOW_CHAT, SHOW_NOTIF } from "./actions/types";
+import { GET_LOADING, INI_RESIZE, SET_RESIZE, SHOW_CHAT, SHOW_NOTIF,SHOW_TALK } from "./actions/types";
 import M from "materialize-css";
 
 // import AddEvent from "./component/AddEvent";
@@ -45,6 +45,7 @@ function App() {
   const [homeNav,setHomeNav]=useState(false)
   const loading=useSelector(state=>state.loading.loading)
   const showchat=useSelector(state=>state.chat.show)
+  const chat=useSelector(state=>state.chat)
  
   // Check for token to keep user logged in
   useEffect(() => {
@@ -109,6 +110,10 @@ setTimeout(()=>{
         showchat&&!document.querySelector(".chatmodal").contains(e.target)&&dispatch({
           type:SHOW_CHAT,
           payload:!showchat
+        })
+        chat.talk.show&&!document.querySelector(".discumodal").contains(e.target)&&dispatch({
+          type:SHOW_TALK,
+          payload:!chat.talk.show
         })
       }}>
       {loading?<Loading/>:

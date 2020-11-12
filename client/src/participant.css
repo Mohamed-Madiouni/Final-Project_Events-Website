@@ -162,6 +162,7 @@ transform: translateX(-78px);
    transition:  linear 0.5s;
     height: 500px;
     overflow-y: auto;
+    overflow-x: hidden;
     background: white;
     border-bottom-right-radius: 20px;
     border-top-right-radius: 20px;

@@ -27,6 +27,7 @@ function Landing({}) {
   const users=useSelector(state=>state.admin.users)
   const shownotif =useSelector(state=>state.notification.show)
   const showchat=useSelector(state=>state.chat.show)
+  const chat=useSelector(state=>state.chat)
   // const [show,setshow]=useState(false)
   useEffect(() => {
     M.Sidenav.init(document.querySelectorAll(".sidenav"));
@@ -323,6 +324,10 @@ payload:!shownotif
 <div className="chatmodal groupofnotes scrollbar"  id="style-3" style={{width:showchat?300:0}}>
 <p>hello</p>
 </div>
+
+{chat.talk.show&&<div className="discumodal groupofnotes scrollbar"  id="style-3">
+  <p>talk</p>
+</div>}
 
   <div id="signoutmodal" className="modal">
           <div className="modal-content">
