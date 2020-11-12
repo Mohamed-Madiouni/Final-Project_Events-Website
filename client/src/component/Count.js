@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import "../count.scss"
 
 function Count({date}) {
-console.log(date)
+
 const [timerDays,setTimerDays]=useState("00")
 const [timerHours,setTimersHours]=useState("00")
 const [timerMinutes,setTimersMinutes]=useState("00")
