@@ -114,7 +114,7 @@ router.put("/users/unban/:_id", authMiddleware, (req, res) => {
 
 
 //Alert
-router.put("/sanction/alert/add/", authMiddleware, (req, res) => {
+router.post("/sanction/alert/add", authMiddleware, (req, res) => {
   let newSanction = new Sanction({
     email:req.body.email,
     type:req.body.type,
@@ -122,12 +122,12 @@ router.put("/sanction/alert/add/", authMiddleware, (req, res) => {
     reason:req.body.reason    
   })
   newSanction.save()
-  .then((saction) => {
+  .then((sanction) => {
     pusher.trigger('channel1', 'sanction', {
       'message': 'hello world'
     });  
     
-    res.status(201).send(saction)
+    res.status(201).send(sanction)
   
     })
     .catch(err=>res.status(402).send(err.message))
