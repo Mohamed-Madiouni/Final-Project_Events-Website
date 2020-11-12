@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = mongoose.Schema({
+const sanctionSchema = mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -41,4 +41,4 @@ const userSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("saction", userSchema);
+module.exports = mongoose.model("sanction", sanctionSchema);
