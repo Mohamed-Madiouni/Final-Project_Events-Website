@@ -1,21 +1,21 @@
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
-  type: {
-    type: String,
-    defauly: "Alert"
-  },
-  duration: {
-    type: String,
-    defauly: "1"
-  },
-  reason: {
-    type: String,
-    defauly: "test"
-  },
   email: {
     type: String,
     required: true,
+  }, 
+  type: {
+    type: String,
+    default: "Alert"
+  },
+  duration: {
+    type: String,
+    default: "1"
+  },
+  reason: {
+    type: String,
+    default: "test"
   },
   created_at: {
     type: Date,

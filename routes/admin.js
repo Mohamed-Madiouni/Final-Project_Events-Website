@@ -114,7 +114,7 @@ router.put("/users/unban/:_id", authMiddleware, (req, res) => {
 
 
 //Alert
-router.put("/sanction/alert/add/:email", authMiddleware, (req, res) => {
+router.put("/sanction/alert/add/", authMiddleware, (req, res) => {
   let newSanction = new Sanction({
     email:req.body.email,
     type:req.body.type,
