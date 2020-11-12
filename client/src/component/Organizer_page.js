@@ -215,13 +215,29 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).f
        to recieve a notification when he add a new event.
       
       </p>}
+      {users.find(el=>el._id==match.params.organizerId).online?<div style={{
+                              position:"absolute",
+                              background:"green",
+                              right:4,
+                              bottom:8,
+                              borderRadius:"50%",
+                              width:10,
+                              height:10
+                            }}></div>:
+                            <div style={{
+                              position:"absolute",
+                              background:"#616161",
+                              right:4,
+                              bottom:8,
+                              borderRadius:"50%",
+                              width:10,
+                              height:10
+                            }}></div>
+                            }
                 </div>
              </div>}
             <p className="h5-tit" style={{paddingTop:0}}>
               {users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname} {users.length!=0&&users.find(el=>el._id==match.params.organizerId).lname}
-            </p>
-            <p className="h5-tit" style={{paddingTop:0}}>
-            {(users.length!=0&&users.find(el=>el._id==match.params.organizerId).online)?<span style={{color:"green"}}>Online</span>:<span style={{color:"red"}}>Offline</span>}
             </p>
             <div>My personal note:{users.length!=0&&users.find(el=>el._id==match.params.organizerId).note}</div>
             {/* <span className="blue-title">Hi there,</span>  */}

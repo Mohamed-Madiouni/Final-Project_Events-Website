@@ -69,15 +69,33 @@ dispatch(getComment())
       <div className=" col s12 organizer_hi "
        >
           {users.length!=0&& <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
+               <div style={{position:"relative"}}>
                <img  style={{width:130,height:130,paddingTop:10}} src={users.find(el=>el._id==match.params.administratorId).avatar} alt="../public/User_icon.png" className="circle"/>
-
+               {users.find(el=>el._id==match.params.administratorId).online?<div style={{
+                              position:"absolute",
+                              background:"green",
+                              right:4,
+                              bottom:8,
+                              borderRadius:"50%",
+                              width:10,
+                              height:10
+                            }}></div>:
+                            <div style={{
+                              position:"absolute",
+                              background:"#616161",
+                              right:4,
+                              bottom:8,
+                              borderRadius:"50%",
+                              width:10,
+                              height:10
+                            }}></div>
+                            }
+                            </div>
            </div>}
           <p className="h5-tit" style={{paddingTop:0}}>
             {users.length!=0&&users.find(el=>el._id==match.params.administratorId).fname} {users.length!=0&&users.find(el=>el._id==match.params.administratorId).lname}
           </p>
-          <p className="h5-tit" style={{paddingTop:0}}>
-            {(users.length!=0&&users.find(el=>el._id==match.params.administratorId).online)?<span style={{color:"green"}}>Online</span>:<span style={{color:"red"}}>Offline</span>}
-          </p>
+         
 
         </div>
       </div>

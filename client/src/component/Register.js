@@ -24,7 +24,8 @@ function Register({ history }) {
     role: "",
     error: {},
   });
-
+  const [passtype,setpasstype]=useState("password")
+  const [passvertype,setpassvertype]=useState("password")
   const form = useRef();
 
   useEffect(()=>{
@@ -196,24 +197,52 @@ function Register({ history }) {
                 onChange={onChange}
                 value={user.password}
                 id="password"
-                type="password"
+                type={passtype}
+                style={{paddingRight: 25,
+                 boxSizing: "border-box"}}
               />
               <label htmlFor="password">Password</label>
               <span className={user.error.password && "red-text"}>
                 {user.error.password}
               </span>
+              <span onClick={()=>{
+                if(passtype=="password")
+                setpasstype("text")
+                else
+               setpasstype("password")
+              }}
+              style={{position:"absolute",right:14,top:20,color: "gray"}}
+              title={passtype=="password"?"Show password":"Hide password"}
+              > 
+              {passtype=="password"?<i className="far fa-eye"></i>
+              :<i className="fas fa-eye-slash"></i>}</span>
+             
             </div>
             <div className="input-field col s12">
               <input
                 onChange={onChange}
                 value={user.password2}
                 id="password2"
-                type="password"
+                type={passvertype}
+               style={{paddingRight: 25,
+                boxSizing: "border-box"}}
               />
               <label htmlFor="password2">Confirm Password</label>
               <span className={user.error.password2 && "red-text"}>
                 {user.error.password2}
               </span>
+              <span onClick={()=>{
+                if(passvertype=="password")
+                setpassvertype("text")
+                else
+               setpassvertype("password")
+              }}
+              style={{position:"absolute",right:14,top:20,color: "gray"}}
+              title={passvertype=="password"?"Show password":"Hide password"}
+              > 
+              {passvertype=="password"?<i className="far fa-eye"></i>
+              :<i className="fas fa-eye-slash"></i>}</span>
+             
             </div>
             <div className="input-field col s12">
               <input

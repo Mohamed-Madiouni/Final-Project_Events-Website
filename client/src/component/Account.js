@@ -30,7 +30,9 @@ function Updateacc({ history }) {
     error: {},
   });
 const [confirmationInput,setConfirmationInput] = useState({confirm:""})
-
+const [passtype,setpasstype]=useState("password")
+  const [passvertype,setpassvertype]=useState("password")
+  const [passcontype,setpasscontype]=useState("password")
 const[mod,setMod]=useState(false)
   
   const[btn,setBtn]=useState(false)
@@ -243,24 +245,50 @@ setConfirmationInput({confirm:""})
                   onChange={onChange}
                   value={user.password}
                   id="password"
-                  type="password"
+                  type={passtype}
+                  style={{paddingRight: 25,
+                   boxSizing: "border-box"}}
                 />
                 <label htmlFor="password">New Password</label>
                 <span className={user.error.password && "red-text"}>
                   {user.error.password}
                 </span>
+                <span onClick={()=>{
+                if(passtype=="password")
+                setpasstype("text")
+                else
+               setpasstype("password")
+              }}
+              style={{position:"absolute",right:14,top:20,color: "gray"}}
+              title={passtype=="password"?"Show password":"Hide password"}
+              > 
+              {passtype=="password"?<i className="far fa-eye"></i>
+              :<i className="fas fa-eye-slash"></i>}</span>
               </div>
               <div className="input-field col s12">
                 <input
                   onChange={onChange}
                   value={user.password2}
                   id="password2"
-                  type="password"
+                  type={passvertype}
+               style={{paddingRight: 25,
+                boxSizing: "border-box"}}
                 />
                 <label htmlFor="password2">Confirm New Password</label>
                 <span className={user.error.password2 && "red-text"}>
                   {user.error.password2}
                 </span>
+                <span onClick={()=>{
+                if(passvertype=="password")
+                setpassvertype("text")
+                else
+               setpassvertype("password")
+              }}
+              style={{position:"absolute",right:14,top:20,color: "gray"}}
+              title={passvertype=="password"?"Show password":"Hide password"}
+              > 
+              {passvertype=="password"?<i className="far fa-eye"></i>
+              :<i className="fas fa-eye-slash"></i>}</span>
               </div>
               <div className="input-field col s12">
                 <input
@@ -359,10 +387,22 @@ setConfirmationInput({confirm:""})
                   onChange={onChangeConfirm}
                   value={confirmationInput.confirm}
                   id="confirm"
-                  type="password"
+                  type={passcontype}
+                  style={{paddingRight: 25,
+                   boxSizing: "border-box"}}
                 />
                 <label htmlFor="confirm">Confirm password</label>
-                
+                <span onClick={()=>{
+                if(passcontype=="password")
+                setpasscontype("text")
+                else
+               setpasscontype("password")
+              }}
+              style={{position:"absolute",right:14,top:20,color: "gray"}}
+              title={passcontype=="password"?"Show password":"Hide password"}
+              > 
+              {passcontype=="password"?<i className="far fa-eye"></i>
+              :<i className="fas fa-eye-slash"></i>}</span>
               </div>
               
           </div>
@@ -373,6 +413,7 @@ setConfirmationInput({confirm:""})
               onClick={()=>{
                 confirmation()
               setMod(!mod)
+              setpasscontype("password")
               }
             }
             >
@@ -384,6 +425,7 @@ setConfirmationInput({confirm:""})
               onClick={()=>{
                 setMod(!mod)
               setBtn(false)
+              setpasscontype("password")
               }}
             >
               Cancel

@@ -15,6 +15,7 @@ function Login({ history }) {
     password: "",
     error: {},
   });
+  const [passtype,setpasstype]=useState("password")
 
   useEffect(() => {
     if (localStorage.token) history.push("/dashboard");
@@ -120,13 +121,27 @@ useEffect(()=>{
                 onChange={onChange}
                 value={userlog.password}
                 id="password"
-                type="password"
+                type={passtype}
+               style={{paddingRight: 25,
+                boxSizing: "border-box"}}
               />
 
               <label htmlFor="password">Password</label>
               <span className={userlog.error.password && "red-text"}>
                 {userlog.error.password}
               </span>
+              <span onClick={()=>{
+                if(passtype=="password")
+                setpasstype("text")
+                else
+               setpasstype("password")
+              }}
+              style={{position:"absolute",right:14,top:20,color: "gray"}}
+              title={passtype=="password"?"Show password":"Hide password"}
+              > 
+              {passtype=="password"?<i className="far fa-eye"></i>
+              :<i className="fas fa-eye-slash"></i>}</span>
+             
             </div>
             <div className="col s12" style={{ paddingLeft: "11.250px" }}>
               <button
