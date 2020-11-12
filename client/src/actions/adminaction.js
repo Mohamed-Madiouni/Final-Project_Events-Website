@@ -53,16 +53,16 @@ export const deleteUser=(idUser)=>(dispatch)=>{
   .catch(err=>console.log(err))
  }
 
-  //Ban user
-export const banUser=(idUser, ban)=>(dispatch)=>{
+//Ban user
+export const banUser=(email,type,duration,reason)=>(dispatch)=>{
   setAuthToken(localStorage.token)
-  axios.put(`admin/users/ban/${idUser}`, ban)
+  axios.post('admin/sanction/ban/add',{email:email,type:type,duration:duration,reason:reason,author:author})
   .then((res)=>{
-    dispatch(getUsers())
     dispatch({
       type: GET_ERRORS,
       payload: {success:"done"},
     })
+    dispatch(getUsers())
   })
   .catch((err) => dispatch({
     type: GET_ERRORS,
@@ -71,9 +71,9 @@ export const banUser=(idUser, ban)=>(dispatch)=>{
 };
 
   //Unban user
-  export const unbanUser=(idUser, unban)=>(dispatch)=>{
+  export const unbanUser=(IdBan, cancel)=>(dispatch)=>{
     setAuthToken(localStorage.token)
-    axios.put(`admin/users/unban/${idUser}`, unban)
+    axios.put(`admin/sanction/ban/delete/${IdBan}`, cancel, cancelreason, cancelauthor, cancelled_at)
     .then((res)=>{
       dispatch(getUsers())
       dispatch({
@@ -91,7 +91,7 @@ export const banUser=(idUser, ban)=>(dispatch)=>{
   //Alert user
   export const alertUser=(email,type,duration,reason)=>(dispatch)=>{
     setAuthToken(localStorage.token)
-    axios.post('admin/sanction/alert/add',{email:email,type:type,duration:duration,reason:reason})
+    axios.post('admin/sanction/alert/add',{email:email,type:type,duration:duration,reason:reason,author:author})
     .then((res)=>{
       dispatch({
         type: GET_ERRORS,
@@ -108,7 +108,7 @@ export const banUser=(idUser, ban)=>(dispatch)=>{
     //Remove alert user
     export const unalertUser=(IdAlert, cancel)=>(dispatch)=>{
       setAuthToken(localStorage.token)
-      axios.put(`admin/sanction/alert/delete/${IdAlert}`, cancel)
+      axios.put(`admin/sanction/alert/delete/${IdAlert}`, cancel, cancelreason, cancelauthor, cancelled_at)
       .then((res)=>{
         dispatch(getUsers())
         dispatch({

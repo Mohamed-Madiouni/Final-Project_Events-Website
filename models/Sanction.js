@@ -17,14 +17,27 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  author: {
+    type: String,
+    required: true,
+  }, 
   canceled: {
     type: Boolean,
     default: false
+  },
+  cancelauthor: {
+    type: String,
   }, 
+  cancelreason: {
+    type: String,
+  },
   created_at: {
     type: Date,
     default: Date.now,
     required: true,
+  },
+  cancelled_at: {
+    type: Date,
   },
 });
 
