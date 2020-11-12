@@ -128,27 +128,27 @@ export default [
             }
         ]
     },
-    {
-        "featureType": "water",
-        "elementType": "all",
-        "stylers": [
-            {
-                "color": "#46bcec"
-            },
-            {
-                "visibility": "on"
-            }
-        ]
-    },
     // {
     //     "featureType": "water",
-    //     "elementType": "geometry.fill",
+    //     "elementType": "all",
     //     "stylers": [
     //         {
-    //             "color": "#c8d7d4"
+    //             "color": "#46bcec"
+    //         },
+    //         {
+    //             "visibility": "on"
     //         }
     //     ]
     // },
+    {
+        "featureType": "water",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#8ed7f5"
+            }
+        ]
+    },
     {
         "featureType": "water",
         "elementType": "labels.text.fill",

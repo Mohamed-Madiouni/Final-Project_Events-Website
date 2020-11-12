@@ -22,6 +22,7 @@ import { formatRelative } from "date-fns";
 import MyMap from "./Maps";
 import getlenthorg, { getlastdateorg } from "../outils/geteventorg";
 import { sendNotifications } from "../actions/notificationaction";
+import Count from "./Count";
 
 function Participant() {
 
@@ -173,6 +174,22 @@ useEffect(()=>{
            
           </div>
         </div>
+        {myevents&&myevents.length!=0&&myevents.filter(el=>el.state!="Ended").filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed")&&
+        <div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px",backgroundColor:'rgb(102, 102, 102)',
+        color:"white"
+}}>
+        <div className=" col s12 organizer_hi " style={{padding:0,margin:0}}
+         >
+           <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center",flexDirection:"column"}}>
+            <p className="h5-tit" style={{paddingTop:10,color:"white"}}>
+              Get ready !! <br/> Your next event start in 
+            </p>
+                <Count date={myevents&&(myevents.filter(el=>el.state!="Ended").filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").sort(function(a, b) {return new Date(a.start) - new Date(b.start);
+})[0].start.split("T").join(" "))}/>
+             </div>
+            
+          </div>
+        </div>}
 
 <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >
      <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
@@ -560,7 +577,7 @@ useEffect(()=>{
   <ul className="collection par">
 {auth.user.follow.map((el,i)=>{
   return (
-<a href={`/organizer/${el}`} key={i}><li  className="">
+<Link to={`/organizer/${el}`} key={i}><li  className="">
   <div style={{display:"flex",flexDirection:"column",justifyContent:"space-around",alignItems:"center",width:80}}>
       <img src={users.find(elm=>elm._id==el).avatar} alt="" className="circle"/>
       <span className="title"><b>{users.find(elm=>elm._id==el).fname}</b></span>
@@ -576,7 +593,7 @@ useEffect(()=>{
     </div>
       </div>
       
-    </li></a>
+    </li></Link>
 
 
 
