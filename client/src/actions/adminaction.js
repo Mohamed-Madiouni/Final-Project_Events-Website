@@ -89,9 +89,9 @@ export const banUser=(idUser, ban)=>(dispatch)=>{
 
 
   //Alert user
-  export const alertUser=(idUser)=>(dispatch)=>{
+  export const alertUser=(email)=>(dispatch)=>{
     setAuthToken(localStorage.token)
-    axios.put(`admin/users/alert/${idUser}`)
+    axios.put(`admin/sanction/alert/add/${email}`)
     .then((res)=>{
       dispatch(getUsers())
       dispatch({
@@ -106,9 +106,9 @@ export const banUser=(idUser, ban)=>(dispatch)=>{
   };
   
     //Remove alert user
-    export const unalertUser=(idUser, unalertDate)=>(dispatch)=>{
+    export const unalertUser=(Idalert)=>(dispatch)=>{
       setAuthToken(localStorage.token)
-      axios.put(`admin/users/unalert/${idUser}`, unalertDate)
+      axios.delete(`admin/sanction/alert/delete/${Idalert}`)
       .then((res)=>{
         dispatch(getUsers())
         dispatch({
