@@ -137,16 +137,25 @@ router.post("/sanction/alert/add", authMiddleware, (req, res) => {
 //Remove Alert
 router.delete("/sanction/alert/delete/:_id", authMiddleware, (req, res) => {
   var _id = req.params._id;
-  Sanction.findByIdAndRemove(_id).then(() => {
+  Sanction.findByIdAndUpdate(
+    _id,
+    {
+      $set: {
+        canceled: true
+      },
+    },
+    { new: true }
+  )
+  .then(() => {
     pusher.trigger('channel1', 'sanction', {
       'message': 'hello world'
-    });  
+    });    
     res.send({ msg: "Alert Deleted!" })
     .catch((err) => {
     console.log(err.message);
     res.status(500).send("Server Error");
   });
-  });
+});
 });
 
 

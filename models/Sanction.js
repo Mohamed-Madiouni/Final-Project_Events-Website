@@ -7,16 +7,20 @@ const userSchema = mongoose.Schema({
   }, 
   type: {
     type: String,
-    default: "Alert"
+    required: true,
   },
   duration: {
     type: String,
-    default: "1"
+    required: true,
   },
   reason: {
     type: String,
-    default: "test"
+    required: true,
   },
+  canceled: {
+    type: Boolean,
+    default: false
+  }, 
   created_at: {
     type: Date,
     default: Date.now,

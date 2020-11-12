@@ -106,9 +106,9 @@ export const banUser=(idUser, ban)=>(dispatch)=>{
   };
   
     //Remove alert user
-    export const unalertUser=(Idalert)=>(dispatch)=>{
+    export const unalertUser=(IdAlert, cancel)=>(dispatch)=>{
       setAuthToken(localStorage.token)
-      axios.delete(`admin/sanction/alert/delete/${Idalert}`)
+      axios.put(`admin/sanction/alert/delete/${IdAlert}`, cancel)
       .then((res)=>{
         dispatch(getUsers())
         dispatch({
