@@ -1,27 +1,44 @@
 const mongoose = require("mongoose");
 
-const userSchema = mongoose.Schema({
-  type: {
-    type: String,
-    defauly: "Alert"
-  },
-  duration: {
-    type: String,
-    defauly: "1"
-  },
-  reason: {
-    type: String,
-    defauly: "test"
-  },
+const sanctionSchema = mongoose.Schema({
   email: {
     type: String,
     required: true,
+  }, 
+  type: {
+    type: String,
+    required: true,
+  },
+  duration: {
+    type: String,
+    required: true,
+  },
+  reason: {
+    type: String,
+    required: true,
+  },
+  author: {
+    type: String,
+    required: true,
+  }, 
+  canceled: {
+    type: Boolean,
+    default: false
+  },
+  cancelauthor: {
+    type: String,
+  }, 
+  cancelreason: {
+    type: String,
   },
   created_at: {
     type: Date,
     default: Date.now,
     required: true,
   },
+  cancelled_at: {
+    type: Date,
+  },
 });
 
-module.exports = mongoose.model("saction", userSchema);
+module.exports = mongoose.model("sanction", sanctionSchema);

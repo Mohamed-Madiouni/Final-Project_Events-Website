@@ -79,55 +79,71 @@ Event.deleteMany({ id_organizer: _id })
 });
 
 //Ban User by Id
-router.put("/users/ban/:_id", authMiddleware, (req, res) => {
-  var _id = req.params._id;
-  User.findByIdAndUpdate(
-    _id,
-    {
-      $set: {
-        banned: true
-      },
-    },
-    { new: true }
-  )
-    .then((userbanned) => res.send({ banned: "ok" }))
-    .catch((err) => console.log(err.message));
-});
-
-
-//Unban User by Id
-router.put("/users/unban/:_id", authMiddleware, (req, res) => {
-  var _id = req.params._id;
-
-  User.findByIdAndUpdate(
-    _id,
-    {
-      $set: {
-        banned: false
-      },
-    },
-    { new: true }
-  )
-    .then((userunbanned) => res.send({ unbanned: "ok" }))
-    .catch((err) => console.log(err.message));
-});
-
-
-//Alert
-router.put("/sanction/alert/add/:email", authMiddleware, (req, res) => {
+router.post("/sanction/ban/add", authMiddleware, (req, res) => {
   let newSanction = new Sanction({
     email:req.body.email,
     type:req.body.type,
     duration:req.body.duration,
-    reason:req.body.reason    
+    reason:req.body.reason,
+    author:req.body.author  
   })
   newSanction.save()
-  .then((saction) => {
+  .then((sanction) => {
     pusher.trigger('channel1', 'sanction', {
       'message': 'hello world'
     });  
     
-    res.status(201).send(saction)
+    res.status(201).send(sanction)
+  
+    })
+    .catch(err=>res.status(402).send(err.message))
+});
+
+
+//Unban User by Id
+router.put("/sanction/ban/delete/:_id", authMiddleware, (req, res) => {
+  var _id = req.params._id;
+  Sanction.findByIdAndUpdate(
+    _id,
+    {
+      $set: {
+        canceled: true,
+        cancelreason:req.body.cancelreason, 
+        cancelauthor:req.body.cancelauthor,
+        cancelled_at: Date.now
+      },
+    },
+    { new: true }
+  )
+  .then(() => {
+    pusher.trigger('channel1', 'sanction', {
+      'message': 'hello world'
+    });    
+    res.send({ msg: "Ban cancelled" })
+    .catch((err) => {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  });
+});
+});
+
+
+//Alert
+router.post("/sanction/alert/add", authMiddleware, (req, res) => {
+  let newSanction = new Sanction({
+    email:req.body.email,
+    type:req.body.type,
+    duration:req.body.duration,
+    reason:req.body.reason,
+    author:req.body.author  
+  })
+  newSanction.save()
+  .then((sanction) => {
+    pusher.trigger('channel1', 'sanction', {
+      'message': 'hello world'
+    });  
+    
+    res.status(201).send(sanction)
   
     })
     .catch(err=>res.status(402).send(err.message))
@@ -135,18 +151,30 @@ router.put("/sanction/alert/add/:email", authMiddleware, (req, res) => {
 
 
 //Remove Alert
-router.delete("/sanction/alert/delete/:_id", authMiddleware, (req, res) => {
+router.put("/sanction/alert/delete/:_id", authMiddleware, (req, res) => {
   var _id = req.params._id;
-  Sanction.findByIdAndRemove(_id).then(() => {
+  Sanction.findByIdAndUpdate(
+    _id,
+    {
+      $set: {
+        canceled: true,
+        cancelreason:req.body.cancelreason, 
+        cancelauthor:req.body.cancelauthor,
+        cancelled_at: Date.now
+      },
+    },
+    { new: true }
+  )
+  .then(() => {
     pusher.trigger('channel1', 'sanction', {
       'message': 'hello world'
-    });  
-    res.send({ msg: "Alert Deleted!" })
+    });    
+    res.send({ msg: "Alert Cancelled!" })
     .catch((err) => {
     console.log(err.message);
     res.status(500).send("Server Error");
   });
-  });
+});
 });
 
 
