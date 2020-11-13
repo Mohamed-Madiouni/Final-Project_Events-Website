@@ -15,6 +15,7 @@ import { getUsers } from "../actions/adminaction";
 import { SHOW_CHAT, SHOW_NOTIF } from "../actions/types";
 import { roundToNearestMinutes } from "date-fns";
 import Pusher from 'pusher-js'
+import Chat from "./Chat";
 
 function Landing({}) {
   const dispatch = useDispatch();
@@ -276,7 +277,7 @@ payload:!shownotif
           
        
        
-        <a href='#!' data-target='dropdown1' className='dropdown-trigger' 
+        <a  data-target='dropdown1' className='dropdown-trigger' 
         style={{height:60,display:"flex",alignItems:"center"}}>
           <img className="circle" src={auth.user.avatar} width="32px" height="32px" alt=""/></a>
         
@@ -314,19 +315,16 @@ payload:!shownotif
     <button className="account"
    onClick={()=>history.push(`/${auth.user.role}/${auth.user._id}`)} 
    style={{marginBottom:"5px"}}><i className="fas fa-address-card" style={{marginRight:5}}></i>My profile</button>
-  <button className="account"
-   onClick={()=>dispatch({type:SHOW_CHAT,payload:!showchat})} 
-   style={{marginBottom:"5px"}}><i className="fas fa-users" style={{marginRight:5}}></i>Chat</button>
    </div>
     </li>
   </ul>
 
-<div className="chatmodal groupofnotes scrollbar"  id="style-3" style={{width:showchat?300:0}}>
-<p>hello</p>
-</div>
+
+
+
 
 {chat.talk.show&&<div className="discumodal groupofnotes scrollbar"  id="style-3">
-  <p>talk</p>
+  <Chat/>
 </div>}
 
   <div id="signoutmodal" className="modal">

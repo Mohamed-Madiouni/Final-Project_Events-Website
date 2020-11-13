@@ -150,8 +150,21 @@ setTimeout(()=>{
            
 
           </Switch>
+          <div className="chatlist">
+{!showchat&&<div className="tap" style={{ cursor:"pointer"}} onClick={()=>{dispatch({type:SHOW_CHAT,payload:!showchat})}}>
+{/* <i className="fas fa-angle-double-top"></i> */}
+<i className="fas fa-edit"></i>
+</div>}
+<div className="chatmodal groupofnotes scrollbar"  id="style-3" style={{width:showchat?300:0}}>
+<p>hello</p>
+</div>
+</div>
         </div>
+        
       )}
+
+
+
     { resize.state&&<ul id="slide-out" className="sidenav " style={{background:"white"}}>
     <li>
         <div style={{background:"linear-gradient(90deg, #1c1b1b 0%, rgb(26, 23, 23) 100%)",
