@@ -221,7 +221,7 @@ export const removefollow = (idorganizer) => (dispatch) => {
 export const getSanctions = () =>(dispatch) => {
   setAuthToken(localStorage.token)
   axios
-    .get("/auth/sanctions")
+    .get("/admin/sanctions")
     .then((res) => dispatch({
           type:GET_SANCTIONS,
           payload:res.data
@@ -231,3 +231,4 @@ export const getSanctions = () =>(dispatch) => {
         payload: err.response.data
       }));
 };
+

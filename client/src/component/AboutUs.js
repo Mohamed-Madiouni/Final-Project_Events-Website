@@ -9,12 +9,12 @@ function AboutUs() {
     <>
     <Navbar/>
     <section id="PageCoverHeader-2" data-vc-full-width="true" data-vc-full-width-init="true"
-         class="vc_section about-us vc_custom_1489707920796 vc_section-has-fill">
-          <div class="vc_row_a wpb_row vc_row-fluid">
-            <div class="wpb_column vc_column_container vc_col-sm-12">
-              <div class="vc_column-inner">
-                  <div class="wpb_text_column wpb_content_element  page-header">
-                    <div class="wpb_wrapper">
+         className="vc_section about-us vc_custom_1489707920796 vc_section-has-fill">
+          <div className="vc_row_a wpb_row vc_row-fluid">
+            <div className="wpb_column vc_column_container vc_col-sm-12">
+              <div className="vc_column-inner">
+                  <div className="wpb_text_column wpb_content_element  page-header">
+                    <div className="wpb_wrapper">
                       <h1 className="h1-about">
                         <span className="span-about " >Welcome to CocoEvent
 </span>
@@ -130,7 +130,7 @@ function AboutUs() {
 
                     <div className="form-group"
                       style={{ marginTop:20}}>
-                        <button class=" btn-1 btn--secondary btn--light"
+                        <button className=" btn-1 btn--secondary btn--light"
                          href="/login">Continue
                          </button>
                   
@@ -156,7 +156,7 @@ function AboutUs() {
 
             <div className="col-md-6"> 
 
-                <img src="/photo.png" alt="" class="img-responsive" 
+                <img src="/photo.png" alt="" className="img-responsive" 
 
                 style={{width: "100%",
                 maxWidth: "100%",

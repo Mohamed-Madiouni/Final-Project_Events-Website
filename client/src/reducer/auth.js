@@ -3,7 +3,8 @@ const isEmpty = require("is-empty");
   const initialState = {
     isAuthenticated: false,
     user: {},
-    updated : false
+    updated : false,
+    sanctions:[]
   };
   export default function(state = initialState, action) {
     switch (action.type) {
