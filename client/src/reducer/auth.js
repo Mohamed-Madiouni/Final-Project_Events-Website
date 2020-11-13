@@ -1,4 +1,4 @@
-import {SET_CURRENT_USER,PROFIL_UPDATED,INI_UPDATE} from "../actions/types";
+import {SET_CURRENT_USER,PROFIL_UPDATED,INI_UPDATE,GET_SANCTIONS} from "../actions/types";
 const isEmpty = require("is-empty");
   const initialState = {
     isAuthenticated: false,
@@ -23,6 +23,10 @@ const isEmpty = require("is-empty");
               ...state,
               updated:false
             }
+            case GET_SANCTIONS:
+              return {
+                ...state,
+                sanctions: action.payload, isLoading: false}
       default:
         return state;
     }

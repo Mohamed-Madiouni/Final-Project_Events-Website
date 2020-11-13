@@ -78,6 +78,16 @@ Event.deleteMany({ id_organizer: _id })
    });
 });
 
+// GET SANCTIONS
+router.get("/sanctions", (req, res) => {
+  Sanction.find()
+    .then((sanctions) => res.json(sanctions))
+    .catch((err) => {
+      console.error(err.message);
+      return res.status(500).send("Server Error");
+    });
+});
+
 //Ban User by Id
 router.post("/sanction/ban/add", authMiddleware, (req, res) => {
   let newSanction = new Sanction({
