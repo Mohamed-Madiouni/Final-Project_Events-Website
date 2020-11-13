@@ -1,8 +1,9 @@
-import { SHOW_CHAT,SHOW_TALK } from "../actions/types";
+import { SHOW_CHAT,SHOW_TALK,ADD_TALK } from "../actions/types";
 const initState = {
   show:false,
   talk:{
-      show:false
+      show:false,
+      value:{}
   }
 };
 export const chat=(state = initState, action) =>{
@@ -13,6 +14,9 @@ export const chat=(state = initState, action) =>{
        case SHOW_TALK:
         return {
          ...state,talk:{...state.talk,show:action.payload}}
+         case ADD_TALK:
+          return {
+           ...state,talk:{...state.talk,value:action.payload}}
     default:  return state;
   }
 }

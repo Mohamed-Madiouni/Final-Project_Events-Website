@@ -24,4 +24,6 @@ export const ADD_FOCUS = "ADD_FOCUS"
 export const GET_LOADING ="GET_LOADING"
 export const SHOW_CHAT =" SHOW_CHAT"
 export const SHOW_TALK="SHOW_TALK"
+export const ADD_TALK ="ADD_TALK"
 export const GET_SANCTIONS="GET_SANCTIONS"
+

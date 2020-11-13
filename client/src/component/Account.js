@@ -134,9 +134,13 @@ setConfirmationInput({confirm:""})
     );
 
     const res = await send.json();
-    updateduser.avatar &&
-      res.error &&
-      M.toast({ html: res.error.message, classes: "red" })&&setBtn(false)
+    if(updateduser.avatar &&res.error)
+    {
+      M.toast({ html: res.error.message, classes: "red" })
+      setBtn(false)
+    }
+    
+      
     // console.log(res);
     !res.error && (updateduser.avatar = resize(res.url));
     console.log(updateduser);

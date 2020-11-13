@@ -527,6 +527,7 @@ return(
                    placeholder="Add a public comment"
                    > 
                    </textarea> 
+                   {comnt&&<i className="fab fa-telegram-plane" style={{position:"absolute",top:10,right:10,cursor:"pointer"}} onClick={(e)=>onsubmit(e)}></i>}
         <i className="far fa-smile"  style={{position:"absolute",bottom:12,right:10,cursor:"pointer"}} onClick={()=>setEmoj(!emoj)}></i>
          {emoj&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-368px",right:5,zIndex:9999999999}} id="emoj_cont">
             
@@ -612,6 +613,7 @@ setTextedit("")
                   </textarea> 
                   
        <i className="far fa-smile"  style={{position:"absolute",bottom:20,right:5,cursor:"pointer",color :"gray"}} onClick={()=>setEmojedt(!emojedt)}></i>
+       {textedit&&<i className="fab fa-telegram-plane" style={{position:"absolute",top:6,right:5,cursor:"pointer",color:"gray"}} onClick={(e)=>onedit(e)}></i>}
          {emojedt&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-360px",right:0,zIndex:9999999999}} id="emoj_cont">
            
            <Picker
@@ -753,7 +755,7 @@ setTextedit("")
        
          <textarea value={textedit} 
         onChange={(e)=>setTextedit(e.target.value)}
-         onKeyDown={(e)=> { if (e.key === "Enter") oneditreply(e)}}
+         onKeyDown={(e)=> { if (e.key === "Enter") textedit.search(/\w/gi)!== -1&&oneditreply(e)}}
                  className="materialize-textarea"
                   style={{paddingRight:"30px"}}
                   id="textarea_edit"
@@ -761,7 +763,8 @@ setTextedit("")
                   > 
                   </textarea> 
                   
-       <i className="far fa-smile"  style={{position:"absolute",bottom:20,right:5,cursor:"pointer"}} onClick={()=>setEmojedt(!emojedt)}></i>
+       <i className="far fa-smile"  style={{position:"absolute",bottom:20,right:5,cursor:"pointer",color:"gray"}} onClick={()=>setEmojedt(!emojedt)}></i>
+       {textedit.search(/\w/gi)!== -1&&<i className="fab fa-telegram-plane" style={{position:"absolute",top:6,right:5,cursor:"pointer",color:"gray"}} onClick={(e)=>oneditreply(e)}></i>}
          {emojedt&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-360px",right:0,zIndex:9999999999}} id="emoj_cont">
            
            <Picker
@@ -828,7 +831,7 @@ setTextedit("")
   <div style={{width:"100%",marginLeft:55}}>
     <textarea value={reply} 
    onChange={(e)=>setReply(e.target.value)}
-    onKeyDown={(e)=> { if (e.key === "Enter") reply&&onreply(e)}}
+    onKeyDown={(e)=> { if (e.key === "Enter") reply.search(/\w/gi)!== -1&&onreply(e)}}
             className="materialize-textarea inpReply"
              style={{paddingRight:"30px"}}
              autoFocus
@@ -838,6 +841,7 @@ setTextedit("")
              
              </textarea> 
   <i className="far fa-smile"  style={{position:"absolute",bottom:12,right:10,cursor:"pointer"}} onClick={()=>setEmojReply(!emojreply)}></i>
+  {reply.search(/\w/gi)!== -1&&<i className="fab fa-telegram-plane" style={{position:"absolute",top:4,right:10,cursor:"pointer"}} onClick={(e)=>onreply(e)}></i>}
    {emojreply&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-368px",right:5,zIndex:9999999999}} id="emoj_cont">
       
       <Picker

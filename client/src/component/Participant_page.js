@@ -5,7 +5,7 @@ import {unfollowEvent,followEvent,getEvent,endEvent, fullEvent, openEvent} from 
 import get_month from "../outils/get_month"
 import "../organizer.css";
 import M from "materialize-css";
-import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP,SHOW_TALK  } from "../actions/types";
+import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP,SHOW_TALK, ADD_TALK  } from "../actions/types";
 import {getCurrentUser } from "../actions/authaction";
 import history from "../outils/history"
 import { getUsers } from '../actions/adminaction';
@@ -71,16 +71,23 @@ function Participant_page({match}) {
             {users.length!=0&& <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
                 <div style={{position:"relative"}}>
                  <img  style={{width:130,height:130,paddingTop:10}} src={users.find(el=>el._id==match.params.participantId).avatar} alt="../public/User_icon.png" className="circle"/>
-                <i
+                {auth.user._id!=match.params.participantId&&<i
                   className="fas fa-envelope"
 style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-4,top:1,fontSize:22,cursor:"pointer"}}
                   title="Let's talk"
-                  onClick={()=>dispatch({
+                  onClick={()=>{
+                    dispatch({
                     type:SHOW_TALK,
                     payload:!chat.talk.show
-                  })}
+                  })
+                  dispatch({
+                    type:ADD_TALK,
+                    payload:match.params.participantId
+                  })
+                
+                }}
                   >  
-                  </i>
+                  </i>}
                
                  {users.find(el=>el._id==match.params.participantId).online?<div style={{
                               display:"flex",
