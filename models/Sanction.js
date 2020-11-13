@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+  const schema = mongoose.Schema;
+  const sanctionSchema = new schema({
 
-const sanctionSchema = mongoose.Schema({
   email: {
     type: String,
     required: true,
