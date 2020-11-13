@@ -1,7 +1,7 @@
 import axios from "axios";
 import setAuthToken from "../token/authtoken";
 import jwt_decode from "jwt-decode";
-import { GET_ERRORS, SET_CURRENT_USER,PROFIL_UPDATED,GET_ALL_MY_EVENTS } from "./types";
+import { GET_ERRORS, SET_CURRENT_USER,PROFIL_UPDATED,GET_ALL_MY_EVENTS,GET_SANCTIONS } from "./types";
 
 // Register User
 export const registerUser = (userData, history) => (dispatch) => {
@@ -215,5 +215,20 @@ export const removefollow = (idorganizer) => (dispatch) => {
       type: GET_ERRORS,
       payload: err.response.data,
     }));
+};
+
+//get sanctions
+export const getSanctions = () =>(dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+    .get("/admin/sanctions")
+    .then((res) => dispatch({
+          type:GET_SANCTIONS,
+          payload:res.data
+      }))
+    .catch((err) => dispatch({
+        type:  GET_ERRORS,
+        payload: err.response.data
+      }));
 };
 

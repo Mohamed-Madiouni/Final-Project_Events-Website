@@ -1,7 +1,7 @@
 import React, { useEffect, useState,useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logoutUser } from "../actions/authaction";
+import { logoutUser,  getSanctions} from "../actions/authaction";
 import "../landing.css";
 import "../notification.scss";
 import M from "materialize-css";
@@ -15,12 +15,15 @@ import { getUsers } from "../actions/adminaction";
 import { SHOW_CHAT, SHOW_NOTIF } from "../actions/types";
 import { roundToNearestMinutes } from "date-fns";
 import Pusher from 'pusher-js'
+
 import Chat from "./Chat";
+
 
 function Landing({}) {
   const dispatch = useDispatch();
   const history = useHistory()
   const auth = useSelector((state) => state.auth);
+  const sanctions = useSelector((state) => state.auth.sanctions);
   const resize=useSelector(state=>state.resize)
   const location=useLocation()
   const allnotif=useSelector(state=>state.notification.notifications)
@@ -35,6 +38,7 @@ function Landing({}) {
   });
   useEffect(() => {
     dispatch(getUsers())
+    dispatch(getSanctions())
   }, []);
 
 //  console.log(filter_notif(allnotif,auth.user._id))

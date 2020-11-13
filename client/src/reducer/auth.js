@@ -1,9 +1,10 @@
-import {SET_CURRENT_USER,PROFIL_UPDATED,INI_UPDATE} from "../actions/types";
+import {SET_CURRENT_USER,PROFIL_UPDATED,INI_UPDATE,GET_SANCTIONS} from "../actions/types";
 const isEmpty = require("is-empty");
   const initialState = {
     isAuthenticated: false,
     user: {},
-    updated : false
+    updated : false,
+    sanctions:[]
   };
   export default function(state = initialState, action) {
     switch (action.type) {
@@ -23,6 +24,10 @@ const isEmpty = require("is-empty");
               ...state,
               updated:false
             }
+            case GET_SANCTIONS:
+              return {
+                ...state,
+                sanctions: action.payload}
       default:
         return state;
     }
