@@ -27,7 +27,7 @@ const isEmpty = require("is-empty");
             case GET_SANCTIONS:
               return {
                 ...state,
-                sanctions: action.payload, isLoading: false}
+                sanctions: action.payload}
       default:
         return state;
     }
