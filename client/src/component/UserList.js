@@ -467,7 +467,9 @@ const UserList = () => {
                               type="button"
                               className="btn btn-medium modal-trigger"
                               data-target="modal2"
-                              onClick={() => setBanid(el._id)}
+                              onClick={() =>{
+                                setEmail(el.email)
+                                setBanid(el._id)}}
                               disabled={el.role == "administrator" ||!el.alerted_date}
                             >
                               Ban
@@ -486,7 +488,9 @@ const UserList = () => {
                               type="button"
                               className="btn btn-medium modal-trigger"
                               data-target="modal3"
-                              onClick={() => setBanid(el._id)}
+                              onClick={() =>{
+                                setEmail(el.email)
+                                setBanid(el._id)}}
                               disabled={el.role == "administrator" && true}
                             >
                               Unban
@@ -506,7 +510,9 @@ const UserList = () => {
                               }}
                               type="button"
                               data-target="modal4"
-                              onClick={() => setAlertid(el.email)}
+                              onClick={() =>{
+                                setEmail(el.email)
+                                setAlertid(el._id)}}
                               disabled={el.role == "administrator" && true}
                             ></i>
                           )}
@@ -523,7 +529,9 @@ const UserList = () => {
                                 }}
                                 type="button"
                                 data-target="modal5"
-                                onClick={() => setAlertid(el.email)}
+                                onClick={() =>{
+                                  setEmail(el.email)
+                                  setAlertid(el._id)}}
                                 disabled={el.role == "administrator" && true}
                               ></i>
                             )}
@@ -590,7 +598,6 @@ const UserList = () => {
           <p>Are you sure you want to Ban this User?</p>
   <label htmlFor="sel1">Duration</label><p />
   <select id="sel1" id="duration"
-        value={sanctionData.duration}
         onChange={onChange}
         style={{
           display: "initial",
@@ -601,14 +608,14 @@ const UserList = () => {
           border:"1px solid #9e9e9e",
           width:100
         }}>
-      <option value="1 Day">1 Day</option>
-      <option value="2 Day">2 Days</option>
-      <option value="3 Day">3 Days</option>
-      <option value="4 Day">4 Days</option>
-      <option value="5 Day">5 Days</option>
-      <option value="6 Day">6 Days</option>
-      <option value="7 Day">7 Days</option>
-      <option value="Definitive">Definitive</option>
+      <option value="1">1 Day</option>
+      <option value="2">2 Days</option>
+      <option value="3">3 Days</option>
+      <option value="4">4 Days</option>
+      <option value="5">5 Days</option>
+      <option value="6">6 Days</option>
+      <option value="7">7 Days</option>
+      <option value="-1">Definitive</option>
   </select>
 
           <div><label>Reason</label><p />
@@ -627,7 +634,7 @@ const UserList = () => {
               var state=[]
               state=[...state,{users:banid,consulted:false}]
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
-              dispatch(banUser(email, "ban", sanctionData.duration, sanctionData.reason, auth.user.fname + " " + auth.user.fname))}}
+              dispatch(banUser(email, "ban", sanctionData.duration, sanctionData.reason, auth.user.fname + " " + auth.user.lname))}}
 
           >
             Agree
@@ -675,7 +682,6 @@ const UserList = () => {
 
   <label htmlFor="sel1">Duration</label><p />
   <select id="sel1" id="duration"
-        value={sanctionData.duration}
         onChange={onChange}
         style={{
           display: "initial",
@@ -686,13 +692,13 @@ const UserList = () => {
           border:"1px solid #9e9e9e",
           width:100
         }}>
-      <option value="1 Day">1 Day</option>
-      <option value="2 Day">2 Days</option>
-      <option value="3 Day">3 Days</option>
-      <option value="4 Day">4 Days</option>
-      <option value="5 Day">5 Days</option>
-      <option value="6 Day">6 Days</option>
-      <option value="7 Day">7 Days</option>
+      <option value="1">1 Day</option>
+      <option value="2">2 Days</option>
+      <option value="3">3 Days</option>
+      <option value="4">4 Days</option>
+      <option value="5">5 Days</option>
+      <option value="6">6 Days</option>
+      <option value="7">7 Days</option>
   </select>
 
           <div><label>Reason</label><p />
@@ -710,7 +716,7 @@ const UserList = () => {
               var state=[]
               state=[...state,{users:alertid,consulted:false}]
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
-              dispatch(alertUser(email, "alert", sanctionData.duration, sanctionData.reason, auth.user.fname + " " + auth.user.fname))}}
+              dispatch(alertUser(email, "alert", sanctionData.duration, sanctionData.reason, auth.user.fname + " " + auth.user.lname))}}
           >
             Agree
           </a>
