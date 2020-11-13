@@ -569,7 +569,7 @@ const UserList = () => {
           <h4>User delete</h4>
           <p>Are you sure you want to delete this User?</p>
         </div>
-        <div className="modal-footer">
+        <div className="modal-footer"  style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
           <a
             href="#!"
             className="modal-close  btn-flat"
@@ -612,10 +612,10 @@ const UserList = () => {
   </select>
 
           <div><label>Reason</label><p />
-          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Ban Reason"></textarea></div>
+          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Ban Reason" style={{resize: "none"}} /></div>
         </div>
 
-        <div className="modal-footer">
+        <div className="modal-footer" style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
           <a
             href="#!"
             className="modal-close btn-flat"
@@ -643,9 +643,9 @@ const UserList = () => {
           <h4>User Unban</h4>
           <p>Are you sure you want to Unban this User?</p>
           <div><label>Reason</label><p />
-          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Unban Reason"></textarea></div>
+          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Unban Reason" style={{resize: "none"}} /></div>
         </div>
-        <div className="modal-footer">
+        <div className="modal-footer" style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
           <a
             href="#!"
             className="modal-close btn-flat"
@@ -696,9 +696,9 @@ const UserList = () => {
   </select>
 
           <div><label>Reason</label><p />
-          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Alert Reason"></textarea></div>
+          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Alert Reason" style={{resize: "none"}} /></div>
         </div>
-        <div className="modal-footer">
+        <div className="modal-footer" style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
           <a
             href="#!"
             className="modal-close btn-flat"
@@ -725,9 +725,9 @@ const UserList = () => {
           <h4>User Alert</h4>
           <p>Are you sure you want to remove the alert from this User?</p>
           <div><label>Reason</label><p />
-          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Unalert Reason"></textarea></div>
+          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Unalert Reason" style={{resize: "none"}} /></div>
         </div>
-        <div className="modal-footer">
+        <div className="modal-footer"  style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
           <a
             href="#!"
             className="modal-close btn-flat"
