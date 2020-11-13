@@ -39,7 +39,7 @@ const UserListcard = ({ users }) => {
     tel: "",
   });
 
-  const [alertData, setAlertData] = useState({
+  const [sanctionData, setSanctionData] = useState({
     duration: "",
     reason: "",
   });
@@ -71,7 +71,7 @@ const UserListcard = ({ users }) => {
 
   const onChange = (e) => {
     setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value });
-    setAlertData({ ...alertData, [e.target.id]: e.target.value });
+    setSanctionData({ ...sanctionData, [e.target.id]: e.target.value });
   };
   return (
     <div>
@@ -305,11 +305,38 @@ const UserListcard = ({ users }) => {
         </div>
       </div>
 
-      <div id="modal2" className="modal">
+
+<div id="modal2" className="modal">
         <div className="modal-content">
           <h4>User Ban</h4>
           <p>Are you sure you want to Ban this User?</p>
+  <label htmlFor="sel1">Duration</label><p />
+  <select id="sel1" id="duration"
+        value={sanctionData.duration}
+        onChange={onChange}
+        style={{
+          display: "initial",
+          marginTop: 4,
+          borderRadius: 5,
+          outline: "none",
+          background:"transparent",
+          border:"1px solid #9e9e9e",
+          width:100
+        }}>
+      <option value="1 Day">1 Day</option>
+      <option value="2 Day">2 Days</option>
+      <option value="3 Day">3 Days</option>
+      <option value="4 Day">4 Days</option>
+      <option value="5 Day">5 Days</option>
+      <option value="6 Day">6 Days</option>
+      <option value="7 Day">7 Days</option>
+      <option value="Definitive">Definitive</option>
+  </select>
+
+          <div><label>Reason</label><p />
+          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Ban Reason"></textarea></div>
         </div>
+
         <div className="modal-footer">
           <a
             href="#!"
@@ -322,7 +349,8 @@ const UserListcard = ({ users }) => {
               var state=[]
               state=[...state,{users:banid,consulted:false}]
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
-              dispatch(banUser(banid))}}
+              dispatch(banUser(email, "ban", sanctionData.duration, sanctionData.reason, auth.user.fname + " " + auth.user.fname))}}
+
           >
             Agree
           </a>
@@ -336,6 +364,8 @@ const UserListcard = ({ users }) => {
         <div className="modal-content">
           <h4>User Unban</h4>
           <p>Are you sure you want to Unban this User?</p>
+          <div><label>Reason</label><p />
+          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Unban Reason"></textarea></div>
         </div>
         <div className="modal-footer">
           <a
@@ -349,7 +379,7 @@ const UserListcard = ({ users }) => {
               var state=[]
               state=[...state,{users:banid,consulted:false}]
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
-              dispatch(unbanUser(banid))}}
+              dispatch(unbanUser(email,sanctionData.reason))}}
           >
             Agree
           </a>
@@ -367,7 +397,7 @@ const UserListcard = ({ users }) => {
 
   <label htmlFor="sel1">Duration</label><p />
   <select id="sel1" id="duration"
-        value={alertData.duration}
+        value={sanctionData.duration}
         onChange={onChange}
         style={{
           display: "initial",
@@ -402,7 +432,7 @@ const UserListcard = ({ users }) => {
               var state=[]
               state=[...state,{users:alertid,consulted:false}]
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
-              dispatch(alertUser(email, "alert", alertData.duration, alertData.reason, auth.user.fname + " " + auth.user.fname))}}
+              dispatch(alertUser(email, "alert", sanctionData.duration, sanctionData.reason, auth.user.fname + " " + auth.user.fname))}}
           >
             Agree
           </a>
@@ -416,6 +446,8 @@ const UserListcard = ({ users }) => {
         <div className="modal-content">
           <h4>User Alert</h4>
           <p>Are you sure you want to remove the alert from this User?</p>
+          <div><label>Reason</label><p />
+          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Unalert Reason"></textarea></div>
         </div>
         <div className="modal-footer">
           <a
@@ -429,8 +461,7 @@ const UserListcard = ({ users }) => {
               var state=[]
               state=[...state,{users:alertid,consulted:false}]
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
-              dispatch(unalertUser(email))}}
-           
+              dispatch(unalertUser(email,sanctionData.reason))}}
           >
             Agree
           </a>
