@@ -1,10 +1,12 @@
-import {SET_CURRENT_USER,PROFIL_UPDATED,INI_UPDATE,GET_SANCTIONS} from "../actions/types";
+import {SET_CURRENT_USER,PROFIL_UPDATED,INI_UPDATE,GET_SANCTIONS, GET_ALERT, GET_BAN} from "../actions/types";
 const isEmpty = require("is-empty");
   const initialState = {
     isAuthenticated: false,
     user: {},
     updated : false,
-    sanctions:[]
+    sanctions:[],
+    alert:[],
+    ban:[]
   };
   export default function(state = initialState, action) {
     switch (action.type) {
@@ -20,14 +22,22 @@ const isEmpty = require("is-empty");
           updated:true
           }
           case INI_UPDATE:
-            return{
+          return{
+            ...state,
+            updated:false
+          }
+          case GET_SANCTIONS:
+            return {
               ...state,
-              updated:false
-            }
-            case GET_SANCTIONS:
-              return {
-                ...state,
-                sanctions: action.payload}
+              sanctions: action.payload}
+          case GET_ALERT:
+            return {
+              ...state,
+              alert: action.payload}
+          case GET_BAN:
+            return {
+              ...state,
+              ban: action.payload}
       default:
         return state;
     }

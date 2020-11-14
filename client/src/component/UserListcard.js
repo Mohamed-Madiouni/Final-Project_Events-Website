@@ -8,7 +8,7 @@ import {
   alertUser,
   unalertUser,
 } from "../actions/adminaction";
-import { getCurrentUser } from "../actions/authaction";
+import { getCurrentUser, getSanctions, getAlert, getBan } from "../actions/authaction";
 import { useHistory } from "react-router-dom";
 import historyuser from "../outils/history";
 import "../events.css";
@@ -47,6 +47,9 @@ const UserListcard = ({ users }) => {
   useEffect(() => {
     dispatch(getUsers());
     localStorage.token && dispatch(getCurrentUser());
+    localStorage.token && dispatch(getSanctions());
+    localStorage.token && dispatch(getAlert());
+    localStorage.token && dispatch(getBan());
     M.Modal.init(document.querySelectorAll(".modal"));
   }, []);
   useEffect(() => {

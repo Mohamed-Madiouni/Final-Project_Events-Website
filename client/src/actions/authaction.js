@@ -1,7 +1,7 @@
 import axios from "axios";
 import setAuthToken from "../token/authtoken";
 import jwt_decode from "jwt-decode";
-import { GET_ERRORS, SET_CURRENT_USER,PROFIL_UPDATED,GET_ALL_MY_EVENTS,GET_SANCTIONS } from "./types";
+import { GET_ERRORS, SET_CURRENT_USER,PROFIL_UPDATED,GET_ALL_MY_EVENTS,GET_SANCTIONS,GET_BAN,GET_ALERT } from "./types";
 
 // Register User
 export const registerUser = (userData, history) => (dispatch) => {
@@ -21,7 +21,6 @@ export const registerUser = (userData, history) => (dispatch) => {
       })
     );
 };
-
 
 // confirm password
 export const confirmPassword = (pass) => (dispatch) => {
@@ -232,3 +231,32 @@ export const getSanctions = () =>(dispatch) => {
       }));
 };
 
+//get alert
+export const getAlert = () =>(dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+    .get("/admin/alert")
+    .then((res) => dispatch({
+          type:GET_ALERT,
+          payload:res.data
+      }))
+    .catch((err) => dispatch({
+        type:  GET_ERRORS,
+        payload: err.response.data
+      }));
+};
+
+//get ban
+export const getBan = () =>(dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+    .get("/admin/ban")
+    .then((res) => dispatch({
+          type:GET_BAN,
+          payload:res.data
+      }))
+    .catch((err) => dispatch({
+        type:  GET_ERRORS,
+        payload: err.response.data
+      }));
+};
