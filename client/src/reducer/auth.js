@@ -4,9 +4,7 @@ const isEmpty = require("is-empty");
     isAuthenticated: false,
     user: {},
     updated : false,
-    sanctions:[],
-    alert:[],
-    ban:[]
+    sanctions:[]
   };
   export default function(state = initialState, action) {
     switch (action.type) {
@@ -30,14 +28,6 @@ const isEmpty = require("is-empty");
             return {
               ...state,
               sanctions: action.payload}
-          case GET_ALERT:
-            return {
-              ...state,
-              alert: action.payload}
-          case GET_BAN:
-            return {
-              ...state,
-              ban: action.payload}
       default:
         return state;
     }

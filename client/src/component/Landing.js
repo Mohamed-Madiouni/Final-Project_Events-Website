@@ -15,7 +15,6 @@ import { getUsers } from "../actions/adminaction";
 import { SHOW_CHAT, SHOW_NOTIF } from "../actions/types";
 import { roundToNearestMinutes } from "date-fns";
 import Pusher from 'pusher-js'
-
 import Chat from "./Chat";
 import { getChat } from "../actions/chat";
 
@@ -37,6 +36,13 @@ function Landing({}) {
   useEffect(() => {
     M.Sidenav.init(document.querySelectorAll(".sidenav"));
   });
+
+  let usermail=auth.user.email
+  var useralert= (sanctions.filter(el => el.email==usermail && el.type=="alert")).pop()
+  var userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
+
+  console.log(useralert)
+  console.log(userban)
   useEffect(() => {
     dispatch(getUsers())
     dispatch(getSanctions())

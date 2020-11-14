@@ -88,27 +88,6 @@ router.get("/sanctions", (req, res) => {
     });
 });
 
-// GET BAN
-router.get("/ban", (req, res) => {
-  Sanction.findOne({email:req.body.email, type:"ban"}).limit(1).sort({ created_at: -1})
-    .then((sanctions) => res.json(sanctions))
-    .catch((err) => {
-      console.error(err.message);
-      return res.status(500).send("Server Error");
-    });
-});
-
-// GET ALERT
-router.get("/alert", (req, res) => {
-  Sanction.findOne({email:req.body.email, type:"alert"}).limit(1).sort({ created_at: -1})
-    .then((sanctions) => res.json(sanctions))
-    .catch((err) => {
-      console.error(err.message);
-      return res.status(500).send("Server Error");
-    });
-});
-
-
 //Ban User by Id
 router.post("/sanction/ban/add", authMiddleware, (req, res) => {
   let newSanction = new Sanction({
@@ -129,7 +108,6 @@ router.post("/sanction/ban/add", authMiddleware, (req, res) => {
     })
     .catch(err=>res.status(402).send(err.message))
 });
-
 
 //Unban User by Id
 router.put("/sanction/ban/delete/:email", authMiddleware, (req, res) => {
