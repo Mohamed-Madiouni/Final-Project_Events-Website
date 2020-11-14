@@ -261,7 +261,7 @@ useEffect(()=>{
       let compid=match.params.event_id
       let state=[]
       state=[...state,{users:(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id),consulted:false}]
-      dispatch(addreply(reply,replyid,auth.user._id,uuidv4()))
+      dispatch(addreply(reply.trim(),replyid,auth.user._id,uuidv4()))
       state[0].users!=auth.user._id &&
       dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
       
@@ -279,7 +279,7 @@ useEffect(()=>{
 
   const oneditreply=(e)=>{
     e.preventDefault()
-    dispatch(editReply(edit,textedit,replyid))
+    dispatch(editReply(edit,textedit.trim(),replyid))
   }
 
   function onStarHover(nextValue, prevValue, name) {
@@ -562,7 +562,7 @@ return(
 
 <ul className="collection" key={el._id} style={{overflow:"initial"}}>
     <li className="collection-item avatar">
-      <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
+      <div style={{display:"flex",justifyContent:"space-between",marginBottom:2,alignItems:"center"}}>
        <div>
 <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
@@ -713,7 +713,7 @@ else
     return (
     <ul className="collection" key={i} style={{overflow:"initial",marginLeft:15}}>
     <li className="collection-item avatar">
-      <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
+      <div style={{display:"flex",justifyContent:"space-between",marginBottom:2,alignItems:"center"}}>
        <div>
 <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
@@ -986,14 +986,14 @@ return(
           <div className="modal-footer">
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
               onClick={()=>dispatch(deleteComment(deletecomid))}
             >
               Agree
             </a>
             <a
               href="#!"
-              className="modal-close waves-effect waves-green btn-flat"
+              className="modal-close  btn-flat"
             >
               Cancel
             </a>

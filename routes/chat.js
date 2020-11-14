@@ -15,17 +15,54 @@ var pusher = new Pusher({
   useTLS: true,
 });
 
-
+//addnewmessage
 router.post("/add/new",authMiddleware,(req,res)=>{
 
 Chat.create({users:req.body.users,discussion:req.body.content},(err,chat)=>{
-if(err) throw err
-console.log(chat)
+if(err) res.status(404).send(err.message)
 res.status(201).send(chat)
 
 })
 
 
 })
+
+
+//get diss
+
+router.get("/",authMiddleware,(req,res)=>{
+  Chat.find((err,chat)=>{
+    if(err) res.status(404).send(err.message)
+    res.status(200).send(chat)
+  })
+})
+
+//talk
+router.put("/add/new/:chatId",authMiddleware,(req,res)=>{
+
+  Chat.findByIdAndUpdate(req.params.chatId,{$push:{discussion:req.body.content}},(err,chat)=>{
+  if(err) res.status(404).send(err.message)
+  res.status(201).send(chat)
+  
+  })
+  
+  
+  })
+
+  //delete
+router.put("/delete/:chatId",authMiddleware,(req,res)=>{
+console.log(req.body)
+  Chat.findOneAndUpdate({_id:req.params.chatId,"discussion.id":req.body.diss},{$set:{"discussion.$.text":"Message deleted","discussion.$.delete":true}},{
+    new:true,
+    runValidators:true
+  },(err,chat)=>{
+  if(err) res.status(404).send(err.message)
+
+  res.status(201).send(chat)
+  
+  })
+  
+  
+  })
 
 module.exports=router

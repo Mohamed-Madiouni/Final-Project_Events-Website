@@ -37,6 +37,7 @@ useEffect(()=>{
 startTimer()
 return ()=>{
     clearInterval(interval.current)
+   
 }
 })
     return (

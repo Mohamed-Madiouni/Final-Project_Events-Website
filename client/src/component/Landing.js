@@ -17,6 +17,7 @@ import { roundToNearestMinutes } from "date-fns";
 import Pusher from 'pusher-js'
 
 import Chat from "./Chat";
+import { getChat } from "../actions/chat";
 
 
 function Landing({}) {
@@ -50,7 +51,7 @@ useEffect(()=>{M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))})
 useEffect(()=>{
   M.Modal.init(document.querySelectorAll(".modal"))
   localStorage.token&&dispatch(getNotifications())
-  
+  localStorage.token&&dispatch(getChat())
 },[])
 const notifref=useRef()
 

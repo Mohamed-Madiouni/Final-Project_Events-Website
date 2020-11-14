@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { loginUser } from "../actions/authaction";
-import { GET_ERRORS } from "../actions/types";
+import {  loginUser } from "../actions/authaction";
+import { GET_ALL_MY_EVENTS, GET_ERRORS } from "../actions/types";
 import Navbar from "./Navbar";
 import { logoutUser } from "../actions/authaction";
 
@@ -40,6 +40,13 @@ useEffect(()=>{
           history.push("/banned")
          }
     });
+
+    useEffect(()=>{
+      dispatch({ 
+        type: GET_ALL_MY_EVENTS, 
+        payload: {}
+    })
+    },[])
 
   const onChange = (e) => {
     setUserlog({ ...userlog, [e.target.id]: e.target.value });

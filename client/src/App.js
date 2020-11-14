@@ -151,7 +151,7 @@ setTimeout(()=>{
 
           </Switch>
           <div className="chatlist">
-{!showchat&&<div className="tap" style={{ cursor:"pointer"}} onClick={()=>{dispatch({type:SHOW_CHAT,payload:!showchat})}}>
+{!showchat&&location.pathname!="/login"&&location.pathname!="/register"&&<div className="tap" style={{ cursor:"pointer"}} onClick={()=>{dispatch({type:SHOW_CHAT,payload:!showchat})}}>
 {/* <i className="fas fa-angle-double-top"></i> */}
 <i className="fas fa-edit"></i>
 </div>}

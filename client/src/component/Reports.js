@@ -135,7 +135,7 @@ useEffect(()=>{
 
   const oneditreply=(e)=>{
     e.preventDefault()
-    dispatch(editReply(edit,textedit,replyid))
+    dispatch(editReply(edit,textedit.trim(),replyid))
   }
     return (
       <>
@@ -184,7 +184,7 @@ return(
 
 <ul className="collection" key={el._id} style={{overflow:"initial"}}>
     <li className="collection-item avatar">
-    <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
+    <div style={{display:"flex",justifyContent:"space-between",marginBottom:2,alignItems:"center"}}>
     <div>
 <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
@@ -315,7 +315,7 @@ else
     return (
     <ul className="collection" key={i} style={{overflow:"initial",marginLeft:15}}>
     <li className="collection-item avatar">
-    <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
+    <div style={{display:"flex",justifyContent:"space-between",marginBottom:2,alignItems:"center"}}>
        <div>
 
 
@@ -474,7 +474,7 @@ return(
 
 <ul className="collection" key={el.id} style={{overflow:"initial"}}>
     <li className="collection-item avatar">
-    <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
+    <div style={{display:"flex",justifyContent:"space-between",marginBottom:2,alignItems:"center"}}>
        <div>
        <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>

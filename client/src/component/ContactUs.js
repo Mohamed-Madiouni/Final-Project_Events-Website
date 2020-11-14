@@ -69,6 +69,8 @@ intlTelInput(input, {
  
 },[]) 
 
+useEffect(()=>M.updateTextFields())
+
 useEffect(()=>{
   dispatch({
     type: GET_ERRORS,

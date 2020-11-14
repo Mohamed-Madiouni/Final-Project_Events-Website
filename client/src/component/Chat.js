@@ -55,7 +55,8 @@ import StarRatingComponent from "react-star-rating-component";
 import nbr_comments from "../outils/nbr_comments";
 import calcul_rating from "../outils/calucle_rating";
 import "../chat.css";
-import { sendnewmessage } from "../actions/chat";
+import { deleteChat, getChat, sendmessage, sendnewmessage } from "../actions/chat";
+import ischat from "../outils/chatfunction";
 
 function Chat() {
   const allevents = useSelector((state) => state.events.allEvents);
@@ -68,6 +69,7 @@ function Chat() {
   const [emoj, setEmoj] = useState(false);
   const [object, setobject] = useState("");
   const [msg, setmsg] = useState("");
+  const [delid,setdelid] = useState("")
 
 useEffect(()=>{
   if(errors.newmsg)
@@ -80,10 +82,19 @@ useEffect(()=>{
   }
 })
 
+useEffect(()=>{
+localStorage.token&&dispatch(getChat())
+M.Modal.init(document.querySelectorAll(".modal"))
+},[])
+
+
 const onsubmit = ()=>{
  
-  dispatch(sendnewmessage([{user:auth.user._id,text:msg}],[auth.user._id,chat.talk.value]))
+  dispatch(sendnewmessage([{user:auth.user._id,text:msg.trim(),created_at:new Date(),id:uuidv4(),delete:false}],[auth.user._id,chat.talk.value]))
 
+}
+const onsend =()=>{
+  dispatch(sendmessage(chat.discussion.find(el=>el.users.includes(chat.talk.value))._id,{text:msg.trim(),user:auth.user._id,created_at:new Date(),id:uuidv4(),delete:false}))
 }
 
   return (
@@ -91,6 +102,7 @@ const onsubmit = ()=>{
       className="container row chat "
       style={{ marginLeft: "auto", marginRight: "auto",width:"90%" }}
     >
+      {!ischat(chat.discussion,chat.talk.value,auth.user._id)?<div>
         <div className="col s12" style={{margin:5}}>
             <div className="col s12">
  <div className="col s12">
@@ -203,13 +215,103 @@ const onsubmit = ()=>{
                     placeholder="Talk"
                   ></textarea>
                 </div>
-                {msg&&<i className="fab fa-telegram-plane" style={{position:"absolute",top:21.5,right:10,cursor:"pointer",color:'gray'}} onClick={(e)=>{}}></i>}
+                { msg.search(/\w/gi)!== -1&&<i className="fab fa-telegram-plane" style={{position:"absolute",top:21.5,right:10,cursor:"pointer",color:'gray'}} onClick={()=>{sendnewmessage()}}></i>}
               </div>
             
         
         </div>
         </div>
       </div>
+      </div>:<div className="container">
+        
+      <div>
+            <p style={{fontSize:28,fontWeight:"bold", display: "flex",
+              alignItems: "center",
+              margin:10,
+              width: "100%",
+              height: "100%"}}>
+                {users.find(e=>e._id==chat.talk.value).fname+" "+users.find(e=>e._id==chat.talk.value).lname }
+            </p>
+        </div>
+{chat&&chat.discussion.find(el=>el.users.includes(chat.talk.value)&&el.users.includes(auth.user._id)).discussion.map(el=>{
+return (
+<ul className="collection" key={el.id} style={{overflow:"initial"}}>
+    <li className="collection-item avatar" style={{background:el.user==auth.user._id?"#595958":"#55a6f2",color:"white"}}>
+      <div style={{display:"flex",justifyContent:"space-between",marginBottom:2,alignItems:"center"}}>
+       <div>
+<Link to={`/${users.find(e=>e._id==el.user).role}/${users.find(e=>e._id==el.user)._id}`}>
+          <img src={users.find(e=>e._id==el.user).avatar} alt="" className="circle"/>
+</Link>
+       <div style={{display:"flex",alignItems:"center"}}>
+         <div style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
+       <Link to={`/${users.find(e=>e._id==el.user).role}/${users.find(e=>e._id==el.user)._id}`}> <p style={{color:"white"}}><b>{(users.find(e=>e._id==el.user).fname+" "+users.find(e=>e._id==el.user).lname)}</b></p> 
+       </Link>
+       </div>
+</div>
+      </div>
+      {/* <span style={{display:"flex",justifyContent:"right"}}> */}
+     {(el.user==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&<div id="editdelete">
+{!el.delete&&<i onClick={()=>{setdelid(el.id)}} className="modal-trigger material-icons" data-target="modaldeletchat" title="Delete" style={{color:"white"}}>delete</i>}
+     </div>}
+     {/* {(users.find(e=>e._id==el.postedBy).role!="moderator" && users.find(e=>e._id==el.postedBy).role!="administrator" && el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.user.role!="moderator" && auth.isAuthenticated &&!auth.user.reports.includes(el._id)) && <span id="editdelete"><i onClick={()=>setactvreport(el._id)} className='modal-trigger material-icons' data-target='modalreportcom' title="report">report</i></span>}</span> */}
+      </div>
+     
+      <p style={{overflowWrap: "break-word",textDecorationLine:el.delete&&"line-through"}}>{el.text}</p>
+
+      <p style={{color:"white",marginTop:1,display:"flex",alignItems:"center",justifyContent:"flex-end"}}>{historyevent(el.created_at)}</p>
+      </li>
+      </ul>
+)
+})
+        } 
+          <div className="input_add" style={{ position: "relative", display: "flex",background:"transparent",marginLeft:15 }}>
+            <img
+              src={auth.user.avatar}
+              alt="profil"
+              className="circle"
+              style={{ marginTop: 6 }}
+              width="45px"
+              height="45px"
+            />
+            <div style={{ width: "100%", marginTop: 6, marginLeft: 5 }}>
+              <textarea
+                value={msg}
+                onChange={(e) => {
+                  setmsg(e.target.value);
+                }}
+                style={{paddingRight:"30px"}}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter") msg.search(/\w/gi)!== -1&&onsend()
+                }}
+                className="materialize-textarea"
+                placeholder="Aa"
+              ></textarea>
+            </div>
+            { msg.search(/\w/gi)!== -1&&<i className="fab fa-telegram-plane" style={{position:"absolute",top:21.5,right:10,cursor:"pointer",color:'gray'}} onClick={()=>{onsend()}}></i>}
+          </div>
+        
+        </div>}
+        <div id="modaldeletchat" className="modal">
+          <div className="modal-content">
+            <h4>message delete</h4>
+            <p>Are you sure you want to delete the message?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+              onClick={()=>dispatch(deleteChat(chat.discussion.find(el=>el.users.includes(chat.talk.value))._id,delid))}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
     </div>
   );
 }
