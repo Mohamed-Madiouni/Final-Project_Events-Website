@@ -27,6 +27,7 @@ const UserListcard = ({ users }) => {
   const [alertid, setAlertid] = useState("");
   const [modal, setModal] = useState(false);
   const [countuser, setCountuser] = useState(0);
+  const sanctions = useSelector((state) => state.auth.sanctions);
   const toggle = () => {
     setModal(!modal);
   };
@@ -59,6 +60,11 @@ const UserListcard = ({ users }) => {
     M.Materialbox.init(document.querySelectorAll(".materialboxed"));
   });
 
+    let usermail=auth.user.email
+    var useralert= (sanctions.filter(el => el.email==usermail && el.type=="alert")).pop()
+    var userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
+
+ 
   // let users = allusers.filter((el) => {
   //   return (
   //     el.fname.toLowerCase().includes(quickSearch.fname.toLowerCase()) &&
@@ -129,8 +135,9 @@ const UserListcard = ({ users }) => {
                         width="100%"
                         alt=""
                       />
-                      {!el.banned&&(!el.alerted_date ||
-                        new Date() > new Date(el.alerted_date)) && (
+                      {userban&&useralert&&((userban.canceled==true)||(new Date() > new Date(+userban.created_at + userban.duration*86400000))&&
+                      (useralert.canceled==true)&&(userban.duration==-1)&&(new Date() > new Date(+useralert.created_at + useralert.duration*86400000)))
+                       && (
                         <i
                           className="fas fa-exclamation-circle btn-flat modal-trigger"
                           style={{
@@ -149,8 +156,9 @@ const UserListcard = ({ users }) => {
                           disabled={el.role == "administrator" && true}
                         ></i>
                       )}
-                      {!el.banned&&el.alerted_date &&
-                        new Date() < new Date(el.alerted_date) && (
+                      {userban&&useralert&&((userban.canceled==true)||(new Date() > new Date(+userban.created_at + userban.duration*86400000))&&
+                      (useralert.canceled==false)&&(userban.duration!=-1)&&(new Date() < new Date(+useralert.created_at + useralert.duration*86400000)))
+                       && (
                           <i
                             className="fas fa-exclamation-circle btn-flat modal-trigger"
                             style={{

@@ -36,10 +36,12 @@ function Landing({}) {
     M.Sidenav.init(document.querySelectorAll(".sidenav"));
   });
 
-let usermail=auth.user.email
-let useralert= (sanctions.filter(el => el.email==usermail && el.type=="alert")).pop()
-let userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
+  let usermail=auth.user.email
+  var useralert= (sanctions.filter(el => el.email==usermail && el.type=="alert")).pop()
+  var userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
 
+  console.log(useralert)
+  console.log(userban)
   useEffect(() => {
     dispatch(getUsers())
     dispatch(getSanctions())
