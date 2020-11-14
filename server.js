@@ -11,7 +11,7 @@ app.use("/event",require("./routes/events"))
 app.use("/admin",require("./routes/admin"));
 app.use("/notifications",require("./routes/notifications"))
 app.use("/contact",require("./routes/contacts"))
-
+app.use("/chat",require("./routes/chat"))
 app.use("/comment",require("./routes/comment"))
 
 

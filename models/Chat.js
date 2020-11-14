@@ -1,16 +1,8 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 const ChatSchema = new schema({
-    content: { 
-        type: String,
-         required: true 
-        },
-     user:[],
-     duscussion:[],
-    postedBy:{
-         type: mongoose.Types.ObjectId, 
-         ref: "user" 
-        },
+     users:[],
+     discussion:[],
     created_at: {
         type: Date,
         default: Date.now,

@@ -14,3 +14,18 @@ var pusher = new Pusher({
   cluster: 'eu',
   useTLS: true,
 });
+
+
+router.post("/add/new",authMiddleware,(req,res)=>{
+
+Chat.create({users:req.body.users,discussion:req.body.content},(err,chat)=>{
+if(err) throw err
+console.log(chat)
+res.status(201).send(chat)
+
+})
+
+
+})
+
+module.exports=router

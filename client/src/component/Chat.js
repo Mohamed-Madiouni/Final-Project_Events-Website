@@ -55,6 +55,7 @@ import StarRatingComponent from "react-star-rating-component";
 import nbr_comments from "../outils/nbr_comments";
 import calcul_rating from "../outils/calucle_rating";
 import "../chat.css";
+import { sendnewmessage } from "../actions/chat";
 
 function Chat() {
   const allevents = useSelector((state) => state.events.allEvents);
@@ -67,6 +68,23 @@ function Chat() {
   const [emoj, setEmoj] = useState(false);
   const [object, setobject] = useState("");
   const [msg, setmsg] = useState("");
+
+useEffect(()=>{
+  if(errors.newmsg)
+  {
+    setmsg("")
+    dispatch({
+      type:GET_ERRORS,
+      payload:{}
+    })
+  }
+})
+
+const onsubmit = ()=>{
+ 
+  dispatch(sendnewmessage([{user:auth.user._id,text:msg}],[auth.user._id,chat.talk.value]))
+
+}
 
   return (
     <div
@@ -179,7 +197,7 @@ function Chat() {
                     }}
                     style={{paddingRight:"30px"}}
                     onKeyDown={(e) => {
-                      //   if (e.key === "Enter") ()
+                        if (e.key === "Enter") msg.search(/\w/gi)!== -1&&onsubmit()
                     }}
                     className="materialize-textarea"
                     placeholder="Talk"
