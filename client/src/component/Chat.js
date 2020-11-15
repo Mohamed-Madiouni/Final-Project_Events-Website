@@ -211,13 +211,13 @@ const onsend =()=>{
                     }}
                     style={{paddingRight:"30px"}}
                     onKeyDown={(e) => {
-                        if (e.key === "Enter") msg.search(/\w/gi)!== -1&&onsubmit()
+                        if (e.key === "Enter") msg.search(/\w/gi)!== -1&&!(auth.user.blocked.includes(chat.talk.value)||users.find(el=>el._id==chat.talk.value).blocked.includes(auth.user._id))?onsubmit():M.toast({ html: "Action denied !! you can't send message to this person", classes: "red" })
                     }}
                     className="materialize-textarea"
                     placeholder="Talk"
                   ></textarea>
                 </div>
-                { msg.search(/\w/gi)!== -1&&<i className="fab fa-telegram-plane" style={{position:"absolute",top:21.5,right:10,cursor:"pointer",color:'gray'}} onClick={onsubmit}></i>}
+                { msg.search(/\w/gi)!== -1&&<i className="fab fa-telegram-plane" style={{position:"absolute",top:21.5,right:10,cursor:"pointer",color:'gray'}} onClick={!(auth.user.blocked.includes(chat.talk.value)||users.find(el=>el._id==chat.talk.value).blocked.includes(auth.user._id))?onsubmit:M.toast({ html: "Action denied !! you can't send message to this person", classes: "red" })}></i>}
               </div>
             
         
@@ -227,13 +227,14 @@ const onsend =()=>{
       </div>:<div className="container">
         
       <div>
-            <p style={{fontSize:28,fontWeight:"bold", display: "flex",
+            <Link to={`/${users.find(e=>e._id==chat.talk.value).role}/${users.find(e=>e._id==chat.talk.value)._id}`}> <p style={{fontSize:28,fontWeight:"bold", display: "flex",
               alignItems: "center",
               margin:10,
               width: "100%",
               height: "100%"}}>
+                
                 {users.find(e=>e._id==chat.talk.value).fname+" "+users.find(e=>e._id==chat.talk.value).lname }
-            </p>
+            </p></Link>
         </div>
 {chat&&chat.discussion.find(el=>el.users.includes(chat.talk.value)&&el.users.includes(auth.user._id)).discussion.map(el=>{
 return (
@@ -255,7 +256,7 @@ return (
      {(el.user==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&<div id="editdelete">
 {!el.delete&&<i onClick={()=>{setdelid(el.id)}} className="modal-trigger material-icons" data-target="modaldeletchat" title="Delete" style={{color:"white"}}>delete</i>}
      </div>}
-     {/* {(users.find(e=>e._id==el.postedBy).role!="moderator" && users.find(e=>e._id==el.postedBy).role!="administrator" && el.postedBy!=auth.user._id && auth.user.role!="administrator" && auth.user.role!="moderator" && auth.isAuthenticated &&!auth.user.reports.includes(el._id)) && <span id="editdelete"><i onClick={()=>setactvreport(el._id)} className='modal-trigger material-icons' data-target='modalreportcom' title="report">report</i></span>}</span> */}
+     {/* {(users.find(e=>e._id==el.user).role!="moderator" && users.find(e=>e._id==el.user).role!="administrator" && el.user!=auth.user._id && auth.user.role!="administrator" && auth.user.role!="moderator" && auth.isAuthenticated &&!auth.user.reports.includes(el._id)) && <span id="editdelete"><i onClick={()=>setactvreport(el._id)} className='modal-trigger material-icons' data-target='modalreportcom' title="report">report</i></span>}</span> */}
       </div>
      
       <p style={{overflowWrap: "break-word",textDecorationLine:el.delete&&"line-through"}}>{el.text}</p>
@@ -284,19 +285,19 @@ return (
                 }}
                 style={{paddingRight:"30px"}}
                 onKeyDown={(e) => {
-                    if (e.key === "Enter") msg.search(/\w/gi)!== -1&&onsend()
+                    if (e.key === "Enter") msg.search(/\w/gi)!== -1&&!(auth.user.blocked.includes(chat.talk.value)||users.find(el=>el._id==chat.talk.value).blocked.includes(auth.user._id))?onsend():M.toast({ html: "Action denied !! you can't send message to this person", classes: "red" })
                 }}
                 className="materialize-textarea"
                 placeholder="Aa"
               ></textarea>
             </div>
-            { msg.search(/\w/gi)!== -1&&<i className="fab fa-telegram-plane" style={{position:"absolute",top:21.5,right:10,cursor:"pointer",color:'gray'}} onClick={()=>{onsend()}}></i>}
+            { msg.search(/\w/gi)!== -1&&<i className="fab fa-telegram-plane" style={{position:"absolute",top:21.5,right:10,cursor:"pointer",color:'gray'}} onClick={()=>{!(auth.user.blocked.includes(chat.talk.value)||users.find(el=>el._id==chat.talk.value).blocked.includes(auth.user._id))?onsend():M.toast({ html: "Action denied !! you can't send message to this person", classes: "red" })}}></i>}
           </div>
         
         </div>}
-        <div id="modaldeletchat" className="modal" style={{width:"100%",position:"absolute"}}>
+        <div id="modaldeletchat" className="modal" style={{width:"95%",position:"absolute"}}>
           <div className="modal-content">
-            <h4>message delete</h4>
+            <h4>Message delete</h4>
             <p>Are you sure you want to delete the message?</p>
           </div>
           <div className="modal-footer">

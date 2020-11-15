@@ -526,7 +526,7 @@ useEffect(()=>{
           <p>You are about to subscribe to {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )} event, Please
           note that: </p><br/>  
           <ol><li>You can't subscribe to the same event after <b>annulation</b>. </li>
-          <li>You are responsible for all comments you send, in case of non respect your account will be <b>alerted</b> for one <b>week</b> and you risk to get banned from the admin.</li>
+          <li>You are responsible for all comments you send, in case of non respect your account will be <b>alerted</b> and you risk to get <b>banned</b> from the admin.</li>
           </ol></>:<><h4>Event annulation</h4>
                       <p>Are you sure you want to cancel the {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )}  event? 
                       {/* {participate&&((new Date(allevents.find(el=>el._id==participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"} */}
@@ -577,10 +577,10 @@ useEffect(()=>{
   <ul className="collection par">
 {auth.user.follow.map((el,i)=>{
   return (
-<Link to={`/organizer/${el}`} key={i}><li  className="">
+<Link to={`/organizer/${el}`} key={i}><li  style={{height:"fit-content",padding:5}}>
   <div style={{display:"flex",flexDirection:"column",justifyContent:"space-around",alignItems:"center",width:80}}>
       <img src={users.find(elm=>elm._id==el).avatar} alt="" className="circle"/>
-      <span className="title"><b>{users.find(elm=>elm._id==el).fname}</b></span>
+      <span className="title"><b>{users.find(elm=>elm._id==el).fname.slice(0,8)}</b></span>
       </div>
       <div  style={{display:"flex",justifyContent:"space-around",alignItems:"center",flexDirection:"column",width:200,paddingLeft:10}}>
     <div style={{display:"flex",alignItems:"center",width:"100%"}}>

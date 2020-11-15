@@ -14,10 +14,10 @@ import Organizer_events from "./component/Organizer_events";
 import Searchresult from "./component/Searchresult";
 import Events from "./component/Events";
 import Calendar from "./component/Calendar"
-import { getCurrentUser } from "./actions/authaction";
+import { getCurrentUser, userunBlock } from "./actions/authaction";
 import { ADD_TALK, GET_LOADING, INI_RESIZE, SET_RESIZE, SHOW_CHAT, SHOW_NOTIF,SHOW_TALK } from "./actions/types";
 import M from "materialize-css";
-
+import historyevent from "./outils/history"
 // import AddEvent from "./component/AddEvent";
 import ContactUs from "./component/ContactUs"
 import AboutUs from "./component/AboutUs";
@@ -48,6 +48,9 @@ function App() {
   const showchat=useSelector(state=>state.chat.show)
   const chat=useSelector(state=>state.chat)
   const users = useSelector((state) => state.admin.users);
+const [chatstate,setchatstate]=useState("discussion")
+const [blockid,setblockid]=useState("")
+
   // Check for token to keep user logged in
   useEffect(() => {
    
@@ -76,7 +79,7 @@ else
 dispatch({
   type:INI_RESIZE
 })
-
+M.Modal.init(document.querySelectorAll(".modal"))
 },[])
 useEffect(()=>{
   window.addEventListener("resize",()=>{
@@ -157,8 +160,14 @@ setTimeout(()=>{
 <i className="fas fa-edit"></i>
 </div>}
 <div className="chatmodal groupofnotes scrollbar"  id="style-3" style={{width:showchat?300:0}}>
-{chat.discussion.filter(el=>el.users.includes(auth.user._id)).length==0?
-<div style={{height:"100%",width:"100%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:30,fontWeight:"bold"}}> No messages</div>:
+<div style={{transition:"all 0.5s",width:280,heigth:50,display:"flex",alignItems:"center",justifyContent:"space-around",borderTopRightRadius:10,borderTopLeftRadius:10,
+margin:10,fontWeight:"bold"}}>
+  <p style={{transition:"all 0.5s",color:chatstate=="discussion"&&"#2e8fa5",textDecorationLine:chatstate=="discussion"&&"underline",width:"100%",textAlign:"center",borderRight:"1px solid rgb(63, 63, 63)",cursor:"pointer"}} onClick={()=>setchatstate("discussion")}>Discussion</p>
+  <p style={{transition:"all 0.5s",color:chatstate=="block"&&"#2e8fa5",textDecorationLine:chatstate=="block"&&"underline",width:"100%",textAlign:"center",cursor:"pointer"}} onClick={()=>setchatstate("block")}>Block list</p>
+</div>
+{chatstate=="discussion"?
+chat.discussion.filter(el=>el.users.includes(auth.user._id)).length==0?
+<div style={{height:457,width:"100%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:30,fontWeight:"bold"}}> No messages</div>:
 <ul className="collection livechat">
 
 {chat.discussion.filter(el=>el.users.includes(auth.user._id)).slice(0).sort((a,b)=> {return new Date(a.sendat)-new Date(b.sendat)}).reverse().map((el,i)=>{
@@ -176,15 +185,49 @@ setTimeout(()=>{
 }}>
   <div style={{display:"flex",alignItems:"center"}}>
       <img src={users.find(elm=>elm._id==el.users[1]).avatar} alt="" className="circle"/>
-      <div style={{marginLeft:10,display:"flex",flexDirection:"column",alignItems:"flex-start"}}>
+      <div style={{marginLeft:10,display:"flex",flexDirection:"column",alignItems:"flex-start",width:"100%"}}>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",width:"100%"}}>
+
       <span className="title" style={{display:"flex",alignItems:"center"}}><b>{users.find(elm=>elm._id==el.users[1]).fname}</b>
       {el.sendby!=auth.user._id&&<span style={{display:"flex",justifyContent:"center",alignItems:"center",
       background:"#2e8fa5",borderRadius:"50%",width:8,height:8,marginLeft:7}}>
         </span>}
+        
         </span>
+        <span style={{color:"#2e8fa5",fontSize:11}}>{historyevent(el.discussion[el.discussion.length-1].created_at)}</span>
+        </div>
     <div>{el.discussion[el.discussion.length-1].text.length<=30?el.discussion[el.discussion.length-1].text:el.discussion[el.discussion.length-1].text.slice(0,27)+" ..."}</div>
      </div> 
      </div>
+      
+      
+    </li>
+
+
+
+  )
+})}
+</ul>:auth.user.blocked.length==0?
+<div style={{height:457,width:"100%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:30,fontWeight:"bold"}}> Empty list</div>
+:<ul className="collection livechat">
+
+{auth.user.blocked&&auth.user.blocked.map((el,i)=>{
+  return (
+  <li key={i} className="" style={{position:"relative"}}>
+  <div style={{display:"flex",alignItems:"center"}}>
+      <img src={users.find(elm=>elm._id==el).avatar} alt="" className="circle"/>
+     
+     
+
+      <span className="title" style={{display:"flex",alignItems:"center",marginLeft:5}}><b>{users.find(elm=>elm._id==el).fname+" "+users.find(elm=>elm._id==el).lname}</b>
+        
+        </span>
+       
+       
+    
+    
+     </div>
+     <i title='Remove block' className="material-icons modal-trigger" style={{cursor:"pointer",color:"#2e8fa5",position:"absolute",top:5,right:5,fontSize:17}} data-target="modalunblock" onClick={()=>{setblockid(el)}}>delete</i>
       
       
     </li>
@@ -252,6 +295,27 @@ setTimeout(()=>{
       </li>
      
   </ul>}
+  <div id="modalunblock" className="modal">
+          <div className="modal-content">
+            <h4>Block manager</h4>
+            <p>Are you sure you want to remove the block from this user?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+              onClick={()=>dispatch(userunBlock(blockid))}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
     </div>
   );
 }

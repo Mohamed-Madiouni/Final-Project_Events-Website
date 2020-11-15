@@ -62,6 +62,7 @@ const userSchema = mongoose.Schema({
     required: true,
     default: "Hi it's me"
   },
+  blocked:[]
 });
 
 module.exports = mongoose.model("user", userSchema);

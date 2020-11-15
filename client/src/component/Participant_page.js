@@ -6,7 +6,7 @@ import get_month from "../outils/get_month"
 import "../organizer.css";
 import M from "materialize-css";
 import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP,SHOW_TALK, ADD_TALK  } from "../actions/types";
-import {getCurrentUser } from "../actions/authaction";
+import {getCurrentUser, userBlock } from "../actions/authaction";
 import history from "../outils/history"
 import { getUsers } from '../actions/adminaction';
 import "../participant.css"
@@ -71,9 +71,9 @@ function Participant_page({match}) {
             {users.length!=0&& <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
                 <div style={{position:"relative"}}>
                  <img  style={{width:130,height:130,paddingTop:10}} src={users.find(el=>el._id==match.params.participantId).avatar} alt="" className="circle"/>
-                {auth.user._id!=match.params.participantId&&<i
+                {auth.user._id!=match.params.participantId&&!(auth.user.blocked.includes(match.params.participantId)||users.find(el=>el._id==match.params.participantId).blocked.includes(auth.user._id))&&<i
                   className="fas fa-envelope"
-style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-4,top:1,fontSize:22,cursor:"pointer"}}
+style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-5,top:1,fontSize:22,cursor:"pointer"}}
                   title="Let's talk"
                   onClick={()=>{
                     if(auth.isAuthenticated)
@@ -90,6 +90,13 @@ style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-4,top:1,fon
                 history.push("/login")
                 }}
                   >  
+                  </i>}
+                  {auth.isAuthenticated&&auth.user._id!=match.params.participantId&&!auth.user.blocked.includes(match.params.participantId)&&auth.user.role!="moderator"&&auth.user.role!="administrator"&&<i
+                  className="material-icons modal-trigger"
+style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,fontSize:22,cursor:"pointer"}}
+                  title={`block ${users.find(el=>el._id==match.params.participantId).fname} ${users.find(el=>el._id==match.params.participantId).lname}`}
+                  data-target="modalblock"
+                  > block 
                   </i>}
                
                  {users.find(el=>el._id==match.params.participantId).online?<div style={{
@@ -139,6 +146,27 @@ comment{comments.comments&&comments.comments.filter(elm=>elm).length==0?"":"s"}<
    <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
    </div>
  </div>
+ <div id="modalblock" className="modal">
+          <div className="modal-content">
+            <h4>User block</h4>
+            <p>Are you sure you want to block this user?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+              onClick={()=>dispatch(userBlock(match.params.participantId))}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
  <Footer/>    
         </>
     )

@@ -1,7 +1,7 @@
 import React, { useEffect, useState,useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logoutUser,  getSanctions} from "../actions/authaction";
+import { logoutUser,  getSanctions, getCurrentUser} from "../actions/authaction";
 import "../landing.css";
 import "../notification.scss";
 import M from "materialize-css";
@@ -82,6 +82,13 @@ useEffect(()=>{
   channel.bind('my-event', function(data) {
    dispatch(getSanctions())
   });
+  var channel = pusher.subscribe('block');
+  channel.bind('my-event', function(data) {
+   dispatch(getCurrentUser())
+   dispatch(getUsers())
+  });
+
+
 },[])
 
 useEffect(()=>{

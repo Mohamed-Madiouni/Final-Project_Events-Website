@@ -210,4 +210,31 @@ router.put('/remove/follow',authMiddleware,(req,res)=>{
   
   })
 
+//block user
+router.put("/add/block",authMiddleware, (req, res) => {
+
+  User.findByIdAndUpdate(req.userId,{$push:{blocked:req.body.blocked}})
+  .then(user=>{
+    pusher.trigger('block', 'log', {
+      'message': 'hello world'
+    });  
+    res.send("blocked")})
+  
+  
+  })
+
+  //unblock user
+router.put("/remove/block",authMiddleware, (req, res) => {
+
+  User.findByIdAndUpdate(req.userId,{$pull:{blocked:req.body.blocked}})
+  .then(user=>{
+    pusher.trigger('block', 'log', {
+      'message': 'hello world'
+    });  
+    res.send("unblocked")})
+  
+  
+  })
+
+
 module.exports = router;
