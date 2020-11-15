@@ -21,7 +21,11 @@ import MyMap from "./Maps";
 import {geteventorg } from "../outils/geteventorg";
 import Navbar from "./Navbar";
 import { sendNotifications } from "../actions/notificationaction";
+
+import Sanctions from "./User_Sanctions";
+
 import Count from "./Count";
+
 
 function Organizer_page({match}) {
 
@@ -267,7 +271,26 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
             <p className="h5-tit" style={{paddingTop:0}}>
               {users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname} {users.length!=0&&users.find(el=>el._id==match.params.organizerId).lname}
             </p>
+
+            
+            
+
             <div className="h5-tit" style={{padding:0,width:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:"#2e8fa5",fontSize:25,marginBottom:3}}>¤ {users.length!=0&&users.find(el=>el._id==match.params.organizerId).note} ¤</div>
+<button
+            className="btn btn-medium modal-trigger"
+            data-target="modalsanction"
+            style={{ marginBottom: "5px" }}
+            >
+            Sanctions
+            </button>
+            <div
+              id="modalsanction"
+              className="modal"
+              style={{ padding: 0, margin: 0,}}
+            >
+              <Sanctions />
+            </div>  
+
             {/* <span className="blue-title">Hi there,</span>  */}
         {/* <p className="para-blue">
           {" "}
