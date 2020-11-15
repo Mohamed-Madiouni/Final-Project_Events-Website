@@ -57,10 +57,7 @@ function Sanctions() {
                          </div>
                        </div>
                       
-                       <div  style={{cursor:"pointer"}}className="notification-per-period__period-card" onClick={() => {
-                        if((users.find(e=>e.email==el.email).role)=="partcipant") {history.push("participant/"+users.find(e=>e.email==el.email)._id)}
-                        else  {history.push("organizer/"+users.find(e=>e.email==el.email)._id)} 
-                       }}>
+                       <div className="notification-per-period__period-card">
                             <div className="x-flex-column-h-center-v-any" style={{minWidth: "90px"}}>
                             <img src={users.find(e=>e.email==el.email).avatar} alt="" className="circle"  style={{ marginRight: "8px",width:"40px" ,height:"40px"}}/>
                          </div>
