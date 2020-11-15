@@ -74,6 +74,19 @@ notifref.current.style.width="350px"
 })
 
 useEffect(()=>{
+  // Pusher.logToConsole = true;
+
+  var pusher = new Pusher(process.env.REACT_APP_KEY, {
+    cluster: 'eu'
+  });
+  var channel = pusher.subscribe('chat');
+  channel.bind('my-event', function(data) {
+   dispatch(getChat())
+  });
+},[])
+
+
+useEffect(()=>{
   if(shownotif&&notifref.current&&window.innerWidth<=545)
 notifref.current.style.width=Number(Number(window.innerWidth)-195).toString()+"px"
 },[shownotif])

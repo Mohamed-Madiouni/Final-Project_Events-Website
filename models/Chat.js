@@ -7,6 +7,12 @@ const ChatSchema = new schema({
         type: Date,
         default: Date.now,
       },
-     
+     sendby:{
+         type:String,
+         required:true
+     },
+     sendat:{
+         type:Date
+     }
 });
 module.exports = mongoose.model("chat", ChatSchema);

@@ -15,7 +15,7 @@ import Searchresult from "./component/Searchresult";
 import Events from "./component/Events";
 import Calendar from "./component/Calendar"
 import { getCurrentUser } from "./actions/authaction";
-import { GET_LOADING, INI_RESIZE, SET_RESIZE, SHOW_CHAT, SHOW_NOTIF,SHOW_TALK } from "./actions/types";
+import { ADD_TALK, GET_LOADING, INI_RESIZE, SET_RESIZE, SHOW_CHAT, SHOW_NOTIF,SHOW_TALK } from "./actions/types";
 import M from "materialize-css";
 
 // import AddEvent from "./component/AddEvent";
@@ -32,6 +32,7 @@ import Organizer_page from "./component/Organizer_page";
 import Participant_page from "./component/Participant_page";
 import Moderator_page from "./component/Moderator_page";
 import Administrator_page from "./component/Administrator_page";
+import { getUsers } from "./actions/adminaction";
 
 
 function App() {
@@ -46,14 +47,10 @@ function App() {
   const loading=useSelector(state=>state.loading.loading)
   const showchat=useSelector(state=>state.chat.show)
   const chat=useSelector(state=>state.chat)
- 
+  const users = useSelector((state) => state.admin.users);
   // Check for token to keep user logged in
   useEffect(() => {
-    if (localStorage.token) {
-      // Set auth token header auth
-      const token = localStorage.token;
-      setAuthToken(token);
-    }
+   
    
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
@@ -63,9 +60,13 @@ function App() {
   });
   useEffect(()=>{ 
     if (localStorage.token) {
+        // Set auth token header auth
+        const token = localStorage.token;
+        setAuthToken(token);
     dispatch(getCurrentUser());
   
   }
+  dispatch(getUsers())
 
 if(window.innerWidth<=992)
 dispatch({
@@ -111,7 +112,7 @@ setTimeout(()=>{
           type:SHOW_CHAT,
           payload:!showchat
         })
-        chat.talk.show&&!document.querySelector(".discumodal").contains(e.target)&&dispatch({
+        chat.talk.show&&!(document.querySelector(".discumodal").contains(e.target)||document.querySelector(".chatmodal").contains(e.target))&&dispatch({
           type:SHOW_TALK,
           payload:!chat.talk.show
         })
@@ -150,15 +151,51 @@ setTimeout(()=>{
            
 
           </Switch>
-          <div className="chatlist">
+          {auth.isAuthenticated&&<div className="chatlist">
 {!showchat&&location.pathname!="/login"&&location.pathname!="/register"&&<div className="tap" style={{ cursor:"pointer"}} onClick={()=>{dispatch({type:SHOW_CHAT,payload:!showchat})}}>
 {/* <i className="fas fa-angle-double-top"></i> */}
 <i className="fas fa-edit"></i>
 </div>}
 <div className="chatmodal groupofnotes scrollbar"  id="style-3" style={{width:showchat?300:0}}>
-<p>hello</p>
+{chat.discussion.filter(el=>el.users.includes(auth.user._id)).length==0?
+<div style={{height:"100%",width:"100%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:30,fontWeight:"bold"}}> No messages</div>:
+<ul className="collection livechat">
+
+{chat.discussion.filter(el=>el.users.includes(auth.user._id)).slice(0).sort((a,b)=> {return new Date(a.sendat)-new Date(b.sendat)}).reverse().map((el,i)=>{
+  return (
+  <li key={i} className=""  onClick={()=>{
+    dispatch({
+    type:SHOW_TALK,
+    payload:chat.talk.show?chat.talk.show:!chat.talk.show
+  })
+  dispatch({
+    type:ADD_TALK,
+    payload:el.users[1]
+  })
+
+}}>
+  <div style={{display:"flex",alignItems:"center"}}>
+      <img src={users.find(elm=>elm._id==el.users[1]).avatar} alt="" className="circle"/>
+      <div style={{marginLeft:10,display:"flex",flexDirection:"column",alignItems:"flex-start"}}>
+      <span className="title" style={{display:"flex",alignItems:"center"}}><b>{users.find(elm=>elm._id==el.users[1]).fname}</b>
+      {el.sendby!=auth.user._id&&<span style={{display:"flex",justifyContent:"center",alignItems:"center",
+      background:"#2e8fa5",borderRadius:"50%",width:8,height:8,marginLeft:7}}>
+        </span>}
+        </span>
+    <div>{el.discussion[el.discussion.length-1].text.length<=30?el.discussion[el.discussion.length-1].text:el.discussion[el.discussion.length-1].text.slice(0,27)+" ..."}</div>
+     </div> 
+     </div>
+      
+      
+    </li>
+
+
+
+  )
+})}
+</ul>}
 </div>
-</div>
+</div>}
         </div>
         
       )}

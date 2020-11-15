@@ -195,6 +195,7 @@ transform: translateX(-78px);
     height: 90px;
     margin: 10px;
     border-radius: 10px;
+    width: 280px;
 }
 .par li:hover{
   background: rgb(63, 63, 63);
@@ -204,4 +205,5 @@ transform: translateX(-78px);
 .organizer_list>a:hover{
   transform: scale(1.1,1.1);
 }
+
 

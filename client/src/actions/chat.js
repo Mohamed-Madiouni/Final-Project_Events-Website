@@ -29,10 +29,10 @@ axios.get("/chat")
   }
 
 //add
-export const sendnewmessage =(content,usersId)=> (dispatch)=>{
+export const sendnewmessage =(content,usersId,sendedby)=> (dispatch)=>{
     setAuthToken(localStorage.token)
     axios
-    .post('/chat/add/new',{content:content,users:usersId})
+    .post('/chat/add/new',{content:content,users:usersId,sendby:sendedby})
     .then((res) => {
       
       dispatch({
@@ -49,10 +49,10 @@ export const sendnewmessage =(content,usersId)=> (dispatch)=>{
   };
 
   //Talk
-  export const sendmessage =(dissId,content)=> (dispatch)=>{
+  export const sendmessage =(dissId,content,sendedby)=> (dispatch)=>{
     setAuthToken(localStorage.token)
     axios
-    .put(`/chat/add/new/${dissId}`,{content:content})
+    .put(`/chat/add/new/${dissId}`,{content:content,sendby:sendedby})
     .then((res) => {
       
       dispatch({

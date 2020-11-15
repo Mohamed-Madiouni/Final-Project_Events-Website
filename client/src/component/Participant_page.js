@@ -76,7 +76,8 @@ function Participant_page({match}) {
 style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-4,top:1,fontSize:22,cursor:"pointer"}}
                   title="Let's talk"
                   onClick={()=>{
-                    dispatch({
+                    if(auth.isAuthenticated)
+                    {dispatch({
                     type:SHOW_TALK,
                     payload:!chat.talk.show
                   })
@@ -84,7 +85,9 @@ style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-4,top:1,fon
                     type:ADD_TALK,
                     payload:match.params.participantId
                   })
-                
+                }
+                else
+                history.push("/login")
                 }}
                   >  
                   </i>}

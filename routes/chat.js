@@ -18,8 +18,11 @@ var pusher = new Pusher({
 //addnewmessage
 router.post("/add/new",authMiddleware,(req,res)=>{
 
-Chat.create({users:req.body.users,discussion:req.body.content},(err,chat)=>{
+Chat.create({users:req.body.users,discussion:req.body.content,sendby:req.body.sendby,sendat:new Date()},(err,chat)=>{
 if(err) res.status(404).send(err.message)
+pusher.trigger('chat', 'my-event', {
+  'message': 'hello world'
+});
 res.status(201).send(chat)
 
 })
@@ -40,8 +43,11 @@ router.get("/",authMiddleware,(req,res)=>{
 //talk
 router.put("/add/new/:chatId",authMiddleware,(req,res)=>{
 
-  Chat.findByIdAndUpdate(req.params.chatId,{$push:{discussion:req.body.content}},(err,chat)=>{
+  Chat.findByIdAndUpdate(req.params.chatId,{$push:{discussion:req.body.content},$set:{sendby:req.body.sendby,sendat:new Date()}},(err,chat)=>{
   if(err) res.status(404).send(err.message)
+  pusher.trigger('chat', 'my-event', {
+    'message': 'hello world'
+  });
   res.status(201).send(chat)
   
   })
@@ -57,7 +63,9 @@ console.log(req.body)
     runValidators:true
   },(err,chat)=>{
   if(err) res.status(404).send(err.message)
-
+  pusher.trigger('chat', 'my-event', {
+    'message': 'hello world'
+  });
   res.status(201).send(chat)
   
   })

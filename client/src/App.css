@@ -32,3 +32,21 @@
     /* color: rgb(214, 211, 211); */
   
 
+    .livechat img{
+        width: 45px;
+        height: 45px;    
+    }
+    .livechat li{
+        background: rgb(214, 213, 213);
+        padding: 10px;
+        height: fit-content;
+        margin: 10px;
+        border-radius: 10px;
+        cursor:pointer;
+        width: 280px;
+    }
+    .livechat li:hover{
+      background: rgb(63, 63, 63);
+     color: white;
+      
+    }

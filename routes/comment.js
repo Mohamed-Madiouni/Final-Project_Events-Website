@@ -203,14 +203,14 @@ router.put("/add/like/reply/:replyId",authMiddleware,(req,res)=>{
     runValidators:true
   })
   .then(com=>{
-    pusher.trigger('my-channel', 'my-event', {
-      'message': 'hello world'
-    });
+    
     User.findByIdAndUpdate(req.body.user,{$push:{likes:req.params.replyId}},(err,user)=>{
       if (err) throw err
       // console.log(user)
     })
-
+pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))
@@ -227,14 +227,14 @@ router.put("/add/like/reply/remove/:replyId",authMiddleware,(req,res)=>{
     runValidators:true
   })
   .then(com=>{
-    pusher.trigger('my-channel', 'my-event', {
-      'message': 'hello world'
-    });
+    
     User.findByIdAndUpdate(req.body.user,{$pull:{likes:req.params.replyId}},(err,user)=>{
       if (err) throw err
       // console.log(user)
     })
-
+pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))
@@ -252,14 +252,14 @@ router.put("/add/dislike/reply/:replyId",authMiddleware,(req,res)=>{
     runValidators:true
   })
   .then(com=>{
-    pusher.trigger('my-channel', 'my-event', {
-      'message': 'hello world'
-    });
+   
     User.findByIdAndUpdate(req.body.user,{$push:{dislikes:req.params.replyId}},(err,user)=>{
       if (err) throw err
       // console.log(user)
     })
-
+ pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))
@@ -274,14 +274,14 @@ router.put("/add/dislike/reply/remove/:replyId",authMiddleware,(req,res)=>{
     runValidators:true
   })
   .then(com=>{
-    pusher.trigger('my-channel', 'my-event', {
-      'message': 'hello world'
-    });
+   
     User.findByIdAndUpdate(req.body.user,{$pull:{dislikes:req.params.replyId}},(err,user)=>{
       if (err) throw err
       // console.log(user)
     })
-
+ pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))

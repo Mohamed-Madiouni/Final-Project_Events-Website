@@ -90,14 +90,15 @@ M.Modal.init(document.querySelectorAll(".modal"))
 
 const onsubmit = ()=>{
  
-  dispatch(sendnewmessage([{user:auth.user._id,text:msg.trim(),created_at:new Date(),id:uuidv4(),delete:false}],[auth.user._id,chat.talk.value]))
+  dispatch(sendnewmessage([{user:auth.user._id,text:msg.trim(),created_at:new Date(),id:uuidv4(),delete:false}],[auth.user._id,chat.talk.value],auth.user._id))
 
 }
 const onsend =()=>{
-  dispatch(sendmessage(chat.discussion.find(el=>el.users.includes(chat.talk.value))._id,{text:msg.trim(),user:auth.user._id,created_at:new Date(),id:uuidv4(),delete:false}))
+  dispatch(sendmessage(chat.discussion.find(el=>el.users.includes(chat.talk.value))._id,{text:msg.trim(),user:auth.user._id,created_at:new Date(),id:uuidv4(),delete:false},auth.user._id))
 }
 
   return (
+    <>
     <div
       className="container row chat "
       style={{ marginLeft: "auto", marginRight: "auto",width:"90%" }}
@@ -203,6 +204,7 @@ const onsend =()=>{
                 />
                 <div style={{ width: "100%", marginTop: 6, marginLeft: 5 }}>
                   <textarea
+                  autoFocus
                     value={msg}
                     onChange={(e) => {
                       setmsg(e.target.value);
@@ -215,7 +217,7 @@ const onsend =()=>{
                     placeholder="Talk"
                   ></textarea>
                 </div>
-                { msg.search(/\w/gi)!== -1&&<i className="fab fa-telegram-plane" style={{position:"absolute",top:21.5,right:10,cursor:"pointer",color:'gray'}} onClick={()=>{sendnewmessage()}}></i>}
+                { msg.search(/\w/gi)!== -1&&<i className="fab fa-telegram-plane" style={{position:"absolute",top:21.5,right:10,cursor:"pointer",color:'gray'}} onClick={onsubmit}></i>}
               </div>
             
         
@@ -275,6 +277,7 @@ return (
             />
             <div style={{ width: "100%", marginTop: 6, marginLeft: 5 }}>
               <textarea
+              autoFocus
                 value={msg}
                 onChange={(e) => {
                   setmsg(e.target.value);
@@ -291,7 +294,10 @@ return (
           </div>
         
         </div>}
-        <div id="modaldeletchat" className="modal">
+        
+    </div>
+
+    <div id="modaldeletchat" className="modal">
           <div className="modal-content">
             <h4>message delete</h4>
             <p>Are you sure you want to delete the message?</p>
@@ -312,7 +318,7 @@ return (
             </a>
           </div>
         </div>
-    </div>
+</>
   );
 }
 
