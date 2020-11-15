@@ -13,13 +13,14 @@ import Footer from "./Footer";
 import "../../node_modules/intl-tel-input/build/css/intlTelInput.css";
 import intlTelInput from 'intl-tel-input';
 import "../tel.scss"
+import eventClosing from "../outils/eventClosing";
 
 
 function Updateacc({ history }) {
   const errors = useSelector((state) => state.errors);
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-
+  const sanctions = useSelector((state) => state.auth.sanctions);
   const [user, setUser] = useState({
     password: "",
     password2: "",
@@ -36,6 +37,10 @@ const [passtype,setpasstype]=useState("password")
 const[mod,setMod]=useState(false)
   
   const[btn,setBtn]=useState(false)
+
+  let usermail=auth.user.email
+  var useralert= (sanctions.filter(el => el.email==usermail && el.type=="alert")).pop()
+  var userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
 
   useEffect(()=>{
     let input = document.querySelector("#tel");
@@ -67,7 +72,8 @@ const[mod,setMod]=useState(false)
     });
 
     useEffect(() => {
-      if (auth.user.banned===true) {
+      if (userban && (userban.canceled==false) && (new Date(eventClosing(userban.created_at,userban.duration))>new Date()))
+         {
           dispatch(logoutUser());
           history.push("/banned")
          }

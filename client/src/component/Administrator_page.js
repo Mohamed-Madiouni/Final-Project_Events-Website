@@ -31,12 +31,6 @@ function Administrator_page({match}) {
   const comments=useSelector(state=>state.comments)
   const chat=useSelector(state=>state.chat)
   var rs=0;
-useEffect(() => {
-  if (auth.user.banned===true) {
-      dispatch(logoutUser());
-      history.push("/banned")
-     }
-});
 
 useEffect(()=>{
   

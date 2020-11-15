@@ -70,13 +70,6 @@ useEffect(()=>{
 //   return setInitial(["welcome"])
   
 // })
-   
-useEffect(() => {
-  if (auth.user.banned===true) {
-      dispatch(logoutUser());
-      history.push("/banned")
-     }
-});
 
     useEffect(()=>{setInitial(search)},[])
    

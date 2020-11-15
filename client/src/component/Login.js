@@ -5,23 +5,29 @@ import {  loginUser } from "../actions/authaction";
 import { GET_ALL_EVENTS, GET_ALL_MY_EVENTS, GET_ERRORS } from "../actions/types";
 import Navbar from "./Navbar";
 import { logoutUser } from "../actions/authaction";
+import eventClosing from "../outils/eventClosing";
 
 function Login({ history }) {
   const errors = useSelector((state) => state.errors);
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const sanctions = useSelector((state) => state.auth.sanctions);
   const [userlog, setUserlog] = useState({
     email: "",
     password: "",
     error: {},
   });
   const [passtype,setpasstype]=useState("password")
+  let usermail=auth.user.email
+  var useralert= (sanctions.filter(el => el.email==usermail && el.type=="alert")).pop()
+  var userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
 
-  useEffect(() => {
-    if (localStorage.token) history.push("/dashboard");
-    if(errors.banned_banned)
-    history.push("/banned")
-  });
+
+ useEffect(() => {
+   if (localStorage.token) history.push("/dashboard");
+  //   if(errors.banned_banned)
+  //   history.push("/banned")
+   });
 
 useEffect(()=>{
   dispatch({
@@ -34,12 +40,13 @@ useEffect(()=>{
     if (errors) setUserlog({ ...userlog, error: errors });
   }, [errors]);
 
-    useEffect(() => {
-      if (auth.user.banned===true) {
-          dispatch(logoutUser());
-          history.push("/banned")
-         }
-    });
+// useEffect(() => {
+//   if (userban && (userban.canceled==false) && (new Date(eventClosing(userban.created_at,userban.duration))>new Date()))
+//      {
+//       dispatch(logoutUser());
+//       history.push("/banned")
+//      }
+// });
 
     useEffect(()=>{
       dispatch({ 

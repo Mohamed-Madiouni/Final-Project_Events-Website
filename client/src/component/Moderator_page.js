@@ -30,13 +30,6 @@ function Moderator_page({match}) {
   const chat=useSelector(state=>state.chat)
   var rs=0;
 
-useEffect(() => {
-  if (auth.user.banned===true) {
-      dispatch(logoutUser());
-      history.push("/banned")
-     }
-});
-
 useEffect(()=>{
   
  localStorage.token&&dispatch(getCurrentUser())

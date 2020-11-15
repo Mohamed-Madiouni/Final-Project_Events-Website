@@ -69,15 +69,6 @@ useEffect(()=>{
   }
 },[])
 
-useEffect(() => {
-  if (auth.user.banned===true) {
-      dispatch(logoutUser());
-      history.push("/banned")
-     }
-});
-
- 
-
 const calendarEvents= useMemo(()=>{
 return allevents.filter(el=>el.state!="Invalid").map(el=>{
   return (

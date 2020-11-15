@@ -11,10 +11,8 @@ import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP,SHOW_TALK, ADD_TALK  } from "
 import {addfollow, getCurrentUser, userBlock } from "../actions/authaction";
 import historyevent from "../outils/history"
 import { getUsers } from '../actions/adminaction';
-
 import Search from "./Search";
 import "../participant.css"
-
 import { logoutUser } from "../actions/authaction";
 import calcul_rating from "../outils/calucle_rating";
 import Footer from "./Footer"
@@ -77,15 +75,6 @@ function Organizer_page({match}) {
   useEffect(()=>{
     localStorage.token&&dispatch( getCurrentUser())
     },[])
-
-
-  useEffect(() => {
-    if (auth.user.banned===true) {
-        dispatch(logoutUser());
-        history.push("/banned")
-       }
-  });
-
  
   //open full events
 useEffect(()=>{

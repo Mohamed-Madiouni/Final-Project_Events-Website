@@ -17,6 +17,7 @@ import { roundToNearestMinutes } from "date-fns";
 import Pusher from 'pusher-js'
 import Chat from "./Chat";
 import { getChat } from "../actions/chat";
+import eventClosing from "../outils/eventClosing";
 
 
 function Landing({}) {
@@ -121,6 +122,13 @@ useEffect(()=>{
   });
 },[])
 
+useEffect(() => {
+  if (userban && (userban.canceled==false) && (new Date(eventClosing(userban.created_at,userban.duration))>new Date()))
+     {
+      dispatch(logoutUser());
+      history.push("/banned")
+     }
+});
 
   return (
     <div 

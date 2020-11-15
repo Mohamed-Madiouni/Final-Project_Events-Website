@@ -62,13 +62,6 @@ function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    if (auth.user.banned===true) {
-        dispatch(logoutUser());
-        history.push("/banned")
-       }
-  });
-
   return (
     <>
       <Navbar />

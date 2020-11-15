@@ -120,19 +120,10 @@ useEffect(()=>{
                       width: 330,
                       height: 440,
                       filter:
-                       
-                        el.banned == false
+                      (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) == false
                           ? "initial"
-                          : el.banned == true && "grayscale(150%)",
-                      // boxShadow:
-                      //   el.alerted_date &&
-                      //   new Date() < new Date(el.alerted_date) &&
-                      //   el.banned == false
-                      //     ? "inset 0px 0px 131px 14px #fff300"
-                      //     : el.banned == true &&
-                      //       "inset 0px 0px 131px 14px #ed1717",
+                          : (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) == true && "grayscale(150%)",
                     }}
-                    // key={el._id}
                   >
                     <div
                       className="card-image "
@@ -152,12 +143,17 @@ useEffect(()=>{
                       />
                       {/* {!el.banned&&(!el.alerted_date ||
                         new Date() > new Date(el.alerted_date)) && ( */}
-                      {sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()?(((sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))&&
+                      {sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()?(((sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
+                      (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&
+                        elm.type=="ban").pop().duration))<new Date()))&&
                      
                      (<i
                       className="fas fa-exclamation-circle btn-flat modal-trigger"
                       style={{
-                        color: sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))?"white":"gray",
+                        color: sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&
+                        ((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
+                        (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&
+                          elm.type=="ban").pop().duration))<new Date()))?"white":"gray",
                         position: "absolute",
                         right: "1%",
                         top: "5%",
@@ -174,11 +170,16 @@ useEffect(()=>{
                      
                      :
       
-                       sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()?(((sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().duration))<new Date()))&&
+                       sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()?(((sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()).canceled)
+                       ||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&
+                        elm.type=="alert").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().duration))<new Date()))&&
                        (<i
                         className="fas fa-exclamation-circle btn-flat modal-trigger"
                         style={{
-                          color: sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))?"white":"gray",
+                          color: sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&
+                          ((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
+                          (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&
+                          elm.type=="ban").pop().duration))<new Date()))?"white":"gray",
                           position: "absolute",
                           right: "1%",
                           top: "5%",
@@ -195,7 +196,9 @@ useEffect(()=>{
                        :(<i
                           className="fas fa-exclamation-circle btn-flat modal-trigger"
                           style={{
-                            color: sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))?"white":"gray",
+                            color: sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&
+                            ((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
+                            (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))?"white":"gray",
                             position: "absolute",
                             right: "1%",
                             top: "5%",
@@ -210,11 +213,11 @@ useEffect(()=>{
                           disabled={el.role == "administrator" && true}
                         ></i>)
                       }
-                       {/* {!el.banned&&el.alerted_date &&
-                        new Date() < new Date(el.alerted_date) && ( */}
-                      {sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()?(!((sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)&&(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))
-                    &&
-                    <i
+                      {sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()?(!((sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)
+                      &&(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email
+                      &&elm.type=="ban").pop().duration))<new Date()))
+                      &&
+                      <i
                             className="fas fa-exclamation-circle btn-flat modal-trigger"
                             style={{
                               color: "red",
@@ -230,9 +233,11 @@ useEffect(()=>{
                               setAlertid(el._id)}}
                             disabled={el.role == "administrator" && true}
                           ></i>
-                    :
+                      :
       
-                      ( sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop())&&(!((sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()).canceled)&&((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().duration)))>new Date()))
+                      (sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop())&&(!((sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()).canceled)
+                      &&((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().created_at,sanctions.filter(elm => elm.email==el.email
+                        &&elm.type=="alert").pop().duration)))>new Date()))
                        && (
                           <i
                             className="fas fa-exclamation-circle btn-flat modal-trigger"

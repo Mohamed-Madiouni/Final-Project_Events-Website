@@ -6,12 +6,11 @@ import {unfollowEvent,followEvent,getEvent,endEvent,closeEvent, fullEvent, openE
 import get_month from "../outils/get_month"
 import "../organizer.css";
 import M from "materialize-css";
-// import eventClosing from "../outils/eventClosing";
+import eventClosing from "../outils/eventClosing";
 import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP  } from "../actions/types";
 import { getMyEvents,getCurrentUser } from "../actions/authaction";
 import historyevent from "../outils/history"
 import { getUsers } from '../actions/adminaction';
-
 import Search from "./Search";
 import "../participant.css"
 
@@ -29,6 +28,7 @@ function Participant() {
     const dispatch = useDispatch();
     const history =useHistory()
     const map = useSelector(state=>state.map)
+    const sanctions = useSelector((state) => state.auth.sanctions);
     const auth = useSelector((state) => state.auth);
     const allevents= useSelector((state)=>state.events.allEvents)
     const errors=useSelector(state=>state.errors)
@@ -43,7 +43,10 @@ function Participant() {
       const [eventDate,setEventDate]=useState("")
       const [clkwidth,setclkwidth]=useState(false)
     
-  
+      let usermail=auth.user.email
+      var useralert= (sanctions.filter(el => el.email==usermail && el.type=="alert")).pop()
+      var userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
+    
     
    
     
@@ -75,15 +78,6 @@ function Participant() {
       dispatch(endEvent(myevents[i]._id))
     }
   },[])
-
-
-  useEffect(() => {
-    if (auth.user.banned===true) {
-        dispatch(logoutUser());
-        history.push("/banned")
-       }
-  });
-
  
   //open full events
 useEffect(()=>{
@@ -152,8 +146,8 @@ useEffect(()=>{
           
         }}>
          
-        { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
-        <i className="fas fa-exclamation-circle" style={{color:"red",fontSize:15,marginTop:5}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban your account 
+         { (useralert && (useralert.canceled==false) &&  (new Date(eventClosing(useralert.created_at,useralert.duration))>new Date())) &&
+        <i className="fas fa-exclamation-circle" style={{color:"red",fontSize:15,marginTop:5}}>You are alerted by{" " +useralert.author +" "}until {(eventClosing(useralert.created_at,useralert.duration)).split('.')[0].replace("T"," ")} <br/>A second alert could result a ban of your account, reason: {" " +useralert.reason} 
         </i>
         }
 

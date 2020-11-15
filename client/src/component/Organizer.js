@@ -20,7 +20,7 @@ import Footer from './Footer';
 function Organizer() {
   
   const users=useSelector(state=>state.admin.users)
-
+  const sanctions = useSelector((state) => state.auth.sanctions);
   const dispatch = useDispatch();
   const events = useSelector((state) => state.events);
   const auth = useSelector((state) => state.auth);
@@ -48,13 +48,9 @@ function Organizer() {
   return modal
   };
   
-  useEffect(() => {
-    if (auth.user.banned===true) {
-        dispatch(logoutUser());
-        history.push("/banned")
-       }
-  });
-
+  let usermail=auth.user.email
+  var useralert= (sanctions.filter(el => el.email==usermail && el.type=="alert")).pop()
+  var userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
 
   useEffect(() => {
     dispatch(getEventOrganizer());
@@ -133,8 +129,8 @@ useEffect(()=>{
         
       }}>
 
-      { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
-        <i className="fas fa-exclamation-circle" style={{color:"red",fontSize:15,marginTop:5}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban your account 
+      { (useralert && (useralert.canceled==false) &&  (new Date(eventClosing(useralert.created_at,useralert.duration))>new Date())) &&
+        <i className="fas fa-exclamation-circle" style={{color:"red",fontSize:15,marginTop:5}}>You are alerted by{" " +useralert.author +" "}until {(eventClosing(useralert.created_at,useralert.duration)).split('.')[0].replace("T"," ")} <br/>A second alert could result a ban of your account, reason: {" " +useralert.reason} 
         </i>
         }
      

@@ -127,9 +127,9 @@ router.post("/login", (req, res) => {
       }
 
    
-     if (user.banned===true) {
-       return res.status(403).json({ banned_banned: "account banned" });
-     }      
+    //  if (user.banned===true) {
+    //    return res.status(403).json({ banned_banned: "account banned" });
+    //  }      
 
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
