@@ -7,6 +7,7 @@ import UserList from "./UserList";
 import EventList from "./EventList";
 import Notification from "./Notifications";
 import Reports from "./Reports";
+import Sanctions from "./Sanctions";
 import "../organizer.css";
 import M from "materialize-css";
 import { getUsers, getEvents } from "../actions/adminaction";
@@ -159,6 +160,14 @@ function Moderator() {
         >
           <Reports />
         </div>
+
+        <div
+          id="modalsanctions"
+          className="modal"
+          style={{ padding: 0, margin: 0,}}
+        >
+          <Sanctions />
+        </div> 
 
       </div>
       <Footer/>
