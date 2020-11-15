@@ -5,17 +5,23 @@ import {  loginUser } from "../actions/authaction";
 import { GET_ALL_MY_EVENTS, GET_ERRORS } from "../actions/types";
 import Navbar from "./Navbar";
 import { logoutUser } from "../actions/authaction";
+import eventClosing from "../outils/eventClosing";
 
 function Login({ history }) {
   const errors = useSelector((state) => state.errors);
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const sanctions = useSelector((state) => state.auth.sanctions);
   const [userlog, setUserlog] = useState({
     email: "",
     password: "",
     error: {},
   });
   const [passtype,setpasstype]=useState("password")
+  let usermail=auth.user.email
+  var useralert= (sanctions.filter(el => el.email==usermail && el.type=="alert")).pop()
+  var userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
+
 
   useEffect(() => {
     if (localStorage.token) history.push("/dashboard");
