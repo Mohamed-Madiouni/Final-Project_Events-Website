@@ -8,14 +8,15 @@ import {
   alertUser,
   unalertUser,
 } from "../actions/adminaction";
-import { getCurrentUser } from "../actions/authaction";
+import { getCurrentUser, getSanctions } from "../actions/authaction";
 import { useHistory } from "react-router-dom";
 import historyuser from "../outils/history";
 import "../events.css";
 import M from "materialize-css";
 import "../userlist.css";
 import UserListcard from "./UserListcard";
-import { SET_RESIZE } from "../actions/types";
+import eventClosing from "../outils/eventClosing";
+import { SET_RESIZE, GET_ERRORS } from "../actions/types";
 import {sendNotifications} from "../actions/notificationaction";
 import Pusher from 'pusher-js'
 
@@ -24,13 +25,15 @@ const UserList = () => {
   const allusers = useSelector((state) => state.admin.users);
   let auth = useSelector((state) => state.auth);
   const history = useHistory();
+  let errors=useSelector(state=>state.errors)
   const [deleteid, setDeleteid] = useState("");
   const [banid, setBanid] = useState("");
   const [email, setEmail] = useState("");
   const [alertid, setAlertid] = useState("");
   const [modal, setModal] = useState(false);
-  const [resiz, setresiz] = useState(true);
   const [countuser, setCountuser] = useState(0);
+  const [resiz, setresiz] = useState(true);
+  const sanctions = useSelector((state) => state.auth.sanctions);
   const toggle = () => {
     setModal(!modal);
   };
@@ -44,13 +47,11 @@ const UserList = () => {
   });
 
   const [sanctionData, setSanctionData] = useState({
-    duration: "",
+    duration: "1",
     reason: "",
   });
   
   useEffect(()=>{
-    // Pusher.logToConsole = true;
-  
     var pusher = new Pusher(process.env.REACT_APP_KEY, {
       cluster: 'eu'
     });
@@ -60,9 +61,22 @@ const UserList = () => {
     });
   },[])
 
+  useEffect(()=>{
+    if(errors.alerted)
+    {
+      setSanctionData({duration:"1",reason:""})
+    dispatch({
+      type:GET_ERRORS,
+      payload:{}
+    })
+    
+    }
+  })
+
   useEffect(() => {
     dispatch(getUsers());
     localStorage.token && dispatch(getCurrentUser());
+    localStorage.token && dispatch(getSanctions());
     M.Modal.init(document.querySelectorAll(".modal"));
   }, []);
   useEffect(() => {
@@ -96,13 +110,16 @@ const UserList = () => {
     );
   });
 
+  let usermail=auth.user.email
+  var useralert= (sanctions.filter(el => el.email==usermail && el.type=="alert")).pop()
+  var userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
+
   const onChange = (e) => {
     setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value });
+    setSanctionData({ ...sanctionData, [e.target.id]: e.target.value });
   };
   return (
     <div>
-      {/* <div className="row"> */}
-
       <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:255,paddingTop:40,position:"relative"}} >
      <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for a user?</b></h5>
        <div className="col s12">
@@ -213,110 +230,7 @@ const UserList = () => {
       )}
  </div>
 
-
-      {/* <div
-        className="col l9 offset-l1 s12"
-        style={{ marginTop: "20px", fontSize: 15, fontWeight: 800 }}
-      >
-        <form>
-          <div className="input-field col s4 m5">
-            <input
-              placeholder="First name search"
-              id="fname"
-              type="text"
-              value={quickSearch.fname}
-              onChange={onChange}
-            />
-            <label forhtml="fname">First name</label>
-          </div>
-          <div className="input-field col s4 m3">
-            <select
-              id="role"
-              value={quickSearch.role}
-              onChange={onChange}
-              style={{
-                display: "initial",
-                marginTop: 4,
-                borderRadius: 5,
-                outline: "none",
-              }}
-            >
-              <option value="">All</option>
-              <option value="Participant" className="gray-text">
-                Participant
-              </option>
-              <option value="Organizer" className="gray-text">
-                Organizer
-              </option>
-              <option value="Admin" className="gray-text">
-                Admin
-              </option>
-              <option value="Moderator" className="gray-text">
-                Moderator
-              </option>
-            </select>
-            <label className="active">Role</label>
-          </div>
-          <div className="input-field col s4 m4">
-            <input
-              placeholder="Last name search"
-              id="lname"
-              type="text"
-              value={quickSearch.lname}
-              onChange={onChange}
-            />
-            <label forhtml="title">Last name</label>
-          </div>
-
-          <div className="input-field col s4 m4">
-            <input
-              placeholder="Email search"
-              id="email"
-              type="text"
-              value={quickSearch.email}
-              onChange={onChange}
-            />
-            <label forhtml="title">Email</label>
-          </div>
-          <div className="input-field col s4 m4">
-            <input
-              placeholder="Address search"
-              id="address"
-              type="text"
-              value={quickSearch.address}
-              onChange={onChange}
-            />
-            <label forhtml="title">Address</label>
-          </div>
-          <div className="input-field col s4 m4">
-            <input
-              placeholder="Telephone search"
-              id="tel"
-              type="text"
-              value={quickSearch.tel}
-              onChange={onChange}
-            />
-            <label forhtml="title">Telephone</label>
-          </div>
-        </form>
-      </div> */}
-      {/* {resiz && (
-        <div className="col l2 s12">
-          <div>
-            <div className="switch">
-              <label>
-                Card
-                <input type="checkbox" onClick={toggle} />
-                <span className="lever"></span>
-                List
-              </label>
-            </div>
-          </div>
-        </div>
-      )} */}
-
-{(quickSearch.fname!="" || quickSearch.lname!="" || quickSearch.role!="" || quickSearch.address!="" || quickSearch.tel!="" || quickSearch.email!="")&&
-            
+{(quickSearch.fname!="" || quickSearch.lname!="" || quickSearch.role!="" || quickSearch.address!="" || quickSearch.tel!="" || quickSearch.email!="")&&            
             <div className="row" style={{marginLeft:"10px"}} > 
               <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
               <div className="wpb_column vc_column_container col 12">
@@ -326,12 +240,8 @@ const UserList = () => {
                       <div className=" wpb_wrapper"> 
                       <h2>{users.length}</h2>
                         <p className="pra-2"> result(s) found </p>
-                        </div></div></div></div></div></div> 
-           
-
-            </div>}
-
-
+                        </div></div></div></div></div></div> </div>
+}
       {modal ? (
         <span>
           <table style={{marginBottom:10}}>
@@ -360,20 +270,11 @@ const UserList = () => {
                         key={el._id}
                         className="center-align"
                         style={{
-                          //   boxShadow:
-                          //     el.alerted_date &&
-                          //     new Date() < new Date(el.alerted_date) &&
-                          //     el.banned == false
-                          //       ? "inset 0px 0px 13px 10px #fff300"
-                          //       : el.banned == true &&
-                          //         "inset 0px 0px 13px 10px #ed1717",
                           filter:
-                           
-                            el.banned == false
+                          (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) == false
                               ? "initial"
-                              : el.banned == true && "grayscale(150%)",
-                        }}
-                        // key={el._id}
+                              : (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) == true && "grayscale(150%)",
+                            }}
                       >
                         <td className="center-align" style={{ padding: 0,lineHeight: "normal" }}>
                           <div
@@ -428,7 +329,6 @@ const UserList = () => {
                             >
                               history
                             </i>
-
                             {historyuser(el.created_at)}
                           </span>
                         </td>
@@ -455,7 +355,7 @@ const UserList = () => {
                           </button>
                         </td>
                         <td className="center-align" style={{ padding: 0 }}>
-                          {el.banned === false ? (
+                        {!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date())))?(
                             <button
                               style={{
                                 width: "100px",
@@ -470,7 +370,7 @@ const UserList = () => {
                               onClick={() =>{
                                 setEmail(el.email)
                                 setBanid(el._id)}}
-                              disabled={el.role == "administrator" ||!el.alerted_date}
+                              disabled={el.role == "administrator" ||!(sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop())||((sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().duration))<new Date()))}
                             >
                               Ban
                             </button>
@@ -481,7 +381,6 @@ const UserList = () => {
                                 height: "40px",
                                 borderRadius: "3px",
                                 letterSpacing: "1px",
-                               
                                 backgroundColor: "gray",
                                 color: "white",
                               }}
@@ -499,12 +398,11 @@ const UserList = () => {
                         </td>
 
                         <td className="center-align" style={{ padding: 0 }}>
-                          {!el.banned&&(!el.alerted_date ||
-                            new Date() > new Date(el.alerted_date)) && (
-                            <i
+                        {sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()?(((sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))&&
+                         (<i
                               className="fas fa-exclamation-circle btn-flat modal-trigger"
                               style={{
-                                color: el.banned?"white":"gray",
+                                color: sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))?"white":"gray",
                                 right: "2%",
                                 fontSize: 30,
                               }}
@@ -514,11 +412,41 @@ const UserList = () => {
                                 setEmail(el.email)
                                 setAlertid(el._id)}}
                               disabled={el.role == "administrator" && true}
-                            ></i>
-                          )}
-                          {!el.banned&&el.alerted_date &&
-                            new Date() < new Date(el.alerted_date) && (
-                              <i
+                            ></i>)
+                             :
+                             sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()?(((sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().duration))<new Date()))&&
+                             (<i
+                              className="fas fa-exclamation-circle btn-flat modal-trigger"
+                              style={{
+                                color: sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))?"white":"gray",
+                                right: "2%",
+                                fontSize: 30,
+                              }}
+                              type="button"
+                              data-target="modal4"
+                              onClick={() =>{
+                                setEmail(el.email)
+                                setAlertid(el._id)}}
+                              disabled={el.role == "administrator" && true}
+                            ></i>)
+                            :(<i
+                              className="fas fa-exclamation-circle btn-flat modal-trigger"
+                              style={{
+                                color: sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))?"white":"gray",
+                                right: "2%",
+                                fontSize: 30,
+                              }}
+                              type="button"
+                              data-target="modal4"
+                              onClick={() =>{
+                                setEmail(el.email)
+                                setAlertid(el._id)}}
+                              disabled={el.role == "administrator" && true}
+                            ></i>)
+                              }
+                              {sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()?(!((sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)&&(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))
+                           &&
+                           <i
                                 className="fas fa-exclamation-circle btn-flat modal-trigger"
                                 style={{
                                   color: "red",
@@ -534,7 +462,26 @@ const UserList = () => {
                                   setAlertid(el._id)}}
                                 disabled={el.role == "administrator" && true}
                               ></i>
-                            )}
+                              :
+                              ( sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop())&&(!((sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()).canceled)&&((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().duration)))>new Date()))
+                               && (
+                                <i
+                                className="fas fa-exclamation-circle btn-flat modal-trigger"
+                                style={{
+                                  color: "red",
+                                  right: "2%",
+                                  fontSize: 30,
+                                  // height: 70,
+                                  // paddingTop: 20,
+                                }}
+                                type="button"
+                                data-target="modal5"
+                                onClick={() =>{
+                                  setEmail(el.email)
+                                  setAlertid(el._id)}}
+                                disabled={el.role == "administrator" && true}
+                              ></i>
+                               )}                    
                         </td>
                       </tr>
                     );
@@ -619,7 +566,7 @@ const UserList = () => {
   </select>
 
           <div><label>Reason</label><p />
-          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Ban Reason" style={{resize: "none"}} /></div>
+          <textarea id="reason" name="reason" onChange={onChange} value={sanctionData.reason} rows="4" cols="50" placeholder="Ban Reason" style={{resize: "none"}} /></div>
         </div>
 
         <div className="modal-footer" style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
@@ -650,7 +597,7 @@ const UserList = () => {
           <h4>User Unban</h4>
           <p>Are you sure you want to Unban this User?</p>
           <div><label>Reason</label><p />
-          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Unban Reason" style={{resize: "none"}} /></div>
+          <textarea id="reason" name="reason" onChange={onChange} value={sanctionData.reason} rows="4" cols="50" placeholder="Unban Reason" style={{resize: "none"}} /></div>
         </div>
         <div className="modal-footer" style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
           <a
@@ -664,7 +611,9 @@ const UserList = () => {
               var state=[]
               state=[...state,{users:banid,consulted:false}]
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
-              dispatch(unbanUser(email,sanctionData.reason))}}
+              dispatch(unbanUser(email,sanctionData.reason, auth.user.fname + " " + auth.user.lname))
+              dispatch(unalertUser(email,"User banned", auth.user.fname + " " + auth.user.lname))
+            }}
           >
             Agree
           </a>
@@ -702,7 +651,7 @@ const UserList = () => {
   </select>
 
           <div><label>Reason</label><p />
-          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Alert Reason" style={{resize: "none"}} /></div>
+          <textarea id="reason" name="reason" onChange={onChange} value={sanctionData.reason} rows="4" cols="50" placeholder="Alert Reason" style={{resize: "none"}} /></div>
         </div>
         <div className="modal-footer" style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
           <a
@@ -731,7 +680,7 @@ const UserList = () => {
           <h4>User Alert</h4>
           <p>Are you sure you want to remove the alert from this User?</p>
           <div><label>Reason</label><p />
-          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Unalert Reason" style={{resize: "none"}} /></div>
+          <textarea id="reason" name="reason" onChange={onChange} value={sanctionData.reason} rows="4" cols="50" placeholder="Unalert Reason" style={{resize: "none"}} /></div>
         </div>
         <div className="modal-footer"  style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
           <a
@@ -745,7 +694,7 @@ const UserList = () => {
               var state=[]
               state=[...state,{users:alertid,consulted:false}]
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
-              dispatch(unalertUser(email,sanctionData.reason))}}
+              dispatch(unalertUser(email,sanctionData.reason, auth.user.fname + " " + auth.user.lname))}}
           >
             Agree
           </a>
