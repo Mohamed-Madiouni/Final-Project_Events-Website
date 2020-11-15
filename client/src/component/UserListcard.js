@@ -16,11 +16,14 @@ import M from "materialize-css";
 import "../userlist.css";
 import UserList from "./UserList";
 import {sendNotifications} from "../actions/notificationaction";
+import eventClosing from "../outils/eventClosing";
+import { GET_ERRORS } from "../actions/types";
 const UserListcard = ({ users }) => {
   const dispatch = useDispatch();
   const allusers = useSelector((state) => state.admin.users);
   let auth = useSelector((state) => state.auth);
   const history = useHistory();
+  let errors=useSelector(state=>state.errors)
   const [deleteid, setDeleteid] = useState("");
   const [banid, setBanid] = useState("");
   const [email, setEmail] = useState("");
@@ -41,9 +44,21 @@ const UserListcard = ({ users }) => {
   });
 
   const [sanctionData, setSanctionData] = useState({
-    duration: "",
+    duration: "1",
     reason: "",
   });
+
+useEffect(()=>{
+  if(errors.alerted)
+  {
+    setSanctionData({duration:"1",reason:""})
+  dispatch({
+    type:GET_ERRORS,
+    payload:{}
+  })
+  
+  }
+})
 
   useEffect(() => {
     dispatch(getUsers());
@@ -135,13 +150,52 @@ const UserListcard = ({ users }) => {
                         width="100%"
                         alt=""
                       />
-                      {userban&&useralert&&((userban.canceled==true)||(new Date() > new Date(+userban.created_at + userban.duration*86400000))&&
-                      (useralert.canceled==true)&&(userban.duration==-1)&&(new Date() > new Date(+useralert.created_at + useralert.duration*86400000)))
-                       && (
-                        <i
+                      {/* {!el.banned&&(!el.alerted_date ||
+                        new Date() > new Date(el.alerted_date)) && ( */}
+                      {sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()?(((sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))&&
+                     
+                     (<i
+                      className="fas fa-exclamation-circle btn-flat modal-trigger"
+                      style={{
+                        color: sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))?"white":"gray",
+                        position: "absolute",
+                        right: "1%",
+                        top: "5%",
+                        fontSize: 30,
+                      }}
+                      type="button"
+                      data-target="modal4"
+                      onClick={() => {
+                        setEmail(el.email)
+                        setAlertid(el._id)
+                        }}
+                      disabled={el.role == "administrator" && true}
+                    ></i>)
+                     
+                     :
+      
+                       sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()?(((sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().duration))<new Date()))&&
+                       (<i
+                        className="fas fa-exclamation-circle btn-flat modal-trigger"
+                        style={{
+                          color: sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))?"white":"gray",
+                          position: "absolute",
+                          right: "1%",
+                          top: "5%",
+                          fontSize: 30,
+                        }}
+                        type="button"
+                        data-target="modal4"
+                        onClick={() => {
+                          setEmail(el.email)
+                          setAlertid(el._id)
+                          }}
+                        disabled={el.role == "administrator" && true}
+                      ></i>) 
+                       :(<i
                           className="fas fa-exclamation-circle btn-flat modal-trigger"
                           style={{
-                            color: el.banned?"white":"gray",
+                            color: sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))?"white":"gray",
                             position: "absolute",
                             right: "1%",
                             top: "5%",
@@ -154,10 +208,31 @@ const UserListcard = ({ users }) => {
                             setAlertid(el._id)
                             }}
                           disabled={el.role == "administrator" && true}
-                        ></i>
-                      )}
-                      {userban&&useralert&&((userban.canceled==true)||(new Date() > new Date(+userban.created_at + userban.duration*86400000))&&
-                      (useralert.canceled==false)&&(userban.duration!=-1)&&(new Date() < new Date(+useralert.created_at + useralert.duration*86400000)))
+                        ></i>)
+                      }
+                       {/* {!el.banned&&el.alerted_date &&
+                        new Date() < new Date(el.alerted_date) && ( */}
+                      {sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()?(!((sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)&&(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))
+                    &&
+                    <i
+                            className="fas fa-exclamation-circle btn-flat modal-trigger"
+                            style={{
+                              color: "red",
+                              position: "absolute",
+                              right: "1%",
+                              top: "5%",
+                              fontSize: 30,
+                            }}
+                            type="button"
+                            data-target="modal5"
+                            onClick={() => {
+                              setEmail(el.email)
+                              setAlertid(el._id)}}
+                            disabled={el.role == "administrator" && true}
+                          ></i>
+                    :
+      
+                      ( sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop())&&(!((sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()).canceled)&&((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().duration)))>new Date()))
                        && (
                           <i
                             className="fas fa-exclamation-circle btn-flat modal-trigger"
@@ -239,7 +314,7 @@ const UserListcard = ({ users }) => {
                       Delete
                     </button>
 
-                    {el.banned === false ? (
+                    {!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date())))?(
                       <button
                         style={{
                           width: "100px",
@@ -254,7 +329,7 @@ const UserListcard = ({ users }) => {
                         onClick={() =>{
                           setEmail(el.email)
                           setBanid(el._id)}} 
-                        disabled={el.role == "administrator" ||!el.alerted_date}
+                        disabled={el.role == "administrator" ||!(sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop())||((sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().duration))<new Date()))}
                       >
                         Ban
                       </button>
@@ -347,7 +422,7 @@ const UserListcard = ({ users }) => {
   </select>
 
           <div><label>Reason</label><p />
-          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Ban Reason"  style={{resize: "none"}} /></div>
+          <textarea id="reason" name="reason" onChange={onChange} value={sanctionData.reason} rows="4" cols="50" placeholder="Ban Reason"  style={{resize: "none"}} /></div>
         </div>
 
         <div className="modal-footer" style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
@@ -378,7 +453,7 @@ const UserListcard = ({ users }) => {
           <h4>User Unban</h4>
           <p>Are you sure you want to Unban this User?</p>
           <div><label>Reason</label><p />
-          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Unban Reason" style={{resize: "none"}}/></div>
+          <textarea id="reason" name="reason" onChange={onChange} value={sanctionData.reason} rows="4" cols="50" placeholder="Unban Reason" style={{resize: "none"}}/></div>
         </div>
         <div className="modal-footer" style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
           <a
@@ -392,7 +467,11 @@ const UserListcard = ({ users }) => {
               var state=[]
               state=[...state,{users:banid,consulted:false}]
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
-              dispatch(unbanUser(email,sanctionData.reason))}}
+              dispatch(unbanUser(email,sanctionData.reason, auth.user.fname + " " + auth.user.lname))
+              dispatch(unalertUser(email,"User banned", auth.user.fname + " " + auth.user.lname))
+            }
+            
+            }
           >
             Agree
           </a>
@@ -430,7 +509,7 @@ const UserListcard = ({ users }) => {
   </select>
 
           <div><label>Reason</label><p />
-          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Alert Reason" style={{resize: "none"}}/></div>
+          <textarea id="reason" name="reason" onChange={onChange} value={sanctionData.reason} rows="4" cols="50" placeholder="Alert Reason" style={{resize: "none"}}/></div>
         </div>
         <div className="modal-footer" style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
           <a
@@ -460,7 +539,7 @@ const UserListcard = ({ users }) => {
           <h4>User Alert</h4>
           <p>Are you sure you want to remove the alert from this User?</p>
           <div><label>Reason</label><p />
-          <textarea id="reason" name="reason" onChange={onChange}  rows="4" cols="50" placeholder="Unalert Reason"  style={{resize: "none"}} /></div>
+          <textarea id="reason" name="reason" onChange={onChange} value={sanctionData.reason} rows="4" cols="50" placeholder="Unalert Reason"  style={{resize: "none"}} /></div>
         </div>
         <div className="modal-footer" style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
           <a
@@ -474,7 +553,7 @@ const UserListcard = ({ users }) => {
               var state=[]
               state=[...state,{users:alertid,consulted:false}]
               dispatch(sendNotifications(auth.user._id,title,content,auth.user.role, notiftype,state,compid))
-              dispatch(unalertUser(email,sanctionData.reason))}}
+              dispatch(unalertUser(email,sanctionData.reason, auth.user.fname + " " + auth.user.lname))}}
           >
             Agree
           </a>

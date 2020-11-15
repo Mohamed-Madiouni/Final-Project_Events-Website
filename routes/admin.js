@@ -6,6 +6,18 @@ const Sanction = require("../models/Sanction");
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 
+var Pusher = require('pusher');
+require("dotenv").config();
+
+var pusher = new Pusher({
+  appId: process.env.appId,
+  key: process.env.key,
+  secret: process.env.secret,
+  cluster: 'eu',
+  useTLS: true,
+});
+
+
 // GET USERS
 router.get("/users", (req, res) => {
   User.find()
@@ -99,7 +111,7 @@ router.post("/sanction/ban/add", authMiddleware, (req, res) => {
   })
   newSanction.save()
   .then((sanction) => {
-    pusher.trigger('channel1', 'sanction', {
+    pusher.trigger('sanction', 'sanction', {
       'message': 'hello world'
     });  
     
@@ -116,21 +128,23 @@ router.put("/sanction/ban/delete/:email", authMiddleware, (req, res) => {
     email : req.params.email, type: "ban"},
     {
       $set: {
-        canceled: true,
+        canceled: req.body.canceled,
         cancelreason:req.body.cancelreason, 
         cancelauthor:req.body.cancelauthor,
-        cancelled_at: Date.now
+        cancelled_at: req.body.cancelled_at
       },
     },
-    { new: true }
+    {upsert: true,
+      sort: { created_at: -1 },
+       new: true }
   )
   .then(() => {
-    pusher.trigger('channel1', 'sanction', {
+    pusher.trigger('sanction', 'sanction', {
       'message': 'hello world'
     });    
     res.send({ msg: "Ban cancelled" })
     .catch((err) => {
-    console.log(err.message);
+    
     res.status(500).send("Server Error");
   });
 });
@@ -148,7 +162,7 @@ router.post("/sanction/alert/add", authMiddleware, (req, res) => {
   })
   newSanction.save()
   .then((sanction) => {
-    pusher.trigger('channel1', 'sanction', {
+    pusher.trigger('sanction', 'sanction', {
       'message': 'hello world'
     });  
     
@@ -166,21 +180,24 @@ router.put("/sanction/alert/delete/:email", authMiddleware, (req, res) => {
     email : req.params.email, type: "alert"},
     {
       $set: {
-        canceled: true,
+        canceled: req.body.canceled,
         cancelreason:req.body.cancelreason, 
         cancelauthor:req.body.cancelauthor,
-        cancelled_at: Date.now
-      },
+        cancelled_at: req.body.cancelled_at
+      }
     },
-    { new: true }
+    {  
+      upsert: true,
+      sort: { created_at: -1 },
+    new: true }
   )
   .then(() => {
-    pusher.trigger('channel1', 'sanction', {
+    pusher.trigger('sanction', 'sanction', {
       'message': 'hello world'
     });    
     res.send({ msg: "Alert Cancelled!" })
     .catch((err) => {
-    console.log(err.message);
+  
     res.status(500).send("Server Error");
   });
 });
