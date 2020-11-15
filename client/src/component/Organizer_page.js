@@ -21,7 +21,7 @@ import MyMap from "./Maps";
 import {geteventorg } from "../outils/geteventorg";
 import Navbar from "./Navbar";
 import { sendNotifications } from "../actions/notificationaction";
-
+import Sanctions from "./User_Sanctions";
 function Organizer_page({match}) {
 
     const dispatch = useDispatch();
@@ -235,6 +235,20 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).f
               {users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname} {users.length!=0&&users.find(el=>el._id==match.params.organizerId).lname}
             </p>
             <div>My personal note:{users.length!=0&&users.find(el=>el._id==match.params.organizerId).note}</div>
+            <button
+            className="btn btn-medium modal-trigger"
+            data-target="modalsanction"
+            style={{ marginBottom: "5px" }}
+            >
+            Sanctions
+            </button>
+            <div
+              id="modalsanction"
+              className="modal"
+              style={{ padding: 0, margin: 0,}}
+            >
+              <Sanctions />
+            </div>  
             {/* <span className="blue-title">Hi there,</span>  */}
         {/* <p className="para-blue">
           {" "}

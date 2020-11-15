@@ -20,6 +20,7 @@ import Navbar from "./Navbar";
 import historyuser from "../outils/history";
 import {getComment} from "../actions/comntaction"
 import nbr_comments from "../outils/nbr_comments"
+import Sanctions from "./User_Sanctions";
 function Participant_page({match}) {
     const dispatch = useDispatch();
     const history =useHistory()
@@ -116,6 +117,13 @@ style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-4,top:1,fon
               {users.length!=0&&users.find(el=>el._id==match.params.participantId).fname} {users.length!=0&&users.find(el=>el._id==match.params.participantId).lname}
             </p>
           </div>
+          <button
+            className="btn btn-medium modal-trigger"
+            data-target="modalsanction"
+            style={{ marginBottom: "5px" }}
+          >
+            Sanctions
+          </button>   
         </div>
 
 <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >
@@ -131,6 +139,13 @@ comment{comments.comments&&comments.comments.filter(elm=>elm).length==0?"":"s"}<
    
    <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
    </div>
+   <div
+          id="modalsanction"
+          className="modal"
+          style={{ padding: 0, margin: 0,}}
+        >
+          <Sanctions />
+        </div> 
  </div>
  <Footer/>    
         </>
