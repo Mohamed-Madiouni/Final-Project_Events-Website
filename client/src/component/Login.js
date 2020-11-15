@@ -23,11 +23,11 @@ function Login({ history }) {
   var userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
 
 
-  useEffect(() => {
-    if (localStorage.token) history.push("/dashboard");
-    if(errors.banned_banned)
-    history.push("/banned")
-  });
+ useEffect(() => {
+   if (localStorage.token) history.push("/dashboard");
+  //   if(errors.banned_banned)
+  //   history.push("/banned")
+   });
 
 useEffect(()=>{
   dispatch({
@@ -40,13 +40,13 @@ useEffect(()=>{
     if (errors) setUserlog({ ...userlog, error: errors });
   }, [errors]);
 
-useEffect(() => {
-  if (userban && (userban.canceled==false) && (new Date(eventClosing(userban.created_at,userban.duration))>new Date()))
-     {
-      dispatch(logoutUser());
-      history.push("/banned")
-     }
-});
+// useEffect(() => {
+//   if (userban && (userban.canceled==false) && (new Date(eventClosing(userban.created_at,userban.duration))>new Date()))
+//      {
+//       dispatch(logoutUser());
+//       history.push("/banned")
+//      }
+// });
 
     useEffect(()=>{
       dispatch({ 
