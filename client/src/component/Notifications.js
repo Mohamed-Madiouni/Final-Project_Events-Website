@@ -30,13 +30,12 @@ function Notifications() {
 
   return (
       <> 
-      {users.length!=0&&<div id="modalnotifall" style={{ padding: 0, margin:0 }}>
+      {allnotif.length!=0&&<div id="modalnotifall" style={{ padding: 0, margin:0 }}>
              <div >
               <h4 className="center" style={{ marginTop: "20px" }}>Notifications Center</h4>
             </div>
             <div className="notification-page__content" style={{ marginBottom: "0px" }}>
               <div className="notification-page__content__title">
-                <span>Notifications</span>
                 </div>
                 <div className="notification-page__content__container">
                   <div className="notification-container">

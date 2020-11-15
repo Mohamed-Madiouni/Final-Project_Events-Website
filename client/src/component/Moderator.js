@@ -44,7 +44,7 @@ function Moderator() {
         <h5 style={{ position: "absolute", fontSize: 35, left: 5, top: -30 }}>
           <b>Hi there,</b> {auth.user.fname}
         </h5>
-        <div className="col s12" style={{marginBottom:20}}>
+        <div className="col s12" style={{marginBottom:5}}>
         <div
           className="col s8 "
           style={{
@@ -75,16 +75,22 @@ function Moderator() {
             data-target="modalnotifall"
             style={{ marginBottom: "7px" }}
           >
-            View logs
+            Logs
           </button>
           <button
             className="btn btn-medium modal-trigger"
             data-target="modalreports"
             style={{ marginBottom: "5px" }}
           >
-            View Reports
+            Reports
           </button>
-        
+          <button
+            className="btn btn-medium modal-trigger"
+            data-target="modalsanctions"
+            style={{ marginBottom: "5px" }}
+          >
+            Sanctions
+          </button>        
         </div>
         </div>
         <div
