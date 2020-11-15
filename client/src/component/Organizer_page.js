@@ -7,8 +7,8 @@ import get_month from "../outils/get_month"
 import "../organizer.css";
 import M from "materialize-css";
 // import eventClosing from "../outils/eventClosing";
-import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP  } from "../actions/types";
-import {addfollow, getCurrentUser } from "../actions/authaction";
+import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP,SHOW_TALK, ADD_TALK  } from "../actions/types";
+import {addfollow, getCurrentUser, userBlock } from "../actions/authaction";
 import historyevent from "../outils/history"
 import { getUsers } from '../actions/adminaction';
 import Search from "./Search";
@@ -21,7 +21,12 @@ import MyMap from "./Maps";
 import {geteventorg } from "../outils/geteventorg";
 import Navbar from "./Navbar";
 import { sendNotifications } from "../actions/notificationaction";
+
 import Sanctions from "./User_Sanctions";
+
+import Count from "./Count";
+
+
 function Organizer_page({match}) {
 
     const dispatch = useDispatch();
@@ -31,6 +36,7 @@ function Organizer_page({match}) {
     const allevents= useSelector((state)=>state.events.allEvents)
     const errors=useSelector(state=>state.errors)
     const users=useSelector(state=>state.admin.users)
+    const chat=useSelector(state=>state.chat)
     const [quickSearch, setQuickSearch] = useState({
         title: "",
         state: "",
@@ -204,6 +210,36 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).f
        to recieve a notification when he add a new event.
       
       </p>}
+      {auth.user._id!=match.params.organizerId&&!(auth.user.blocked.includes(match.params.organizerId)||users.find(el=>el._id==match.params.organizerId).blocked.includes(auth.user._id))&&<i
+                  className="fas fa-envelope"
+style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-5,top:1,fontSize:22,cursor:"pointer"}}
+                  title="Let's talk"
+                  onClick={()=>{
+                    if(auth.isAuthenticated)
+                    {dispatch({
+                    type:SHOW_TALK,
+                    payload:!chat.talk.show
+                  })
+                  dispatch({
+                    type:ADD_TALK,
+                    payload:match.params.organizerId
+                  })
+                }
+                else
+                history.push("/login")
+                }}
+                  >  
+                  </i>}
+                  {auth.isAuthenticated&&auth.user._id!=match.params.organizerId&&!auth.user.blocked.includes(match.params.organizerId)&&auth.user.role!="moderator"&&auth.user.role!="administrator"&&<i
+                  className="material-icons modal-trigger"
+style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,fontSize:22,cursor:"pointer"}}
+                  title={`block ${users.find(el=>el._id==match.params.organizerId).fname} ${users.find(el=>el._id==match.params.organizerId).lname}`}
+                  data-target="modalblock"
+                  > block 
+                  </i>}
+               
+
+
       {users.find(el=>el._id==match.params.organizerId).online?<div style={{
                               display:"flex",
                               justifyContent:"center",
@@ -231,11 +267,16 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).f
                             }
                 </div>
              </div>}
+
             <p className="h5-tit" style={{paddingTop:0}}>
               {users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname} {users.length!=0&&users.find(el=>el._id==match.params.organizerId).lname}
             </p>
-            <div>My personal note:{users.length!=0&&users.find(el=>el._id==match.params.organizerId).note}</div>
-            <button
+
+            
+            
+
+            <div className="h5-tit" style={{padding:0,width:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:"#2e8fa5",fontSize:25,marginBottom:3}}>¤ {users.length!=0&&users.find(el=>el._id==match.params.organizerId).note} ¤</div>
+<button
             className="btn btn-medium modal-trigger"
             data-target="modalsanction"
             style={{ marginBottom: "5px" }}
@@ -249,6 +290,7 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).f
             >
               <Sanctions />
             </div>  
+
             {/* <span className="blue-title">Hi there,</span>  */}
         {/* <p className="para-blue">
           {" "}
@@ -259,6 +301,24 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).f
            
           </div>
         </div>
+
+        {allevents&&geteventorg(allevents,match.params.organizerId).length!=0&&geteventorg(allevents,match.params.organizerId).filter(el=>new Date(el.start)>new Date()).length!=0&&geteventorg(allevents,match.params.organizerId).filter(el=>el.state!="Ended").filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").length!=0&&
+        <div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px",backgroundColor:' rgb(44, 44, 44)',
+        color:"white"
+}}>
+        <div className=" col s12 organizer_hi " style={{padding:0,margin:0}}
+         >
+           <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center",flexDirection:"column"}}>
+            <p className="h5-tit" style={{paddingTop:10,color:"white"}}>
+              Get ready !! <br/> {auth.user._id!=match.params.organizerId?`${users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname} next event start in`:`Your next event start in` }
+            </p>
+                <Count date={geteventorg(allevents,match.params.organizerId)&&(geteventorg(allevents,match.params.organizerId).filter(el=>new Date(el.start)>new Date()).filter(el=>el.state!="Ended").filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").sort(function(a, b) {return new Date(a.start) - new Date(b.start);
+})[0].start.split("T").join(" "))}/>
+             </div>
+            
+          </div>
+        </div>}
+
 
 <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >
      <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
@@ -318,14 +378,14 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).f
 
  
  
-<div className="row"style={{marginLeft:"50px",marginTop:"20px"}}>
+<div className="row"style={{marginLeft:"10px",marginTop:"20px"}}>
              <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
               <div className="wpb_column vc_column_container col 12">
                 <div className="vc_column-inner">
                   <div className="wb_wrapper">
                     <div className="wpb_text_column wpb_content_element ">
                       <div className=" wpb_wrapper">
-                        <h2> {users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname} Events</h2>
+                        <h2> {auth.user._id!=match.params.organizerId?users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname:"Your"} Events</h2>
                         <p className="pra-2">Keep up with the latest events</p>
                         </div></div></div></div></div></div>
            {events&&events.filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").slice(0).reverse().map(el=>{
@@ -561,7 +621,7 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).f
           <p>You are about to subscribe to {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )} event, Please
           note that: </p><br/>  
           <ol><li>You can't subscribe to the same event after <b>annulation</b>. </li>
-          <li>You are responsible for all comments you send, in case of non respect your account will be <b>alerted</b> for one <b>week</b> and you risk to get banned from the admin.</li>
+          <li>You are responsible for all comments you send, in case of non respect your account will be <b>alerted</b> and you risk to get <b>banned</b> from the admin.</li>
           </ol></>:<><h4>Event annulation</h4>
                       <p>Are you sure you want to cancel the {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )}  event? 
                       {/* {participate&&((new Date(allevents.find(el=>el._id==participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"} */}
@@ -643,6 +703,27 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).f
 <i className="fas fa-angle-double-right"></i>
 </a>}
 </div>} */}
+        </div>
+        <div id="modalblock" className="modal">
+          <div className="modal-content">
+            <h4>User block</h4>
+            <p>Are you sure you want to block this user?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+              onClick={()=>dispatch(userBlock(match.params.organizerId))}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
         </div>
         </>
     )
