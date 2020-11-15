@@ -101,7 +101,7 @@ const onsend =()=>{
     <>
     <div
       className="container row chat "
-      style={{ marginLeft: "auto", marginRight: "auto",width:"90%" }}
+      style={{ marginLeft: "auto", marginRight: "auto",width:"90%", position :"relative" }}
     >
       {!ischat(chat.discussion,chat.talk.value,auth.user._id)?<div>
         <div className="col s12" style={{margin:5}}>
@@ -294,10 +294,7 @@ return (
           </div>
         
         </div>}
-        
-    </div>
-
-    <div id="modaldeletchat" className="modal">
+        <div id="modaldeletchat" className="modal" style={{width:"100%",position:"absolute"}}>
           <div className="modal-content">
             <h4>message delete</h4>
             <p>Are you sure you want to delete the message?</p>
@@ -318,6 +315,9 @@ return (
             </a>
           </div>
         </div>
+    </div>
+
+   
 </>
   );
 }
