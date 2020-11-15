@@ -41,8 +41,7 @@ function Landing({}) {
   var useralert= (sanctions.filter(el => el.email==usermail && el.type=="alert")).pop()
   var userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
 
-  console.log(useralert)
-  console.log(userban)
+  
   useEffect(() => {
     dispatch(getUsers())
     dispatch(getSanctions())
@@ -72,6 +71,18 @@ notifref.current.style.width="350px"
   }})
  
 })
+
+useEffect(()=>{
+  // Pusher.logToConsole = true;
+
+  var pusher = new Pusher(process.env.REACT_APP_KEY, {
+    cluster: 'eu'
+  });
+  var channel = pusher.subscribe('sanction');
+  channel.bind('my-event', function(data) {
+   dispatch(getSanctions())
+  });
+},[])
 
 useEffect(()=>{
   // Pusher.logToConsole = true;
