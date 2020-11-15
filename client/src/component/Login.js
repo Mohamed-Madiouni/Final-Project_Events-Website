@@ -34,12 +34,13 @@ useEffect(()=>{
     if (errors) setUserlog({ ...userlog, error: errors });
   }, [errors]);
 
-    useEffect(() => {
-      if (auth.user.banned===true) {
-          dispatch(logoutUser());
-          history.push("/banned")
-         }
-    });
+useEffect(() => {
+  if (userban && (userban.canceled==false) && (new Date(eventClosing(userban.created_at,userban.duration))>new Date()))
+     {
+      dispatch(logoutUser());
+      history.push("/banned")
+     }
+});
 
     useEffect(()=>{
       dispatch({ 

@@ -48,13 +48,7 @@ function Dashboard({ history }) {
    
    
   });
-  
-  useEffect(() => {
-    if (auth.user.banned===true) {
-        dispatch(logoutUser());
-        history.push("/banned")
-       }
-  });
+
 
   //check if events ended
   // useEffect(()=>{

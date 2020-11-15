@@ -107,12 +107,6 @@ useEffect(()=>{
     });
   },[])
 
-   useEffect(() => {
-      if (auth.user.banned===true) {
-          dispatch(logoutUser());
-          history.push("/banned")
-         }
-    });
     const onEmojiClick = ( emoji) => {
          setComnt(comnt.concat(emoji.native));
         

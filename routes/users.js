@@ -125,9 +125,8 @@ router.post("/login", (req, res) => {
       if (!user) {
         return res.status(404).json({ email: "Email not found" });
       }
-
    
-     if (user.banned===true) {
+     if (userban && (userban.canceled==false) && (new Date(eventClosing(userban.created_at,userban.duration))>new Date())) {
        return res.status(403).json({ banned_banned: "account banned" });
      }      
 

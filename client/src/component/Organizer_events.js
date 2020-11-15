@@ -118,13 +118,6 @@ useEffect(()=>{
     }
   },[])
 
-useEffect(() => {
-  if (auth.user.banned===true) {
-      dispatch(logoutUser());
-      history.push("/banned")
-     }
-});
-
 //open full events
 useEffect(()=>{
   for(let i=0;i<allevents.length;i++){

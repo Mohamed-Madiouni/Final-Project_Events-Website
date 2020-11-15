@@ -29,13 +29,6 @@ function Moderator_page({match}) {
   const comments=useSelector(state=>state.comments)
   var rs=0;
 
-useEffect(() => {
-  if (auth.user.banned===true) {
-      dispatch(logoutUser());
-      history.push("/banned")
-     }
-});
-
 useEffect(()=>{
   
  localStorage.token&&dispatch(getCurrentUser())

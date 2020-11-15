@@ -80,13 +80,6 @@ useEffect(()=>{
     
     })
 
-    useEffect(() => {
-      if (auth.user.banned===true) {
-          dispatch(logoutUser());
-          history.push("/banned")
-         }
-    });
-
 //   useEffect(()=>{
 //     dispatch(makeComment(),getComment())
 // },[])
