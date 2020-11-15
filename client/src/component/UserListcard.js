@@ -120,19 +120,10 @@ useEffect(()=>{
                       width: 330,
                       height: 440,
                       filter:
-                       
-                        el.banned == false
+                      (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) == false
                           ? "initial"
-                          : el.banned == true && "grayscale(150%)",
-                      // boxShadow:
-                      //   el.alerted_date &&
-                      //   new Date() < new Date(el.alerted_date) &&
-                      //   el.banned == false
-                      //     ? "inset 0px 0px 131px 14px #fff300"
-                      //     : el.banned == true &&
-                      //       "inset 0px 0px 131px 14px #ed1717",
+                          : (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) == true && "grayscale(150%)",
                     }}
-                    // key={el._id}
                   >
                     <div
                       className="card-image "
