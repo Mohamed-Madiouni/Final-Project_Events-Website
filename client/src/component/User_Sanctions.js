@@ -9,7 +9,7 @@ import { sort_notif_bydate } from "../outils/notif_length";
 import { getCurrentUser, getSanctions} from "../actions/authaction";
 
 
-function Sanctions() {
+function Sanctions(props) {
   const dispatch = useDispatch();
   const [countsanctions, setCountsanctions] = useState(0);
   const allsanctions = useSelector((state) => state.auth.sanctions);
@@ -17,10 +17,8 @@ function Sanctions() {
   let allusers = useSelector((state) => state.admin.users);
   const history = useHistory()
   const users=useSelector(state=>state.admin.users)
-  var userID = window.location.pathname.replace("participant","").replace("organizer","").replace("//","");
-  var userMail= ((allusers.filter(el => el._id==userID))[0]).email
+  var userMail= props.useremail
 
-  console.log(userMail)
   useEffect(() => {
     dispatch({
       type: GET_ERRORS,

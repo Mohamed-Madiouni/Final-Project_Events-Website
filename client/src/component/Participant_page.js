@@ -30,6 +30,7 @@ function Participant_page({match}) {
     const comments=useSelector(state=>state.comments)
     const chat=useSelector(state=>state.chat)
     var rs=0;
+    var useremail=(users.find(el=>el._id==match.params.participantId).email)
 
   useEffect(()=>{
     
@@ -152,7 +153,7 @@ comment{comments.comments&&comments.comments.filter(elm=>elm).length==0?"":"s"}<
           className="modal"
           style={{ padding: 0, margin: 0,}}
         >
-          <Sanctions />
+          <Sanctions useremail={useremail}/>
         </div> 
  </div>
  <div id="modalblock" className="modal">

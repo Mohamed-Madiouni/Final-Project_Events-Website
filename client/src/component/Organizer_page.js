@@ -21,9 +21,7 @@ import MyMap from "./Maps";
 import {geteventorg } from "../outils/geteventorg";
 import Navbar from "./Navbar";
 import { sendNotifications } from "../actions/notificationaction";
-
 import Sanctions from "./User_Sanctions";
-
 import Count from "./Count";
 
 
@@ -46,7 +44,7 @@ function Organizer_page({match}) {
       const [eventDate,setEventDate]=useState("")
       const [clkwidth,setclkwidth]=useState(false)
       const [follow,setfollow]=useState(false)
-   
+    var useremail=(users.find(el=>el._id==match.params.organizerId).email)
     
  
   //check if events full
@@ -272,9 +270,6 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
               {users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname} {users.length!=0&&users.find(el=>el._id==match.params.organizerId).lname}
             </p>
 
-            
-            
-
             <div className="h5-tit" style={{padding:0,width:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:"#2e8fa5",fontSize:25,marginBottom:3}}>¤ {users.length!=0&&users.find(el=>el._id==match.params.organizerId).note} ¤</div>
             {(match.params.organizerId==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&
             <button
@@ -289,7 +284,7 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
               className="modal"
               style={{ padding: 0, margin: 0,}}
             >
-              <Sanctions />
+              <Sanctions useremail={useremail} />
             </div>  
 
             {/* <span className="blue-title">Hi there,</span>  */}
@@ -350,9 +345,7 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
    </form>
    </div>
  </div>
-
-
-            
+           
       
  { map.show&&<div className=" map_container" id="map">
 <MyMap/>
@@ -376,7 +369,6 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
 
             </div>
             }
-
  
  
 <div className="row"style={{marginLeft:"10px",marginTop:"20px"}}>
