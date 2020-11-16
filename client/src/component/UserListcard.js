@@ -18,6 +18,7 @@ import UserList from "./UserList";
 import {sendNotifications} from "../actions/notificationaction";
 import eventClosing from "../outils/eventClosing";
 import { GET_ERRORS } from "../actions/types";
+import Sanctions from "./User_Sanctions";
 const UserListcard = ({ users }) => {
   const dispatch = useDispatch();
   const allusers = useSelector((state) => state.admin.users);
@@ -75,11 +76,8 @@ useEffect(()=>{
     M.Materialbox.init(document.querySelectorAll(".materialboxed"));
   });
 
-    let usermail=auth.user.email
-    var useralert= (sanctions.filter(el => el.email==usermail && el.type=="alert")).pop()
-    var userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
 
- 
+
   // let users = allusers.filter((el) => {
   //   return (
   //     el.fname.toLowerCase().includes(quickSearch.fname.toLowerCase()) &&
@@ -304,7 +302,7 @@ useEffect(()=>{
 
                     <button
                       style={{
-                        width: "100px",
+                        width: "125px",
                         height: "40px",
                         borderRadius: "3px",
                         letterSpacing: "1.5px",
@@ -312,11 +310,13 @@ useEffect(()=>{
                       }}
                       type="button"
                       className="btn btn-medium modal-trigger"
-                      data-target="modal1"
-                      onClick={() => setDeleteid(el._id)}
-                      disabled={el.role == "administrator" && true||auth.user.role!="administrator"}
+                      //data-target="modal1"
+                      // onClick={() => setDeleteid(el._id)}
+                      onClick={() =>{setEmail(el.email)}}
+                      data-target="modalsanction"
+                     // disabled={el.role == "administrator" && true||auth.user.role!="administrator"}
                     >
-                      Delete
+                      Sanctions
                     </button>
 
                     {!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date())))?(
@@ -567,6 +567,15 @@ useEffect(()=>{
           </a>
         </div>
       </div>
+
+      <div
+          id="modalsanction"
+          className="modal"
+          style={{ padding: 0, margin: 0,}}
+        >
+          <Sanctions useremail={email}/>
+        </div> 
+
     </div>
   );
 };

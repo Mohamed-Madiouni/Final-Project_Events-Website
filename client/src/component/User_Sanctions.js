@@ -121,23 +121,14 @@ function Sanctions(props) {
              </div>
              </div>
              </div>:
-             
-             
-       
-             
-
-
-
-
-
-          <div id="modalnotifall" style={{ padding: 0, margin:0 }}>
+             <div id="modalnotifall" style={{ padding: 0, margin:0 }}>
              <div >
               <h4 className="center" style={{ marginTop: "20px" }}>Sanctions Center</h4>
             </div>
             <div className="notification-page__content" style={{ marginBottom: "0px" }}>
                   <div className="notification-container">
                        <div className="notification-per-period__period-card" style={{display: "flex", justifyContent:"center", padding: "19px 19px", color:"gray"}}>
-                         You don't have any sanction    
+                         There's no sanction until now  
                          <div>
                          </div>
                          </div>
