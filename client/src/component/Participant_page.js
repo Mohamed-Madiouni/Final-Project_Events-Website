@@ -124,13 +124,14 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
               {users.length!=0&&users.find(el=>el._id==match.params.participantId).fname} {users.length!=0&&users.find(el=>el._id==match.params.participantId).lname}
             </p>
           </div>
+          {(match.params.participantId==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&
           <button
             className="btn btn-medium modal-trigger"
             data-target="modalsanction"
             style={{ marginBottom: "5px" }}
           >
             Sanctions
-          </button>   
+          </button>}
         </div>
 
 <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >

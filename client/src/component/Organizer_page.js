@@ -276,13 +276,14 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
             
 
             <div className="h5-tit" style={{padding:0,width:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:"#2e8fa5",fontSize:25,marginBottom:3}}>¤ {users.length!=0&&users.find(el=>el._id==match.params.organizerId).note} ¤</div>
-<button
+            {(match.params.organizerId==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&
+            <button
             className="btn btn-medium modal-trigger"
             data-target="modalsanction"
             style={{ marginBottom: "5px" }}
             >
             Sanctions
-            </button>
+            </button>}
             <div
               id="modalsanction"
               className="modal"
