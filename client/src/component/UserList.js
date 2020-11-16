@@ -9,7 +9,7 @@ import {
   unalertUser,
 } from "../actions/adminaction";
 import { getCurrentUser, getSanctions } from "../actions/authaction";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import historyuser from "../outils/history";
 import "../events.css";
 import M from "materialize-css";
@@ -278,19 +278,18 @@ const UserList = () => {
                             className="card-image center-align"
                             style={{
                               height: "100%",
-                              width: 70,
                               placeItems: "center",
                               display:"grid",
                               position:"relative"
                             }}
                           >
-                            <img
+                           <Link to={`/${el.role}/${el._id}`}> <img
                               height="50px"
                               className="circle center-align"
                               src={el.avatar}
                               style={{ borderRadius: "50%", width: "50px" }}
                               alt=""
-                            />
+                            /></Link>
                            {el.online&&<div style={{
                               position:"absolute",
                               background:"green",

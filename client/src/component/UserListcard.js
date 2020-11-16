@@ -9,7 +9,7 @@ import {
   unalertUser,
 } from "../actions/adminaction";
 import { getCurrentUser, getSanctions} from "../actions/authaction";
-import { useHistory } from "react-router-dom";
+import { useHistory,Link } from "react-router-dom";
 import historyuser from "../outils/history";
 import "../events.css";
 import M from "materialize-css";
@@ -110,14 +110,15 @@ useEffect(()=>{
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
+                    overFlow: "hidden"
                   }}
                 >
                   <div
                     className="card small sticky-action"
                     style={{
+                      overFlow: "hidden",
                       width: 330,
                       height: 440,
-
                       filter:
                       (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) == false
                           ? "initial"
@@ -125,21 +126,23 @@ useEffect(()=>{
                     }}
                   >
                     <div
-                     
                       style={{
                         height: "55%",
                         width: "100%",
                         display:"flex",
                         justifyContent:"center",
+                        overFlow: "hidden"
                       }}
                     >
-                      <img
+                      <Link to={`/${el.role}/${el._id}`}><img
                         className="circle"
                         src={el.avatar}
                         height="100%"
-                        width="85%"
+                        width="250px"
+                        objectFit= "cover"
+                        overFlow= "hidden"
                         alt=""
-                      />
+                      /> </Link>
                       {/* {!el.banned&&(!el.alerted_date ||
                         new Date() > new Date(el.alerted_date)) && ( */}
                       {sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()?(((sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
