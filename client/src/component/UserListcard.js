@@ -117,6 +117,7 @@ useEffect(()=>{
                     style={{
                       width: 330,
                       height: 440,
+
                       filter:
                       (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) == false
                           ? "initial"
@@ -124,19 +125,19 @@ useEffect(()=>{
                     }}
                   >
                     <div
-                      className="card-image "
+                     
                       style={{
                         height: "55%",
                         width: "100%",
-                        display: "grid",
-                        placeItems: "center",
+                        display:"flex",
+                        justifyContent:"center",
                       }}
                     >
                       <img
-                        className="materialboxed"
+                        className="circle"
                         src={el.avatar}
                         height="100%"
-                        width="100%"
+                        width="85%"
                         alt=""
                       />
                       {/* {!el.banned&&(!el.alerted_date ||
