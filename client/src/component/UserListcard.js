@@ -166,7 +166,7 @@ useEffect(()=>{
                             onClick={() => {
                               setEmail(el.email)
                               setAlertid(el._id)}}
-                            disabled={el.role == "administrator" && true}
+                              disabled={(el.role == "administrator" || el.role == "moderator")}
                           ></i>)  :
                       (
                       sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop())&&(!((sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)
@@ -189,7 +189,7 @@ useEffect(()=>{
                             onClick={() => {
                               setEmail(el.email)
                               setAlertid(el._id)}}
-                            disabled={el.role == "administrator" && true}
+                              disabled={(el.role == "administrator" || el.role == "moderator")}
                           ></i> )
                        }
                         {sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()?(((sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()).canceled)||
@@ -216,7 +216,7 @@ useEffect(()=>{
                         setEmail(el.email)
                         setAlertid(el._id)
                         }}
-                      disabled={el.role == "administrator" && true}
+                        disabled={(el.role == "administrator" || el.role == "moderator")}
                     ></i>)                   
                      :
                      sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()? //there's a ban
@@ -243,7 +243,7 @@ useEffect(()=>{
                           setEmail(el.email)
                           setAlertid(el._id)
                           }}
-                        disabled={el.role == "administrator" && true}
+                          disabled={(el.role == "administrator" || el.role == "moderator")}
                       ></i>) 
                        :(<i
                           className="fas fa-exclamation-circle btn-flat modal-trigger"
@@ -264,7 +264,7 @@ useEffect(()=>{
                             setEmail(el.email)
                             setAlertid(el._id)
                             }}
-                          disabled={el.role == "administrator" && true}
+                            disabled={(el.role == "administrator" || el.role == "moderator")}
                         ></i>)
                       }
                     </div>
@@ -322,7 +322,7 @@ useEffect(()=>{
                       // onClick={() => setDeleteid(el._id)}
                       onClick={() =>{setEmail(el.email)}}
                       data-target="modalsanction"
-                     // disabled={el.role == "administrator" && true||auth.user.role!="administrator"}
+                      disabled={(el.role == "administrator" || el.role == "moderator")}
                     >
                       Sanctions
                     </button>

@@ -267,13 +267,15 @@ const UserList = () => {
                         key={el._id}
                         className="center-align"
                         style={{
+                         
                           filter:
                           (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) == false
                               ? "initial"
                               : (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) == true && "grayscale(150%)",
                             }}
                       >
-                        <td className="center-align" style={{ padding: 0,lineHeight: "normal" }}>
+                        <td className="center-align" style={{ padding: 0,lineHeight: "normal"}}>
+                          
                           <div
                             className="card-image center-align"
                             style={{
@@ -282,7 +284,8 @@ const UserList = () => {
                               display:"grid",
                               position:"relative"
                             }}
-                          >
+                          ><span style={{
+                           position:"relative"}}>
                            <Link to={`/${el.role}/${el._id}`}> <img
                               height="50px"
                               className="circle center-align"
@@ -293,13 +296,13 @@ const UserList = () => {
                            {el.online&&<div style={{
                               position:"absolute",
                               background:"green",
-                              right:4,
-                              bottom:1,
+                              right:-5,
+                              bottom:42,
                               borderRadius:"50%",
                               width:10,
                               height:10
                             }}></div>
-                            }
+                            }</span>
                           </div>
                         </td>
                         <td className="center-align" style={{ padding: 0 }}>
@@ -344,8 +347,7 @@ const UserList = () => {
                             // onClick={() => setDeleteid(el._id)}
                             onClick={() =>{setEmail(el.email)}}
                             data-target="modalsanction"
-                            //disabled={(el.role == "administrator" && true||auth.user.role!="administrator")}
-                                                         
+                            disabled={(el.role == "administrator" || el.role == "moderator")}
                           >
                             Sanctions
                           </button>
@@ -411,7 +413,7 @@ const UserList = () => {
                               onClick={() =>{
                                 setEmail(el.email)
                                 setAlertid(el._id)}}
-                              disabled={el.role == "administrator" && true}
+                                disabled={(el.role == "administrator" || el.role == "moderator")}
                             ></i>):
 
                             (
@@ -432,7 +434,7 @@ const UserList = () => {
                               onClick={() =>{
                                 setEmail(el.email)
                                 setAlertid(el._id)}}
-                              disabled={el.role == "administrator" && true}
+                                disabled={(el.role == "administrator" || el.role == "moderator")}
                             ></i>)
                           }
                           {sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()?(((sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()).canceled)||
@@ -454,7 +456,7 @@ const UserList = () => {
                               onClick={() =>{
                                 setEmail(el.email)
                                 setAlertid(el._id)}}
-                              disabled={el.role == "administrator" && true}
+                                disabled={(el.role == "administrator" || el.role == "moderator")}
                             ></i>)
                             :
                          sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()? //there's a ban
@@ -476,7 +478,7 @@ const UserList = () => {
                                 onClick={() =>{
                                   setEmail(el.email)
                                   setAlertid(el._id)}}
-                                disabled={el.role == "administrator" && true}
+                                  disabled={(el.role == "administrator" || el.role == "moderator")}
                               ></i>) 
                               :(<i className="fas fa-exclamation-circle btn-flat modal-trigger"
                                 style={{
@@ -492,7 +494,7 @@ const UserList = () => {
                                 onClick={() =>{
                                   setEmail(el.email)
                                   setAlertid(el._id)}}
-                                disabled={el.role == "administrator" && true}
+                                  disabled={(el.role == "administrator" || el.role == "moderator")}
                               ></i>
                                )}                    
                         </td>
