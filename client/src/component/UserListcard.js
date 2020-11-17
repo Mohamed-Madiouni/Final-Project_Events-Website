@@ -120,9 +120,11 @@ useEffect(()=>{
                       width: 330,
                       height: 440,
                       filter:
-                      (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) == false
+                      (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
+                      (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) == false
                           ? "initial"
-                          : (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) == true && "grayscale(150%)",
+                          : (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
+                          (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) == true && "grayscale(150%)",
                     }}
                   >
                     <div
@@ -143,15 +145,60 @@ useEffect(()=>{
                         overFlow= "hidden"
                         alt=""
                       /> </Link>
-                      {/* {!el.banned&&(!el.alerted_date ||
-                        new Date() > new Date(el.alerted_date)) && ( */}
-                      {sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()?(((sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
-                      (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&
-                        elm.type=="ban").pop().duration))<new Date()))&&
-                     
+                      {
+                         sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()?(!((sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()).canceled)
+                        &&(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().created_at,sanctions.filter(elm => elm.email==el.email
+                        &&elm.type=="alert").pop().duration))>new Date()))
+                        &&                      
+                      (<i
+                            className="fas fa-exclamation-circle btn-flat modal-trigger"
+                            style={{
+                              color: "red",
+                              position: "absolute",
+                              right: "1%",
+                              top: "5%",
+                              fontSize: 30,
+                              visibility: (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
+                              (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) && "hidden"
+                            }}
+                            type="button"
+                            data-target="modal5"
+                            onClick={() => {
+                              setEmail(el.email)
+                              setAlertid(el._id)}}
+                            disabled={el.role == "administrator" && true}
+                          ></i>)  :
+                      (
+                      sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop())&&(!((sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)
+                      &&(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email
+                      &&elm.type=="ban").pop().duration))<new Date()))
+                      &&
+                       (<i
+                            className="fas fa-exclamation-circle btn-flat modal-trigger"
+                            style={{
+                              color: "red",
+                              position: "absolute",
+                              right: "1%",
+                              top: "5%",
+                              fontSize: 30,
+                              visibility: (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
+                              (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) && "hidden"
+                            }}
+                            type="button"
+                            data-target="modal5"
+                            onClick={() => {
+                              setEmail(el.email)
+                              setAlertid(el._id)}}
+                            disabled={el.role == "administrator" && true}
+                          ></i> )
+                       }
+                        {sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()?(((sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()).canceled)||
+                       (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&
+                        elm.type=="alert").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().duration))<new Date()))&&
+           
                      (<i
                       className="fas fa-exclamation-circle btn-flat modal-trigger"
-                      style={{
+                      style={{ // ban cancelled
                         color: sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&
                         ((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
                         (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&
@@ -160,6 +207,8 @@ useEffect(()=>{
                         right: "1%",
                         top: "5%",
                         fontSize: 30,
+                        visibility: (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
+                              (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) && "hidden"
                       }}
                       type="button"
                       data-target="modal4"
@@ -168,13 +217,12 @@ useEffect(()=>{
                         setAlertid(el._id)
                         }}
                       disabled={el.role == "administrator" && true}
-                    ></i>)
-                     
+                    ></i>)                   
                      :
-      
-                       sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()?(((sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()).canceled)
-                       ||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&
-                        elm.type=="alert").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().duration))<new Date()))&&
+                     sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()? //there's a ban
+                      (((sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)|| // if the ban is cancelled or expired
+                      (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&& elm.type=="ban").pop().duration))<new Date()))&& 
+
                        (<i
                         className="fas fa-exclamation-circle btn-flat modal-trigger"
                         style={{
@@ -186,6 +234,8 @@ useEffect(()=>{
                           right: "1%",
                           top: "5%",
                           fontSize: 30,
+                          visibility: (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
+                              (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) && "hidden"
                         }}
                         type="button"
                         data-target="modal4"
@@ -205,6 +255,8 @@ useEffect(()=>{
                             right: "1%",
                             top: "5%",
                             fontSize: 30,
+                            visibility: (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
+                              (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) && "hidden"
                           }}
                           type="button"
                           data-target="modal4"
@@ -215,51 +267,7 @@ useEffect(()=>{
                           disabled={el.role == "administrator" && true}
                         ></i>)
                       }
-                      {sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()?(!((sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)
-                      &&(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email
-                      &&elm.type=="ban").pop().duration))<new Date()))
-                      &&
-                      <i
-                            className="fas fa-exclamation-circle btn-flat modal-trigger"
-                            style={{
-                              color: "red",
-                              position: "absolute",
-                              right: "1%",
-                              top: "5%",
-                              fontSize: 30,
-                            }}
-                            type="button"
-                            data-target="modal5"
-                            onClick={() => {
-                              setEmail(el.email)
-                              setAlertid(el._id)}}
-                            disabled={el.role == "administrator" && true}
-                          ></i>
-                      :
-      
-                      (sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop())&&(!((sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()).canceled)
-                      &&((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().created_at,sanctions.filter(elm => elm.email==el.email
-                        &&elm.type=="alert").pop().duration)))>new Date()))
-                       && (
-                          <i
-                            className="fas fa-exclamation-circle btn-flat modal-trigger"
-                            style={{
-                              color: "red",
-                              position: "absolute",
-                              right: "1%",
-                              top: "5%",
-                              fontSize: 30,
-                            }}
-                            type="button"
-                            data-target="modal5"
-                            onClick={() => {
-                              setEmail(el.email)
-                              setAlertid(el._id)}}
-                            disabled={el.role == "administrator" && true}
-                          ></i>
-                        )}
                     </div>
-
                     <div style={{marginBottom:"5px"}}>
                       <span className="black-text">
                         <b>
@@ -268,13 +276,10 @@ useEffect(()=>{
                         </b>
                       </span>
                     </div>
-
                     <p className="black-text" style={{marginBottom:"8px"}}>{el.email}</p>
                     <span className="black-text">
-                      
                       {el.role}
                     </span>
-
                     <div
                       style={{
                         display: "flex",
@@ -303,7 +308,6 @@ useEffect(()=>{
                         {historyuser(el.created_at)}
                       </span>
                     </div>
-
                     <button
                       style={{
                         width: "125px",
