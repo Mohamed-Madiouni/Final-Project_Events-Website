@@ -80,16 +80,11 @@ function Notifications() {
                             else if (el.notiftype=="Comment_Edition") { history.push("/events/"+el.compid)}
                             else {  history.push("/")}
                             }}>
-
                             <div className="x-flex-column-h-center-v-any" style={{minWidth: "90px"}}>
-
-                            <img src={users.find(e=>e._id==el.userId).avatar} alt="" className="circle"  style={{ marginRight: "8px",width:"40px" ,height:"40px"}}/>
-
-</div>
-<div>
-
+                            <img src={ allusers.find((elm) => elm._id == el.state[0].users) && (allusers.find((elm) => elm._id == el.state[0].users)).avatar} alt="" className="circle"  style={{ marginRight: "8px",width:"40px" ,height:"40px"}}/>
+                            </div>
+                            <div>
 <div className="notification-per-period__period-card__type" style={{display:"flex", alignContent: "center"}}>
-
                                 {(el.notiftype=="Event_Validation")&&
                                  <img src="/Event_Validation.png" alt="Event_Validation" />}
                                 {(el.notiftype=="New_Event")&&
