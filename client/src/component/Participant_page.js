@@ -58,7 +58,7 @@ function Participant_page({match}) {
     return (
 <>
 <Navbar/>
-
+{!auth.isAuthenticated&&history.push("/login")}
 <div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px"
 }}>
         <div className=" col s12 organizer_hi "
@@ -66,7 +66,7 @@ function Participant_page({match}) {
             {users.length!=0&& <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
                 <div style={{position:"relative"}}>
                  <img  style={{width:130,height:130,paddingTop:10}} src={users.find(el=>el._id==match.params.participantId).avatar} alt="" className="circle"/>
-                {auth.user._id!=match.params.participantId&&!(auth.user.blocked.includes(match.params.participantId)||users.find(el=>el._id==match.params.participantId).blocked.includes(auth.user._id))&&<i
+                 {auth.isAuthenticated&& (auth.user._id!=match.params.participantId&&!(auth.user.blocked.includes(match.params.participantId))||users.find(el=>el._id==match.params.participantId).blocked.includes(auth.user._id))&&<i
                   className="fas fa-envelope"
 style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-5,top:1,fontSize:22,cursor:"pointer"}}
                   title="Let's talk"

@@ -140,6 +140,7 @@ useEffect(()=>{
     return (
 <>
 <Navbar/>
+{!auth.isAuthenticated&&history.push("/login")}
         <div onClick={(e)=>{
           map.show&&!(document.querySelector(".map_container").contains(e.target)||document.querySelector("reach-portal").contains(e.target)||[...document.getElementsByClassName("address_map")].includes(e.target))&&
           dispatch({
@@ -167,7 +168,7 @@ useEffect(()=>{
             {users.length!=0&& <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
                 <div style={{position:"relative"}}>
                  <img  style={{width:130,height:130,paddingTop:10}} src={users.find(el=>el._id==match.params.organizerId).avatar} alt="" className="circle"/>
-                {auth.user._id!=match.params.organizerId&&!auth.user.follow.includes(match.params.organizerId)&& <a className="btn-floating "style={{position:"absolute",right:2,top:1,width:25,height:25,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",background:"rgb(63, 63, 63)"}}>
+                {auth.isAuthenticated && (auth.user._id!=match.params.organizerId)&&!auth.user.follow.includes(match.params.organizerId)&& <a className="btn-floating "style={{position:"absolute",right:2,top:1,width:25,height:25,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",background:"rgb(63, 63, 63)"}}>
                 
                 <i
                   className="material-icons"
@@ -208,7 +209,7 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).f
        to recieve a notification when he add a new event.
       
       </p>}
-      {auth.user._id!=match.params.organizerId&&!(auth.user.blocked.includes(match.params.organizerId)||users.find(el=>el._id==match.params.organizerId).blocked.includes(auth.user._id))&&<i
+      {auth.isAuthenticated&& (auth.user._id!=match.params.organizerId&&!(auth.user.blocked.includes(match.params.organizerId))||users.find(el=>el._id==match.params.organizerId).blocked.includes(auth.user._id))&&<i
                   className="fas fa-envelope"
 style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-5,top:1,fontSize:22,cursor:"pointer"}}
                   title="Let's talk"
