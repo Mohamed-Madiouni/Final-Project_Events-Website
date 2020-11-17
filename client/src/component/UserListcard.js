@@ -145,6 +145,17 @@ useEffect(()=>{
                         overFlow= "hidden"
                         alt=""
                       /> </Link>
+                      {el.online&&<div style={{
+                              position:"absolute",
+                              background:"green",
+                              right:310,
+                              bottom:417,
+                              borderRadius:"50%",
+                              width:10,
+                              height:10
+                            }}><span style={{ position:"relative",right:-11,
+                            bottom:7, color:"green", fontSize:11}}>Online</span></div>
+                            }
                       {
                          sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()?(!((sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop()).canceled)
                         &&(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="alert").pop().created_at,sanctions.filter(elm => elm.email==el.email
