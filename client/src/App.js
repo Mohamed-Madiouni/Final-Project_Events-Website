@@ -33,6 +33,7 @@ import Participant_page from "./component/Participant_page";
 import Moderator_page from "./component/Moderator_page";
 import Administrator_page from "./component/Administrator_page";
 import { getUsers } from "./actions/adminaction";
+import { chatuser } from "./outils/chatfunction";
 
 
 function App() {
@@ -179,16 +180,16 @@ chat.discussion.filter(el=>el.users.includes(auth.user._id)).length==0?
   })
   dispatch({
     type:ADD_TALK,
-    payload:el.users[1]
+    payload:chatuser(el.users,auth.user._id)
   })
 
 }}>
   <div style={{display:"flex",alignItems:"center"}}>
-      <img src={users.find(elm=>elm._id==el.users[1]).avatar} alt="" className="circle"/>
+      <img src={users.find(elm=>elm._id==chatuser(el.users,auth.user._id)).avatar} alt="" className="circle"/>
       <div style={{marginLeft:10,display:"flex",flexDirection:"column",alignItems:"flex-start",width:"100%"}}>
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",width:"100%"}}>
 
-      <span className="title" style={{display:"flex",alignItems:"center"}}><b>{users.find(elm=>elm._id==el.users[1]).fname}</b>
+      <span className="title" style={{display:"flex",alignItems:"center"}}><b>{users.find(elm=>elm._id==chatuser(el.users,auth.user._id)).fname}</b>
       {el.sendby!=auth.user._id&&<span style={{display:"flex",justifyContent:"center",alignItems:"center",
       background:"#2e8fa5",borderRadius:"50%",width:8,height:8,marginLeft:7}}>
         </span>}

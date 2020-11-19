@@ -59,6 +59,18 @@ const ContactUs = () => {
 //   }
 
 useEffect(()=>{
+  if(errors.contact)
+  {
+     M.toast({ html: "Your message has been sended, thanks for your interest", classes: "green" });
+  dispatch({
+    type:GET_ERRORS,
+    payload:{}
+  })
+  
+  }
+})
+
+useEffect(()=>{
   let input = document.querySelector("#phone");
 intlTelInput(input, {
        initialCountry: "tn",
@@ -106,13 +118,7 @@ const handleSubmit=(e)=>{
     message:inputs.message
   }
     dispatch(contactUs(data))
-    const resetContact=()=>{
-      setInputs({
-       name:'',
-       email:'',
-       phone:'',
-       message:''
-      })
+    
 //   axios.post("/contact/contactus",data)
 //   .then(res=>{
 //   //  setInputs({
@@ -123,7 +129,7 @@ const handleSubmit=(e)=>{
 //  .catch(()=>{
 //     console.log('message not sent')
 // })}
-}
+
 
     // setTimeout(()=>{
     // setInputs({
@@ -186,8 +192,6 @@ style={{marginLeft:"50px",marginTop:"90px",marginRight:"50px"}}>
   
     <form id="FormContainer" className=" contact_us"
     style={{marginTop:"40px"}}
-    method="POST" 
-    action="/contact/contactus"
      onSubmit={handleSubmit}>
         <div className="content-1">
             <div className="container cont-1">                
@@ -248,7 +252,7 @@ style={{marginLeft:"50px",marginTop:"90px",marginRight:"50px"}}>
                                {inputs.error.message}</span>
                             </div> 
                             <div className="form-group">
-                            <button data-toggle="modal" data-target="#exampleModal" className="btn modal-trigger"
+                            <button  className="btn"
                             
                     >Contact Us</button>
                     <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

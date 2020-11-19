@@ -177,7 +177,13 @@ key={i}
        }}
        // draggable={true}
        // onDragEnd={onMapClick}
-       onClick={()=>setselect(el)}
+       onClick={()=>{
+         setselect(el)
+        panTo({
+          lat:el.address.lat,lng:el.address.lng
+        })
+        
+        }}
         />
        
        ))
@@ -194,7 +200,12 @@ key={i}
        }}
        // draggable={true}
        // onDragEnd={onMapClick}
-       onClick={()=>setselect(el)}
+       onClick={()=>{
+         setselect(el)
+         panTo({
+          lat:el.address.lat,lng:el.address.lng
+        })
+        }}
         />
        
        ))

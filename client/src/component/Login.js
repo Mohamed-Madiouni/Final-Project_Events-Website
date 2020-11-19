@@ -53,10 +53,7 @@ useEffect(()=>{
         type: GET_ALL_MY_EVENTS, 
         payload: {}
     })
-    dispatch({ 
-      type: GET_ALL_EVENTS, 
-      payload: {}
-  })
+   
     },[])
 
   const onChange = (e) => {
