@@ -28,7 +28,7 @@ function Calendar() {
     const allevents=useSelector(state=>state.events.allEvents)
     const dispatch = useDispatch()
     let auth = useSelector(state=>state.auth)
-    const allnotif=useSelector(state=>state.notification.notifications)
+    const sanctions = useSelector((state) => state.auth.sanctions);
     const history =useHistory()
     const[mod,setMod]=useState(false)
     const [eventId,setEventId]=useState("")
@@ -83,7 +83,7 @@ return allevents.filter(el=>el.state!="Invalid").map(el=>{
     )
     })
 
-},[auth])  
+},[sanctions])  
 
 
 const oneventclick=useCallback((e)=>{

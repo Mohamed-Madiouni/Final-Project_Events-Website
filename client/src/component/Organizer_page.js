@@ -140,7 +140,7 @@ useEffect(()=>{
     return (
 <>
 <Navbar/>
-{!auth.isAuthenticated&&history.push("/login")}
+
         <div onClick={(e)=>{
           map.show&&!(document.querySelector(".map_container").contains(e.target)||document.querySelector("reach-portal").contains(e.target)||[...document.getElementsByClassName("address_map")].includes(e.target))&&
           dispatch({
@@ -168,7 +168,7 @@ useEffect(()=>{
             {users.length!=0&& <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
                 <div style={{position:"relative"}}>
                  <img  style={{width:130,height:130,paddingTop:10}} src={users.find(el=>el._id==match.params.organizerId).avatar} alt="" className="circle"/>
-                {auth.isAuthenticated && (auth.user._id!=match.params.organizerId)&&!auth.user.follow.includes(match.params.organizerId)&& <a className="btn-floating "style={{position:"absolute",right:2,top:1,width:25,height:25,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",background:"rgb(63, 63, 63)"}}>
+                {(auth.user._id!=match.params.organizerId)&&!auth.user.follow.includes(match.params.organizerId)&& <a className="btn-floating "style={{position:"absolute",right:2,top:1,width:25,height:25,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",background:"rgb(63, 63, 63)"}}>
                 
                 <i
                   className="material-icons"
@@ -209,7 +209,8 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).f
        to recieve a notification when he add a new event.
       
       </p>}
-      {auth.isAuthenticated&& (auth.user._id!=match.params.organizerId&&!(auth.user.blocked.includes(match.params.organizerId))||users.find(el=>el._id==match.params.organizerId).blocked.includes(auth.user._id))&&<i
+      {auth.user.blocked&&auth.user._id!=match.params.organizerId&&!(auth.user.blocked.includes(match.params.organizerId)||users.find(el=>el._id==match.params.organizerId).blocked.includes(auth.user._id))&&<i
+
                   className="fas fa-envelope"
 style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-5,top:1,fontSize:22,cursor:"pointer"}}
                   title="Let's talk"
@@ -229,7 +230,7 @@ style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-5,top:1,fon
                 }}
                   >  
                   </i>}
-                  {auth.isAuthenticated&&auth.user._id!=match.params.organizerId&&!auth.user.blocked.includes(match.params.organizerId)&&auth.user.role!="moderator"&&auth.user.role!="administrator"&&<i
+                  {auth.user.blocked&&auth.isAuthenticated&&auth.user._id!=match.params.organizerId&&!auth.user.blocked.includes(match.params.organizerId)&&auth.user.role!="moderator"&&auth.user.role!="administrator"&&<i
                   className="material-icons modal-trigger"
 style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,fontSize:22,cursor:"pointer"}}
                   title={`block ${users.find(el=>el._id==match.params.organizerId).fname} ${users.find(el=>el._id==match.params.organizerId).lname}`}
@@ -299,7 +300,7 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
           </div>
         </div>
 
-        {allevents&&geteventorg(allevents,match.params.organizerId).length!=0&&geteventorg(allevents,match.params.organizerId).filter(el=>new Date(el.start)>new Date()).length!=0&&geteventorg(allevents,match.params.organizerId).filter(el=>el.state!="Ended").filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").length!=0&&
+        {allevents&&geteventorg(allevents,match.params.organizerId).length!=0&&geteventorg(allevents,match.params.organizerId).filter(el=>(new Date(el.start)>new Date()&&el.state!="Ended"&&el.state!="Invalid"&&el.state!="Closed")).length!=0&&
         <div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px",backgroundColor:' rgb(44, 44, 44)',
         color:"white"
 }}>
