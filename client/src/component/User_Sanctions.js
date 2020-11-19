@@ -9,7 +9,7 @@ import { sort_notif_bydate } from "../outils/notif_length";
 import { getCurrentUser, getSanctions} from "../actions/authaction";
 
 
-function Sanctions() {
+function Sanctions(props) {
   const dispatch = useDispatch();
   const [countsanctions, setCountsanctions] = useState(0);
   const allsanctions = useSelector((state) => state.auth.sanctions);
@@ -17,6 +17,8 @@ function Sanctions() {
   let allusers = useSelector((state) => state.admin.users);
   const history = useHistory()
   const users=useSelector(state=>state.admin.users)
+  var userMail= props.useremail
+
   useEffect(() => {
     dispatch({
       type: GET_ERRORS,
@@ -31,7 +33,7 @@ function Sanctions() {
 
   return (
       <> 
-      {allsanctions.filter(el=>el.email==auth.user.email).length!=0&&<div id="modalnotifall" style={{ padding: 0, margin:0 }}>
+      {allsanctions.filter(el=>el.email==userMail).length!=0?<div id="modalnotifall" style={{ padding: 0, margin:0 }}>
              <div >
               <h4 className="center" style={{ marginTop: "20px" }}>Sanctions Center</h4>
             </div>
@@ -41,7 +43,7 @@ function Sanctions() {
                 <div className="notification-page__content__container">
                   <div className="notification-container">
 
-                          {allsanctions.filter(el=>el.email==auth.user.email) 
+                          {allsanctions.filter(el=>el.email==userMail) 
                           // && sort_notif_bydate(allsanctions)
                           .slice(0)
                       .slice(0, 10 + countsanctions * 10)
@@ -118,7 +120,20 @@ function Sanctions() {
                 )}
              </div>
              </div>
-             </div>}
+             </div>:
+             <div id="modalnotifall" style={{ padding: 0, margin:0 }}>
+             <div >
+              <h4 className="center" style={{ marginTop: "20px" }}>Sanctions Center</h4>
+            </div>
+            <div className="notification-page__content" style={{ marginBottom: "0px" }}>
+                  <div className="notification-container">
+                       <div className="notification-per-period__period-card" style={{display: "flex", justifyContent:"center", padding: "19px 19px", color:"gray"}}>
+                         There's no sanction until now  
+                         <div>
+                         </div>
+                         </div>
+                       </div> </div></div>
+}
 </>
   );
 }

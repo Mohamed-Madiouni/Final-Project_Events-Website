@@ -21,9 +21,7 @@ import MyMap from "./Maps";
 import {geteventorg } from "../outils/geteventorg";
 import Navbar from "./Navbar";
 import { sendNotifications } from "../actions/notificationaction";
-
 import Sanctions from "./User_Sanctions";
-
 import Count from "./Count";
 
 
@@ -46,7 +44,7 @@ function Organizer_page({match}) {
       const [eventDate,setEventDate]=useState("")
       const [clkwidth,setclkwidth]=useState(false)
       const [follow,setfollow]=useState(false)
-   
+    var useremail=(users.find(el=>el._id==match.params.organizerId).email)
     
  
   //check if events full
@@ -142,6 +140,7 @@ useEffect(()=>{
     return (
 <>
 <Navbar/>
+
         <div onClick={(e)=>{
           map.show&&!(document.querySelector(".map_container").contains(e.target)||document.querySelector("reach-portal").contains(e.target)||[...document.getElementsByClassName("address_map")].includes(e.target))&&
           dispatch({
@@ -169,7 +168,7 @@ useEffect(()=>{
             {users.length!=0&& <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
                 <div style={{position:"relative"}}>
                  <img  style={{width:130,height:130,paddingTop:10}} src={users.find(el=>el._id==match.params.organizerId).avatar} alt="" className="circle"/>
-                {auth.user._id!=match.params.organizerId&&!auth.user.follow.includes(match.params.organizerId)&& <a className="btn-floating "style={{position:"absolute",right:2,top:1,width:25,height:25,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",background:"rgb(63, 63, 63)"}}>
+                {(auth.user._id!=match.params.organizerId)&&!auth.user.follow.includes(match.params.organizerId)&& <a className="btn-floating "style={{position:"absolute",right:2,top:1,width:25,height:25,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",background:"rgb(63, 63, 63)"}}>
                 
                 <i
                   className="material-icons"
@@ -211,6 +210,7 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).f
       
       </p>}
       {auth.user.blocked&&auth.user._id!=match.params.organizerId&&!(auth.user.blocked.includes(match.params.organizerId)||users.find(el=>el._id==match.params.organizerId).blocked.includes(auth.user._id))&&<i
+
                   className="fas fa-envelope"
 style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-5,top:1,fontSize:22,cursor:"pointer"}}
                   title="Let's talk"
@@ -272,23 +272,21 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
               {users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname} {users.length!=0&&users.find(el=>el._id==match.params.organizerId).lname}
             </p>
 
-            
-            
-
             <div className="h5-tit" style={{padding:0,width:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:"#2e8fa5",fontSize:25,marginBottom:3}}>¤ {users.length!=0&&users.find(el=>el._id==match.params.organizerId).note} ¤</div>
-<button
+            {(match.params.organizerId==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&
+            <button
             className="btn btn-medium modal-trigger"
             data-target="modalsanction"
             style={{ marginBottom: "5px" }}
             >
             Sanctions
-            </button>
+            </button>}
             <div
               id="modalsanction"
               className="modal"
               style={{ padding: 0, margin: 0,}}
             >
-              <Sanctions />
+              <Sanctions useremail={useremail} />
             </div>  
 
             {/* <span className="blue-title">Hi there,</span>  */}
@@ -349,9 +347,7 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
    </form>
    </div>
  </div>
-
-
-            
+           
       
  { map.show&&<div className=" map_container" id="map">
 <MyMap/>
@@ -375,7 +371,6 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
 
             </div>
             }
-
  
  
 <div className="row"style={{marginLeft:"10px",marginTop:"20px"}}>

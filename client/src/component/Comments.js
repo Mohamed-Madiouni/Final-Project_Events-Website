@@ -560,6 +560,16 @@ return(
 <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
 </Link>
+{users.find(e=>e._id==el.postedBy).online &&<div style={{
+                              position:"relative",
+                              background:"green",
+                              right:23,
+                              bottom:2,
+                              borderRadius:"50%",
+                              width:10,
+                              height:10
+                            }}></div>
+                            }
        <div style={{display:"flex",alignItems:"center"}}>
          <div style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
        <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}> <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 

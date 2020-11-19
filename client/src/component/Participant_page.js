@@ -30,6 +30,7 @@ function Participant_page({match}) {
     const comments=useSelector(state=>state.comments)
     const chat=useSelector(state=>state.chat)
     var rs=0;
+    var useremail=(users.find(el=>el._id==match.params.participantId).email)
 
   useEffect(()=>{
     
@@ -65,7 +66,9 @@ function Participant_page({match}) {
             {users.length!=0&& <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
                 <div style={{position:"relative"}}>
                  <img  style={{width:130,height:130,paddingTop:10}} src={users.find(el=>el._id==match.params.participantId).avatar} alt="" className="circle"/>
+
                 {auth.user.blocked&&auth.user._id!=match.params.participantId&&!(auth.user.blocked.includes(match.params.participantId)||users.find(el=>el._id==match.params.participantId).blocked.includes(auth.user._id))&&<i
+
                   className="fas fa-envelope"
 style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-5,top:1,fontSize:22,cursor:"pointer"}}
                   title="Let's talk"
@@ -124,36 +127,33 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
               {users.length!=0&&users.find(el=>el._id==match.params.participantId).fname} {users.length!=0&&users.find(el=>el._id==match.params.participantId).lname}
             </p>
           </div>
+          {(match.params.participantId==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&
           <button
             className="btn btn-medium modal-trigger"
             data-target="modalsanction"
             style={{ marginBottom: "5px" }}
           >
             Sanctions
-          </button>   
+          </button>}
         </div>
 
-<div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >
-     <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Inscription date: {users.length!=0&&users.find(el=>el._id==match.params.participantId).created_at}</b></h5>
-       <div className="col s12 l4" style={{fontStyle: "",fontSize:17,marginBottom:10}}>
-       <span>Comments number:
+        <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:10,position:"relative"}} >
+ <div className="col s12 l4" style={{fontSize:14, fontWeight:"bold"}}>
+ Inscription date: {users.length!=0&&users.find(el=>el._id==match.params.participantId).created_at.toString().replace('Z', '').replace('T', ' ').replace(/\.\d+/, "")}
+<p />Comments number:{" "}
+    {(comments.comments&&comments.comments).map(elc=>{elc.reply.filter(el=>el.postedBy==match.params.participantId).map(el=>{rs=rs+1})})}
+    {comments.comments&& nbr_comments(comments.comments.filter(el=>el.postedBy==match.params.participantId).length)+ rs}
+    <div>Personal note:{users.length!=0&&users.find(el=>el._id==match.params.participantId).note}</div>   
+ </div></div>  
 
-{(comments.comments&&comments.comments).map(elc=>{elc.reply.filter(el=>el.postedBy==match.params.participantId).map(el=>{rs=rs+1})})}
-{comments.comments&& nbr_comments(comments.comments.filter(el=>el.postedBy==match.params.participantId).length)+ rs +" "}
-comment{comments.comments&&comments.comments.filter(elm=>elm).length==0?"":"s"}</span>
-<div>My personal note:{users.length!=0&&users.find(el=>el._id==match.params.participantId).note}</div>
-   </div>
-   
-   <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
-   </div>
    <div
           id="modalsanction"
           className="modal"
           style={{ padding: 0, margin: 0,}}
         >
-          <Sanctions />
+          <Sanctions useremail={useremail}/>
         </div> 
- </div>
+ 
  <div id="modalblock" className="modal">
           <div className="modal-content">
             <h4>User block</h4>
