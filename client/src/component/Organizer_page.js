@@ -159,7 +159,11 @@ useEffect(()=>{
           
         }}>
          
-        
+                {(match.params.participantId==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&
+          <div className="sanction_list">  
+          <a title="Subscriptions" href='#!' style={{ cursor:"pointer",  boxShadow: "0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}}>
+<i className="fas fa-angle-double-right modal-trigger"data-target="modalsanction" style={{ marginBottom: "5px" }}>Sanctions</i>
+</a></div>}          
 
 <div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px"
 }}>
@@ -209,6 +213,8 @@ outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).f
        to recieve a notification when he add a new event.
       
       </p>}
+
+
       {auth.user.blocked&&auth.user._id!=match.params.organizerId&&!(auth.user.blocked.includes(match.params.organizerId)||users.find(el=>el._id==match.params.organizerId).blocked.includes(auth.user._id))&&<i
 
                   className="fas fa-envelope"
@@ -230,6 +236,7 @@ style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-5,top:1,fon
                 }}
                   >  
                   </i>}
+             
                   {auth.user.blocked&&auth.isAuthenticated&&auth.user._id!=match.params.organizerId&&!auth.user.blocked.includes(match.params.organizerId)&&auth.user.role!="moderator"&&auth.user.role!="administrator"&&<i
                   className="material-icons modal-trigger"
 style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,fontSize:22,cursor:"pointer"}}
@@ -273,14 +280,6 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
             </p>
 
             <div className="h5-tit" style={{padding:0,width:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:"#2e8fa5",fontSize:25,marginBottom:3}}>¤ {users.length!=0&&users.find(el=>el._id==match.params.organizerId).note} ¤</div>
-            {(match.params.organizerId==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&
-            <button
-            className="btn btn-medium modal-trigger"
-            data-target="modalsanction"
-            style={{ marginBottom: "5px" }}
-            >
-            Sanctions
-            </button>}
             <div
               id="modalsanction"
               className="modal"
