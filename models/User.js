@@ -41,14 +41,6 @@ const userSchema = mongoose.Schema({
   cancelation :[{
     type:mongoose.Types.ObjectId
   }],
-  banned:{
-    type: Boolean,
-    required: true,
-    default: false
-  },
-  alerted_date:{
-    type:Date
-  },
   likes:[String],
   dislikes:[String],
   reports:[String],

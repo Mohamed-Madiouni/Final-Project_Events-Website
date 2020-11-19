@@ -122,19 +122,16 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
                             }}><span style={{marginLeft:50, color:"#616161", fontSize:11, fontWeight:"bold"}}>Offline</span></div>
                             }
                             </div>
-             </div>}
+                            </div>}
             <p className="h5-tit" style={{paddingTop:0}}>
               {users.length!=0&&users.find(el=>el._id==match.params.participantId).fname} {users.length!=0&&users.find(el=>el._id==match.params.participantId).lname}
             </p>
           </div>
           {(match.params.participantId==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&
-          <button
-            className="btn btn-medium modal-trigger"
-            data-target="modalsanction"
-            style={{ marginBottom: "5px" }}
-          >
-            Sanctions
-          </button>}
+          <div className="sanction_list">  
+          <a title="Subscriptions" href='#!' style={{ cursor:"pointer",  boxShadow: "0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}}>
+<i className="fas fa-angle-double-right modal-trigger"data-target="modalsanction" style={{ marginBottom: "5px" }}>Sanctions</i>
+</a></div>}
         </div>
 
         <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:10,position:"relative"}} >
