@@ -65,7 +65,7 @@ dispatch(getComment())
               <div style={{position:"relative"}}>
                <img  style={{width:130,height:130,paddingTop:10}} src={users.find(el=>el._id==match.params.moderatorId).avatar} alt="../public/User_icon.png" className="circle"/>
                
-               {(auth.user._id!=match.params.moderatorId&&!(auth.user.blocked.includes(match.params.moderatorId))||users.find(el=>el._id==match.params.moderatorId).blocked.includes(auth.user._id))&&<i
+               {(auth.user.blocked&&auth.user._id!=match.params.moderatorId&&!(auth.user.blocked.includes(match.params.moderatorId))||users.find(el=>el._id==match.params.moderatorId).blocked.includes(auth.user._id))&&<i
                   className="fas fa-envelope"
 style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-5,top:1,fontSize:22,cursor:"pointer"}}
                   title="Let's talk"
