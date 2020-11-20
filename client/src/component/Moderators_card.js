@@ -175,7 +175,7 @@ const Moderators_card = ({ users }) => {
                     }}
                     type="button"
                     className="btn btn-medium modal-trigger"
-                    onClick={() => SetUserId(el.id)}
+                    onClick={() => SetUserId(el._id)}
                     data-target="addmodo"
                   >
                     Add
