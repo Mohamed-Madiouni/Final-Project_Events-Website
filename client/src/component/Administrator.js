@@ -8,6 +8,7 @@ import EventList from "./EventList";
 import Notification from "./Notifications";
 import Reports from "./Reports";
 import Sanctions from "./Sanctions";
+import Moderators from "./Moderators";
 import "../organizer.css";
 import M from "materialize-css";
 import { getUsers, getEvents } from "../actions/adminaction";
@@ -91,6 +92,13 @@ function Administrator() {
           >
             Sanctions
           </button>
+          <button
+            className="btn btn-medium modal-trigger"
+            data-target="modalmodo"
+            style={{ marginBottom: "5px" }}
+          >
+            Moderators
+          </button>
         
         </div>
         </div>
@@ -167,7 +175,15 @@ function Administrator() {
           style={{ padding: 0, margin: 0,}}
         >
           <Sanctions />
-        </div>       
+        </div>
+
+        <div
+          id="modalmodo"
+          className="modal"
+          style={{ padding: 0, margin: 0,}}
+        >
+          <Moderators />
+        </div>    
 
       </div>
       <Footer/>

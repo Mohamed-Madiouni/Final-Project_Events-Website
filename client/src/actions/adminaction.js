@@ -159,3 +159,37 @@ export const validateEvent=(idEvent, valid)=>(dispatch)=>{
       payload: err.response.data,
     }));
   };
+
+  //Add Modo
+  export const AddModo=(idUser, moderator)=>(dispatch)=>{
+    setAuthToken(localStorage.token)
+    axios.put(`admin/users/addmodo/${idUser}`, moderator)
+    .then((res)=>{
+      dispatch(getUsers())
+      dispatch({
+        type: GET_ERRORS,
+        payload: {success:"done"},
+      })
+    })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+  };
+
+  //Remove Modo
+  export const DeleteModo=(idUser, participant)=>(dispatch)=>{
+    setAuthToken(localStorage.token)
+    axios.put(`admin/users/removemodo/${idUser}`, participant)
+    .then((res)=>{
+      dispatch(getUsers())
+      dispatch({
+        type: GET_ERRORS,
+        payload: {success:"done"},
+      })
+    })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+  };

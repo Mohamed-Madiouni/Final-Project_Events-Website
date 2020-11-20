@@ -110,13 +110,13 @@ useEffect(()=>{
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    overFlow: "hidden"
+                    overflow: "hidden"
                   }}
                 >
                   <div
                     className="card small sticky-action"
                     style={{
-                      overFlow: "hidden",
+                      overflow: "hidden",
                       width: 330,
                       height: 440,
                       filter:
@@ -133,7 +133,7 @@ useEffect(()=>{
                         width: "100%",
                         display:"flex",
                         justifyContent:"center",
-                        overFlow: "hidden"
+                        overflow: "hidden"
                       }}
                     >
                       <Link to={`/${el.role}/${el._id}`}><img
@@ -141,8 +141,8 @@ useEffect(()=>{
                         src={el.avatar}
                         height="100%"
                         width="250px"
-                        objectFit= "cover"
-                        overFlow= "hidden"
+                        objectfit= "cover"
+                        overflow= "hidden"
                         alt=""
                       /> </Link>
                       {el.online&&<div style={{

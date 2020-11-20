@@ -153,13 +153,13 @@ const handleSubmit=(e)=>{
         <>
         <Navbar/>
         <section id="PageCoverHeader" data-vc-full-width="true" data-vc-full-width-init="true"
-         class="vc_section contact-us vc_custom_1489707920794 vc_section-has-fill">
-          <div class="vc_row wpb_row vc_row-fluid">
-            <div class="wpb_column vc_column_container vc_col-sm-12">
-              <div class="vc_column-inner">
-                <div class="wpb_wrapper">
-                  <div class="wpb_text_column wpb_content_element  page-header">
-                    <div class="wpb_wrapper div-wpb">
+         className="vc_section contact-us vc_custom_1489707920794 vc_section-has-fill">
+          <div className="vc_row wpb_row vc_row-fluid">
+            <div className="wpb_column vc_column_container vc_col-sm-12">
+              <div className="vc_column-inner">
+                <div className="wpb_wrapper">
+                  <div className="wpb_text_column wpb_content_element  page-header">
+                    <div className="wpb_wrapper div-wpb">
                       <h1 className="h1-contact">
                         <span className="span-contact span-1" >Contact Us</span>
                         </h1>
@@ -327,38 +327,37 @@ style={{marginLeft:"50px",marginTop:"90px",marginRight:"50px"}}>
     <p>Latitude:{maps.latitude}</p>
     <p>longitude:{maps.longitude}</p>
     <p>Address:{maps.userAddress}</p> */}
-<section id="Location" class="vc_section">
-  <div class="vc_row wpb_row vc_row-fluid section-header featured"
+<section id="Location" className="vc_section">
+  <div className="vc_row wpb_row vc_row-fluid section-header featured"
   style={{marginLeft:"50px",marginTop:"70px"}}>
-    <div class="wpb_column vc_column_container vc_col-sm-12">
-      <div class="vc_column-inner">
-        <div class="wpb_wrapper">
-          <div class="wpb_text_column wpb_content_element ">
-            <div class="wpb_wrapper ">
+    <div className="wpb_column vc_column_container vc_col-sm-12">
+      <div className="vc_column-inner">
+        <div className="wpb_wrapper">
+          <div className="wpb_text_column wpb_content_element ">
+            <div className="wpb_wrapper ">
               <h2 className="h2-contact">Location</h2>
               </div>
               </div>
               </div></div>
               </div></div>
-              <div id="map-canvas" class="vc_row wpb_row vc_row-fluid">
-                <div class="wpb_column vc_column_container vc_col-sm-12">
-                      <div class="vc_row wpb_row vc_inner vc_row-fluid map-container">
-                          <div class="vc_column-inner">
-                                <div class="wpb_wrapper">
+              <div id="map-canvas" className="vc_row wpb_row vc_row-fluid">
+                <div className="wpb_column vc_column_container vc_col-sm-12">
+                      <div className="vc_row wpb_row vc_inner vc_row-fluid map-container">
+                          <div className="vc_column-inner">
+                                <div className="wpb_wrapper">
                                   <p>
                                   <iframe className="iframe" style={{border:0, width:"100%"}}
   height="450"
-  frameborder="0"
-  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBSZLoDPxvY96AxQbxFDlhXxiTS5JxgeDc
-    &q=GoMyCode,tunis+sousse" allowfullscreen>
+  frameBorder="0"
+  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBSZLoDPxvY96AxQbxFDlhXxiTS5JxgeDc&q=GoMyCode,tunis+sousse" allowFullScreen>
 </iframe>
                                   </p></div>
-                                  <div class="wpb_text_column wpb_content_element  address-container">
-                                    <div class="wpb_wrapper">
-                                      <h4 className="h4-title"><i style={{marginRight:"15px"}}class="fa fa-phone"></i>
+                                  <div className="wpb_text_column wpb_content_element  address-container">
+                                    <div className="wpb_wrapper">
+                                      <h4 className="h4-title"><i style={{marginRight:"15px"}}className="fa fa-phone"></i>
                                        Phone Number</h4>
                                       <p className="p-contact">+21655333333</p>
-                                    <h4 className="h4-title"><i style={{marginRight:"15px"}} class="fa fa-envelope"></i>
+                                    <h4 className="h4-title"><i style={{marginRight:"15px"}} className="fa fa-envelope"></i>
                                        Adress E-mail</h4>
                                     <p className="p-contact">eventcoco63@gmail.com</p>
                                     </div></div></div>

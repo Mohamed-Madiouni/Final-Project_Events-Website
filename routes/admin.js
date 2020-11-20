@@ -237,6 +237,41 @@ router.put("/events/invalid/:_id", authMiddleware, (req, res) => {
     .catch((err) => console.log(err.message));
 });
 
+
+//Add modo
+router.put("/users/addmodo/:_id", authMiddleware, (req, res) => {
+  var _id = req.params._id;
+  User.findByIdAndUpdate(
+    _id,
+    {
+      $set: {
+        role: "moderator"
+      },
+    },
+    { new: true }
+  )
+    .then((modo) => res.send({ role: "moderator" }))
+    .catch((err) => console.log(err.message));
+});
+
+
+//Remove modo
+router.put("/users/removemodo/:_id", authMiddleware, (req, res) => {
+  var _id = req.params._id;
+  User.findByIdAndUpdate(
+    _id,
+    {
+      $set: {
+        role: "participant"
+      },
+    },
+    { new: true }
+  )
+    .then((modo) => res.send({ role: "participant" }))
+    .catch((err) => console.log(err.message));
+});
+
+
 module.exports = router;
 
 
