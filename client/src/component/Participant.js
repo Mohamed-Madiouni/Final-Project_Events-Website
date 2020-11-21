@@ -168,7 +168,7 @@ useEffect(()=>{
            
           </div>
         </div>
-        {myevents&&myevents.length!=0&&myevents.filter(el=>new Date(el.start)>new Date()).length!=0&&myevents.filter(el=>el.state!="Ended").filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").length!=0&&
+        {myevents&&myevents.length!=0&&myevents.filter(el=>(new Date(el.start)>new Date()&&el.state!="Ended"&&el.state!="Invalid"&&el.state!="Closed")).length!=0&&
         <div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px",backgroundColor:' rgb(44, 44, 44)',
         color:"white"
 }}>

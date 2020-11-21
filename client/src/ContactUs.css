@@ -2,7 +2,7 @@
 .content-1{
     background-color: rgba(0, 0, 0,);
     padding: 20px;
-    margin: 20px 300px;
+    /* margin: 20px 300px; */
     transition: 0.5s;
 } 
 .title-1{

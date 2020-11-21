@@ -193,8 +193,8 @@ style={{marginLeft:"50px",marginTop:"90px",marginRight:"50px"}}>
     <form id="FormContainer" className=" contact_us"
     style={{marginTop:"40px"}}
      onSubmit={handleSubmit}>
-        <div className="content-1">
-            <div className="container cont-1">                
+        <div className="content-1 container">
+            <div className=" cont-1">                
                 <div className="row-3 align-items-center">
                     <div role="form" >
                         <div className="col">

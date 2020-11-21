@@ -129,8 +129,9 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
           </div>
           {(match.params.participantId==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&
           <div className="sanction_list">  
-          <a title="Subscriptions" href='#!' style={{ cursor:"pointer",  boxShadow: "0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}}>
-<i className="fas fa-angle-double-right modal-trigger"data-target="modalsanction" style={{ marginBottom: "5px" }}>Sanctions</i>
+          <a className="modal-trigger" data-target="modalsanction" title="Subscriptions" href='#!' style={{ cursor:"pointer",  boxShadow: "0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}}>
+<i className="fas fa-angle-double-right"  style={{ marginRight: "5px" }}></i>
+<span>Sanctions</span>
 </a></div>}
         </div>
 
@@ -143,13 +144,7 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
     <div>Personal note:{users.length!=0&&users.find(el=>el._id==match.params.participantId).note}</div>   
  </div></div>  
 
-   <div
-          id="modalsanction"
-          className="modal"
-          style={{ padding: 0, margin: 0,}}
-        >
-          <Sanctions useremail={useremail}/>
-        </div> 
+  
  
  <div id="modalblock" className="modal">
           <div className="modal-content">
@@ -172,6 +167,13 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
             </a>
           </div>
         </div>
+        <div
+          id="modalsanction"
+          className="modal"
+          style={{ padding: 0, margin: 0,}}
+        >
+          <Sanctions useremail={useremail}/>
+        </div> 
  <Footer/>    
         </>
     )

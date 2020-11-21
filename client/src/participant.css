@@ -159,7 +159,7 @@ transform: translateX(-78px);
    .sanction_list{
     position: absolute;
     left:  0px;
-    top:114px;
+    top:135px;
     display:flex;
     z-index: 999999;
   }
@@ -227,17 +227,17 @@ transform: translateX(-78px);
 }
 
 .sanction_list>a{
-  border-bottom-right-radius: 20px;
-  border-top-right-radius: 20px;
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
   height: 35px;
   transition: all 0.4s;
   font-size: 19px;
   line-height: normal;
   background: rgb(233, 233, 237);
-  width: 103px;
+  width: fit-content;
   display: flex;
   justify-content: center;
   align-items: center; 
-  margin-top: 54px;
   margin-left: 0px;
+  padding: 5px;
 }

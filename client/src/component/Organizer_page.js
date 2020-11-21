@@ -159,10 +159,11 @@ useEffect(()=>{
           
         }}>
          
-                {(match.params.participantId==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&
+                {(match.params.organizerId==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&
           <div className="sanction_list">  
-          <a title="Subscriptions" href='#!' style={{ cursor:"pointer",  boxShadow: "0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}}>
-<i className="fas fa-angle-double-right modal-trigger"data-target="modalsanction" style={{ marginBottom: "5px" }}>Sanctions</i>
+          <a data-target="modalsanction"  title="Subscriptions" href='#!' style={{ cursor:"pointer",  boxShadow: "0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}} className="modal-trigger">
+<i className="fas fa-angle-double-right" style={{ marginRight: "5px" }}></i>
+<span>Sanctions</span>
 </a></div>}          
 
 <div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px"
@@ -280,14 +281,7 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
             </p>
 
             <div className="h5-tit" style={{padding:0,width:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:"#2e8fa5",fontSize:25,marginBottom:3}}>¤ {users.length!=0&&users.find(el=>el._id==match.params.organizerId).note} ¤</div>
-            <div
-              id="modalsanction"
-              className="modal"
-              style={{ padding: 0, margin: 0,}}
-            >
-              <Sanctions useremail={useremail} />
-            </div>  
-
+            
             {/* <span className="blue-title">Hi there,</span>  */}
         {/* <p className="para-blue">
           {" "}
@@ -719,6 +713,14 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
             </a>
           </div>
         </div>
+        <div
+              id="modalsanction"
+              className="modal"
+              style={{ padding: 0, margin: 0,}}
+            >
+              <Sanctions useremail={useremail} />
+            </div> 
+
         </>
     )
 }
