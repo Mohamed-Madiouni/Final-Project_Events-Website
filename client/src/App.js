@@ -133,7 +133,7 @@ setTimeout(()=>{
             <Route path="/search" component={Searchresult} />
             <Route exact path="/events" component={Events} />
             <Route path="/calendar" component={Calendar} />
-            <Route path="/maps" component={Maps} />
+           
             <Route exact path="/contact" component={ContactUs} />
             <Route exact path="/about" component={AboutUs} />
             
@@ -156,7 +156,7 @@ setTimeout(()=>{
 
           </Switch>
           {auth.isAuthenticated&&<div className="chatlist">
-{!showchat&&location.pathname!="/login"&&location.pathname!="/register"&&<div className="tap" style={{ cursor:"pointer"}} onClick={()=>{dispatch({type:SHOW_CHAT,payload:!showchat})}}>
+{!showchat&&location.pathname!="/login"&&location.pathname!="/register"&&location.pathname!="/404"&&location.pathname!="/banned"&&<div className="tap" style={{ cursor:"pointer"}} onClick={()=>{dispatch({type:SHOW_CHAT,payload:!showchat})}}>
 {/* <i className="fas fa-angle-double-top"></i> */}
 <i className="fas fa-edit"></i>
 </div>}
