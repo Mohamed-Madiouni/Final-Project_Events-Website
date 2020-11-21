@@ -103,7 +103,7 @@
 .chatmodal{
     position: fixed;
     right: 0px;
-    top: 90px;
+    top: 446px;
     height: 500px;
     transition:  linear 0.5s;
     overflow-y: auto;

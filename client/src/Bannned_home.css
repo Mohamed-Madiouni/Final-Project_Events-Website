@@ -109,7 +109,7 @@
 
 .msg{
   bottom: -38px; right: -21px;
-  font-size: 34px;
+  font-size: 27px;
   animation-delay: calc(var(--delay-base) + 3 * var(--delay-added));
   color: #8b8b8b;
   margin-top: 144px;
