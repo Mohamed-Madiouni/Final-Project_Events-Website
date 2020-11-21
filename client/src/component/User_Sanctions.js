@@ -72,7 +72,7 @@ function Sanctions(props) {
                                   <span style={{height: "min-content", transform: "translateY(2px)"}}>{el.type}</span>
                                       </div>
                                       <div className="notification-per-period__period-card__date">
-                                      Duration:  {el.duration==-1 ? "Definitive" : el.duration + " Days"}
+                                      Duration:  {el.duration==-1 ? "Permanent" : el.duration + " Days"}
                                       </div> 
                                       <div className="notification-per-period__period-card__date">
                                       Done By the Moderator:  {el.author}

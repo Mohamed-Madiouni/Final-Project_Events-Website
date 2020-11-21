@@ -445,7 +445,7 @@ useEffect(()=>{
       <option value="5">5 Days</option>
       <option value="6">6 Days</option>
       <option value="7">7 Days</option>
-      <option value="-1">Definitive</option>
+      <option value="-1">Permanent</option>
   </select>
 
           <div><label>Reason</label><p />
