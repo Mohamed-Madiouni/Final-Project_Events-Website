@@ -269,9 +269,9 @@ const UserList = () => {
                         style={{
                          
                           filter:
-                          (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) == false
+                          (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date())&&(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration!=-1)))) == false
                               ? "initial"
-                              : (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) == true && "grayscale(150%)",
+                              : (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date())&&(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration!=-1)))) == true && "grayscale(150%)",
                             }}
                       >
                         <td className="center-align" style={{ padding: 0,lineHeight: "normal"}}>
@@ -353,7 +353,7 @@ const UserList = () => {
                           </button>
                         </td>
                         <td className="center-align" style={{ padding: 0 }}>
-                        {!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date())))?(
+                        {!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date())&&(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration!=-1))))?(
                             <button
                               style={{
                                 width: "100px",
@@ -406,7 +406,7 @@ const UserList = () => {
                                 color: "red",
                                 fontSize: 30,
                                 visibility: (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
-                                (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) && "hidden"
+                                ((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date())&&(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration!=-1)))) && "hidden"
                               }}
                               type="button"
                               data-target="modal5"
@@ -418,8 +418,8 @@ const UserList = () => {
 
                             (
                               sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop())&&(!((sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)
-                              &&(new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email
-                              &&elm.type=="ban").pop().duration))<new Date()))
+                              &&((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email
+                              &&elm.type=="ban").pop().duration))<new Date())&&(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration!=-1)))
                               &&
                             (<i
                               className="fas fa-exclamation-circle btn-flat modal-trigger"
@@ -427,7 +427,7 @@ const UserList = () => {
                                 color: "red",
                                 fontSize: 30,
                                 visibility: (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
-                                (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) && "hidden"
+                                ((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date())&&(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration!=-1)))) && "hidden"
                               }}
                               type="button"
                               data-target="modal5"
@@ -445,11 +445,11 @@ const UserList = () => {
                               style={{
                                 color: sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&
                                 ((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
-                                (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&
-                                elm.type=="ban").pop().duration))<new Date()))?"white":"gray",
+                                ((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&
+                                elm.type=="ban").pop().duration))<new Date())&&(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration!=-1)))?"white":"gray",
                                 fontSize: 30,
                                 visibility: (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
-                                (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) && "hidden"
+                                ((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date())&&(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration!=-1)))) && "hidden"
                               }}
                               type="button"
                               data-target="modal4"
@@ -461,17 +461,16 @@ const UserList = () => {
                             :
                          sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()? //there's a ban
                          (((sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)|| // if the ban is cancelled or expired
-                         (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&& elm.type=="ban").pop().duration))<new Date()))&& 
+                         ((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&& elm.type=="ban").pop().duration))<new Date())&&(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration!=-1)))&& 
                        (<i
                           className="fas fa-exclamation-circle btn-flat modal-trigger"
                           style={{
                           color: sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&
                           ((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
-                          (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&
-                          elm.type=="ban").pop().duration))<new Date()))?"white":"gray",
-                            fontSize: 30,
+                          ((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&
+                          elm.type=="ban").pop().duration))<new Date())&&(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration!=-1)))?"white":"gray", fontSize: 30,
                             visibility: (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
-                            (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) && "hidden"
+                            ((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date())&&(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration!=-1)))) && "hidden"
                                 }}
                                 type="button"
                                 data-target="modal4"
@@ -484,10 +483,10 @@ const UserList = () => {
                                 style={{
                                   color: sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&
                                   ((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
-                                  (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))?"white":"gray",
+                                  ((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date())&&(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration!=-1)))?"white":"gray",
                                   fontSize: 30,
                                   visibility: (sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()&&((!(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop()).canceled)||
-                                  (new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date()))) && "hidden"
+                                  ((new Date(eventClosing(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().created_at,sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration))<new Date())&&(sanctions.filter(elm => elm.email==el.email&&elm.type=="ban").pop().duration!=-1)))) && "hidden"
                                 }}
                                 type="button"
                                 data-target="modal4"

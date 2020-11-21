@@ -42,7 +42,6 @@ function Landing({}) {
   var useralert= (sanctions.filter(el => el.email==usermail && el.type=="alert")).pop()
   var userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
 
-  
   useEffect(() => {
     dispatch(getUsers())
     dispatch(getSanctions())
@@ -126,7 +125,10 @@ useEffect(() => {
   if (userban && (userban.canceled==false) && (new Date(eventClosing(userban.created_at,userban.duration))>new Date()))
      {
       dispatch(logoutUser());
-      history.push("/banned")
+      history.push({
+        pathname:"/banned",
+        userBan: userban,
+      })
      }
 });
 
