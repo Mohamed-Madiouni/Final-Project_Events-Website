@@ -122,7 +122,7 @@ useEffect(()=>{
 },[])
 
 useEffect(() => {
-  if (userban && (userban.canceled==false) && (new Date(eventClosing(userban.created_at,userban.duration))>new Date()))
+  if (userban && (userban.canceled==false) && (new Date(eventClosing(userban.created_at,userban.duration))>new Date()||(userban.duration==-1)))
      {
       dispatch(logoutUser());
       history.push({

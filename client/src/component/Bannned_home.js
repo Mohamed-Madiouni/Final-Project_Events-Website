@@ -34,8 +34,8 @@ function Bannned_home(props) {
           <span className="msg">
             Your <span>account</span> get baned.
             <p />Reson:{bandata.reason}
-            <p />Duration:{bandata.duration==-1?" Defivnitivly": " " + bandata.duration + " days"}
-            <p />{"Until: "+(eventClosing(bandata.created_at,bandata.duration)).split('.')[0].replace("T"," ")}
+            <p />Duration:{bandata.duration==-1?" Permanent": " " + bandata.duration + " days"}
+            <p />{bandata.duration!=-1 && "Until: "+(eventClosing(bandata.created_at,bandata.duration)).split('.')[0].replace("T"," ")}
           </span>
           <span className="support">
             <span>unexpected?</span>
