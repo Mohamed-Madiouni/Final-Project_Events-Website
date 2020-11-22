@@ -2,7 +2,7 @@ const express = require("express")
 const nodemailer = require ('nodemailer')
 const router = express.Router()
 const validateContactInput= require("../validation/contact");
-
+require("dotenv").config();
 // const transport = {
 //     //all of the configuration for making a site send an email.
   
@@ -92,7 +92,7 @@ router.post('/contactus',(req,res)=>{
         secure:false,
         auth:{
           user:'mailer.cocoevent@gmail.com',
-          pass:'coco_123'
+          pass:process.env.pass
         },
         tls:{
             rejectUnauthorized:false

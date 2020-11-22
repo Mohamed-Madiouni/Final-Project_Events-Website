@@ -63,7 +63,7 @@ router.post("/register", (req, res) => {
               secure:false,
               auth:{
                   user:'mailer.cocoevent@gmail.com',
-                  pass:'coco_123'
+                  pass:process.env.pass
               },
               tls:{
                   rejectUnauthorized:false
