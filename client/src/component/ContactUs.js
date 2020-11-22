@@ -179,7 +179,7 @@ const handleSubmit=(e)=>{
   </div>
 </div>   */}
 <div className=" row vc_row wpb_row vc_row-fluid section-header featured"
-style={{marginLeft:"50px",marginTop:"90px",marginRight:"50px"}}>
+style={{marginTop:"90px"}}>
               <div className="wpb_column vc_column_container col s12">
                 <div className="vc_column-inner">
                     <div className="wpb_text_column wpb_content_element ">
@@ -225,7 +225,7 @@ style={{marginLeft:"50px",marginTop:"90px",marginRight:"50px"}}>
                 {inputs.error.email}</span>
                             </div>
                             <div className="input-field">
-                                <input
+                                <input style={{width: "-moz-available"}}
                                 //  className="form-control input-lg"
                                  id="phone"
                                   type="tel"
@@ -329,7 +329,7 @@ style={{marginLeft:"50px",marginTop:"90px",marginRight:"50px"}}>
     <p>Address:{maps.userAddress}</p> */}
 <section id="Location" className="vc_section">
   <div className="vc_row wpb_row vc_row-fluid section-header featured"
-  style={{marginLeft:"50px",marginTop:"70px"}}>
+  style={{marginTop:"70px"}}>
     <div className="wpb_column vc_column_container vc_col-sm-12">
       <div className="vc_column-inner">
         <div className="wpb_wrapper">
