@@ -6,6 +6,7 @@ import { GET_ALL_EVENTS, GET_ALL_MY_EVENTS, GET_ERRORS } from "../actions/types"
 import Navbar from "./Navbar";
 import { logoutUser } from "../actions/authaction";
 import eventClosing from "../outils/eventClosing";
+import M from "materialize-css";
 
 function Login({ history }) {
   const errors = useSelector((state) => state.errors);
@@ -51,7 +52,7 @@ useEffect(()=>{
 useEffect(()=>{
   if(errors.register)
   {
-    M.toast({ html: "Your Coco event account has been created, check your email for validation", classes: "green" })
+    M.toast({ html: "Your Coco event account has been created, check your email for validation", classes: "green",displayLength:8000 })
 dispatch({
     type: GET_ERRORS,
     payload: {},
@@ -59,7 +60,7 @@ dispatch({
   }
   if(errors.active)
   {
-    M.toast({ html: "Your Coco event account not active, check your email for validation", classes: "red" })
+    M.toast({ html: "Your Coco event account not active, check your email for validation", classes: "red",displayLength:8000 })
 dispatch({
     type: GET_ERRORS,
     payload: {},
