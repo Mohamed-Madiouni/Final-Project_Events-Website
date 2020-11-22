@@ -37,8 +37,6 @@ function Moderator() {
           margin: "30px 15px 20px 15px",
           fontSize: 15,
           height: 200,
-          // display: "flex",
-          // alignItems: "left",
           position: "relative",
         }}
       >
@@ -47,9 +45,7 @@ function Moderator() {
         </h5>
         <div className="col s12" style={{marginBottom:5}}>
         <div
-          className="col s8 "
           style={{
-            fontStyle: "",
             fontSize: 17,
             marginBottom: 10,
             marginLeft: 0,
@@ -59,41 +55,41 @@ function Moderator() {
           <p> We are happy to see you among US. <br />
           This is your <b> Moderator Dashboard</b>, You can manage accounts and
           events.</p>
-        </div>
+        </div> 
+<div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+           <div style={{display:"flex",
+            alignItems:"center",
+            justifyContent:"center",
+            marginBottom: 10,
+            height:"100%",
         
-
-<div className="col s4" style={{display:"flex",alignItems:"center",justifyContent:"center",
- marginBottom: 10,
-            marginLeft: 0,
-            marginTop: 35,
-            flexDirection:"column",
-            height:"100%"
+            
+            boxShadow: "0px 0px 13px 6px #888888"
             }}>
-        
         
           <button
             className="btn btn-medium modal-trigger"
             data-target="modalnotifall"
-            style={{ marginBottom: "7px" }}
+            style={{ margin: "5px", fontSize:13, width:"120px" }}
           >
             Logs
           </button>
           <button
             className="btn btn-medium modal-trigger"
             data-target="modalreports"
-            style={{ marginBottom: "5px" }}
+            style={{ margin: "5px", fontSize:13, width:"120px" }}
           >
             Reports
           </button>
           <button
             className="btn btn-medium modal-trigger"
             data-target="modalsanctions"
-            style={{ marginBottom: "5px" }}
+            style={{ margin: "5px", fontSize:13, width:"120px" }}
           >
             Sanctions
           </button>        
-        </div>
-        </div>
+        </div></div></div></div>
+        
         <div
           className="switch col s12"
           style={{
@@ -114,7 +110,7 @@ function Moderator() {
             Manage events
           </label>
         </div>
-      </div>
+     
 
       <div className="col s12">
         {modal ? (
