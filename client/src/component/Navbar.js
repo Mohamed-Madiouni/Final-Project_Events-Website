@@ -22,7 +22,7 @@ function Navbar() {
   //   })
   // })
   return (
-    <div className="navbar-fixed" style={{height:"60px"}} onClick={(e)=>{
+    <div className="navbar-fixed" style={{height:"60px",position:"sticky",top:0}} onClick={(e)=>{
       map.show&&
       dispatch({
         type:SHOW_MAP,

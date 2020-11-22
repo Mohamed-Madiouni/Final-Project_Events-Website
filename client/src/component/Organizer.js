@@ -136,13 +136,13 @@ useEffect(()=>{
      
 
       <div className="col s12 row" >
-      <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,display:"flex",alignItems:"center",position:"relative"}} >
+      <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,minHeight:200,display:"flex",alignItems:"center",position:"relative"}} >
      <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Hi there,</b> {auth.user.fname}</h5>
        <div className="col s8 " style={{fontStyle: "",fontSize:17,marginBottom:10}}>
    <p>  We are happy to see you among US. <br />
     This is your <b>Dashboard</b>, you can create edit and delete an event.</p>
    </div>
-   <div className="col s4" style={{fontWeight:800,marginBottom:10,height: "60%",display:"flex",flexDirection:"column",justifyContent:"space-around"}}>
+   <div className="col s4" style={{fontWeight:800,marginBottom:10,minHeight: "120px",display:"flex",flexDirection:"column",justifyContent:"space-around"}}>
    <div>
               <a className="btn-floating cyan darken-3" style={{marginRight:10}}>
                 <i
