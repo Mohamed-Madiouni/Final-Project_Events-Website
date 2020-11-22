@@ -656,7 +656,7 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
                       </a>
                     </div>
                   </div>
-                  <Footer/>
+                  {/* <Footer/> */}
 {/* {users.length!=0&&auth.user.follow.length!=0&&allevents.length!=0&&<div className="organizer_list">
   <div className="groupofnotes scrollbar" id="style-3"  style={{width:clkwidth?300:0,boxShadow: clkwidth&&"0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}}>
   <ul className="collection par">

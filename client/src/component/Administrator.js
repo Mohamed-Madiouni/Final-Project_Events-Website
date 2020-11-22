@@ -186,7 +186,7 @@ function Administrator() {
         </div>    
 
       </div>
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   );
 }

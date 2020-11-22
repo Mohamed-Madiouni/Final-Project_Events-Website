@@ -365,7 +365,7 @@ style={{marginLeft:"50px",marginTop:"90px",marginRight:"50px"}}>
     </div>
 
 
-<Footer/>
+{/* <Footer/> */}
         </>
     );
 };

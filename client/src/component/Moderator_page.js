@@ -130,7 +130,7 @@ style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-5,top:1,fon
     <div>Personal note:{users.length!=0&&users.find(el=>el._id==match.params.moderatorId).note}</div>   
  </div></div>  
     
-<Footer />
+{/* <Footer /> */}
 </>
   )
 }

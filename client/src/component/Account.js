@@ -442,7 +442,7 @@ setConfirmationInput({confirm:""})
             </a>
           </div>
         </div>
-        <Footer/>
+        {/* <Footer/> */}
     </>
   );
 }

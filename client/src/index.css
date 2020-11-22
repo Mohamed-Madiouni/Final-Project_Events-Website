@@ -9,9 +9,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f4f4f4;
+  height: 100%;
 }
 #root{
-  min-height: 100vh;
+  /* min-height: 100vh; */
+height: 100%;
 }
 
 code {

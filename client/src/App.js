@@ -34,6 +34,7 @@ import Moderator_page from "./component/Moderator_page";
 import Administrator_page from "./component/Administrator_page";
 import { getUsers } from "./actions/adminaction";
 import { chatuser } from "./outils/chatfunction";
+import Footer from "./component/Footer";
 
 
 function App() {
@@ -240,6 +241,27 @@ chat.discussion.filter(el=>el.users.includes(auth.user._id)).length==0?
 </ul>}
 </div>
 </div>}
+<div id="modalunblock" className="modal">
+          <div className="modal-content">
+            <h4>Block manager</h4>
+            <p>Are you sure you want to remove the block from this user?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+              onClick={()=>dispatch(userunBlock(blockid))}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
         </div>
         
       )}
@@ -296,27 +318,7 @@ chat.discussion.filter(el=>el.users.includes(auth.user._id)).length==0?
       </li>
      
   </ul>}
-  <div id="modalunblock" className="modal">
-          <div className="modal-content">
-            <h4>Block manager</h4>
-            <p>Are you sure you want to remove the block from this user?</p>
-          </div>
-          <div className="modal-footer">
-            <a
-              href="#!"
-              className="modal-close  btn-flat"
-              onClick={()=>dispatch(userunBlock(blockid))}
-            >
-              Agree
-            </a>
-            <a
-              href="#!"
-              className="modal-close  btn-flat"
-            >
-              Cancel
-            </a>
-          </div>
-        </div>
+{location.pathname!="/banned"&&location.pathname!="/404"&&<Footer/>}
     </div>
   );
 }

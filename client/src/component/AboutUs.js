@@ -281,7 +281,7 @@ function AboutUs() {
         </div>
     </section>
     </div>
-<Footer/>
+{/* <Footer/> */}
     </>
   );
 }

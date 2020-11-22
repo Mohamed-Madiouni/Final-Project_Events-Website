@@ -174,7 +174,7 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
         >
           <Sanctions useremail={useremail}/>
         </div> 
- <Footer/>    
+ {/* <Footer/>     */}
         </>
     )
 }

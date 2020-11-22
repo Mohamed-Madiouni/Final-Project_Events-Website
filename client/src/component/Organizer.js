@@ -599,7 +599,7 @@ useEffect(()=>{
             </a>
           </div>
         </div>
-        <Footer/>
+        {/* <Footer/> */}
      </div>
   );
 }

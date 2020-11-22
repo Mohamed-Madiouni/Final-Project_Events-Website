@@ -534,7 +534,7 @@ note that: </p><br/>
             </a>
           </div>
         </div>
-        <Footer/>
+        {/* <Footer/> */}
         </div>
     )
 }

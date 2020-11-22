@@ -598,7 +598,7 @@ note that: </p><br/>
            onClick={() => {
            setCountevent(countevent + 1);
         }}>SHOW MORE</div>)}
-        <Footer/>
+        {/* <Footer/> */}
         </div>
     )
 }

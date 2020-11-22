@@ -170,7 +170,7 @@ function Moderator() {
         </div> 
 
       </div>
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   );
 }
