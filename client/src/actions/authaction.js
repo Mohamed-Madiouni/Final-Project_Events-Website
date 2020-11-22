@@ -12,7 +12,7 @@ export const registerUser = (userData, history) => (dispatch) => {
       history.push("/login") // re-direct to login on successful register
       dispatch({
         type: GET_ERRORS,
-        payload: {},
+        payload: {register:"succes"},
       });
     }) 
     .catch((err) =>

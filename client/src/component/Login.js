@@ -48,6 +48,26 @@ useEffect(()=>{
 //      }
 // });
 
+useEffect(()=>{
+  if(errors.register)
+  {
+    M.toast({ html: "Your Coco event account has been created, check your email for validation", classes: "green" })
+dispatch({
+    type: GET_ERRORS,
+    payload: {},
+  });
+  }
+  if(errors.active)
+  {
+    M.toast({ html: "Your Coco event account not active, check your email for validation", classes: "red" })
+dispatch({
+    type: GET_ERRORS,
+    payload: {},
+  });
+  }
+  
+})
+
     useEffect(()=>{
       dispatch({ 
         type: GET_ALL_MY_EVENTS, 
