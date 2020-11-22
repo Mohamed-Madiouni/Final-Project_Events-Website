@@ -8,6 +8,7 @@ const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 const validateUpdateInput = require("../validation/update");
 const authMiddleware = require("../middleware/authMiddleware");
+const nodemailer = require ('nodemailer')
 var Pusher = require('pusher');
 require("dotenv").config();
 
@@ -46,7 +47,48 @@ router.post("/register", (req, res) => {
       });
       newUser
         .save()
-        .then((user) => res.json(user))
+        .then((user) => {
+          const payload = {
+            id: user.id,
+            fname: user.fname,
+            lname:user.lname,
+            email:user.email,
+          }
+  
+          jwt.sign(payload, process.env.ACCES_TOKEN_SECRET,{expiresIn:"24h"},(err, token) => {
+           
+            const Transporter = nodemailer.createTransport({
+              host:'smtp.gmail.com',
+              port:587,
+              secure:false,
+              auth:{
+                  user:'mailer.cocoevent@gmail.com',
+                  pass:'coco_123'
+              },
+              tls:{
+                  rejectUnauthorized:false
+              }
+          })
+      
+      const mailOptions={
+        from: "eventcoco63@gmail.com",
+        to: `${user.fname}<${user.email}>`,
+        subject: `Activating your account - Coco event`,
+        html: `Welcome <b>${user.fname}</b>, your Coco event account has been created. <br/>
+        To confirm your registration, please click on the following link:<br/>
+        <br/>
+        https://localhost:3000/user/confirm_account?token=${token}`
+        
+      }
+      Transporter.sendMail(mailOptions,(error,info)=>{
+        if (error) throw error
+        res.json({msg:"registration succeded"});
+    })
+          
+        
+          })
+        
+        })
         .catch((err) => console.log(err));
     }
   });

@@ -91,8 +91,8 @@ router.post('/contactus',(req,res)=>{
         port:587,
         secure:false,
         auth:{
-            user:'eventcoco63@gmail.com',
-            pass:'Amani 123'
+          user:'mailer.cocoevent@gmail.com',
+          pass:'coco_123'
         },
         tls:{
             rejectUnauthorized:false
