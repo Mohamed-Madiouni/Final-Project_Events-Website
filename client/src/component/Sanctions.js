@@ -7,7 +7,7 @@ import { getUsers } from "../actions/adminaction";
 import "../notifications.css";
 import { sort_notif_bydate } from "../outils/notif_length";
 import { getCurrentUser, getSanctions} from "../actions/authaction";
-
+import M from "materialize-css";
 
 function Sanctions() {
   const dispatch = useDispatch();
@@ -26,6 +26,7 @@ function Sanctions() {
 
   useEffect(() => {
     dispatch(getUsers())
+    M.Modal.init(document.querySelectorAll(".modal"))
   }, []);
  
 
@@ -57,7 +58,7 @@ function Sanctions() {
                          </div>
                        </div>
                       
-                       <div  style={{cursor:"pointer"}}className="notification-per-period__period-card" onClick={() => {
+                       <div  style={{cursor:"pointer"}}className="notification-per-period__period-card modal-close" onClick={() => {
                         if((users.find(e=>e.email==el.email).role)=="partcipant") {history.push("participant/"+users.find(e=>e.email==el.email)._id)}
                         else  {history.push("organizer/"+users.find(e=>e.email==el.email)._id)} 
                        }}>
