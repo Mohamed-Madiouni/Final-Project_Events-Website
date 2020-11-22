@@ -118,7 +118,7 @@ const UserList = () => {
   return (
     <div>
       <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:255,paddingTop:40,position:"relative"}} >
-     <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for a user?</b></h5>
+     <h5 style={{position:"absolute",fontSize:30,left:5,top:-30}}><b>Looking for a user?</b></h5>
        <div className="col s12">
        <div className="col s12 l4" style={{fontStyle: "",fontSize:17,marginBottom:10}}>
    <p>Select a user name or choose an address or email to find the one looking for.</p>
