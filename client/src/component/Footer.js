@@ -46,25 +46,22 @@ function Footer() {
           </div>
         </div>
       </div> */}
-      <div className ="container" style={{marginRight:10,display:"flex", justifyContent:"space-between",alignItems:"center"}}>
-      <section className='social-media row'>
-          <div className='footer-logo col s2' style={{marginLeft:-290}}>
+      <div className ="container" style={{display:"flex", justifyContent:"space-between",alignItems:"center"}}>
+      <section className='social-media'>
+
+            <div className='footer-link-wrapper' style={{display: "flex",  justifyContent:"space-between"}}>
+
+          <div className='footer-logo'>
             <Link to='/' className='social-logo '>
             <img 
               src="/cocoE.jpg"
               alt="COCO PARTY"
               width="150px"
               height="70px"
-              style={{
-                marginRight: "10px",
-                
-              }}
               />
             </Link>
             </div>
-            <div className='footer-link-wrapper col s7' style={{display: "flex",  justifyContent:"space-between",
 
-marginLeft:"40px"}}>
             <Link to="/about" className='footer-link-items' >
             <h5 className="footer-h5">About</h5></Link>
             <Link to="/contact" className='footer-link-items'>
@@ -73,8 +70,8 @@ marginLeft:"40px"}}>
             <h5 className="footer-h5">Events</h5></Link>
           </div>
           
-         
-          <div className='social-icons col s3' style={{marginLeft:90}}>
+          <div className='social-icons-container'>
+          <div className='social-icons'>
             <Link
               className='social-icon-link facebook'
               to='/'
@@ -115,7 +112,7 @@ marginLeft:"40px"}}>
             >
               <i className='fab fa-linkedin' />
             </Link>
-          </div>
+          </div></div>
       </section>
       </div>
       <small className='website-rights'>Coco © 2020</small>
