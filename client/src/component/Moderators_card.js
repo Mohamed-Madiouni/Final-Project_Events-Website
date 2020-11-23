@@ -51,7 +51,7 @@ const Moderators_card = ({ users }) => {
   };
   return (
     <div id="modalmodo" style={{ padding: 0, margin:0 }}>
-            <div className="notification-page__content" style={{ marginBottom: "0px" }}>
+            <div className="notification-page__content" style={{ marginBottom: "0px", padding:"0" }}>
               <div className="notification-page__content__title">
                 </div>
                 <div>
@@ -71,7 +71,8 @@ const Moderators_card = ({ users }) => {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    overflow: "hidden"
+                    overflow: "hidden",
+                    minWidth: "335px"
                   }}
                 >
                   <div
