@@ -8,7 +8,6 @@ import "../notifications.css";
 import { sort_notif_bydate } from "../outils/notif_length";
 import { getCurrentUser, getSanctions} from "../actions/authaction";
 
-
 function Sanctions(props) {
   const dispatch = useDispatch();
   const [countsanctions, setCountsanctions] = useState(0);
@@ -44,22 +43,22 @@ function Sanctions(props) {
                   <div className="notification-container">
 
                           {allsanctions.filter(el=>el.email==userMail) 
-                          // && sort_notif_bydate(allsanctions)
+                           && sort_notif_bydate(allsanctions)
                           .slice(0)
                       .slice(0, 10 + countsanctions * 10)
                       .map((el) => {
                         return (
-                      <div key={el._id}>
+                      <div key={el[0]._id}>
                           <div className="notification-per-period">
                           <div className="notification-per-period__title">
                             <div className="x-flex-column-h-center-v-any ">
                             <span> 
-                          <div className="notification-per-period__period-card__date">{(el.created_at.toString().slice(0,10))}</div>
+                          <div className="notification-per-period__period-card__date">{(el[0].created_at.toString().slice(0,10))}</div>
                          </span>
                          </div>
                        </div>
-                      
-                       <div className="notification-per-period__period-card">
+                       {  el.map((el,i)=>
+                       <div key={i} className="notification-per-period__period-card">
                             <div className="x-flex-column-h-center-v-any" style={{minWidth: "90px"}}>
                             <img src={users.find(e=>e.email==el.email).avatar} alt="" className="circle"  style={{ marginRight: "8px",width:"40px" ,height:"40px"}}/>
                          </div>
@@ -91,7 +90,7 @@ function Sanctions(props) {
                                       <div className="notification-per-period__period-card__date">
                                         {el.created_at.toString().replace('Z', '').replace('T', ' ').replace(/\.\d+/, "")}</div>
                                       </div>
-                                      </div>
+                                      </div>)}
                                       </div></div>
                         )})}
                                       </div>

@@ -670,7 +670,6 @@ const UserList = () => {
         <div className="modal-footer" style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
           <a
             href="#!"
-            input type="submit"
             className="modal-close btn-flat"
             onClick={() =>{ 
               let title="Account Alerted";
