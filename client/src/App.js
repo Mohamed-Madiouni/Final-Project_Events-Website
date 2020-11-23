@@ -35,6 +35,7 @@ import Administrator_page from "./component/Administrator_page";
 import { getUsers } from "./actions/adminaction";
 import { chatuser } from "./outils/chatfunction";
 import Footer from "./component/Footer";
+import Activation from "./component/Activation";
 
 
 function App() {
@@ -134,7 +135,7 @@ setTimeout(()=>{
             <Route path="/search" component={Searchresult} />
             <Route exact path="/events" component={Events} />
             <Route path="/calendar" component={Calendar} />
-           
+            <Route path="/user/confirm_account" component={Activation} />
             <Route exact path="/contact" component={ContactUs} />
             <Route exact path="/about" component={AboutUs} />
             

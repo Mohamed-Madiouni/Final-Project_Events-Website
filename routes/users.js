@@ -57,10 +57,12 @@ router.post("/register", (req, res) => {
   
           jwt.sign(payload, process.env.ACCES_TOKEN_SECRET,{expiresIn:"24h"},(err, token) => {
            
-            const Transporter = nodemailer.createTransport({
+            let Transporter = nodemailer.createTransport({
+             
               host:'smtp.gmail.com',
               port:587,
               secure:false,
+            
               auth:{
                   user:'mailer.cocoevent@gmail.com',
                   pass:process.env.pass
@@ -70,19 +72,20 @@ router.post("/register", (req, res) => {
               }
           })
       
-      const mailOptions={
+      let mailOptions={
         from: "eventcoco63@gmail.com",
         to: `${user.fname}<${user.email}>`,
         subject: `Activating your account - Coco event`,
         html: `Welcome <b>${user.fname}</b>, your Coco event account has been created. <br/>
         To confirm your registration, please click on the following link:<br/>
         <br/>
-        https://localhost:3000/user/confirm_account?token=${token}`
+        http://localhost:3000/user/confirm_account?token=${token}`
         
       }
       Transporter.sendMail(mailOptions,(error,info)=>{
-        if (error) throw error
-        res.json({msg:"registration succeded"});
+        if (error) console.log(error)
+        else
+        res.json({msg:info.response});
     })
           
         
@@ -108,6 +111,22 @@ res.send({success:"ok"})
 })
     
 })
+})
+
+
+//handle active user
+
+router.put("/activation",(req,res)=>{
+
+  User.findOneAndUpdate({email:req.body.email},{$set:{active:true}}).then((user)=>{
+
+   
+if (!user)
+res.status(400).json({ msg: "user not found" })
+else
+res.send({active:"ok"})
+})
+    
 })
 
 

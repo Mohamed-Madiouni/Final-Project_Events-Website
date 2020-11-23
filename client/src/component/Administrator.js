@@ -62,6 +62,7 @@ function Administrator() {
             alignItems:"center",
             justifyContent:"center",
             marginBottom: 10,
+            marginTop: 10,
             height:"100%",
             boxShadow: "0px 0px 13px 6px #888888"
             }}>

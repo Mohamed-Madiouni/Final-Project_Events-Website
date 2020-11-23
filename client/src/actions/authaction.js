@@ -1,7 +1,7 @@
 import axios from "axios";
 import setAuthToken from "../token/authtoken";
 import jwt_decode from "jwt-decode";
-import { GET_ERRORS, SET_CURRENT_USER,PROFIL_UPDATED,GET_ALL_MY_EVENTS,GET_SANCTIONS } from "./types";
+import { GET_ERRORS, SET_CURRENT_USER,PROFIL_UPDATED,GET_ALL_MY_EVENTS,GET_SANCTIONS,LOADING ,REGISTER} from "./types";
 import { getUsers } from "./adminaction";
 
 // Register User
@@ -11,8 +11,8 @@ export const registerUser = (userData, history) => (dispatch) => {
     .then((res) => {
       history.push("/login") // re-direct to login on successful register
       dispatch({
-        type: GET_ERRORS,
-        payload: {register:"succes"},
+        type: REGISTER,
+        payload: true,
       });
     }) 
     .catch((err) =>
@@ -43,6 +43,35 @@ export const confirmPassword = (pass) => (dispatch) => {
   })
 })
 }
+
+//active user
+export const activeuser = (email,history) => (dispatch) => {
+  console.log(email)
+  axios
+    .put("/user/activation", {email:email})
+    .then((res) => {
+     
+      dispatch({
+        type: GET_ERRORS,
+        payload: {},
+      });
+      dispatch({
+        type: LOADING,
+        payload: false,
+      });
+      setTimeout(()=>{
+        history.push("/login")
+      },2500)
+     
+    }) 
+.catch(err=>{
+  dispatch({
+    type: GET_ERRORS,
+    payload: err.response.data,
+  })
+})
+}
+
 
 // Update User
 export const updateUser = (userData, history) => (dispatch) => {

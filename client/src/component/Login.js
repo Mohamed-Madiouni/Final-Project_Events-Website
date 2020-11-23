@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {  loginUser } from "../actions/authaction";
-import { GET_ALL_EVENTS, GET_ALL_MY_EVENTS, GET_ERRORS } from "../actions/types";
+import { GET_ALL_EVENTS, GET_ALL_MY_EVENTS, GET_ERRORS, REGISTER } from "../actions/types";
 import Navbar from "./Navbar";
 import { logoutUser } from "../actions/authaction";
 import eventClosing from "../outils/eventClosing";
@@ -50,14 +50,21 @@ useEffect(()=>{
 // });
 
 useEffect(()=>{
-  if(errors.register)
+  
+},[])
+
+useEffect(()=>{
+  if(auth.register)
   {
-    M.toast({ html: "Your Coco event account has been created, check your email for validation", classes: "green",displayLength:8000 })
+   
+      M.toast({ html: "Your Coco event account has been created, check your email for validation", classes: "green",displayLength:8000 })
+   
 dispatch({
-    type: GET_ERRORS,
-    payload: {},
+    type: REGISTER,
+    payload: false,
   });
   }
+  
   if(errors.active)
   {
     M.toast({ html: "Your Coco event account not active, check your email for validation", classes: "red",displayLength:8000 })
