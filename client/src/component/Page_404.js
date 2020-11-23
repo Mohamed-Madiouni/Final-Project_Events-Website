@@ -3,11 +3,11 @@ import "../404.scss"
 function Page_404() {
     return (
         
-<div className="page404 container " style={{position:"relative",height:700}}>
+<div className="page404 container " style={{position:"relative",height:"80vh"}}>
 
 
 
-<div className="text"><p>404</p></div>
+<div className="text"><p style={{fontSize:"20rem"}}>404</p></div>
 <div className="container">
   
   <div className="caveman">
@@ -47,7 +47,7 @@ function Page_404() {
   </div>
 </div>
 
-<div  style={{display:"flex",alignItems:"center",justifyContent:"center",width:"100%",position:"absolute",top:590}}>
+<div  style={{display:"flex",alignItems:"center",justifyContent:"center",width:"100%",position:"absolute",top:"72vh"}}>
 <a className="btn-404" href="/">Go Home</a>
 </div>
 
