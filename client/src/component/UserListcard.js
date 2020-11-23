@@ -449,7 +449,7 @@ useEffect(()=>{
   </select>
 
           <div><label>Reason</label><p />
-          <textarea id="reason" name="reason" onChange={onChange} value={sanctionData.reason} rows="4" cols="50" placeholder="Ban Reason"  style={{resize: "none"}} /></div>
+          <textarea id="reason" name="reason" onChange={onChange} value={sanctionData.reason} rows="4" cols="50" placeholder="Ban Reason" required style={{resize: "none"}} /></div>
         </div>
 
         <div className="modal-footer" style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
@@ -480,7 +480,7 @@ useEffect(()=>{
           <h4>User Unban</h4>
           <p>Are you sure you want to Unban this User?</p>
           <div><label>Reason</label><p />
-          <textarea id="reason" name="reason" onChange={onChange} value={sanctionData.reason} rows="4" cols="50" placeholder="Unban Reason" style={{resize: "none"}}/></div>
+          <textarea id="reason" name="reason" onChange={onChange} value={sanctionData.reason} rows="4" cols="50" placeholder="Unban Reason" required style={{resize: "none"}}/></div>
         </div>
         <div className="modal-footer" style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
           <a
@@ -536,7 +536,7 @@ useEffect(()=>{
   </select>
 
           <div><label>Reason</label><p />
-          <textarea id="reason" name="reason" onChange={onChange} value={sanctionData.reason} rows="4" cols="50" placeholder="Alert Reason" style={{resize: "none"}}/></div>
+          <textarea id="reason" name="reason" onChange={onChange} value={sanctionData.reason} rows="4" cols="50" placeholder="Alert Reason" required style={{resize: "none"}}/></div>
         </div>
         <div className="modal-footer" style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
           <a
@@ -566,7 +566,7 @@ useEffect(()=>{
           <h4>User Alert</h4>
           <p>Are you sure you want to remove the alert from this User?</p>
           <div><label>Reason</label><p />
-          <textarea id="reason" name="reason" onChange={onChange} value={sanctionData.reason} rows="4" cols="50" placeholder="Unalert Reason"  style={{resize: "none"}} /></div>
+          <textarea id="reason" name="reason" onChange={onChange} value={sanctionData.reason} rows="4" cols="50" placeholder="Unalert Reason" required style={{resize: "none"}} /></div>
         </div>
         <div className="modal-footer" style={{alignItems:"center", display: "flex", justifyContent: "center"}}>
           <a
