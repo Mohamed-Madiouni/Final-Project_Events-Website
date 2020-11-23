@@ -43,22 +43,22 @@ function Sanctions() {
                   <div className="notification-container">
 
                           {allsanctions 
-                          // && sort_notif_bydate(allsanctions)
+                           && sort_notif_bydate(allsanctions)
                           .slice(0)
                       .slice(0, 10 + countsanctions * 10)
                       .map((el) => {
                         return (
-                      <div key={el._id}>
+                      <div key={el[0]._id}>
                           <div className="notification-per-period">
                           <div className="notification-per-period__title">
                             <div className="x-flex-column-h-center-v-any ">
                             <span> 
-                          <div className="notification-per-period__period-card__date">{(el.created_at.toString().slice(0,10))}</div>
+                          <div className="notification-per-period__period-card__date">{(el[0].created_at.toString().slice(0,10))}</div>
                          </span>
                          </div>
                        </div>
-                      
-                       <div  style={{cursor:"pointer"}}className="notification-per-period__period-card modal-close" onClick={() => {
+                       {  el.map((el,i)=>
+                       <div key={i} style={{cursor:"pointer"}}className="notification-per-period__period-card modal-close" onClick={() => {
                         if((users.find(e=>e.email==el.email).role)=="partcipant") {history.push("participant/"+users.find(e=>e.email==el.email)._id)}
                         else  {history.push("organizer/"+users.find(e=>e.email==el.email)._id)} 
                        }}>
@@ -96,7 +96,7 @@ function Sanctions() {
                                       <div className="notification-per-period__period-card__date">
                                         {el.created_at.toString().replace('Z', '').replace('T', ' ').replace(/\.\d+/, "")}</div>
                                       </div>
-                                      </div>
+                                      </div>)}
                                       </div></div>
                         )})}
                                       </div>

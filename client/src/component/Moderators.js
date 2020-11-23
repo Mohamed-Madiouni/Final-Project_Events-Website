@@ -104,7 +104,7 @@ const Moderators = () => {
           <div className="input-field col s4">
             <input
               placeholder="First name search"
-              id="fname"
+              id="fnamem"
               type="text"
               value={quickSearch.fname}
               onChange={onChange}
@@ -113,7 +113,7 @@ const Moderators = () => {
           </div>
           <div className="input-field col s4">
             <select
-              id="role"
+              id="rolem"
               value={quickSearch.role}
               onChange={onChange}
               style={{
@@ -138,7 +138,7 @@ const Moderators = () => {
           <div className="input-field col s4">
             <input
               placeholder="Last name search"
-              id="lname"
+              id="lnamem"
               type="text"
               value={quickSearch.lname}
               onChange={onChange}
@@ -149,7 +149,7 @@ const Moderators = () => {
           <div className="input-field col s4">
             <input
               placeholder="Email search"
-              id="email"
+              id="emailm"
               type="text"
               value={quickSearch.email}
               onChange={onChange}
@@ -159,7 +159,7 @@ const Moderators = () => {
           <div className="input-field col s4">
             <input
               placeholder="Address search"
-              id="address"
+              id="addressm"
               type="text"
               value={quickSearch.address}
               onChange={onChange}
@@ -169,7 +169,7 @@ const Moderators = () => {
           <div className="input-field col s4">
             <input
               placeholder="Telephone search"
-              id="tel"
+              id="telm"
               type="text"
               value={quickSearch.tel}
               onChange={onChange}
