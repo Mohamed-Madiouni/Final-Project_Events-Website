@@ -101,16 +101,14 @@ router.post('/contactus',(req,res)=>{
 
 const mailOptions={
   from: `${data.name}<${data.email}>`,
-  to: "eventcoco63@gmail.com",
+  to: "mailer.cocoevent@gmail.com",
   subject: `Message from ${data.name}`,
-  text: "message",
-  html: `<h3>Information</h3>
+  html: `<h3>New message</h3>
   <ul>
-  <li> Name: ${data.email}</li>
+  <li> Email: ${data.email}</li>
   <li> Name: ${data.name}</li>
   <li> Phone: ${data.phone}</li>
   </ul>
-  <h3>Message</h3>
   <p>${data.message}</p>`
 }
 Transporter.sendMail(mailOptions,(error,info)=>{
