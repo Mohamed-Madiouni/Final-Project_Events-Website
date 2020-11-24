@@ -8,8 +8,12 @@ import eventClosing from "../outils/eventClosing";
 import { closeEvent, getEvent, endEvent } from "../actions/evntAction";
 import { useHistory } from "react-router-dom";
 import { GET_ERRORS } from "../actions/types";
-
+import ReactReadMoreReadLess from "react-read-more-read-less";
+import "../bootstrap.scss"
+// import"../bootstrap-theme.min.css"
+// import "../light-box.css"
 import Footer from "./Footer"
+// import ContactModel from "./ContactModel"
 //import AboutSection from "./AboutSection";
 import { logoutUser } from "../actions/authaction";
 
@@ -65,10 +69,12 @@ function Home() {
   return (
     <>
       <Navbar />
+      <div className="use-bootstrap">
       <div className="parallax-container">
       {allevents && (
         <div className="slider" >
           <ul className="slides">
+            
             {allevents &&
               allevents
               .filter(el=>el.state=="Available")
@@ -76,8 +82,10 @@ function Home() {
                 .reverse()
                 .map((el) => {
                   return (
+                    
                     <li key={el._id} >
-                      <img src={el.image} style={{filter:"blur(0.5px)",backgroundPosition: "bottom"}} width="100%" height="100%" alt=""/>
+                      
+                      <img src={el.image} style={{filter:"blur(0.5px)",backgroundPosition: "bottom"}} width="100%" height="100%" />
                       <div
                         className="caption left-align"
                         style={{
@@ -90,21 +98,33 @@ function Home() {
                         }}
                       >
                         <h3>{el.title}</h3>
-                        <h5
-                          className="light white-text text-lighten-3"
-                          style={{
+                        <p   style={{
                             lineHeight: "38px",
-                          }}
+                            paddingRight:"50%",
+                            textAlign:"left",
+
+                          }}>
+                        <ReactReadMoreReadLess
+                          className="light white-text text-lighten-3"
+                        
+                           charLimit={200}
+                           ellipsis={"..."}
+                           readMoreText={"Read more ▼"}
+                           readLessText={"Read less ▲"}
+                           readMoreStyle={{whiteSpace: "nowrap", textDecoration: "none",fontSize:20,borderBottom:"1px solid white", cursor:"pointer"}}
+                           readLessStyle={{whiteSpace: "nowrap", textDecoration: "none",fontSize:20,borderBottom:"1px solid white",cursor:"pointer"}}
                         >
                           {el.description}
-                        </h5>
+                        </ReactReadMoreReadLess></p>
                         <button
                           className="btn-small grey lighten-5 black-text"
                           style={{
                             display: "flex",
                             alignItems: "center",
                             opacity: 0.7,
+                            
                             borderRadius: 5,
+                            marginTop: 20
                           }}
                           onClick={() => history.push("/events")}
                         >
@@ -141,31 +161,30 @@ function Home() {
           <img src="festival_home.jpg" alt="Home" className="responsive-img" />
         </div> */}
       </div>
-      
-      <div className="section white">
-        <div className="row container">
-          <h2 className="header">COCO PARTY</h2>
-          <p
-            className="grey-text text-darken-2 "
-            style={{
-              lineHeight: "38px",
-            }}
-          >
-            Welcome to the number 1 event website in the WORLD <br /> We
+      <div class="more-about-us">
+        <div class="container">
+            <div class="col-md-5 col-md-offset-8">
+                <div class="content">
+                <h2 className="header">COCO Event</h2>
+                    <span className="span-home"># BLACK LIVES MATTER</span>
+                    <p className="p-home">Welcome to the number 1 event website in the WORLD <br /> We
             consider our self as a family, and as a family we welcome you to be
-            part of our universe.
-            <br />
-            <span className=" black-text">
-              You can check our last available events here below.
-            </span>
-          </p>
-          <h4>
-            <b># BLACK LIVES MATTER</b>
-          </h4>
+            part of our universe. 
+                    <br/></p>
+                    <div class="simple-btn">
+                        <a className="a-home" href="#" style={{textDecoration: "none",color: "#fff"
+
+}}>You can check our last available events here below.
+</a>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
       </div>
       
-      {/* <Footer/> */}
+      
+      {/* <ContactModel/> */}
     </>
   );
 }

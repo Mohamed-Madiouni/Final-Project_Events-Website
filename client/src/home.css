@@ -24,13 +24,72 @@
     transform: translateX(-1.78%); */
     height: 530px;
 }
-h2{
+.more-about-us {
+    background-image: url(/home1.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center center;
+    width: 100%;
+    text-align: center;
+}
+.more-about-us .content {
+    background-color: rgba(0,0,0,0.8);
+    text-align: left;
+    padding: 150px 60px;
+    color: #fff;
+}
+.header{
    
-    font-size: 70px;
+    font-size: 50px !important;
     font-family: 'David Libre', serif;
-    margin: 40px auto;
+    /* margin: 40px auto; */
     white-space: nowrap;
     overflow: hidden;
+    margin-top: 0px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+    color: #fff;
+}
+.span-home{
+    font-size: 16px;
+    font-weight: 200;
+    display: inline-block;
+    margin-bottom: 30px;
+    letter-spacing: 0.5px;
+    color: #fff;
+    font-family: 'David Libre', serif;
+
+
+}
+.p-home{
+        color: #fff;
+        font-size: 20px !important;
+        font-weight: 300;
+        line-height: 2rem;
+        margin: 0 0 10px;
+        font-family: 'David Libre', serif;
+
+
+}
+.simple-btn {
+    margin-top: 30px;
+}
+.a-home{
+    font-size: 16px !important;
+    text-transform: uppercase;
+    font-weight: 600;
+    background-color: transparent;
+    letter-spacing: 2px;
+    border-bottom: 1px solid #fff;
+    padding-bottom: 3px;
+    transition: all 0.5s;
+    line-height: 2.5rem;
+    font-family: 'David Libre', serif;
+
 }
     /* font-size: 70px;
     color:#00abff;

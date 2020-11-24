@@ -32,6 +32,8 @@ import Organizer_page from "./component/Organizer_page";
 import Participant_page from "./component/Participant_page";
 import Moderator_page from "./component/Moderator_page";
 import Administrator_page from "./component/Administrator_page";
+import ForgotPassword from "./component/ForgotPassword";
+import ResetPassword from "./component/ResetPassword"
 import { getUsers } from "./actions/adminaction";
 import { chatuser } from "./outils/chatfunction";
 import Footer from "./component/Footer";
@@ -153,6 +155,8 @@ setTimeout(()=>{
               path="/dashboard/:organizer_id"
               component={Organizer_events}
             />
+           <Route path="/forgot" component={ForgotPassword} />
+           <Route path="/reset/:id" component={ResetPassword} />
              <Route path="/*" component={Page_404} />
            
 
