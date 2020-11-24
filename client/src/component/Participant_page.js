@@ -8,7 +8,7 @@ import M from "materialize-css";
 import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP,SHOW_TALK, ADD_TALK  } from "../actions/types";
 import {getCurrentUser, userBlock } from "../actions/authaction";
 import history from "../outils/history"
-import { getUsers } from '../actions/adminaction';
+import { getUsers,getEvents } from '../actions/adminaction';
 import "../participant.css"
 import { logoutUser } from "../actions/authaction";
 import calcul_rating from "../outils/calucle_rating";
@@ -27,9 +27,11 @@ function Participant_page({match}) {
     const auth = useSelector((state) => state.auth);
     const errors=useSelector(state=>state.errors)
     const users=useSelector(state=>state.admin.users)
+    const allevents = useSelector((state) => state.admin.events);
     const comments=useSelector(state=>state.comments)
     const chat=useSelector(state=>state.chat)
     var rs=0;
+    var pr=0;
     var useremail=(users.find(el=>el._id==match.params.participantId).email)
 
   useEffect(()=>{
@@ -38,6 +40,7 @@ function Participant_page({match}) {
  M.Modal.init(document.querySelectorAll(".modal"))
  dispatch(getUsers())
  dispatch(getComment())
+ dispatch(getEvents())
 },[])
 
    useEffect(()=>{
@@ -126,6 +129,7 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
             <p className="h5-tit" style={{paddingTop:0}}>
               {users.length!=0&&users.find(el=>el._id==match.params.participantId).fname} {users.length!=0&&users.find(el=>el._id==match.params.participantId).lname}
             </p>
+            <div className="h5-tit" style={{padding:0,width:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:"#2e8fa5",fontSize:25,marginBottom:3}}>¤ {users.length!=0&&users.find(el=>el._id==match.params.participantId).note} ¤</div>
           </div>
           {(match.params.participantId==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&
           <div className="sanction_list">  
@@ -135,13 +139,13 @@ style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,font
 </a></div>}
         </div>
 
-        <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:10,position:"relative"}} >
+<div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:10,position:"relative"}} >
  <div className="col s12 l4" style={{fontSize:14, fontWeight:"bold"}}>
  Inscription date: {users.length!=0&&users.find(el=>el._id==match.params.participantId).created_at.toString().replace('Z', '').replace('T', ' ').replace(/\.\d+/, "")}
-<p />Comments number:{" "}
+<br /><br />Comments number:{" "}
     {(comments.comments&&comments.comments).map(elc=>{elc.reply.filter(el=>el.postedBy==match.params.participantId).map(el=>{rs=rs+1})})}
     {comments.comments&& nbr_comments(comments.comments.filter(el=>el.postedBy==match.params.participantId).length)+ rs}
-    <div>Personal note:{users.length!=0&&users.find(el=>el._id==match.params.participantId).note}</div>   
+    <br /><br /><div>{(allevents&&allevents).map(el=>{el.participant.includes(match.params.participantId) && (pr=pr+1)})}  Participated to: {pr} events</div>
  </div></div>  
 
   
