@@ -172,9 +172,9 @@ function Home() {
             part of our universe. 
                     <br/></p>
                     <div className="simple-btn">
-                        <a className="a-home" href="#" style={{textDecoration: "none",color: "#fff"
+                        <a className="a-home" href="/events" style={{textDecoration: "none",color: "#fff"
 
-}}>You can check our last available events here below.
+}}>You can check our last available events here {"->"}
 </a>
                     </div>
                 </div>
