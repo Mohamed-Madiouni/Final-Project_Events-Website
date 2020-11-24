@@ -162,7 +162,7 @@ function Home() {
         </div> */}
       </div>
       <div className="more-about-us">
-        <div className="container">
+        <div className="container" style={{minHeight: "100vh"}}>
             <div className="col-md-5 col-md-offset-8">
                 <div className="content">
                 <h2 className="header">COCO Event</h2>
