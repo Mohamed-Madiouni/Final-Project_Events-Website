@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
 import {useHistory,Link} from "react-router-dom";
 import {unfollowEvent,followEvent,getEvent,endEvent, fullEvent, openEvent} from "../actions/evntAction";
@@ -19,13 +18,16 @@ import MyMap from "./Maps";
 import {geteventorg } from "../outils/geteventorg";
 import Navbar from "./Navbar";
 import historyuser from "../outils/history";
-
+import {getComment} from "../actions/comntaction"
+import nbr_comments from "../outils/nbr_comments"
 function Participant_page({match}) {
     const dispatch = useDispatch();
     const history =useHistory()
     const auth = useSelector((state) => state.auth);
     const errors=useSelector(state=>state.errors)
     const users=useSelector(state=>state.admin.users)
+    const comments=useSelector(state=>state.comments)
+    var rs=0;
 
   useEffect(() => {
     if (auth.user.banned===true) {
@@ -39,6 +41,7 @@ function Participant_page({match}) {
    localStorage.token&&dispatch(getCurrentUser())
  M.Modal.init(document.querySelectorAll(".modal"))
  dispatch(getUsers())
+ dispatch(getComment())
 },[])
 
    useEffect(()=>{
@@ -81,7 +84,11 @@ function Participant_page({match}) {
 <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >
      <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Inscription date: {users.length!=0&&users.find(el=>el._id==iduser).created_at}</b></h5>
        <div className="col s12 l4" style={{fontStyle: "",fontSize:17,marginBottom:10}}>
-   <p>other informations</p>
+       <span>Comments number:
+
+{(comments.comments&&comments.comments).map(elc=>{elc.reply.filter(el=>el.postedBy==iduser).map(el=>{rs=rs+1})})}
+{comments.comments&& nbr_comments(comments.comments.filter(el=>el.postedBy==iduser).length)+ rs +" "}
+comment{comments.comments&&comments.comments.filter(elm=>elm).length==0?"":"s"}</span>
    </div>
    <div className="col s12 l8" style={{fontWeight:800,marginBottom:10}}>
    </div>
