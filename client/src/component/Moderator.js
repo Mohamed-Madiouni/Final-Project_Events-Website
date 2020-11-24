@@ -7,6 +7,7 @@ import UserList from "./UserList";
 import EventList from "./EventList";
 import Notification from "./Notifications";
 import Reports from "./Reports";
+import Sanctions from "./Sanctions";
 import "../organizer.css";
 import M from "materialize-css";
 import { getUsers, getEvents } from "../actions/adminaction";
@@ -36,19 +37,15 @@ function Moderator() {
           margin: "30px 15px 20px 15px",
           fontSize: 15,
           height: 200,
-          // display: "flex",
-          // alignItems: "left",
           position: "relative",
         }}
       >
         <h5 style={{ position: "absolute", fontSize: 35, left: 5, top: -30 }}>
           <b>Hi there,</b> {auth.user.fname}
         </h5>
-        <div className="col s12" style={{marginBottom:20}}>
+        <div className="col s12" style={{marginBottom:5}}>
         <div
-          className="col s8 "
           style={{
-            fontStyle: "",
             fontSize: 17,
             marginBottom: 10,
             marginLeft: 0,
@@ -58,35 +55,41 @@ function Moderator() {
           <p> We are happy to see you among US. <br />
           This is your <b> Moderator Dashboard</b>, You can manage accounts and
           events.</p>
-        </div>
+        </div> 
+<div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+           <div style={{display:"flex",
+            alignItems:"center",
+            justifyContent:"center",
+            marginBottom: 10,
+            height:"100%",
         
-
-<div className="col s4" style={{display:"flex",alignItems:"center",justifyContent:"center",
- marginBottom: 10,
-            marginLeft: 0,
-            marginTop: 35,
-            flexDirection:"column",
-            height:"100%"
+            
+            boxShadow: "0px 0px 13px 6px #888888"
             }}>
-        
         
           <button
             className="btn btn-medium modal-trigger"
             data-target="modalnotifall"
-            style={{ marginBottom: "7px" }}
+            style={{ margin: "5px", fontSize:13, width:"120px" }}
           >
-            View logs
+            Logs
           </button>
           <button
             className="btn btn-medium modal-trigger"
             data-target="modalreports"
-            style={{ marginBottom: "5px" }}
+            style={{ margin: "5px", fontSize:13, width:"120px" }}
           >
-            View Reports
+            Reports
           </button>
+          <button
+            className="btn btn-medium modal-trigger"
+            data-target="modalsanctions"
+            style={{ margin: "5px", fontSize:13, width:"120px" }}
+          >
+            Sanctions
+          </button>        
+        </div></div></div></div>
         
-        </div>
-        </div>
         <div
           className="switch col s12"
           style={{
@@ -107,7 +110,7 @@ function Moderator() {
             Manage events
           </label>
         </div>
-      </div>
+     
 
       <div className="col s12">
         {modal ? (
@@ -154,8 +157,16 @@ function Moderator() {
           <Reports />
         </div>
 
+        <div
+          id="modalsanctions"
+          className="modal"
+          style={{ padding: 0, margin: 0,}}
+        >
+          <Sanctions />
+        </div> 
+
       </div>
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   );
 }

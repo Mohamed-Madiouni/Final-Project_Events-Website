@@ -20,7 +20,7 @@ import Footer from './Footer';
 function Organizer() {
   
   const users=useSelector(state=>state.admin.users)
-
+  const sanctions = useSelector((state) => state.auth.sanctions);
   const dispatch = useDispatch();
   const events = useSelector((state) => state.events);
   const auth = useSelector((state) => state.auth);
@@ -48,13 +48,9 @@ function Organizer() {
   return modal
   };
   
-  useEffect(() => {
-    if (auth.user.banned===true) {
-        dispatch(logoutUser());
-        history.push("/banned")
-       }
-  });
-
+  let usermail=auth.user.email
+  var useralert= (sanctions.filter(el => el.email==usermail && el.type=="alert")).pop()
+  var userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
 
   useEffect(() => {
     dispatch(getEventOrganizer());
@@ -133,20 +129,20 @@ useEffect(()=>{
         
       }}>
 
-      { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
-        <i className="fas fa-exclamation-circle" style={{color:"red",fontSize:15,marginTop:5}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban your account 
+      { (useralert && (useralert.canceled==false) &&  (new Date(eventClosing(useralert.created_at,useralert.duration))>new Date())) &&
+        <i className="fas fa-exclamation-circle" style={{color:"red",fontSize:15,marginTop:5}}>You are alerted by{" " +useralert.author +" "}until {(eventClosing(useralert.created_at,useralert.duration)).split('.')[0].replace("T"," ")} <br/>A second alert could result a ban of your account, reason: {" " +useralert.reason} 
         </i>
         }
      
 
       <div className="col s12 row" >
-      <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,display:"flex",alignItems:"center",position:"relative"}} >
+      <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,minHeight:200,display:"flex",alignItems:"center",position:"relative"}} >
      <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Hi there,</b> {auth.user.fname}</h5>
        <div className="col s8 " style={{fontStyle: "",fontSize:17,marginBottom:10}}>
    <p>  We are happy to see you among US. <br />
     This is your <b>Dashboard</b>, you can create edit and delete an event.</p>
    </div>
-   <div className="col s4" style={{fontWeight:800,marginBottom:10,height: "60%",display:"flex",flexDirection:"column",justifyContent:"space-around"}}>
+   <div className="col s4" style={{fontWeight:800,marginBottom:10,minHeight: "120px",display:"flex",flexDirection:"column",justifyContent:"space-around"}}>
    <div>
               <a className="btn-floating cyan darken-3" style={{marginRight:10}}>
                 <i
@@ -325,7 +321,7 @@ useEffect(()=>{
                   <span className="card-title  grey-text text-darken-4" style={{height: "fit-content",lineHeight: "normal",marginTop: "2px",marginBottom:2}}>
                   {el.title.length<=12? <b>{el.title}</b>:<marquee scrolldelay={140} behavior="scroll" direction="left"><b>{el.title}</b></marquee> }
                   </span>
-                  {el.address.address.length<=20?
+                  {el.address.address.length<=18?
                   <a href="#map" >
                   {/* <marquee  behavior="scroll" direction="left" scrolldelay={200}> */}
                     <p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
@@ -603,7 +599,7 @@ useEffect(()=>{
             </a>
           </div>
         </div>
-        <Footer/>
+        {/* <Footer/> */}
      </div>
   );
 }

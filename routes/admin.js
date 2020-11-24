@@ -2,8 +2,21 @@ const express = require("express");
 const User = require("../models/User");
 const Event = require("../models/Event");
 const Comment = require("../models/Comment");
+const Sanction = require("../models/Sanction");
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
+
+var Pusher = require('pusher');
+require("dotenv").config();
+
+var pusher = new Pusher({
+  appId: process.env.appId,
+  key: process.env.key,
+  secret: process.env.secret,
+  cluster: 'eu',
+  useTLS: true,
+});
+
 
 // GET USERS
 router.get("/users", (req, res) => {
@@ -77,85 +90,118 @@ Event.deleteMany({ id_organizer: _id })
    });
 });
 
-//Ban User by Id
-router.put("/users/ban/:_id", authMiddleware, (req, res) => {
-  var _id = req.params._id;
-  User.findByIdAndUpdate(
-    _id,
-    {
-      $set: {
-        banned: true
-      },
-    },
-    { new: true }
-  )
-    .then((userbanned) => res.send({ banned: "ok" }))
-    .catch((err) => console.log(err.message));
+// GET SANCTIONS
+router.get("/sanctions", (req, res) => {
+  Sanction.find()
+    .then((sanctions) => res.json(sanctions))
+    .catch((err) => {
+      console.error(err.message);
+      return res.status(500).send("Server Error");
+    });
 });
 
+//Ban User by Id
+router.post("/sanction/ban/add", authMiddleware, (req, res) => {
+  let newSanction = new Sanction({
+    email:req.body.email,
+    type:req.body.type,
+    duration:req.body.duration,
+    reason:req.body.reason,
+    author:req.body.author  
+  })
+  newSanction.save()
+  .then((sanction) => {
+    pusher.trigger('sanction', 'sanction', {
+      'message': 'hello world'
+    });  
+    
+    res.status(201).send(sanction)
+  
+    })
+    .catch(err=>res.status(402).send(err.message))
+});
 
 //Unban User by Id
-router.put("/users/unban/:_id", authMiddleware, (req, res) => {
-  var _id = req.params._id;
-
-  User.findByIdAndUpdate(
-    _id,
+router.put("/sanction/ban/delete/:email", authMiddleware, (req, res) => {
+  
+  Sanction.findOneAndUpdate({
+    email : req.params.email, type: "ban"},
     {
       $set: {
-        banned: false
+        canceled: req.body.canceled,
+        cancelreason:req.body.cancelreason, 
+        cancelauthor:req.body.cancelauthor,
+        cancelled_at: req.body.cancelled_at
       },
     },
-    { new: true }
+    {upsert: true,
+      sort: { created_at: -1 },
+       new: true }
   )
-    .then((userunbanned) => res.send({ unbanned: "ok" }))
-    .catch((err) => console.log(err.message));
+  .then(() => {
+    pusher.trigger('sanction', 'sanction', {
+      'message': 'hello world'
+    });    
+    res.send({ msg: "Ban cancelled" })
+    .catch((err) => {
+    
+    res.status(500).send("Server Error");
+  });
+});
 });
 
 
 //Alert
-router.put("/users/alert/:_id", authMiddleware, (req, res) => {
-  var _id = req.params._id;
-  let nowdate = new Date();
-  // console.log(_id)
-  User.findByIdAndUpdate(
-    _id,
-    {
-      $set: {
-        alerted_date: new Date(
-          nowdate.getFullYear(),
-          nowdate.getMonth(),
-          nowdate.getDate() + 7
-        ),
-      },
-    },
-    { new: true }
-  )
-    .then((useralerted) => { 
-      //  console.log(useralerted)
-      res.send({ alerted: "ok" })
+router.post("/sanction/alert/add", authMiddleware, (req, res) => {
+  let newSanction = new Sanction({
+    email:req.body.email,
+    type:req.body.type,
+    duration:req.body.duration,
+    reason:req.body.reason,
+    author:req.body.author  
+  })
+  newSanction.save()
+  .then((sanction) => {
+    pusher.trigger('sanction', 'sanction', {
+      'message': 'hello world'
+    });  
+    
+    res.status(201).send(sanction)
   
     })
-    .catch((err) => console.log(err.message));
+    .catch(err=>res.status(402).send(err.message))
 });
 
 
 //Remove Alert
-router.put("/users/unalert/:_id", authMiddleware, (req, res) => {
-  var _id = req.params._id;
-  let nowdate = new Date();
-  User.findByIdAndUpdate(
-    _id,
+router.put("/sanction/alert/delete/:email", authMiddleware, (req, res) => {
+
+  Sanction.findOneAndUpdate({
+    email : req.params.email, type: "alert"},
     {
       $set: {
-        alerted_date: ""
-      },
+        canceled: req.body.canceled,
+        cancelreason:req.body.cancelreason, 
+        cancelauthor:req.body.cancelauthor,
+        cancelled_at: req.body.cancelled_at
+      }
     },
-    { new: true }
+    {  
+      upsert: true,
+      sort: { created_at: -1 },
+    new: true }
   )
-    .then((userunalert) => res.send({ unalert: "ok" }))
-    .catch((err) => console.log(err.message));
+  .then(() => {
+    pusher.trigger('sanction', 'sanction', {
+      'message': 'hello world'
+    });    
+    res.send({ msg: "Alert Cancelled!" })
+    .catch((err) => {
+  
+    res.status(500).send("Server Error");
+  });
 });
-
+});
 
 
 //valid event by Id
@@ -190,6 +236,41 @@ router.put("/events/invalid/:_id", authMiddleware, (req, res) => {
     .then((eventvalid) => res.send({ unvalid: "ok" }))
     .catch((err) => console.log(err.message));
 });
+
+
+//Add modo
+router.put("/users/addmodo/:_id", authMiddleware, (req, res) => {
+  var _id = req.params._id;
+  User.findByIdAndUpdate(
+    _id,
+    {
+      $set: {
+        role: "moderator"
+      },
+    },
+    { new: true }
+  )
+    .then((modo) => res.send({ role: "moderator" }))
+    .catch((err) => console.log(err.message));
+});
+
+
+//Remove modo
+router.put("/users/removemodo/:_id", authMiddleware, (req, res) => {
+  var _id = req.params._id;
+  User.findByIdAndUpdate(
+    _id,
+    {
+      $set: {
+        role: "participant"
+      },
+    },
+    { new: true }
+  )
+    .then((modo) => res.send({ role: "participant" }))
+    .catch((err) => console.log(err.message));
+});
+
 
 module.exports = router;
 

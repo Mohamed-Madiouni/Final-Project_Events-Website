@@ -11,6 +11,7 @@ import {myevents} from "./myEvents"
 import {notifications} from "./notification"
 import resize from "./resize"
 import {loading} from "./Loading"
+import {chat} from "./chat"
 export default combineReducers({
   auth: authReducer,
   errors: errorReducer,
@@ -23,5 +24,6 @@ export default combineReducers({
   comments:comment,
   notification:notifications,
   map:map,
-  loading:loading
+  loading:loading,
+  chat:chat
 });

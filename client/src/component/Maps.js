@@ -26,7 +26,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 const containerStyle = {
-  width: '100vw',
+  width: '100%',
   height: '100%'
 };
 
@@ -177,7 +177,13 @@ key={i}
        }}
        // draggable={true}
        // onDragEnd={onMapClick}
-       onClick={()=>setselect(el)}
+       onClick={()=>{
+         setselect(el)
+        panTo({
+          lat:el.address.lat,lng:el.address.lng
+        })
+        
+        }}
         />
        
        ))
@@ -194,7 +200,12 @@ key={i}
        }}
        // draggable={true}
        // onDragEnd={onMapClick}
-       onClick={()=>setselect(el)}
+       onClick={()=>{
+         setselect(el)
+         panTo({
+          lat:el.address.lat,lng:el.address.lng
+        })
+        }}
         />
        
        ))
@@ -256,7 +267,7 @@ function Search ({panTo}){
   });
 
   return (
-    <div className="search_map">
+    <div className="search_map" style={{width:"50%"}}>
       <Combobox onSelect={async(address)=>{
         setValue(address,false)
         clearSuggestions()

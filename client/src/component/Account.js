@@ -10,25 +10,48 @@ import "../account.css"
 import resize from "../outils/resize";
 import { logoutUser } from "../actions/authaction";
 import Footer from "./Footer";
+import "../../node_modules/intl-tel-input/build/css/intlTelInput.css";
+import intlTelInput from 'intl-tel-input';
+import "../tel.scss"
+import eventClosing from "../outils/eventClosing";
+
 
 function Updateacc({ history }) {
   const errors = useSelector((state) => state.errors);
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-
+  const sanctions = useSelector((state) => state.auth.sanctions);
   const [user, setUser] = useState({
     password: "",
     password2: "",
     tel: "",
     address: "",
     avatar: "",
+    note: "",
     error: {},
   });
 const [confirmationInput,setConfirmationInput] = useState({confirm:""})
-
+const [passtype,setpasstype]=useState("password")
+  const [passvertype,setpassvertype]=useState("password")
+  const [passcontype,setpasscontype]=useState("password")
 const[mod,setMod]=useState(false)
   
   const[btn,setBtn]=useState(false)
+
+  let usermail=auth.user.email
+  var useralert= (sanctions.filter(el => el.email==usermail && el.type=="alert")).pop()
+  var userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
+
+  useEffect(()=>{
+    let input = document.querySelector("#tel");
+  intlTelInput(input, {
+         initialCountry: "tn",
+         preferredCountries:["fr","us"],
+         separateDialCode:true,
+         utilsScript:"https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+     });
+   
+ },[]) 
 
   useEffect(() => {
     if (!localStorage.token) history.push("/login");
@@ -49,7 +72,8 @@ const[mod,setMod]=useState(false)
     });
 
     useEffect(() => {
-      if (auth.user.banned===true) {
+      if (userban && (userban.canceled==false) && (new Date(eventClosing(userban.created_at,userban.duration))>new Date()))
+         {
           dispatch(logoutUser());
           history.push("/banned")
          }
@@ -85,13 +109,21 @@ setConfirmationInput({confirm:""})
   }
   const onSubmit = async () => {
     // e.preventDefault();
-    await setBtn(true)
+    setBtn(true)
+    let input = document.querySelector("#tel");
+    let iti=intlTelInput(input, {
+        initialCountry: "tn",
+        preferredCountries:["fr","us"],
+        separateDialCode:true,
+        utilsScript:"https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+    });
     const updateduser = {
       password: user.password,
       password2: user.password2,
-      tel: user.tel,
+      tel: iti.getNumber(),
       address: user.address,
       avatar: user.avatar,
+      note: user.note,
     };
 
     const data = new FormData();
@@ -108,10 +140,14 @@ setConfirmationInput({confirm:""})
     );
 
     const res = await send.json();
-    updateduser.avatar &&
-      res.error &&
-      M.toast({ html: res.error.message, classes: "red" })&&setBtn(false)
-    console.log(res);
+    if(updateduser.avatar &&res.error)
+    {
+      M.toast({ html: res.error.message, classes: "red" })
+      setBtn(false)
+    }
+    
+      
+    // console.log(res);
     !res.error && (updateduser.avatar = resize(res.url));
     console.log(updateduser);
     dispatch(updateUser(updateduser, history));
@@ -219,37 +255,65 @@ setConfirmationInput({confirm:""})
                   onChange={onChange}
                   value={user.password}
                   id="password"
-                  type="password"
+                  type={passtype}
+                  style={{paddingRight: 25,
+                   boxSizing: "border-box"}}
                 />
                 <label htmlFor="password">New Password</label>
                 <span className={user.error.password && "red-text"}>
                   {user.error.password}
                 </span>
+                <span onClick={()=>{
+                if(passtype=="password")
+                setpasstype("text")
+                else
+               setpasstype("password")
+              }}
+              style={{position:"absolute",right:14,top:20,color: "gray"}}
+              title={passtype=="password"?"Show password":"Hide password"}
+              > 
+              {passtype=="password"?<i className="far fa-eye"></i>
+              :<i className="fas fa-eye-slash"></i>}</span>
               </div>
               <div className="input-field col s12">
                 <input
                   onChange={onChange}
                   value={user.password2}
                   id="password2"
-                  type="password"
+                  type={passvertype}
+               style={{paddingRight: 25,
+                boxSizing: "border-box"}}
                 />
                 <label htmlFor="password2">Confirm New Password</label>
                 <span className={user.error.password2 && "red-text"}>
                   {user.error.password2}
                 </span>
+                <span onClick={()=>{
+                if(passvertype=="password")
+                setpassvertype("text")
+                else
+               setpassvertype("password")
+              }}
+              style={{position:"absolute",right:14,top:20,color: "gray"}}
+              title={passvertype=="password"?"Show password":"Hide password"}
+              > 
+              {passvertype=="password"?<i className="far fa-eye"></i>
+              :<i className="fas fa-eye-slash"></i>}</span>
               </div>
               <div className="input-field col s12">
                 <input
                   onChange={onChange}
                   value={user.tel}
                   id="tel"
-                  type="number"
+                  type="tel"
                 />
-                <label htmlFor="tel">Enter yout phone number</label>
+                <label htmlFor="tel" className="active">Enter your phone number</label>
+                <div style={{marginTop: 8}}>
                 <span className={user.error.tel ? "red-text" : "green-text"}>
                   {user.error.tel ||
-                    (auth.user.tel && "Your Number is " + auth.user.tel)}
+                    (auth.user.tel && "Your Number is: " + auth.user.tel)}
                 </span>
+                </div>
               </div>
               <div className="input-field col s12">
                 <input
@@ -264,7 +328,23 @@ setConfirmationInput({confirm:""})
                 >
                   {user.error.address ||
                     (auth.user.address &&
-                      "Your address is " + auth.user.address)}
+                      "Your address is: " + auth.user.address)}
+                </span>
+              </div>
+              <div className="input-field col s12">
+                <input
+                  onChange={onChange}
+                  value={user.note}
+                  id="note"
+                  type="text"
+                />
+                <label htmlFor="note">Enter a note to be displayed for other users</label>
+                <span
+                  className={user.error.note ? "red-text" : "green-text"}
+                >
+                  {user.error.note ||
+                    (auth.user.note &&
+                      "Your note is: " + auth.user.note)}
                 </span>
               </div>
               <div className="col s12" style={{ display:"flex",justifyContent:"center",alignItems:"center" }}>
@@ -317,10 +397,22 @@ setConfirmationInput({confirm:""})
                   onChange={onChangeConfirm}
                   value={confirmationInput.confirm}
                   id="confirm"
-                  type="password"
+                  type={passcontype}
+                  style={{paddingRight: 25,
+                   boxSizing: "border-box"}}
                 />
                 <label htmlFor="confirm">Confirm password</label>
-                
+                <span onClick={()=>{
+                if(passcontype=="password")
+                setpasscontype("text")
+                else
+               setpasscontype("password")
+              }}
+              style={{position:"absolute",right:14,top:20,color: "gray"}}
+              title={passcontype=="password"?"Show password":"Hide password"}
+              > 
+              {passcontype=="password"?<i className="far fa-eye"></i>
+              :<i className="fas fa-eye-slash"></i>}</span>
               </div>
               
           </div>
@@ -331,6 +423,7 @@ setConfirmationInput({confirm:""})
               onClick={()=>{
                 confirmation()
               setMod(!mod)
+              setpasscontype("password")
               }
             }
             >
@@ -342,13 +435,14 @@ setConfirmationInput({confirm:""})
               onClick={()=>{
                 setMod(!mod)
               setBtn(false)
+              setpasscontype("password")
               }}
             >
               Cancel
             </a>
           </div>
         </div>
-        <Footer/>
+        {/* <Footer/> */}
     </>
   );
 }

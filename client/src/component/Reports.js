@@ -5,6 +5,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import {removereportComment, removereportReply, getComment,addComment,editComment, addreply,editReply,deleteComment, deleteReply, likecomment,dislikecomment, removelikecomment, removedislikecomment, likereply, removelikereply,dislikereply, removedislikereply} from "../actions/comntaction"
 import {getEvent} from "../actions/evntAction";
 import historyevent from "../outils/history"
+import { useHistory,Link } from 'react-router-dom';
 import "../comments.css";
 import M from "materialize-css";
 import { GET_ERRORS } from "../actions/types";
@@ -106,12 +107,6 @@ useEffect(()=>{
     });
   },[])
 
-   useEffect(() => {
-      if (auth.user.banned===true) {
-          dispatch(logoutUser());
-          history.push("/banned")
-         }
-    });
     const onEmojiClick = ( emoji) => {
          setComnt(comnt.concat(emoji.native));
         
@@ -134,7 +129,7 @@ useEffect(()=>{
 
   const oneditreply=(e)=>{
     e.preventDefault()
-    dispatch(editReply(edit,textedit,replyid))
+    dispatch(editReply(edit,textedit.trim(),replyid))
   }
     return (
       <>
@@ -183,12 +178,22 @@ return(
 
 <ul className="collection" key={el._id} style={{overflow:"initial"}}>
     <li className="collection-item avatar">
-      <div style={{display:"flex",justifyContent:"space-between"}}>
-       <div>
+    <div style={{display:"flex",justifyContent:"space-between",marginBottom:2,alignItems:"center"}}>
+    <div>
+<Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
-       <div style={{display:"flex"}}>
-       <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
-<p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
+</Link>
+       <div style={{display:"flex",alignItems:"center"}}>
+         <div style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
+       <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}> <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
+       </Link>
+       </div>
+{users.find(e=>e._id==el.postedBy).role!="participant"&&<p style={{marginLeft:10,height:"fit-content",display:"flex",alignItems:"center",color:(users.find(e=>e._id==el.postedBy).role=="organizer"&&"#3183E0"||(users.find(e=>e._id==el.postedBy).role=="administrator"&&"#FF4848")||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"#56A26F"))}}>
+  <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i>
+  {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,marginLeft: 0,transform:"translateY(-1px)"}}></i>}
+  {users.find(e=>e._id==el.postedBy).role}
+  {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,transform:"translateY(-1px)"}}></i>}
+  <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i></p>}
 </div>
       </div>
       <span style={{display:"flex",justifyContent:"right"}}>
@@ -202,8 +207,7 @@ setEdit("")
 setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletecomid(el._id)} className="modal-trigger material-icons" data-target="modaldeletcom" title="Delete">delete</i>
-
-<i onClick={()=>setRemovereport(el._id)} className="modal-trigger count" data-target="modaldeletreportcom" title="Remove Report"><span className="num" style={{top:"5px", left:"8px"}}>{el.reports}</span></i>
+<i onClick={()=>setRemovereport(el._id)} className="modal-trigger count" data-target="modaldeletreportcom" title="Remove Report"><span className="num" style={{top:"5px", left:"9px"}}>{el.reports}</span></i>
      </div>}</span>
       </div>
   
@@ -224,6 +228,7 @@ setTextedit("")
                   </textarea> 
                   
        <i className="far fa-smile"  style={{position:"absolute",bottom:20,right:5,cursor:"pointer",color :"gray"}} onClick={()=>setEmojedt(!emojedt)}></i>
+       {textedit&&<i className="fab fa-telegram-plane" style={{position:"absolute",top:6,right:5,cursor:"pointer",color:"gray"}} onClick={(e)=>onedit(e)}></i>}
          {emojedt&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-360px",right:0,zIndex:9999999999}} id="emoj_cont">
            
            <Picker
@@ -242,7 +247,8 @@ setTextedit("")
      </div>}
      </div>
          </form>}
-         <div style={{marginTop:5,display:"flex",alignItems:"center"}} id="editdelete">
+         <div style={{marginTop:5,display:"flex",alignItems:"center",justifyContent:"space-between"}} id="editdelete">
+         <div style={{display:"flex",alignItems:"center"}}> 
          <i className="far fa-thumbs-up" title="like" style={{cursor:"pointer",color:auth.isAuthenticated&&auth.user.likes.includes(el._id)&&"#2e8fa5"}} onClick={()=>
           {if(actvlike)
             {if(auth.isAuthenticated&&!auth.user.likes.includes(el._id))
@@ -273,7 +279,8 @@ setTextedit("")
             history.push("/login")}
             }}></i>
            <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.dislikes==0?"":el.dislikes}</p> 
-            
+           </div>
+           <p style={{color:"rgb(0, 96, 100)"}} >{historyevent(el.created_at)}</p> 
             </div>
       
       {el.reply.length?<div style={{display:"flex",cursor:"pointer",marginTop:3,color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
@@ -302,15 +309,27 @@ else
     return (
     <ul className="collection" key={i} style={{overflow:"initial",marginLeft:15}}>
     <li className="collection-item avatar">
-      <div style={{display:"flex",justifyContent:"space-between"}}>
+    <div style={{display:"flex",justifyContent:"space-between",marginBottom:2,alignItems:"center"}}>
        <div>
+
+
+
+<Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
-       <div style={{display:"flex"}}>
-       <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
-<p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
+</Link>
+       <div style={{display:"flex",alignItems:"center"}}> 
+       <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}><p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
+</Link>
+{users.find(e=>e._id==el.postedBy).role!="participant"&&<p style={{marginLeft:10,height:"fit-content",display:"flex",alignItems:"center",color:(users.find(e=>e._id==el.postedBy).role=="organizer"&&"#3183E0"||(users.find(e=>e._id==el.postedBy).role=="administrator"&&"#FF4848")||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"#56A26F"))}}>
+  <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i>
+  {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,marginLeft: 0,transform:"translateY(-1px)"}}></i>}
+  {users.find(e=>e._id==el.postedBy).role}
+  {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,transform:"translateY(-1px)"}}></i>}
+  <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i></p>}
+
 </div>
       </div><span style={{display:"flex",justifyContent:"right"}}>
-     {(el.postedBy==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&<div id="editdelete">
+     {(el.postedBy==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&<span id="editdelete">
      {!edit||el.id!=edit?<i className="material-icons" title="Edit" onClick={()=>{
 setEdit(el.id)
 setTextedit(el.content)
@@ -320,13 +339,53 @@ setEdit("")
 setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletereplyid(el.id)} className='modal-trigger material-icons' data-target='modaldeletreply' title="delete">delete</i>
-
-</div>}
+</span>}
 </span>
       </div>
+      {el.id!=edit?<p style={{overflowWrap: "break-word"}}>{el.content}</p>:
+       
+       
+       <form>
+      
+         
+       <div style={{width:"100%",position:"relative"}}>
+       
+         <textarea value={textedit} 
+        onChange={(e)=>setTextedit(e.target.value)}
+         onKeyDown={(e)=> { if (e.key === "Enter") textedit.search(/\w/gi)!== -1&&oneditreply(e)}}
+                 className="materialize-textarea"
+                  style={{paddingRight:"30px"}}
+                  id="textarea_edit"
+                  autoFocus
+                  > 
+                  </textarea> 
+                  
+       <i className="far fa-smile"  style={{position:"absolute",bottom:20,right:5,cursor:"pointer",color:"gray"}} onClick={()=>setEmojedt(!emojedt)}></i>
+       {textedit.search(/\w/gi)!== -1&&<i className="fab fa-telegram-plane" style={{position:"absolute",top:6,right:5,cursor:"pointer",color:"gray"}} onClick={(e)=>oneditreply(e)}></i>}
+         {emojedt&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-360px",right:0,zIndex:9999999999}} id="emoj_cont">
+           
+           <Picker
+        set='apple'
+       color="#2e8fa5"
+         onSelect={(emoji)=>setTextedit(textedit.concat(emoji.native))} 
+        
+         i18n={{ search: 'Recherche', categories: { search: 'Résultats de recherche', recent: 'Récents' } }}
+         
+         emojiSize={30}
+         showSkinTones={false}
+         showPreview={false}
+         perLine={8}
+  
+         />
+     </div>}
+     </div>
      
+            
+        
+         </form>}
  
-         <div style={{marginTop:5,display:"flex",alignItems:"center"}} id="editdelete">
+         <div style={{marginTop:5,display:"flex",alignItems:"center",justifyContent:"space-between"}} id="editdelete">
+         <div style={{display:"flex",alignItems:"center"}}>
          <i className="far fa-thumbs-up" title="like" style={{cursor:"pointer",color:auth.isAuthenticated&&auth.user.likes.includes(el.id)&&"#2e8fa5"}} onClick={()=>
           {if(actvlike)
             {if(auth.isAuthenticated&&!auth.user.likes.includes(el.id))
@@ -353,6 +412,8 @@ setTextedit("")
             history.push("/login")}
             }}></i>
            <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.dislikes==0?"":el.dislikes}</p> 
+          </div>
+          <p style={{color:"rgb(0, 96, 100)"}}>{historyevent(el.created_at)}</p>
           </div>
    </li>
 
@@ -402,17 +463,29 @@ setTextedit("")
   
   {(comments.comments&&comments.comments).slice(0).sort(function(a, b) {
     return sorttype.type=="relevent"? (a.likes - b.likes):(a.created_at - b.created_at);
-  }).reverse().slice(0,10+count*10).map(elc=><div key={elc._id}>{elc.reply.filter(el=>el.reports>0).map(el=>{
+  }).reverse().map(elc=><div key={elc._id}>{elc.reply.filter(el=>el.reports>0).map(el=>{
 return(
 
 <ul className="collection" key={el.id} style={{overflow:"initial"}}>
     <li className="collection-item avatar">
-    <div style={{display:"flex",justifyContent:"space-between"}}>
+    <div style={{display:"flex",justifyContent:"space-between",marginBottom:2,alignItems:"center"}}>
        <div>
+       <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}>
           <img src={users.find(e=>e._id==el.postedBy).avatar} alt="" className="circle"/>
-       <div style={{display:"flex"}}>
-       <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
-<p style={{marginLeft:10}}>{historyevent(el.created_at)}</p>
+</Link>
+       <div style={{display:"flex",alignItems:"center"}}>
+         <div style={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
+       <Link to={`/${users.find(e=>e._id==el.postedBy).role}/${users.find(e=>e._id==el.postedBy)._id}`}> <p><b>{(users.find(e=>e._id==el.postedBy).fname+" "+users.find(e=>e._id==el.postedBy).lname)}</b></p> 
+       </Link>
+       </div>
+{users.find(e=>e._id==el.postedBy).role!="participant"&&<p style={{marginLeft:10,height:"fit-content",display:"flex",alignItems:"center",color:(users.find(e=>e._id==el.postedBy).role=="organizer"&&"#3183E0"||(users.find(e=>e._id==el.postedBy).role=="administrator"&&"#FF4848")||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"#56A26F"))}}>
+  <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i>
+  {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,marginLeft: 0,transform:"translateY(-1px)"}}></i>}
+  {users.find(e=>e._id==el.postedBy).role}
+  {users.find(e=>e._id==el.postedBy).role=="administrator"&&<i className="fas fa-crown" style={{margin:6,transform:"translateY(-1px)"}}></i>}
+  <i className="material-icons" style={{fontSize:19,margin:2}}>{(users.find(e=>e._id==el.postedBy).role=="organizer"&&"content_paste"||(users.find(e=>e._id==el.postedBy).role=="moderator"&&"star"))}</i></p>}
+
+
 </div>
       </div><span style={{display:"flex",justifyContent:"right"}}>
      {(el.postedBy==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&<div id="editdelete">
@@ -425,7 +498,7 @@ setEdit("")
 setTextedit("")
        }}>close</i>}
 <i onClick={()=>setDeletereplyid(el.id)} className='modal-trigger material-icons' data-target='modaldeletreply' title="delete">delete</i>
-<i onClick={()=>setRemovereport(el.id)} className="modal-trigger count" data-target="modaldeletreportreply" title="Remove Report"><span className="num" style={{top:"5px", left:"8px"}}>{el.reports}</span></i>
+<i onClick={()=>setRemovereport(el.id)} className="modal-trigger count" data-target="modaldeletreportreply" title="Remove Report"><span className="num" style={{top:"5px", left:"9px"}}>{el.reports}</span></i>
 
 </div>}
 </span>
@@ -439,7 +512,7 @@ setTextedit("")
        
          <textarea value={textedit} 
         onChange={(e)=>setTextedit(e.target.value)}
-         onKeyDown={(e)=> { if (e.key === "Enter") oneditreply(e)}}
+         onKeyDown={(e)=> { if (e.key === "Enter") textedit.search(/\w/gi)!== -1&&oneditreply(e)}}
                  className="materialize-textarea"
                   style={{paddingRight:"30px"}}
                   id="textarea_edit"
@@ -448,6 +521,7 @@ setTextedit("")
                   </textarea> 
                   
        <i className="far fa-smile"  style={{position:"absolute",bottom:20,right:5,cursor:"pointer",color :"gray"}} onClick={()=>setEmojedt(!emojedt)}></i>
+       {textedit.search(/\w/gi)!== -1&&<i className="fab fa-telegram-plane" style={{position:"absolute",top:6,right:5,cursor:"pointer",color:"gray"}} onClick={(e)=>oneditreply(e)}></i>}
          {emojedt&&<div style={{width:"fit-content",height:"fit-content",position:"absolute", bottom:"-360px",right:0,zIndex:9999999999}} id="emoj_cont">
            
            <Picker
@@ -468,7 +542,8 @@ setTextedit("")
 
 
          </form>}
-         <div style={{marginTop:5,display:"flex",alignItems:"center"}} id="editdelete">
+         <div style={{marginTop:5,display:"flex",alignItems:"center",justifyContent:"space-between"}} id="editdelete">
+         <div style={{display:"flex",alignItems:"center"}}> 
          <i className="far fa-thumbs-up" title="like" style={{cursor:"pointer",color:auth.isAuthenticated&&auth.user.likes.includes(el.id)&&"#2e8fa5"}} onClick={()=>
           {if(actvlike)
             {if(auth.isAuthenticated&&!auth.user.likes.includes(el.id))
@@ -495,6 +570,8 @@ setTextedit("")
             history.push("/login")}
             }}></i>
            <p style={{margin:"0px 5px 0px 5px",lineHeight:"normal",minWidth:6}}>{el.dislikes==0?"":el.dislikes}</p>             
+           </div>
+           <p style={{color:"rgb(0, 96, 100)"}} >{historyevent(el.created_at)}</p> 
             </div>
      </li>
  </ul>
@@ -502,12 +579,7 @@ setTextedit("")
   })}
 </div>)}
 
-
-
-
-
-
-          {((count+1)*5)<comments.comments.filter(el=>el.reports>0).length&&
+          {((count+1)*10)<comments.comments.filter(el=>el.reports>0).length&&
           <div style={{
             marginBottom:"5px",
             cursor: "pointer",
@@ -557,7 +629,7 @@ setTextedit("")
             <a
               href="#!"
               className="modal-close  btn-flat"
-              onClick={()=>dispatch(deleteReply(replyid,deletereplyid))}
+              onClick={()=>dispatch(deleteReply(deletereplyid))}
             >
               Agree
             </a>
@@ -582,7 +654,7 @@ setTextedit("")
             <a
               href="#!"
               className="modal-close  btn-flat"
-              onClick={()=>dispatch(removereportComment(removereport,-1,auth.user._id))}
+              onClick={()=>dispatch(removereportComment(removereport,0))}
                >
               Agree
             </a>
@@ -599,13 +671,13 @@ setTextedit("")
         <div id="modaldeletreportreply" className="modal">
           <div className="modal-content">
             <h4>Remove Report</h4>
-            <p>Are you sure you want to remove the report from this comment?</p>
+            <p>Are you sure you want to remove the report from this reply?</p>
           </div>
           <div className="modal-footer">
             <a
               href="#!"
               className="modal-close  btn-flat"
-              onClick={()=> dispatch(removereportReply(removereport,-1,auth.user._id,replyid))}        
+              onClick={()=> dispatch(removereportReply(removereport,0))}        
             >
               Agree
             </a>

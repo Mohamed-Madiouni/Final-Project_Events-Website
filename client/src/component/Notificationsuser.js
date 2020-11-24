@@ -71,12 +71,13 @@ function Notificationsuser() {
                               else if (el.notiftype=="New_Participation") { history.push(`/${el.role}/${el.userId}`)}
                               else if (el.notiftype=="Cancel_Participation") { history.push(`/${el.role}/${el.userId}`)}
                               else if (el.notiftype=="Event_Closed") { history.push("/events")}
-                              else if (el.notiftype=="Event_Opened") { history.push("/events"+el.compid)}
+                              else if (el.notiftype=="Event_Opened") { history.push("/events/"+el.compid)}
                               else if (el.notiftype=="Account_Banned") {history.push("/dashboard")}
                               else if (el.notiftype=="Account_Unbanned") { history.push("/dashboard")}
                               else if (el.notiftype=="Account_Alerted") { history.push("/dashboard")}
                               else if (el.notiftype=="Alert_Removed") { history.push("/dashboard")}
-                              else if (el.notiftype=="New_Comment") { history.push("/events"+el.compid)}
+                              else if (el.notiftype=="New_Comment") { history.push("/events/"+el.compid)}
+                              else if (el.notiftype=="Comment_Edition") { history.push("/events/"+el.compid)}
                               else {  history.push("/")}
                               }}>
                           <div className="x-flex-column-h-center-v-any" style={{minWidth: "90px"}}>

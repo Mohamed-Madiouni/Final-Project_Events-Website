@@ -7,14 +7,12 @@ import get_month from "../outils/get_month"
 import "../organizer.css";
 import M from "materialize-css";
 // import eventClosing from "../outils/eventClosing";
-import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP  } from "../actions/types";
-import {addfollow, getCurrentUser } from "../actions/authaction";
+import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP,SHOW_TALK, ADD_TALK  } from "../actions/types";
+import {addfollow, getCurrentUser, userBlock } from "../actions/authaction";
 import historyevent from "../outils/history"
 import { getUsers } from '../actions/adminaction';
-
 import Search from "./Search";
 import "../participant.css"
-
 import { logoutUser } from "../actions/authaction";
 import calcul_rating from "../outils/calucle_rating";
 import Footer from "./Footer"
@@ -23,6 +21,9 @@ import MyMap from "./Maps";
 import {geteventorg } from "../outils/geteventorg";
 import Navbar from "./Navbar";
 import { sendNotifications } from "../actions/notificationaction";
+import Sanctions from "./User_Sanctions";
+import Count from "./Count";
+
 
 function Organizer_page({match}) {
 
@@ -33,6 +34,7 @@ function Organizer_page({match}) {
     const allevents= useSelector((state)=>state.events.allEvents)
     const errors=useSelector(state=>state.errors)
     const users=useSelector(state=>state.admin.users)
+    const chat=useSelector(state=>state.chat)
     const [quickSearch, setQuickSearch] = useState({
         title: "",
         state: "",
@@ -41,8 +43,8 @@ function Organizer_page({match}) {
       const [participate,setParticipate]=useState("")
       const [eventDate,setEventDate]=useState("")
       const [clkwidth,setclkwidth]=useState(false)
-  
-   
+      const [follow,setfollow]=useState(false)
+    var useremail=(users.find(el=>el._id==match.params.organizerId).email)
     
  
   //check if events full
@@ -75,15 +77,6 @@ function Organizer_page({match}) {
   useEffect(()=>{
     localStorage.token&&dispatch( getCurrentUser())
     },[])
-
-
-  useEffect(() => {
-    if (auth.user.banned===true) {
-        dispatch(logoutUser());
-        history.push("/banned")
-       }
-  });
-
  
   //open full events
 useEffect(()=>{
@@ -147,6 +140,7 @@ useEffect(()=>{
     return (
 <>
 <Navbar/>
+
         <div onClick={(e)=>{
           map.show&&!(document.querySelector(".map_container").contains(e.target)||document.querySelector("reach-portal").contains(e.target)||[...document.getElementsByClassName("address_map")].includes(e.target))&&
           dispatch({
@@ -165,7 +159,12 @@ useEffect(()=>{
           
         }}>
          
-        
+                {(match.params.organizerId==auth.user._id||auth.user.role=="administrator"||auth.user.role=="moderator")&&
+          <div className="sanction_list">  
+          <a data-target="modalsanction"  title="Subscriptions" href='#!' style={{ cursor:"pointer",  boxShadow: "0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}} className="modal-trigger">
+<i className="fas fa-angle-double-right" style={{ marginRight: "5px" }}></i>
+<span>Sanctions</span>
+</a></div>}          
 
 <div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px"
 }}>
@@ -174,7 +173,7 @@ useEffect(()=>{
             {users.length!=0&& <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
                 <div style={{position:"relative"}}>
                  <img  style={{width:130,height:130,paddingTop:10}} src={users.find(el=>el._id==match.params.organizerId).avatar} alt="" className="circle"/>
-                {auth.user._id!=match.params.organizerId&&!auth.user.follow.includes(match.params.organizerId)&& <a className="btn-floating "style={{position:"absolute",right:2,top:1,width:25,height:25,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",background:"rgb(63, 63, 63)"}}>
+                {(auth.user.follow&&auth.user._id!=match.params.organizerId)&&!auth.user.follow.includes(match.params.organizerId)&& <a className="btn-floating "style={{position:"absolute",right:2,top:1,width:25,height:25,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",background:"rgb(63, 63, 63)"}}>
                 
                 <i
                   className="material-icons"
@@ -199,15 +198,90 @@ onClick={()=>{
   }
 
 }
+onMouseOver={()=>{setfollow(!follow)}}
+onMouseLeave={()=>{setfollow(!follow)}}
                 >
                   add
                 </i>
-                </a>}
+                </a>}  
+                {follow&&auth.user.follow&&!auth.user.follow.includes(match.params.organizerId)&&  <p style={{width:300,background:"white",position:"absolute",right: 17,
+    top: 30,
+    border: "1px solid black",
+    borderRadius: 4,
+    padding: 10,
+    zIndex: 10,
+outline: "none"}}>Follow {<b>{users.find(el=>el._id==match.params.organizerId).fname+" "+users.find(el=>el._id==match.params.organizerId).lname+" "}</b>} 
+       to recieve a notification when he add a new event.
+      
+      </p>}
+
+
+      {auth.user.blocked&&auth.user._id!=match.params.organizerId&&!(auth.user.blocked.includes(match.params.organizerId)||users.find(el=>el._id==match.params.organizerId).blocked.includes(auth.user._id))&&<i
+
+                  className="fas fa-envelope"
+style={{color:"#ffbc1c",lineHeight:"unset",position:"absolute",left:-5,top:1,fontSize:22,cursor:"pointer"}}
+                  title="Let's talk"
+                  onClick={()=>{
+                    if(auth.isAuthenticated)
+                    {dispatch({
+                    type:SHOW_TALK,
+                    payload:!chat.talk.show
+                  })
+                  dispatch({
+                    type:ADD_TALK,
+                    payload:match.params.organizerId
+                  })
+                }
+                else
+                history.push("/login")
+                }}
+                  >  
+                  </i>}
+             
+                  {auth.user.blocked&&auth.isAuthenticated&&auth.user._id!=match.params.organizerId&&!auth.user.blocked.includes(match.params.organizerId)&&auth.user.role!="moderator"&&auth.user.role!="administrator"&&<i
+                  className="material-icons modal-trigger"
+style={{color:"red",lineHeight:"unset",position:"absolute",left:-4,bottom:1,fontSize:22,cursor:"pointer"}}
+                  title={`block ${users.find(el=>el._id==match.params.organizerId).fname} ${users.find(el=>el._id==match.params.organizerId).lname}`}
+                  data-target="modalblock"
+                  > block 
+                  </i>}
+               
+
+
+      {users.find(el=>el._id==match.params.organizerId).online?<div style={{
+                              display:"flex",
+                              justifyContent:"center",
+                              alignItems:"center",
+                              position:"absolute",
+                              background:"green",
+                              right:4,
+                              bottom:8,
+                              borderRadius:"50%",
+                              width:10,
+                              height:10
+                            }}><span style={{marginLeft:50, color:"green", fontSize:11, fontWeight:"bold"}}>Online</span></div>:
+                            <div style={{
+                              display:"flex",
+                              justifyContent:"center",
+                              alignItems:"center",
+                              position:"absolute",
+                              background:"#616161",
+                              right:4,
+                              bottom:8,
+                              borderRadius:"50%",
+                              width:10,
+                              height:10
+                            }}><span style={{marginLeft:50, color:"#616161", fontSize:11, fontWeight:"bold"}}>Offline</span></div>
+                            }
                 </div>
              </div>}
+
             <p className="h5-tit" style={{paddingTop:0}}>
               {users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname} {users.length!=0&&users.find(el=>el._id==match.params.organizerId).lname}
             </p>
+
+            <div className="h5-tit" style={{padding:0,width:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:"#2e8fa5",fontSize:25,marginBottom:3}}>¤ {users.length!=0&&users.find(el=>el._id==match.params.organizerId).note} ¤</div>
+            
             {/* <span className="blue-title">Hi there,</span>  */}
         {/* <p className="para-blue">
           {" "}
@@ -218,6 +292,24 @@ onClick={()=>{
            
           </div>
         </div>
+
+        {allevents&&geteventorg(allevents,match.params.organizerId).length!=0&&geteventorg(allevents,match.params.organizerId).filter(el=>(new Date(el.start)>new Date()&&el.state!="Ended"&&el.state!="Invalid"&&el.state!="Closed")).length!=0&&
+        <div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px",backgroundColor:' rgb(44, 44, 44)',
+        color:"white"
+}}>
+        <div className=" col s12 organizer_hi " style={{padding:0,margin:0}}
+         >
+           <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center",flexDirection:"column"}}>
+            <p className="h5-tit" style={{paddingTop:10,color:"white"}}>
+              Get ready !! <br/> {auth.user._id!=match.params.organizerId?`${users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname} next event start in`:`Your next event start in` }
+            </p>
+                <Count date={geteventorg(allevents,match.params.organizerId)&&(geteventorg(allevents,match.params.organizerId).filter(el=>new Date(el.start)>new Date()).filter(el=>el.state!="Ended").filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").sort(function(a, b) {return new Date(a.start) - new Date(b.start);
+})[0].start.split("T").join(" "))}/>
+             </div>
+            
+          </div>
+        </div>}
+
 
 <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >
      <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
@@ -248,9 +340,7 @@ onClick={()=>{
    </form>
    </div>
  </div>
-
-
-            
+           
       
  { map.show&&<div className=" map_container" id="map">
 <MyMap/>
@@ -274,17 +364,16 @@ onClick={()=>{
 
             </div>
             }
-
  
  
-<div className="row"style={{marginLeft:"50px",marginTop:"20px"}}>
+<div className="row"style={{marginLeft:"10px",marginTop:"20px"}}>
              <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
               <div className="wpb_column vc_column_container col 12">
                 <div className="vc_column-inner">
                   <div className="wb_wrapper">
                     <div className="wpb_text_column wpb_content_element ">
                       <div className=" wpb_wrapper">
-                        <h2> {users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname} Events</h2>
+                        <h2> {auth.user._id!=match.params.organizerId?users.length!=0&&users.find(el=>el._id==match.params.organizerId).fname:"Your"} Events</h2>
                         <p className="pra-2">Keep up with the latest events</p>
                         </div></div></div></div></div></div>
            {events&&events.filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").slice(0).reverse().map(el=>{
@@ -520,7 +609,7 @@ onClick={()=>{
           <p>You are about to subscribe to {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )} event, Please
           note that: </p><br/>  
           <ol><li>You can't subscribe to the same event after <b>annulation</b>. </li>
-          <li>You are responsible for all comments you send, in case of non respect your account will be <b>alerted</b> for one <b>week</b> and you risk to get banned from the admin.</li>
+          <li>You are responsible for all comments you send, in case of non respect your account will be <b>alerted</b> and you risk to get <b>banned</b> from the admin.</li>
           </ol></>:<><h4>Event annulation</h4>
                       <p>Are you sure you want to cancel the {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )}  event? 
                       {/* {participate&&((new Date(allevents.find(el=>el._id==participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"} */}
@@ -567,7 +656,7 @@ onClick={()=>{
                       </a>
                     </div>
                   </div>
-                  <Footer/>
+                  {/* <Footer/> */}
 {/* {users.length!=0&&auth.user.follow.length!=0&&allevents.length!=0&&<div className="organizer_list">
   <div className="groupofnotes scrollbar" id="style-3"  style={{width:clkwidth?300:0,boxShadow: clkwidth&&"0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}}>
   <ul className="collection par">
@@ -603,6 +692,35 @@ onClick={()=>{
 </a>}
 </div>} */}
         </div>
+        <div id="modalblock" className="modal">
+          <div className="modal-content">
+            <h4>User block</h4>
+            <p>Are you sure you want to block this user?</p>
+          </div>
+          <div className="modal-footer">
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+              onClick={()=>dispatch(userBlock(match.params.organizerId))}
+            >
+              Agree
+            </a>
+            <a
+              href="#!"
+              className="modal-close  btn-flat"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
+        <div
+              id="modalsanction"
+              className="modal"
+              style={{ padding: 0, margin: 0,}}
+            >
+              <Sanctions useremail={useremail} />
+            </div> 
+
         </>
     )
 }

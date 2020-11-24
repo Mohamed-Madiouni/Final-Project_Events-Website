@@ -9,12 +9,36 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f4f4f4;
+ 
+  min-height: 100vh
 }
 #root{
-  min-height: 100vh;
+  /* ; */
+  min-height: 100vh
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/*
+ *  STYLE 8
+ */
+
+ #style-8::-webkit-scrollbar-track
+ {
+   border: 1px solid black;
+   background-color: #F5F5F5;
+ }
+ 
+ #style-8::-webkit-scrollbar
+ {
+   width: 10px;
+   background-color: #F5F5F5;
+ }
+ 
+ #style-8::-webkit-scrollbar-thumb
+ {
+   background-color: #1c1b1b;	
+ }

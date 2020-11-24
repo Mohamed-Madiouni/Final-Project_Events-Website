@@ -30,13 +30,12 @@ function Notifications() {
 
   return (
       <> 
-      {users.length!=0&&<div id="modalnotifall" style={{ padding: 0, margin:0 }}>
+      {allnotif.length!=0&&<div id="modalnotifall" style={{ padding: 0, margin:0 }}>
              <div >
               <h4 className="center" style={{ marginTop: "20px" }}>Notifications Center</h4>
             </div>
             <div className="notification-page__content" style={{ marginBottom: "0px" }}>
               <div className="notification-page__content__title">
-                <span>Notifications</span>
                 </div>
                 <div className="notification-page__content__container">
                   <div className="notification-container">
@@ -72,24 +71,20 @@ function Notifications() {
                             else if (el.notiftype=="New_Participation") { history.push(`/${el.role}/${el.userId}`)}
                             else if (el.notiftype=="Cancel_Participation") { history.push(`/${el.role}/${el.userId}`)}
                             else if (el.notiftype=="Event_Closed") { history.push("/events")}
-                            else if (el.notiftype=="Event_Opened") { history.push("/events"+el.compid)}
+                            else if (el.notiftype=="Event_Opened") { history.push("/events/"+el.compid)}
                             else if (el.notiftype=="Account_Banned") {history.push("/dashboard")}
                             else if (el.notiftype=="Account_Unbanned") { history.push("/dashboard")}
                             else if (el.notiftype=="Account_Alerted") { history.push("/dashboard")}
                             else if (el.notiftype=="Alert_Removed") { history.push("/dashboard")}
-                            else if (el.notiftype=="New_Comment") { history.push("/events"+el.compid)}
+                            else if (el.notiftype=="New_Comment") { history.push("/events/"+el.compid)}
+                            else if (el.notiftype=="Comment_Edition") { history.push("/events/"+el.compid)}
                             else {  history.push("/")}
                             }}>
-
                             <div className="x-flex-column-h-center-v-any" style={{minWidth: "90px"}}>
-
-                            <img src={users.find(e=>e._id==el.userId).avatar} alt="" className="circle"  style={{ marginRight: "8px",width:"40px" ,height:"40px"}}/>
-
-</div>
-<div>
-
+                            <img src={ allusers.find((elm) => elm._id == el.state[0].users) && (allusers.find((elm) => elm._id == el.state[0].users)).avatar} alt="" className="circle"  style={{ marginRight: "8px",width:"40px" ,height:"40px"}}/>
+                            </div>
+                            <div>
 <div className="notification-per-period__period-card__type" style={{display:"flex", alignContent: "center"}}>
-
                                 {(el.notiftype=="Event_Validation")&&
                                  <img src="/Event_Validation.png" alt="Event_Validation" />}
                                 {(el.notiftype=="New_Event")&&

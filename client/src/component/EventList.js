@@ -139,7 +139,7 @@ const EventList = () => {
       
     }}>
        <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:250,paddingTop:45,position:"relative"}} >
-     <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
+     <h5 style={{position:"absolute",fontSize:30,left:5,top:-30}}><b>Looking for an event?</b></h5>
        <div className="col s12 l4" style={{fontStyle: "",fontSize:17,marginBottom:10}}>
    <p>Select an event title or choose an address or tags to find the one looking for.</p>
    </div>
@@ -405,7 +405,7 @@ const EventList = () => {
                       <span className="card-title  grey-text text-darken-4" style={{height: "fit-content",lineHeight: "normal",marginTop: "2px",marginBottom:2}}>
                       {el.title.length<=20? <b>{el.title}</b>:<marquee scrolldelay={140} behavior="scroll" direction="left"><b>{el.title}</b></marquee> }
                   </span>
-                  {el.address.address.length<=20?
+                  {el.address.address.length<=18?
                   <a href="#map" >
                   {/* <marquee  behavior="scroll" direction="left" scrolldelay={200}> */}
                     <p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{

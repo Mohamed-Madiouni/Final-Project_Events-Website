@@ -14,6 +14,7 @@ const uuidv1 = require('uuid/v1');
 const { createUser, getUser, updateUser } = require("../models/email");
 const { getResetRequest, createResetRequest } = require("../models/resetRequests");
 const sendResetLink = require("./sendEmail");
+const nodemailer = require ('nodemailer')
 var Pusher = require('pusher');
 require("dotenv").config();
 
@@ -66,6 +67,50 @@ router.post("/register", (req, res) => {
         // html:"<h1>wrlcome to CocoEvent</h1>"
         // })
         res.json(user)})
+          const payload = {
+            id: user.id,
+            fname: user.fname,
+            lname:user.lname,
+            email:user.email,
+          }
+  
+          jwt.sign(payload, process.env.ACCES_TOKEN_SECRET,{expiresIn:"24h"},(err, token) => {
+           
+            let Transporter = nodemailer.createTransport({
+             
+              host:'smtp.gmail.com',
+              port:587,
+              secure:false,
+            
+              auth:{
+                  user:'mailer.cocoevent@gmail.com',
+                  pass:process.env.pass
+              },
+              tls:{
+                  rejectUnauthorized:false
+              }
+          })
+      
+      let mailOptions={
+        from: "eventcoco63@gmail.com",
+        to: `${user.fname}<${user.email}>`,
+        subject: `Activating your account - Coco event`,
+        html: `Welcome <b>${user.fname}</b>, your Coco event account has been created. <br/>
+        To confirm your registration, please click on the following link:<br/>
+        <br/>
+        http://localhost:3000/user/confirm_account?token=${token}`
+        
+      }
+      Transporter.sendMail(mailOptions,(error,info)=>{
+        if (error) console.log(error)
+        else
+        res.json({msg:info.response});
+    })
+          
+        
+          })
+        
+        
         .catch((err) => console.log(err));
     }
   });
@@ -85,6 +130,22 @@ res.send({success:"ok"})
 })
     
 })
+})
+
+
+//handle active user
+
+router.put("/activation",(req,res)=>{
+
+  User.findOneAndUpdate({email:req.body.email},{$set:{active:true}}).then((user)=>{
+
+   
+if (!user)
+res.status(400).json({ msg: "user not found" })
+else
+res.send({active:"ok"})
+})
+    
 })
 
 
@@ -110,7 +171,7 @@ const modUser ={}
       req.body.tel&&(modUser.tel=req.body.tel)
       req.body.address&& (modUser.address=req.body.address)
       req.body.avatar&&(modUser.avatar= req.body.avatar)
-	
+	    req.body.note&& (modUser.note=req.body.note)
 	User.findByIdAndUpdate(req.userId,{$set: modUser })
 	.then((user) => res.json(user))
   .catch((err) => console.log(err));
@@ -146,9 +207,13 @@ router.post("/login", (req, res) => {
       }
 
    
-     if (user.banned===true) {
-       return res.status(403).json({ banned_banned: "account banned" });
-     }      
+    //  if (user.banned===true) {
+    //    return res.status(403).json({ banned_banned: "account banned" });
+    //  }  
+    if(!user.active)
+    {
+      return res.status(403).json({ active: "account inactive" });
+    }    
 
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
@@ -255,5 +320,32 @@ router.patch("/reset", (req, res) => {
       res.status(404).json();
   }
 });
+
+//block user
+router.put("/add/block",authMiddleware, (req, res) => {
+
+  User.findByIdAndUpdate(req.userId,{$push:{blocked:req.body.blocked}})
+  .then(user=>{
+    pusher.trigger('block', 'log', {
+      'message': 'hello world'
+    });  
+    res.send("blocked")})
+  
+  
+  })
+
+  //unblock user
+router.put("/remove/block",authMiddleware, (req, res) => {
+
+  User.findByIdAndUpdate(req.userId,{$pull:{blocked:req.body.blocked}})
+  .then(user=>{
+    pusher.trigger('block', 'log', {
+      'message': 'hello world'
+    });  
+    res.send("unblocked")})
+  
+  
+  })
+
 
 module.exports = router;

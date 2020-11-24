@@ -4,6 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { registerUser } from "../actions/authaction";
 import { GET_ERRORS } from "../actions/types";
 import Navbar from "./Navbar";
+import "../../node_modules/intl-tel-input/build/css/intlTelInput.css";
+import intlTelInput from 'intl-tel-input';
+import "../tel.scss"
+import M from "materialize-css";
 
 function Register({ history }) {
   const errors = useSelector((state) => state.errors);
@@ -20,11 +24,24 @@ function Register({ history }) {
     role: "",
     error: {},
   });
-
+  const [passtype,setpasstype]=useState("password")
+  const [passvertype,setpassvertype]=useState("password")
   const form = useRef();
+
+  useEffect(()=>{
+    let input = document.querySelector("#tel");
+  intlTelInput(input, {
+         initialCountry: "tn",
+         preferredCountries:["fr","us"],
+         separateDialCode:true,
+         utilsScript:"https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+     });
+   
+ },[]) 
 
   useEffect(() => {
     if (localStorage.token) history.push("/dashboard");
+    M.updateTextFields()
   });
   useEffect(()=>{
     dispatch({
@@ -41,6 +58,13 @@ function Register({ history }) {
   };
   const onSubmit = (e) => {
     e.preventDefault();
+    let input = document.querySelector("#tel");
+    let iti=intlTelInput(input, {
+        initialCountry: "tn",
+        preferredCountries:["fr","us"],
+        separateDialCode:true,
+        utilsScript:"https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+    });
     dispatch({
       type: GET_ERRORS,
       payload: {},
@@ -51,11 +75,11 @@ function Register({ history }) {
       email: user.email.toLowerCase(),
       password: user.password,
       password2: user.password2,
-      tel: user.tel,
+      tel: iti.getNumber(),
       address: user.address,
       role: form.current.elements.user.value,
     };
-    // console.log(newUser);
+    //  console.log(newUser);
     dispatch(registerUser(newUser, history));
   };
   return (
@@ -93,7 +117,7 @@ function Register({ history }) {
           </form>
         </div>
         <div
-          className="col s8 m9 l10"
+          className="col s8"
           style={{
             borderLeft: "1px solid grey",
             paddingLeft:0
@@ -173,36 +197,66 @@ function Register({ history }) {
                 onChange={onChange}
                 value={user.password}
                 id="password"
-                type="password"
+                type={passtype}
+                style={{paddingRight: 25,
+                 boxSizing: "border-box"}}
               />
               <label htmlFor="password">Password</label>
               <span className={user.error.password && "red-text"}>
                 {user.error.password}
               </span>
+              <span onClick={()=>{
+                if(passtype=="password")
+                setpasstype("text")
+                else
+               setpasstype("password")
+              }}
+              style={{position:"absolute",right:14,top:20,color: "gray"}}
+              title={passtype=="password"?"Show password":"Hide password"}
+              > 
+              {passtype=="password"?<i className="far fa-eye"></i>
+              :<i className="fas fa-eye-slash"></i>}</span>
+             
             </div>
             <div className="input-field col s12">
               <input
                 onChange={onChange}
                 value={user.password2}
                 id="password2"
-                type="password"
+                type={passvertype}
+               style={{paddingRight: 25,
+                boxSizing: "border-box"}}
               />
               <label htmlFor="password2">Confirm Password</label>
               <span className={user.error.password2 && "red-text"}>
                 {user.error.password2}
               </span>
+              <span onClick={()=>{
+                if(passvertype=="password")
+                setpassvertype("text")
+                else
+               setpassvertype("password")
+              }}
+              style={{position:"absolute",right:14,top:20,color: "gray"}}
+              title={passvertype=="password"?"Show password":"Hide password"}
+              > 
+              {passvertype=="password"?<i className="far fa-eye"></i>
+              :<i className="fas fa-eye-slash"></i>}</span>
+             
             </div>
             <div className="input-field col s12">
               <input
                 onChange={onChange}
                 value={user.tel}
                 id="tel"
-                type="number"
+                type="tel"
               />
-              <label htmlFor="tel">Enter yout phone number</label>
-              <span className={user.error.tel && "red-text"}>
+              <label htmlFor="tel" className="active">Enter your phone number</label>
+              <div style={{marginTop: 8}}>
+                <span className={user.error.tel && "red-text"}>
                 {user.error.tel}
               </span>
+              </div>
             </div>
             <div className="input-field col s12">
               <input

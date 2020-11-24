@@ -1,11 +1,16 @@
 import React, { useEffect } from "react";
 import { GET_ERRORS } from "../actions/types";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "../Bannned_home.css";
+import eventClosing from "../outils/eventClosing";
+import { useHistory } from "react-router-dom";
+import { formatDuration } from "date-fns/esm";
 
-function Bannned_home() {
+function Bannned_home(props) {
   const dispatch = useDispatch();
-
+  const history = useHistory()
+  var bandata= props.location.userBan
+  
   useEffect(() => {
     dispatch({
       type: GET_ERRORS,
@@ -14,6 +19,9 @@ function Bannned_home() {
   }, []);
 
   return (
+    <>
+    {bandata===undefined ? history.push({pathname:"/"}):   
+    
     <div className="ban">
       <div className="scene">
         <div className="overlay"></div>
@@ -25,6 +33,9 @@ function Bannned_home() {
           <span className="hero-text"></span>
           <span className="msg">
             Your <span>account</span> get baned.
+            <p />Reson:{bandata.reason}
+            <p />Duration:{bandata.duration==-1?" Permanent": " " + bandata.duration + " days"}
+            <p />{bandata.duration!=-1 && "Until: "+(eventClosing(bandata.created_at,bandata.duration)).split('.')[0].replace("T"," ")}
           </span>
           <span className="support">
             <span>unexpected?</span>
@@ -34,6 +45,8 @@ function Bannned_home() {
         <div className="lock"></div>
       </div>
     </div>
+   }
+    </>
   );
 }
 

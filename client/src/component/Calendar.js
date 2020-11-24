@@ -28,7 +28,7 @@ function Calendar() {
     const allevents=useSelector(state=>state.events.allEvents)
     const dispatch = useDispatch()
     let auth = useSelector(state=>state.auth)
-    const allnotif=useSelector(state=>state.notification.notifications)
+    const sanctions = useSelector((state) => state.auth.sanctions);
     const history =useHistory()
     const[mod,setMod]=useState(false)
     const [eventId,setEventId]=useState("")
@@ -69,15 +69,6 @@ useEffect(()=>{
   }
 },[])
 
-useEffect(() => {
-  if (auth.user.banned===true) {
-      dispatch(logoutUser());
-      history.push("/banned")
-     }
-});
-
- 
-
 const calendarEvents= useMemo(()=>{
 return allevents.filter(el=>el.state!="Invalid").map(el=>{
   return (
@@ -92,7 +83,7 @@ return allevents.filter(el=>el.state!="Invalid").map(el=>{
     )
     })
 
-},[allnotif])  
+},[sanctions])  
 
 
 const oneventclick=useCallback((e)=>{
@@ -223,7 +214,7 @@ const oneventclick=useCallback((e)=>{
                     <span className="card-title  grey-text text-darken-4" style={{height: "fit-content",lineHeight: "normal",marginTop: "2px",marginBottom:2}}>
                     {allevents.find(e=>e._id==eventId).title.length<=12? <b>{allevents.find(e=>e._id==eventId).title}</b>:<marquee scrolldelay={140} behavior="scroll" direction="left"><b>{allevents.find(e=>e._id==eventId).title}</b></marquee> }
                   </span>
-                  {allevents.find(e=>e._id==eventId).address.address.length<=20?
+                  {allevents.find(e=>e._id==eventId).address.address.length<=18?
                     <p className="red-text address_map" ><i className="fas fa-home" style={{marginRight:5}}></i>{allevents.find(e=>e._id==eventId).address.address}</p>
                   :
                  <marquee  behavior="scroll" direction="left" scrolldelay={140}><p className="red-text address_map"><i className="fas fa-home" style={{marginRight:5}}></i>{allevents.find(e=>e._id==eventId).address.address}</p></marquee> }
@@ -470,7 +461,7 @@ const oneventclick=useCallback((e)=>{
 <p>You are about to subscribe to {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )} event, Please
 note that: </p><br/>  
 <ol><li>You can't subscribe to the same event after <b>annulation</b>. </li>
-<li>You are responsible for all comments you send, in case of non respect your account will be <b>alerted</b> for one <b>week</b> and you risk to get banned from the admin.</li>
+<li>You are responsible for all comments you send, in case of non respect your account will be <b>alerted</b> and you risk to get <b>banned</b> from the admin.</li>
 </ol></>:<><h4>Event annulation</h4>
             <p>Are you sure you want to cancel the {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )}  event? 
             {/* {participate&&auth.user.banned_date&&((new Date(allevents.find(el=>el._id==participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"} */}
@@ -517,7 +508,7 @@ note that: </p><br/>
           </div>
         </div>
         </div>
-        <Footer/>
+        {/* <Footer/> */}
         </div>
     )
 }

@@ -80,13 +80,6 @@ useEffect(()=>{
     
     })
 
-    useEffect(() => {
-      if (auth.user.banned===true) {
-          dispatch(logoutUser());
-          history.push("/banned")
-         }
-    });
-
 //   useEffect(()=>{
 //     dispatch(makeComment(),getComment())
 // },[])
@@ -282,7 +275,7 @@ useEffect(()=>{
                     <span className="card-title  grey-text text-darken-4" style={{height: "fit-content",lineHeight: "normal",marginTop: "2px",marginBottom:2}}>
                     {el.title.length<=12? <b>{el.title}</b>:<marquee scrolldelay={140} behavior="scroll" direction="left"><b>{el.title}</b></marquee> }
                   </span>
-                  {el.address.address.length<=20?
+                  {el.address.address.length<=18?
                   <a href="#map" >
                   {/* <marquee  behavior="scroll" direction="left" scrolldelay={200}> */}
                     <p className="red-text address_map" style={{cursor:"pointer"}} onClick={()=>{
@@ -545,7 +538,7 @@ useEffect(()=>{
 <p>You are about to subscribe to {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )} event, Please
 note that: </p><br/>  
 <ol><li>You can't subscribe to the same event after <b>annulation</b>. </li>
-<li>You are responsible for all comments you send, in case of non respect your account will be <b>alerted</b> for one <b>week</b> and you risk to get banned from the admin.</li>
+<li>You are responsible for all comments you send, in case of non respect your account will be <b>alerted</b> and you risk to get <b>banned</b> from the admin.</li>
 </ol></>:<><h4>Event annulation</h4>
             <p>Are you sure you want to cancel the {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )}  event? 
             {/* {participate&&auth.user.banned_date&&((new Date(allevents.find(el=>el._id==participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"} */}
@@ -605,7 +598,7 @@ note that: </p><br/>
            onClick={() => {
            setCountevent(countevent + 1);
         }}>SHOW MORE</div>)}
-        <Footer/>
+        {/* <Footer/> */}
         </div>
     )
 }

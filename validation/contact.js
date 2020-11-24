@@ -20,8 +20,11 @@ module.exports = function validateContactInput(data) {
   }
   // phone checks
   if (Validator.isEmpty(data.phone)) {
-    errors.phone = "Phone Number is required";
-  }
+    errors.phone = "Tel Number is required";
+  }else if(!Validator.isNumeric(data.phone.slice(1)))
+  {errors.phone = "Invalid format"}
+  else if(!Validator.isLength(data.phone.slice(4), { min: 8}))
+  {errors.phone = "Tel must be at least 8 number"}
   // Name checks
   if (Validator.isEmpty(data.message)) {
     errors.message = "Message field is required";

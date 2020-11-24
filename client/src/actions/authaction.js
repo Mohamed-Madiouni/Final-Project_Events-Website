@@ -1,7 +1,8 @@
 import axios from "axios";
 import setAuthToken from "../token/authtoken";
 import jwt_decode from "jwt-decode";
-import { GET_ERRORS, SET_CURRENT_USER,PROFIL_UPDATED,GET_ALL_MY_EVENTS } from "./types";
+import { GET_ERRORS, SET_CURRENT_USER,PROFIL_UPDATED,GET_ALL_MY_EVENTS,GET_SANCTIONS,LOADING ,REGISTER} from "./types";
+import { getUsers } from "./adminaction";
 
 // Register User
 export const registerUser = (userData, history) => (dispatch) => {
@@ -10,8 +11,8 @@ export const registerUser = (userData, history) => (dispatch) => {
     .then((res) => {
       history.push("/login") // re-direct to login on successful register
       dispatch({
-        type: GET_ERRORS,
-        payload: {},
+        type: REGISTER,
+        payload: true,
       });
     }) 
     .catch((err) =>
@@ -21,7 +22,6 @@ export const registerUser = (userData, history) => (dispatch) => {
       })
     );
 };
-
 
 // confirm password
 export const confirmPassword = (pass) => (dispatch) => {
@@ -43,6 +43,35 @@ export const confirmPassword = (pass) => (dispatch) => {
   })
 })
 }
+
+//active user
+export const activeuser = (email,history) => (dispatch) => {
+  console.log(email)
+  axios
+    .put("/user/activation", {email:email})
+    .then((res) => {
+     
+      dispatch({
+        type: GET_ERRORS,
+        payload: {},
+      });
+      dispatch({
+        type: LOADING,
+        payload: false,
+      });
+      setTimeout(()=>{
+        history.push("/login")
+      },2500)
+     
+    }) 
+.catch(err=>{
+  dispatch({
+    type: GET_ERRORS,
+    payload: err.response.data,
+  })
+})
+}
+
 
 // Update User
 export const updateUser = (userData, history) => (dispatch) => {
@@ -150,10 +179,14 @@ export const getMyEvents = () => (dispatch) => {
     })
   
   })
-    .catch((err) => dispatch({
+    .catch((err) => {
+      dispatch({
         type: GET_ERRORS,
         payload: err.response.data,
-      }));
+      })
+  }
+      
+      );
 };
 
 // contact validation
@@ -217,3 +250,51 @@ export const removefollow = (idorganizer) => (dispatch) => {
     }));
 };
 
+//get sanctions
+export const getSanctions = () =>(dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+    .get("/admin/sanctions")
+    .then((res) => dispatch({
+          type:GET_SANCTIONS,
+          payload:res.data
+      }))
+    .catch((err) => dispatch({
+        type:  GET_ERRORS,
+        payload: err.response.data
+      }));
+};
+
+
+//block user
+export const userBlock = (userId) => (dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+    .put(`/user/add/block/`, {blocked:userId})
+    .then((res) => {
+      dispatch(getCurrentUser())
+dispatch(getUsers())
+      
+      
+   })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+};
+// unblock user
+export const userunBlock = (userId) => (dispatch) => {
+  setAuthToken(localStorage.token)
+  axios
+    .put(`/user/remove/block/`, {blocked:userId})
+    .then((res) => {
+      dispatch(getCurrentUser())
+dispatch(getUsers())
+      
+      
+   })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+};

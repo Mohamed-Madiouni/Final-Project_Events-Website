@@ -196,21 +196,21 @@ router.put("/add/reply/:commentId",authMiddleware,(req,res)=>{
 router.put("/add/like/reply/:replyId",authMiddleware,(req,res)=>{
   
   Comment.findOneAndUpdate(
-    {_id:req.body.comment,"reply.id":req.params.replyId}
+    {"reply.id":req.params.replyId}
   ,{$set:{"reply.$.likes":req.body.likes}},
   {
     new:true,
     runValidators:true
   })
   .then(com=>{
-    pusher.trigger('my-channel', 'my-event', {
-      'message': 'hello world'
-    });
+    
     User.findByIdAndUpdate(req.body.user,{$push:{likes:req.params.replyId}},(err,user)=>{
       if (err) throw err
       // console.log(user)
     })
-
+pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))
@@ -220,21 +220,21 @@ router.put("/add/like/reply/:replyId",authMiddleware,(req,res)=>{
 router.put("/add/like/reply/remove/:replyId",authMiddleware,(req,res)=>{
   
   Comment.findOneAndUpdate(
-    {_id:req.body.comment,"reply.id":req.params.replyId}
+    {"reply.id":req.params.replyId}
   ,{$set:{"reply.$.likes":req.body.likes}},
   {
     new:true,
     runValidators:true
   })
   .then(com=>{
-    pusher.trigger('my-channel', 'my-event', {
-      'message': 'hello world'
-    });
+    
     User.findByIdAndUpdate(req.body.user,{$pull:{likes:req.params.replyId}},(err,user)=>{
       if (err) throw err
       // console.log(user)
     })
-
+pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))
@@ -245,21 +245,21 @@ router.put("/add/like/reply/remove/:replyId",authMiddleware,(req,res)=>{
 router.put("/add/dislike/reply/:replyId",authMiddleware,(req,res)=>{
   
   Comment.findOneAndUpdate(
-    {_id:req.body.comment,"reply.id":req.params.replyId}
+    {"reply.id":req.params.replyId}
   ,{$set:{"reply.$.dislikes":req.body.dislikes}},
   {
     new:true,
     runValidators:true
   })
   .then(com=>{
-    pusher.trigger('my-channel', 'my-event', {
-      'message': 'hello world'
-    });
+   
     User.findByIdAndUpdate(req.body.user,{$push:{dislikes:req.params.replyId}},(err,user)=>{
       if (err) throw err
       // console.log(user)
     })
-
+ pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))
@@ -268,22 +268,20 @@ router.put("/add/dislike/reply/:replyId",authMiddleware,(req,res)=>{
 //removedislike reply
 router.put("/add/dislike/reply/remove/:replyId",authMiddleware,(req,res)=>{
   
-  Comment.findOneAndUpdate(
-    {_id:req.body.comment,"reply.id":req.params.replyId}
-  ,{$set:{"reply.$.dislikes":req.body.dislikes}},
+  Comment.findOneAndUpdate({"reply.id":req.params.replyId},{$set:{"reply.$.dislikes":req.body.dislikes}},
   {
     new:true,
     runValidators:true
   })
   .then(com=>{
-    pusher.trigger('my-channel', 'my-event', {
-      'message': 'hello world'
-    });
+   
     User.findByIdAndUpdate(req.body.user,{$pull:{dislikes:req.params.replyId}},(err,user)=>{
       if (err) throw err
       // console.log(user)
     })
-
+ pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))
@@ -308,9 +306,9 @@ router.put("/add/dislike/reply/remove/:replyId",authMiddleware,(req,res)=>{
 //   .catch(err=>res.status(404).send(err.message))
 // })
 
-router.put("/edit/reply/:commentId",authMiddleware,(req,res)=>{
+router.put("/edit/reply/:replyId",authMiddleware,(req,res)=>{
   Comment.findOneAndUpdate(
-    {_id:req.params.commentId,"reply.id":req.body.id_reply}
+    {"reply.id":req.body.id_reply}
   ,{$set:{"reply.$.content":req.body.newContent}},
   {
     new:true,
@@ -326,9 +324,9 @@ router.put("/edit/reply/:commentId",authMiddleware,(req,res)=>{
 })
 
  //delete reply 
- router.put("/delete/reply/:commentId",authMiddleware,(req,res)=>{
+ router.put("/delete/reply/:replyId",authMiddleware,(req,res)=>{
 //  console.log(req.body)
-  Comment.findOneAndUpdate({_id:req.params.commentId},{$pull:{reply:{id:req.body.reply_id}}})
+  Comment.findOneAndUpdate({"reply.id":req.params.replyId},{$pull:{reply:{id:req.body.reply_id}}})
   .then(del=> {
     pusher.trigger('my-channel', 'my-event', {
       'message': 'hello world'
@@ -338,13 +336,10 @@ router.put("/edit/reply/:commentId",authMiddleware,(req,res)=>{
 
 })
 
-
-
 //Report reply
 router.put("/add/reply/report/:replyId",authMiddleware,(req,res)=>{
   
-  Comment.findOneAndUpdate(
-    {_id:req.body.comment,"reply.id":req.params.replyId}
+  Comment.findOneAndUpdate({_id:req.body.comment,"reply.id":req.params.replyId}
   ,{$set:{"reply.$.reports":req.body.reports}},
   {
     new:true,
@@ -391,23 +386,24 @@ User.findByIdAndUpdate(req.body.user,{$push:{reports:req.params.commentId}},(err
 
 //Remove Report reply
 router.put("/remove/reply/report/:replyId",authMiddleware,(req,res)=>{
-  
+  // console.log(req.body,req.params.replyId)
   Comment.findOneAndUpdate(
-    {_id:req.body.comment,"reply.id":req.params.replyId}
+    {"reply.id":req.params.replyId}
   ,{$set:{"reply.$.reports":req.body.reports}},
   {
     new:true,
     runValidators:true
   })
   .then(com=>{
-    pusher.trigger('my-channel', 'my-event', {
-      'message': 'hello world'
-    });
-    User.findByIdAndUpdate(req.body.user,{$push:{reports:req.params.replyId}},(err,user)=>{
+   
+    User.updateMany({reports:req.params.replyId},{$pull:{reports:req.params.replyId}},(err,user)=>{
       if (err) throw err
+    
       // console.log(user)
     })
-
+  pusher.trigger('report', 'my-event', {
+        'message': 'hello world'
+      });
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))
@@ -415,7 +411,7 @@ router.put("/remove/reply/report/:replyId",authMiddleware,(req,res)=>{
 
 //Remove Report comment
 router.put("/remove/comment/report/:commentId",authMiddleware,(req,res)=>{
- 
+//  console.log(req.body,req.params.commentId)
   Comment.findOneAndUpdate({
     _id:req.params.commentId
   },{$set:{reports: req.body.reports}},
@@ -424,13 +420,15 @@ router.put("/remove/comment/report/:commentId",authMiddleware,(req,res)=>{
     runValidators:true
   })
   .then(com=>{
-    pusher.trigger('my-channel', 'my-event', {
-      'message': 'hello world'
-    });  
-User.findByIdAndUpdate(req.body.user,{$push:{reports:req.params.commentId}},(err,user)=>{
+    
+User.updateMany({reports:req.params.commentId},{$pull:{reports:req.params.commentId}},(err,user)=>{
   if (err) throw err
+ 
   // console.log(user)
 })
+ pusher.trigger('report', 'my-event', {
+    'message': 'hello world'
+  });  
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))

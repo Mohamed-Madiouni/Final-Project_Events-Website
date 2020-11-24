@@ -196,10 +196,10 @@ export const addComment =(content,eventId,userId)=> (dispatch)=>{
   //   }
   
   //likereply
-  export const likereply =(reply_id,nb_likes,userid,comment_id)=> (dispatch)=>{
+  export const likereply =(reply_id,nb_likes,userid)=> (dispatch)=>{
     setAuthToken(localStorage.token)
     axios
-    .put(`/comment/add/like/reply/${reply_id}`,{likes:nb_likes,user:userid,comment:comment_id})
+    .put(`/comment/add/like/reply/${reply_id}`,{likes:nb_likes,user:userid})
     .then((res) => {
       dispatch(getComment())
       dispatch(getCurrentUser())
@@ -211,10 +211,10 @@ export const addComment =(content,eventId,userId)=> (dispatch)=>{
     
   };
 //remove likereply
-export const removelikereply =(reply_id,nb_likes,userid,comment_id)=> (dispatch)=>{
+export const removelikereply =(reply_id,nb_likes,userid)=> (dispatch)=>{
   setAuthToken(localStorage.token)
   axios
-  .put(`/comment/add/like/reply/remove/${reply_id}`,{likes:nb_likes,user:userid,comment:comment_id})
+  .put(`/comment/add/like/reply/remove/${reply_id}`,{likes:nb_likes,user:userid})
   .then((res) => {
     dispatch(getComment())
     dispatch(getCurrentUser())
@@ -227,10 +227,10 @@ export const removelikereply =(reply_id,nb_likes,userid,comment_id)=> (dispatch)
 };
 
 //dislikereply
-export const dislikereply =(reply_id,nb_likes,userid,comment_id)=> (dispatch)=>{
+export const dislikereply =(reply_id,nb_likes,userid)=> (dispatch)=>{
   setAuthToken(localStorage.token)
   axios
-  .put(`/comment/add/dislike/reply/${reply_id}`,{dislikes:nb_likes,user:userid,comment:comment_id})
+  .put(`/comment/add/dislike/reply/${reply_id}`,{dislikes:nb_likes,user:userid})
   .then((res) => {
     dispatch(getComment())
     dispatch(getCurrentUser())
@@ -243,10 +243,10 @@ export const dislikereply =(reply_id,nb_likes,userid,comment_id)=> (dispatch)=>{
 };
 
 //remove dislikereply
-export const removedislikereply =(reply_id,nb_likes,userid,comment_id)=> (dispatch)=>{
+export const removedislikereply =(reply_id,nb_likes,userid)=> (dispatch)=>{
   setAuthToken(localStorage.token)
   axios
-  .put(`/comment/add/dislike/reply/remove/${reply_id}`,{dislikes:nb_likes,user:userid,comment:comment_id})
+  .put(`/comment/add/dislike/reply/remove/${reply_id}`,{dislikes:nb_likes,user:userid})
   .then((res) => {
     dispatch(getComment())
     dispatch(getCurrentUser())
@@ -259,10 +259,10 @@ export const removedislikereply =(reply_id,nb_likes,userid,comment_id)=> (dispat
 };
 
   //edit reply
-  export const editReply = (idReply, updatedComment,idComment) => (dispatch) => {
+  export const editReply = (idReply, updatedComment) => (dispatch) => {
     setAuthToken(localStorage.token)
     axios
-      .put(`/comment/edit/reply/${idComment}`, {newContent:updatedComment,id_reply:idReply})
+      .put(`/comment/edit/reply/${idReply}`, {newContent:updatedComment,id_reply:idReply})
       .then((res) => {
         dispatch({
          type: GET_ERRORS,
@@ -277,10 +277,10 @@ export const removedislikereply =(reply_id,nb_likes,userid,comment_id)=> (dispat
   };
 
   //delete reply
-  export const deleteReply = (idComment,idreply) => (dispatch) => {
+  export const deleteReply = (idreply) => (dispatch) => {
     setAuthToken(localStorage.token)
     axios
-      .put(`/comment/delete/reply/${idComment}`,{reply_id:idreply})
+      .put(`/comment/delete/reply/${idreply}`,{reply_id:idreply})
       .then((res) => {
         dispatch(getComment())
         dispatch({
@@ -335,10 +335,10 @@ export const removedislikereply =(reply_id,nb_likes,userid,comment_id)=> (dispat
     };
 
     //Remove report comment
-    export const removereportComment =(coment_id,nb_reports,userid)=> (dispatch)=>{
+    export const removereportComment =(coment_id,nb_reports)=> (dispatch)=>{
       setAuthToken(localStorage.token)
       axios
-      .put(`/comment/remove/comment/report/${coment_id}`,{reports:nb_reports,user:userid})
+      .put(`/comment/remove/comment/report/${coment_id}`,{reports:nb_reports})
       .then((res) => {
         dispatch(getComment())
         dispatch(getCurrentUser())
@@ -355,10 +355,11 @@ export const removedislikereply =(reply_id,nb_likes,userid,comment_id)=> (dispat
     };
 
     //Remove report reply
-    export const removereportReply =(reply_id,nb_reports,userid,comment_id)=> (dispatch)=>{
+    export const removereportReply =(reply_id,nb_reports)=> (dispatch)=>{
       setAuthToken(localStorage.token)
+      console.log(reply_id,nb_reports)
       axios
-      .put(`/comment/remove/reply/report/${reply_id}`,{reports:nb_reports,user:userid,comment:comment_id})
+      .put(`/comment/remove/reply/report/${reply_id}`,{reports:nb_reports})
       .then((res) => {
         dispatch(getComment())
         dispatch(getCurrentUser())

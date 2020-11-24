@@ -23,9 +23,9 @@ function Searchevents() {
     return ()=>{setErrorsearch(false)}
     }
   })
-  useEffect(()=>{
-inp.current.focus()
-  },[])
+//   useEffect(()=>{
+// inp.current.focus()
+//   },[])
   const onChange = (e) => {
     setEventsearch({ ...eventsearch, [e.target.id]: e.target.value });
     // let search= allevents.filter(el=>{
@@ -109,6 +109,7 @@ history.push(`/search?title=${eventsearch.title}&address=${eventsearch.address}&
                 placeholder="Search events"
                 id="title"
                 value={eventsearch.title}
+                autoFocus
               />
               <i
                 className="fa fa-search"
@@ -123,7 +124,7 @@ history.push(`/search?title=${eventsearch.title}&address=${eventsearch.address}&
             <form className="col s12" onSubmit={onSubmit}>
               <div className="row">
                 <div className="input-field col s6">
-                  <input id="title" type="text" value={eventsearch.title} onChange={onChange} />
+                  <input id="title" type="text" value={eventsearch.title} onChange={onChange}  autoFocus/>
 
                   <label htmlFor="title" className="active">Event Title</label>
                 </div>

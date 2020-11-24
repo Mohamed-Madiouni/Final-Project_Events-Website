@@ -4,7 +4,10 @@ import Footer from "./Footer"
 import { GET_ERRORS } from "../actions/types";
 import { useSelector, useDispatch } from "react-redux";
 import { contactUs } from "../actions/authaction";
-
+import "../../node_modules/intl-tel-input/build/css/intlTelInput.css";
+import intlTelInput from 'intl-tel-input';
+import "../tel.scss"
+import M from "materialize-css";
 // import { GoogleComponent } from 'react-google-location'
 
 import "../ContactUs.css"
@@ -56,6 +59,31 @@ const ContactUs = () => {
 //   }
 
 useEffect(()=>{
+  if(errors.contact)
+  {
+     M.toast({ html: "Your message has been sended, thanks for your interest", classes: "green" });
+  dispatch({
+    type:GET_ERRORS,
+    payload:{}
+  })
+  
+  }
+})
+
+useEffect(()=>{
+  let input = document.querySelector("#phone");
+intlTelInput(input, {
+       initialCountry: "tn",
+       preferredCountries:["fr","us"],
+       separateDialCode:true,
+       utilsScript:"https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+   });
+ 
+},[]) 
+
+useEffect(()=>M.updateTextFields())
+
+useEffect(()=>{
   dispatch({
     type: GET_ERRORS,
     payload: {},
@@ -72,7 +100,13 @@ return setInputs({...inputs,[e.target.id]:e.target.value})
 
 const handleSubmit=(e)=>{
   e.preventDefault();
-
+  let input = document.querySelector("#phone");
+  let iti=intlTelInput(input, {
+      initialCountry: "tn",
+      preferredCountries:["fr","us"],
+      separateDialCode:true,
+      utilsScript:"https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+  });
   dispatch({
     type: GET_ERRORS,
     payload: {},
@@ -80,17 +114,11 @@ const handleSubmit=(e)=>{
   let data={
     name:inputs.name,
     email:inputs.email,
-    phone:inputs.phone,
+    phone:iti.getNumber(),
     message:inputs.message
   }
     dispatch(contactUs(data))
-    const resetContact=()=>{
-      setInputs({
-       name:'',
-       email:'',
-       phone:'',
-       message:''
-      })
+    
 //   axios.post("/contact/contactus",data)
 //   .then(res=>{
 //   //  setInputs({
@@ -101,7 +129,7 @@ const handleSubmit=(e)=>{
 //  .catch(()=>{
 //     console.log('message not sent')
 // })}
-}
+
 
     // setTimeout(()=>{
     // setInputs({
@@ -125,13 +153,13 @@ const handleSubmit=(e)=>{
         <>
         <Navbar/>
         <section id="PageCoverHeader" data-vc-full-width="true" data-vc-full-width-init="true"
-         class="vc_section contact-us vc_custom_1489707920794 vc_section-has-fill">
-          <div class="vc_row wpb_row vc_row-fluid">
-            <div class="wpb_column vc_column_container vc_col-sm-12">
-              <div class="vc_column-inner">
-                <div class="wpb_wrapper">
-                  <div class="wpb_text_column wpb_content_element  page-header">
-                    <div class="wpb_wrapper div-wpb">
+         className="vc_section contact-us vc_custom_1489707920794 vc_section-has-fill">
+          <div className="vc_row wpb_row vc_row-fluid">
+            <div className="wpb_column vc_column_container vc_col-sm-12">
+              <div className="vc_column-inner">
+                <div className="wpb_wrapper">
+                  <div className="wpb_text_column wpb_content_element  page-header">
+                    <div className="wpb_wrapper div-wpb">
                       <h1 className="h1-contact">
                         <span className="span-contact span-1" >Contact Us</span>
                         </h1>
@@ -151,7 +179,7 @@ const handleSubmit=(e)=>{
   </div>
 </div>   */}
 <div className=" row vc_row wpb_row vc_row-fluid section-header featured"
-style={{marginLeft:"50px",marginTop:"90px",marginRight:"50px"}}>
+style={{marginTop:"90px"}}>
               <div className="wpb_column vc_column_container col s12">
                 <div className="vc_column-inner">
                     <div className="wpb_text_column wpb_content_element ">
@@ -164,11 +192,9 @@ style={{marginLeft:"50px",marginTop:"90px",marginRight:"50px"}}>
   
     <form id="FormContainer" className=" contact_us"
     style={{marginTop:"40px"}}
-    method="POST" 
-    action="/contact/contactus"
      onSubmit={handleSubmit}>
-        <div className="content-1">
-            <div className="container cont-1">                
+        <div className="content-1 container">
+            <div className=" cont-1">                
                 <div className="row-3 align-items-center">
                     <div role="form" >
                         <div className="col">
@@ -199,18 +225,19 @@ style={{marginLeft:"50px",marginTop:"90px",marginRight:"50px"}}>
                 {inputs.error.email}</span>
                             </div>
                             <div className="input-field">
-                                <input
+                                <input style={{width: "-moz-available"}}
                                 //  className="form-control input-lg"
                                  id="phone"
-                                  type="number"
+                                  type="tel"
                                   //  placeholder="Cell Phone"
                                    value={inputs.phone}  
                                    onChange={change}
                                    />
-                                      <label htmlFor="phone"> phone </label>
-
+                                      <label htmlFor="phone" className="active"> phone </label>
+                                      <div style={{marginTop: 8}}>
                                        <span className={inputs.error.phone && "red-text"}>
                 {inputs.error.phone}</span>
+                </div>
                             </div>
                         </div>
                         <div className="col">
@@ -225,7 +252,7 @@ style={{marginLeft:"50px",marginTop:"90px",marginRight:"50px"}}>
                                {inputs.error.message}</span>
                             </div> 
                             <div className="form-group">
-                            <button data-toggle="modal" data-target="#exampleModal" className="btn modal-trigger"
+                            <button  className="btn"
                             
                     >Contact Us</button>
                     <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -300,38 +327,37 @@ style={{marginLeft:"50px",marginTop:"90px",marginRight:"50px"}}>
     <p>Latitude:{maps.latitude}</p>
     <p>longitude:{maps.longitude}</p>
     <p>Address:{maps.userAddress}</p> */}
-<section id="Location" class="vc_section">
-  <div class="vc_row wpb_row vc_row-fluid section-header featured"
-  style={{marginLeft:"50px",marginTop:"70px"}}>
-    <div class="wpb_column vc_column_container vc_col-sm-12">
-      <div class="vc_column-inner">
-        <div class="wpb_wrapper">
-          <div class="wpb_text_column wpb_content_element ">
-            <div class="wpb_wrapper ">
+<section id="Location" className="vc_section">
+  <div className="vc_row wpb_row vc_row-fluid section-header featured"
+  style={{marginTop:"70px"}}>
+    <div className="wpb_column vc_column_container vc_col-sm-12">
+      <div className="vc_column-inner">
+        <div className="wpb_wrapper">
+          <div className="wpb_text_column wpb_content_element ">
+            <div className="wpb_wrapper ">
               <h2 className="h2-contact">Location</h2>
               </div>
               </div>
               </div></div>
               </div></div>
-              <div id="map-canvas" class="vc_row wpb_row vc_row-fluid">
-                <div class="wpb_column vc_column_container vc_col-sm-12">
-                      <div class="vc_row wpb_row vc_inner vc_row-fluid map-container">
-                          <div class="vc_column-inner">
-                                <div class="wpb_wrapper">
+              <div id="map-canvas" className="vc_row wpb_row vc_row-fluid">
+                <div className="wpb_column vc_column_container vc_col-sm-12">
+                      <div className="vc_row wpb_row vc_inner vc_row-fluid map-container">
+                          <div className="vc_column-inner">
+                                <div className="wpb_wrapper">
                                   <p>
                                   <iframe className="iframe" style={{border:0, width:"100%"}}
   height="450"
-  frameborder="0"
-  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBSZLoDPxvY96AxQbxFDlhXxiTS5JxgeDc
-    &q=GoMyCode,tunis+sousse" allowfullscreen>
+  frameBorder="0"
+  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBSZLoDPxvY96AxQbxFDlhXxiTS5JxgeDc&q=GoMyCode,tunis+sousse" allowFullScreen>
 </iframe>
                                   </p></div>
-                                  <div class="wpb_text_column wpb_content_element  address-container">
-                                    <div class="wpb_wrapper">
-                                      <h4 className="h4-title"><i style={{marginRight:"15px"}}class="fa fa-phone"></i>
+                                  <div className="wpb_text_column wpb_content_element  address-container">
+                                    <div className="wpb_wrapper">
+                                      <h4 className="h4-title"><i style={{marginRight:"15px"}}className="fa fa-phone"></i>
                                        Phone Number</h4>
                                       <p className="p-contact">+21655333333</p>
-                                    <h4 className="h4-title"><i style={{marginRight:"15px"}} class="fa fa-envelope"></i>
+                                    <h4 className="h4-title"><i style={{marginRight:"15px"}} className="fa fa-envelope"></i>
                                        Adress E-mail</h4>
                                     <p className="p-contact">eventcoco63@gmail.com</p>
                                     </div></div></div>
@@ -339,7 +365,7 @@ style={{marginLeft:"50px",marginTop:"90px",marginRight:"50px"}}>
     </div>
 
 
-<Footer/>
+{/* <Footer/> */}
         </>
     );
 };

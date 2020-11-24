@@ -66,39 +66,10 @@ function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    if (auth.user.banned===true) {
-        dispatch(logoutUser());
-        history.push("/banned")
-       }
-  });
-
   return (
     <>
       <Navbar />
       <div className="use-bootstrap">
-
-      <div class="more-about-us">
-        <div class="container">
-            <div class="col-md-5 col-md-offset-8">
-                <div class="content">
-                <h2 className="header">COCO Event</h2>
-                    <span className="span-home"># BLACK LIVES MATTER</span>
-                    <p className="p-home">Welcome to the number 1 event website in the WORLD <br /> We
-            consider our self as a family, and as a family we welcome you to be
-            part of our universe. 
-                    <br/></p>
-                    <div class="simple-btn">
-                        <a className="a-home" href="#" style={{textDecoration: "none",color: "#fff"
-
-}}>You can check our last available events here below.
-</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-      </div>
       <div className="parallax-container">
       {allevents && (
         <div className="slider" >
@@ -190,9 +161,30 @@ function Home() {
           <img src="festival_home.jpg" alt="Home" className="responsive-img" />
         </div> */}
       </div>
+      <div class="more-about-us">
+        <div class="container">
+            <div class="col-md-5 col-md-offset-8">
+                <div class="content">
+                <h2 className="header">COCO Event</h2>
+                    <span className="span-home"># BLACK LIVES MATTER</span>
+                    <p className="p-home">Welcome to the number 1 event website in the WORLD <br /> We
+            consider our self as a family, and as a family we welcome you to be
+            part of our universe. 
+                    <br/></p>
+                    <div class="simple-btn">
+                        <a className="a-home" href="#" style={{textDecoration: "none",color: "#fff"
+
+}}>You can check our last available events here below.
+</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+      </div>
+      
       
       {/* <ContactModel/> */}
-      <Footer/>
     </>
   );
 }

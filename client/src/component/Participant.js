@@ -6,12 +6,11 @@ import {unfollowEvent,followEvent,getEvent,endEvent,closeEvent, fullEvent, openE
 import get_month from "../outils/get_month"
 import "../organizer.css";
 import M from "materialize-css";
-// import eventClosing from "../outils/eventClosing";
+import eventClosing from "../outils/eventClosing";
 import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP  } from "../actions/types";
 import { getMyEvents,getCurrentUser } from "../actions/authaction";
 import historyevent from "../outils/history"
 import { getUsers } from '../actions/adminaction';
-
 import Search from "./Search";
 import "../participant.css"
 
@@ -22,12 +21,14 @@ import { formatRelative } from "date-fns";
 import MyMap from "./Maps";
 import getlenthorg, { getlastdateorg } from "../outils/geteventorg";
 import { sendNotifications } from "../actions/notificationaction";
+import Count from "./Count";
 
 function Participant() {
 
     const dispatch = useDispatch();
     const history =useHistory()
     const map = useSelector(state=>state.map)
+    const sanctions = useSelector((state) => state.auth.sanctions);
     const auth = useSelector((state) => state.auth);
     const allevents= useSelector((state)=>state.events.allEvents)
     const errors=useSelector(state=>state.errors)
@@ -42,7 +43,10 @@ function Participant() {
       const [eventDate,setEventDate]=useState("")
       const [clkwidth,setclkwidth]=useState(false)
     
-  
+      let usermail=auth.user.email
+      var useralert= (sanctions.filter(el => el.email==usermail && el.type=="alert")).pop()
+      var userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
+    
     
    
     
@@ -74,15 +78,6 @@ function Participant() {
       dispatch(endEvent(myevents[i]._id))
     }
   },[])
-
-
-  useEffect(() => {
-    if (auth.user.banned===true) {
-        dispatch(logoutUser());
-        history.push("/banned")
-       }
-  });
-
  
   //open full events
 useEffect(()=>{
@@ -151,8 +146,8 @@ useEffect(()=>{
           
         }}>
          
-        { auth.user.alerted_date && new Date()<new Date(auth.user.alerted_date) &&
-        <i className="fas fa-exclamation-circle" style={{color:"red",fontSize:15,marginTop:5}}>You are alerted until {auth.user.alerted_date=!null && auth.user.alerted_date.split('.')[0]}, a second alert will automatically ban your account 
+         { (useralert && (useralert.canceled==false) &&  (new Date(eventClosing(useralert.created_at,useralert.duration))>new Date())) &&
+        <i className="fas fa-exclamation-circle" style={{color:"red",fontSize:15,marginTop:5}}>You are alerted by{" " +useralert.author +" "}until {(eventClosing(useralert.created_at,useralert.duration)).split('.')[0].replace("T"," ")} <br/>A second alert could result a ban of your account, reason: {" " +useralert.reason} 
         </i>
         }
 
@@ -173,6 +168,22 @@ useEffect(()=>{
            
           </div>
         </div>
+        {myevents&&myevents.length!=0&&myevents.filter(el=>(new Date(el.start)>new Date()&&el.state!="Ended"&&el.state!="Invalid"&&el.state!="Closed")).length!=0&&
+        <div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px",backgroundColor:' rgb(44, 44, 44)',
+        color:"white"
+}}>
+        <div className=" col s12 organizer_hi " style={{padding:0,margin:0}}
+         >
+           <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center",flexDirection:"column"}}>
+            <p className="h5-tit" style={{paddingTop:10,color:"white"}}>
+              Get ready !! <br/> Your next event start in 
+            </p>
+                <Count date={myevents&&(myevents.filter(el=>new Date(el.start)>new Date()).filter(el=>el.state!="Ended").filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").sort(function(a, b) {return new Date(a.start) - new Date(b.start);
+})[0].start.split("T").join(" "))}/>
+             </div>
+            
+          </div>
+        </div>}
 
 <div className="row quicksearch" style={{margin:"30px 15px 20px 15px",fontSize:15,height:200,paddingTop:65,position:"relative"}} >
      <h5 style={{position:"absolute",fontSize:35,left:5,top:-30}}><b>Looking for an event?</b></h5>
@@ -235,7 +246,7 @@ useEffect(()=>{
 
  {events&&events.length!=0?
  
-<div className="row"style={{marginLeft:"50px",marginTop:"20px"}}>
+<div className="row"style={{marginLeft:"10px",marginTop:"20px"}}>
              <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
               <div className="wpb_column vc_column_container col 12">
                 <div className="vc_column-inner">
@@ -509,7 +520,7 @@ useEffect(()=>{
           <p>You are about to subscribe to {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )} event, Please
           note that: </p><br/>  
           <ol><li>You can't subscribe to the same event after <b>annulation</b>. </li>
-          <li>You are responsible for all comments you send, in case of non respect your account will be <b>alerted</b> for one <b>week</b> and you risk to get banned from the admin.</li>
+          <li>You are responsible for all comments you send, in case of non respect your account will be <b>alerted</b> and you risk to get <b>banned</b> from the admin.</li>
           </ol></>:<><h4>Event annulation</h4>
                       <p>Are you sure you want to cancel the {participate&&(  <b>{allevents.find(el=>el._id==participate).title}</b> )}  event? 
                       {/* {participate&&((new Date(allevents.find(el=>el._id==participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"} */}
@@ -554,16 +565,16 @@ useEffect(()=>{
                       </a>
                     </div>
                   </div>
-                  <Footer/>
+                  {/* <Footer/> */}
 {users.length!=0&&auth.user.follow.length!=0&&allevents.length!=0&&<div className="organizer_list">
   <div className="groupofnotes scrollbar" id="style-3"  style={{width:clkwidth?300:0,boxShadow: clkwidth&&"0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}}>
   <ul className="collection par">
 {auth.user.follow.map((el,i)=>{
   return (
-<a href={`/organizer/${el}`} key={i}><li  className="">
+<Link to={`/organizer/${el}`} key={i}><li  style={{height:"fit-content",padding:5}}>
   <div style={{display:"flex",flexDirection:"column",justifyContent:"space-around",alignItems:"center",width:80}}>
       <img src={users.find(elm=>elm._id==el).avatar} alt="" className="circle"/>
-      <span className="title"><b>{users.find(elm=>elm._id==el).fname}</b></span>
+      <span className="title"><b>{users.find(elm=>elm._id==el).fname.slice(0,8)}</b></span>
       </div>
       <div  style={{display:"flex",justifyContent:"space-around",alignItems:"center",flexDirection:"column",width:200,paddingLeft:10}}>
     <div style={{display:"flex",alignItems:"center",width:"100%"}}>
@@ -576,7 +587,7 @@ useEffect(()=>{
     </div>
       </div>
       
-    </li></a>
+    </li></Link>
 
 
 
@@ -585,7 +596,7 @@ useEffect(()=>{
 </ul>
   </div>
 
-{!clkwidth&&<a title="Subscriptions" href='#!' style={{ cursor:"pointer",  boxShadow: "9px 8px 20px 0px rgba(24, 32, 111, 0.4)"}} onClick={()=>setclkwidth(!clkwidth)}>
+{!clkwidth&&<a title="Subscriptions" href='#!' style={{ cursor:"pointer",  boxShadow: "0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}} onClick={()=>setclkwidth(!clkwidth)}>
 <i className="fas fa-angle-double-right"></i>
 </a>}
 </div>}

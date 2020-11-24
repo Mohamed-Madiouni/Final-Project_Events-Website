@@ -1,7 +1,7 @@
 import React, { useEffect, useState,useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logoutUser } from "../actions/authaction";
+import { logoutUser,  getSanctions, getCurrentUser} from "../actions/authaction";
 import "../landing.css";
 import "../notification.scss";
 import M from "materialize-css";
@@ -12,26 +12,39 @@ import historyevent from "../outils/history";
 import Notificationuser from "./Notificationsuser";
 import Notifications from "./Notifications";
 import { getUsers } from "../actions/adminaction";
-import { SHOW_NOTIF } from "../actions/types";
+import { SHOW_CHAT, SHOW_NOTIF } from "../actions/types";
 import { roundToNearestMinutes } from "date-fns";
 import Pusher from 'pusher-js'
+import Chat from "./Chat";
+import { getChat } from "../actions/chat";
+import eventClosing from "../outils/eventClosing";
+
 
 function Landing({}) {
   const dispatch = useDispatch();
   const history = useHistory()
   const auth = useSelector((state) => state.auth);
+  const sanctions = useSelector((state) => state.auth.sanctions);
   const resize=useSelector(state=>state.resize)
   const location=useLocation()
   const allnotif=useSelector(state=>state.notification.notifications)
   let notifsize=notif(allnotif,auth.user._id);
   const users=useSelector(state=>state.admin.users)
   const shownotif =useSelector(state=>state.notification.show)
+  const showchat=useSelector(state=>state.chat.show)
+  const chat=useSelector(state=>state.chat)
   // const [show,setshow]=useState(false)
   useEffect(() => {
     M.Sidenav.init(document.querySelectorAll(".sidenav"));
   });
+
+  let usermail=auth.user.email
+  var useralert= (sanctions.filter(el => el.email==usermail && el.type=="alert")).pop()
+  var userban= (sanctions.filter(el => el.email==usermail && el.type=="ban")).pop()
+
   useEffect(() => {
     dispatch(getUsers())
+    dispatch(getSanctions())
   }, []);
 
 //  console.log(filter_notif(allnotif,auth.user._id))
@@ -43,7 +56,7 @@ useEffect(()=>{M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))})
 useEffect(()=>{
   M.Modal.init(document.querySelectorAll(".modal"))
   localStorage.token&&dispatch(getNotifications())
-  
+  localStorage.token&&dispatch(getChat())
 },[])
 const notifref=useRef()
 
@@ -58,6 +71,38 @@ notifref.current.style.width="350px"
   }})
  
 })
+
+useEffect(()=>{
+  // Pusher.logToConsole = true;
+
+  var pusher = new Pusher(process.env.REACT_APP_KEY, {
+    cluster: 'eu'
+  });
+  var channel = pusher.subscribe('sanction');
+  channel.bind('my-event', function(data) {
+   dispatch(getSanctions())
+  });
+  var channel = pusher.subscribe('block');
+  channel.bind('my-event', function(data) {
+   dispatch(getCurrentUser())
+   dispatch(getUsers())
+  });
+
+
+},[])
+
+useEffect(()=>{
+  // Pusher.logToConsole = true;
+
+  var pusher = new Pusher(process.env.REACT_APP_KEY, {
+    cluster: 'eu'
+  });
+  var channel = pusher.subscribe('chat');
+  channel.bind('my-event', function(data) {
+   dispatch(getChat())
+  });
+},[])
+
 
 useEffect(()=>{
   if(shownotif&&notifref.current&&window.innerWidth<=545)
@@ -76,6 +121,16 @@ useEffect(()=>{
   });
 },[])
 
+useEffect(() => {
+  if (userban && (userban.canceled==false) && (new Date(eventClosing(userban.created_at,userban.duration))>new Date()||(userban.duration==-1)))
+     {
+      dispatch(logoutUser());
+      history.push({
+        pathname:"/banned",
+        userBan: userban,
+      })
+     }
+});
 
   return (
     <div 
@@ -147,12 +202,13 @@ payload:!shownotif
           else if (el.notiftype=="New_Participation") { history.push(`/${el.role}/${el.userId}`)}
           else if (el.notiftype=="Cancel_Participation") { history.push(`/${el.role}/${el.userId}`)}
           else if (el.notiftype=="Event_Closed") { history.push("/events")}
-          else if (el.notiftype=="Event_Opened") { history.push("/events"+el.compid)}
+          else if (el.notiftype=="Event_Opened") { history.push("/events/"+el.compid)}
           else if (el.notiftype=="Account_Banned") {history.push("/dashboard")}
           else if (el.notiftype=="Account_Unbanned") { history.push("/dashboard")}
           else if (el.notiftype=="Account_Alerted") { history.push("/dashboard")}
           else if (el.notiftype=="Alert_Removed") { history.push("/dashboard")}
-          else if (el.notiftype=="New_Comment") { history.push("/events"+el.compid)}
+          else if (el.notiftype=="New_Comment") { history.push("/events/"+el.compid)}
+          else if (el.notiftype=="Comment_Edition") { history.push("/events/"+el.compid)}
           else {  history.push("/")}
           dispatch(closeNotif([el]))
           dispatch({
@@ -273,7 +329,7 @@ payload:!shownotif
           
        
        
-        <a href='#!' data-target='dropdown1' className='dropdown-trigger' 
+        <a  data-target='dropdown1' className='dropdown-trigger' 
         style={{height:60,display:"flex",alignItems:"center"}}>
           <img className="circle" src={auth.user.avatar} width="32px" height="32px" alt=""/></a>
         
@@ -307,10 +363,21 @@ payload:!shownotif
    <span className="black-text email">{auth.user.email}</span></div>
    <button className="account"
    onClick={()=>history.push("/myaccount")} 
-   style={{marginBottom:"5px"}}>Account setting</button>
+   style={{marginBottom:"5px"}}><i className="fas fa-cog" style={{marginRight:5}}></i>Account setting</button>
+    <button className="account"
+   onClick={()=>history.push(`/${auth.user.role}/${auth.user._id}`)} 
+   style={{marginBottom:"5px"}}><i className="fas fa-address-card" style={{marginRight:5}}></i>My profile</button>
    </div>
     </li>
   </ul>
+
+
+
+
+
+{chat.talk.show&&<div className="discumodal groupofnotes scrollbar"  id="style-3">
+  <Chat/>
+</div>}
 
   <div id="signoutmodal" className="modal">
           <div className="modal-content">

@@ -1,6 +1,7 @@
 import { GET_ERRORS, GET_USERS_ADMIN, GET_EVENTS_ADMIN } from "./types";
 import axios from "axios"
 import setAuthToken from "../token/authtoken";
+import { getSanctions } from "./authaction";
 //get all users
 export const getUsers = () =>(dispatch) => {
    // setAuthToken(localStorage.token)
@@ -53,16 +54,16 @@ export const deleteUser=(idUser)=>(dispatch)=>{
   .catch(err=>console.log(err))
  }
 
-  //Ban user
-export const banUser=(idUser, ban)=>(dispatch)=>{
+//Ban user
+export const banUser=(email,type,duration,reason,author)=>(dispatch)=>{
   setAuthToken(localStorage.token)
-  axios.put(`admin/users/ban/${idUser}`, ban)
+  axios.post('admin/sanction/ban/add',{email:email,type:type,duration:duration,reason:reason,author:author})
   .then((res)=>{
-    dispatch(getUsers())
     dispatch({
       type: GET_ERRORS,
-      payload: {success:"done"},
+      payload: {alerted:"done"},
     })
+    dispatch(getSanctions())
   })
   .catch((err) => dispatch({
     type: GET_ERRORS,
@@ -71,14 +72,14 @@ export const banUser=(idUser, ban)=>(dispatch)=>{
 };
 
   //Unban user
-  export const unbanUser=(idUser, unban)=>(dispatch)=>{
+  export const unbanUser=(IdBan, cancelreason, cancelauthor)=>(dispatch)=>{
     setAuthToken(localStorage.token)
-    axios.put(`admin/users/unban/${idUser}`, unban)
+    axios.put(`admin/sanction/ban/delete/${IdBan}`,{ canceled:true, cancelreason:cancelreason, cancelauthor:cancelauthor, cancelled_at:new Date()})
     .then((res)=>{
-      dispatch(getUsers())
+      dispatch(getSanctions())
       dispatch({
         type: GET_ERRORS,
-        payload: {success:"done"},
+        payload: {alerted:"done"},
       })
     })
     .catch((err) => dispatch({
@@ -89,15 +90,17 @@ export const banUser=(idUser, ban)=>(dispatch)=>{
 
 
   //Alert user
-  export const alertUser=(idUser)=>(dispatch)=>{
+  export const alertUser=(email,type,duration,reason,author)=>(dispatch)=>{
     setAuthToken(localStorage.token)
-    axios.put(`admin/users/alert/${idUser}`)
+    console.log(email,type,duration,reason,author)
+    axios
+    .post('admin/sanction/alert/add',{email:email,type:type,duration:duration,reason:reason,author:author})
     .then((res)=>{
-      dispatch(getUsers())
       dispatch({
         type: GET_ERRORS,
-        payload: {success:"done"},
+        payload: {alerted:"done"},
       })
+      dispatch(getSanctions())
     })
     .catch((err) => dispatch({
       type: GET_ERRORS,
@@ -106,14 +109,14 @@ export const banUser=(idUser, ban)=>(dispatch)=>{
   };
   
     //Remove alert user
-    export const unalertUser=(idUser, unalertDate)=>(dispatch)=>{
+    export const unalertUser=(IdAlert,cancelreason, cancelauthor)=>(dispatch)=>{
       setAuthToken(localStorage.token)
-      axios.put(`admin/users/unalert/${idUser}`, unalertDate)
+      axios.put(`admin/sanction/alert/delete/${IdAlert}`, {canceled:true, cancelreason:cancelreason, cancelauthor:cancelauthor, cancelled_at:new Date()})
       .then((res)=>{
-        dispatch(getUsers())
+        dispatch(getSanctions())
         dispatch({
           type: GET_ERRORS,
-          payload: {success:"done"},
+          payload: {alerted:"done"},
         })
       })
       .catch((err) => dispatch({
@@ -146,6 +149,40 @@ export const validateEvent=(idEvent, valid)=>(dispatch)=>{
     axios.put(`admin/events/invalid/${idEvent}`, unvalid)
     .then((res)=>{
       dispatch(getEvents())
+      dispatch({
+        type: GET_ERRORS,
+        payload: {success:"done"},
+      })
+    })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+  };
+
+  //Add Modo
+  export const AddModo=(idUser, moderator)=>(dispatch)=>{
+    setAuthToken(localStorage.token)
+    axios.put(`admin/users/addmodo/${idUser}`, moderator)
+    .then((res)=>{
+      dispatch(getUsers())
+      dispatch({
+        type: GET_ERRORS,
+        payload: {success:"done"},
+      })
+    })
+    .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+  };
+
+  //Remove Modo
+  export const DeleteModo=(idUser, participant)=>(dispatch)=>{
+    setAuthToken(localStorage.token)
+    axios.put(`admin/users/removemodo/${idUser}`, participant)
+    .then((res)=>{
+      dispatch(getUsers())
       dispatch({
         type: GET_ERRORS,
         payload: {success:"done"},

@@ -41,14 +41,6 @@ const userSchema = mongoose.Schema({
   cancelation :[{
     type:mongoose.Types.ObjectId
   }],
-  banned:{
-    type: Boolean,
-    required: true,
-    default: false
-  },
-  alerted_date:{
-    type:Date
-  },
   likes:[String],
   dislikes:[String],
   reports:[String],
@@ -56,6 +48,16 @@ const userSchema = mongoose.Schema({
   online:{
     type:Boolean,
     default:false
+  },
+  note: {
+    type: String,
+    required: true,
+    default: "Hi it's me"
+  },
+  blocked:[],
+  active:{
+    type:Boolean,
+    default:true
   }
 });
 
