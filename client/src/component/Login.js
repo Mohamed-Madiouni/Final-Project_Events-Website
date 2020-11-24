@@ -142,6 +142,8 @@ useEffect(()=>{
               >
                 Login
               </button>
+              <Link to="/forgot">Forgot Password</Link>
+              <Link to="/register">Create Account</Link>
             </div>
           </form>
         </div>

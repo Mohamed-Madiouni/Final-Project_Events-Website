@@ -10,6 +10,7 @@ import M from "materialize-css";
 import { GET_ERRORS,ADD_FOCUS, SHOW_MAP, STATE_MAP  } from "../actions/types";
 import { getMyEvents,getCurrentUser } from "../actions/authaction";
 import historyevent from "../outils/history"
+import { getUsers } from '../actions/adminaction';
 
 import Search from "./Search";
 import "../participant.css"
@@ -19,6 +20,8 @@ import calcul_rating from "../outils/calucle_rating";
 import Footer from "./Footer"
 import { formatRelative } from "date-fns";
 import MyMap from "./Maps";
+import getlenthorg, { getlastdateorg } from "../outils/geteventorg";
+import { sendNotifications } from "../actions/notificationaction";
 
 function Participant() {
 
@@ -29,11 +32,7 @@ function Participant() {
     const allevents= useSelector((state)=>state.events.allEvents)
     const errors=useSelector(state=>state.errors)
     const myevents=useSelector(state=>state.myevents.myevents.events)
-
-    const [modal, setModal] = useState(false);
-    const [action, setAction] = useState({ type: "add", payload: {} });
-    const [deleteid,setDeleteid]= useState("")
-    const [closedid,setClosedid]= useState("")
+    const users=useSelector(state=>state.admin.users)
     const [quickSearch, setQuickSearch] = useState({
         title: "",
         state: "",
@@ -41,10 +40,8 @@ function Participant() {
       });
       const [participate,setParticipate]=useState("")
       const [eventDate,setEventDate]=useState("")
-    const toggle = () => {
-      setModal(!modal)
-    return modal
-    };
+      const [clkwidth,setclkwidth]=useState(false)
+    
   
     
    
@@ -104,6 +101,7 @@ useEffect(()=>{
     
    localStorage.token&&dispatch(getCurrentUser())
  M.Modal.init(document.querySelectorAll(".modal"))
+ dispatch(getUsers())
 },[])
 
    useEffect(()=>{
@@ -120,7 +118,7 @@ useEffect(()=>{
     }   
   
     })
-    let events=myevents&&myevents.filter(el=>(el!="Invalid"||el!="Closed")).filter(el=>{
+    let events=myevents&&myevents.filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").filter(el=>{
         return(
         
          el.title.toLowerCase().includes(quickSearch.title.toLowerCase())
@@ -149,6 +147,7 @@ useEffect(()=>{
             type:ADD_FOCUS,
             payload:{}
           })
+          clkwidth&&!document.querySelector(".organizer_list").contains(e.target)&&setclkwidth(!clkwidth)
           
         }}>
          
@@ -246,7 +245,7 @@ useEffect(()=>{
                         <h2>Your participation</h2>
                         <p className="pra-2">Keep up with the latest events</p>
                         </div></div></div></div></div></div>
-           {events&&events.filter(el=>(el!="Invalid"||el!="Closed")).slice(0).reverse().map(el=>{
+           {events&&events.filter(el=>el.state!="Invalid").filter(el=>el.state!="Closed").slice(0).reverse().map(el=>{
                return (<div className="col s12 m6 l4 xl3" key={el._id} style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
                  
                  
@@ -263,7 +262,7 @@ useEffect(()=>{
                           >
                             
                             <div className="card-image " style={{height:"55%",cursor:"pointer"}}>
-                              <img className="activator" src={el.image} height="100%" />
+                              <img className="activator" src={el.image} height="100%" alt=""/>
           
                               <div className="date right">
                                 <div className="day">{el.start.split("T")[0].split("-")[2]}</div>
@@ -412,7 +411,7 @@ useEffect(()=>{
                                 
                               </button>
                               :
-                              <button
+                              el.state!="Ended"&& <button
                               data-target="modalevnt"
                                 onClick={()=>{
                                  
@@ -437,7 +436,7 @@ useEffect(()=>{
                                 {el.state}
                               </span>
                             </div>
-                            <div className="card-reveal" style={{paddingRight:55,overflowWrap:"anywhere"}}>
+                            <div className="card-reveal groupofnotes scrollbar" id="style-3" style={{paddingRight:55,overflowWrap:"anywhere"}}>
                               <span className="card-title grey-text text-darken-4">
                                 <b>{el.title}</b>
                                 <i className="material-icons right"  style={{position:"absolute",right:10,top:10}}>close</i>
@@ -500,7 +499,7 @@ useEffect(()=>{
           
         </div>
         <div className="col s12 l6" id="up">
-          <img className="working-img" src="/illustration-working.svg" />
+          <img className="working-img" src="/illustration-working.svg" alt=""/>
         </div>
       </div>
         </div>}
@@ -522,7 +521,28 @@ useEffect(()=>{
                         href="#!"
                         className="modal-close btn-flat"
                         onClick={()=>{
-                          participate&&(!auth.user.events.includes(participate)?dispatch(followEvent(participate)):dispatch(unfollowEvent(participate,eventDate)))}}
+                          if(auth.isAuthenticated)
+                          { if (participate&&(!auth.user.events.includes(participate)))
+                          {dispatch(followEvent(participate)) 
+                          let title= "New Participation";
+                          let content= auth.user.fname +" "+ auth.user.lname + " participate to " + (allevents.find(el=>el._id==participate).title);
+                          let notiftype="New_Participation";
+                          let compid=allevents.find(el=>el._id==participate)._id
+                          let state=[]
+                          state=[...state,{users:(allevents.find(el=>el._id==participate).id_organizer),consulted:false}]
+                          dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
+                          }
+                          else
+                          {dispatch(unfollowEvent(participate,eventDate))
+                            let title= "Cancel Participation";
+                            let content= auth.user.fname +" "+ auth.user.lname + " cancelled participation to " + (allevents.find(el=>el._id==participate).title);
+                            let notiftype="Cancel_Participation";
+                            let compid=allevents.find(el=>el._id==participate)._id
+                            let state=[]
+                            state=[...state,{users:(allevents.find(el=>el._id==participate).id_organizer),consulted:false}]
+                            dispatch(sendNotifications(auth.user._id,title,content,auth.user.role,notiftype,state,compid))
+                          }}
+                        }}
                       >
                         Agree
                       </a>
@@ -535,7 +555,40 @@ useEffect(()=>{
                     </div>
                   </div>
                   <Footer/>
+{users.length!=0&&auth.user.follow.length!=0&&allevents.length!=0&&<div className="organizer_list">
+  <div className="groupofnotes scrollbar" id="style-3"  style={{width:clkwidth?300:0,boxShadow: clkwidth&&"0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}}>
+  <ul className="collection par">
+{auth.user.follow.map((el,i)=>{
+  return (
+<a href={`/organizer/${el}`} key={i}><li  className="">
+  <div style={{display:"flex",flexDirection:"column",justifyContent:"space-around",alignItems:"center",width:80}}>
+      <img src={users.find(elm=>elm._id==el).avatar} alt="" className="circle"/>
+      <span className="title"><b>{users.find(elm=>elm._id==el).fname}</b></span>
+      </div>
+      <div  style={{display:"flex",justifyContent:"space-around",alignItems:"center",flexDirection:"column",width:200,paddingLeft:10}}>
+    <div style={{display:"flex",alignItems:"center",width:"100%"}}>
+      <span><b>Events :</b> </span>
+  <p style={{marginLeft:5,lineHeight:"normal"}}>{" "+getlenthorg(allevents,el)}</p>
+    </div>
+    <div style={{display:"flex",alignItems:"center",width:"100%"}}>
+      <span> <b>Last update :</b> </span>
+  <span style={{marginLeft:5,lineHeight:"normal"}}>{" "+formatRelative(new Date(getlastdateorg(allevents,el)),new Date())}</span> 
+    </div>
+      </div>
+      
+    </li></a>
 
+
+
+  )
+})}
+</ul>
+  </div>
+
+{!clkwidth&&<a title="Subscriptions" href='#!' style={{ cursor:"pointer",  boxShadow: "9px 8px 20px 0px rgba(24, 32, 111, 0.4)"}} onClick={()=>setclkwidth(!clkwidth)}>
+<i className="fas fa-angle-double-right"></i>
+</a>}
+</div>}
         </div>
     )
 }

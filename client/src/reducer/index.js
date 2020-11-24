@@ -10,6 +10,7 @@ import {part} from "./participant"
 import {myevents} from "./myEvents"
 import {notifications} from "./notification"
 import resize from "./resize"
+import {loading} from "./Loading"
 export default combineReducers({
   auth: authReducer,
   errors: errorReducer,
@@ -21,5 +22,6 @@ export default combineReducers({
   myevents:myevents,
   comments:comment,
   notification:notifications,
-  map:map
+  map:map,
+  loading:loading
 });

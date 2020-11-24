@@ -298,7 +298,7 @@ export const removedislikereply =(reply_id,nb_likes,userid,comment_id)=> (dispat
     export const reportComment =(coment_id,nb_reports,userid)=> (dispatch)=>{
       setAuthToken(localStorage.token)
       axios
-      .put(`/comment/add/report/${coment_id}`,{reports:nb_reports,user:userid})
+      .put(`/comment/add/comment/report/${coment_id}`,{reports:nb_reports,user:userid})
       .then((res) => {
         dispatch(getComment())
         dispatch(getCurrentUser())
@@ -319,6 +319,46 @@ export const removedislikereply =(reply_id,nb_likes,userid,comment_id)=> (dispat
       setAuthToken(localStorage.token)
       axios
       .put(`/comment/add/reply/report/${reply_id}`,{reports:nb_reports,user:userid,comment:comment_id})
+      .then((res) => {
+        dispatch(getComment())
+        dispatch(getCurrentUser())
+        dispatch({
+          type: GET_ERRORS,
+          payload: {reportreply:"done"},
+        })
+     })
+     .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+      
+    };
+
+    //Remove report comment
+    export const removereportComment =(coment_id,nb_reports,userid)=> (dispatch)=>{
+      setAuthToken(localStorage.token)
+      axios
+      .put(`/comment/remove/comment/report/${coment_id}`,{reports:nb_reports,user:userid})
+      .then((res) => {
+        dispatch(getComment())
+        dispatch(getCurrentUser())
+        dispatch({
+          type: GET_ERRORS,
+          payload: {reportcom:"done"},
+        })
+     })
+     .catch((err) => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data,
+    }));
+      
+    };
+
+    //Remove report reply
+    export const removereportReply =(reply_id,nb_reports,userid,comment_id)=> (dispatch)=>{
+      setAuthToken(localStorage.token)
+      axios
+      .put(`/comment/remove/reply/report/${reply_id}`,{reports:nb_reports,user:userid,comment:comment_id})
       .then((res) => {
         dispatch(getComment())
         dispatch(getCurrentUser())

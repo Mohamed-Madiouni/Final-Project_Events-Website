@@ -8,6 +8,28 @@ const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 const validateUpdateInput = require("../validation/update");
 const authMiddleware = require("../middleware/authMiddleware");
+// const nodemailer = require('nodemailer');
+// const sgTransport = require('nodemailer-sendgrid-transport');
+const uuidv1 = require('uuid/v1');
+const { createUser, getUser, updateUser } = require("../models/email");
+const { getResetRequest, createResetRequest } = require("../models/resetRequests");
+const sendResetLink = require("./sendEmail");
+var Pusher = require('pusher');
+require("dotenv").config();
+
+const Transporter = nodemailer.createTransport(sgTransport({
+  auth: {
+    api_key: 'SENDGRID_PASSWORD'
+}
+}))
+
+var pusher = new Pusher({
+  appId: process.env.appId,
+  key: process.env.key,
+  secret: process.env.secret,
+  cluster: 'eu',
+  useTLS: true,
+});
 
 
 //handle registration
@@ -36,7 +58,14 @@ router.post("/register", (req, res) => {
       });
       newUser
         .save()
-        .then((user) => res.json(user))
+        .then((user) => {
+        // Transporter.sendMail({
+        // to:user.email,
+        // from:"eventcoco63@gmail.com",
+        // subject:"signup success",
+        // html:"<h1>wrlcome to CocoEvent</h1>"
+        // })
+        res.json(user)})
         .catch((err) => console.log(err));
     }
   });
@@ -132,6 +161,11 @@ router.post("/login", (req, res) => {
         };
 
         jwt.sign(payload, process.env.ACCES_TOKEN_SECRET, (err, token) => {
+          user.online=true
+          user.save()
+          pusher.trigger('channel2', 'log', {
+            'message': 'hello world'
+          });  
           res.json({
             token: token,
           });
@@ -140,11 +174,24 @@ router.post("/login", (req, res) => {
         return res.status(400).json({ password: "Password incorrect" });
       }
     });
-    
 
   });
 
 });
+
+
+//handle log out
+router.put("/logout",authMiddleware, (req, res) => {
+
+User.findByIdAndUpdate(req.userId,{$set:{online:req.body.online}})
+.then(user=>{
+  pusher.trigger('channel2', 'log', {
+    'message': 'hello world'
+  });  
+  res.send("logout")})
+
+
+})
 
 // get myevents
 router.get('/all/events',authMiddleware,(req,res)=>{
@@ -180,5 +227,33 @@ router.put('/remove/follow',authMiddleware,(req,res)=>{
   
   
   })
+//forget password 
+router.post("/forgot", (req, res) => {
+  const thisUser = getUser(req.body.email);
+  if (thisUser) {
+      const id = uuidv1();
+      const request = {
+          id,
+          email: thisUser.email,
+      };
+      createResetRequest(request);
+      sendResetLink(thisUser.email, id);
+  }
+  res.status(200).json();
+});
+
+router.patch("/reset", (req, res) => {
+  const thisRequest = getResetRequest(req.body.id);
+  if (thisRequest) {
+      const user = getUser(thisRequest.email);
+      bcrypt.hash(req.body.password, 10).then(hashed => {
+          user.password = hashed;
+          updateUser(user);
+          res.status(204).json();
+      })
+  } else {
+      res.status(404).json();
+  }
+});
 
 module.exports = router;

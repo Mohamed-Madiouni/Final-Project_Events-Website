@@ -287,7 +287,7 @@ useEffect(()=>{
           </p>
         </div>
         <div className="col s12 l6" id="up">
-          <img className="working-img" src="/illustration-working.svg" />
+          <img className="working-img" src="/illustration-working.svg" alt=""/>
         </div>
       </div>
      
@@ -308,7 +308,7 @@ useEffect(()=>{
                 }}
               >
                 <div className="card-image" style={{height:"65%",cursor:"pointer"}}>
-                  <img className="activator" src={el.image} height="100%" width="100%" />
+                  <img className="activator" src={el.image} height="100%" width="100%" alt=""/>
 
                   <div className="date right">
                     <div className="day">{el.start.split("T")[0].split("-")[2]}</div>
@@ -434,7 +434,7 @@ useEffect(()=>{
                   </Link>
                   <span className={el.state=="Available"?"right green-text":"right gray-text text-darken-3"}> {el.state}</span>
                 </div>
-                <div className="card-reveal" style={{paddingRight:55,overflowWrap:"anywhere"}} >
+                <div className="card-reveal groupofnotes scrollbar"  id="style-3" style={{paddingRight:55,overflowWrap:"anywhere"}} >
                 
                   <span className="card-title grey-text text-darken-4">
                     <b>{el.title}</b>

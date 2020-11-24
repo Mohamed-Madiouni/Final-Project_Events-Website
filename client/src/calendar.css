@@ -131,3 +131,9 @@ outline: none;
     color:white;
     opacity:1
 }
+.star_rate_cal{
+    position: absolute;
+    top:67px;
+    right:7px
+
+  }
