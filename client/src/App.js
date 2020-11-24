@@ -63,7 +63,7 @@ const [blockid,setblockid]=useState("")
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
     M.Materialbox.init(document.querySelectorAll('.materialboxed'))
     if (location.pathname=="/")
-     M.Slider.init(document.querySelectorAll(".slider"), { height: 500 });
+     M.Slider.init(document.querySelectorAll(".slider"), { height: 500,indicators:false });
    
   });
   useEffect(()=>{ 

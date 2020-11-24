@@ -161,17 +161,17 @@ function Home() {
           <img src="festival_home.jpg" alt="Home" className="responsive-img" />
         </div> */}
       </div>
-      <div class="more-about-us">
-        <div class="container">
-            <div class="col-md-5 col-md-offset-8">
-                <div class="content">
+      <div className="more-about-us">
+        <div className="container">
+            <div className="col-md-5 col-md-offset-8">
+                <div className="content">
                 <h2 className="header">COCO Event</h2>
                     <span className="span-home"># BLACK LIVES MATTER</span>
                     <p className="p-home">Welcome to the number 1 event website in the WORLD <br /> We
             consider our self as a family, and as a family we welcome you to be
             part of our universe. 
                     <br/></p>
-                    <div class="simple-btn">
+                    <div className="simple-btn">
                         <a className="a-home" href="#" style={{textDecoration: "none",color: "#fff"
 
 }}>You can check our last available events here below.
