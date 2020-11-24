@@ -13,7 +13,7 @@ import "../bootstrap.scss"
 // import"../bootstrap-theme.min.css"
 // import "../light-box.css"
 import Footer from "./Footer"
-import ContactModel from "./ContactModel"
+// import ContactModel from "./ContactModel"
 //import AboutSection from "./AboutSection";
 import { logoutUser } from "../actions/authaction";
 
@@ -191,7 +191,7 @@ function Home() {
         </div> */}
       </div>
       
-      <ContactModel/>
+      {/* <ContactModel/> */}
       <Footer/>
     </>
   );
