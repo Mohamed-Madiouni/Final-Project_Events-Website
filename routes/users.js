@@ -66,7 +66,7 @@ router.post("/register", (req, res) => {
         // subject:"signup success",
         // html:"<h1>wrlcome to CocoEvent</h1>"
         // })
-        res.json(user)})
+        // res.json(user)})
           const payload = {
             id: user.id,
             fname: user.fname,
@@ -107,7 +107,7 @@ router.post("/register", (req, res) => {
         res.json({msg:info.response});
     })
           
-        
+  })
           })
         
         
