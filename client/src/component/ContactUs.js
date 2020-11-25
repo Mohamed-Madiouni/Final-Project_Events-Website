@@ -34,7 +34,7 @@ const ContactUs = () => {
       
   //   // })
   // }
-      const [inputs, setInputs] = useState({
+      const [inputs,setInputs] = useState({
         name: '', 
         email: '', 
         phone: '',
@@ -61,12 +61,16 @@ const ContactUs = () => {
 useEffect(()=>{
   if(errors.contact)
   {
-     M.toast({ html: "Your message has been sended, thanks for your interest", classes: "green" });
-  dispatch({
+    inputs.name==""&& M.toast({ html: "Your message has been sended, thanks for your interest", classes: "green" });
+  
+  setInputs({...inputs, name: '', 
+  email: '', 
+  phone: '',
+  message: '',})
+ inputs.name==""&& dispatch({
     type:GET_ERRORS,
     payload:{}
   })
-  
   }
 })
 

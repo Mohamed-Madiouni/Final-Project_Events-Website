@@ -197,7 +197,7 @@ export const contactUs = (data) => (dispatch) => {
      
       dispatch({
         type: GET_ERRORS,
-        payload: {},
+        payload: {contact:"ok"},
       });
     }) 
     .catch((err) =>
