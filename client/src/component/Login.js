@@ -7,6 +7,8 @@ import Navbar from "./Navbar";
 import { logoutUser } from "../actions/authaction";
 import eventClosing from "../outils/eventClosing";
 import M from "materialize-css";
+import ForgotPassword from "./ForgotPassword";
+
 
 function Login({ history }) {
   const errors = useSelector((state) => state.errors);
@@ -200,13 +202,21 @@ dispatch({
               >
                 Login
               </button>
-              <Link to="/forgot">Forgot Password</Link>
-              <Link to="/register">Create Account</Link>
+              <p /><a href="#forgot"  className="modal-trigger" datatarget="forgot" datatoggle="modal" style={{color:"gray", marginTop:"15px", fontSize:"13px", marginLeft:"24px", position:"absolute"}}>Forgot Password</a>
+            
             </div>
           </form>
         </div>
       </div>
-    </div>
+    
+ </div> 
+ <div
+          id="forgot"
+          className="modal"
+          style={{ marginTop: "20px" }}
+        >
+          <ForgotPassword />
+        </div>
     </>
   );
 }

@@ -28,8 +28,13 @@ const ForgotPassword = () => {
         );
     } else {
         body = (
+            <div >
+                <div className="modal-header">
+            <h5 className="modal-title center">Reset password</h5>
+          </div>
+            <div>
             <form onSubmit={submitHandler}>
-                <div>
+                <div style={{width:"50%", marginLeft:"25%"}}>
                     <input
                         name="email"
                         placeholder="email"
@@ -38,10 +43,11 @@ const ForgotPassword = () => {
                         onChange={e => setEmail(e.target.value)}
                     />
                      </div>
-                     <div>
-                    <button>Get reset link</button>
-                </div>
-            </form>
+                     <div>           
+        <div className="modal-footer" style={{display:"flex", alignContent:"center", justifyContent:"center"}}>
+        <button type="button" className="btn btn-danger" style={{margin:5}}>Get reset link</button>
+        <button type="button" className="btn btn-danger modal-close"  style={{margin:5}}>Close</button></div></div> </form>
+      </div></div>
         );
     }
 
