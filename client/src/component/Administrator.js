@@ -31,40 +31,38 @@ function Administrator() {
   }, []);
 
   return (
-        <div className="col s12 row">
+    <div className="col s12 row">
       <div
         className="row quicksearch"
         style={{
           margin: "30px 15px 20px 15px",
           fontSize: 15,
-          height: 200,
+          height: 275,
           position: "relative",
         }}
       >
-        <h5 style={{ position: "absolute", fontSize: 35, left: 5, top: -30 }}>
-          <b>Hi there,</b> {auth.user.fname}
-        </h5>
-        <div className="col s12" style={{marginBottom:5}}>
-        <div
-          style={{
-            fontSize: 17,
-            marginBottom: 10,
-            marginLeft: 0,
-            marginTop: 70,
-          }}
-        >
-          <p> We are happy to see you among US. <br />
+
+<div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px"
+}}>
+        <div className=" col s12 organizer_hi "
+         >
+            <p className="h5-tit">
+              {auth.user.fname} {auth.user.lname}
+            </p>
+            <span className="blue-title">Hi there,</span> 
+        <p className="para-blue">
+          {" "}
+          We are happy to see you among US. <br />
           This is your <b> Admin Dashboard</b>, You can manage accounts and
-          events.</p>
-        </div>
+          events.</p>        
         <div style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
             <div style={{display:"flex",
             alignItems:"center",
             justifyContent:"center",
             marginBottom: 10,
-            marginTop: 10,
             height:"100%",
-            boxShadow: "0px 0px 13px 6px #888888"
+            //boxShadow: "0px 0px 13px 6px #888888",
+            marginTop: "-15px"
             }}>
        
           <button
@@ -96,7 +94,7 @@ function Administrator() {
             Moderators
           </button>
         
-        </div></div></div></div>
+        </div></div></div></div></div>
 
         
         <div
@@ -106,9 +104,7 @@ function Administrator() {
             fontSize: 20,
             display: "flex",
             alignItems: "center",
-            // marginBottom: "-127px",
-            // marginLeft: "-325px",
-            // position: "relative",
+            marginTop: "10px",
             justifyContent:"center"
           }}
         >
