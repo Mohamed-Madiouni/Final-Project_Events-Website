@@ -44,7 +44,7 @@ function Administrator() {
 
 <div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px"
 }}>
-        <div className=" col s12 organizer_hi "
+        <div className=" col s12 organizer_hi " style={{boxShadow:"none"}}
          >
             <p className="h5-tit">
               {auth.user.fname} {auth.user.lname}
@@ -173,7 +173,7 @@ function Administrator() {
         <div
           id="modalmodo"
           className="modal"
-          style={{ padding: 0, margin: 0,}}
+          style={{ padding: 0, margin: 0}}
         >
           <Moderators />
         </div>    

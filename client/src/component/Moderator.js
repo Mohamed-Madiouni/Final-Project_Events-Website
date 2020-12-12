@@ -42,7 +42,7 @@ function Moderator() {
       >
        <div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px"
 }}>
-        <div className=" col s12 organizer_hi "
+        <div className=" col s12 organizer_hi " style={{boxShadow:"none"}}
          >
             <p className="h5-tit">
               {auth.user.fname} {auth.user.lname}
