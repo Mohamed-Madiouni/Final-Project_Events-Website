@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import M from "materialize-css";
 import eventClosing from "../outils/eventClosing";
 import { closeEvent, getEvent, endEvent } from "../actions/evntAction";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { GET_ERRORS } from "../actions/types";
 import ReactReadMoreReadLess from "react-read-more-read-less";
 import "../bootstrap.scss"
@@ -172,10 +172,10 @@ function Home() {
             part of our universe. 
                     <br/></p>
                     <div className="simple-btn">
-                        <a className="a-home" href="/events" style={{textDecoration: "none",color: "#fff"
+                        <Link className="a-home" to="/events" style={{textDecoration: "none",color: "#fff"
 
 }}>You can check our last available events here {"->"}
-</a>
+</Link>
                     </div>
                 </div>
             </div>

@@ -103,13 +103,13 @@ const Moderators_card = ({ users }) => {
                       {el.online&&<div style={{
                               position:"absolute",
                               background:"green",
-                              right:310,
+                              right:290,
                               bottom:417,
                               borderRadius:"50%",
                               width:10,
                               height:10
                             }}><span style={{ position:"relative",right:-11,
-                            bottom:7, color:"green", fontSize:11}}>Online</span></div>
+                            bottom:6, color:"green", fontSize:11}}>Online</span></div>
                             }
                     </div>
                     <div style={{marginBottom:"5px"}}>

@@ -94,7 +94,7 @@ const Moderators = () => {
                 </div>
                 <div>
                   <div className="notification-container">
-      <div className="row quicksearch" style={{margin:"10px 15px 20px 15px",fontSize:15,height:255,paddingTop:40,position:"relative"}} >
+      <div className="row quicksearch" style={{margin:"10px 15px 20px 15px",fontSize:15,paddingTop:40,position:"relative"}} >
       <div className="col s12">
        <div className="col s12 l4" style={{fontStyle: "",fontSize:17,marginBottom:10}}>
    <p>Select a user name or choose an address or email to find the one looking for.</p>
@@ -182,7 +182,7 @@ const Moderators = () => {
    {resiz && (
         <div className="col s12" style={{ display: "flex",
         alignItems: "center",
-        justifyContent:"center"}}>
+        justifyContent:"center",marginBottom:10}}>
           <div>
             <div className="switch">
               <label>

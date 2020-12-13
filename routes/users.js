@@ -92,7 +92,7 @@ router.post("/register", (req, res) => {
           })
       
       let mailOptions={
-        from: "eventcoco63@gmail.com",
+        from: "mailer.cocoevent@gmail.com",
         to: `${user.fname}<${user.email}>`,
         subject: `Activating your account - Coco event`,
         html: `Welcome <b>${user.fname}</b>, your Coco event account has been created. <br/>

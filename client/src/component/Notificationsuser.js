@@ -130,6 +130,8 @@ function Notificationsuser() {
                                  <img src="/New_Comment.png" alt="New_Comment"  width="37px" height="37px"/>}
                                 {(el.notiftype=="Comment_Edition")&&
                                  <img src="/Comment_Edition.png" alt="Comment_Edition"  width="37px" height="37px"/>}  
+                                 {(el.notiftype=="New_Report")&&
+                                 <img src="/Account_Alerted.png" alt="New_Report"  width="37px" height="37px"/>} 
                                   <span style={{height: "min-content",
                                  transform: "translateY(2px)"}}>{el.title}</span>
                                   </div>
