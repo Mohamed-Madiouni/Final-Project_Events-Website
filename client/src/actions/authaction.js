@@ -46,7 +46,6 @@ export const confirmPassword = (pass) => (dispatch) => {
 
 //active user
 export const activeuser = (email,history) => (dispatch) => {
-  console.log(email)
   axios
     .put("/user/activation", {email:email})
     .then((res) => {

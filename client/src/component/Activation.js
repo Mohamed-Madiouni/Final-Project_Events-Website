@@ -13,12 +13,16 @@ function Activation() {
     let auth=useSelector(state=>state.auth)
     let history=useHistory()
     useEffect(()=>{
-        params&&dispatch(activeuser(jwt_decode(params.token).email,history))
+        if( new Date((jwt_decode(params.token).exp)*1000)>new Date())
+        {
+            params&&dispatch(activeuser(jwt_decode(params.token).email,history))}
     },[])
 
     return (
         <div>
-           {auth.loading? "Please wait...":"Redirecting to..."}
+            
+           {( new Date((jwt_decode(params.token).exp)*1000)>new Date())&&(auth.loading? "Please wait...":"Redirecting to...")}
+    <h3>{new Date((jwt_decode(params.token).exp)*1000)<=new Date()&&"Your activation link has been expired"}</h3>
         </div>
     )
 }

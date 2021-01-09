@@ -102,14 +102,14 @@ function AboutUs() {
         <p className="lead">Here's how CocoEvent works.
          It's simple, 
          yet powerful, 
-         with hundreds of easy-to use features.
+         with many easy-to use features.
           Whether you're planning a small get-together or a large festival, 
           CocoEvent is perfect for events of any size or any occassion. </p>
       </div>
     </div>
   </div>
 </div>
-{/*---****************1*****************---*/}
+{/*---****************1*****************---
 
 <div className="page-section page-section-theme ">
         <div className="exp1 container">
@@ -162,7 +162,7 @@ function AboutUs() {
                 float: "right",
                 marginRight: "58px"}}/>
             </div>
-{/*---****************2*****************---*/}
+
 
             <div className="col-md-6 col-padding-right"
              style={{ marginTop:50}}> 
@@ -186,7 +186,8 @@ function AboutUs() {
         </div>
     </div>
 </div>
-{/* //------------------the team---------------// */}
+*/}
+{/* //------------------the team---------------// 
 <div className="jumbotron jumbotron-simple-new jumbotron-simple-new-dark">
   <div className="exp1 container">
     <div className="row-2 row text-center">
@@ -203,7 +204,7 @@ function AboutUs() {
 </div>
 
 
-{/*---------------------------------------------------*/}
+
 
 <section id="team">
         <div className="container">
@@ -274,6 +275,7 @@ function AboutUs() {
             </div>
         </div>
     </section>
+    */}
     </div>
 {/* <Footer/> */}
     </>
