@@ -65,21 +65,21 @@ const Moderators_card = ({ users }) => {
             .map((el) => {
               return (
                 <div
-                  className="col s4 m6 l4 xl3"
+                  className="col s6 xl3"
                   key={el._id}
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
                     overflow: "hidden",
-                    minWidth: "335px"
+                minWidth:315
                   }}
                 >
                   <div
                     className="card small sticky-action"
                     style={{
                       overflow: "hidden",
-                      width: 330,
+                      width: 315,
                       height: 440}}
                   >
                     <div

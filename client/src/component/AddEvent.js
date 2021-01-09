@@ -25,7 +25,8 @@ const auth = useSelector((state)=>state.auth)
 const location = useLocation()
 const users=useSelector(state=>state.admin.users)
 const map = useSelector(state=>state.map)
-
+const today=new Date().toISOString().split("T")[0]
+console.log(today)
   const [events, setEvents] = useState({
     title: map.inp.state?map.inp.inp.title:action.type=="add"?"":action.payload.title,
     // address:action.type=="add"?"":action.payload.address ,
@@ -346,6 +347,7 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
                 value={events.start}
                 id="start"
                 type="date"
+                min={today}
               />
               <label htmlFor="date" className="active">Event start date</label>
             </div>
@@ -364,6 +366,8 @@ setEvents({...events,[e.target.id]:[...[e.target.id],{tag:e.target.value}]})
                 value={events.end}
                 id="end"
                 type="date"
+                min={events.start!==""&&(new Date(events.start).toISOString().split("T")[0])}
+                disabled={!events.start}
               />
               <label htmlFor="date" className="active">Event end date</label>
             </div>

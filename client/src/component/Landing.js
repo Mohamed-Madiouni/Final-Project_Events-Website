@@ -260,7 +260,8 @@ payload:!shownotif
            <img src="/New_Comment.png" alt="New_Comment" width="20px" height="20px" />}
           {(el.notiftype=="Comment_Edition")&&
            <img src="/Comment_Edition.png" alt="Comment_Edition" width="20px" height="20px" />}  
-          
+           {(el.notiftype=="New_Report")&&
+            <img src="/Account_Alerted.png" alt="New_Report"  width="20px" height="20px"/>}
            <span style={{marginLeft: "8px"}}>{(el.title)}</span></span>
     <div style={{ display: "flex",marginTop:2}}>
       <img src={users.find(e=>e._id==el.userId).avatar} alt="" className="circle" width="37px" height="37px" style={{ marginRight: "8px"}}/>

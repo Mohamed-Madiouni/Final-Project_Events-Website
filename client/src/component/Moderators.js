@@ -27,7 +27,7 @@ const Moderators = () => {
   const [quickSearch, setQuickSearch] = useState({
     fname: "",
     lname: "",
-    role: "moderator",
+    role: "Moderator",
     email: "",
     address: "",
     tel: "",
@@ -114,7 +114,7 @@ const Moderators = () => {
           <div className="input-field col s4">
             <select
               id="role"
-              value={quickSearch.role}
+              defaultValue={quickSearch.role}
               onChange={onChange}
               style={{
                 display: "initial",
