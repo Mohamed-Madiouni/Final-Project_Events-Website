@@ -116,6 +116,51 @@ router.post("/register", (req, res) => {
   });
 });
 
+
+//reactivation
+router.post("/reactivation", (req, res) => {
+  const payload = {
+    fname: req.body.fname,
+    lname:req.body.lname,
+    email:req.body.email,
+  }
+
+  jwt.sign(payload, process.env.ACCES_TOKEN_SECRET,{expiresIn:"24h"},(err, token) => {
+   
+    let Transporter = nodemailer.createTransport({
+     
+      host:'smtp.gmail.com',
+      port:587,
+      secure:false,
+    
+      auth:{
+          user:'mailer.cocoevent@gmail.com',
+          pass:process.env.pass
+      },
+      tls:{
+          rejectUnauthorized:false
+      }
+  })
+
+let mailOptions={
+from: "mailer.cocoevent@gmail.com",
+to: `${req.body.fname}<${req.body.email}>`,
+subject: `Activating your account - Coco event`,
+html: `Welcome <b>${req.body.fname}</b>, your Coco event account has been created. <br/>
+To confirm your registration, please click on the following link:<br/>
+<br/>
+http://localhost:3000/user/confirm_account?token=${token}`
+
+}
+Transporter.sendMail(mailOptions,(error,info)=>{
+if (error) res.json(error)
+else
+res.send({reactive:"ok"});
+})
+
+  })
+})
+
 //handle confirm password
 
 router.post("/confirmation",authMiddleware,(req,res)=>{

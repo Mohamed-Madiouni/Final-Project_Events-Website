@@ -54,13 +54,16 @@ export const activeuser = (email,history) => (dispatch) => {
         type: GET_ERRORS,
         payload: {},
       });
-      dispatch({
+      setTimeout(()=>{
+dispatch({
         type: LOADING,
         payload: false,
-      });
+      })
+      },500)
+      
       setTimeout(()=>{
         history.push("/login")
-      },2500)
+      },3000)
      
     }) 
 .catch(err=>{
@@ -71,6 +74,28 @@ export const activeuser = (email,history) => (dispatch) => {
 })
 }
 
+//reactive
+export const reactiveuser = (user) => (dispatch) => {
+  
+  axios
+    .post("/user/reactivation", user)
+    .then((res) => {
+     
+      dispatch({
+        type: GET_ERRORS,
+        payload: res.data,
+      });
+    
+     
+    }) 
+.catch(err=>{
+  dispatch({
+    type: GET_ERRORS,
+    payload: err.response.data,
+  })
+  
+})
+}
 
 // Update User
 export const updateUser = (userData, history) => (dispatch) => {

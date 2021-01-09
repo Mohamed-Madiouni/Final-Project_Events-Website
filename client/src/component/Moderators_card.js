@@ -56,7 +56,7 @@ const Moderators_card = ({ users }) => {
                 </div>
                 <div>
                   <div className="notification-container">
-      <div className="row">
+      <div className="" style={{display:"flex",justifyContent:"space-around",flexWrap:"wrap",alignItems:"center"}}>
         {users &&
           users
             .slice(0)
@@ -65,15 +65,15 @@ const Moderators_card = ({ users }) => {
             .map((el) => {
               return (
                 <div
-                  className="col s6 xl3"
+                  className="mod-card"
                   key={el._id}
                   style={{
                     display: "flex",
-                    justifyContent: "space-between",
+                    justifyContent: "center",
                     alignItems: "center",
                     overflow: "hidden",
-                minWidth:315
-                  }}
+                    margin:"0px 5px"                  
+                         }}
                 >
                   <div
                     className="card small sticky-action"
