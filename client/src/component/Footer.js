@@ -10,7 +10,7 @@ function Footer() {
         Top Ranked, Unbelievably Easy-to-Use
         </p>
         <p className='footer-subscription-text footer-p'>
-        CocoEvent was independently ranked a Top Event Management Software .
+        CocoEvent was independently ranked a Top Event Management Website .
         </p>
       </section>
       {/* <div className='footer-links'>
