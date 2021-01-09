@@ -128,7 +128,7 @@ function Notifications() {
                                 {(el.notiftype=="Comment_Edition")&&
                                  <img src="/Comment_Edition.png" alt="Comment_Edition" />} 
                                  {(el.notiftype=="New_Report")&&
-                                 <img src="/Account_Alerted.png" alt="New_Report"  width="37px" height="37px"/>}                                
+                                 <img src="/Account_Alerted.png" alt="New_Report" />}                                
                                   <span style={{height: "min-content",
                                 transform: "translateY(2px)"}}>{el.title}</span>
 
