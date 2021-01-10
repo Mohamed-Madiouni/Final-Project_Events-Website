@@ -42,46 +42,46 @@ function AboutUs() {
 			<div className="col-md-4  icon-4">
 				<i className="icon icon-egg-timer"></i>				
 				<h5 className="about-h5">Save time</h5> 
-				<p className="para-1"> Get setup in seconds</p>
+				<p className="para-1"> Create and manage your events in seconds</p>
 			</div>
 			<div className="col-md-4  icon-4">
 				<i className="icon icon-lock"></i>							
 				<h5 className="about-h5">Safe and secure</h5> 
-				<p className="para-1"> Fully secure. PCI compliant. SSL enabled.</p>
+				<p className="para-1"> Your personal information are secure and will not be shared with a third party</p>
 			</div>	
 			<div className="col-md-4 icon-4">
 				<i className="icon icon-photo"></i>							
-				<h5 className="about-h5">Remove our branding</h5> 
-				<p className="para-1"> Feature your brand. Not ours.</p>
+				<h5 className="about-h5">Highly moderated</h5> 
+				<p className="para-1"> Every activity is verified by our moderators, and they can intervene if needed</p>
 			</div>				
 		</div>
 		<div className="row-2 row text-center icon-block">
 			<div className="col-md-4 icon-4">
 				<i className="icon icon-money-withdrawal"></i>				
-				<h5 className="about-h5">Get paid fast</h5> 
-				<p className="para-1"> We don't hold your money.</p>
+				<h5 className="about-h5">Real time chat</h5> 
+				<p className="para-1">Our chat system allow you to chat in real time with any other member including moderators and the administrator</p>
 			</div>
 			<div className="col-md-4 icon-4">
 				<i className="icon icon-users"></i>							
-				<h5 className="about-h5">Dedicated success manager</h5> 
-				<p className="para-1"> We're here to help anytime.</p>
+				<h5 className="about-h5">Rating system</h5> 
+				<p className="para-1"> Our rating system for events is simple and allow participants to give their feedback once the event ends</p>
 			</div>
 			<div className="col-md-4 icon-4">
 				<i className="icon icon-megaphone"></i>							
-				<h5 className="about-h5">Powerful promotion built in</h5> 
-				<p className="para-1"> Distribute your event in one click.</p>
+				<h5 className="about-h5">Localisation via google map</h5> 
+				<p className="para-1"> We use google map API to make easier for users to find the exact place of any event</p>
 			</div>	
 		</div>
 		<div className="row-2 row text-center icon-block">			
 			<div className="col-md-4 icon-4">
 				<i className="icon icon-database"></i>							
-				<h5 className="about-h5">You own the data</h5> 
-				<p className="para-1"> You own all your data. Not us.</p>
+				<h5 className="about-h5">Notifications</h5> 
+				<p className="para-1"> With our homemade notification center you will not miss any activity related to your account</p>
 			</div>		
 			<div className="col-md-4 icon-4">
 				<i className="icon icon-ban"></i>							
-				<h5 className="about-h5">No event cross promotion</h5> 
-				<p className="para-1"> You won't see competing events on your event page.</p>
+				<h5 className="about-h5">Follow any organisator</h5> 
+				<p className="para-1"> You have the possibility to follow organisators and then be informed about any activity related to them</p>
 			</div>	
 			<div className="col-md-4 icon-4">
 				<i className="icon icon-power-mobile"></i>							
