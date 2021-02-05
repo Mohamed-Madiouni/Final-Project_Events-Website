@@ -11,13 +11,14 @@ import { getCurrentUser, getSanctions} from "../actions/authaction";
 function Sanctions(props) {
   const dispatch = useDispatch();
   const [countsanctions, setCountsanctions] = useState(0);
-  const allsanctions = useSelector((state) => state.auth.sanctions);
+  
   let auth = useSelector((state) => state.auth);
   let allusers = useSelector((state) => state.admin.users);
   const history = useHistory()
   const users=useSelector(state=>state.admin.users)
   var userMail= props.useremail
-
+const allsanctions = useSelector((state) => state.auth.sanctions);
+const sanctions=allsanctions.filter(el=>el.email==userMail);
   useEffect(() => {
     dispatch({
       type: GET_ERRORS,
@@ -32,7 +33,7 @@ function Sanctions(props) {
 
   return (
       <> 
-      {allsanctions.filter(el=>el.email==userMail).length!=0?<div id="modalnotifall" style={{ padding: 0, margin:0 }}>
+        {sanctions.length!=0?<div id="modalnotifall" style={{ padding: 0, margin:0 }}>
              <div >
               <h4 className="center" style={{ marginTop: "20px" }}>Sanctions Center</h4>
             </div>
@@ -42,8 +43,8 @@ function Sanctions(props) {
                 <div className="notification-page__content__container">
                   <div className="notification-container">
 
-                          {allsanctions.filter(el=>el.email==userMail) 
-                           && sort_notif_bydate(allsanctions)
+                          {sanctions
+                         && sort_notif_bydate(sanctions)
                           .slice(0)
                       .slice(0, 10 + countsanctions * 10)
                       .map((el) => {
@@ -95,7 +96,7 @@ function Sanctions(props) {
                         )})}
                                       </div>
                                       <p/>
-                {(countsanctions + 1) * 10 < sort_notif_bydate(allsanctions).length && (
+                {(countsanctions + 1) * 10 < sort_notif_bydate(sanctions).length && (
                   <div
                     style={{
                       position: "abosolute",
