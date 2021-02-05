@@ -202,10 +202,10 @@ dispatch({
               >
                 Login
               </button> </div>
-              <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+            {/*   <div className="col s12" style={{ paddingLeft: "11.250px" }}>
               <a href="#forgot"  className="modal-trigger" datatarget="forgot" datatoggle="modal" style={{color:"gray",paddingTop:"10px", fontSize:"13px",}}>Forgot Password?</a>
             </div>
-           
+            */}
           </form>
         </div>
       </div>
