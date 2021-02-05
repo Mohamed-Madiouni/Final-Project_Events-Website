@@ -48,7 +48,7 @@ const UserList = () => {
   });
 
   const [sanctionData, setSanctionData] = useState({
-    duration: "1",
+    duration: "7",
     reason: "",
   });
   
@@ -65,7 +65,7 @@ const UserList = () => {
   useEffect(()=>{
     if(errors.alerted)
     {
-      setSanctionData({duration:"1",reason:""})
+      setSanctionData({duration:"7",reason:""})
     dispatch({
       type:GET_ERRORS,
       payload:{}
@@ -569,13 +569,15 @@ const UserList = () => {
           border:"1px solid #9e9e9e",
           width:100
         }}>
-      <option value="1">1 Day</option>
-      <option value="2">2 Days</option>
-      <option value="3">3 Days</option>
-      <option value="4">4 Days</option>
-      <option value="5">5 Days</option>
-      <option value="6">6 Days</option>
+     
       <option value="7">7 Days</option>
+ <option value="8">8 Days</option>
++      <option value="9">9 Days</option>
++      <option value="10">10 Days</option>
++      <option value="11">11 Days</option>
++      <option value="12">12 Days</option>
++      <option value="13">13 Days</option>
++      <option value="14">14 Days</option>
       <option value="-1">Permanent</option>
   </select>
 
@@ -655,13 +657,14 @@ const UserList = () => {
           border:"1px solid #9e9e9e",
           width:100
         }}>
-      <option value="1">1 Day</option>
-      <option value="2">2 Days</option>
-      <option value="3">3 Days</option>
-      <option value="4">4 Days</option>
-      <option value="5">5 Days</option>
-      <option value="6">6 Days</option>
       <option value="7">7 Days</option>
+<option value="8">8 Days</option>
++      <option value="9">9 Days</option>
++      <option value="10">10 Days</option>
++      <option value="11">11 Days</option>
++      <option value="12">12 Days</option>
++      <option value="13">13 Days</option>
++      <option value="14">14 Days</option>
   </select>
 
           <div><label>Reason</label><p />
