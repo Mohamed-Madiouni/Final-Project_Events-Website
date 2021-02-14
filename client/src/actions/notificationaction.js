@@ -59,19 +59,20 @@ export const sendNotifications = (
 
 //close notifications
 export const closeNotif = (idNotif) => (dispatch) => {
-  setAuthToken(localStorage.token)
+  setAuthToken(localStorage.token);
   axios
-    .put(`/notifications/close/`,idNotif)
+    .put(`/notifications/close/`, idNotif)
     .then((res) => {
-      dispatch(getNotifications())
+      dispatch(getNotifications());
       dispatch({
-       type: GET_ERRORS,
-       payload: {},
-     })
-      
-   })
-    .catch((err) => dispatch({
-      type: GET_ERRORS,
-      payload: err.response.data,
-    }));
+        type: GET_ERRORS,
+        payload: {},
+      });
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
 };

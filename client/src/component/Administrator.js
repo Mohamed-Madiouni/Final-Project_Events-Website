@@ -19,14 +19,14 @@ function Administrator() {
   const auth = useSelector((state) => state.auth);
   const users = useSelector((state) => state.admin);
   const events = useSelector((state) => state.admin);
-  const comments=useSelector((state) => state.comments)
+  const comments = useSelector((state) => state.comments);
   const [modal, setModal] = useState(false);
   const toggle = () => {
     setModal(!modal);
   };
 
   useEffect(() => {
-    dispatch(getUsers())
+    dispatch(getUsers());
     dispatch(getEvents());
   }, []);
 
@@ -41,81 +41,91 @@ function Administrator() {
           position: "relative",
         }}
       >
-
-<div className=" row" style={{verticalAlign: "middle",margin:"30px 15px 20px 15px"
-}}>
-        <div className=" col s12 organizer_hi " style={{boxShadow:"none"}}
-         >
+        <div
+          className=" row"
+          style={{ verticalAlign: "middle", margin: "30px 15px 20px 15px" }}
+        >
+          <div className=" col s12 organizer_hi " style={{ boxShadow: "none" }}>
             <p className="h5-tit">
               {auth.user.fname} {auth.user.lname}
             </p>
-            <span className="blue-title">Hi there,</span> 
-        <p className="para-blue">
-          {" "}
-          We are happy to see you among US. <br />
-          This is your <b> Admin Dashboard</b>, You can manage accounts and
-          events.</p>        
-        <div style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
-            <div style={{display:"flex",
-            alignItems:"center",
-            justifyContent:"center",
-            marginBottom: 10,
-            height:"100%",
-            //boxShadow: "0px 0px 13px 6px #888888",
-            marginTop: "-15px"
-            }}>
-       
-          <button
-            className="btn btn-medium modal-trigger"
-            data-target="modalnotifall"
-            style={{ margin: "5px", fontSize:13, width:"120px" }}
-          >
-            Logs
-          </button>
-          <button
-            className="btn btn-medium modal-trigger"
-            data-target="modalreports"
-            style={{ margin: "5px", fontSize:13, width:"120px" }}
-          >
-            Reports
-          </button>
-          <button
-            className="btn btn-medium modal-trigger"
-            data-target="modalsanctions"
-            style={{ margin: "5px", fontSize:13, width:"120px" }}
-          >
-            Sanctions
-          </button>
-          <button
-            className="btn btn-medium modal-trigger"
-            data-target="modalmodo"
-            style={{ margin: "5px", fontSize:13, width:"120px" }}
-          >
-            Moderators
-          </button>
-        
-        </div></div></div></div></div>
-
-        
-        <div
-          className="switch col s12"
-          style={{
-            color: "black",
-            fontSize: 20,
-            display: "flex",
-            alignItems: "center",
-            marginTop: "10px",
-            justifyContent:"center"
-          }}
-        >
-          <label>
-            Manage account
-            <input type="checkbox" onClick={toggle} />
-            <span className="lever"></span>
-            Manage events
-          </label>
+            <span className="blue-title">Hi there,</span>
+            <p className="para-blue">
+              {" "}
+              We are happy to see you among US. <br />
+              This is your <b> Admin Dashboard</b>, You can manage accounts and
+              events.
+            </p>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 10,
+                  height: "100%",
+                  //boxShadow: "0px 0px 13px 6px #888888",
+                  marginTop: "-15px",
+                }}
+              >
+                <button
+                  className="btn btn-medium modal-trigger"
+                  data-target="modalnotifall"
+                  style={{ margin: "5px", fontSize: 13, width: "120px" }}
+                >
+                  Logs
+                </button>
+                <button
+                  className="btn btn-medium modal-trigger"
+                  data-target="modalreports"
+                  style={{ margin: "5px", fontSize: 13, width: "120px" }}
+                >
+                  Reports
+                </button>
+                <button
+                  className="btn btn-medium modal-trigger"
+                  data-target="modalsanctions"
+                  style={{ margin: "5px", fontSize: 13, width: "120px" }}
+                >
+                  Sanctions
+                </button>
+                <button
+                  className="btn btn-medium modal-trigger"
+                  data-target="modalmodo"
+                  style={{ margin: "5px", fontSize: 13, width: "120px" }}
+                >
+                  Moderators
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      
+      </div>
+
+      <div
+        className="switch col s12"
+        style={{
+          color: "black",
+          fontSize: 20,
+          display: "flex",
+          alignItems: "center",
+          marginTop: "10px",
+          justifyContent: "center",
+        }}
+      >
+        <label>
+          Manage account
+          <input type="checkbox" onClick={toggle} />
+          <span className="lever"></span>
+          Manage events
+        </label>
+      </div>
 
       <div className="col s12">
         {modal ? (
@@ -153,31 +163,26 @@ function Administrator() {
         >
           <Notification />
         </div>
-        
+
         <div
           id="modalreports"
           className="modal"
-          style={{ padding: 0, margin: 0,}}
+          style={{ padding: 0, margin: 0 }}
         >
           <Reports />
-        </div>     
+        </div>
 
         <div
           id="modalsanctions"
           className="modal"
-          style={{ padding: 0, margin: 0,}}
+          style={{ padding: 0, margin: 0 }}
         >
           <Sanctions />
         </div>
 
-        <div
-          id="modalmodo"
-          className="modal"
-          style={{ padding: 0, margin: 0}}
-        >
+        <div id="modalmodo" className="modal" style={{ padding: 0, margin: 0 }}>
           <Moderators />
-        </div>    
-
+        </div>
       </div>
       {/* <Footer/> */}
     </div>

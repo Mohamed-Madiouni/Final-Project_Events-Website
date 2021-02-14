@@ -9,20 +9,9 @@ const validateLoginInput = require("../validation/login");
 const validateUpdateInput = require("../validation/update");
 const authMiddleware = require("../middleware/authMiddleware");
 // const nodemailer = require('nodemailer');
-const sgTransport = require('nodemailer-sendgrid-transport');
-const uuidv1 = require('uuid');
-const { createUser, getUser, updateUser } = require("../models/email");
-const { getResetRequest, createResetRequest } = require("../models/resetRequests");
-const sendResetLink = require("./sendEmail");
 const nodemailer = require ('nodemailer')
 var Pusher = require('pusher');
 require("dotenv").config();
-
-const Transporter = nodemailer.createTransport(sgTransport({
-  auth: {
-    api_key: 'SENDGRID_PASSWORD'
-}
-}))
 
 var pusher = new Pusher({
   appId: process.env.appId,
@@ -337,34 +326,6 @@ router.put('/remove/follow',authMiddleware,(req,res)=>{
   
   
   })
-//forget password 
-router.post("/forgot", (req, res) => {
-  const thisUser = getUser(req.body.email);
-  if (thisUser) {
-      const id = uuidv1();
-      const request = {
-          id,
-          email: thisUser.email,
-      };
-      createResetRequest(request);
-      sendResetLink(thisUser.email, id);
-  }
-  res.status(200).json();
-});
-
-router.patch("/reset", (req, res) => {
-  const thisRequest = getResetRequest(req.body.id);
-  if (thisRequest) {
-      const user = getUser(thisRequest.email);
-      bcrypt.hash(req.body.password, 10).then(hashed => {
-          user.password = hashed;
-          updateUser(user);
-          res.status(204).json();
-      })
-  } else {
-      res.status(404).json();
-  }
-});
 
 //block user
 router.put("/add/block",authMiddleware, (req, res) => {

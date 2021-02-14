@@ -1,31 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { logoutUser } from "../actions/authaction";
-import jwt_decode from "jwt-decode";
-import setAuthToken from "../token/authtoken";
 import { getCurrentUser } from "../actions/authaction";
 import { INI_UPDATE } from "../actions/types";
-import "../dashboard.css"
+import "../dashboard.css";
 import Administrator from "./Administrator";
 import Moderator from "./Moderator";
 import Participant from "./Participant";
 import Navbar from "./Navbar";
-import Searchevents from "./Searchevents";
 
 import Organizer from "./Organizer";
 
 import M from "materialize-css";
-import eventClosing from "../outils/eventClosing";
-import { closeEvent, getEvent,endEvent } from "../actions/evntAction";
 
 function Dashboard({ history }) {
   const auth = useSelector((state) => state.auth);
-  const allevents= useSelector((state)=>state.events.allEvents)
   const dispatch = useDispatch();
-  const resize =useSelector(state=>state.resize)
-// const [dashOrganizer,setDashOrganizer]= useState({state:"welcome"})
-  
+  // const [dashOrganizer,setDashOrganizer]= useState({state:"welcome"})
 
   useEffect(() => {
     if (!localStorage.token) history.push("/login");
@@ -34,26 +24,23 @@ function Dashboard({ history }) {
     if (localStorage.token) {
       dispatch(getCurrentUser());
     }
-     M.Modal.init(document.querySelectorAll(".modal"))
-  },[]);
+    M.Modal.init(document.querySelectorAll(".modal"));
+  }, []);
   useEffect(() => {
     if (auth.updated) {
       M.toast({ html: "Account successfully updated", classes: "green" });
       setTimeout(dispatch({ type: INI_UPDATE }), 4000);
     }
-   
-    M.Sidenav.init(document.querySelectorAll('.sidenav'))
-    // M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
-    M.Materialbox.init(document.querySelectorAll('.materialboxed'))
-   
-   
-  });
 
+    M.Sidenav.init(document.querySelectorAll(".sidenav"));
+    // M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
+    M.Materialbox.init(document.querySelectorAll(".materialboxed"));
+  });
 
   //check if events ended
   // useEffect(()=>{
   //   dispatch(getEvent())
-    
+
   //   for(let i=0;i<allevents.length;i++){
   //     if( new Date(eventClosing(allevents[i].date,allevents[i].duration))<new Date())
   //     dispatch(endEvent(allevents[i]._id))
@@ -69,19 +56,17 @@ function Dashboard({ history }) {
   // })
 
   return (
-    <> <Navbar />
-    {/* <div style={{paddingLeft:!resize.state?"300px":"0px"}}> */}
-      
-     
-      
-  {auth.user.role == "organizer" && <Organizer/> } 
-  {auth.user.role == "administrator" && <Administrator/> } 
-  {auth.user.role == "participant" && <Participant/> }
-  {auth.user.role == "moderator" && <Moderator/> }
-
-    {/* </div> */}
-    {/* {!resize.state&&<ul id="slide-out" class="sidenav sidenav-fixed" style={{marginTop:"60px",borderTop:"1px solid #e5e2e2"}}> */}
-    {/* <li>
+    <>
+      {" "}
+      <Navbar />
+      {/* <div style={{paddingLeft:!resize.state?"300px":"0px"}}> */}
+      {auth.user.role == "organizer" && <Organizer />}
+      {auth.user.role == "administrator" && <Administrator />}
+      {auth.user.role == "participant" && <Participant />}
+      {auth.user.role == "moderator" && <Moderator />}
+      {/* </div> */}
+      {/* {!resize.state&&<ul id="slide-out" class="sidenav sidenav-fixed" style={{marginTop:"60px",borderTop:"1px solid #e5e2e2"}}> */}
+      {/* <li>
         <div className="user-view">
           <div className="background">
             <img src="/background_profil.jpg" height="100%" width="100%" />
@@ -118,7 +103,7 @@ function Dashboard({ history }) {
         </ul>
       </li>
   </ul>} */}
-  </>
+    </>
   );
 }
 
