@@ -149,7 +149,6 @@ setConfirmationInput({confirm:""})
       
     // console.log(res);
     !res.error && (updateduser.avatar = resize(res.url));
-    console.log(updateduser);
     dispatch(updateUser(updateduser, history));
   };
 

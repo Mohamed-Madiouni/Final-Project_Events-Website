@@ -57,7 +57,6 @@ router.put("/add/new/:chatId",authMiddleware,(req,res)=>{
 
   //delete
 router.put("/delete/:chatId",authMiddleware,(req,res)=>{
-console.log(req.body)
   Chat.findOneAndUpdate({_id:req.params.chatId,"discussion.id":req.body.diss},{$set:{"discussion.$.text":"Message deleted","discussion.$.delete":true}},{
     new:true,
     runValidators:true

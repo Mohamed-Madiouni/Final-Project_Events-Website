@@ -357,7 +357,6 @@ export const removedislikereply =(reply_id,nb_likes,userid)=> (dispatch)=>{
     //Remove report reply
     export const removereportReply =(reply_id,nb_reports)=> (dispatch)=>{
       setAuthToken(localStorage.token)
-      console.log(reply_id,nb_reports)
       axios
       .put(`/comment/remove/reply/report/${reply_id}`,{reports:nb_reports})
       .then((res) => {

@@ -50,7 +50,6 @@ router.get('/all/organizer',authMiddleware,(req,res)=>{
 router.get("/eventid/:id", (req, res) => {
   Event.findById(req.params.id, (err, event) => {
     if (err) {
-      console.log(err.message);
       return res.status(500).send("Server Error");
     } else if (event) {
       res.status(200).send(event);

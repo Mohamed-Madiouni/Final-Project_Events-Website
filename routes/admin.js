@@ -32,7 +32,7 @@ router.get("/users", (req, res) => {
 router.get("/events", authMiddleware, (req, res) => {
   Event.find((err, events) => {
     if (err) {
-      console.log(err.message);
+    
       return res.status(500).send("Server Error");
     }
     res.status(200).json(events);
@@ -45,13 +45,13 @@ router.delete("/events/delete/:_id", authMiddleware, (req, res) => {
   Event.findByIdAndRemove({ _id })
     .then(() => res.send({ msg: "Event Deleted!" }))
     .catch((err) => {
-      console.log(err.message);
+     
       res.status(500).send("Server Error");
   });
   Comment.deleteMany({ event: _id })
     .then(() => res.send({ msg: "Comments Deleted!" }))
     .catch((err) => {
-      console.log(err.message);
+     
       res.status(500).send("Server Error");
   });
 });
@@ -61,14 +61,14 @@ router.delete("/users/delete/:_id", authMiddleware, (req, res) => {
   var _id = req.params._id;
 User.findByIdAndRemove(_id).then(() => res.send({ msg: "User Deleted!" }))
 .catch((err) => {
-  console.log(err.message);
+ 
   res.status(500).send("Server Error");
 });
 //console.log(_id);
 Comment.deleteMany({ postedBy: _id })
 .then(() => res.send({ msg: "Comments Deleted!" }))
 .catch((err) => {
-  console.log(err.message);
+
   res.status(500).send("Server Error");
 });
 
@@ -77,7 +77,6 @@ Event.find({ id_organizer: _id }).then(events=>{for (let i = 0; i < events.lengt
   Comment.deleteMany({event:events[i]._id})
   .then(() => res.send({ msg: "Comments Deleted!" }))
   .catch((err) => {
-    console.log(err.message);
     res.status(500).send("Server Error");
   });
 }});
@@ -85,7 +84,6 @@ Event.find({ id_organizer: _id }).then(events=>{for (let i = 0; i < events.lengt
 Event.deleteMany({ id_organizer: _id })
    .then(() => res.send({ msg: "Events Deleted!" }))
    .catch((err) => {
-     console.log(err.message);
      res.status(500).send("Server Error");
    });
 });

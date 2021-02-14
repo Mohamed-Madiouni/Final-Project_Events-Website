@@ -50,7 +50,10 @@
   "proxy": "http://localhost:5000",
   "secure": false,
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [

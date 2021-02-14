@@ -26,7 +26,6 @@ const location = useLocation()
 const users=useSelector(state=>state.admin.users)
 const map = useSelector(state=>state.map)
 const today=new Date().toISOString().split("T")[0]
-console.log(today)
   const [events, setEvents] = useState({
     title: map.inp.state?map.inp.inp.title:action.type=="add"?"":action.payload.title,
     // address:action.type=="add"?"":action.payload.address ,

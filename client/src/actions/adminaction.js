@@ -92,7 +92,6 @@ export const banUser=(email,type,duration,reason,author)=>(dispatch)=>{
   //Alert user
   export const alertUser=(email,type,duration,reason,author)=>(dispatch)=>{
     setAuthToken(localStorage.token)
-    console.log(email,type,duration,reason,author)
     axios
     .post('admin/sanction/alert/add',{email:email,type:type,duration:duration,reason:reason,author:author})
     .then((res)=>{

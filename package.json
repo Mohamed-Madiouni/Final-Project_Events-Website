@@ -6,11 +6,24 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon server.js",
-    "start": "concurrently \"npm run server\" \"cd client & npm start\""
+    "start": "node server.js",
+    "dev": "concurrently \"npm run server\" \"cd client & npm start\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "install-cpanel": "npm run install-client && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mohamed-Madiouni/Final-Project_Events-Website.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Madiouni Mohamed",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mohamed-Madiouni/Final-Project_Events-Website/issues"
+  },
+  "homepage": "https://github.com/Mohamed-Madiouni/Final-Project_Events-Website#readme",
   "dependencies": {
     "aws-sdk": "^2.792.0",
     "bcrypt": "^5.0.0",

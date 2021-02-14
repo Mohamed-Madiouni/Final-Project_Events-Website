@@ -390,7 +390,6 @@ history.push("/login")
        else
        {
        dispatch(addfollow(users.find(el=>el._id==allevents.find(el=>el._id==match.params.event_id).id_organizer)._id))
-      //  console.log("hello");
        let title= "New Follow";
        let content= auth.user.fname +" "+ auth.user.lname + " is now following you";
        let notiftype="New_Follow";
@@ -1116,7 +1115,6 @@ return(
               onClick={()=>{
                 dispatch(removefollow(unfollow._id))
                 setunfollow("")
-                // console.log("hello")
                 let title= "Following removed";
                 let content= auth.user.fname +" "+ auth.user.lname + " is no longer following you";
                 let notiftype="Remove_Follow";
