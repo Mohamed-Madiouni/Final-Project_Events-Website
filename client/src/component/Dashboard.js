@@ -60,10 +60,10 @@ function Dashboard({ history }) {
       {" "}
       <Navbar />
       {/* <div style={{paddingLeft:!resize.state?"300px":"0px"}}> */}
-      {auth.user.role == "organizer" && <Organizer />}
-      {auth.user.role == "administrator" && <Administrator />}
-      {auth.user.role == "participant" && <Participant />}
-      {auth.user.role == "moderator" && <Moderator />}
+      {auth.user.role === "organizer" && <Organizer />}
+      {auth.user.role === "administrator" && <Administrator />}
+      {auth.user.role === "participant" && <Participant />}
+      {auth.user.role === "moderator" && <Moderator />}
       {/* </div> */}
       {/* {!resize.state&&<ul id="slide-out" class="sidenav sidenav-fixed" style={{marginTop:"60px",borderTop:"1px solid #e5e2e2"}}> */}
       {/* <li>

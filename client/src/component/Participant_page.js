@@ -22,7 +22,7 @@ function Participant_page({ match }) {
   const chat = useSelector((state) => state.chat);
   var rs = 0;
   var pr = 0;
-  var useremail = users.find((el) => el._id == match.params.participantId)
+  var useremail = users.find((el) => el._id === match.params.participantId)
     .email;
 
   useEffect(() => {
@@ -66,7 +66,7 @@ function Participant_page({ match }) {
         style={{ verticalAlign: "middle", margin: "30px 15px 20px 15px" }}
       >
         <div className=" col s12 organizer_hi ">
-          {users.length != 0 && (
+          {users.length !== 0 && (
             <div
               style={{
                 width: "100%",
@@ -79,7 +79,7 @@ function Participant_page({ match }) {
                 <img
                   style={{ width: 130, height: 130, paddingTop: 10 }}
                   src={
-                    users.find((el) => el._id == match.params.participantId)
+                    users.find((el) => el._id === match.params.participantId)
                       .avatar
                   }
                   alt=""
@@ -87,11 +87,11 @@ function Participant_page({ match }) {
                 />
 
                 {auth.user.blocked &&
-                  auth.user._id != match.params.participantId &&
+                  auth.user._id !== match.params.participantId &&
                   !(
                     auth.user.blocked.includes(match.params.participantId) ||
                     users
-                      .find((el) => el._id == match.params.participantId)
+                      .find((el) => el._id === match.params.participantId)
                       .blocked.includes(auth.user._id)
                   ) && (
                     <i
@@ -122,10 +122,10 @@ function Participant_page({ match }) {
                   )}
                 {auth.user.blocked &&
                   auth.isAuthenticated &&
-                  auth.user._id != match.params.participantId &&
+                  auth.user._id !== match.params.participantId &&
                   !auth.user.blocked.includes(match.params.participantId) &&
-                  auth.user.role != "moderator" &&
-                  auth.user.role != "administrator" && (
+                  auth.user.role !== "moderator" &&
+                  auth.user.role !== "administrator" && (
                     <i
                       className="material-icons modal-trigger"
                       style={{
@@ -138,10 +138,10 @@ function Participant_page({ match }) {
                         cursor: "pointer",
                       }}
                       title={`block ${
-                        users.find((el) => el._id == match.params.participantId)
+                        users.find((el) => el._id === match.params.participantId)
                           .fname
                       } ${
-                        users.find((el) => el._id == match.params.participantId)
+                        users.find((el) => el._id === match.params.participantId)
                           .lname
                       }`}
                       data-target="modalblock"
@@ -151,7 +151,7 @@ function Participant_page({ match }) {
                     </i>
                   )}
 
-                {users.find((el) => el._id == match.params.participantId)
+                {users.find((el) => el._id === match.params.participantId)
                   .online ? (
                   <div
                     style={{
@@ -209,11 +209,11 @@ function Participant_page({ match }) {
             </div>
           )}
           <p className="h5-tit" style={{ paddingTop: 0 }}>
-            {users.length != 0 &&
-              users.find((el) => el._id == match.params.participantId)
+            {users.length !== 0 &&
+              users.find((el) => el._id === match.params.participantId)
                 .fname}{" "}
-            {users.length != 0 &&
-              users.find((el) => el._id == match.params.participantId).lname}
+            {users.length !== 0 &&
+              users.find((el) => el._id === match.params.participantId).lname}
           </p>
           <div
             className="h5-tit"
@@ -229,15 +229,15 @@ function Participant_page({ match }) {
             }}
           >
             ¤{" "}
-            {users.length != 0 &&
-              users.find((el) => el._id == match.params.participantId)
+            {users.length !== 0 &&
+              users.find((el) => el._id === match.params.participantId)
                 .note}{" "}
             ¤
           </div>
         </div>
-        {(match.params.participantId == auth.user._id ||
-          auth.user.role == "administrator" ||
-          auth.user.role == "moderator") && (
+        {(match.params.participantId === auth.user._id ||
+          auth.user.role === "administrator" ||
+          auth.user.role === "moderator") && (
           <div className="sanction_list">
             <a
               className="modal-trigger"
@@ -274,9 +274,9 @@ function Participant_page({ match }) {
           style={{ fontSize: 14, fontWeight: "bold" }}
         >
           Inscription date:{" "}
-          {users.length != 0 &&
+          {users.length !== 0 &&
             users
-              .find((el) => el._id == match.params.participantId)
+              .find((el) => el._id === match.params.participantId)
               .created_at.toString()
               .replace("Z", "")
               .replace("T", " ")
@@ -286,7 +286,7 @@ function Participant_page({ match }) {
           Comments number:{" "}
           {(comments.comments && comments.comments).map((elc) => {
             elc.reply
-              .filter((el) => el.postedBy == match.params.participantId)
+              .filter((el) => el.postedBy === match.params.participantId)
               .map((el) => {
                 rs = rs + 1;
               });
@@ -294,7 +294,7 @@ function Participant_page({ match }) {
           {comments.comments &&
             nbr_comments(
               comments.comments.filter(
-                (el) => el.postedBy == match.params.participantId
+                (el) => el.postedBy === match.params.participantId
               ).length
             ) + rs}
           <br />

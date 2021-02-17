@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { GET_ERRORS } from "../actions/types";
-import { useSelector, useDispatch } from "react-redux";
+import {  useDispatch } from "react-redux";
 import "../Bannned_home.css";
 import eventClosing from "../outils/eventClosing";
-import { useHistory } from "react-router-dom";
-import { formatDuration } from "date-fns/esm";
+import { Link, useHistory } from "react-router-dom";
 
 function Bannned_home(props) {
   const dispatch = useDispatch();
@@ -42,7 +41,7 @@ function Bannned_home(props) {
                   ? " Permanent"
                   : " " + bandata.duration + " days"}
                 <p />
-                {bandata.duration != -1 &&
+                {bandata.duration !== -1 &&
                   "Until: " +
                     eventClosing(bandata.created_at, bandata.duration)
                       .split(".")[0]
@@ -50,7 +49,7 @@ function Bannned_home(props) {
               </span>
               <span className="support">
                 <span>unexpected?</span>
-                <a href="/contact">contact support</a>
+                <Link to="/contact">contact support</Link>
               </span>
             </div>
             <div className="lock"></div>

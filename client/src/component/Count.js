@@ -9,7 +9,7 @@ function Count({ date }) {
 
   let interval = useRef();
   const startTimer = () => {
-    if (date != undefined) {
+    if (date !== undefined) {
       const countdowndate = new Date(date && date).getTime();
       interval = setInterval(() => {
         const now = new Date().getTime();

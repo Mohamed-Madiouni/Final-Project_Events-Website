@@ -61,7 +61,7 @@ function Organizer() {
 
   let usermail = auth.user.email;
   var useralert = sanctions
-    .filter((el) => el.email == usermail && el.type == "alert")
+    .filter((el) => el.email === usermail && el.type === "alert")
     .pop();
 
   useEffect(() => {
@@ -75,17 +75,17 @@ function Organizer() {
   useEffect(() => {
     for (let i = 0; i < allevents.length; i++) {
       if (
-        allevents[i].participant.length == allevents[i].nb_participant &&
-        allevents[i].state != "Ended"
+        allevents[i].participant.length === allevents[i].nb_participant &&
+        allevents[i].state !== "Ended"
       )
         dispatch(fullEvent(allevents[i]._id));
     }
 
     for (let i = 0; i < events.events.length; i++) {
       if (
-        events.events[i].participant.length ==
+        events.events[i].participant.length ===
           events.events[i].nb_participant &&
-        events.events[i].state != "Ended"
+        events.events[i].state !== "Ended"
       )
         dispatch(fullEvent(events.events[i]._id));
     }
@@ -106,16 +106,16 @@ function Organizer() {
   useEffect(() => {
     for (let i = 0; i < allevents.length; i++) {
       if (
-        allevents[i].participant.length != allevents[i].nb_participant &&
-        allevents[i].state == "Full"
+        allevents[i].participant.length !== allevents[i].nb_participant &&
+        allevents[i].state === "Full"
       )
         dispatch(openEvent(allevents[i]._id));
     }
     for (let i = 0; i < events.events.length; i++) {
       if (
-        events.events[i].participant.length !=
+        events.events[i].participant.length !==
           events.events[i].nb_participant &&
-        events.events[i].state == "Full"
+        events.events[i].state === "Full"
       )
         dispatch(openEvent(events.events[i]._id));
     }
@@ -162,7 +162,7 @@ function Organizer() {
       }}
     >
       {useralert &&
-        useralert.canceled == false &&
+        useralert.canceled === false &&
         new Date(eventClosing(useralert.created_at, useralert.duration)) >
           new Date() && (
           <i
@@ -349,7 +349,7 @@ function Organizer() {
         </div>
         {/* <h5  style={{marginLeft:10,color:"rgb(0, 96, 100)"}}> <b>Your last events</b> </h5> */}
       </div>
-      {events.events.length == 0 && (
+      {events.events.length === 0 && (
         // <div  style={{marginLeft:10}}>
         //   <h4> <b>Your dashboard is empty, get started and create events</b> </h4>
         // </div>
@@ -438,7 +438,7 @@ function Organizer() {
                             justifyContent: "center",
                           }}
                         >
-                          {el.rating.length == 0
+                          {el.rating.length === 0
                             ? "--"
                             : calcul_rating(el.rating)}
                         </p>
@@ -574,7 +574,7 @@ function Organizer() {
                           {el.participant.length + "/" + el.nb_participant}
                         </span>
                       </div>
-                      {el.tags.length != 0 && (
+                      {el.tags.length !== 0 && (
                         <div className="slider right tag_slide_home">
                           <ul className="slides">
                             {el.tags.map((el, index) => (
@@ -629,7 +629,7 @@ function Organizer() {
                       </Link>
                       <span
                         className={
-                          el.state == "Available"
+                          el.state === "Available"
                             ? "right green-text"
                             : "right gray-text text-darken-3"
                         }
@@ -672,7 +672,7 @@ function Organizer() {
                       >
                         {" "}
                         {/* ((new Date(el.date)-new Date())/(1000*86400))>3&& */}
-                        {el.state != "Ended" && (
+                        {el.state !== "Ended" && (
                           <a
                             className="btn-floating   cyan darken-3"
                             onClick={() => {
@@ -694,7 +694,7 @@ function Organizer() {
                         >
                           <i className="material-icons ">delete</i>{" "}
                         </button>
-                        {(el.state == "Available" || el.state == "Full") && (
+                        {(el.state === "Available" || el.state === "Full") && (
                           <button
                             className="btn-floating cyan darken-3 modal-trigger"
                             title="close"
@@ -704,7 +704,7 @@ function Organizer() {
                             <i className="material-icons ">block</i>{" "}
                           </button>
                         )}
-                        {el.state == "Closed" && (
+                        {el.state === "Closed" && (
                           <button
                             className="btn-floating cyan darken-3 modal-trigger"
                             title="open"
@@ -714,7 +714,7 @@ function Organizer() {
                             <i className="material-icons ">done</i>{" "}
                           </button>
                         )}
-                        {el.state != "Invalid" && (
+                        {el.state !== "Invalid" && (
                           <div>
                             {" "}
                             <a
@@ -753,12 +753,12 @@ function Organizer() {
                 " " +
                 auth.user.fname +
                 " deleted the event " +
-                allevents.find((elm) => elm._id == deleteid).title;
+                allevents.find((elm) => elm._id === deleteid).title;
               let notiftype = "Event_Deleted";
               let compid = deleteid;
               var state = [];
               allevents
-                .find((elm) => elm._id == deleteid)
+                .find((elm) => elm._id === deleteid)
                 .participant.map((el) => {
                   state = [...state, { users: el, consulted: false }];
                 });
@@ -800,12 +800,12 @@ function Organizer() {
                 " " +
                 auth.user.fname +
                 " closed the event " +
-                allevents.find((elm) => elm._id == closedid).title;
+                allevents.find((elm) => elm._id === closedid).title;
               let notiftype = "Event_Closed";
               let compid = closedid;
               var state = [];
               allevents
-                .find((elm) => elm._id == closedid)
+                .find((elm) => elm._id === closedid)
                 .participant.map((el) => {
                   state = [...state, { users: el, consulted: false }];
                 });
@@ -847,12 +847,12 @@ function Organizer() {
                 " " +
                 auth.user.fname +
                 " reopened the event " +
-                allevents.find((elm) => elm._id == closedid).title;
+                allevents.find((elm) => elm._id === closedid).title;
               let notiftype = "Event_Opened";
               let compid = closedid;
               var state = [];
               allevents
-                .find((elm) => elm._id == closedid)
+                .find((elm) => elm._id === closedid)
                 .participant.map((el) => {
                   state = [...state, { users: el, consulted: false }];
                 });

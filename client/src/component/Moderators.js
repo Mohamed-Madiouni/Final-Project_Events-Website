@@ -214,12 +214,12 @@ const Moderators = () => {
               )}
             </div>
 
-            {(quickSearch.fname != "" ||
-              quickSearch.lname != "" ||
-              quickSearch.role != "" ||
-              quickSearch.address != "" ||
-              quickSearch.tel != "" ||
-              quickSearch.email != "") && (
+            {(quickSearch.fname !== "" ||
+              quickSearch.lname !== "" ||
+              quickSearch.role !== "" ||
+              quickSearch.address !== "" ||
+              quickSearch.tel !== "" ||
+              quickSearch.email !== "") && (
               <div
                 className="row"
                 style={{ marginLeft: "10px", marginBottom: "0px" }}
@@ -355,7 +355,7 @@ const Moderators = () => {
                                 className="center-align"
                                 style={{ padding: 0 }}
                               >
-                                {el.role == "moderator" ? (
+                                {el.role === "moderator" ? (
                                   <button
                                     style={{
                                       width: "125px",

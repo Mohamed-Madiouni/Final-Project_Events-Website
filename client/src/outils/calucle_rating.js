@@ -5,7 +5,7 @@ export default function calcul_rating(a){
        sum += a[i].rate;
        
    }
-   if (sum==0)
+   if (sum===0)
    return sum
 else
   { let t=(sum/(a.length)).toString().split(".")

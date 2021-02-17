@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   unfollowEvent,
   followEvent,
@@ -53,15 +53,15 @@ function Organizer_page({ match }) {
   const [eventDate, setEventDate] = useState("");
   const [clkwidth, setclkwidth] = useState(false);
   const [follow, setfollow] = useState(false);
-  var useremail = users.find((el) => el._id == match.params.organizerId).email;
+  var useremail = users.find((el) => el._id === match.params.organizerId).email;
 
   //check if events full
   useEffect(() => {
     dispatch(getEvent());
     for (let i = 0; i < allevents.length; i++) {
       if (
-        allevents[i].participant.length == allevents[i].nb_participant &&
-        allevents[i].state != "Ended"
+        allevents[i].participant.length === allevents[i].nb_participant &&
+        allevents[i].state !== "Ended"
       )
         dispatch(fullEvent(allevents[i]._id));
     }
@@ -73,10 +73,10 @@ function Organizer_page({ match }) {
       ) {
         if (
           geteventorg(allevents, match.params.organizerId)[i].participant
-            .length ==
+            .length ===
             geteventorg(allevents, match.params.organizerId)[i]
               .nb_participant &&
-          geteventorg(allevents, match.params.organizerId)[i].state != "Ended"
+          geteventorg(allevents, match.params.organizerId)[i].state !== "Ended"
         )
           dispatch(
             fullEvent(geteventorg(allevents, match.params.organizerId)[i]._id)
@@ -113,8 +113,8 @@ function Organizer_page({ match }) {
   useEffect(() => {
     for (let i = 0; i < allevents.length; i++) {
       if (
-        allevents[i].participant.length != allevents[i].nb_participant &&
-        allevents[i].state == "Full"
+        allevents[i].participant.length !== allevents[i].nb_participant &&
+        allevents[i].state === "Full"
       )
         dispatch(openEvent(allevents[i]._id));
     }
@@ -126,10 +126,10 @@ function Organizer_page({ match }) {
       ) {
         if (
           geteventorg(allevents, match.params.organizerId)[i].participant
-            .length !=
+            .length !==
             geteventorg(allevents, match.params.organizerId)[i]
               .nb_participant &&
-          geteventorg(allevents, match.params.organizerId)[i].state == "Full"
+          geteventorg(allevents, match.params.organizerId)[i].state === "Full"
         )
           dispatch(
             openEvent(geteventorg(allevents, match.params.organizerId)[i]._id)
@@ -179,13 +179,13 @@ function Organizer_page({ match }) {
   let events =
     allevents &&
     geteventorg(allevents, match.params.organizerId)
-      .filter((el) => el.state != "Invalid")
-      .filter((el) => el.state != "Closed")
+      .filter((el) => el.state !== "Invalid")
+      .filter((el) => el.state !== "Closed")
       .filter((el) => {
         return (
           el.title.toLowerCase().includes(quickSearch.title.toLowerCase()) &&
           el.state.toLowerCase().includes(quickSearch.state.toLowerCase()) &&
-          (quickSearch.tags != ""
+          (quickSearch.tags !== ""
             ? el.tags.find((e) =>
                 e.toLowerCase().includes(quickSearch.tags.toLowerCase())
               )
@@ -228,9 +228,9 @@ function Organizer_page({ match }) {
             setclkwidth(!clkwidth);
         }}
       >
-        {(match.params.organizerId == auth.user._id ||
-          auth.user.role == "administrator" ||
-          auth.user.role == "moderator") && (
+        {(match.params.organizerId === auth.user._id ||
+          auth.user.role === "administrator" ||
+          auth.user.role === "moderator") && (
           <div className="sanction_list">
             <a
               data-target="modalsanction"
@@ -256,7 +256,7 @@ function Organizer_page({ match }) {
           style={{ verticalAlign: "middle", margin: "30px 15px 20px 15px" }}
         >
           <div className=" col s12 organizer_hi ">
-            {users.length != 0 && (
+            {users.length !== 0 && (
               <div
                 style={{
                   width: "100%",
@@ -269,16 +269,17 @@ function Organizer_page({ match }) {
                   <img
                     style={{ width: 130, height: 130, paddingTop: 10 }}
                     src={
-                      users.find((el) => el._id == match.params.organizerId)
+                      users.find((el) => el._id === match.params.organizerId)
                         .avatar
                     }
                     alt=""
                     className="circle"
                   />
                   {auth.user.follow &&
-                    auth.user._id != match.params.organizerId &&
+                    auth.user._id !== match.params.organizerId &&
                     !auth.user.follow.includes(match.params.organizerId) && (
                       <a
+                      href="#!"
                         className="btn-floating "
                         style={{
                           position: "absolute",
@@ -362,11 +363,11 @@ function Organizer_page({ match }) {
                         {
                           <b>
                             {users.find(
-                              (el) => el._id == match.params.organizerId
+                              (el) => el._id === match.params.organizerId
                             ).fname +
                               " " +
                               users.find(
-                                (el) => el._id == match.params.organizerId
+                                (el) => el._id === match.params.organizerId
                               ).lname +
                               " "}
                           </b>
@@ -376,11 +377,11 @@ function Organizer_page({ match }) {
                     )}
 
                   {auth.user.blocked &&
-                    auth.user._id != match.params.organizerId &&
+                    auth.user._id !== match.params.organizerId &&
                     !(
                       auth.user.blocked.includes(match.params.organizerId) ||
                       users
-                        .find((el) => el._id == match.params.organizerId)
+                        .find((el) => el._id === match.params.organizerId)
                         .blocked.includes(auth.user._id)
                     ) && (
                       <i
@@ -412,10 +413,10 @@ function Organizer_page({ match }) {
 
                   {auth.user.blocked &&
                     auth.isAuthenticated &&
-                    auth.user._id != match.params.organizerId &&
+                    auth.user._id !== match.params.organizerId &&
                     !auth.user.blocked.includes(match.params.organizerId) &&
-                    auth.user.role != "moderator" &&
-                    auth.user.role != "administrator" && (
+                    auth.user.role !== "moderator" &&
+                    auth.user.role !== "administrator" && (
                       <i
                         className="material-icons modal-trigger"
                         style={{
@@ -428,10 +429,10 @@ function Organizer_page({ match }) {
                           cursor: "pointer",
                         }}
                         title={`block ${
-                          users.find((el) => el._id == match.params.organizerId)
+                          users.find((el) => el._id === match.params.organizerId)
                             .fname
                         } ${
-                          users.find((el) => el._id == match.params.organizerId)
+                          users.find((el) => el._id === match.params.organizerId)
                             .lname
                         }`}
                         data-target="modalblock"
@@ -441,7 +442,7 @@ function Organizer_page({ match }) {
                       </i>
                     )}
 
-                  {users.find((el) => el._id == match.params.organizerId)
+                  {users.find((el) => el._id === match.params.organizerId)
                     .online ? (
                     <div
                       style={{
@@ -500,11 +501,11 @@ function Organizer_page({ match }) {
             )}
 
             <p className="h5-tit" style={{ paddingTop: 0 }}>
-              {users.length != 0 &&
-                users.find((el) => el._id == match.params.organizerId)
+              {users.length !== 0 &&
+                users.find((el) => el._id === match.params.organizerId)
                   .fname}{" "}
-              {users.length != 0 &&
-                users.find((el) => el._id == match.params.organizerId).lname}
+              {users.length !== 0 &&
+                users.find((el) => el._id === match.params.organizerId).lname}
             </p>
 
             <div
@@ -521,8 +522,8 @@ function Organizer_page({ match }) {
               }}
             >
               ¤{" "}
-              {users.length != 0 &&
-                users.find((el) => el._id == match.params.organizerId)
+              {users.length !== 0 &&
+                users.find((el) => el._id === match.params.organizerId)
                   .note}{" "}
               ¤
             </div>
@@ -538,14 +539,14 @@ function Organizer_page({ match }) {
         </div>
 
         {allevents &&
-          geteventorg(allevents, match.params.organizerId).length != 0 &&
+          geteventorg(allevents, match.params.organizerId).length !== 0 &&
           geteventorg(allevents, match.params.organizerId).filter(
             (el) =>
               new Date(el.start) > new Date() &&
-              el.state != "Ended" &&
-              el.state != "Invalid" &&
-              el.state != "Closed"
-          ).length != 0 && (
+              el.state !== "Ended" &&
+              el.state !== "Invalid" &&
+              el.state !== "Closed"
+          ).length !== 0 && (
             <div
               className=" row"
               style={{
@@ -573,10 +574,10 @@ function Organizer_page({ match }) {
                     style={{ paddingTop: 10, color: "white" }}
                   >
                     Get ready !! <br />{" "}
-                    {auth.user._id != match.params.organizerId
+                    {auth.user._id !== match.params.organizerId
                       ? `${
-                          users.length != 0 &&
-                          users.find((el) => el._id == match.params.organizerId)
+                          users.length !== 0 &&
+                          users.find((el) => el._id === match.params.organizerId)
                             .fname
                         } next event start in`
                       : `Your next event start in`}
@@ -586,9 +587,9 @@ function Organizer_page({ match }) {
                       geteventorg(allevents, match.params.organizerId) &&
                       geteventorg(allevents, match.params.organizerId)
                         .filter((el) => new Date(el.start) > new Date())
-                        .filter((el) => el.state != "Ended")
-                        .filter((el) => el.state != "Invalid")
-                        .filter((el) => el.state != "Closed")
+                        .filter((el) => el.state !== "Ended")
+                        .filter((el) => el.state !== "Invalid")
+                        .filter((el) => el.state !== "Closed")
                         .sort(function (a, b) {
                           return new Date(a.start) - new Date(b.start);
                         })[0]
@@ -685,9 +686,9 @@ function Organizer_page({ match }) {
           </div>
         )}
 
-        {(quickSearch.title != "" ||
-          quickSearch.state != "" ||
-          quickSearch.tags != "") && (
+        {(quickSearch.title !== "" ||
+          quickSearch.state !== "" ||
+          quickSearch.tags !== "") && (
           // <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>
           <div className="row" style={{ marginLeft: "10px" }}>
             <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
@@ -716,10 +717,10 @@ function Organizer_page({ match }) {
                     <div className=" wpb_wrapper">
                       <h2>
                         {" "}
-                        {auth.user._id != match.params.organizerId
-                          ? users.length != 0 &&
+                        {auth.user._id !== match.params.organizerId
+                          ? users.length !== 0 &&
                             users.find(
-                              (el) => el._id == match.params.organizerId
+                              (el) => el._id === match.params.organizerId
                             ).fname
                           : "Your"}{" "}
                         Events
@@ -733,8 +734,8 @@ function Organizer_page({ match }) {
           </div>
           {events &&
             events
-              .filter((el) => el.state != "Invalid")
-              .filter((el) => el.state != "Closed")
+              .filter((el) => el.state !== "Invalid")
+              .filter((el) => el.state !== "Closed")
               .slice(0)
               .reverse()
               .map((el) => {
@@ -801,7 +802,7 @@ function Organizer_page({ match }) {
                               justifyContent: "center",
                             }}
                           >
-                            {el.rating.length == 0
+                            {el.rating.length === 0
                               ? "--"
                               : calcul_rating(el.rating)}
                           </p>
@@ -940,7 +941,7 @@ function Organizer_page({ match }) {
                             {el.participant.length + "/" + el.nb_participant}
                           </span>
                         </div>
-                        {el.tags.length != 0 && (
+                        {el.tags.length !== 0 && (
                           <div className="slider right tag_slide_event">
                             <ul className="slides">
                               {el.tags.map((el, i) => (
@@ -973,7 +974,7 @@ function Organizer_page({ match }) {
                         }}
                       >
                         {!auth.isAuthenticated
-                          ? el.state == "Available" && (
+                          ? el.state === "Available" && (
                               <button
                                 onClick={() => {
                                   history.push("/login");
@@ -988,10 +989,10 @@ function Organizer_page({ match }) {
                                 Participate
                               </button>
                             )
-                          : auth.user.role == "participant" &&
+                          : auth.user.role === "participant" &&
                             !auth.user.cancelation.includes(el._id) &&
                             (!auth.user.events.includes(el._id)
-                              ? el.state == "Available" && (
+                              ? el.state === "Available" && (
                                   <button
                                     data-target="modalevnt"
                                     onClick={() => {
@@ -1007,7 +1008,7 @@ function Organizer_page({ match }) {
                                     Participate
                                   </button>
                                 )
-                              : el.state != "Ended" && (
+                              : el.state !== "Ended" && (
                                   <button
                                     data-target="modalevnt"
                                     onClick={() => {
@@ -1026,7 +1027,7 @@ function Organizer_page({ match }) {
                                 ))}
                         <span
                           className={
-                            el.state == "Available"
+                            el.state === "Available"
                               ? "right green-text"
                               : "right gray-text text-darken-3"
                           }
@@ -1092,7 +1093,7 @@ function Organizer_page({ match }) {
                 <p>
                   You are about to subscribe to{" "}
                   {participate && (
-                    <b>{allevents.find((el) => el._id == participate).title}</b>
+                    <b>{allevents.find((el) => el._id === participate).title}</b>
                   )}{" "}
                   event, Please note that:{" "}
                 </p>
@@ -1115,10 +1116,10 @@ function Organizer_page({ match }) {
                 <p>
                   Are you sure you want to cancel the{" "}
                   {participate && (
-                    <b>{allevents.find((el) => el._id == participate).title}</b>
+                    <b>{allevents.find((el) => el._id === participate).title}</b>
                   )}{" "}
                   event?
-                  {/* {participate&&((new Date(allevents.find(el=>el._id==participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"} */}{" "}
+                  {/* {participate&&((new Date(allevents.find(el=>el._id===participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"} */}{" "}
                   you will not be able to <b>subscribe</b> again.
                 </p>
               </>
@@ -1138,15 +1139,15 @@ function Organizer_page({ match }) {
                       " " +
                       auth.user.lname +
                       " participate to " +
-                      allevents.find((el) => el._id == participate).title;
+                      allevents.find((el) => el._id === participate).title;
                     let notiftype = "New_Participation";
-                    let compid = allevents.find((el) => el._id == participate)
+                    let compid = allevents.find((el) => el._id === participate)
                       ._id;
                     let state = [];
                     state = [
                       ...state,
                       {
-                        users: allevents.find((el) => el._id == participate)
+                        users: allevents.find((el) => el._id === participate)
                           .id_organizer,
                         consulted: false,
                       },
@@ -1170,15 +1171,15 @@ function Organizer_page({ match }) {
                       " " +
                       auth.user.lname +
                       " cancelled participation to " +
-                      allevents.find((el) => el._id == participate).title;
+                      allevents.find((el) => el._id === participate).title;
                     let notiftype = "Cancel_Participation";
-                    let compid = allevents.find((el) => el._id == participate)
+                    let compid = allevents.find((el) => el._id === participate)
                       ._id;
                     let state = [];
                     state = [
                       ...state,
                       {
-                        users: allevents.find((el) => el._id == participate)
+                        users: allevents.find((el) => el._id === participate)
                           .id_organizer,
                         consulted: false,
                       },
@@ -1206,15 +1207,15 @@ function Organizer_page({ match }) {
           </div>
         </div>
         {/* <Footer/> */}
-        {/* {users.length!=0&&auth.user.follow.length!=0&&allevents.length!=0&&<div className="organizer_list">
+        {/* {users.length!==0&&auth.user.follow.length!==0&&allevents.length!==0&&<div className="organizer_list">
   <div className="groupofnotes scrollbar" id="style-3"  style={{width:clkwidth?300:0,boxShadow: clkwidth&&"0px 8px 20px 0px rgba(24, 32, 111, 0.8)"}}>
   <ul className="collection par">
 {auth.user.follow.map((el,i)=>{
   return (
 <a href={`/organizer/${el}`} key={i}><li  className="">
   <div style={{display:"flex",flexDirection:"column",justifyContent:"space-around",alignItems:"center",width:80}}>
-      <img src={users.find(elm=>elm._id==el).avatar} alt="" className="circle"/>
-      <span className="title"><b>{users.find(elm=>elm._id==el).fname}</b></span>
+      <img src={users.find(elm=>elm._id===el).avatar} alt="" className="circle"/>
+      <span className="title"><b>{users.find(elm=>elm._id===el).fname}</b></span>
       </div>
       <div  style={{display:"flex",justifyContent:"space-around",alignItems:"center",flexDirection:"column",width:200,paddingLeft:10}}>
     <div style={{display:"flex",alignItems:"center",width:"100%"}}>

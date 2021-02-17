@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { getCurrentUser } from "../actions/authaction";
 import {
   getEvent,
@@ -44,8 +44,8 @@ function Searchresult() {
     dispatch(getEvent());
     for (let i = 0; i < allevents.length; i++) {
       if (
-        allevents[i].participant.length == allevents[i].nb_participant &&
-        allevents[i].state != "Ended"
+        allevents[i].participant.length === allevents[i].nb_participant &&
+        allevents[i].state !== "Ended"
       )
         dispatch(fullEvent(allevents[i]._id));
     }
@@ -61,8 +61,8 @@ function Searchresult() {
   useEffect(() => {
     for (let i = 0; i < allevents.length; i++) {
       if (
-        allevents[i].participant.length != allevents[i].nb_participant &&
-        allevents[i].state == "Full"
+        allevents[i].participant.length !== allevents[i].nb_participant &&
+        allevents[i].state === "Full"
       )
         dispatch(openEvent(allevents[i]._id));
     }
@@ -105,7 +105,7 @@ function Searchresult() {
   });
 
   let search = allevents
-    .filter((el) => el.state != "Invalid")
+    .filter((el) => el.state !== "Invalid")
     .filter((el) => {
       return (
         el.title
@@ -121,7 +121,7 @@ function Searchresult() {
           ) &&
         el.title.toLowerCase().includes(quickSearch.title.toLowerCase()) &&
         el.state.toLowerCase().includes(quickSearch.state.toLowerCase()) &&
-        (quickSearch.tags != ""
+        (quickSearch.tags !== ""
           ? el.tags.find((e) =>
               e.toLowerCase().includes(quickSearch.tags.toLowerCase())
             )
@@ -131,13 +131,13 @@ function Searchresult() {
   //  search.filter(el=>{
   //    return( el.title.toLowerCase().includes(quickSearch.title.toLowerCase())
   //    &&el.state.toLowerCase().includes(quickSearch.state.toLowerCase())
-  //    &&el.tags.some(e=>e.toLowerCase()==quickSearch.tags.toLowerCase())
+  //    &&el.tags.some(e=>e.toLowerCase()===quickSearch.tags.toLowerCase())
   //   //  filter(e=>e.toLowerCase()).toLowerCase().includes(quickSearch.tags.toLowerCase()))
   //    )
   // })
 
   const onChange = (e) => {
-    //  if(e.target.id=="tags"){
+    //  if(e.target.id==="tags"){
     //   setQuickSearch({ ...quickSearch, [e.target.id]: e.target.value });
     //   search.filter(el=>{
     //     return el.tags.find(elm=>elm.toLowerCase().includes(quickSearch.tags.toLowerCase()))
@@ -284,7 +284,7 @@ function Searchresult() {
       {("title" in params ||
         "address" in params ||
         "description" in params ||
-        search.length != 0) && (
+        search.length !== 0) && (
         // <div className="row" style={{marginLeft:10}} > <h5> <b>{search.length+" result(s) found"}</b> </h5></div>
         <div className="row" style={{ marginLeft: "10px" }}>
           <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
@@ -308,7 +308,7 @@ function Searchresult() {
           search
             .slice(0)
             .reverse()
-            .filter((el) => el.state != "Invalid")
+            .filter((el) => el.state !== "Invalid")
             .map((el) => {
               return (
                 <div
@@ -374,7 +374,7 @@ function Searchresult() {
                             justifyContent: "center",
                           }}
                         >
-                          {el.rating.length == 0
+                          {el.rating.length === 0
                             ? "--"
                             : calcul_rating(el.rating)}
                         </p>
@@ -510,7 +510,7 @@ function Searchresult() {
                           {el.participant.length + "/" + el.nb_participant}
                         </span>
                       </div>
-                      {el.tags.length != 0 && (
+                      {el.tags.length !== 0 && (
                         <div className="slider right tag_slide_event">
                           <ul className="slides">
                             {el.tags.map((el, index) => (
@@ -543,7 +543,7 @@ function Searchresult() {
                       }}
                     >
                       {!auth.isAuthenticated
-                        ? el.state == "Available" && (
+                        ? el.state === "Available" && (
                             <button
                               onClick={() => {
                                 history.push("/login");
@@ -558,10 +558,10 @@ function Searchresult() {
                               Participate
                             </button>
                           )
-                        : auth.user.role == "participant" &&
+                        : auth.user.role === "participant" &&
                           !auth.user.cancelation.includes(el._id) &&
                           (!auth.user.events.includes(el._id)
-                            ? el.state == "Available" && (
+                            ? el.state === "Available" && (
                                 <button
                                   data-target="modalevnt"
                                   onClick={() => {
@@ -579,7 +579,7 @@ function Searchresult() {
                                   Participate
                                 </button>
                               )
-                            : el.state != "Ended" && (
+                            : el.state !== "Ended" && (
                                 <button
                                   data-target="modalevnt"
                                   onClick={() => {
@@ -600,7 +600,7 @@ function Searchresult() {
                               ))}
                       <span
                         className={
-                          el.state == "Available"
+                          el.state === "Available"
                             ? "right green-text"
                             : "right gray-text text-darken-3"
                         }
@@ -687,13 +687,13 @@ function Searchresult() {
                       >
                         <i className="material-icons ">delete</i>{" "}
                       </button>
-                      {el.state=="Available"&&(
+                      {el.state==="Available"&&(
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="close"   data-target="modal2" onClick={
                       ()=>setClosedid(el._id)
                     }>
                       <i className="material-icons ">block</i>{" "}
                     </button>)}
-                    {el.state=="Closed"&&(new Date(el.date)>new Date())&&(
+                    {el.state==="Closed"&&(new Date(el.date)>new Date())&&(
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="open"   data-target="modal3" onClick={
                       ()=>setClosedid(el._id)
                     }>
@@ -714,7 +714,7 @@ function Searchresult() {
               <p>
                 You are about to subscribe to{" "}
                 {participate && (
-                  <b>{allevents.find((el) => el._id == participate).title}</b>
+                  <b>{allevents.find((el) => el._id === participate).title}</b>
                 )}{" "}
                 event, Please note that:{" "}
               </p>
@@ -736,11 +736,11 @@ function Searchresult() {
               <p>
                 Are you sure you want to cancel the{" "}
                 {participate && (
-                  <b>{allevents.find((el) => el._id == participate).title}</b>
+                  <b>{allevents.find((el) => el._id === participate).title}</b>
                 )}{" "}
                 event?
                 {participate &&
-                (new Date(allevents.find((el) => el._id == participate).date) -
+                (new Date(allevents.find((el) => el._id === participate).date) -
                   new Date()) /
                   (1000 * 86400) >
                   2
@@ -764,14 +764,14 @@ function Searchresult() {
                   " " +
                   auth.user.lname +
                   " participate to " +
-                  allevents.find((el) => el._id == participate).title;
+                  allevents.find((el) => el._id === participate).title;
                 let notiftype = "New_Participation";
-                let compid = allevents.find((el) => el._id == participate)._id;
+                let compid = allevents.find((el) => el._id === participate)._id;
                 let state = [];
                 state = [
                   ...state,
                   {
-                    users: allevents.find((el) => el._id == participate)
+                    users: allevents.find((el) => el._id === participate)
                       .id_organizer,
                     consulted: false,
                   },
@@ -795,14 +795,14 @@ function Searchresult() {
                   " " +
                   auth.user.lname +
                   " cancelled participation to " +
-                  allevents.find((el) => el._id == participate).title;
+                  allevents.find((el) => el._id === participate).title;
                 let notiftype = "Cancel_Participation";
-                let compid = allevents.find((el) => el._id == participate)._id;
+                let compid = allevents.find((el) => el._id === participate)._id;
                 let state = [];
                 state = [
                   ...state,
                   {
-                    users: allevents.find((el) => el._id == participate)
+                    users: allevents.find((el) => el._id === participate)
                       .id_organizer,
                     consulted: false,
                   },

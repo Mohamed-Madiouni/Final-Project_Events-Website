@@ -76,7 +76,7 @@ function Footer() {
             <Link to="/contact" className="footer-link-items">
               <h5 className="footer-h5">Contact</h5>
             </Link>
-            <Link to="events" className="footer-link-items">
+            <Link to="/events" className="footer-link-items">
               <h5 className="footer-h5">Events</h5>
             </Link>
           </div>

@@ -129,7 +129,7 @@ function Reports({  history }) {
           Comment Moderation
         </h4>
       </div>
-      {load && allevents.length != 0 && users.length != 0 && (
+      {load && allevents.length !== 0 && users.length !== 0 && (
         <>
           <div
             className="row"
@@ -177,7 +177,7 @@ function Reports({  history }) {
                         " "}
                     Reported comment
                     {comments.comments &&
-                    comments.comments.filter((elm) => elm).length == 0
+                    comments.comments.filter((elm) => elm).length === 0
                       ? ""
                       : "s"}
                     <i
@@ -190,8 +190,8 @@ function Reports({  history }) {
                     <div className="sort">
                       <p
                         style={{
-                          color: sorttype.type == "relevent" && "white",
-                          background: sorttype.type == "relevent" && "#2e8fa5",
+                          color: sorttype.type === "relevent" && "white",
+                          background: sorttype.type === "relevent" && "#2e8fa5",
                         }}
                         onClick={() => {
                           setsorttype({ type: "relevent" });
@@ -203,8 +203,8 @@ function Reports({  history }) {
                       <div className="divider"></div>
                       <p
                         style={{
-                          color: sorttype.type == "newest" && "white",
-                          background: sorttype.type == "newest" && "#2e8fa5",
+                          color: sorttype.type === "newest" && "white",
+                          background: sorttype.type === "newest" && "#2e8fa5",
                         }}
                         onClick={() => {
                           setsorttype({ type: "newest" });
@@ -221,7 +221,7 @@ function Reports({  history }) {
                   .filter((el) => el.reports > 0)
                   .slice(0)
                   .sort(function (a, b) {
-                    return sorttype.type == "relevent"
+                    return sorttype.type === "relevent"
                       ? a.likes - b.likes
                       : a.created_at - b.created_at;
                   })
@@ -246,14 +246,14 @@ function Reports({  history }) {
                             <div>
                               <Link
                                 to={`/${
-                                  users.find((e) => e._id == el.postedBy).role
+                                  users.find((e) => e._id === el.postedBy).role
                                 }/${
-                                  users.find((e) => e._id == el.postedBy)._id
+                                  users.find((e) => e._id === el.postedBy)._id
                                 }`}
                               >
                                 <img
                                   src={
-                                    users.find((e) => e._id == el.postedBy)
+                                    users.find((e) => e._id === el.postedBy)
                                       .avatar
                                   }
                                   alt=""
@@ -275,27 +275,27 @@ function Reports({  history }) {
                                 >
                                   <Link
                                     to={`/${
-                                      users.find((e) => e._id == el.postedBy)
+                                      users.find((e) => e._id === el.postedBy)
                                         .role
                                     }/${
-                                      users.find((e) => e._id == el.postedBy)
+                                      users.find((e) => e._id === el.postedBy)
                                         ._id
                                     }`}
                                   >
                                     {" "}
                                     <p>
                                       <b>
-                                        {users.find((e) => e._id == el.postedBy)
+                                        {users.find((e) => e._id === el.postedBy)
                                           .fname +
                                           " " +
                                           users.find(
-                                            (e) => e._id == el.postedBy
+                                            (e) => e._id === el.postedBy
                                           ).lname}
                                       </b>
                                     </p>
                                   </Link>
                                 </div>
-                                {users.find((e) => e._id == el.postedBy).role !=
+                                {users.find((e) => e._id === el.postedBy).role !==
                                   "participant" && (
                                   <p
                                     style={{
@@ -304,14 +304,14 @@ function Reports({  history }) {
                                       display: "flex",
                                       alignItems: "center",
                                       color:
-                                        (users.find((e) => e._id == el.postedBy)
-                                          .role == "organizer" &&
+                                        (users.find((e) => e._id === el.postedBy)
+                                          .role === "organizer" &&
                                           "#3183E0") ||
-                                        (users.find((e) => e._id == el.postedBy)
-                                          .role == "administrator" &&
+                                        (users.find((e) => e._id === el.postedBy)
+                                          .role === "administrator" &&
                                           "#FF4848") ||
-                                        (users.find((e) => e._id == el.postedBy)
-                                          .role == "moderator" &&
+                                        (users.find((e) => e._id === el.postedBy)
+                                          .role === "moderator" &&
                                           "#56A26F"),
                                     }}
                                   >
@@ -319,15 +319,15 @@ function Reports({  history }) {
                                       className="material-icons"
                                       style={{ fontSize: 19, margin: 2 }}
                                     >
-                                      {(users.find((e) => e._id == el.postedBy)
-                                        .role == "organizer" &&
+                                      {(users.find((e) => e._id === el.postedBy)
+                                        .role === "organizer" &&
                                         "content_paste") ||
-                                        (users.find((e) => e._id == el.postedBy)
-                                          .role == "moderator" &&
+                                        (users.find((e) => e._id === el.postedBy)
+                                          .role === "moderator" &&
                                           "star")}
                                     </i>
-                                    {users.find((e) => e._id == el.postedBy)
-                                      .role == "administrator" && (
+                                    {users.find((e) => e._id === el.postedBy)
+                                      .role === "administrator" && (
                                       <i
                                         className="fas fa-crown"
                                         style={{
@@ -338,11 +338,11 @@ function Reports({  history }) {
                                       ></i>
                                     )}
                                     {
-                                      users.find((e) => e._id == el.postedBy)
+                                      users.find((e) => e._id === el.postedBy)
                                         .role
                                     }
-                                    {users.find((e) => e._id == el.postedBy)
-                                      .role == "administrator" && (
+                                    {users.find((e) => e._id === el.postedBy)
+                                      .role === "administrator" && (
                                       <i
                                         className="fas fa-crown"
                                         style={{
@@ -355,11 +355,11 @@ function Reports({  history }) {
                                       className="material-icons"
                                       style={{ fontSize: 19, margin: 2 }}
                                     >
-                                      {(users.find((e) => e._id == el.postedBy)
-                                        .role == "organizer" &&
+                                      {(users.find((e) => e._id === el.postedBy)
+                                        .role === "organizer" &&
                                         "content_paste") ||
-                                        (users.find((e) => e._id == el.postedBy)
-                                          .role == "moderator" &&
+                                        (users.find((e) => e._id === el.postedBy)
+                                          .role === "moderator" &&
                                           "star")}
                                     </i>
                                   </p>
@@ -372,11 +372,11 @@ function Reports({  history }) {
                                 justifyContent: "right",
                               }}
                             >
-                              {(el.postedBy == auth.user._id ||
-                                auth.user.role == "administrator" ||
-                                auth.user.role == "moderator") && (
+                              {(el.postedBy === auth.user._id ||
+                                auth.user.role === "administrator" ||
+                                auth.user.role === "moderator") && (
                                 <div id="editdelete">
-                                  {!edit || el._id != edit ? (
+                                  {!edit || el._id !== edit ? (
                                     <i
                                       className="material-icons"
                                       title="Edit"
@@ -388,7 +388,7 @@ function Reports({  history }) {
                                       edit
                                     </i>
                                   ) : (
-                                    el._id == edit && (
+                                    el._id === edit && (
                                       <i
                                         className="material-icons"
                                         title="Cancel"
@@ -427,7 +427,7 @@ function Reports({  history }) {
                             </span>
                           </div>
 
-                          {el._id != edit ? (
+                          {el._id !== edit ? (
                             <p style={{ overflowWrap: "break-word" }}>
                               {el.content}
                             </p>
@@ -576,7 +576,7 @@ function Reports({  history }) {
                                   minWidth: 6,
                                 }}
                               >
-                                {el.likes == 0 ? "" : el.likes}
+                                {el.likes === 0 ? "" : el.likes}
                               </p>
                               <i
                                 className="far fa-thumbs-down fa-flip-horizontal"
@@ -631,7 +631,7 @@ function Reports({  history }) {
                                   minWidth: 6,
                                 }}
                               >
-                                {el.dislikes == 0 ? "" : el.dislikes}
+                                {el.dislikes === 0 ? "" : el.dislikes}
                               </p>
                             </div>
                             <p style={{ color: "rgb(0, 96, 100)" }}>
@@ -649,7 +649,7 @@ function Reports({  history }) {
                                 fontWeight: 550,
                               }}
                               onClick={() => {
-                                if (replycount && el._id != replyid) {
+                                if (replycount && el._id !== replyid) {
                                   setReplayCount(replycount);
                                   setReply("");
                                   setReplyId(el._id);
@@ -661,12 +661,12 @@ function Reports({  history }) {
                               }}
                             >
                               <i className="material-icons">
-                                {!(replycount && el._id == replyid)
+                                {!(replycount && el._id === replyid)
                                   ? "expand_more"
                                   : "expand_less"}
                               </i>
                               <p>
-                                {!(replycount && el._id == replyid)
+                                {!(replycount && el._id === replyid)
                                   ? `Show the ${el.reply.length} replies`
                                   : `hide ${el.reply.length} replies`}
                               </p>
@@ -674,7 +674,7 @@ function Reports({  history }) {
                           ) : (
                             ""
                           )}
-                          {replycount && el._id == replyid && (
+                          {replycount && el._id === replyid && (
                             <>
                               {el.reply.map((el, i) => {
                                 return (
@@ -699,18 +699,18 @@ function Reports({  history }) {
                                           <Link
                                             to={`/${
                                               users.find(
-                                                (e) => e._id == el.postedBy
+                                                (e) => e._id === el.postedBy
                                               ).role
                                             }/${
                                               users.find(
-                                                (e) => e._id == el.postedBy
+                                                (e) => e._id === el.postedBy
                                               )._id
                                             }`}
                                           >
                                             <img
                                               src={
                                                 users.find(
-                                                  (e) => e._id == el.postedBy
+                                                  (e) => e._id === el.postedBy
                                                 ).avatar
                                               }
                                               alt=""
@@ -726,30 +726,30 @@ function Reports({  history }) {
                                             <Link
                                               to={`/${
                                                 users.find(
-                                                  (e) => e._id == el.postedBy
+                                                  (e) => e._id === el.postedBy
                                                 ).role
                                               }/${
                                                 users.find(
-                                                  (e) => e._id == el.postedBy
+                                                  (e) => e._id === el.postedBy
                                                 )._id
                                               }`}
                                             >
                                               <p>
                                                 <b>
                                                   {users.find(
-                                                    (e) => e._id == el.postedBy
+                                                    (e) => e._id === el.postedBy
                                                   ).fname +
                                                     " " +
                                                     users.find(
                                                       (e) =>
-                                                        e._id == el.postedBy
+                                                        e._id === el.postedBy
                                                     ).lname}
                                                 </b>
                                               </p>
                                             </Link>
                                             {users.find(
-                                              (e) => e._id == el.postedBy
-                                            ).role != "participant" && (
+                                              (e) => e._id === el.postedBy
+                                            ).role !== "participant" && (
                                               <p
                                                 style={{
                                                   marginLeft: 10,
@@ -759,18 +759,18 @@ function Reports({  history }) {
                                                   color:
                                                     (users.find(
                                                       (e) =>
-                                                        e._id == el.postedBy
-                                                    ).role == "organizer" &&
+                                                        e._id === el.postedBy
+                                                    ).role === "organizer" &&
                                                       "#3183E0") ||
                                                     (users.find(
                                                       (e) =>
-                                                        e._id == el.postedBy
-                                                    ).role == "administrator" &&
+                                                        e._id === el.postedBy
+                                                    ).role === "administrator" &&
                                                       "#FF4848") ||
                                                     (users.find(
                                                       (e) =>
-                                                        e._id == el.postedBy
-                                                    ).role == "moderator" &&
+                                                        e._id === el.postedBy
+                                                    ).role === "moderator" &&
                                                       "#56A26F"),
                                                 }}
                                               >
@@ -782,18 +782,18 @@ function Reports({  history }) {
                                                   }}
                                                 >
                                                   {(users.find(
-                                                    (e) => e._id == el.postedBy
-                                                  ).role == "organizer" &&
+                                                    (e) => e._id === el.postedBy
+                                                  ).role === "organizer" &&
                                                     "content_paste") ||
                                                     (users.find(
                                                       (e) =>
-                                                        e._id == el.postedBy
-                                                    ).role == "moderator" &&
+                                                        e._id === el.postedBy
+                                                    ).role === "moderator" &&
                                                       "star")}
                                                 </i>
                                                 {users.find(
-                                                  (e) => e._id == el.postedBy
-                                                ).role == "administrator" && (
+                                                  (e) => e._id === el.postedBy
+                                                ).role === "administrator" && (
                                                   <i
                                                     className="fas fa-crown"
                                                     style={{
@@ -806,12 +806,12 @@ function Reports({  history }) {
                                                 )}
                                                 {
                                                   users.find(
-                                                    (e) => e._id == el.postedBy
+                                                    (e) => e._id === el.postedBy
                                                   ).role
                                                 }
                                                 {users.find(
-                                                  (e) => e._id == el.postedBy
-                                                ).role == "administrator" && (
+                                                  (e) => e._id === el.postedBy
+                                                ).role === "administrator" && (
                                                   <i
                                                     className="fas fa-crown"
                                                     style={{
@@ -829,13 +829,13 @@ function Reports({  history }) {
                                                   }}
                                                 >
                                                   {(users.find(
-                                                    (e) => e._id == el.postedBy
-                                                  ).role == "organizer" &&
+                                                    (e) => e._id === el.postedBy
+                                                  ).role === "organizer" &&
                                                     "content_paste") ||
                                                     (users.find(
                                                       (e) =>
-                                                        e._id == el.postedBy
-                                                    ).role == "moderator" &&
+                                                        e._id === el.postedBy
+                                                    ).role === "moderator" &&
                                                       "star")}
                                                 </i>
                                               </p>
@@ -848,11 +848,11 @@ function Reports({  history }) {
                                             justifyContent: "right",
                                           }}
                                         >
-                                          {(el.postedBy == auth.user._id ||
-                                            auth.user.role == "administrator" ||
-                                            auth.user.role == "moderator") && (
+                                          {(el.postedBy === auth.user._id ||
+                                            auth.user.role === "administrator" ||
+                                            auth.user.role === "moderator") && (
                                             <span id="editdelete">
-                                              {!edit || el.id != edit ? (
+                                              {!edit || el.id !== edit ? (
                                                 <i
                                                   className="material-icons"
                                                   title="Edit"
@@ -864,7 +864,7 @@ function Reports({  history }) {
                                                   edit
                                                 </i>
                                               ) : (
-                                                el.id == edit && (
+                                                el.id === edit && (
                                                   <i
                                                     className="material-icons"
                                                     title="Cancel"
@@ -891,7 +891,7 @@ function Reports({  history }) {
                                           )}
                                         </span>
                                       </div>
-                                      {el.id != edit ? (
+                                      {el.id !== edit ? (
                                         <p
                                           style={{ overflowWrap: "break-word" }}
                                         >
@@ -1066,7 +1066,7 @@ function Reports({  history }) {
                                               minWidth: 6,
                                             }}
                                           >
-                                            {el.likes == 0 ? "" : el.likes}
+                                            {el.likes === 0 ? "" : el.likes}
                                           </p>
                                           <i
                                             className="far fa-thumbs-down fa-flip-horizontal"
@@ -1130,7 +1130,7 @@ function Reports({  history }) {
                                               minWidth: 6,
                                             }}
                                           >
-                                            {el.dislikes == 0
+                                            {el.dislikes === 0
                                               ? ""
                                               : el.dislikes}
                                           </p>
@@ -1153,7 +1153,7 @@ function Reports({  history }) {
                 {(comments.comments && comments.comments)
                   .slice(0)
                   .sort(function (a, b) {
-                    return sorttype.type == "relevent"
+                    return sorttype.type === "relevent"
                       ? a.likes - b.likes
                       : a.created_at - b.created_at;
                   })
@@ -1181,17 +1181,17 @@ function Reports({  history }) {
                                   <div>
                                     <Link
                                       to={`/${
-                                        users.find((e) => e._id == el.postedBy)
+                                        users.find((e) => e._id === el.postedBy)
                                           .role
                                       }/${
-                                        users.find((e) => e._id == el.postedBy)
+                                        users.find((e) => e._id === el.postedBy)
                                           ._id
                                       }`}
                                     >
                                       <img
                                         src={
                                           users.find(
-                                            (e) => e._id == el.postedBy
+                                            (e) => e._id === el.postedBy
                                           ).avatar
                                         }
                                         alt=""
@@ -1214,11 +1214,11 @@ function Reports({  history }) {
                                         <Link
                                           to={`/${
                                             users.find(
-                                              (e) => e._id == el.postedBy
+                                              (e) => e._id === el.postedBy
                                             ).role
                                           }/${
                                             users.find(
-                                              (e) => e._id == el.postedBy
+                                              (e) => e._id === el.postedBy
                                             )._id
                                           }`}
                                         >
@@ -1226,18 +1226,18 @@ function Reports({  history }) {
                                           <p>
                                             <b>
                                               {users.find(
-                                                (e) => e._id == el.postedBy
+                                                (e) => e._id === el.postedBy
                                               ).fname +
                                                 " " +
                                                 users.find(
-                                                  (e) => e._id == el.postedBy
+                                                  (e) => e._id === el.postedBy
                                                 ).lname}
                                             </b>
                                           </p>
                                         </Link>
                                       </div>
-                                      {users.find((e) => e._id == el.postedBy)
-                                        .role != "participant" && (
+                                      {users.find((e) => e._id === el.postedBy)
+                                        .role !== "participant" && (
                                         <p
                                           style={{
                                             marginLeft: 10,
@@ -1246,16 +1246,16 @@ function Reports({  history }) {
                                             alignItems: "center",
                                             color:
                                               (users.find(
-                                                (e) => e._id == el.postedBy
-                                              ).role == "organizer" &&
+                                                (e) => e._id === el.postedBy
+                                              ).role === "organizer" &&
                                                 "#3183E0") ||
                                               (users.find(
-                                                (e) => e._id == el.postedBy
-                                              ).role == "administrator" &&
+                                                (e) => e._id === el.postedBy
+                                              ).role === "administrator" &&
                                                 "#FF4848") ||
                                               (users.find(
-                                                (e) => e._id == el.postedBy
-                                              ).role == "moderator" &&
+                                                (e) => e._id === el.postedBy
+                                              ).role === "moderator" &&
                                                 "#56A26F"),
                                           }}
                                         >
@@ -1264,17 +1264,17 @@ function Reports({  history }) {
                                             style={{ fontSize: 19, margin: 2 }}
                                           >
                                             {(users.find(
-                                              (e) => e._id == el.postedBy
-                                            ).role == "organizer" &&
+                                              (e) => e._id === el.postedBy
+                                            ).role === "organizer" &&
                                               "content_paste") ||
                                               (users.find(
-                                                (e) => e._id == el.postedBy
-                                              ).role == "moderator" &&
+                                                (e) => e._id === el.postedBy
+                                              ).role === "moderator" &&
                                                 "star")}
                                           </i>
                                           {users.find(
-                                            (e) => e._id == el.postedBy
-                                          ).role == "administrator" && (
+                                            (e) => e._id === el.postedBy
+                                          ).role === "administrator" && (
                                             <i
                                               className="fas fa-crown"
                                               style={{
@@ -1286,12 +1286,12 @@ function Reports({  history }) {
                                           )}
                                           {
                                             users.find(
-                                              (e) => e._id == el.postedBy
+                                              (e) => e._id === el.postedBy
                                             ).role
                                           }
                                           {users.find(
-                                            (e) => e._id == el.postedBy
-                                          ).role == "administrator" && (
+                                            (e) => e._id === el.postedBy
+                                          ).role === "administrator" && (
                                             <i
                                               className="fas fa-crown"
                                               style={{
@@ -1305,12 +1305,12 @@ function Reports({  history }) {
                                             style={{ fontSize: 19, margin: 2 }}
                                           >
                                             {(users.find(
-                                              (e) => e._id == el.postedBy
-                                            ).role == "organizer" &&
+                                              (e) => e._id === el.postedBy
+                                            ).role === "organizer" &&
                                               "content_paste") ||
                                               (users.find(
-                                                (e) => e._id == el.postedBy
-                                              ).role == "moderator" &&
+                                                (e) => e._id === el.postedBy
+                                              ).role === "moderator" &&
                                                 "star")}
                                           </i>
                                         </p>
@@ -1323,11 +1323,11 @@ function Reports({  history }) {
                                       justifyContent: "right",
                                     }}
                                   >
-                                    {(el.postedBy == auth.user._id ||
-                                      auth.user.role == "administrator" ||
-                                      auth.user.role == "moderator") && (
+                                    {(el.postedBy === auth.user._id ||
+                                      auth.user.role === "administrator" ||
+                                      auth.user.role === "moderator") && (
                                       <div id="editdelete">
-                                        {!edit || el.id != edit ? (
+                                        {!edit || el.id !== edit ? (
                                           <i
                                             className="material-icons"
                                             title="Edit"
@@ -1339,7 +1339,7 @@ function Reports({  history }) {
                                             edit
                                           </i>
                                         ) : (
-                                          el.id == edit && (
+                                          el.id === edit && (
                                             <i
                                               className="material-icons"
                                               title="Cancel"
@@ -1380,7 +1380,7 @@ function Reports({  history }) {
                                   </span>
                                 </div>
 
-                                {el.id != edit ? (
+                                {el.id !== edit ? (
                                   <p style={{ overflowWrap: "break-word" }}>
                                     {el.content}
                                   </p>
@@ -1544,7 +1544,7 @@ function Reports({  history }) {
                                         minWidth: 6,
                                       }}
                                     >
-                                      {el.likes == 0 ? "" : el.likes}
+                                      {el.likes === 0 ? "" : el.likes}
                                     </p>
                                     <i
                                       className="far fa-thumbs-down fa-flip-horizontal"
@@ -1602,7 +1602,7 @@ function Reports({  history }) {
                                         minWidth: 6,
                                       }}
                                     >
-                                      {el.dislikes == 0 ? "" : el.dislikes}
+                                      {el.dislikes === 0 ? "" : el.dislikes}
                                     </p>
                                   </div>
                                   <p style={{ color: "rgb(0, 96, 100)" }}>

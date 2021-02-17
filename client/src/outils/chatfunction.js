@@ -10,7 +10,7 @@ return false
 export function chatuser(t,id){
 
     for(let i=0;i<t.length;i++){
-        if(t[i]!=id)
+        if(t[i]!==id)
         return t[i]
     }
     

@@ -59,7 +59,7 @@ router.put("/close",authMiddleware, (req, res) => {
 
 for (let i = 0;  i< notifications.length; i++) {
           for (let j = 0; j < notifications[i].state.length; j++) {
-            if (notifications[i].state[j].users == req.userId && notifications[i].state[j].consulted == false)
+            if (notifications[i].state[j].users === req.userId && notifications[i].state[j].consulted === false)
             notifications[i].state[j].consulted=true
            
         }}

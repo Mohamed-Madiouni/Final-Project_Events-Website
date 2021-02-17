@@ -167,7 +167,7 @@ const Moderators_card = ({ users }) => {
                               {historyuser(el.created_at)}
                             </span>
                           </div>
-                          {el.role == "moderator" ? (
+                          {el.role === "moderator" ? (
                             <button
                               style={{
                                 width: "125px",

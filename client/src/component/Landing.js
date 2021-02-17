@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   logoutUser,
@@ -25,6 +25,7 @@ import { getChat } from "../actions/chat";
 import eventClosing from "../outils/eventClosing";
 
 function Landing({}) {
+  const location = useLocation()
   const dispatch = useDispatch();
   const history = useHistory();
   const auth = useSelector((state) => state.auth);
@@ -41,7 +42,7 @@ function Landing({}) {
 
   let usermail = auth.user.email;
   var userban = sanctions
-    .filter((el) => el.email == usermail && el.type == "ban")
+    .filter((el) => el.email === usermail && el.type === "ban")
     .pop();
 
   useEffect(() => {
@@ -124,10 +125,10 @@ function Landing({}) {
   useEffect(() => {
     if (
       userban &&
-      userban.canceled == false &&
+      userban.canceled === false &&
       (new Date(eventClosing(userban.created_at, userban.duration)) >
         new Date() ||
-        userban.duration == -1)
+        userban.duration === -1)
     ) {
       dispatch(logoutUser());
       history.push({
@@ -143,7 +144,7 @@ function Landing({}) {
     //   show&&!document.querySelector(".notifications").contains(e.target)&&setshow(!show)
     // }}
     >
-      {users.length != 0 && (
+      {users.length !== 0 && (
         <div className="landing_app">
           {!localStorage.token ? (
             <div
@@ -176,7 +177,7 @@ function Landing({}) {
                 {notifsize > 0 && (
                   <div className="count">
                     <div className="num">
-                      {allnotif.length != 0 && notif(allnotif, auth.user._id)}
+                      {allnotif.length !== 0 && notif(allnotif, auth.user._id)}
                     </div>
                   </div>
                 )}
@@ -217,62 +218,62 @@ function Landing({}) {
                                 key={i}
                                 className="note"
                                 onClick={() => {
-                                  if (el.notiftype == "Event_Validation") {
+                                  if (el.notiftype === "Event_Validation") {
                                     history.push("/events/" + el.compid);
-                                  } else if (el.notiftype == "New_Event") {
+                                  } else if (el.notiftype === "New_Event") {
                                     history.push("/events");
-                                  } else if (el.notiftype == "Event_Edition") {
+                                  } else if (el.notiftype === "Event_Edition") {
                                     history.push("/events/" + el.compid);
                                   } else if (
-                                    el.notiftype == "Comment_Reply_organizer"
+                                    el.notiftype === "Comment_Reply_organizer"
                                   ) {
                                     history.push("/events/" + el.compid);
                                   } else if (
-                                    el.notiftype == "Comment_Reply_User"
+                                    el.notiftype === "Comment_Reply_User"
                                   ) {
                                     history.push("/events/" + el.compid);
-                                  } else if (el.notiftype == "New_Follow") {
+                                  } else if (el.notiftype === "New_Follow") {
                                     history.push(`/${el.role}/${el.userId}`);
-                                  } else if (el.notiftype == "New_Like") {
+                                  } else if (el.notiftype === "New_Like") {
                                     history.push("/events/" + el.compid);
-                                  } else if (el.notiftype == "New_Dislike") {
+                                  } else if (el.notiftype === "New_Dislike") {
                                     history.push("/events/" + el.compid);
-                                  } else if (el.notiftype == "Remove_Follow") {
+                                  } else if (el.notiftype === "Remove_Follow") {
                                     history.push(`/${el.role}/${el.userId}`);
-                                  } else if (el.notiftype == "Event_Deleted") {
+                                  } else if (el.notiftype === "Event_Deleted") {
                                     history.push("/events");
                                   } else if (
-                                    el.notiftype == "Event_Invalidation"
+                                    el.notiftype === "Event_Invalidation"
                                   ) {
                                     history.push("/dashboard");
                                   } else if (
-                                    el.notiftype == "New_Participation"
+                                    el.notiftype === "New_Participation"
                                   ) {
                                     history.push(`/${el.role}/${el.userId}`);
                                   } else if (
-                                    el.notiftype == "Cancel_Participation"
+                                    el.notiftype === "Cancel_Participation"
                                   ) {
                                     history.push(`/${el.role}/${el.userId}`);
-                                  } else if (el.notiftype == "Event_Closed") {
+                                  } else if (el.notiftype === "Event_Closed") {
                                     history.push("/events");
-                                  } else if (el.notiftype == "Event_Opened") {
+                                  } else if (el.notiftype === "Event_Opened") {
                                     history.push("/events/" + el.compid);
-                                  } else if (el.notiftype == "Account_Banned") {
+                                  } else if (el.notiftype === "Account_Banned") {
                                     history.push("/dashboard");
                                   } else if (
-                                    el.notiftype == "Account_Unbanned"
+                                    el.notiftype === "Account_Unbanned"
                                   ) {
                                     history.push("/dashboard");
                                   } else if (
-                                    el.notiftype == "Account_Alerted"
+                                    el.notiftype === "Account_Alerted"
                                   ) {
                                     history.push("/dashboard");
-                                  } else if (el.notiftype == "Alert_Removed") {
+                                  } else if (el.notiftype === "Alert_Removed") {
                                     history.push("/dashboard");
-                                  } else if (el.notiftype == "New_Comment") {
+                                  } else if (el.notiftype === "New_Comment") {
                                     history.push("/events/" + el.compid);
                                   } else if (
-                                    el.notiftype == "Comment_Edition"
+                                    el.notiftype === "Comment_Edition"
                                   ) {
                                     history.push("/events/" + el.compid);
                                   } else {
@@ -294,7 +295,7 @@ function Landing({}) {
                                     marginBottom: "4px",
                                   }}
                                 >
-                                  {el.notiftype == "Event_Validation" && (
+                                  {el.notiftype === "Event_Validation" && (
                                     <img
                                       src="/Event_Validation.png"
                                       alt="Event_Validation"
@@ -302,7 +303,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "New_Event" && (
+                                  {el.notiftype === "New_Event" && (
                                     <img
                                       src="/New_Event.png"
                                       alt="New_Event"
@@ -310,7 +311,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "Event_Edition" && (
+                                  {el.notiftype === "Event_Edition" && (
                                     <img
                                       src="/Event_Edition.png"
                                       alt="Event_Edition"
@@ -318,7 +319,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype ==
+                                  {el.notiftype ===
                                     "Comment_Reply_organizer" && (
                                     <img
                                       src="/Comment_Reply_organizer.png"
@@ -327,7 +328,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "Comment_Reply_User" && (
+                                  {el.notiftype === "Comment_Reply_User" && (
                                     <img
                                       src="/Comment_Reply_User.png"
                                       alt="Comment_Reply_User"
@@ -335,7 +336,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "New_Follow" && (
+                                  {el.notiftype === "New_Follow" && (
                                     <img
                                       src="/New_Follow.png"
                                       alt="New_Follow"
@@ -343,7 +344,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "New_Like" && (
+                                  {el.notiftype === "New_Like" && (
                                     <img
                                       src="/New_Like.png"
                                       alt="New_Like"
@@ -351,7 +352,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "New_Dislike" && (
+                                  {el.notiftype === "New_Dislike" && (
                                     <img
                                       src="/New_Dislike.png"
                                       alt="New_Dislike"
@@ -359,7 +360,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "Remove_Follow" && (
+                                  {el.notiftype === "Remove_Follow" && (
                                     <img
                                       src="/Remove_Follow.png"
                                       alt="Remove_Follow"
@@ -373,7 +374,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "Event_Deleted" && (
+                                  {el.notiftype === "Event_Deleted" && (
                                     <img
                                       src="/Event_Deleted.png"
                                       alt="Event_Deleted"
@@ -385,7 +386,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "Event_Invalidation" && (
+                                  {el.notiftype === "Event_Invalidation" && (
                                     <img
                                       src="/Event_Invalidation.png"
                                       alt="Event_Invalidation"
@@ -395,7 +396,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "New_Participation" && (
+                                  {el.notiftype === "New_Participation" && (
                                     <img
                                       src="/New_Participation.png"
                                       alt="New_Participation"
@@ -403,7 +404,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "Cancel_Participation" && (
+                                  {el.notiftype === "Cancel_Participation" && (
                                     <img
                                       src="/Cancel_Participation.png"
                                       alt="Cancel_Participation"
@@ -411,7 +412,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "Event_Closed" && (
+                                  {el.notiftype === "Event_Closed" && (
                                     <img
                                       src="/Event_Closed.png"
                                       alt="Event_Closed"
@@ -427,7 +428,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "Event_Opened" && (
+                                  {el.notiftype === "Event_Opened" && (
                                     <img
                                       src="/Event_Opened.png"
                                       alt="Event_Opened"
@@ -441,7 +442,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "Account_Banned" && (
+                                  {el.notiftype === "Account_Banned" && (
                                     <img
                                       src="/Account_Banned.png"
                                       alt="Account_Banned"
@@ -453,7 +454,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "Account_Unbanned" && (
+                                  {el.notiftype === "Account_Unbanned" && (
                                     <img
                                       src="/Account_Unbanned.png"
                                       alt="Account_Unbanned"
@@ -463,7 +464,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "Account_Alerted" && (
+                                  {el.notiftype === "Account_Alerted" && (
                                     <img
                                       src="/Account_Alerted.png"
                                       alt="Account_Alerted"
@@ -471,7 +472,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "Alert_Removed" && (
+                                  {el.notiftype === "Alert_Removed" && (
                                     <img
                                       src="/Alert_Removed.png"
                                       alt="Alert_Removed"
@@ -479,7 +480,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "New_Comment" && (
+                                  {el.notiftype === "New_Comment" && (
                                     <img
                                       src="/New_Comment.png"
                                       alt="New_Comment"
@@ -487,7 +488,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "Comment_Edition" && (
+                                  {el.notiftype === "Comment_Edition" && (
                                     <img
                                       src="/Comment_Edition.png"
                                       alt="Comment_Edition"
@@ -495,7 +496,7 @@ function Landing({}) {
                                       height="20px"
                                     />
                                   )}
-                                  {el.notiftype == "New_Report" && (
+                                  {el.notiftype === "New_Report" && (
                                     <img
                                       src="/Account_Alerted.png"
                                       alt="New_Report"
@@ -510,7 +511,7 @@ function Landing({}) {
                                 <div style={{ display: "flex", marginTop: 2 }}>
                                   <img
                                     src={
-                                      users.find((e) => e._id == el.userId)
+                                      users.find((e) => e._id === el.userId)
                                         .avatar
                                     }
                                     alt=""
@@ -602,6 +603,7 @@ function Landing({}) {
               </div>
 
               <a
+                // href={"#"+location.pathname+"#signoutmodal"}
                 href="#signoutmodal"
                 className="modal-trigger"
                 style={{
@@ -620,6 +622,7 @@ function Landing({}) {
               </a>
 
               <a
+              href="#!"
                 data-target="dropdown1"
                 className="dropdown-trigger"
                 style={{ height: 60, display: "flex", alignItems: "center" }}

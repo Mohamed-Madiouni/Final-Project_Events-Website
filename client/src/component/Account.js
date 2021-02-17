@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { confirmPassword, updateUser } from "../actions/authaction";
 import { GET_ERRORS } from "../actions/types";
@@ -9,7 +8,6 @@ import Navbar from "./Navbar";
 import "../account.css";
 import resize from "../outils/resize";
 import { logoutUser } from "../actions/authaction";
-import Footer from "./Footer";
 import "../../node_modules/intl-tel-input/build/css/intlTelInput.css";
 import intlTelInput from "intl-tel-input";
 import "../tel.scss";
@@ -38,9 +36,6 @@ function Updateacc({ history }) {
   const [btn, setBtn] = useState(false);
 
   let usermail = auth.user.email;
-  var useralert = sanctions
-    .filter((el) => el.email === usermail && el.type === "alert")
-    .pop();
   var userban = sanctions
     .filter((el) => el.email === usermail && el.type === "ban")
     .pop();
@@ -168,7 +163,7 @@ function Updateacc({ history }) {
         className="container"
         style={{ marginTop: "20px" }}
         onClick={(e) => {
-          if (e.target != document.querySelectorAll(".custom_mod") && mod) {
+          if (e.target !== document.querySelectorAll(".custom_mod") && mod) {
             setMod(!mod);
             btn && setBtn(false);
           }

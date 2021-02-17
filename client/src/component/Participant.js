@@ -47,7 +47,7 @@ function Participant() {
 
   let usermail = auth.user.email;
   var useralert = sanctions
-    .filter((el) => el.email == usermail && el.type == "alert")
+    .filter((el) => el.email === usermail && el.type === "alert")
     .pop();
 
   //check if events full
@@ -55,16 +55,16 @@ function Participant() {
     dispatch(getEvent());
     for (let i = 0; i < allevents.length; i++) {
       if (
-        allevents[i].participant.length == allevents[i].nb_participant &&
-        allevents[i].state != "Ended"
+        allevents[i].participant.length === allevents[i].nb_participant &&
+        allevents[i].state !== "Ended"
       )
         dispatch(fullEvent(allevents[i]._id));
     }
     if (myevents)
       for (let i = 0; i < myevents.length; i++) {
         if (
-          myevents[i].participant.length == myevents[i].nb_participant &&
-          myevents[i].state != "Ended"
+          myevents[i].participant.length === myevents[i].nb_participant &&
+          myevents[i].state !== "Ended"
         )
           dispatch(fullEvent(myevents[i]._id));
       }
@@ -87,16 +87,16 @@ function Participant() {
   useEffect(() => {
     for (let i = 0; i < allevents.length; i++) {
       if (
-        allevents[i].participant.length != allevents[i].nb_participant &&
-        allevents[i].state == "Full"
+        allevents[i].participant.length !== allevents[i].nb_participant &&
+        allevents[i].state === "Full"
       )
         dispatch(openEvent(allevents[i]._id));
     }
     if (myevents)
       for (let i = 0; i < myevents.length; i++) {
         if (
-          myevents[i].participant.length != myevents[i].nb_participant &&
-          myevents[i].state == "Full"
+          myevents[i].participant.length !== myevents[i].nb_participant &&
+          myevents[i].state === "Full"
         )
           dispatch(openEvent(myevents[i]._id));
       }
@@ -134,13 +134,13 @@ function Participant() {
   let events =
     myevents &&
     myevents
-      .filter((el) => el.state != "Invalid")
-      .filter((el) => el.state != "Closed")
+      .filter((el) => el.state !== "Invalid")
+      .filter((el) => el.state !== "Closed")
       .filter((el) => {
         return (
           el.title.toLowerCase().includes(quickSearch.title.toLowerCase()) &&
           el.state.toLowerCase().includes(quickSearch.state.toLowerCase()) &&
-          (quickSearch.tags != ""
+          (quickSearch.tags !== ""
             ? el.tags.find((e) =>
                 e.toLowerCase().includes(quickSearch.tags.toLowerCase())
               )
@@ -181,7 +181,7 @@ function Participant() {
       }}
     >
       {useralert &&
-        useralert.canceled == false &&
+        useralert.canceled === false &&
         new Date(eventClosing(useralert.created_at, useralert.duration)) >
           new Date() && (
           <i
@@ -215,14 +215,14 @@ function Participant() {
         </div>
       </div>
       {myevents &&
-        myevents.length != 0 &&
+        myevents.length !== 0 &&
         myevents.filter(
           (el) =>
             new Date(el.start) > new Date() &&
-            el.state != "Ended" &&
-            el.state != "Invalid" &&
-            el.state != "Closed"
-        ).length != 0 && (
+            el.state !== "Ended" &&
+            el.state !== "Invalid" &&
+            el.state !== "Closed"
+        ).length !== 0 && (
           <div
             className=" row"
             style={{
@@ -256,9 +256,9 @@ function Participant() {
                     myevents &&
                     myevents
                       .filter((el) => new Date(el.start) > new Date())
-                      .filter((el) => el.state != "Ended")
-                      .filter((el) => el.state != "Invalid")
-                      .filter((el) => el.state != "Closed")
+                      .filter((el) => el.state !== "Ended")
+                      .filter((el) => el.state !== "Invalid")
+                      .filter((el) => el.state !== "Closed")
                       .sort(function (a, b) {
                         return new Date(a.start) - new Date(b.start);
                       })[0]
@@ -357,10 +357,10 @@ function Participant() {
         </div>
       )}
 
-      {(quickSearch.title != "" ||
-        quickSearch.state != "" ||
-        quickSearch.tags != "") &&
-        events.length != 0 && (
+      {(quickSearch.title !== "" ||
+        quickSearch.state !== "" ||
+        quickSearch.tags !== "") &&
+        events.length !== 0 && (
           // <div className="row" style={{marginLeft:10}} > <h5> <b>{events.length+" result(s) found"}</b> </h5></div>
           <div className="row" style={{ marginLeft: "10px" }}>
             <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
@@ -380,7 +380,7 @@ function Participant() {
           </div>
         )}
 
-      {events && events.length != 0 ? (
+      {events && events.length !== 0 ? (
         <div className="row" style={{ marginLeft: "10px", marginTop: "20px" }}>
           <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
             <div className="wpb_column vc_column_container col 12">
@@ -398,8 +398,8 @@ function Participant() {
           </div>
           {events &&
             events
-              .filter((el) => el.state != "Invalid")
-              .filter((el) => el.state != "Closed")
+              .filter((el) => el.state !== "Invalid")
+              .filter((el) => el.state !== "Closed")
               .slice(0)
               .reverse()
               .map((el) => {
@@ -466,7 +466,7 @@ function Participant() {
                               justifyContent: "center",
                             }}
                           >
-                            {el.rating.length == 0
+                            {el.rating.length === 0
                               ? "--"
                               : calcul_rating(el.rating)}
                           </p>
@@ -605,7 +605,7 @@ function Participant() {
                             {el.participant.length + "/" + el.nb_participant}
                           </span>
                         </div>
-                        {el.tags.length != 0 && (
+                        {el.tags.length !== 0 && (
                           <div className="slider right tag_slide_event">
                             <ul className="slides">
                               {el.tags.map((el, i) => (
@@ -638,7 +638,7 @@ function Participant() {
                         }}
                       >
                         {!auth.isAuthenticated
-                          ? el.state == "Available" && (
+                          ? el.state === "Available" && (
                               <button
                                 onClick={() => {
                                   history.push("/login");
@@ -653,10 +653,10 @@ function Participant() {
                                 Participate
                               </button>
                             )
-                          : auth.user.role == "participant" &&
+                          : auth.user.role === "participant" &&
                             !auth.user.cancelation.includes(el._id) &&
                             (!auth.user.events.includes(el._id)
-                              ? el.state == "Available" && (
+                              ? el.state === "Available" && (
                                   <button
                                     data-target="modalevnt"
                                     onClick={() => {
@@ -672,7 +672,7 @@ function Participant() {
                                     Participate
                                   </button>
                                 )
-                              : el.state != "Ended" && (
+                              : el.state !== "Ended" && (
                                   <button
                                     data-target="modalevnt"
                                     onClick={() => {
@@ -691,7 +691,7 @@ function Participant() {
                                 ))}
                         <span
                           className={
-                            el.state == "Available"
+                            el.state === "Available"
                               ? "right green-text"
                               : "right gray-text text-darken-3"
                           }
@@ -749,9 +749,9 @@ function Participant() {
                 );
               })}
         </div>
-      ) : quickSearch.title != "" ||
-        quickSearch.state != "" ||
-        quickSearch.tags != "" ? (
+      ) : quickSearch.title !== "" ||
+        quickSearch.state !== "" ||
+        quickSearch.tags !== "" ? (
         <div className="row" style={{ marginLeft: "10px" }}>
           <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
             <div className="wpb_column vc_column_container col 12">
@@ -798,7 +798,7 @@ function Participant() {
               <p>
                 You are about to subscribe to{" "}
                 {participate && (
-                  <b>{allevents.find((el) => el._id == participate).title}</b>
+                  <b>{allevents.find((el) => el._id === participate).title}</b>
                 )}{" "}
                 event, Please note that:{" "}
               </p>
@@ -820,10 +820,10 @@ function Participant() {
               <p>
                 Are you sure you want to cancel the{" "}
                 {participate && (
-                  <b>{allevents.find((el) => el._id == participate).title}</b>
+                  <b>{allevents.find((el) => el._id === participate).title}</b>
                 )}{" "}
                 event?
-                {/* {participate&&((new Date(allevents.find(el=>el._id==participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"} */}{" "}
+                {/* {participate&&((new Date(allevents.find(el=>el._id===participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"} */}{" "}
                 you will not be able to <b>subscribe</b> again.
               </p>
             </>
@@ -843,15 +843,15 @@ function Participant() {
                     " " +
                     auth.user.lname +
                     " participate to " +
-                    allevents.find((el) => el._id == participate).title;
+                    allevents.find((el) => el._id === participate).title;
                   let notiftype = "New_Participation";
-                  let compid = allevents.find((el) => el._id == participate)
+                  let compid = allevents.find((el) => el._id === participate)
                     ._id;
                   let state = [];
                   state = [
                     ...state,
                     {
-                      users: allevents.find((el) => el._id == participate)
+                      users: allevents.find((el) => el._id === participate)
                         .id_organizer,
                       consulted: false,
                     },
@@ -875,15 +875,15 @@ function Participant() {
                     " " +
                     auth.user.lname +
                     " cancelled participation to " +
-                    allevents.find((el) => el._id == participate).title;
+                    allevents.find((el) => el._id === participate).title;
                   let notiftype = "Cancel_Participation";
-                  let compid = allevents.find((el) => el._id == participate)
+                  let compid = allevents.find((el) => el._id === participate)
                     ._id;
                   let state = [];
                   state = [
                     ...state,
                     {
-                      users: allevents.find((el) => el._id == participate)
+                      users: allevents.find((el) => el._id === participate)
                         .id_organizer,
                       consulted: false,
                     },
@@ -911,9 +911,9 @@ function Participant() {
         </div>
       </div>
       {/* <Footer/> */}
-      {users.length != 0 &&
-        auth.user.follow.length != 0 &&
-        allevents.length != 0 && (
+      {users.length !== 0 &&
+        auth.user.follow.length !== 0 &&
+        allevents.length !== 0 && (
           <div className="organizer_list">
             <div
               className="groupofnotes scrollbar"
@@ -939,14 +939,14 @@ function Participant() {
                           }}
                         >
                           <img
-                            src={users.find((elm) => elm._id == el).avatar}
+                            src={users.find((elm) => elm._id === el).avatar}
                             alt=""
                             className="circle"
                           />
                           <span className="title">
                             <b>
                               {users
-                                .find((elm) => elm._id == el)
+                                .find((elm) => elm._id === el)
                                 .fname.slice(0, 8)}
                             </b>
                           </span>

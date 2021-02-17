@@ -7,7 +7,7 @@ import {
   invalidateEvent,
 } from "../actions/adminaction";
 import { getCurrentUser } from "../actions/authaction";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import get_month from "../outils/get_month";
 import historyevent from "../outils/history";
 import "../events.css";
@@ -59,8 +59,8 @@ const EventList = () => {
   useEffect(() => {
     for (let i = 0; i < allevents.length; i++) {
       if (
-        allevents[i].participant.length == allevents[i].nb_participant &&
-        allevents[i].state != "Ended"
+        allevents[i].participant.length === allevents[i].nb_participant &&
+        allevents[i].state !== "Ended"
       )
         dispatch(fullEvent(allevents[i]._id));
     }
@@ -76,8 +76,8 @@ const EventList = () => {
   useEffect(() => {
     for (let i = 0; i < allevents.length; i++) {
       if (
-        allevents[i].participant.length != allevents[i].nb_participant &&
-        allevents[i].state == "Full"
+        allevents[i].participant.length !== allevents[i].nb_participant &&
+        allevents[i].state === "Full"
       )
         dispatch(openEvent(allevents[i]._id));
     }
@@ -95,21 +95,21 @@ const EventList = () => {
         .includes(quickSearch.description.toLowerCase()) &&
       // el.id_organizer.toLowerCase().includes(quickSearch.id_organizer.toLowerCase())
       (allusers
-        .find((elm) => elm._id == el.id_organizer)
+        .find((elm) => elm._id === el.id_organizer)
         .fname.toLowerCase()
         .includes(quickSearch.id_organizer.toLowerCase()) ||
         allusers
-          .find((elm) => elm._id == el.id_organizer)
+          .find((elm) => elm._id === el.id_organizer)
           .lname.toLowerCase()
           .includes(quickSearch.id_organizer.toLowerCase()) ||
         (
           allusers
-            .find((elm) => elm._id == el.id_organizer)
+            .find((elm) => elm._id === el.id_organizer)
             .fname.toLowerCase() +
           " " +
-          allusers.find((elm) => elm._id == el.id_organizer).lname.toLowerCase()
+          allusers.find((elm) => elm._id === el.id_organizer).lname.toLowerCase()
         ).includes(quickSearch.id_organizer.toLowerCase())) &&
-      (quickSearch.tags != ""
+      (quickSearch.tags !== ""
         ? el.tags.find((e) =>
             e.toLowerCase().includes(quickSearch.tags.toLowerCase())
           )
@@ -358,12 +358,12 @@ const EventList = () => {
           <MyMap />
         </div>
       )}
-      {(quickSearch.title != "" ||
-        quickSearch.state != "" ||
-        quickSearch.tags != "" ||
-        quickSearch.address != "" ||
-        quickSearch.description != "" ||
-        quickSearch.id_organizer != "") && (
+      {(quickSearch.title !== "" ||
+        quickSearch.state !== "" ||
+        quickSearch.tags !== "" ||
+        quickSearch.address !== "" ||
+        quickSearch.description !== "" ||
+        quickSearch.id_organizer !== "") && (
         // <div className="row" style={{ marginLeft: 10 }}>
         //   {" "}
         //   <h5>
@@ -453,7 +453,7 @@ const EventList = () => {
                             justifyContent: "center",
                           }}
                         >
-                          {el.rating.length == 0
+                          {el.rating.length === 0
                             ? "--"
                             : calcul_rating(el.rating)}
                         </p>
@@ -593,7 +593,7 @@ const EventList = () => {
                         </span>
                       </div>
 
-                      {el.tags.length != 0 && (
+                      {el.tags.length !== 0 && (
                         <div
                           className="slider "
                           style={{
@@ -628,7 +628,7 @@ const EventList = () => {
                       >
                         <span
                           className={
-                            el.state == "Available"
+                            el.state === "Available"
                               ? " green-text"
                               : " gray-text text-darken-3"
                           }
@@ -663,7 +663,7 @@ const EventList = () => {
                           setDeleteid(el._id);
                           setOrganizerid(el.id_organizer);
                         }}
-                        disabled={auth.user.role != "administrator"}
+                        disabled={auth.user.role !== "administrator"}
                       >
                         Delete
                       </button>
@@ -742,6 +742,7 @@ const EventList = () => {
                       >
                         {" "}
                         <a
+                        href="#!"
                           className="btn-floating cyan darken-3"
                           onClick={() => {
                             history.push(`/events/${el._id}`);
@@ -801,7 +802,7 @@ const EventList = () => {
               let title = "Event Deleted";
               let content =
                 "The event " +
-                allevents.find((elm) => elm._id == deleteid).title +
+                allevents.find((elm) => elm._id === deleteid).title +
                 " was deleted by " +
                 auth.user.fname +
                 " " +
@@ -811,7 +812,7 @@ const EventList = () => {
               var state = [];
               state = [...state, { users: Organizerid, consulted: false }];
               allevents
-                .find((elm) => elm._id == deleteid)
+                .find((elm) => elm._id === deleteid)
                 .participant.map((el) => {
                   state = [...state, { users: el._id, consulted: false }];
                 });
@@ -849,8 +850,8 @@ const EventList = () => {
             onClick={() => {
               let title = "New Event";
               let content = `A new event was Added by ${
-                allusers.find((el) => el._id == Organizerid).fname
-              } ${allusers.find((el) => el._id == Organizerid).lname}`;
+                allusers.find((el) => el._id === Organizerid).fname
+              } ${allusers.find((el) => el._id === Organizerid).lname}`;
               let notiftype = "Event_Validation";
               let compid = validateid;
               var state = [];
@@ -895,7 +896,7 @@ const EventList = () => {
               let title = "Event Invalidated";
               let content =
                 "The event " +
-                allevents.find((elm) => elm._id == validateid).title +
+                allevents.find((elm) => elm._id === validateid).title +
                 " was invalidated by " +
                 auth.user.fname +
                 " " +
@@ -905,7 +906,7 @@ const EventList = () => {
               var state = [];
               state = [...state, { users: Organizerid, consulted: false }];
               allevents
-                .find((elm) => elm._id == validateid)
+                .find((elm) => elm._id === validateid)
                 .participant.map((el) => {
                   state = [...state, { users: el, consulted: false }];
                 });

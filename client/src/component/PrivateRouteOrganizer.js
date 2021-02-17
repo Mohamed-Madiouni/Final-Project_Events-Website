@@ -9,7 +9,7 @@ const PrivateRouteOrganizer = ({ component: Component,...rest }) => {
   <Route
     {...rest}
     render={props =>
-      jwt_decode(localStorage.token).role == "organizer" ? (
+      jwt_decode(localStorage.token).role === "organizer" ? (
         <Component {...props} />
       ) : (
         <Redirect to="/" />

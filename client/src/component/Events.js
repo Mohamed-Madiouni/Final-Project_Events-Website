@@ -41,8 +41,8 @@ function Events() {
     dispatch(getEvent());
     for (let i = 0; i < allevents.length; i++) {
       if (
-        allevents[i].participant.length == allevents[i].nb_participant &&
-        allevents[i].state != "Ended"
+        allevents[i].participant.length === allevents[i].nb_participant &&
+        allevents[i].state !== "Ended"
       )
         dispatch(fullEvent(allevents[i]._id));
     }
@@ -58,8 +58,8 @@ function Events() {
   useEffect(() => {
     for (let i = 0; i < allevents.length; i++) {
       if (
-        allevents[i].participant.length != allevents[i].nb_participant &&
-        allevents[i].state == "Full"
+        allevents[i].participant.length !== allevents[i].nb_participant &&
+        allevents[i].state === "Full"
       )
         dispatch(openEvent(allevents[i]._id));
     }
@@ -111,12 +111,12 @@ function Events() {
   //   dispatch(deleteComment(comment._id))
   // }
   let events = allevents
-    .filter((el) => el.state != "Invalid")
+    .filter((el) => el.state !== "Invalid")
     .filter((el) => {
       return (
         el.title.toLowerCase().includes(quickSearch.title.toLowerCase()) &&
         el.state.toLowerCase().includes(quickSearch.state.toLowerCase()) &&
-        (quickSearch.tags != ""
+        (quickSearch.tags !== ""
           ? el.tags.find((e) =>
               e.toLowerCase().includes(quickSearch.tags.toLowerCase())
             )
@@ -271,9 +271,9 @@ function Events() {
         </div>
       )}
 
-      {(quickSearch.title != "" ||
-        quickSearch.state != "" ||
-        quickSearch.tags != "") && (
+      {(quickSearch.title !== "" ||
+        quickSearch.state !== "" ||
+        quickSearch.tags !== "") && (
         <div className="row" style={{ marginLeft: "10px" }}>
           <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
             <div className="wpb_column vc_column_container col 12">
@@ -318,7 +318,7 @@ function Events() {
             .slice(0)
             .reverse()
             .slice(0, 12 + countevent * 12)
-            .filter((el) => el.state != "Invalid")
+            .filter((el) => el.state !== "Invalid")
             .map((el) => {
               return (
                 <div
@@ -384,7 +384,7 @@ function Events() {
                             justifyContent: "center",
                           }}
                         >
-                          {el.rating.length == 0
+                          {el.rating.length === 0
                             ? "--"
                             : calcul_rating(el.rating)}
                         </p>
@@ -416,7 +416,7 @@ function Events() {
                         )}
                       </span>
                       {el.address.address.length <= 18 ? (
-                        <Link to="#map">
+                        <a href="#map">
                           {/* <marquee  behavior="scroll" direction="left" scrolldelay={200}> */}
                           <p
                             className="red-text address_map"
@@ -444,9 +444,9 @@ function Events() {
                             {el.address.address}
                           </p>
                           {/* </marquee>  */}
-                        </Link>
+                        </a>
                       ) : (
-                        <Link to="#map">
+                        <a href="#map">
                           <marquee
                             behavior="scroll"
                             direction="left"
@@ -478,7 +478,7 @@ function Events() {
                               {el.address.address}
                             </p>
                           </marquee>{" "}
-                        </Link>
+                        </a>
                       )}
                       <div
                         style={{
@@ -522,7 +522,7 @@ function Events() {
                           {el.participant.length + "/" + el.nb_participant}
                         </span>
                       </div>
-                      {el.tags.length != 0 && (
+                      {el.tags.length !== 0 && (
                         <div className="slider right tag_slide_event">
                           <ul className="slides">
                             {el.tags.map((el, i) => (
@@ -555,7 +555,7 @@ function Events() {
                       }}
                     >
                       {!auth.isAuthenticated
-                        ? el.state == "Available" && (
+                        ? el.state === "Available" && (
                             <button
                               onClick={() => {
                                 history.push("/login");
@@ -570,10 +570,10 @@ function Events() {
                               Participate
                             </button>
                           )
-                        : auth.user.role == "participant" &&
+                        : auth.user.role === "participant" &&
                           !auth.user.cancelation.includes(el._id) &&
                           (!auth.user.events.includes(el._id)
-                            ? el.state == "Available" && (
+                            ? el.state === "Available" && (
                                 <button
                                   data-target="modalevnt"
                                   onClick={() => {
@@ -591,7 +591,7 @@ function Events() {
                                   Participate
                                 </button>
                               )
-                            : el.state != "Ended" && (
+                            : el.state !== "Ended" && (
                                 <button
                                   data-target="modalevnt"
                                   onClick={() => {
@@ -612,7 +612,7 @@ function Events() {
                               ))}
                       <span
                         className={
-                          el.state == "Available"
+                          el.state === "Available"
                             ? "right green-text"
                             : "right gray-text text-darken-3"
                         }
@@ -655,6 +655,7 @@ function Events() {
                       >
                         {" "}
                         <a
+                        href="#!"
                           className="btn-floating  cyan darken-3"
                           onClick={() => {
                             history.push(`/events/${el._id}`);
@@ -674,13 +675,13 @@ function Events() {
                       >
                         <i className="material-icons ">delete</i>{" "}
                       </button>
-                      {el.state=="Available"&&(
+                      {el.state==="Available"&&(
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="close"   data-target="modal2" onClick={
                       ()=>setClosedid(el._id)
                     }>
                       <i className="material-icons ">block</i>{" "}
                     </button>)}
-                    {el.state=="Closed"&&(new Date(el.date)>new Date())&&(
+                    {el.state==="Closed"&&(new Date(el.date)>new Date())&&(
                     <button className="btn-floating waves-effect waves-light cadetblue modal-trigger" title="open"   data-target="modal3" onClick={
                       ()=>setClosedid(el._id)
                     }>
@@ -737,7 +738,7 @@ function Events() {
               <p>
                 You are about to subscribe to{" "}
                 {participate && (
-                  <b>{allevents.find((el) => el._id == participate).title}</b>
+                  <b>{allevents.find((el) => el._id === participate).title}</b>
                 )}{" "}
                 event, Please note that:{" "}
               </p>
@@ -759,10 +760,10 @@ function Events() {
               <p>
                 Are you sure you want to cancel the{" "}
                 {participate && (
-                  <b>{allevents.find((el) => el._id == participate).title}</b>
+                  <b>{allevents.find((el) => el._id === participate).title}</b>
                 )}{" "}
                 event?
-                {/* {participate&&auth.user.banned_date&&((new Date(allevents.find(el=>el._id==participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"} */}{" "}
+                {/* {participate&&auth.user.banned_date&&((new Date(allevents.find(el=>el._id===participate).date)-new Date())/(1000*86400))>2?" you will not be able to subscribe again.":" you will be banned for a week"} */}{" "}
                 you will not be able to <b>subscribe</b> again.
               </p>
             </>
@@ -782,15 +783,15 @@ function Events() {
                     " " +
                     auth.user.lname +
                     " participate to " +
-                    allevents.find((el) => el._id == participate).title;
+                    allevents.find((el) => el._id === participate).title;
                   let notiftype = "New_Participation";
-                  let compid = allevents.find((el) => el._id == participate)
+                  let compid = allevents.find((el) => el._id === participate)
                     ._id;
                   let state = [];
                   state = [
                     ...state,
                     {
-                      users: allevents.find((el) => el._id == participate)
+                      users: allevents.find((el) => el._id === participate)
                         .id_organizer,
                       consulted: false,
                     },
@@ -814,15 +815,15 @@ function Events() {
                     " " +
                     auth.user.lname +
                     " cancelled participation to " +
-                    allevents.find((el) => el._id == participate).title;
+                    allevents.find((el) => el._id === participate).title;
                   let notiftype = "Cancel_Participation";
-                  let compid = allevents.find((el) => el._id == participate)
+                  let compid = allevents.find((el) => el._id === participate)
                     ._id;
                   let state = [];
                   state = [
                     ...state,
                     {
-                      users: allevents.find((el) => el._id == participate)
+                      users: allevents.find((el) => el._id === participate)
                         .id_organizer,
                       consulted: false,
                     },
@@ -851,7 +852,7 @@ function Events() {
       </div>
 
       {(countevent + 1) * 12 <
-        events.filter((el) => el.state != "Invalid").length && (
+        events.filter((el) => el.state !== "Invalid").length && (
         <div
           style={{
             marginBottom: "5px",

@@ -64,7 +64,7 @@ function Home() {
               <ul className="slides">
                 {allevents &&
                   allevents
-                    .filter((el) => el.state == "Available")
+                    .filter((el) => el.state === "Available")
                     .slice(-6)
                     .reverse()
                     .map((el) => {
@@ -145,7 +145,7 @@ function Home() {
 
                           {/* <span
                         className={
-                          el.state == "Available"
+                          el.state === "Available"
                             ? " green-text"
                             : " gray-text text-darken-3"
                         }

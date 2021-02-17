@@ -84,7 +84,7 @@ function Moderator_page({ match }) {
         style={{ verticalAlign: "middle", margin: "30px 15px 20px 15px" }}
       >
         <div className=" col s12 organizer_hi ">
-          {users.length != 0 && (
+          {users.length !== 0 && (
             <div
               style={{
                 width: "100%",
@@ -97,7 +97,7 @@ function Moderator_page({ match }) {
                 <img
                   style={{ width: 130, height: 130, paddingTop: 10 }}
                   src={
-                    users.find((el) => el._id == match.params.moderatorId)
+                    users.find((el) => el._id === match.params.moderatorId)
                       .avatar
                   }
                   alt="../public/User_icon.png"
@@ -105,10 +105,10 @@ function Moderator_page({ match }) {
                 />
 
                 {((auth.user.blocked &&
-                  auth.user._id != match.params.moderatorId &&
+                  auth.user._id !== match.params.moderatorId &&
                   !auth.user.blocked.includes(match.params.moderatorId)) ||
                   users
-                    .find((el) => el._id == match.params.moderatorId)
+                    .find((el) => el._id === match.params.moderatorId)
                     .blocked.includes(auth.user._id)) && (
                   <i
                     className="fas fa-envelope"
@@ -137,7 +137,7 @@ function Moderator_page({ match }) {
                   ></i>
                 )}
 
-                {users.find((el) => el._id == match.params.moderatorId)
+                {users.find((el) => el._id === match.params.moderatorId)
                   .online ? (
                   <div
                     style={{
@@ -195,10 +195,10 @@ function Moderator_page({ match }) {
             </div>
           )}
           <p className="h5-tit" style={{ paddingTop: 0 }}>
-            {users.length != 0 &&
-              users.find((el) => el._id == match.params.moderatorId).fname}{" "}
-            {users.length != 0 &&
-              users.find((el) => el._id == match.params.moderatorId).lname}
+            {users.length !== 0 &&
+              users.find((el) => el._id === match.params.moderatorId).fname}{" "}
+            {users.length !== 0 &&
+              users.find((el) => el._id === match.params.moderatorId).lname}
           </p>
         </div>
       </div>
@@ -218,9 +218,9 @@ function Moderator_page({ match }) {
           style={{ fontSize: 14, fontWeight: "bold" }}
         >
           Inscription date:{" "}
-          {users.length != 0 &&
+          {users.length !== 0 &&
             users
-              .find((el) => el._id == match.params.moderatorId)
+              .find((el) => el._id === match.params.moderatorId)
               .created_at.toString()
               .replace("Z", "")
               .replace("T", " ")
@@ -229,7 +229,7 @@ function Moderator_page({ match }) {
           Comments number:{" "}
           {(comments.comments && comments.comments).map((elc) => {
             elc.reply
-              .filter((el) => el.postedBy == match.params.moderatorId)
+              .filter((el) => el.postedBy === match.params.moderatorId)
               .map((el) => {
                 rs = rs + 1;
               });
@@ -237,13 +237,13 @@ function Moderator_page({ match }) {
           {comments.comments &&
             nbr_comments(
               comments.comments.filter(
-                (el) => el.postedBy == match.params.moderatorId
+                (el) => el.postedBy === match.params.moderatorId
               ).length
             ) + rs}
           <div>
             Personal note:
-            {users.length != 0 &&
-              users.find((el) => el._id == match.params.moderatorId).note}
+            {users.length !== 0 &&
+              users.find((el) => el._id === match.params.moderatorId).note}
           </div>
         </div>
       </div>

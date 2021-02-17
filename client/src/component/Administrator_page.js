@@ -1,40 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
-import {
-  unfollowEvent,
-  followEvent,
-  getEvent,
-  endEvent,
-  fullEvent,
-  openEvent,
-} from "../actions/evntAction";
 import { getComment } from "../actions/comntaction";
-
-import get_month from "../outils/get_month";
 import "../organizer.css";
 import M from "materialize-css";
 import {
   GET_ERRORS,
-  ADD_FOCUS,
-  SHOW_MAP,
-  STATE_MAP,
   SHOW_TALK,
   ADD_TALK,
 } from "../actions/types";
 import { getCurrentUser } from "../actions/authaction";
-import historyevent from "../outils/history";
 import { getUsers } from "../actions/adminaction";
-import Search from "./Search";
 import "../participant.css";
-import { logoutUser } from "../actions/authaction";
-import calcul_rating from "../outils/calucle_rating";
-import Footer from "./Footer";
-import { formatRelative } from "date-fns";
-import MyMap from "./Maps";
-import { geteventorg } from "../outils/geteventorg";
 import Navbar from "./Navbar";
-import { sendNotifications } from "../actions/notificationaction";
 import nbr_comments from "../outils/nbr_comments";
 function Administrator_page({ match }) {
   const dispatch = useDispatch();
@@ -86,7 +64,7 @@ function Administrator_page({ match }) {
         style={{ verticalAlign: "middle", margin: "30px 15px 20px 15px" }}
       >
         <div className=" col s12 organizer_hi ">
-          {users.length != 0 && (
+          {users.length !== 0 && (
             <div
               style={{
                 width: "100%",
@@ -107,7 +85,7 @@ function Administrator_page({ match }) {
                 />
 
                 {((auth.user.blocked &&
-                  auth.user._id != match.params.administratorId &&
+                  auth.user._id !== match.params.administratorId &&
                   !auth.user.blocked.includes(match.params.administratorId)) ||
                   users
                     .find((el) => el._id === match.params.administratorId)
@@ -197,10 +175,10 @@ function Administrator_page({ match }) {
             </div>
           )}
           <p className="h5-tit" style={{ paddingTop: 0 }}>
-            {users.length != 0 &&
+            {users.length !== 0 &&
               users.find((el) => el._id === match.params.administratorId)
                 .fname}{" "}
-            {users.length != 0 &&
+            {users.length !== 0 &&
               users.find((el) => el._id === match.params.administratorId).lname}
           </p>
         </div>
@@ -221,7 +199,7 @@ function Administrator_page({ match }) {
           style={{ fontSize: 14, fontWeight: "bold" }}
         >
           Inscription date:{" "}
-          {users.length != 0 &&
+          {users.length !== 0 &&
             users
               .find((el) => el._id === match.params.administratorId)
               .created_at.toString()
@@ -245,7 +223,7 @@ function Administrator_page({ match }) {
             ) + rs}
           <div>
             Personal note:
-            {users.length != 0 &&
+            {users.length !== 0 &&
               users.find((el) => el._id === match.params.administratorId).note}
           </div>
         </div>

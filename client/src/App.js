@@ -186,10 +186,10 @@ function App() {
           {auth.isAuthenticated && (
             <div className="chatlist">
               {!showchat &&
-                location.pathname != "/login" &&
-                location.pathname != "/register" &&
-                location.pathname != "/404" &&
-                location.pathname != "/banned" && (
+                location.pathname !== "/login" &&
+                location.pathname !== "/register" &&
+                location.pathname !== "/404" &&
+                location.pathname !== "/banned" && (
                   <div
                     className="tap"
                     style={{ cursor: "pointer" }}
@@ -344,7 +344,7 @@ function App() {
                                           ).fname
                                         }
                                       </b>
-                                      {el.sendby != auth.user._id && (
+                                      {el.sendby !== auth.user._id && (
                                         <span
                                           style={{
                                             display: "flex",
@@ -622,7 +622,7 @@ function App() {
           </li>
         </ul>
       )}
-      {location.pathname != "/banned" && location.pathname != "/404" && (
+      {location.pathname !== "/banned" && location.pathname !== "/404" && (
         <Footer />
       )}
     </div>

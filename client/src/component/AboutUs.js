@@ -1,8 +1,6 @@
 import React from "react";
 import "../AboutUs.css";
-import { Button } from "./Button";
 import Navbar from "./Navbar";
-import Footer from "./Footer";
 import "../bootstrap.scss";
 function AboutUs() {
   return (

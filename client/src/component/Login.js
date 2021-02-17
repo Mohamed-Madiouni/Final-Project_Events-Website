@@ -36,7 +36,7 @@ function Login({ history }) {
   }, [errors]);
 
   // useEffect(() => {
-  //   if (userban && (userban.canceled==false) && (new Date(eventClosing(userban.created_at,userban.duration))>new Date()))
+  //   if (userban && (userban.canceled===false) && (new Date(eventClosing(userban.created_at,userban.duration))>new Date()))
   //      {
   //       dispatch(logoutUser());
   //       history.push("/banned")
@@ -169,7 +169,7 @@ function Login({ history }) {
                 </span>
                 <span
                   onClick={() => {
-                    if (passtype == "password") setpasstype("text");
+                    if (passtype === "password") setpasstype("text");
                     else setpasstype("password");
                   }}
                   style={{
@@ -179,10 +179,10 @@ function Login({ history }) {
                     color: "gray",
                   }}
                   title={
-                    passtype == "password" ? "Show password" : "Hide password"
+                    passtype === "password" ? "Show password" : "Hide password"
                   }
                 >
-                  {passtype == "password" ? (
+                  {passtype === "password" ? (
                     <i className="far fa-eye"></i>
                   ) : (
                     <i className="fas fa-eye-slash"></i>

@@ -19,6 +19,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
+import { Link } from "react-router-dom";
 
 const AddEvent = ({ toggle, action, setAction }) => {
   const dispatch = useDispatch();

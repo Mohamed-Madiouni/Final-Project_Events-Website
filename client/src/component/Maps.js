@@ -88,7 +88,7 @@ function MyMap() {
   }, [map.selected.lat]);
 
   useEffect(() => {
-    if (map.focus.lat && map.type == "show") {
+    if (map.focus.lat && map.type === "show") {
       setcenter({
         lat: map.focus.lat,
         lng: map.focus.lng,
@@ -136,10 +136,10 @@ function MyMap() {
         center={center}
         zoom={map.selected.lat || map.focus.lat ? 16 : 8}
         options={options}
-        onClick={map.type == "add" && onMapClick}
+        onClick={map.type === "add" && onMapClick}
         onLoad={onMapLoad}
       >
-        {map.type == "add" ? (
+        {map.type === "add" ? (
           <Marker
             position={markers.lat && { lat: markers.lat, lng: markers.lng }}
             icon={{
@@ -152,7 +152,7 @@ function MyMap() {
             onDragEnd={onMapClick}
             // onClick={()=>setselect(markers)}
           />
-        ) : alleventsadmin.length == 0 ? (
+        ) : alleventsadmin.length === 0 ? (
           allevents.map((el, i) => (
             <Marker
               key={i}
@@ -213,7 +213,7 @@ function MyMap() {
               <p>{select.address.address}</p>
               <p
                 className={
-                  select.state == "Available"
+                  select.state === "Available"
                     ? "green-text"
                     : " gray-text text-darken-3"
                 }

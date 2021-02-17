@@ -28,7 +28,7 @@ function Sanctions() {
 
   return (
     <>
-      {allsanctions.length != 0 ? (
+      {allsanctions.length !== 0 ? (
         <div id="modalnotifall" style={{ padding: 0, margin: 0 }}>
           <div>
             <h4 className="center" style={{ marginTop: "20px" }}>
@@ -66,18 +66,18 @@ function Sanctions() {
                                 className="notification-per-period__period-card modal-close"
                                 onClick={() => {
                                   if (
-                                    users.find((e) => e.email == el.email)
-                                      .role == "partcipant"
+                                    users.find((e) => e.email === el.email)
+                                      .role === "partcipant"
                                   ) {
                                     history.push(
                                       "participant/" +
-                                        users.find((e) => e.email == el.email)
+                                        users.find((e) => e.email === el.email)
                                           ._id
                                     );
                                   } else {
                                     history.push(
                                       "organizer/" +
-                                        users.find((e) => e.email == el.email)
+                                        users.find((e) => e.email === el.email)
                                           ._id
                                     );
                                   }
@@ -89,7 +89,7 @@ function Sanctions() {
                                 >
                                   <img
                                     src={
-                                      users.find((e) => e.email == el.email)
+                                      users.find((e) => e.email === el.email)
                                         .avatar
                                     }
                                     alt=""
@@ -115,7 +115,7 @@ function Sanctions() {
                                         alt="Account_Banned"
                                       />
                                     )}
-                                    {el.type == "alert" && (
+                                    {el.type === "alert" && (
                                       <img
                                         src="/Account_Alerted.png"
                                         alt="Account_Alerted"
@@ -132,7 +132,7 @@ function Sanctions() {
                                   </div>
                                   <div className="notification-per-period__period-card__date">
                                     Duration:{" "}
-                                    {el.duration == -1
+                                    {el.duration === -1
                                       ? "Permanent"
                                       : el.duration + " Days"}
                                   </div>
@@ -154,17 +154,17 @@ function Sanctions() {
                                     Reason: {el.reason}
                                   </div>
                                   {allusers.find(
-                                    (elm) => elm.email == el.email
+                                    (elm) => elm.email === el.email
                                   ) && (
                                     <div className="notification-per-period__period-card__date">
                                       User:
                                       {" " +
                                         allusers.find(
-                                          (elm) => elm.email == el.email
+                                          (elm) => elm.email === el.email
                                         ).fname +
                                         " " +
                                         allusers.find(
-                                          (elm) => elm.email == el.email
+                                          (elm) => elm.email === el.email
                                         ).lname}
                                     </div>
                                   )}

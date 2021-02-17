@@ -25,7 +25,7 @@ function Notifications() {
 
   return (
     <>
-      {allnotif.length != 0 && (
+      {allnotif.length !== 0 && (
         <div id="modalnotifall" style={{ padding: 0, margin: 0 }}>
           <div>
             <h4 className="center" style={{ marginTop: "20px" }}>
@@ -62,62 +62,62 @@ function Notifications() {
                                 style={{ cursor: "pointer" }}
                                 className="notification-per-period__period-card"
                                 onClick={() => {
-                                  if (el.notiftype == "Event_Validation") {
+                                  if (el.notiftype === "Event_Validation") {
                                     history.push("/events/" + el.compid);
-                                  } else if (el.notiftype == "New_Event") {
+                                  } else if (el.notiftype === "New_Event") {
                                     history.push("/events");
-                                  } else if (el.notiftype == "Event_Edition") {
+                                  } else if (el.notiftype === "Event_Edition") {
                                     history.push("/events/" + el.compid);
                                   } else if (
-                                    el.notiftype == "Comment_Reply_organizer"
+                                    el.notiftype === "Comment_Reply_organizer"
                                   ) {
                                     history.push("/events/" + el.compid);
                                   } else if (
-                                    el.notiftype == "Comment_Reply_User"
+                                    el.notiftype === "Comment_Reply_User"
                                   ) {
                                     history.push("/events/" + el.compid);
-                                  } else if (el.notiftype == "New_Follow") {
+                                  } else if (el.notiftype === "New_Follow") {
                                     history.push(`/${el.role}/${el.userId}`);
-                                  } else if (el.notiftype == "New_Like") {
+                                  } else if (el.notiftype === "New_Like") {
                                     history.push("/events/" + el.compid);
-                                  } else if (el.notiftype == "New_Dislike") {
+                                  } else if (el.notiftype === "New_Dislike") {
                                     history.push("/events/" + el.compid);
-                                  } else if (el.notiftype == "Remove_Follow") {
+                                  } else if (el.notiftype === "Remove_Follow") {
                                     history.push(`/${el.role}/${el.userId}`);
-                                  } else if (el.notiftype == "Event_Deleted") {
+                                  } else if (el.notiftype === "Event_Deleted") {
                                     history.push("/events");
                                   } else if (
-                                    el.notiftype == "Event_Invalidation"
+                                    el.notiftype === "Event_Invalidation"
                                   ) {
                                     history.push("/dashboard");
                                   } else if (
-                                    el.notiftype == "New_Participation"
+                                    el.notiftype === "New_Participation"
                                   ) {
                                     history.push(`/${el.role}/${el.userId}`);
                                   } else if (
-                                    el.notiftype == "Cancel_Participation"
+                                    el.notiftype === "Cancel_Participation"
                                   ) {
                                     history.push(`/${el.role}/${el.userId}`);
-                                  } else if (el.notiftype == "Event_Closed") {
+                                  } else if (el.notiftype === "Event_Closed") {
                                     history.push("/events");
-                                  } else if (el.notiftype == "Event_Opened") {
+                                  } else if (el.notiftype === "Event_Opened") {
                                     history.push("/events/" + el.compid);
-                                  } else if (el.notiftype == "Account_Banned") {
+                                  } else if (el.notiftype === "Account_Banned") {
                                     history.push("/dashboard");
                                   } else if (
-                                    el.notiftype == "Account_Unbanned"
+                                    el.notiftype === "Account_Unbanned"
                                   ) {
                                     history.push("/dashboard");
                                   } else if (
-                                    el.notiftype == "Account_Alerted"
+                                    el.notiftype === "Account_Alerted"
                                   ) {
                                     history.push("/dashboard");
-                                  } else if (el.notiftype == "Alert_Removed") {
+                                  } else if (el.notiftype === "Alert_Removed") {
                                     history.push("/dashboard");
-                                  } else if (el.notiftype == "New_Comment") {
+                                  } else if (el.notiftype === "New_Comment") {
                                     history.push("/events/" + el.compid);
                                   } else if (
-                                    el.notiftype == "Comment_Edition"
+                                    el.notiftype === "Comment_Edition"
                                   ) {
                                     history.push("/events/" + el.compid);
                                   } else {
@@ -132,10 +132,10 @@ function Notifications() {
                                   <img
                                     src={
                                       allusers.find(
-                                        (elm) => elm._id == el.state[0].users
+                                        (elm) => elm._id === el.state[0].users
                                       ) &&
                                       allusers.find(
-                                        (elm) => elm._id == el.state[0].users
+                                        (elm) => elm._id === el.state[0].users
                                       ).avatar
                                     }
                                     alt=""
@@ -155,131 +155,131 @@ function Notifications() {
                                       alignContent: "center",
                                     }}
                                   >
-                                    {el.notiftype == "Event_Validation" && (
+                                    {el.notiftype === "Event_Validation" && (
                                       <img
                                         src="/Event_Validation.png"
                                         alt="Event_Validation"
                                       />
                                     )}
-                                    {el.notiftype == "New_Event" && (
+                                    {el.notiftype === "New_Event" && (
                                       <img
                                         src="/New_Event.png"
                                         alt="New_Event"
                                       />
                                     )}
-                                    {el.notiftype == "Event_Edition" && (
+                                    {el.notiftype === "Event_Edition" && (
                                       <img
                                         src="/Event_Edition.png"
                                         alt="Event_Edition"
                                       />
                                     )}
-                                    {el.notiftype ==
+                                    {el.notiftype ===
                                       "Comment_Reply_organizer" && (
                                       <img
                                         src="/Comment_Reply_organizer.png"
                                         alt="Comment_Reply_organizer"
                                       />
                                     )}
-                                    {el.notiftype == "Comment_Reply_User" && (
+                                    {el.notiftype === "Comment_Reply_User" && (
                                       <img
                                         src="/Comment_Reply_User.png"
                                         alt="Comment_Reply_User"
                                       />
                                     )}
-                                    {el.notiftype == "New_Follow" && (
+                                    {el.notiftype === "New_Follow" && (
                                       <img
                                         src="/New_Follow.png"
                                         alt="New_Follow"
                                       />
                                     )}
-                                    {el.notiftype == "New_Like" && (
+                                    {el.notiftype === "New_Like" && (
                                       <img src="/New_Like.png" alt="New_Like" />
                                     )}
-                                    {el.notiftype == "New_Dislike" && (
+                                    {el.notiftype === "New_Dislike" && (
                                       <img
                                         src="/New_Dislike.png"
                                         alt="New_Dislike"
                                       />
                                     )}
-                                    {el.notiftype == "Remove_Follow" && (
+                                    {el.notiftype === "Remove_Follow" && (
                                       <img
                                         src="/Remove_Follow.png"
                                         alt="Remove_Follow"
                                       />
                                     )}
-                                    {el.notiftype == "Event_Deleted" && (
+                                    {el.notiftype === "Event_Deleted" && (
                                       <img
                                         src="/Event_Deleted.png"
                                         alt="Event_Deleted"
                                       />
                                     )}
-                                    {el.notiftype == "Event_Invalidation" && (
+                                    {el.notiftype === "Event_Invalidation" && (
                                       <img
                                         src="/Event_Invalidation.png"
                                         alt="Event_Invalidation"
                                       />
                                     )}
-                                    {el.notiftype == "New_Participation" && (
+                                    {el.notiftype === "New_Participation" && (
                                       <img
                                         src="/New_Participation.png"
                                         alt="New_Participation"
                                       />
                                     )}
-                                    {el.notiftype == "Cancel_Participation" && (
+                                    {el.notiftype === "Cancel_Participation" && (
                                       <img
                                         src="/Cancel_Participation.png"
                                         alt="Cancel_Participation"
                                       />
                                     )}
-                                    {el.notiftype == "Event_Closed" && (
+                                    {el.notiftype === "Event_Closed" && (
                                       <img
                                         src="/Event_Closed.png"
                                         alt="Event_Closed"
                                       />
                                     )}
-                                    {el.notiftype == "Event_Opened" && (
+                                    {el.notiftype === "Event_Opened" && (
                                       <img
                                         src="/Event_Opened.png"
                                         alt="Event_Opened"
                                       />
                                     )}
-                                    {el.notiftype == "Account_Banned" && (
+                                    {el.notiftype === "Account_Banned" && (
                                       <img
                                         src="/Account_Banned.png"
                                         alt="Account_Banned"
                                       />
                                     )}
-                                    {el.notiftype == "Account_Unbanned" && (
+                                    {el.notiftype === "Account_Unbanned" && (
                                       <img
                                         src="/Account_Unbanned.png"
                                         alt="Account_Unbanned"
                                       />
                                     )}
-                                    {el.notiftype == "Account_Alerted" && (
+                                    {el.notiftype === "Account_Alerted" && (
                                       <img
                                         src="/Account_Alerted.png"
                                         alt="Account_Alerted"
                                       />
                                     )}
-                                    {el.notiftype == "Alert_Removed" && (
+                                    {el.notiftype === "Alert_Removed" && (
                                       <img
                                         src="/Alert_Removed.png"
                                         alt="Alert_Removed"
                                       />
                                     )}
-                                    {el.notiftype == "New_Comment" && (
+                                    {el.notiftype === "New_Comment" && (
                                       <img
                                         src="/New_Comment.png"
                                         alt="New_Comment"
                                       />
                                     )}
-                                    {el.notiftype == "Comment_Edition" && (
+                                    {el.notiftype === "Comment_Edition" && (
                                       <img
                                         src="/Comment_Edition.png"
                                         alt="Comment_Edition"
                                       />
                                     )}
-                                    {el.notiftype == "New_Report" && (
+                                    {el.notiftype === "New_Report" && (
                                       <img
                                         src="/Account_Alerted.png"
                                         alt="New_Report"
@@ -298,17 +298,17 @@ function Notifications() {
                                     {el.content}
                                   </div>
                                   {allusers.find(
-                                    (elm) => elm._id == el.state[0].users
+                                    (elm) => elm._id === el.state[0].users
                                   ) && (
                                     <div className="notification-per-period__period-card__date">
                                       User:
                                       {" " +
                                         allusers.find(
-                                          (elm) => elm._id == el.state[0].users
+                                          (elm) => elm._id === el.state[0].users
                                         ).fname +
                                         " " +
                                         allusers.find(
-                                          (elm) => elm._id == el.state[0].users
+                                          (elm) => elm._id === el.state[0].users
                                         ).lname}
                                     </div>
                                   )}

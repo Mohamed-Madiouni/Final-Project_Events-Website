@@ -2,7 +2,7 @@ export default function getlenthorg(t,id) {
    
 let sum=0
     for (let i = 0; i < t.length; i++) {  
-        if (t[i].state!="Invalid"&&t[i].id_organizer==id)
+        if (t[i].state!=="Invalid"&&t[i].id_organizer===id)
           sum += 1;
       }
       return sum;
@@ -15,7 +15,7 @@ let sum=0
     let date=""
     let newt=[]
     for (let i = 0; i < t.length; i++) {
-        if (t[i].id_organizer==id)
+        if (t[i].id_organizer===id)
          newt = [...newt, t[i]];
       }
      date= newt.slice(0).sort(function(a, b) {
@@ -29,7 +29,7 @@ let sum=0
    
       let newt=[]
           for (let i = 0; i < t.length; i++) {  
-              if (t[i].id_organizer==id)
+              if (t[i].id_organizer===id)
               newt = [...newt, t[i]];
             }
             return newt;

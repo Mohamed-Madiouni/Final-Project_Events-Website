@@ -8,7 +8,6 @@ import {
   getEvent,
   unfollowEvent,
   endEvent,
-  closeEvent,
   fullEvent,
   openEvent,
 } from "../actions/evntAction";
@@ -32,13 +31,13 @@ function Calendar() {
   const [eventId, setEventId] = useState("");
   const [participate, setParticipate] = useState("");
   const [eventDate, setEventDate] = useState("");
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     dispatch(getEvent());
     localStorage.token && dispatch(getCurrentUser());
     M.Modal.init(document.querySelectorAll(".modal"));
   }, []);
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     M.Slider.init(document.querySelectorAll(".slider"), {
       height: 55,
@@ -51,7 +50,7 @@ function Calendar() {
     for (let i = 0; i < allevents.length; i++) {
       if (
         allevents[i].participant.length === allevents[i].nb_participant &&
-        allevents[i].state != "Ended"
+        allevents[i].state !== "Ended"
       )
         dispatch(fullEvent(allevents[i]._id));
     }
@@ -62,33 +61,35 @@ function Calendar() {
       if (new Date(allevents[i].end) < new Date())
         dispatch(endEvent(allevents[i]._id));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   //open full events
   useEffect(() => {
     for (let i = 0; i < allevents.length; i++) {
       if (
-        allevents[i].participant.length != allevents[i].nb_participant &&
+        allevents[i].participant.length !== allevents[i].nb_participant &&
         allevents[i].state === "Full"
       )
         dispatch(openEvent(allevents[i]._id));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
   const calendarEvents = useMemo(() => {
     return allevents
-      .filter((el) => el.state != "Invalid")
+      .filter((el) => el.state !== "Invalid")
       .map((el) => {
         return {
-          ["title"]: el.title,
-          ["start"]: new Date(el.start),
-          ["end"]: new Date(el.end),
-          ["id"]: el._id,
+          title: el.title,
+          start: new Date(el.start),
+          end: new Date(el.end),
+          id: el._id,
           // allDay:true,
-          ["state"]: el.state,
+          state: el.state,
         };
       });
   });
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
   const oneventclick = useCallback((e) => {
     setMod(!mod);
     setEventId(e.event.id);
@@ -336,7 +337,7 @@ function Calendar() {
                     allevents.find((e) => e._id === eventId).nb_participant}
                 </span>
               </div>
-              {allevents.find((e) => e._id === eventId).tags.length != 0 && (
+              {allevents.find((e) => e._id === eventId).tags.length !== 0 && (
                 <div className="slider right tag_slide_cal">
                   <ul className="slides">
                     {allevents
@@ -415,7 +416,7 @@ function Calendar() {
                           Participate
                         </button>
                       )
-                    : allevents.find((e) => e._id === eventId).state !=
+                    : allevents.find((e) => e._id === eventId).state !==
                         "Ended" && (
                         <button
                           data-target="modalevnt"
@@ -492,6 +493,7 @@ function Calendar() {
               >
                 {" "}
                 <a
+                href="#!"
                   className="btn-floating  cyan darken-3"
                   onClick={() => {
                     history.push(
@@ -640,7 +642,7 @@ function Calendar() {
           </div>
           <div className="modal-footer">
             <a
-              href="#"
+              href="#!"
               className="modal-close btn-flat"
               onClick={() => {
                 if (participate && !auth.user.events.includes(participate)) {
@@ -712,7 +714,7 @@ function Calendar() {
             >
               Agree
             </a>
-            <a href="#" className="modal-close  btn-flat">
+            <a href="#!" className="modal-close  btn-flat">
               Cancel
             </a>
           </div>

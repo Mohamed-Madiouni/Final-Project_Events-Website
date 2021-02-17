@@ -207,7 +207,7 @@ function Register({ history }) {
                 </span>
                 <span
                   onClick={() => {
-                    if (passtype == "password") setpasstype("text");
+                    if (passtype === "password") setpasstype("text");
                     else setpasstype("password");
                   }}
                   style={{
@@ -217,10 +217,10 @@ function Register({ history }) {
                     color: "gray",
                   }}
                   title={
-                    passtype == "password" ? "Show password" : "Hide password"
+                    passtype === "password" ? "Show password" : "Hide password"
                   }
                 >
-                  {passtype == "password" ? (
+                  {passtype === "password" ? (
                     <i className="far fa-eye"></i>
                   ) : (
                     <i className="fas fa-eye-slash"></i>
@@ -241,7 +241,7 @@ function Register({ history }) {
                 </span>
                 <span
                   onClick={() => {
-                    if (passvertype == "password") setpassvertype("text");
+                    if (passvertype === "password") setpassvertype("text");
                     else setpassvertype("password");
                   }}
                   style={{
@@ -251,12 +251,12 @@ function Register({ history }) {
                     color: "gray",
                   }}
                   title={
-                    passvertype == "password"
+                    passvertype === "password"
                       ? "Show password"
                       : "Hide password"
                   }
                 >
-                  {passvertype == "password" ? (
+                  {passvertype === "password" ? (
                     <i className="far fa-eye"></i>
                   ) : (
                     <i className="fas fa-eye-slash"></i>

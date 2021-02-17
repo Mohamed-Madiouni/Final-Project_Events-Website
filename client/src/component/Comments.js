@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
 // import data from 'emoji-mart/data/google.json'
 // import { NimblePicker } from 'emoji-mart'
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { addfollow, getCurrentUser, removefollow } from "../actions/authaction";
 import {
   makeComment,
@@ -143,14 +143,14 @@ function Comments({ match, history }) {
   }, []);
   useEffect(() => {
     if (
-      allevents.length != 0 &&
+      allevents.length !== 0 &&
       auth.isAuthenticated &&
       document.querySelector(".fa-star")
     ) {
       if (
         allevents
           .find((el) => el._id === match.params.event_id)
-          .rating.filter((el) => el.userId === auth.user._id).length != 0
+          .rating.filter((el) => el.userId === auth.user._id).length !== 0
       ) {
         setdone(false);
         setstar(true);
@@ -172,7 +172,7 @@ function Comments({ match, history }) {
     if (
       !auth.isAuthenticated &&
       document.querySelector(".fa-star") &&
-      allevents.length != 0
+      allevents.length !== 0
     ) {
       setdone(true);
       setstar(false);
@@ -227,7 +227,7 @@ function Comments({ match, history }) {
   }, []);
 
   useEffect(() => {
-    if (allevents.length != 0)
+    if (allevents.length !== 0)
       if (
         allevents.find((el) => el._id === match.params.event_id) === undefined ||
         allevents.find((el) => el._id === match.params.event_id).state ===
@@ -264,7 +264,7 @@ function Comments({ match, history }) {
       },
     ];
     dispatch(addComment(comnt, match.params.event_id, auth.user._id));
-    state[0].users != auth.user._id &&
+    state[0].users !== auth.user._id &&
       dispatch(
         sendNotifications(
           auth.user._id,
@@ -302,7 +302,7 @@ function Comments({ match, history }) {
       },
     ];
     dispatch(editComment(edit, textedit));
-    state[0].users != auth.user._id &&
+    state[0].users !== auth.user._id &&
       dispatch(
         sendNotifications(
           auth.user._id,
@@ -339,7 +339,7 @@ function Comments({ match, history }) {
       },
     ];
     dispatch(addreply(reply.trim(), replyid, auth.user._id, uuidv4()));
-    state[0].users != auth.user._id &&
+    state[0].users !== auth.user._id &&
       dispatch(
         sendNotifications(
           auth.user._id,
@@ -369,7 +369,7 @@ function Comments({ match, history }) {
         consulted: false,
       },
     ];
-    state[0].users != state2[0].users &&
+    state[0].users !== state2[0].users &&
       dispatch(
         sendNotifications(
           auth.user._id,
@@ -394,7 +394,7 @@ function Comments({ match, history }) {
 
   return (
     <>
-      {load && allevents.length != 0 && users.length != 0 && (
+      {load && allevents.length !== 0 && users.length !== 0 && (
         <>
           <Navbar />
           <div
@@ -891,13 +891,13 @@ function Comments({ match, history }) {
                           }}
                         >
                           {allevents
-                            .filter((el) => el._id != match.params.event_id)
+                            .filter((el) => el._id !== match.params.event_id)
                             .slice(0)
                             .sort(function (a, b) {
                               return new Date(a.start) - new Date(b.start);
                             })
                             .reverse()
-                            .filter((el) => el.state != "Invalid")
+                            .filter((el) => el.state !== "Invalid")
                             .slice(0, 6 + countevent * 6)
                             .map((el, i) => {
                               return (
@@ -934,8 +934,8 @@ function Comments({ match, history }) {
                         </div>
                         {(countevent + 1) * 6 <
                           allevents
-                            .filter((el) => el._id != match.params.event_id)
-                            .filter((el) => el.state != "Invalid").length && (
+                            .filter((el) => el._id !== match.params.event_id)
+                            .filter((el) => el.state !== "Invalid").length && (
                           //  <div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
                           //         setCountevent(countevent+1)
 
@@ -1203,7 +1203,7 @@ function Comments({ match, history }) {
                                     </Link>
                                   </div>
                                   {users.find((e) => e._id === el.postedBy)
-                                    .role != "participant" && (
+                                    .role !== "participant" && (
                                     <p
                                       style={{
                                         marginLeft: 10,
@@ -1290,7 +1290,7 @@ function Comments({ match, history }) {
                                   auth.user.role === "administrator" ||
                                   auth.user.role === "moderator") && (
                                   <div id="editdelete">
-                                    {!edit || el._id != edit ? (
+                                    {!edit || el._id !== edit ? (
                                       <i
                                         className="material-icons"
                                         title="Edit"
@@ -1325,13 +1325,13 @@ function Comments({ match, history }) {
                                     </i>
                                   </div>
                                 )}
-                                {users.find((e) => e._id === el.postedBy).role !=
+                                {users.find((e) => e._id === el.postedBy).role !==
                                   "moderator" &&
                                   users.find((e) => e._id === el.postedBy)
-                                    .role != "administrator" &&
-                                  el.postedBy != auth.user._id &&
-                                  auth.user.role != "administrator" &&
-                                  auth.user.role != "moderator" &&
+                                    .role !== "administrator" &&
+                                  el.postedBy !== auth.user._id &&
+                                  auth.user.role !== "administrator" &&
+                                  auth.user.role !== "moderator" &&
                                   auth.isAuthenticated &&
                                   !auth.user.reports.includes(el._id) && (
                                     <span id="editdelete">
@@ -1348,7 +1348,7 @@ function Comments({ match, history }) {
                               </span>
                             </div>
 
-                            {el._id != edit ? (
+                            {el._id !== edit ? (
                               <p style={{ overflowWrap: "break-word" }}>
                                 {el.content}
                               </p>
@@ -1490,7 +1490,7 @@ function Comments({ match, history }) {
                                             consulted: false,
                                           },
                                         ];
-                                        state[0].users != auth.user._id &&
+                                        state[0].users !== auth.user._id &&
                                           dispatch(
                                             sendNotifications(
                                               auth.user._id,
@@ -1536,7 +1536,7 @@ function Comments({ match, history }) {
                                             consulted: false,
                                           },
                                         ];
-                                        state[0].users != auth.user._id &&
+                                        state[0].users !== auth.user._id &&
                                           dispatch(
                                             sendNotifications(
                                               auth.user._id,
@@ -1618,7 +1618,7 @@ function Comments({ match, history }) {
                                 >
                                   {el.dislikes === 0 ? "" : el.dislikes}
                                 </p>
-                                {el.postedBy != auth.user._id &&
+                                {el.postedBy !== auth.user._id &&
                                   auth.isAuthenticated && (
                                     <i
                                       title="reply"
@@ -1649,7 +1649,7 @@ function Comments({ match, history }) {
                                   fontWeight: 550,
                                 }}
                                 onClick={() => {
-                                  if (replycount && el._id != replyid) {
+                                  if (replycount && el._id !== replyid) {
                                     setReplayCount(replycount);
                                     setReply("");
                                     setReplyId(el._id);
@@ -1750,7 +1750,7 @@ function Comments({ match, history }) {
                                               </Link>
                                               {users.find(
                                                 (e) => e._id === el.postedBy
-                                              ).role != "participant" && (
+                                              ).role !== "participant" && (
                                                 <p
                                                   style={{
                                                     marginLeft: 10,
@@ -1859,7 +1859,7 @@ function Comments({ match, history }) {
                                               auth.user.role ===
                                                 "moderator") && (
                                               <div id="editdelete">
-                                                {!edit || el.id != edit ? (
+                                                {!edit || el.id !== edit ? (
                                                   <i
                                                     className="material-icons"
                                                     title="Edit"
@@ -1898,14 +1898,14 @@ function Comments({ match, history }) {
                                             )}
                                             {users.find(
                                               (e) => e._id === el.postedBy
-                                            ).role != "moderator" &&
+                                            ).role !== "moderator" &&
                                               users.find(
                                                 (e) => e._id === el.postedBy
-                                              ).role != "administrator" &&
-                                              el.postedBy != auth.user._id &&
-                                              auth.user.role !=
+                                              ).role !== "administrator" &&
+                                              el.postedBy !== auth.user._id &&
+                                              auth.user.role !==
                                                 "administrator" &&
-                                              auth.user.role != "moderator" &&
+                                              auth.user.role !== "moderator" &&
                                               auth.isAuthenticated &&
                                               !auth.user.reports.includes(
                                                 el.id
@@ -1926,7 +1926,7 @@ function Comments({ match, history }) {
                                           </span>
                                         </div>
 
-                                        {el.id != edit ? (
+                                        {el.id !== edit ? (
                                           <p
                                             style={{
                                               overflowWrap: "break-word",
@@ -2174,7 +2174,7 @@ function Comments({ match, history }) {
                                                 ? ""
                                                 : el.dislikes}
                                             </p>
-                                            {el.postedBy != auth.user._id &&
+                                            {el.postedBy !== auth.user._id &&
                                               auth.isAuthenticated && (
                                                 <i
                                                   title="reply"
@@ -2368,13 +2368,13 @@ function Comments({ match, history }) {
             {!resiz && (
               <div className="col l4  scroll_event">
                 {allevents
-                  .filter((el) => el._id != match.params.event_id)
+                  .filter((el) => el._id !== match.params.event_id)
                   .slice(0)
                   .sort(function (a, b) {
                     return new Date(a.start) - new Date(b.start);
                   })
                   .reverse()
-                  .filter((el) => el.state != "Invalid")
+                  .filter((el) => el.state !== "Invalid")
                   .slice(0, 10 + countevent * 10)
                   .map((el, i) => {
                     return (
@@ -2407,8 +2407,8 @@ function Comments({ match, history }) {
                   })}
                 {(countevent + 1) * 10 <
                   allevents
-                    .filter((el) => el._id != match.params.event_id)
-                    .filter((el) => el.state != "Invalid").length && (
+                    .filter((el) => el._id !== match.params.event_id)
+                    .filter((el) => el.state !== "Invalid").length && (
                   //  <div style={{display:"flex",cursor:"pointer",color: "rgb(46, 143, 165)",fontWeight: 550}} onClick={()=>{
                   //         setCountevent(countevent+1)
 

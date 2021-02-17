@@ -118,13 +118,13 @@ const UserListcard = ({ users }) => {
                       filter:
                         (sanctions
                           .filter(
-                            (elm) => elm.email == el.email && elm.type == "ban"
+                            (elm) => elm.email === el.email && elm.type === "ban"
                           )
                           .pop() &&
                           (!sanctions
                             .filter(
                               (elm) =>
-                                elm.email == el.email && elm.type == "ban"
+                                elm.email === el.email && elm.type === "ban"
                             )
                             .pop().canceled ||
                             (new Date(
@@ -132,13 +132,13 @@ const UserListcard = ({ users }) => {
                                 sanctions
                                   .filter(
                                     (elm) =>
-                                      elm.email == el.email && elm.type == "ban"
+                                      elm.email === el.email && elm.type === "ban"
                                   )
                                   .pop().created_at,
                                 sanctions
                                   .filter(
                                     (elm) =>
-                                      elm.email == el.email && elm.type == "ban"
+                                      elm.email === el.email && elm.type === "ban"
                                   )
                                   .pop().duration
                               )
@@ -146,20 +146,20 @@ const UserListcard = ({ users }) => {
                               sanctions
                                 .filter(
                                   (elm) =>
-                                    elm.email == el.email && elm.type == "ban"
+                                    elm.email === el.email && elm.type === "ban"
                                 )
-                                .pop().duration != -1))) == false
+                                .pop().duration !== -1))) === false
                           ? "initial"
                           : (sanctions
                               .filter(
                                 (elm) =>
-                                  elm.email == el.email && elm.type == "ban"
+                                  elm.email === el.email && elm.type === "ban"
                               )
                               .pop() &&
                               (!sanctions
                                 .filter(
                                   (elm) =>
-                                    elm.email == el.email && elm.type == "ban"
+                                    elm.email === el.email && elm.type === "ban"
                                 )
                                 .pop().canceled ||
                                 (new Date(
@@ -167,15 +167,15 @@ const UserListcard = ({ users }) => {
                                     sanctions
                                       .filter(
                                         (elm) =>
-                                          elm.email == el.email &&
-                                          elm.type == "ban"
+                                          elm.email === el.email &&
+                                          elm.type === "ban"
                                       )
                                       .pop().created_at,
                                     sanctions
                                       .filter(
                                         (elm) =>
-                                          elm.email == el.email &&
-                                          elm.type == "ban"
+                                          elm.email === el.email &&
+                                          elm.type === "ban"
                                       )
                                       .pop().duration
                                   )
@@ -183,10 +183,10 @@ const UserListcard = ({ users }) => {
                                   sanctions
                                     .filter(
                                       (elm) =>
-                                        elm.email == el.email &&
-                                        elm.type == "ban"
+                                        elm.email === el.email &&
+                                        elm.type === "ban"
                                     )
-                                    .pop().duration != -1))) == true &&
+                                    .pop().duration !== -1))) === true &&
                             "grayscale(150%)",
                     }}
                   >
@@ -237,13 +237,13 @@ const UserListcard = ({ users }) => {
                       </Link>
                       {sanctions
                         .filter(
-                          (elm) => elm.email == el.email && elm.type == "alert"
+                          (elm) => elm.email === el.email && elm.type === "alert"
                         )
                         .pop()
                         ? !sanctions
                             .filter(
                               (elm) =>
-                                elm.email == el.email && elm.type == "alert"
+                                elm.email === el.email && elm.type === "alert"
                             )
                             .pop().canceled &&
                           new Date(
@@ -251,13 +251,13 @@ const UserListcard = ({ users }) => {
                               sanctions
                                 .filter(
                                   (elm) =>
-                                    elm.email == el.email && elm.type == "alert"
+                                    elm.email === el.email && elm.type === "alert"
                                 )
                                 .pop().created_at,
                               sanctions
                                 .filter(
                                   (elm) =>
-                                    elm.email == el.email && elm.type == "alert"
+                                    elm.email === el.email && elm.type === "alert"
                                 )
                                 .pop().duration
                             )
@@ -274,15 +274,15 @@ const UserListcard = ({ users }) => {
                                   sanctions
                                     .filter(
                                       (elm) =>
-                                        elm.email == el.email &&
-                                        elm.type == "ban"
+                                        elm.email === el.email &&
+                                        elm.type === "ban"
                                     )
                                     .pop() &&
                                   (!sanctions
                                     .filter(
                                       (elm) =>
-                                        elm.email == el.email &&
-                                        elm.type == "ban"
+                                        elm.email === el.email &&
+                                        elm.type === "ban"
                                     )
                                     .pop().canceled ||
                                     (new Date(
@@ -290,15 +290,15 @@ const UserListcard = ({ users }) => {
                                         sanctions
                                           .filter(
                                             (elm) =>
-                                              elm.email == el.email &&
-                                              elm.type == "ban"
+                                              elm.email === el.email &&
+                                              elm.type === "ban"
                                           )
                                           .pop().created_at,
                                         sanctions
                                           .filter(
                                             (elm) =>
-                                              elm.email == el.email &&
-                                              elm.type == "ban"
+                                              elm.email === el.email &&
+                                              elm.type === "ban"
                                           )
                                           .pop().duration
                                       )
@@ -306,10 +306,10 @@ const UserListcard = ({ users }) => {
                                       sanctions
                                         .filter(
                                           (elm) =>
-                                            elm.email == el.email &&
-                                            elm.type == "ban"
+                                            elm.email === el.email &&
+                                            elm.type === "ban"
                                         )
-                                        .pop().duration != -1)) &&
+                                        .pop().duration !== -1)) &&
                                   "hidden",
                               }}
                               type="button"
@@ -319,21 +319,21 @@ const UserListcard = ({ users }) => {
                                 setAlertid(el._id);
                               }}
                               disabled={
-                                el.role == "administrator" ||
-                                el.role == "moderator"
+                                el.role === "administrator" ||
+                                el.role === "moderator"
                               }
                             ></i>
                           )
                         : sanctions
                             .filter(
                               (elm) =>
-                                elm.email == el.email && elm.type == "ban"
+                                elm.email === el.email && elm.type === "ban"
                             )
                             .pop() &&
                           !sanctions
                             .filter(
                               (elm) =>
-                                elm.email == el.email && elm.type == "ban"
+                                elm.email === el.email && elm.type === "ban"
                             )
                             .pop().canceled &&
                           new Date(
@@ -341,13 +341,13 @@ const UserListcard = ({ users }) => {
                               sanctions
                                 .filter(
                                   (elm) =>
-                                    elm.email == el.email && elm.type == "ban"
+                                    elm.email === el.email && elm.type === "ban"
                                 )
                                 .pop().created_at,
                               sanctions
                                 .filter(
                                   (elm) =>
-                                    elm.email == el.email && elm.type == "ban"
+                                    elm.email === el.email && elm.type === "ban"
                                 )
                                 .pop().duration
                             )
@@ -355,9 +355,9 @@ const UserListcard = ({ users }) => {
                           sanctions
                             .filter(
                               (elm) =>
-                                elm.email == el.email && elm.type == "ban"
+                                elm.email === el.email && elm.type === "ban"
                             )
-                            .pop().duration != -1 && (
+                            .pop().duration !== -1 && (
                             <i
                               className="fas fa-exclamation-circle btn-flat modal-trigger"
                               style={{
@@ -370,15 +370,15 @@ const UserListcard = ({ users }) => {
                                   sanctions
                                     .filter(
                                       (elm) =>
-                                        elm.email == el.email &&
-                                        elm.type == "ban"
+                                        elm.email === el.email &&
+                                        elm.type === "ban"
                                     )
                                     .pop() &&
                                   (!sanctions
                                     .filter(
                                       (elm) =>
-                                        elm.email == el.email &&
-                                        elm.type == "ban"
+                                        elm.email === el.email &&
+                                        elm.type === "ban"
                                     )
                                     .pop().canceled ||
                                     (new Date(
@@ -386,15 +386,15 @@ const UserListcard = ({ users }) => {
                                         sanctions
                                           .filter(
                                             (elm) =>
-                                              elm.email == el.email &&
-                                              elm.type == "ban"
+                                              elm.email === el.email &&
+                                              elm.type === "ban"
                                           )
                                           .pop().created_at,
                                         sanctions
                                           .filter(
                                             (elm) =>
-                                              elm.email == el.email &&
-                                              elm.type == "ban"
+                                              elm.email === el.email &&
+                                              elm.type === "ban"
                                           )
                                           .pop().duration
                                       )
@@ -402,10 +402,10 @@ const UserListcard = ({ users }) => {
                                       sanctions
                                         .filter(
                                           (elm) =>
-                                            elm.email == el.email &&
-                                            elm.type == "ban"
+                                            elm.email === el.email &&
+                                            elm.type === "ban"
                                         )
-                                        .pop().duration != -1)) &&
+                                        .pop().duration !== -1)) &&
                                   "hidden",
                               }}
                               type="button"
@@ -415,20 +415,20 @@ const UserListcard = ({ users }) => {
                                 setAlertid(el._id);
                               }}
                               disabled={
-                                el.role == "administrator" ||
-                                el.role == "moderator"
+                                el.role === "administrator" ||
+                                el.role === "moderator"
                               }
                             ></i>
                           )}
                       {sanctions
                         .filter(
-                          (elm) => elm.email == el.email && elm.type == "alert"
+                          (elm) => elm.email === el.email && elm.type === "alert"
                         )
                         .pop() ? (
                         (sanctions
                           .filter(
                             (elm) =>
-                              elm.email == el.email && elm.type == "alert"
+                              elm.email === el.email && elm.type === "alert"
                           )
                           .pop().canceled ||
                           new Date(
@@ -436,13 +436,13 @@ const UserListcard = ({ users }) => {
                               sanctions
                                 .filter(
                                   (elm) =>
-                                    elm.email == el.email && elm.type == "alert"
+                                    elm.email === el.email && elm.type === "alert"
                                 )
                                 .pop().created_at,
                               sanctions
                                 .filter(
                                   (elm) =>
-                                    elm.email == el.email && elm.type == "alert"
+                                    elm.email === el.email && elm.type === "alert"
                                 )
                                 .pop().duration
                             )
@@ -455,13 +455,13 @@ const UserListcard = ({ users }) => {
                                 sanctions
                                   .filter(
                                     (elm) =>
-                                      elm.email == el.email && elm.type == "ban"
+                                      elm.email === el.email && elm.type === "ban"
                                   )
                                   .pop() &&
                                 (!sanctions
                                   .filter(
                                     (elm) =>
-                                      elm.email == el.email && elm.type == "ban"
+                                      elm.email === el.email && elm.type === "ban"
                                   )
                                   .pop().canceled ||
                                   (new Date(
@@ -469,15 +469,15 @@ const UserListcard = ({ users }) => {
                                       sanctions
                                         .filter(
                                           (elm) =>
-                                            elm.email == el.email &&
-                                            elm.type == "ban"
+                                            elm.email === el.email &&
+                                            elm.type === "ban"
                                         )
                                         .pop().created_at,
                                       sanctions
                                         .filter(
                                           (elm) =>
-                                            elm.email == el.email &&
-                                            elm.type == "ban"
+                                            elm.email === el.email &&
+                                            elm.type === "ban"
                                         )
                                         .pop().duration
                                     )
@@ -485,10 +485,10 @@ const UserListcard = ({ users }) => {
                                     sanctions
                                       .filter(
                                         (elm) =>
-                                          elm.email == el.email &&
-                                          elm.type == "ban"
+                                          elm.email === el.email &&
+                                          elm.type === "ban"
                                       )
-                                      .pop().duration != -1))
+                                      .pop().duration !== -1))
                                   ? "white"
                                   : "gray",
                               position: "absolute",
@@ -499,13 +499,13 @@ const UserListcard = ({ users }) => {
                                 sanctions
                                   .filter(
                                     (elm) =>
-                                      elm.email == el.email && elm.type == "ban"
+                                      elm.email === el.email && elm.type === "ban"
                                   )
                                   .pop() &&
                                 (!sanctions
                                   .filter(
                                     (elm) =>
-                                      elm.email == el.email && elm.type == "ban"
+                                      elm.email === el.email && elm.type === "ban"
                                   )
                                   .pop().canceled ||
                                   (new Date(
@@ -513,15 +513,15 @@ const UserListcard = ({ users }) => {
                                       sanctions
                                         .filter(
                                           (elm) =>
-                                            elm.email == el.email &&
-                                            elm.type == "ban"
+                                            elm.email === el.email &&
+                                            elm.type === "ban"
                                         )
                                         .pop().created_at,
                                       sanctions
                                         .filter(
                                           (elm) =>
-                                            elm.email == el.email &&
-                                            elm.type == "ban"
+                                            elm.email === el.email &&
+                                            elm.type === "ban"
                                         )
                                         .pop().duration
                                     )
@@ -529,10 +529,10 @@ const UserListcard = ({ users }) => {
                                     sanctions
                                       .filter(
                                         (elm) =>
-                                          elm.email == el.email &&
-                                          elm.type == "ban"
+                                          elm.email === el.email &&
+                                          elm.type === "ban"
                                       )
-                                      .pop().duration != -1)) &&
+                                      .pop().duration !== -1)) &&
                                 "hidden",
                             }}
                             type="button"
@@ -542,19 +542,19 @@ const UserListcard = ({ users }) => {
                               setAlertid(el._id);
                             }}
                             disabled={
-                              el.role == "administrator" ||
-                              el.role == "moderator"
+                              el.role === "administrator" ||
+                              el.role === "moderator"
                             }
                           ></i>
                         )
                       ) : sanctions
                           .filter(
-                            (elm) => elm.email == el.email && elm.type == "ban"
+                            (elm) => elm.email === el.email && elm.type === "ban"
                           )
                           .pop() ? ( //there's a ban
                         (sanctions
                           .filter(
-                            (elm) => elm.email == el.email && elm.type == "ban"
+                            (elm) => elm.email === el.email && elm.type === "ban"
                           )
                           .pop().canceled || // if the ban is cancelled or expired
                           (new Date(
@@ -562,13 +562,13 @@ const UserListcard = ({ users }) => {
                               sanctions
                                 .filter(
                                   (elm) =>
-                                    elm.email == el.email && elm.type == "ban"
+                                    elm.email === el.email && elm.type === "ban"
                                 )
                                 .pop().created_at,
                               sanctions
                                 .filter(
                                   (elm) =>
-                                    elm.email == el.email && elm.type == "ban"
+                                    elm.email === el.email && elm.type === "ban"
                                 )
                                 .pop().duration
                             )
@@ -576,9 +576,9 @@ const UserListcard = ({ users }) => {
                             sanctions
                               .filter(
                                 (elm) =>
-                                  elm.email == el.email && elm.type == "ban"
+                                  elm.email === el.email && elm.type === "ban"
                               )
-                              .pop().duration != -1)) && (
+                              .pop().duration !== -1)) && (
                           <i
                             className="fas fa-exclamation-circle btn-flat modal-trigger"
                             style={{
@@ -586,13 +586,13 @@ const UserListcard = ({ users }) => {
                                 sanctions
                                   .filter(
                                     (elm) =>
-                                      elm.email == el.email && elm.type == "ban"
+                                      elm.email === el.email && elm.type === "ban"
                                   )
                                   .pop() &&
                                 (!sanctions
                                   .filter(
                                     (elm) =>
-                                      elm.email == el.email && elm.type == "ban"
+                                      elm.email === el.email && elm.type === "ban"
                                   )
                                   .pop().canceled ||
                                   (new Date(
@@ -600,15 +600,15 @@ const UserListcard = ({ users }) => {
                                       sanctions
                                         .filter(
                                           (elm) =>
-                                            elm.email == el.email &&
-                                            elm.type == "ban"
+                                            elm.email === el.email &&
+                                            elm.type === "ban"
                                         )
                                         .pop().created_at,
                                       sanctions
                                         .filter(
                                           (elm) =>
-                                            elm.email == el.email &&
-                                            elm.type == "ban"
+                                            elm.email === el.email &&
+                                            elm.type === "ban"
                                         )
                                         .pop().duration
                                     )
@@ -616,10 +616,10 @@ const UserListcard = ({ users }) => {
                                     sanctions
                                       .filter(
                                         (elm) =>
-                                          elm.email == el.email &&
-                                          elm.type == "ban"
+                                          elm.email === el.email &&
+                                          elm.type === "ban"
                                       )
-                                      .pop().duration != -1))
+                                      .pop().duration !== -1))
                                   ? "white"
                                   : "gray",
                               position: "absolute",
@@ -630,13 +630,13 @@ const UserListcard = ({ users }) => {
                                 sanctions
                                   .filter(
                                     (elm) =>
-                                      elm.email == el.email && elm.type == "ban"
+                                      elm.email === el.email && elm.type === "ban"
                                   )
                                   .pop() &&
                                 (!sanctions
                                   .filter(
                                     (elm) =>
-                                      elm.email == el.email && elm.type == "ban"
+                                      elm.email === el.email && elm.type === "ban"
                                   )
                                   .pop().canceled ||
                                   (new Date(
@@ -644,15 +644,15 @@ const UserListcard = ({ users }) => {
                                       sanctions
                                         .filter(
                                           (elm) =>
-                                            elm.email == el.email &&
-                                            elm.type == "ban"
+                                            elm.email === el.email &&
+                                            elm.type === "ban"
                                         )
                                         .pop().created_at,
                                       sanctions
                                         .filter(
                                           (elm) =>
-                                            elm.email == el.email &&
-                                            elm.type == "ban"
+                                            elm.email === el.email &&
+                                            elm.type === "ban"
                                         )
                                         .pop().duration
                                     )
@@ -660,10 +660,10 @@ const UserListcard = ({ users }) => {
                                     sanctions
                                       .filter(
                                         (elm) =>
-                                          elm.email == el.email &&
-                                          elm.type == "ban"
+                                          elm.email === el.email &&
+                                          elm.type === "ban"
                                       )
-                                      .pop().duration != -1)) &&
+                                      .pop().duration !== -1)) &&
                                 "hidden",
                             }}
                             type="button"
@@ -673,8 +673,8 @@ const UserListcard = ({ users }) => {
                               setAlertid(el._id);
                             }}
                             disabled={
-                              el.role == "administrator" ||
-                              el.role == "moderator"
+                              el.role === "administrator" ||
+                              el.role === "moderator"
                             }
                           ></i>
                         )
@@ -686,13 +686,13 @@ const UserListcard = ({ users }) => {
                               sanctions
                                 .filter(
                                   (elm) =>
-                                    elm.email == el.email && elm.type == "ban"
+                                    elm.email === el.email && elm.type === "ban"
                                 )
                                 .pop() &&
                               (!sanctions
                                 .filter(
                                   (elm) =>
-                                    elm.email == el.email && elm.type == "ban"
+                                    elm.email === el.email && elm.type === "ban"
                                 )
                                 .pop().canceled ||
                                 (new Date(
@@ -700,15 +700,15 @@ const UserListcard = ({ users }) => {
                                     sanctions
                                       .filter(
                                         (elm) =>
-                                          elm.email == el.email &&
-                                          elm.type == "ban"
+                                          elm.email === el.email &&
+                                          elm.type === "ban"
                                       )
                                       .pop().created_at,
                                     sanctions
                                       .filter(
                                         (elm) =>
-                                          elm.email == el.email &&
-                                          elm.type == "ban"
+                                          elm.email === el.email &&
+                                          elm.type === "ban"
                                       )
                                       .pop().duration
                                   )
@@ -716,10 +716,10 @@ const UserListcard = ({ users }) => {
                                   sanctions
                                     .filter(
                                       (elm) =>
-                                        elm.email == el.email &&
-                                        elm.type == "ban"
+                                        elm.email === el.email &&
+                                        elm.type === "ban"
                                     )
-                                    .pop().duration != -1))
+                                    .pop().duration !== -1))
                                 ? "white"
                                 : "gray",
                             position: "absolute",
@@ -730,13 +730,13 @@ const UserListcard = ({ users }) => {
                               sanctions
                                 .filter(
                                   (elm) =>
-                                    elm.email == el.email && elm.type == "ban"
+                                    elm.email === el.email && elm.type === "ban"
                                 )
                                 .pop() &&
                               (!sanctions
                                 .filter(
                                   (elm) =>
-                                    elm.email == el.email && elm.type == "ban"
+                                    elm.email === el.email && elm.type === "ban"
                                 )
                                 .pop().canceled ||
                                 (new Date(
@@ -744,15 +744,15 @@ const UserListcard = ({ users }) => {
                                     sanctions
                                       .filter(
                                         (elm) =>
-                                          elm.email == el.email &&
-                                          elm.type == "ban"
+                                          elm.email === el.email &&
+                                          elm.type === "ban"
                                       )
                                       .pop().created_at,
                                     sanctions
                                       .filter(
                                         (elm) =>
-                                          elm.email == el.email &&
-                                          elm.type == "ban"
+                                          elm.email === el.email &&
+                                          elm.type === "ban"
                                       )
                                       .pop().duration
                                   )
@@ -760,10 +760,10 @@ const UserListcard = ({ users }) => {
                                   sanctions
                                     .filter(
                                       (elm) =>
-                                        elm.email == el.email &&
-                                        elm.type == "ban"
+                                        elm.email === el.email &&
+                                        elm.type === "ban"
                                     )
-                                    .pop().duration != -1)) &&
+                                    .pop().duration !== -1)) &&
                               "hidden",
                           }}
                           type="button"
@@ -773,7 +773,7 @@ const UserListcard = ({ users }) => {
                             setAlertid(el._id);
                           }}
                           disabled={
-                            el.role == "administrator" || el.role == "moderator"
+                            el.role === "administrator" || el.role === "moderator"
                           }
                         ></i>
                       )}
@@ -835,7 +835,7 @@ const UserListcard = ({ users }) => {
                       }}
                       data-target="modalsanction"
                       disabled={
-                        el.role == "administrator" || el.role == "moderator"
+                        el.role === "administrator" || el.role === "moderator"
                       }
                     >
                       Sanctions
@@ -844,12 +844,12 @@ const UserListcard = ({ users }) => {
                     {!(
                       sanctions
                         .filter(
-                          (elm) => elm.email == el.email && elm.type == "ban"
+                          (elm) => elm.email === el.email && elm.type === "ban"
                         )
                         .pop() &&
                       (!sanctions
                         .filter(
-                          (elm) => elm.email == el.email && elm.type == "ban"
+                          (elm) => elm.email === el.email && elm.type === "ban"
                         )
                         .pop().canceled ||
                         (new Date(
@@ -857,13 +857,13 @@ const UserListcard = ({ users }) => {
                             sanctions
                               .filter(
                                 (elm) =>
-                                  elm.email == el.email && elm.type == "ban"
+                                  elm.email === el.email && elm.type === "ban"
                               )
                               .pop().created_at,
                             sanctions
                               .filter(
                                 (elm) =>
-                                  elm.email == el.email && elm.type == "ban"
+                                  elm.email === el.email && elm.type === "ban"
                               )
                               .pop().duration
                           )
@@ -871,9 +871,9 @@ const UserListcard = ({ users }) => {
                           sanctions
                             .filter(
                               (elm) =>
-                                elm.email == el.email && elm.type == "ban"
+                                elm.email === el.email && elm.type === "ban"
                             )
-                            .pop().duration != -1))
+                            .pop().duration !== -1))
                     ) ? (
                       <button
                         style={{
@@ -891,17 +891,17 @@ const UserListcard = ({ users }) => {
                           setBanid(el._id);
                         }}
                         disabled={
-                          el.role == "administrator" ||
+                          el.role === "administrator" ||
                           !sanctions
                             .filter(
                               (elm) =>
-                                elm.email == el.email && elm.type == "alert"
+                                elm.email === el.email && elm.type === "alert"
                             )
                             .pop() ||
                           sanctions
                             .filter(
                               (elm) =>
-                                elm.email == el.email && elm.type == "alert"
+                                elm.email === el.email && elm.type === "alert"
                             )
                             .pop().canceled ||
                           new Date(
@@ -909,13 +909,13 @@ const UserListcard = ({ users }) => {
                               sanctions
                                 .filter(
                                   (elm) =>
-                                    elm.email == el.email && elm.type == "alert"
+                                    elm.email === el.email && elm.type === "alert"
                                 )
                                 .pop().created_at,
                               sanctions
                                 .filter(
                                   (elm) =>
-                                    elm.email == el.email && elm.type == "alert"
+                                    elm.email === el.email && elm.type === "alert"
                                 )
                                 .pop().duration
                             )
@@ -942,7 +942,7 @@ const UserListcard = ({ users }) => {
                           setEmail(el.email);
                           setBanid(el._id);
                         }}
-                        disabled={el.role == "administrator" && true}
+                        disabled={el.role === "administrator" && true}
                       >
                         Unban
                       </button>

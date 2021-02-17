@@ -31,6 +31,7 @@ import { sendNotifications } from "../actions/notificationaction";
 import calcul_rating from "../outils/calucle_rating";
 import MyMap from "./Maps";
 import { formatRelative } from "date-fns";
+import { Link } from "react-router-dom";
 
 function Organizer_events({ history }) {
   const auth = useSelector((state) => state.auth);
@@ -113,16 +114,16 @@ function Organizer_events({ history }) {
   useEffect(() => {
     for (let i = 0; i < allevents.length; i++) {
       if (
-        allevents[i].participant.length == allevents[i].nb_participant &&
-        allevents[i].state != "Ended"
+        allevents[i].participant.length === allevents[i].nb_participant &&
+        allevents[i].state !== "Ended"
       )
         dispatch(fullEvent(allevents[i]._id));
     }
     for (let i = 0; i < allparticipant.length; i++) {
       if (
-        allparticipant.participant[i].participant.length ==
+        allparticipant.participant[i].participant.length ===
           allparticipant.participant[i].nb_participant &&
-        allparticipant.participant[i].state != "Ended"
+        allparticipant.participant[i].state !== "Ended"
       )
         dispatch(fullEvent(allparticipant.participant[i]._id));
     }
@@ -143,16 +144,16 @@ function Organizer_events({ history }) {
   useEffect(() => {
     for (let i = 0; i < allevents.length; i++) {
       if (
-        allevents[i].participant.length != allevents[i].nb_participant &&
-        allevents[i].state == "Full"
+        allevents[i].participant.length !== allevents[i].nb_participant &&
+        allevents[i].state === "Full"
       )
         dispatch(openEvent(allevents[i]._id));
     }
     for (let i = 0; i < allparticipant.length; i++) {
       if (
-        allparticipant.participant[i].participant.length !=
+        allparticipant.participant[i].participant.length !==
           allparticipant.participant[i].nb_participant &&
-        allparticipant.participant[i].state == "Full"
+        allparticipant.participant[i].state === "Full"
       )
         dispatch(openEvent(allparticipant.participant[i]._id));
     }
@@ -161,7 +162,7 @@ function Organizer_events({ history }) {
     return (
       el.title.toLowerCase().includes(quickSearch.title.toLowerCase()) &&
       el.state.toLowerCase().includes(quickSearch.state.toLowerCase()) &&
-      (quickSearch.tags != ""
+      (quickSearch.tags !== ""
         ? el.tags.find((e) =>
             e.toLowerCase().includes(quickSearch.tags.toLowerCase())
           )
@@ -296,10 +297,10 @@ function Organizer_events({ history }) {
         </div>
       )}
 
-      {(quickSearch.title != "" ||
-        quickSearch.state != "" ||
-        quickSearch.tags != "") &&
-        eventsorganizer.length != 0 && (
+      {(quickSearch.title !== "" ||
+        quickSearch.state !== "" ||
+        quickSearch.tags !== "") &&
+        eventsorganizer.length !== 0 && (
           // <div className="row" style={{marginLeft:10}} > <h5> <b>{eventsorganizer.length+" result(s) found"}</b> </h5></div>
           <div className="row" style={{ marginLeft: "10px" }}>
             <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
@@ -318,7 +319,7 @@ function Organizer_events({ history }) {
             </div>
           </div>
         )}
-      {eventsorganizer.length != 0 ? (
+      {eventsorganizer.length !== 0 ? (
         // <div className="row">
         <div className="row">
           <div style={{ marginLeft: "10px" }}>
@@ -410,7 +411,7 @@ function Organizer_events({ history }) {
                                 justifyContent: "center",
                               }}
                             >
-                              {el.rating.length == 0
+                              {el.rating.length === 0
                                 ? "--"
                                 : calcul_rating(el.rating)}
                             </p>
@@ -546,7 +547,7 @@ function Organizer_events({ history }) {
                               {el.participant.length + "/" + el.nb_participant}
                             </span>
                           </div>
-                          {el.tags.length != 0 && (
+                          {el.tags.length !== 0 && (
                             <div className="slider right tag_slide_orgevnt">
                               <ul className="slides">
                                 {el.tags.map((el, i) => (
@@ -581,7 +582,7 @@ function Organizer_events({ history }) {
                           <a
                             href="#style-3"
                             onClick={() => {
-                              if (participant && btnpart != el._id) {
+                              if (participant && btnpart !== el._id) {
                                 setParticipant(
                                   participantToggle(participantToggle())
                                 );
@@ -608,7 +609,7 @@ function Organizer_events({ history }) {
                           </a>
                           <span
                             className={
-                              el.state == "Available"
+                              el.state === "Available"
                                 ? "right green-text"
                                 : "right gray-text text-darken-3"
                             }
@@ -656,13 +657,13 @@ function Organizer_events({ history }) {
                           >
                             {" "}
                             {/* ((new Date(el.date)-new Date())/(1000*86400))>3&& */}
-                            {el.state != "Ended" && (
-                              <a
+                            {el.state !== "Ended" && (
+                              <Link
                                 className="btn-floating  cyan darken-3"
                                 onClick={() => {
                                   setAction({ type: "edit", payload: el });
 
-                                  if (modal && btnedit != el._id) {
+                                  if (modal && btnedit !== el._id) {
                                     setModal(toggle(toggle()));
                                   } else toggle();
                                   if (!modal) toggle();
@@ -670,12 +671,12 @@ function Organizer_events({ history }) {
                                   setParticipant(false);
                                   setModalId(el._id);
                                 }}
-                                title={el._id}
+                                title="edit"
                                 id={el._id}
-                                href="#style-3"
+                                to="#style-3"
                               >
                                 <i className="material-icons ">edit</i>
-                              </a>
+                              </Link>
                             )}
                             <button
                               className="btn-floating  cyan darken-3 modal-trigger"
@@ -685,8 +686,8 @@ function Organizer_events({ history }) {
                             >
                               <i className="material-icons ">delete</i>{" "}
                             </button>
-                            {(el.state == "Available" ||
-                              el.state == "Full") && (
+                            {(el.state === "Available" ||
+                              el.state === "Full") && (
                               <button
                                 className="btn-floating  cyan darken-3 modal-trigger"
                                 title="close"
@@ -698,7 +699,7 @@ function Organizer_events({ history }) {
                                 <i className="material-icons ">block</i>{" "}
                               </button>
                             )}
-                            {el.state == "Closed" && (
+                            {el.state === "Closed" && (
                               <button
                                 className="btn-floating  cyan darken-3 modal-trigger"
                                 title="open"
@@ -708,10 +709,11 @@ function Organizer_events({ history }) {
                                 <i className="material-icons ">done</i>{" "}
                               </button>
                             )}
-                            {el.state != "Invalid" && (
+                            {el.state !== "Invalid" && (
                               <div>
                                 {" "}
                                 <a
+                                href="#!"
                                   className="btn-floating  cyan darken-3"
                                   onClick={() => {
                                     history.push(`/events/${el._id}`);
@@ -726,7 +728,7 @@ function Organizer_events({ history }) {
                         </div>
                       </div>
                     </div>
-                    {modal && modalId == el._id && (
+                    {modal && modalId === el._id && (
                       <div
                         className="col s12 m6 groupofnotes scrollbar"
                         id="style-3"
@@ -743,13 +745,13 @@ function Organizer_events({ history }) {
                         />
                       </div>
                     )}
-                    {participant && participantId == el._id && (
+                    {participant && participantId === el._id && (
                       <div
                         className="col s12 m6 groupofnotes scrollbar"
                         id="style-3"
                         style={{ overflowY: "auto", height: "360px" }}
                       >
-                        {el.participant.length != 0 ? (
+                        {el.participant.length !== 0 ? (
                           <ul className="collection org">
                             {el.participant.map((el, i) => {
                               return (
@@ -790,9 +792,9 @@ function Organizer_events({ history }) {
                 );
               })}
         </div>
-      ) : quickSearch.title != "" ||
-        quickSearch.state != "" ||
-        quickSearch.tags != "" ? (
+      ) : quickSearch.title !== "" ||
+        quickSearch.state !== "" ||
+        quickSearch.tags !== "" ? (
         // <div className="row" style={{marginLeft:10}} > <h5> <b>{eventsorganizer.length+" result(s) found"}</b> </h5></div>
         <div className="row" style={{ marginLeft: "10px" }}>
           <div className=" row vc_row wpb_row vc_row-fluid section-header featured">
@@ -853,12 +855,12 @@ function Organizer_events({ history }) {
                 " " +
                 auth.user.fname +
                 " deleted the event " +
-                allevents.find((elm) => elm._id == deleteid).title;
+                allevents.find((elm) => elm._id === deleteid).title;
               let notiftype = "Event_Deleted";
               let compid = deleteid;
               var state = [];
               allevents
-                .find((elm) => elm._id == deleteid)
+                .find((elm) => elm._id === deleteid)
                 .participant.map((el) => {
                   state = [...state, { users: el, consulted: false }];
                 });
@@ -900,12 +902,12 @@ function Organizer_events({ history }) {
                 " " +
                 auth.user.fname +
                 " closed the event " +
-                allevents.find((elm) => elm._id == closedid).title;
+                allevents.find((elm) => elm._id === closedid).title;
               let notiftype = "Event_Closed";
               let compid = closedid;
               var state = [];
               allevents
-                .find((elm) => elm._id == closedid)
+                .find((elm) => elm._id === closedid)
                 .participant.map((el) => {
                   state = [...state, { users: el, consulted: false }];
                 });
@@ -947,12 +949,12 @@ function Organizer_events({ history }) {
                 " " +
                 auth.user.fname +
                 " reopened the event " +
-                allevents.find((elm) => elm._id == closedid).title;
+                allevents.find((elm) => elm._id === closedid).title;
               let notiftype = "Event_Opened";
               let compid = closedid;
               var state = [];
               allevents
-                .find((elm) => elm._id == closedid)
+                .find((elm) => elm._id === closedid)
                 .participant.map((el) => {
                   state = [...state, { users: el, consulted: false }];
                 });

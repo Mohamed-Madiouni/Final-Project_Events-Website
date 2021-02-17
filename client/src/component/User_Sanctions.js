@@ -12,7 +12,7 @@ function Sanctions(props) {
   const users = useSelector((state) => state.admin.users);
   var userMail = props.useremail;
   const allsanctions = useSelector((state) => state.auth.sanctions);
-  const sanctions = allsanctions.filter((el) => el.email == userMail);
+  const sanctions = allsanctions.filter((el) => el.email === userMail);
   useEffect(() => {
     dispatch({
       type: GET_ERRORS,
@@ -26,7 +26,7 @@ function Sanctions(props) {
 
   return (
     <>
-      {sanctions.length != 0 ? (
+      {sanctions.length  !== 0 ? (
         <div id="modalnotifall" style={{ padding: 0, margin: 0 }}>
           <div>
             <h4 className="center" style={{ marginTop: "20px" }}>
@@ -68,7 +68,7 @@ function Sanctions(props) {
                                 >
                                   <img
                                     src={
-                                      users.find((e) => e.email == el.email)
+                                      users.find((e) => e.email === el.email)
                                         .avatar
                                     }
                                     alt=""
@@ -94,7 +94,7 @@ function Sanctions(props) {
                                         alt="Account_Banned"
                                       />
                                     )}
-                                    {el.type == "alert" && (
+                                    {el.type === "alert" && (
                                       <img
                                         src="/Account_Alerted.png"
                                         alt="Account_Alerted"
@@ -111,7 +111,7 @@ function Sanctions(props) {
                                   </div>
                                   <div className="notification-per-period__period-card__date">
                                     Duration:{" "}
-                                    {el.duration == -1
+                                    {el.duration === -1
                                       ? "Permanent"
                                       : el.duration + " Days"}
                                   </div>
