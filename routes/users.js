@@ -14,9 +14,9 @@ var Pusher = require('pusher');
 require("dotenv").config();
 
 var pusher = new Pusher({
-  appId: process.env.appId,
-  key: process.env.key,
-  secret: process.env.secret,
+  appId:"1092374",
+  key: "16ca3006a08827062073",
+  secret: "d68755f8ef8b5528389a",
   cluster: 'eu',
   useTLS: true,
 });
