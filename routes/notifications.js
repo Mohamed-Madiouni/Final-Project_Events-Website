@@ -5,13 +5,13 @@ const authMiddleware = require("../middleware/authMiddleware");
 var Pusher = require('pusher');
 require("dotenv").config();
 
-var pusher = new Pusher({
-  app_id:"1092374",
-  key: "16ca3006a08827062073",
-  secret: "d68755f8ef8b5528389a",
-  cluster: 'eu',
-  useTLS: true,
-});
+// var pusher = new Pusher({
+//   app_id:"1092374",
+//   key: "16ca3006a08827062073",
+//   secret: "d68755f8ef8b5528389a",
+//   cluster: 'eu',
+//   useTLS: true,
+// });
 
 
 
@@ -31,9 +31,9 @@ router.post("/add",authMiddleware, (req, res) => {
     Notification.create(req.body)
       .then((notifications) => {
 
-        pusher.trigger('channel1', 'notification', {
-          'message': 'hello world'
-        });  
+        // pusher.trigger('channel1', 'notification', {
+        //   'message': 'hello world'
+        // });  
       
         res.status(201).send(notifications)
       
@@ -76,9 +76,9 @@ for(let i=0;i<notifications.length;i++)
      })
     
     }
-    pusher.trigger('channel1', 'notification', {
-      'message': 'hello world'
-    });
+    // pusher.trigger('channel1', 'notification', {
+    //   'message': 'hello world'
+    // });
     res.status(201).send(notifications)
   })
 
