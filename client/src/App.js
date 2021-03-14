@@ -67,7 +67,7 @@ function App() {
    
   });
   useEffect(()=>{
-     if (location.pathname === "/")
+     if(location.pathname==="/")
       M.Slider.init(document.querySelectorAll(".slider"), {
         height: 500,
         indicators: false,

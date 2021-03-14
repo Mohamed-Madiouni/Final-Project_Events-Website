@@ -52,7 +52,7 @@ const UserList = () => {
   });
 
   useEffect(() => {
-    var pusher = new Pusher(process.env.REACT_APP_KEY, {
+    var pusher = new Pusher("16ca3006a08827062073", {
       cluster: "eu",
     });
     var channel = pusher.subscribe("channel2");

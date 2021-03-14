@@ -14,7 +14,7 @@ var Pusher = require('pusher');
 require("dotenv").config();
 
 var pusher = new Pusher({
-  appId:"1092374",
+  app_id:"1092374",
   key: "16ca3006a08827062073",
   secret: "d68755f8ef8b5528389a",
   cluster: 'eu',

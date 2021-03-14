@@ -18,6 +18,7 @@ function Home() {
   const dispatch = useDispatch();
   const allevents = useSelector((state) => state.events.allEvents);
   const history = useHistory();
+ 
   useEffect(() => {
     if (localStorage.token) {
       dispatch(getCurrentUser());
@@ -58,8 +59,9 @@ function Home() {
     <>
       <Navbar />
       <div className="use-bootstrap">
-        <div className="parallax-container">
-          {allevents && (
+        <div >
+          {allevents && allevents
+                    .filter((el) => el.state === "Available").length!==0&&(
             <div className="slider">
               <ul className="slides">
                 {allevents &&
