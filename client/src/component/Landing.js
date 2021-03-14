@@ -75,34 +75,34 @@ function Landing({}) {
     });
   });
 
-  useEffect(() => {
-    // Pusher.logToConsole = true;
+  // useEffect(() => {
+  //   // Pusher.logToConsole = true;
 
-    var pusher = new Pusher("16ca3006a08827062073", {
-      cluster: "eu",
-    });
-    var channel = pusher.subscribe("sanction");
-    channel.bind("my-event", function (data) {
-      dispatch(getSanctions());
-    });
-    var channel = pusher.subscribe("block");
-    channel.bind("my-event", function (data) {
-      dispatch(getCurrentUser());
-      dispatch(getUsers());
-    });
-  }, []);
+  //   var pusher = new Pusher("16ca3006a08827062073", {
+  //     cluster: "eu",
+  //   });
+  //   var channel = pusher.subscribe("sanction");
+  //   channel.bind("my-event", function (data) {
+  //     dispatch(getSanctions());
+  //   });
+  //   var channel = pusher.subscribe("block");
+  //   channel.bind("my-event", function (data) {
+  //     dispatch(getCurrentUser());
+  //     dispatch(getUsers());
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    // Pusher.logToConsole = true;
+  // useEffect(() => {
+  //   // Pusher.logToConsole = true;
 
-    var pusher = new Pusher(process.env.REACT_APP_KEY, {
-      cluster: "eu",
-    });
-    var channel = pusher.subscribe("chat");
-    channel.bind("my-event", function (data) {
-      dispatch(getChat());
-    });
-  }, []);
+  //   var pusher = new Pusher(process.env.REACT_APP_KEY, {
+  //     cluster: "eu",
+  //   });
+  //   var channel = pusher.subscribe("chat");
+  //   channel.bind("my-event", function (data) {
+  //     dispatch(getChat());
+  //   });
+  // }, []);
 
   useEffect(() => {
     if (shownotif && notifref.current && window.innerWidth <= 545)
@@ -110,17 +110,17 @@ function Landing({}) {
         Number(Number(window.innerWidth) - 195).toString() + "px";
   }, [shownotif]);
 
-  useEffect(() => {
-    // Pusher.logToConsole = true;
+  // useEffect(() => {
+  //   // Pusher.logToConsole = true;
 
-    var pusher = new Pusher(process.env.REACT_APP_KEY, {
-      cluster: "eu",
-    });
-    var channel = pusher.subscribe("channel1");
-    channel.bind("notification", function (data) {
-      dispatch(getNotifications());
-    });
-  }, []);
+  //   var pusher = new Pusher(process.env.REACT_APP_KEY, {
+  //     cluster: "eu",
+  //   });
+  //   var channel = pusher.subscribe("channel1");
+  //   channel.bind("notification", function (data) {
+  //     dispatch(getNotifications());
+  //   });
+  // }, []);
 
   useEffect(() => {
     if (

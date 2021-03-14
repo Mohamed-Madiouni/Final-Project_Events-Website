@@ -51,15 +51,15 @@ const UserList = () => {
     reason: "",
   });
 
-  useEffect(() => {
-    var pusher = new Pusher("16ca3006a08827062073", {
-      cluster: "eu",
-    });
-    var channel = pusher.subscribe("channel2");
-    channel.bind("log", function (data) {
-      dispatch(getUsers());
-    });
-  }, []);
+  // useEffect(() => {
+  //   var pusher = new Pusher("16ca3006a08827062073", {
+  //     cluster: "eu",
+  //   });
+  //   var channel = pusher.subscribe("channel2");
+  //   channel.bind("log", function (data) {
+  //     dispatch(getUsers());
+  //   });
+  // }, []);
 // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (errors.alerted) {
