@@ -97,17 +97,17 @@ function Reports({  history }) {
     if (errors.reply) setReply("");
   });
 
-  // useEffect(() => {
-  //   // Pusher.logToConsole = true;
+  useEffect(() => {
+    // Pusher.logToConsole = true;
 
-  //   var pusher = new Pusher("16ca3006a08827062073", {
-  //     cluster: "eu",
-  //   });
-  //   var channel = pusher.subscribe("my-channel");
-  //   channel.bind("my-event", function (data) {
-  //     dispatch(getComment());
-  //   });
-  // }, []);
+    var pusher = new Pusher("16ca3006a08827062073", {
+      cluster: "eu",
+    });
+    var channel = pusher.subscribe("my-channel");
+    channel.bind("my-event", function (data) {
+      dispatch(getComment());
+    });
+  }, []);
 
   const onEmojiClick = (emoji) => {
     setComnt(comnt.concat(emoji.native));

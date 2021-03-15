@@ -7,13 +7,13 @@ const authMiddleware = require("../middleware/authMiddleware");
 var Pusher = require('pusher');
 require("dotenv").config();
 
-// var pusher = new Pusher({
-//   app_id:"1092374",
-//   key: "16ca3006a08827062073",
-//   secret: "d68755f8ef8b5528389a",
-//   cluster: 'eu',
-//   useTLS: true,
-// });
+var pusher = new Pusher({
+  appId:process.env.appId,
+  key: process.env.key,
+  secret: process.env.secret,
+  cluster: 'eu',
+  useTLS: true,
+});
 
 
 //create comments
@@ -27,9 +27,9 @@ router.post("/add",authMiddleware,(req,res)=>{
    
      newComent.save()
      .then(com=>{
-      // pusher.trigger('my-channel', 'my-event', {
-      //   'message': 'hello world'
-      // });
+      pusher.trigger('my-channel', 'my-event', {
+        'message': 'hello world'
+      });
       
       res.status(201).send(com)
       })
@@ -54,9 +54,9 @@ router.post("/add",authMiddleware,(req,res)=>{
        runValidators:true
      })
      .then(com=>{
-      // pusher.trigger('my-channel', 'my-event', {
-      //   'message': 'hello world'
-      // });   
+      pusher.trigger('my-channel', 'my-event', {
+        'message': 'hello world'
+      });   
       res.status(202).send(com)
     })
      .catch(err=>res.status(404).send(err.message))
@@ -67,9 +67,9 @@ router.post("/add",authMiddleware,(req,res)=>{
    router.delete("/delete/:commentId",authMiddleware,(req,res)=>{
      Comment.findOneAndRemove({_id:req.params.commentId})
      .then(del=> {
-      // pusher.trigger('my-channel', 'my-event', {
-      //   'message': 'hello world'
-      // });
+      pusher.trigger('my-channel', 'my-event', {
+        'message': 'hello world'
+      });
       res.send({ msg: "comment Deleted!" })
     })
      .catch(err=>res.status(404).send(err.message))
@@ -89,9 +89,9 @@ router.put("/add/like/:commentId",authMiddleware,(req,res)=>{
     runValidators:true
   })
   .then(com=>{
-    // pusher.trigger('my-channel', 'my-event', {
-    //   'message': 'hello world'
-    // });  
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });  
 User.findByIdAndUpdate(req.body.user,{$push:{likes:req.params.commentId}},(err,user)=>{
   if (err) throw err
   // console.log(user)
@@ -114,9 +114,9 @@ router.put("/add/like/remove/:commentId",authMiddleware,(req,res)=>{
     runValidators:true
   })
   .then(com=>{
-    // pusher.trigger('my-channel', 'my-event', {
-    //   'message': 'hello world'
-    // });  
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });  
 User.findByIdAndUpdate(req.body.user,{$pull:{likes:req.params.commentId}},(err,user)=>{
   if (err) throw err
   // console.log(user)
@@ -138,9 +138,9 @@ router.put("/add/dislike/:commentId",authMiddleware,(req,res)=>{
     runValidators:true
   })
   .then(com=>{
-    // pusher.trigger('my-channel', 'my-event', {
-    //   'message': 'hello world'
-    // });  
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });  
 User.findByIdAndUpdate(req.body.user,{$push:{dislikes:req.params.commentId}},(err,user)=>{
   if (err) throw err
   // console.log(user)
@@ -162,9 +162,9 @@ router.put("/add/dislike/remove/:commentId",authMiddleware,(req,res)=>{
     runValidators:true
   })
   .then(com=>{
-    // pusher.trigger('my-channel', 'my-event', {
-    //   'message': 'hello world'
-    // });  
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });  
 User.findByIdAndUpdate(req.body.user,{$pull:{dislikes:req.params.commentId}},(err,user)=>{
   if (err) throw err
   // console.log(user)
@@ -184,9 +184,9 @@ router.put("/add/reply/:commentId",authMiddleware,(req,res)=>{
     runValidators:true
   })
   .then(com=>{
-    // pusher.trigger('my-channel', 'my-event', {
-    //   'message': 'hello world'
-    // });  
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });  
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))
@@ -208,9 +208,9 @@ router.put("/add/like/reply/:replyId",authMiddleware,(req,res)=>{
       if (err) throw err
       // console.log(user)
     })
-// pusher.trigger('my-channel', 'my-event', {
-//       'message': 'hello world'
-//     });
+pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))
@@ -232,9 +232,9 @@ router.put("/add/like/reply/remove/:replyId",authMiddleware,(req,res)=>{
       if (err) throw err
       // console.log(user)
     })
-// pusher.trigger('my-channel', 'my-event', {
-//       'message': 'hello world'
-//     });
+pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))
@@ -257,9 +257,9 @@ router.put("/add/dislike/reply/:replyId",authMiddleware,(req,res)=>{
       if (err) throw err
       // console.log(user)
     })
-//  pusher.trigger('my-channel', 'my-event', {
-//       'message': 'hello world'
-//     });
+ pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))
@@ -279,9 +279,9 @@ router.put("/add/dislike/reply/remove/:replyId",authMiddleware,(req,res)=>{
       if (err) throw err
       // console.log(user)
     })
-//  pusher.trigger('my-channel', 'my-event', {
-//       'message': 'hello world'
-//     });
+ pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))
@@ -315,9 +315,9 @@ router.put("/edit/reply/:replyId",authMiddleware,(req,res)=>{
     runValidators:true
   })
   .then(com=>{
-    // pusher.trigger('my-channel', 'my-event', {
-    //   'message': 'hello world'
-    // });
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))
@@ -328,9 +328,9 @@ router.put("/edit/reply/:replyId",authMiddleware,(req,res)=>{
 //  console.log(req.body)
   Comment.findOneAndUpdate({"reply.id":req.params.replyId},{$pull:{reply:{id:req.body.reply_id}}})
   .then(del=> {
-    // pusher.trigger('my-channel', 'my-event', {
-    //   'message': 'hello world'
-    // });
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
      res.send({ msg: "reaction Deleted!" })})
   .catch(err=>res.status(404).send(err.message))
 
@@ -346,9 +346,9 @@ router.put("/add/reply/report/:replyId",authMiddleware,(req,res)=>{
     runValidators:true
   })
   .then(com=>{
-    // pusher.trigger('my-channel', 'my-event', {
-    //   'message': 'hello world'
-    // });
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });
     User.findByIdAndUpdate(req.body.user,{$push:{reports:req.params.replyId}},(err,user)=>{
       if (err) throw err
       // console.log(user)
@@ -370,9 +370,9 @@ router.put("/add/comment/report/:commentId",authMiddleware,(req,res)=>{
     runValidators:true
   })
   .then(com=>{
-    // pusher.trigger('my-channel', 'my-event', {
-    //   'message': 'hello world'
-    // });  
+    pusher.trigger('my-channel', 'my-event', {
+      'message': 'hello world'
+    });  
 User.findByIdAndUpdate(req.body.user,{$push:{reports:req.params.commentId}},(err,user)=>{
   if (err) throw err
   // console.log(user)
@@ -401,9 +401,9 @@ router.put("/remove/reply/report/:replyId",authMiddleware,(req,res)=>{
     
       // console.log(user)
     })
-  // pusher.trigger('report', 'my-event', {
-  //       'message': 'hello world'
-  //     });
+  pusher.trigger('report', 'my-event', {
+        'message': 'hello world'
+      });
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))
@@ -426,9 +426,9 @@ User.updateMany({reports:req.params.commentId},{$pull:{reports:req.params.commen
  
   // console.log(user)
 })
-//  pusher.trigger('report', 'my-event', {
-//     'message': 'hello world'
-//   });  
+ pusher.trigger('report', 'my-event', {
+    'message': 'hello world'
+  });  
     res.status(202).send(com)
   })
   .catch(err=>res.status(404).send(err.message))

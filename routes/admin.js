@@ -9,13 +9,13 @@ const authMiddleware = require("../middleware/authMiddleware");
 var Pusher = require('pusher');
 require("dotenv").config();
 
-// var pusher = new Pusher({
-//   app_id:"1092374",
-//   key: "16ca3006a08827062073",
-//   secret: "d68755f8ef8b5528389a",
-//   cluster: 'eu',
-//   useTLS: true,
-// });
+var pusher = new Pusher({
+  appId:process.env.appId,
+  key: process.env.key,
+  secret: process.env.secret,
+  cluster: 'eu',
+  useTLS: true,
+});
 
 
 // GET USERS
@@ -109,9 +109,9 @@ router.post("/sanction/ban/add", authMiddleware, (req, res) => {
   })
   newSanction.save()
   .then((sanction) => {
-    // pusher.trigger('sanction', 'sanction', {
-    //   'message': 'hello world'
-    // });  
+    pusher.trigger('sanction', 'sanction', {
+      'message': 'hello world'
+    });  
     
     res.status(201).send(sanction)
   
@@ -137,9 +137,9 @@ router.put("/sanction/ban/delete/:email", authMiddleware, (req, res) => {
        new: true }
   )
   .then(() => {
-    // pusher.trigger('sanction', 'sanction', {
-    //   'message': 'hello world'
-    // });    
+    pusher.trigger('sanction', 'sanction', {
+      'message': 'hello world'
+    });    
     res.send({ msg: "Ban cancelled" })
     .catch((err) => {
     
@@ -160,9 +160,9 @@ router.post("/sanction/alert/add", authMiddleware, (req, res) => {
   })
   newSanction.save()
   .then((sanction) => {
-    // pusher.trigger('sanction', 'sanction', {
-    //   'message': 'hello world'
-    // });  
+    pusher.trigger('sanction', 'sanction', {
+      'message': 'hello world'
+    });  
     
     res.status(201).send(sanction)
   
@@ -190,9 +190,9 @@ router.put("/sanction/alert/delete/:email", authMiddleware, (req, res) => {
     new: true }
   )
   .then(() => {
-    // pusher.trigger('sanction', 'sanction', {
-    //   'message': 'hello world'
-    // });    
+    pusher.trigger('sanction', 'sanction', {
+      'message': 'hello world'
+    });    
     res.send({ msg: "Alert Cancelled!" })
     .catch((err) => {
   
