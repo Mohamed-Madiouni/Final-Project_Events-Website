@@ -145,3 +145,8 @@ color: hsl(180, 66%, 49%);
 
   }
 } */
+@media screen and (max-width:520px){
+  .footer-logo{
+    display: none;
+  }
+}

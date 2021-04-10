@@ -189,7 +189,6 @@ function Administrator_page({ match }) {
         style={{
           margin: "30px 15px 20px 15px",
           fontSize: 15,
-          height: 200,
           paddingTop: 10,
           position: "relative",
         }}

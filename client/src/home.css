@@ -36,7 +36,7 @@
 .more-about-us .content {
     background-color: rgba(0,0,0,0.8);
     text-align: left;
-    padding: 150px 60px;
+    padding: 10% 5%;
     color: #fff;
 }
 .header{
@@ -117,3 +117,9 @@
     font-size: 20px;
     font-family: 'David Libre', serif;
 }  */
+
+@media screen and (max-width:550px){
+    .more-about-us>div>div{
+        width: 90% !important;
+    }
+}

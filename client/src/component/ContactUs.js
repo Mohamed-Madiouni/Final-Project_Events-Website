@@ -206,7 +206,7 @@ const ContactUs = () => {
                 <h2 className="h2-contact">Give us a shout</h2>
                 <p
                   className="p-contact"
-                  style={{ marginRight: "70px", fontSize: "20px" }}
+                  style={{ marginRight: "5%", fontSize: "20px" }}
                 >
                   If you’ve got any questions, please fill out the form below
                   and we promise to get back to you with lightning speed! You

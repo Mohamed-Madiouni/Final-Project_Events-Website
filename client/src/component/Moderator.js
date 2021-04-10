@@ -31,7 +31,6 @@ function Moderator() {
         style={{
           margin: "30px 15px 20px 15px",
           fontSize: 15,
-          height: 275,
           position: "relative",
         }}
       >
@@ -66,6 +65,7 @@ function Moderator() {
                   height: "100%",
                   // boxShadow: "0px 0px 13px 6px #888888",
                   marginTop: "-15px",
+                  flexWrap:"wrap"
                 }}
               >
                 <button

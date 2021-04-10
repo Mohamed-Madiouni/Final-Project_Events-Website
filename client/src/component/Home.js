@@ -172,8 +172,8 @@ function Home() {
         </div> */}
         </div>
         <div className="more-about-us">
-          <div className="container" style={{ minHeight: "100vh" }}>
-            <div style={{ width: "80%" }}>
+          <div className="container">
+            <div style={{ width: "80%",height:"100%" }}>
               <div className="content">
                 <h2 className="header">COCO Event</h2>
                 <span className="span-home"># BLACK LIVES MATTER</span>

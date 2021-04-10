@@ -183,7 +183,174 @@ function App() {
             <Route path="/reset/:id" component={ResetPassword} />
             <Route path="/*" component={Page_404} />
           </Switch>
-          {auth.isAuthenticated && (
+          
+          <div id="modalunblock" className="modal">
+            <div className="modal-content">
+              <h4>Block manager</h4>
+              <p>Are you sure you want to remove the block from this user?</p>
+            </div>
+            <div className="modal-footer">
+              <a
+                href="#!"
+                className="modal-close  btn-flat"
+                onClick={() => dispatch(userunBlock(blockid))}
+              >
+                Agree
+              </a>
+              <a href="#!" className="modal-close  btn-flat">
+                Cancel
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {resize.state && (
+        <ul id="slide-out" className="sidenav " style={{ background: "white" }}>
+          <li>
+            <div
+              style={{
+                background:
+                  "linear-gradient(90deg, #1c1b1b 0%, rgb(26, 23, 23) 100%)",
+                height: "60px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {/* <div className="background">
+            <img src="/background_profil.jpg" height="100%" width="100%" />
+          </div> */}
+              <img
+                src="/cocoEventtt.jpg"
+                alt="COCO Event"
+                width="130px"
+                height="50px"
+                // style={{
+                //   paddingTop: "7px",
+                // }}
+              />
+              {/* <span className="white-text name">
+            {auth.user.fname + " " + auth.user.lname}
+          </span>
+          <span className="white-text email">{auth.user.email}</span> */}
+            </div>
+          </li>
+          <li style={{ transform: "translateY(-8px)" }}>
+            <div className="divider"></div>
+          </li>
+          {/* <li>
+        <a href="/myaccount">
+          <i className="material-icons">settings</i>Account Setting
+        </a>
+      </li> */}
+          <li className="no-padding">
+            <ul className="collapsible collapsible-accordion">
+              <li className="active">
+                <a className="collapsible-header">
+                  Pages
+                  <i className="material-icons right chevron">chevron_right </i>
+                </a>
+                <div className="collapsible-body">
+                  <ul>
+                    <li>
+                      <Link
+                        to="/"
+                        style={{
+                          color: location.pathname === "/" && "white",
+                          backgroundColor:
+                            location.pathname === "/" && "rgb(14, 161, 152)",
+                        }}
+                      >
+                        Home
+                      </Link>
+                    </li>
+                    <li>
+                      {" "}
+                      <Link
+                        to="/about"
+                        style={{
+                          color: location.pathname === "/about" && "white",
+                          backgroundColor:
+                            location.pathname === "/about" &&
+                            "rgb(14, 161, 152)",
+                        }}
+                      >
+                        About
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/dashboard"
+                        style={{
+                          color:
+                            (location.pathname === "/dashboard" ||
+                              location.pathname ===
+                                `/dashboard/${auth.user._id}`) &&
+                            "white",
+                          backgroundColor:
+                            (location.pathname === "/dashboard" ||
+                              location.pathname ===
+                                `/dashboard/${auth.user._id}`) &&
+                            "rgb(14, 161, 152)",
+                        }}
+                      >
+                        Dashboard
+                      </Link>
+                    </li>
+                    <li>
+                      {" "}
+                      <Link
+                        to="/events"
+                        style={{
+                          color: location.pathname === "/events" && "white",
+                          backgroundColor:
+                            location.pathname === "/events" &&
+                            "rgb(14, 161, 152)",
+                        }}
+                      >
+                        Events
+                      </Link>
+                    </li>
+                    <li>
+                      {" "}
+                      <Link
+                        to="/calendar"
+                        style={{
+                          color: location.pathname === "/calendar" && "white",
+                          backgroundColor:
+                            location.pathname === "/calendar" &&
+                            "rgb(14, 161, 152)",
+                        }}
+                      >
+                        Calendar
+                      </Link>
+                    </li>
+                    <li>
+                      {" "}
+                      <Link
+                        to="/contact"
+                        style={{
+                          color: location.pathname === "/contact" && "white",
+                          backgroundColor:
+                            location.pathname === "/contact" &&
+                            "rgb(14, 161, 152)",
+                        }}
+                      >
+                        Contact
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      )}
+      {location.pathname !== "/banned" && location.pathname !== "/404" && (
+        <Footer />
+      )}
+      {auth.isAuthenticated && (
             <div className="chatlist">
               {!showchat &&
                 location.pathname !== "/login" &&
@@ -197,7 +364,7 @@ function App() {
                       dispatch({ type: SHOW_CHAT, payload: !showchat });
                     }}
                   >
-                    {/* <i className="fas fa-angle-double-top"></i> */}
+                    
                     <i className="fas fa-edit"></i>
                   </div>
                 )}
@@ -459,172 +626,6 @@ function App() {
               </div>
             </div>
           )}
-          <div id="modalunblock" className="modal">
-            <div className="modal-content">
-              <h4>Block manager</h4>
-              <p>Are you sure you want to remove the block from this user?</p>
-            </div>
-            <div className="modal-footer">
-              <a
-                href="#!"
-                className="modal-close  btn-flat"
-                onClick={() => dispatch(userunBlock(blockid))}
-              >
-                Agree
-              </a>
-              <a href="#!" className="modal-close  btn-flat">
-                Cancel
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {resize.state && (
-        <ul id="slide-out" className="sidenav " style={{ background: "white" }}>
-          <li>
-            <div
-              style={{
-                background:
-                  "linear-gradient(90deg, #1c1b1b 0%, rgb(26, 23, 23) 100%)",
-                height: "60px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {/* <div className="background">
-            <img src="/background_profil.jpg" height="100%" width="100%" />
-          </div> */}
-              <img
-                src="/cocoEventtt.jpg"
-                alt="COCO Event"
-                width="130px"
-                height="50px"
-                // style={{
-                //   paddingTop: "7px",
-                // }}
-              />
-              {/* <span className="white-text name">
-            {auth.user.fname + " " + auth.user.lname}
-          </span>
-          <span className="white-text email">{auth.user.email}</span> */}
-            </div>
-          </li>
-          <li style={{ transform: "translateY(-8px)" }}>
-            <div className="divider"></div>
-          </li>
-          {/* <li>
-        <a href="/myaccount">
-          <i className="material-icons">settings</i>Account Setting
-        </a>
-      </li> */}
-          <li className="no-padding">
-            <ul className="collapsible collapsible-accordion">
-              <li className="active">
-                <a className="collapsible-header">
-                  Pages
-                  <i className="material-icons right chevron">chevron_right </i>
-                </a>
-                <div className="collapsible-body">
-                  <ul>
-                    <li>
-                      <Link
-                        to="/"
-                        style={{
-                          color: location.pathname === "/" && "white",
-                          backgroundColor:
-                            location.pathname === "/" && "rgb(14, 161, 152)",
-                        }}
-                      >
-                        Home
-                      </Link>
-                    </li>
-                    <li>
-                      {" "}
-                      <Link
-                        to="/about"
-                        style={{
-                          color: location.pathname === "/about" && "white",
-                          backgroundColor:
-                            location.pathname === "/about" &&
-                            "rgb(14, 161, 152)",
-                        }}
-                      >
-                        About
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/dashboard"
-                        style={{
-                          color:
-                            (location.pathname === "/dashboard" ||
-                              location.pathname ===
-                                `/dashboard/${auth.user._id}`) &&
-                            "white",
-                          backgroundColor:
-                            (location.pathname === "/dashboard" ||
-                              location.pathname ===
-                                `/dashboard/${auth.user._id}`) &&
-                            "rgb(14, 161, 152)",
-                        }}
-                      >
-                        Dashboard
-                      </Link>
-                    </li>
-                    <li>
-                      {" "}
-                      <Link
-                        to="/events"
-                        style={{
-                          color: location.pathname === "/events" && "white",
-                          backgroundColor:
-                            location.pathname === "/events" &&
-                            "rgb(14, 161, 152)",
-                        }}
-                      >
-                        Events
-                      </Link>
-                    </li>
-                    <li>
-                      {" "}
-                      <Link
-                        to="/calendar"
-                        style={{
-                          color: location.pathname === "/calendar" && "white",
-                          backgroundColor:
-                            location.pathname === "/calendar" &&
-                            "rgb(14, 161, 152)",
-                        }}
-                      >
-                        Calendar
-                      </Link>
-                    </li>
-                    <li>
-                      {" "}
-                      <Link
-                        to="/contact"
-                        style={{
-                          color: location.pathname === "/contact" && "white",
-                          backgroundColor:
-                            location.pathname === "/contact" &&
-                            "rgb(14, 161, 152)",
-                        }}
-                      >
-                        Contact
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      )}
-      {location.pathname !== "/banned" && location.pathname !== "/404" && (
-        <Footer />
-      )}
     </div>
   );
 }

@@ -29,7 +29,7 @@
     margin-top: 40px;
 }
 .cont-1{
-    margin-top: 64px;
+    margin-top: 10px;
     margin-bottom: 0;
     padding: 20px;
     box-shadow: 0px 6px 30px 0px rgba(24, 32, 111, 0.14);
@@ -61,9 +61,9 @@
     font-size:20px}
 #map-canvas{
     position: relative;
-    margin-left: 70px;
+    /* margin-left: 70px; */
     margin-bottom: 100px;
-    margin-right: 70px;
+    /* margin-right: 70px; */
 }
 .address-container {
     background: rgba(255,255,255,0.95);
@@ -112,12 +112,12 @@
     margin-right: 0;
     height: 400px;
     display: table;
-    top: -33px;
+    /* top: -33px; */
     margin-bottom: -32px;
     position: relative;
-    left: 15px;
+    /* left: 15px; */
     box-sizing: border-box;
-    width: 100%;
+    /* width: 100%; */
     padding-left: 74.5px;
     padding-right: 74.5px;
     padding-top: 60px;
