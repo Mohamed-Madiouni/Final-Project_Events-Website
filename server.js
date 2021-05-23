@@ -1,6 +1,6 @@
 const express = require("express");
 const connectdb = require("./database");
-
+const path = require("path")
 
 
 connectdb();
