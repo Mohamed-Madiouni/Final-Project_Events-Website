@@ -8,7 +8,7 @@
 
 
 # misc
-.env
+#.env
 
 
 /start.bat
